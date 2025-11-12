@@ -9,3 +9,8 @@ token.json
 # Local development
 *.local
 .env
+
+# Test files
+test_*.py
+test_output.html
+preview.html
