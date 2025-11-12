@@ -161,24 +161,11 @@ def convert_to_html(document):
     html_parts.append('    <meta charset="UTF-8">')
     html_parts.append('    <meta name="viewport" content="width=device-width, initial-scale=1.0">')
     html_parts.append(f'    <title>{title}</title>')
-    html_parts.append('    <style>')
-    html_parts.append('        body {')
-    html_parts.append('            font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', sans-serif;')
-    html_parts.append('            max-width: 800px;')
-    html_parts.append('            margin: 80px auto;')
-    html_parts.append('            padding: 0 20px;')
-    html_parts.append('            line-height: 1.6;')
-    html_parts.append('        }')
-    html_parts.append('        h1 { font-size: 2.5em; margin-bottom: 0.5em; }')
-    html_parts.append('        h2 { font-size: 2em; margin-top: 1.5em; margin-bottom: 0.5em; }')
-    html_parts.append('        h3 { font-size: 1.5em; margin-top: 1.2em; margin-bottom: 0.4em; }')
-    html_parts.append('        h4 { font-size: 1.2em; margin-top: 1em; margin-bottom: 0.3em; }')
-    html_parts.append('        p { font-size: 1.1em; color: #333; margin-bottom: 1em; }')
-    html_parts.append('        a { color: #0066cc; text-decoration: none; }')
-    html_parts.append('        a:hover { text-decoration: underline; }')
-    html_parts.append('    </style>')
+    html_parts.append('    <link rel="stylesheet" href="styles.css">')
     html_parts.append('</head>')
     html_parts.append('<body>')
+    html_parts.append('    <div class="crt-overlay"></div>')
+    html_parts.append('    <main>')
 
     # Process document content
     content = document.get('body', {}).get('content', [])
@@ -228,6 +215,7 @@ def convert_to_html(document):
                 html_parts.append(f'    <{tag}>{html_content.rstrip()}</{tag}>')
 
     # Close HTML
+    html_parts.append('    </main>')
     html_parts.append('</body>')
     html_parts.append('</html>')
 
