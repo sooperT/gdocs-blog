@@ -1,0 +1,11 @@
+# Google OAuth credentials
+client_secret_*.json
+credentials.json
+token.json
+
+# System files
+.DS_Store
+
+# Local development
+*.local
+.env
