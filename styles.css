@@ -447,46 +447,58 @@ body {
 }
 
 /* ============================================
-   SITE HEADER (Phase 5)
+   SITE HEADER (Phase 5) - Teletext Band Style
    ============================================ */
 
 .site-header {
-    max-height: 150px;
-    margin-bottom: 2em;
-    padding: 20px 0;
-    border-bottom: 2px solid var(--teletext-cyan);
+    background: var(--teletext-blue);
+    margin: -40px -20px 2em -20px; /* Bleed to edges (counteract body padding) */
+    padding: 15px 20px;
+    position: relative;
 }
 
 .site-header .identity {
     display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .site-header .logo {
     color: var(--teletext-yellow);
-    font-size: 3em;
+    font-size: 4em;
     font-weight: bold;
-    letter-spacing: 4px;
+    letter-spacing: -2px; /* Tight kerning like teletext */
     margin: 0;
+    text-transform: lowercase;
+    line-height: 1;
+    text-shadow: none; /* No glow in header band */
+    position: relative;
+}
+
+/* Oversized first letter (like teletext) */
+.site-header .logo::first-letter {
+    font-size: 1.3em;
     text-transform: uppercase;
-    text-shadow:
-        0 0 4px currentColor,
-        0 0 8px rgba(255, 255, 0, 0.3);
+    position: relative;
+    top: 0.05em;
 }
 
 .site-header .ninja-icon {
-    font-size: 2em;
+    font-size: 2.5em;
     line-height: 1;
+    filter: brightness(1.2);
 }
 
 .site-header .tagline {
-    color: var(--teletext-cyan);
-    font-size: 0.9em;
+    color: var(--teletext-white);
+    font-size: 0.85em;
     margin: 0;
-    opacity: 0.8;
-    width: 100%;
+    margin-left: auto; /* Push to right side */
+    opacity: 0.9;
+    white-space: nowrap;
+    align-self: center;
 }
 
 /* ============================================
@@ -676,8 +688,17 @@ body {
    ============================================ */
 
 @media (max-width: 768px) {
+    .site-header {
+        margin: -40px -20px 2em -20px;
+    }
+
     .site-header .logo {
-        font-size: 2em;
+        font-size: 2.5em;
+    }
+
+    .site-header .tagline {
+        font-size: 0.7em;
+        white-space: normal;
     }
 
     .site-nav {
