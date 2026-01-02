@@ -165,6 +165,24 @@ def convert_to_html(document):
     html_parts.append('</head>')
     html_parts.append('<body>')
     html_parts.append('    <div class="crt-overlay"></div>')
+    html_parts.append('')
+    html_parts.append('    <!-- HEADER -->')
+    html_parts.append('    <header class="site-header">')
+    html_parts.append('        <div class="identity">')
+    html_parts.append('            <h1 class="logo">TAKEN</h1>')
+    html_parts.append('            <div class="ninja-icon">[🥷]</div>')
+    html_parts.append('            <p class="tagline">Words on product, systems thinking and life.</p>')
+    html_parts.append('        </div>')
+    html_parts.append('    </header>')
+    html_parts.append('')
+    html_parts.append('    <!-- NAVIGATION -->')
+    html_parts.append('    <nav class="site-nav">')
+    html_parts.append('        <a href="/words/">Words</a>')
+    html_parts.append('        <a href="/projects/">Projects</a>')
+    html_parts.append('        <a href="/about/">About</a>')
+    html_parts.append('    </nav>')
+    html_parts.append('')
+    html_parts.append('    <!-- MAIN CONTENT -->')
     html_parts.append('    <main>')
 
     # Process document content
@@ -216,6 +234,11 @@ def convert_to_html(document):
 
     # Close HTML
     html_parts.append('    </main>')
+    html_parts.append('')
+    html_parts.append('    <!-- FOOTER -->')
+    html_parts.append('    <footer class="site-footer">')
+    html_parts.append('        <p>Code created with AI — Words are my own</p>')
+    html_parts.append('    </footer>')
     html_parts.append('</body>')
     html_parts.append('</html>')
 
