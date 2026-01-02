@@ -14,6 +14,149 @@
         <p>A comprehensive showcase of all theme elements and styling options.</p>
 
         <div class="section">
+            <h2>Site Header (NEW - Phase 5)</h2>
+
+            <p>The site header appears on all pages. It must be vertically shallow (100-150px max) to keep content above the fold.</p>
+
+            <header class="site-header">
+                <div class="identity">
+                    <h1 class="logo">TAKEN</h1>
+                    <div class="ninja-icon">[🥷]</div>
+                    <p class="tagline">Words on product, systems thinking and life.</p>
+                </div>
+            </header>
+
+            <p><strong>Design constraints:</strong></p>
+            <ul>
+                <li>Maximum height: 100-150px on desktop</li>
+                <li>Logo: Large, yellow, teletext-style</li>
+                <li>Ninja icon: Small, positioned after logo</li>
+                <li>Tagline: Subtle, sets context</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Site Navigation (NEW - Phase 5)</h2>
+
+            <p>Navigation bar appears below header on all pages.</p>
+
+            <nav class="site-nav">
+                <a href="/words/">Words</a>
+                <a href="/projects/">Projects</a>
+                <a href="/about/">About</a>
+            </nav>
+
+            <p><strong>Design notes:</strong></p>
+            <ul>
+                <li>Three top-level sections</li>
+                <li>Teletext-themed styling</li>
+                <li>Active state for current page</li>
+                <li>Hover effects</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Site Footer (NEW - Phase 5)</h2>
+
+            <p>Footer appears at bottom of all pages.</p>
+
+            <footer class="site-footer">
+                <p>Code created with AI — Words are my own</p>
+            </footer>
+
+            <p><strong>Design notes:</strong></p>
+            <ul>
+                <li>Simple, single-line disclaimer</li>
+                <li>Subtle styling, doesn't dominate</li>
+                <li>Centered text</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Post Metadata (NEW - Phase 5)</h2>
+
+            <p>Metadata appears at the top of individual posts.</p>
+
+            <div class="post-meta">
+                <span class="post-date">2026-01-02</span>
+                <span class="post-tags">
+                    <span class="tag">ai</span>
+                    <span class="tag">product</span>
+                    <span class="tag">systems-thinking</span>
+                </span>
+            </div>
+
+            <p><strong>Design notes:</strong></p>
+            <ul>
+                <li>Date in ISO format (YYYY-MM-DD)</li>
+                <li>Tags styled as inline elements</li>
+                <li>Subtle, doesn't compete with content</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Archive Listing (NEW - Phase 5)</h2>
+
+            <p>Archive page shows multiple posts with titles, dates, and excerpts.</p>
+
+            <div class="post-listing">
+                <article class="post-preview">
+                    <h3><a href="/words/first-post/">My First Blog Post</a></h3>
+                    <div class="post-meta">
+                        <span class="post-date">2026-01-02</span>
+                    </div>
+                    <p class="post-excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </article>
+
+                <article class="post-preview">
+                    <h3><a href="/words/second-post/">Another Interesting Post</a></h3>
+                    <div class="post-meta">
+                        <span class="post-date">2025-12-28</span>
+                    </div>
+                    <p class="post-excerpt">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                </article>
+
+                <article class="post-preview">
+                    <h3><a href="/words/third-post/">Thoughts on Systems Thinking</a></h3>
+                    <div class="post-meta">
+                        <span class="post-date">2025-12-15</span>
+                    </div>
+                    <p class="post-excerpt">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </article>
+            </div>
+
+            <p><strong>Design notes:</strong></p>
+            <ul>
+                <li>Each post preview is an article</li>
+                <li>Title is prominent, linked</li>
+                <li>Date shown, tags optional</li>
+                <li>Excerpt gives preview of content</li>
+                <li>Clear visual separation between posts</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Pagination (NEW - Phase 5)</h2>
+
+            <p>Pagination controls for archive pages with many posts.</p>
+
+            <nav class="pagination">
+                <a href="#" class="pagination-prev">← Older</a>
+                <span class="pagination-info">Page 1 of 3</span>
+                <a href="#" class="pagination-next">Newer →</a>
+            </nav>
+
+            <p><strong>Design notes:</strong></p>
+            <ul>
+                <li>Previous/Next navigation</li>
+                <li>Current page indicator</li>
+                <li>Teletext-themed styling</li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <div class="section">
             <h2>Typography Hierarchy</h2>
 
             <h1>Heading 1 - Main Title (Cyan)</h1>
@@ -240,7 +383,7 @@
 
         <p style="text-align: center; margin-top: 3em; color: var(--teletext-cyan);">
             <strong>END OF STYLE PLAYGROUND</strong><br>
-            Last updated: November 2025
+            Last updated: January 2026 - Phase 5 components added
         </p>
     </main>
 </body>
