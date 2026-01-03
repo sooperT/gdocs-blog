@@ -13,6 +13,8 @@ Requirements:
 import os
 import sys
 import subprocess
+import re
+from datetime import datetime
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -25,10 +27,10 @@ SCOPES = [
 ]
 
 # Blog folder path in Google Drive
-BLOG_FOLDER_PATH = "Lab/Blog posts"
+BLOG_FOLDER_PATH = "09 Lab/Taken"
 
-# Output file
-OUTPUT_FILE = "index.html"
+# Output file (will be determined based on content type and slug)
+OUTPUT_FILE = "index.html"  # Default for backwards compatibility
 
 
 def authenticate():
@@ -67,6 +69,103 @@ def authenticate():
             token.write(creds.to_json())
 
     return creds
+
+
+def parse_uk_date(date_str):
+    """
+    Parse UK format dates: d-mm-yyyy or dd-mm-yyyy
+    Returns ISO format: yyyy-mm-dd
+    """
+    # Try to parse UK date format (day-month-year)
+    patterns = [
+        r'(\d{1,2})-(\d{2})-(\d{4})',  # d-mm-yyyy or dd-mm-yyyy
+        r'(\d{4})-(\d{2})-(\d{2})'      # yyyy-mm-dd (already ISO)
+    ]
+
+    for pattern in patterns:
+        match = re.match(pattern, date_str.strip())
+        if match:
+            parts = match.groups()
+            if len(parts[0]) == 4:  # Already ISO format
+                return date_str.strip()
+            else:  # UK format - convert to ISO
+                day, month, year = parts
+                return f"{year}-{month}-{day.zfill(2)}"
+
+    raise ValueError(f"Could not parse date: {date_str}")
+
+
+def parse_frontmatter(document):
+    """
+    Parse frontmatter from document content
+    Format:
+        url: my-slug
+        date: 12-11-2025
+        meta-desc: Description here
+        tags: tag1, tag2
+        —---------------- (separator)
+
+    Returns: (metadata dict, content without frontmatter)
+    """
+    content = document.get('body', {}).get('content', [])
+    metadata = {}
+    frontmatter_lines = []
+    content_start_index = 0
+    in_frontmatter = True
+
+    # Extract text from document
+    for idx, element in enumerate(content):
+        if 'paragraph' in element:
+            paragraph = element['paragraph']
+            text = ''
+            for elem in paragraph.get('elements', []):
+                if 'textRun' in elem:
+                    text += elem['textRun'].get('content', '')
+
+            text = text.strip()
+
+            # Check for frontmatter separator (em-dash or regular dash line)
+            if text and (text.startswith('—') or text.startswith('---')):
+                content_start_index = idx + 1
+                in_frontmatter = False
+                break
+
+            # Parse frontmatter key: value pairs
+            if text and ':' in text:
+                key, value = text.split(':', 1)
+                metadata[key.strip()] = value.strip()
+
+    return metadata, content_start_index
+
+
+def detect_content_type(drive_service, document_id):
+    """
+    Detect content type (words/projects/pages) from folder location
+    Returns: 'words', 'projects', or 'pages'
+    """
+    # Get file metadata including parents
+    file = drive_service.files().get(
+        fileId=document_id,
+        fields='parents'
+    ).execute()
+
+    parent_id = file.get('parents', [])[0] if file.get('parents') else None
+
+    if not parent_id:
+        return 'words'  # Default
+
+    # Get parent folder name
+    parent = drive_service.files().get(
+        fileId=parent_id,
+        fields='name'
+    ).execute()
+
+    folder_name = parent.get('name', '').lower()
+
+    if folder_name in ['words', 'projects', 'pages']:
+        return folder_name
+
+    return 'words'  # Default
 
 
 def find_folder_by_path(drive_service, folder_path):
@@ -129,7 +228,7 @@ def read_document(docs_service, document_id):
     return document
 
 
-def convert_to_html(document):
+def convert_to_html(document, metadata, content_start_index=0, content_type='words'):
     """
     Convert Google Docs document to HTML
 
@@ -153,6 +252,10 @@ def convert_to_html(document):
 
     html_parts = []
     title = document.get('title', 'Untitled')
+    meta_desc = metadata.get('meta-desc', '')
+
+    # Determine CSS path based on content type
+    css_path = 'styles.css' if content_type == 'pages' else '../../styles.css'
 
     # HTML head
     html_parts.append('<!DOCTYPE html>')
@@ -160,8 +263,10 @@ def convert_to_html(document):
     html_parts.append('<head>')
     html_parts.append('    <meta charset="UTF-8">')
     html_parts.append('    <meta name="viewport" content="width=device-width, initial-scale=1.0">')
-    html_parts.append(f'    <title>{title}</title>')
-    html_parts.append('    <link rel="stylesheet" href="styles.css">')
+    html_parts.append(f'    <title>{title} - taken</title>')
+    if meta_desc:
+        html_parts.append(f'    <meta name="description" content="{meta_desc}">')
+    html_parts.append(f'    <link rel="stylesheet" href="{css_path}">')
     html_parts.append('</head>')
     html_parts.append('<body>')
     html_parts.append('    <div class="crt-overlay"></div>')
@@ -169,7 +274,7 @@ def convert_to_html(document):
     html_parts.append('    <!-- HEADER -->')
     html_parts.append('    <header class="site-header">')
     html_parts.append('        <div class="identity">')
-    html_parts.append('            <h1 class="logo">taken</h1>')
+    html_parts.append('            <h1 class="logo"><span class="logo-t">T</span><span class="logo-aken">aken</span></h1>')
     html_parts.append('            <div class="ninja-icon">🥷</div>')
     html_parts.append('            <p class="tagline">Words on product, systems thinking and life.</p>')
     html_parts.append('        </div>')
@@ -186,10 +291,17 @@ def convert_to_html(document):
     html_parts.append('    <!-- MAIN CONTENT -->')
     html_parts.append('    <main>')
 
-    # Process document content
+    # Process document content (skip frontmatter)
+    # We'll inject metadata after the first h1
     content = document.get('body', {}).get('content', [])
+    inline_objects = document.get('inlineObjects', {})
 
-    for element in content:
+    metadata_injected = False
+
+    for idx, element in enumerate(content):
+        # Skip frontmatter
+        if idx < content_start_index:
+            continue
         if 'paragraph' in element:
             paragraph = element['paragraph']
 
@@ -204,7 +316,23 @@ def convert_to_html(document):
             html_content = ""
             if 'elements' in paragraph:
                 for elem in paragraph['elements']:
-                    if 'textRun' in elem:
+                    # Handle inline images
+                    if 'inlineObjectElement' in elem:
+                        object_id = elem['inlineObjectElement']['inlineObjectId']
+                        if object_id in inline_objects:
+                            inline_obj = inline_objects[object_id]
+                            image_props = inline_obj.get('inlineObjectProperties', {})
+                            embedded_obj = image_props.get('embeddedObject', {})
+
+                            # Get image URL
+                            image_url = embedded_obj.get('imageProperties', {}).get('contentUri', '')
+
+                            if image_url:
+                                # Get alt text if available
+                                alt_text = embedded_obj.get('title', 'Image')
+                                html_content += f'<img src="{image_url}" alt="{alt_text}">'
+
+                    elif 'textRun' in elem:
                         text_run = elem['textRun']
                         text = text_run.get('content', '')
 
@@ -233,6 +361,21 @@ def convert_to_html(document):
             if html_content.strip():
                 html_parts.append(f'    <{tag}>{html_content.rstrip()}</{tag}>')
 
+                # Inject metadata after first h1 (title)
+                if not metadata_injected and tag == 'h1' and content_type in ['words', 'projects']:
+                    if metadata.get('date') or metadata.get('tags'):
+                        meta_parts = []
+                        if metadata.get('date'):
+                            meta_parts.append(f'Published on: {metadata["date"]}.')
+                        if metadata.get('tags'):
+                            tags = [tag.strip() for tag in metadata['tags'].split(',')]
+                            tag_list = ', '.join(tags)
+                            meta_parts.append(f'Filed under: {tag_list}')
+
+                        if meta_parts:
+                            html_parts.append(f'    <p class="post-meta">{" ".join(meta_parts)}</p>')
+                        metadata_injected = True
+
     # Close HTML
     html_parts.append('    </main>')
     html_parts.append('')
@@ -246,13 +389,17 @@ def convert_to_html(document):
     return '\n'.join(html_parts)
 
 
-def git_commit_and_push(filename, doc_title):
+def git_commit_and_push(filename, doc_title, include_archive=False):
     """Commit and push changes to GitHub"""
     print("\nCommitting to git...")
 
     try:
-        # Add the file
+        # Add the post file
         subprocess.run(['git', 'add', filename], check=True)
+
+        # Also add archive if regenerated
+        if include_archive:
+            subprocess.run(['git', 'add', 'words/index.html'], check=True)
 
         # Create commit message
         commit_msg = f"""Publish: {doc_title}
@@ -304,15 +451,50 @@ def main():
         # Find blog folder
         blog_folder_id = find_folder_by_path(drive_service, BLOG_FOLDER_PATH)
 
-        # Find document
-        doc_id = find_document(drive_service, doc_name, blog_folder_id)
+        # Search all subfolders for the document
+        print(f"Searching for document in all content folders...")
+        doc_id = None
+        content_type = 'words'  # default
+
+        for folder_name in ['words', 'projects', 'pages']:
+            try:
+                # Find subfolder
+                query = f"name='{folder_name}' and mimeType='application/vnd.google-apps.folder' and '{blog_folder_id}' in parents and trashed=false"
+                results = drive_service.files().list(q=query, spaces='drive', fields='files(id, name)').execute()
+                items = results.get('files', [])
+
+                if items:
+                    subfolder_id = items[0]['id']
+                    # Try to find document in this folder
+                    doc_id = find_document(drive_service, doc_name, subfolder_id)
+                    content_type = folder_name
+                    print(f"✓ Found in /{folder_name}/ folder")
+                    break
+            except FileNotFoundError:
+                continue
+
+        if not doc_id:
+            raise FileNotFoundError(f"Document '{doc_name}' not found in any content folder (words/projects/pages)")
 
         # Read document
         document = read_document(docs_service, doc_id)
 
+        # Parse frontmatter
+        print("Parsing frontmatter...")
+        metadata, content_start_index = parse_frontmatter(document)
+        print(f"✓ Metadata: {metadata}")
+
+        # Parse and normalize date
+        if 'date' in metadata:
+            metadata['date'] = parse_uk_date(metadata['date'])
+            print(f"✓ Date normalized: {metadata['date']}")
+
+        # Get URL slug from metadata
+        url_slug = metadata.get('url', doc_name.lower().replace(' ', '-'))
+
         # Convert to HTML
         print("Converting to HTML...")
-        html = convert_to_html(document)
+        html = convert_to_html(document, metadata, content_start_index, content_type)
         print("✓ Conversion complete")
 
         # Save to preview file
@@ -337,9 +519,22 @@ def main():
             print(f"Preview saved in {preview_file} for your review")
             sys.exit(0)
 
-        # User approved - save to actual file
-        print(f"\n✓ Approved! Publishing to {OUTPUT_FILE}...")
-        with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+        # User approved - determine output path
+        if content_type == 'pages':
+            # Pages go directly in their folder (e.g., /about/index.html)
+            output_dir = url_slug
+            output_file = os.path.join(output_dir, 'index.html')
+        else:
+            # Words/projects go in /{type}/{slug}/index.html
+            output_dir = os.path.join(content_type, url_slug)
+            output_file = os.path.join(output_dir, 'index.html')
+
+        # Create directory if needed
+        print(f"\n✓ Approved! Publishing to /{output_file}...")
+        os.makedirs(output_dir, exist_ok=True)
+
+        # Save file
+        with open(output_file, 'w', encoding='utf-8') as f:
             f.write(html)
         print("✓ File saved")
 
@@ -347,8 +542,19 @@ def main():
         if os.path.exists(preview_file):
             os.remove(preview_file)
 
-        # Git commit and push
-        git_commit_and_push(OUTPUT_FILE, document.get('title'))
+        # Regenerate archive if this is a words post
+        archive_updated = False
+        if content_type == 'words':
+            print("\nRegenerating archive page...")
+            try:
+                subprocess.run(['python3', 'generate_archive.py'], check=True, capture_output=True)
+                print("✓ Archive updated")
+                archive_updated = True
+            except subprocess.CalledProcessError as e:
+                print(f"⚠ Warning: Archive generation failed: {e}")
+
+        # Git commit and push (include archive in same commit if updated)
+        git_commit_and_push(output_file, document.get('title'), include_archive=archive_updated)
 
         print("\n" + "="*60)
         print("✓ SUCCESS! Blog post published")
