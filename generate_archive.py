@@ -62,6 +62,9 @@ class PostMetadataExtractor(HTMLParser):
                 self.paragraphs_after_meta = 0
             elif self.in_p:
                 self.in_p = False
+                # Clean up excerpt whitespace after we've accumulated all text
+                if self.excerpt:
+                    self.excerpt = self.excerpt.strip()
                 self.paragraphs_after_meta += 1
 
     def handle_data(self, data):
@@ -69,9 +72,12 @@ class PostMetadataExtractor(HTMLParser):
             self.title = data.strip()
         elif self.in_meta:
             self.meta_text += data
-        elif self.in_p and not self.excerpt:
-            # First paragraph after metadata is the excerpt
-            self.excerpt = data.strip()
+        elif self.in_p:
+            # Accumulate all text from the paragraph (handles inline formatting)
+            if not self.excerpt:
+                self.excerpt = data
+            else:
+                self.excerpt += data
 
     def _parse_meta_text(self):
         """Parse 'Published on: 2026-01-05. Filed under: ai, product'"""
