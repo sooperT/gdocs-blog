@@ -9,24 +9,31 @@
 <body>
     <div class="crt-overlay"></div>
 
+    <!-- HEADER: Shows at top like real site -->
+    <header class="site-header">
+        <div class="identity">
+            <h1 class="logo"><span class="logo-t">T</span><span class="logo-aken">aken</span></h1>
+            <div class="ninja-icon">🥷</div>
+            <p class="tagline">Words on product, systems thinking and life.</p>
+        </div>
+    </header>
+
+    <!-- NAVIGATION: 4-color Teletext remote buttons -->
+    <nav class="site-nav">
+        <a href="/" class="nav-red">Home</a>
+        <a href="/words/" class="nav-green active">Words</a>
+        <a href="/projects/" class="nav-yellow">Projects</a>
+        <a href="/about/" class="nav-blue">About</a>
+    </nav>
+
     <main>
         <h1>TELETEXT STYLE PLAYGROUND</h1>
         <p>A comprehensive showcase of all theme elements and styling options.</p>
 
         <div class="section">
-            <h2>Site Header (NEW - Phase 5)</h2>
+            <h2>Site Header & Navigation (NEW - Phase 5)</h2>
 
-            <p>The site header appears on all pages. It must be vertically shallow (100-150px max) to keep content above the fold.</p>
-
-            <header class="site-header">
-                <div class="identity">
-                    <h1 class="logo">taken</h1>
-                    <div class="ninja-icon">🥷</div>
-                    <p class="tagline">Words on product, systems thinking and life.</p>
-                </div>
-            </header>
-
-            <p><strong>Design notes:</strong></p>
+            <p><strong>Header design notes:</strong></p>
             <ul>
                 <li>Blue background band (bleeds to edges like classic Teletext)</li>
                 <li>Logo: Yellow, lowercase with oversized first letter (T)</li>
@@ -35,25 +42,14 @@
                 <li>Tagline: White text, right-aligned on desktop</li>
                 <li>No phosphor glow in header (clean Teletext aesthetic)</li>
             </ul>
-        </div>
 
-        <div class="section">
-            <h2>Site Navigation (NEW - Phase 5)</h2>
-
-            <p>Navigation bar appears below header on all pages.</p>
-
-            <nav class="site-nav">
-                <a href="/words/">Words</a>
-                <a href="/projects/">Projects</a>
-                <a href="/about/">About</a>
-            </nav>
-
-            <p><strong>Design notes:</strong></p>
+            <p><strong>Navigation design notes:</strong></p>
             <ul>
-                <li>Three top-level sections</li>
-                <li>Teletext-themed styling</li>
-                <li>Active state for current page</li>
-                <li>Hover effects</li>
+                <li>Four buttons mimic Teletext remote control colors</li>
+                <li>Home (Red), Words (Green), Projects (Yellow), About (Blue)</li>
+                <li>Hover shows colored background (like pressing remote button)</li>
+                <li>Active page highlighted with full color background</li>
+                <li>Black text on colored backgrounds for contrast</li>
             </ul>
         </div>
 

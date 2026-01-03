@@ -3,6 +3,17 @@
 /* Refined with input from Clive (ChatGPT) and Claude (Anthropic) */
 
 /* ============================================
+   FONTS
+   ============================================ */
+
+@font-face {
+    font-family: 'European Teletext';
+    src: url('fonts/european_teletext/EuropeanTeletext.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* ============================================
    COLOR PALETTE
    ============================================ */
 
@@ -452,8 +463,8 @@ body {
 
 .site-header {
     background: var(--teletext-blue);
-    margin: -40px -20px 2em -20px; /* Bleed to edges (counteract body padding) */
-    padding: 15px 20px;
+    margin: -40px 0 6px 0;
+    padding: 10px 20px;
     position: relative;
 }
 
@@ -466,23 +477,28 @@ body {
 }
 
 .site-header .logo {
+    font-family: 'European Teletext', 'Courier New', monospace;
     color: var(--teletext-yellow);
     font-size: 4em;
     font-weight: bold;
-    letter-spacing: -2px; /* Tight kerning like teletext */
+    letter-spacing: 0;
     margin: 0;
-    text-transform: lowercase;
     line-height: 1;
     text-shadow: none; /* No glow in header band */
     position: relative;
 }
 
-/* Oversized first letter (like teletext) */
-.site-header .logo::first-letter {
+/* Capital T - oversized */
+.site-header .logo .logo-t {
     font-size: 1.3em;
-    text-transform: uppercase;
-    position: relative;
-    top: 0.05em;
+    display: inline-block;
+}
+
+/* "aken" - tucked under the T crossbar */
+.site-header .logo .logo-aken {
+    display: inline-block;
+    margin-left: -0.1925em; /* Tuck under the T */
+    text-transform: lowercase;
 }
 
 .site-header .ninja-icon {
@@ -507,41 +523,89 @@ body {
 
 .site-nav {
     display: flex;
-    gap: 30px;
-    padding: 15px 0;
-    margin-bottom: 2em;
-    border-bottom: 1px solid var(--teletext-text);
+    gap: 15px;
+    padding: 6px 0;
+    margin-top: 0;
+    margin-bottom: 1.5em;
+    border-top: 1px solid var(--teletext-red);
+    border-bottom: 1px solid var(--teletext-red);
 }
 
 .site-nav a {
-    color: var(--teletext-cyan);
     text-decoration: none;
-    border: none;
-    padding: 8px 16px;
+    padding: 0px 12px;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    border: 2px solid var(--teletext-cyan);
-    background: rgba(0, 255, 255, 0.05);
-    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+    font-size: 0.9em;
+    background: transparent;
+    transition: all 0.15s ease;
+    border: 1px solid;
 }
 
-.site-nav a:hover {
-    background: var(--teletext-cyan);
-    color: var(--teletext-bg);
+/* Teletext Remote 4-Color Buttons - Gel hover style */
+.site-nav .nav-red {
+    color: var(--teletext-red);
+    border-color: var(--teletext-red);
+}
+
+.site-nav .nav-red:hover,
+.site-nav .nav-red.active {
+    background: rgba(255, 0, 0, 0.3);
+    border-color: rgba(255, 0, 0, 0.6);
+}
+
+.site-nav .nav-green {
+    color: var(--teletext-text);
+    border-color: var(--teletext-text);
+}
+
+.site-nav .nav-green:hover,
+.site-nav .nav-green.active {
+    background: rgba(0, 255, 0, 0.3);
+    border-color: rgba(0, 255, 0, 0.6);
+}
+
+.site-nav .nav-yellow {
+    color: var(--teletext-yellow);
+    border-color: var(--teletext-yellow);
+}
+
+.site-nav .nav-yellow:hover,
+.site-nav .nav-yellow.active {
+    background: rgba(255, 255, 0, 0.3);
+    border-color: rgba(255, 255, 0, 0.6);
+}
+
+.site-nav .nav-blue {
+    color: var(--teletext-cyan);
     border-color: var(--teletext-cyan);
-    text-shadow: none;
+}
+
+.site-nav .nav-blue:hover,
+.site-nav .nav-blue.active {
+    background: rgba(0, 255, 255, 0.3);
+    border-color: rgba(0, 255, 255, 0.6);
 }
 
 .site-nav a:visited {
-    color: var(--teletext-cyan);
-    border-color: var(--teletext-cyan);
+    /* Preserve original color on visited */
 }
 
-.site-nav a.active {
-    background: var(--teletext-yellow);
-    color: var(--teletext-bg);
-    border-color: var(--teletext-yellow);
+.site-nav .nav-red:visited {
+    color: var(--teletext-red);
+}
+
+.site-nav .nav-green:visited {
+    color: var(--teletext-text);
+}
+
+.site-nav .nav-yellow:visited {
+    color: var(--teletext-yellow);
+}
+
+.site-nav .nav-blue:visited {
+    color: var(--teletext-cyan);
 }
 
 /* ============================================
