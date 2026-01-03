@@ -101,6 +101,12 @@ Build a simple flat file blog to sharpen AI-assisted web development skills, foc
 - [x] Easy to add new posts via `python3 publish.py "Post Title"` ✓
 - [x] Local development environment ✓
 - [x] Clear documentation for future reference ✓ (see /docs)
+- [x] Local preview server for testing before deployment ✓
+
+### 4.3 Deployment Efficiency
+- Minimize Netlify build usage (free tier: 300 minutes/month)
+- Localhost preview for design iterations and CSS changes
+- Bundled commits (post + archive in single commit = single build)
 
 ---
 
@@ -178,6 +184,24 @@ Build a simple flat file blog to sharpen AI-assisted web development skills, foc
 - **Nav style:** Teletext-themed buttons/links
 - **Footer:** "Code created with AI — Words are my own"
 - **Ninja placement:** Small icon in header (not homepage hero)
+
+### Deployment Optimization (Phase 5)
+**Rationale:** Netlify free tier provides 300 build minutes/month. Development work (design iterations, CSS changes, testing) is build-intensive but atypical. Normal publishing workflow (Google Docs → publish) should be efficient.
+
+**Strategy:**
+1. **Localhost preview server** (`serve.py`)
+   - Review full site functionality locally before deploying
+   - Iterate on design/CSS changes without triggering builds
+   - Test posts using preview.html before publishing
+
+2. **Bundled commits**
+   - Archive regeneration integrated into publish.py
+   - Post + archive committed together = single Netlify build
+   - Reduces builds by 50% (was 2 builds per post, now 1)
+
+3. **Development vs. Normal Workflow**
+   - Development: Use localhost for iteration, push only when ready
+   - Publishing posts: One command, one build (optimized)
 
 ---
 
