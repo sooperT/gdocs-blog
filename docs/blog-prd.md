@@ -104,7 +104,7 @@ Build a simple flat file blog to sharpen AI-assisted web development skills, foc
 - [x] Local preview server for testing before deployment ✓
 
 ### 4.3 Deployment Efficiency
-- Minimize Netlify build usage (free tier: 300 minutes/month)
+- Minimize Netlify build usage (free tier: 300 credits/month)
 - Localhost preview for design iterations and CSS changes
 - Bundled commits (post + archive in single commit = single build)
 
@@ -186,7 +186,7 @@ Build a simple flat file blog to sharpen AI-assisted web development skills, foc
 - **Ninja placement:** Small icon in header (not homepage hero)
 
 ### Deployment Optimization (Phase 5)
-**Rationale:** Netlify free tier provides 300 build minutes/month. Development work (design iterations, CSS changes, testing) is build-intensive but atypical. Normal publishing workflow (Google Docs → publish) should be efficient.
+**Rationale:** Netlify free tier provides 300 build credits/month. Development work (design iterations, CSS changes, testing) is build-intensive but atypical. Conserving build credits during development is important regardless of tier. Normal publishing workflow (Google Docs → publish) should be efficient.
 
 **Strategy:**
 1. **Localhost preview server** (`serve.py`)
