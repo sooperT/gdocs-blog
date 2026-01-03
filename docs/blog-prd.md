@@ -113,6 +113,9 @@ Build a simple flat file blog to sharpen AI-assisted web development skills, foc
 - Categories/tags filtering (tags are metadata only, no filtering UI)
 - Dark mode (teletext theme is intentionally fixed)
 
+## 5.1 Future Enhancements (Backlog)
+- Pagination for archive pages (implement when > 20 posts exist)
+
 ---
 
 ## 6. Success Criteria
