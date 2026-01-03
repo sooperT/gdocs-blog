@@ -23,36 +23,55 @@ class PostMetadataExtractor(HTMLParser):
         self.title = None
         self.date = None
         self.tags = []
-        self.in_title = False
+        self.excerpt = None
+        self.in_h1 = False
         self.in_meta = False
+        self.in_main = False
+        self.in_p = False
         self.meta_text = ""
+        self.paragraphs_after_meta = 0
 
     def handle_starttag(self, tag, attrs):
-        if tag == 'title':
-            self.in_title = True
-        elif tag == 'p':
+        if tag == 'main':
+            self.in_main = True
+        elif tag == 'h1' and self.in_main and not self.title:
+            # First h1 in main is the post title
+            self.in_h1 = True
+        elif tag == 'p' and self.in_main:
             # Check if this is the post-meta paragraph
+            is_meta = False
             for attr, value in attrs:
                 if attr == 'class' and value == 'post-meta':
+                    is_meta = True
                     self.in_meta = True
-        elif tag == 'h1' and not self.title:
-            # First h1 is the post title
-            self.in_title = True
+                    break
+
+            # If not meta and we've seen meta, this might be our excerpt
+            if not is_meta and self.date and not self.excerpt and self.paragraphs_after_meta == 0:
+                self.in_p = True
 
     def handle_endtag(self, tag):
-        if tag == 'title' or tag == 'h1':
-            self.in_title = False
-        elif tag == 'p' and self.in_meta:
-            self.in_meta = False
-            # Parse the meta text
-            self._parse_meta_text()
+        if tag == 'main':
+            self.in_main = False
+        elif tag == 'h1':
+            self.in_h1 = False
+        elif tag == 'p':
+            if self.in_meta:
+                self.in_meta = False
+                self._parse_meta_text()
+                self.paragraphs_after_meta = 0
+            elif self.in_p:
+                self.in_p = False
+                self.paragraphs_after_meta += 1
 
     def handle_data(self, data):
-        if self.in_title and not self.title:
-            # Extract title (remove " - taken" suffix if present)
-            self.title = data.replace(' - taken', '').strip()
+        if self.in_h1:
+            self.title = data.strip()
         elif self.in_meta:
             self.meta_text += data
+        elif self.in_p and not self.excerpt:
+            # First paragraph after metadata is the excerpt
+            self.excerpt = data.strip()
 
     def _parse_meta_text(self):
         """Parse 'Published on: 2026-01-05. Filed under: ai, product'"""
@@ -77,7 +96,8 @@ def extract_post_metadata(post_path):
     return {
         'title': parser.title,
         'date': parser.date,
-        'tags': parser.tags
+        'tags': parser.tags,
+        'excerpt': parser.excerpt
     }
 
 
@@ -111,6 +131,7 @@ def scan_posts():
                 'title': metadata['title'],
                 'date': metadata['date'],
                 'tags': metadata['tags'],
+                'excerpt': metadata.get('excerpt', ''),
                 'url': f'/words/{slug}/'
             })
             print(f"✓ Found: {metadata['title']} ({metadata['date']})")
@@ -183,6 +204,10 @@ def generate_archive_html(posts):
 
         if meta_parts:
             html_parts.append(f'                <p class="post-meta">{" ".join(meta_parts)}</p>')
+
+        # Excerpt
+        if post.get('excerpt'):
+            html_parts.append(f'                <p class="post-excerpt">{post["excerpt"]}</p>')
 
         html_parts.append('            </article>')
 
