@@ -1,0 +1,50 @@
+{
+  "posts": [
+    {
+      "title": "My third blog post",
+      "meta-title": "My third blog post",
+      "url": "/words/ai-glossary/",
+      "date": "2026-01-09",
+      "tags": [
+        "ai"
+      ],
+      "type": "words",
+      "meta-desc": "A brief SEO-friendly description",
+      "excerpt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+    },
+    {
+      "title": "The AI gold rush",
+      "meta-title": "My second blog post",
+      "url": "/words/ai-gold-rush/",
+      "date": "2026-01-05",
+      "tags": [
+        "ai"
+      ],
+      "type": "words",
+      "meta-desc": "A brief SEO-friendly description",
+      "excerpt": "My second blog post. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+    },
+    {
+      "title": "My first blog post",
+      "meta-title": "My first blog post",
+      "url": "/words/hello-world/",
+      "date": "2025-11-12",
+      "tags": [
+        "general"
+      ],
+      "type": "words",
+      "meta-desc": "A brief SEO-friendly description",
+      "excerpt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+    },
+    {
+      "title": "About",
+      "meta-title": "About",
+      "url": "/about/",
+      "date": "",
+      "tags": [],
+      "type": "pages",
+      "meta-desc": "",
+      "excerpt": ""
+    }
+  ]
+}

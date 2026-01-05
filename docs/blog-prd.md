@@ -116,11 +116,87 @@ Build a simple flat file blog to sharpen AI-assisted web development skills, foc
 - RSS feed
 - Analytics (can be added later)
 - Authentication/admin panel
-- Categories/tags filtering (tags are metadata only, no filtering UI)
 - Dark mode (teletext theme is intentionally fixed)
 
 ## 5.1 Future Enhancements (Backlog)
 - Pagination for archive pages (implement when > 20 posts exist)
+
+## 5.2 Tag Filtering (Phase 5C)
+
+**Goal:** Enable client-side tag filtering on archive pages that scales with pagination, without generating static pages for each tag combination.
+
+**Implementation Approach: Metadata-Based Client-Side Filtering**
+
+Instead of generating separate static pages for each tag (which would create file bloat and waste build credits), we use JavaScript to filter posts dynamically based on the metadata index (`posts-metadata.json`).
+
+**Key Architectural Decision:**
+- Tag filtering fetches `posts-metadata.json` (contains all posts' metadata: title, date, tags, URL)
+- JavaScript filters the **entire corpus** based on selected tags, then renders/paginates results
+- This approach scales properly with pagination (filters all posts, not just visible page)
+- Metadata index is incrementally updated on each publish (not regenerated from scratch)
+
+**Features:**
+- **Single-tag filtering:** Filter by one tag at a time (simplified UX)
+  - `/words/?tag=ai` shows posts tagged with "ai"
+- **Clickable tags:** Tags in posts and archive listings are clickable links
+- **Filter status display:** Shows active filter with × button to remove
+  - Example: `Filtered by: [AI ×]` (tags displayed uppercase)
+- **URL-based state:** Filter state stored in URL query parameters (shareable, bookmarkable)
+- **Pagination-compatible:** Filters entire post corpus, not just current page
+- **Zero build impact:** No new static files generated, all filtering happens client-side
+- **Tags displayed uppercase:** CSS text-transform ensures consistent tag styling
+
+**User Experience:**
+1. User visits `/words/` → Page loads and fetches `posts-metadata.json`
+2. User clicks a tag (e.g., "ai") → URL becomes `/words/?tag=ai`
+3. JavaScript filters metadata to show only posts with "ai" tag
+4. Filter status shows: `Filtered by: [AI ×]` (uppercase)
+5. User clicks × button → Returns to `/words/` showing all posts
+6. With pagination: Filtered results span multiple pages (e.g., "15 posts with tag 'ai', showing 1-10")
+
+**Implementation Details:**
+- Archive page (`/words/index.html`) fetches `posts-metadata.json` on load
+- JavaScript reads URL query parameter `?tag=` and filters metadata array
+- Filtered results are rendered into the post listing (replaces static HTML)
+- Pagination controls operate on filtered dataset (not full corpus)
+- Tags in post metadata are clickable `<a>` links to filtered archive page
+- Filter UI inserted at top of post listing showing active tag with × remove button
+- Filter tag button styled with teletext nav button hover effect (subtle glow)
+- Tags displayed uppercase via CSS `text-transform: uppercase`
+
+**Metadata Index Management:**
+- `posts-metadata.json` updated **incrementally** on each publish
+- `publish.py` loads existing metadata, adds/updates current post entry, writes back
+- Optional `publish.py --rebuild-index` command for full re-index (edge cases, manual fixes)
+- Metadata updated as part of normal publish workflow (no separate step)
+
+**Metadata Structure:**
+Each post entry contains:
+- `title`: Article title (H1) - displayed in archive listings
+- `meta-title`: Meta title (HTML `<title>` tag) - for SEO/browser tabs (may differ from article title)
+- `url`: Full URL path to post
+- `date`: Publication date (YYYY-MM-DD format)
+- `tags`: Array of tag strings
+- `type`: Content type ("words", "projects", or "pages")
+- `meta-desc`: SEO meta description
+- `excerpt`: First paragraph of article (for archive preview)
+
+**Benefits:**
+- **Scalable:** Works with any number of tags and posts without creating new files
+- **Pagination-compatible:** Filters entire corpus, not just visible page
+- **Build-efficient:** No impact on Netlify build credits (metadata updated locally before push)
+- **Publish-efficient:** Incremental metadata updates (doesn't scan all posts on every publish)
+- **Shareable:** Filtered URLs can be bookmarked and shared
+- **Static-friendly:** No server-side logic required, works on static hosting
+
+**Technical Notes:**
+- JavaScript fetches metadata JSON once per page load (cached by browser)
+- Falls back gracefully: if JS disabled, shows static HTML posts (no filtering)
+- Metadata JSON is lightweight (only metadata, not full content)
+- URL updates via `history.pushState()` for clean back/forward navigation
+- Filtering happens on metadata, rendering happens on demand (performance scales)
+- Tag extraction from HTML handles both plain text and clickable link formats
+- Dual title extraction: H1 for article title, `<title>` tag for meta title
 
 ---
 
@@ -275,7 +351,11 @@ Build a simple flat file blog to sharpen AI-assisted web development skills, foc
 - [ ] Detect content type from Google Drive folder location
 - [ ] Generate URL slug from `url:` frontmatter field
 - [ ] Save posts to correct directory (`/words/{slug}/`, `/projects/{slug}/`, etc.)
-- [ ] Build metadata index (posts-metadata.json) tracking all content
+- [ ] Incrementally update metadata index (posts-metadata.json) on each publish
+  - Load existing metadata JSON (if exists)
+  - Add/update entry for current post being published
+  - Write updated JSON back to disk
+  - Optional `--rebuild-index` flag to regenerate from scratch (for manual fixes)
 - [ ] Generate `/words/index.html` archive listing from metadata
 - [ ] Auto-copy latest `/words/` post to root `/index.html`
 - [ ] Update git commit messages to include content type

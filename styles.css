@@ -748,6 +748,90 @@ body {
 }
 
 /* ============================================
+   TAG FILTERING
+   ============================================ */
+
+.filter-ui {
+    margin: 2em 0;
+    padding: 1em;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--teletext-cyan);
+    border-radius: 4px;
+}
+
+.filter-status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.filter-label {
+    color: var(--teletext-cyan);
+    font-weight: bold;
+    margin-right: 0.5em;
+}
+
+.filter-tag {
+    background: var(--background-dark);
+    color: var(--teletext-cyan);
+    padding: 0.3em 0.6em;
+    border: 2px solid var(--teletext-cyan);
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    transition: all 0.2s;
+    text-transform: uppercase;
+}
+
+.filter-tag:hover {
+    background: rgba(0, 255, 255, 0.3);
+    border-color: rgba(0, 255, 255, 0.6);
+}
+
+.filter-tag .remove-tag {
+    font-weight: bold;
+    font-size: 1.2em;
+    line-height: 1;
+}
+
+.clear-filters {
+    color: var(--teletext-red);
+    text-decoration: underline;
+    font-size: 0.9em;
+    margin-left: 0.5em;
+}
+
+.clear-filters:hover {
+    color: var(--teletext-white);
+}
+
+.tag-link {
+    color: var(--teletext-cyan);
+    text-decoration: none;
+    border-bottom: 1px solid var(--teletext-cyan);
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.tag-link:hover {
+    color: var(--teletext-yellow);
+    border-bottom-color: var(--teletext-yellow);
+    background: rgba(255, 255, 0, 0.1);
+}
+
+.no-results {
+    color: var(--teletext-yellow);
+    font-style: italic;
+    margin: 2em 0;
+}
+
+/* ============================================
    RESPONSIVE DESIGN
    ============================================ */
 
