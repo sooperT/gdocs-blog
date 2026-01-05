@@ -14,6 +14,7 @@ import os
 import sys
 import subprocess
 import re
+import json
 from datetime import datetime
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -274,7 +275,7 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     html_parts.append('    <!-- HEADER -->')
     html_parts.append('    <header class="site-header">')
     html_parts.append('        <div class="identity">')
-    html_parts.append('            <h1 class="logo"><span class="logo-t">T</span><span class="logo-aken">aken</span></h1>')
+    html_parts.append('            <div class="logo"><span class="logo-t">T</span><span class="logo-aken">aken</span></div>')
     html_parts.append('            <div class="ninja-icon">🥷</div>')
     html_parts.append('            <p class="tagline">Words on product, systems thinking and life.</p>')
     html_parts.append('        </div>')
@@ -369,7 +370,9 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                             meta_parts.append(f'Published on: {metadata["date"]}.')
                         if metadata.get('tags'):
                             tags = [tag.strip() for tag in metadata['tags'].split(',')]
-                            tag_list = ', '.join(tags)
+                            # Make tags clickable links
+                            tag_links = [f'<a href="/words/?tag={tag}" class="tag-link">{tag}</a>' for tag in tags]
+                            tag_list = ', '.join(tag_links)
                             meta_parts.append(f'Filed under: {tag_list}')
 
                         if meta_parts:
@@ -389,7 +392,224 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     return '\n'.join(html_parts)
 
 
-def git_commit_and_push(filename, doc_title, include_archive=False):
+def load_metadata_index():
+    """
+    Load existing metadata index from posts-metadata.json
+    Returns empty structure if file doesn't exist
+    """
+    metadata_file = 'posts-metadata.json'
+
+    if os.path.exists(metadata_file):
+        with open(metadata_file, 'r', encoding='utf-8') as f:
+            return json.load(f)
+
+    # Return empty structure if file doesn't exist
+    return {"posts": []}
+
+
+def update_metadata_index(title, meta_title, url, date, tags, content_type, meta_desc, excerpt=''):
+    """
+    Incrementally update metadata index with current post
+    - Loads existing metadata
+    - Adds/updates entry for this post (matched by URL)
+    - Writes updated JSON back
+
+    Args:
+        title: Article title (H1, for display in archive)
+        meta_title: Meta title (HTML title tag, for SEO/browser tab)
+    """
+    print("Updating metadata index...")
+
+    # Load existing metadata
+    metadata = load_metadata_index()
+
+    # Parse tags into array
+    tags_array = [tag.strip() for tag in tags.split(',')] if tags else []
+
+    # Create new post entry
+    new_entry = {
+        "title": title,
+        "meta-title": meta_title,
+        "url": url,
+        "date": date,
+        "tags": tags_array,
+        "type": content_type,
+        "meta-desc": meta_desc,
+        "excerpt": excerpt
+    }
+
+    # Find if this post already exists (match by URL)
+    existing_index = None
+    for idx, post in enumerate(metadata['posts']):
+        if post['url'] == url:
+            existing_index = idx
+            break
+
+    # Update or append
+    if existing_index is not None:
+        metadata['posts'][existing_index] = new_entry
+        print(f"✓ Updated existing entry in metadata index")
+    else:
+        metadata['posts'].append(new_entry)
+        print(f"✓ Added new entry to metadata index")
+
+    # Sort posts by date (newest first)
+    metadata['posts'].sort(key=lambda x: x['date'], reverse=True)
+
+    # Write back to file
+    with open('posts-metadata.json', 'w', encoding='utf-8') as f:
+        json.dump(metadata, f, indent=2, ensure_ascii=False)
+
+    print("✓ Metadata index saved")
+
+
+def parse_html_frontmatter(html_content):
+    """
+    Extract metadata from published HTML files
+    Looks for post-meta paragraph with date and tags
+    Returns dict with date, tags, title, meta-desc, and excerpt
+    """
+    metadata = {}
+
+    # Extract date from "Published on: YYYY-MM-DD"
+    date_match = re.search(r'Published on: (\d{4}-\d{2}-\d{2})', html_content)
+    if date_match:
+        metadata['date'] = date_match.group(1)
+
+    # Extract tags from "Filed under: tag1, tag2" or "Filed under: <a>tag1</a>, <a>tag2</a>"
+    # Find the "Filed under:" section and extract tag text (handles both plain text and links)
+    filed_under_match = re.search(r'Filed under: (.*?)(?:</p>|$)', html_content)
+    if filed_under_match:
+        tags_section = filed_under_match.group(1)
+        # Extract text content from links: <a ...>tagname</a> -> tagname
+        tag_texts = re.findall(r'>([^<]+)</a>', tags_section)
+        if tag_texts:
+            # Tags are in links
+            metadata['tags'] = ', '.join(tag_texts)
+        else:
+            # Tags are plain text
+            metadata['tags'] = tags_section.strip()
+
+    # Extract article title from <h1> tag in main content (for archive listing display)
+    h1_match = re.search(r'<main>.*?<h1>(.*?)</h1>', html_content, re.DOTALL)
+    if h1_match:
+        metadata['title'] = h1_match.group(1).strip()
+
+    # Extract meta title from <title> tag (for SEO, browser tab - may differ from article title)
+    title_match = re.search(r'<title>(.+?) - taken</title>', html_content)
+    if title_match:
+        metadata['meta-title'] = title_match.group(1).strip()
+
+    # If no h1 found, use meta title as fallback for article title
+    if not h1_match and title_match:
+        metadata['title'] = title_match.group(1).strip()
+
+    # Extract meta description
+    desc_match = re.search(r'<meta name="description" content="([^"]+)"', html_content)
+    if desc_match:
+        metadata['meta-desc'] = desc_match.group(1)
+
+    # Extract excerpt (first paragraph after post-meta)
+    # Look for the first <p> tag after post-meta that's not post-meta itself
+    excerpt_pattern = r'<p class="post-meta">.*?</p>\s*<p>(.*?)</p>'
+    excerpt_match = re.search(excerpt_pattern, html_content, re.DOTALL)
+    if excerpt_match:
+        # Strip HTML tags from excerpt and clean up
+        excerpt_text = re.sub(r'<[^>]+>', '', excerpt_match.group(1))
+        metadata['excerpt'] = excerpt_text.strip()
+
+    return metadata
+
+
+def rebuild_metadata_index():
+    """
+    Rebuild entire metadata index by scanning all published posts
+    Used for: --rebuild-index flag, manual fixes, corrupted index
+    """
+    print("="*60)
+    print("REBUILDING METADATA INDEX")
+    print("="*60)
+    print("Scanning all published posts...\n")
+
+    metadata = {"posts": []}
+
+    # Scan words, projects, and pages directories
+    for content_type in ['words', 'projects', 'pages']:
+        type_dir = content_type if content_type != 'pages' else '.'
+
+        if not os.path.exists(type_dir):
+            continue
+
+        print(f"Scanning /{content_type}/...")
+
+        # For pages, only look in direct subdirectories (like /about/)
+        if content_type == 'pages':
+            for item in os.listdir('.'):
+                index_file = os.path.join(item, 'index.html')
+                if os.path.isdir(item) and os.path.exists(index_file) and item not in ['words', 'projects']:
+                    # Read HTML and extract metadata
+                    with open(index_file, 'r', encoding='utf-8') as f:
+                        html = f.read()
+
+                    parsed = parse_html_frontmatter(html)
+                    if parsed.get('title'):
+                        url = f"/{item}/"
+                        tags_array = [tag.strip() for tag in parsed.get('tags', '').split(',')] if parsed.get('tags') else []
+
+                        metadata['posts'].append({
+                            "title": parsed['title'],
+                            "meta-title": parsed.get('meta-title', ''),
+                            "url": url,
+                            "date": parsed.get('date', ''),
+                            "tags": tags_array,
+                            "type": content_type,
+                            "meta-desc": parsed.get('meta-desc', ''),
+                            "excerpt": parsed.get('excerpt', '')
+                        })
+                        print(f"  ✓ {url}")
+        else:
+            # For words/projects, scan subdirectories
+            if not os.path.exists(type_dir):
+                continue
+
+            for slug in os.listdir(type_dir):
+                slug_dir = os.path.join(type_dir, slug)
+                index_file = os.path.join(slug_dir, 'index.html')
+
+                if os.path.isdir(slug_dir) and os.path.exists(index_file):
+                    # Read HTML and extract metadata
+                    with open(index_file, 'r', encoding='utf-8') as f:
+                        html = f.read()
+
+                    parsed = parse_html_frontmatter(html)
+                    if parsed.get('title'):
+                        url = f"/{content_type}/{slug}/"
+                        tags_array = [tag.strip() for tag in parsed.get('tags', '').split(',')] if parsed.get('tags') else []
+
+                        metadata['posts'].append({
+                            "title": parsed['title'],
+                            "meta-title": parsed.get('meta-title', ''),
+                            "url": url,
+                            "date": parsed.get('date', ''),
+                            "tags": tags_array,
+                            "type": content_type,
+                            "meta-desc": parsed.get('meta-desc', ''),
+                            "excerpt": parsed.get('excerpt', '')
+                        })
+                        print(f"  ✓ {url}")
+
+    # Sort posts by date (newest first)
+    metadata['posts'].sort(key=lambda x: x.get('date', ''), reverse=True)
+
+    # Write to file
+    with open('posts-metadata.json', 'w', encoding='utf-8') as f:
+        json.dump(metadata, f, indent=2, ensure_ascii=False)
+
+    print(f"\n✓ Rebuilt index with {len(metadata['posts'])} posts")
+    print("="*60)
+
+
+def git_commit_and_push(filename, doc_title, include_archive=False, include_metadata=False):
     """Commit and push changes to GitHub"""
     print("\nCommitting to git...")
 
@@ -400,6 +620,10 @@ def git_commit_and_push(filename, doc_title, include_archive=False):
         # Also add archive if regenerated
         if include_archive:
             subprocess.run(['git', 'add', 'words/index.html'], check=True)
+
+        # Also add metadata if updated
+        if include_metadata:
+            subprocess.run(['git', 'add', 'posts-metadata.json'], check=True)
 
         # Create commit message
         commit_msg = f"""Publish: {doc_title}
@@ -427,9 +651,16 @@ def main():
     """Main publishing workflow"""
     if len(sys.argv) < 2:
         print("Usage: python3 publish.py \"Document Name\"")
-        print("\nExample:")
+        print("       python3 publish.py --rebuild-index")
+        print("\nExamples:")
         print("  python3 publish.py \"My first blog post\"")
+        print("  python3 publish.py --rebuild-index  # Rebuild entire metadata index")
         sys.exit(1)
+
+    # Handle --rebuild-index flag
+    if sys.argv[1] == '--rebuild-index':
+        rebuild_metadata_index()
+        sys.exit(0)
 
     doc_name = sys.argv[1]
 
@@ -542,6 +773,22 @@ def main():
         if os.path.exists(preview_file):
             os.remove(preview_file)
 
+        # Update metadata index
+        # Extract excerpt and titles from the HTML we just generated
+        full_url = f"/{content_type}/{url_slug}/" if content_type != 'pages' else f"/{url_slug}/"
+        parsed_html = parse_html_frontmatter(html)
+
+        update_metadata_index(
+            title=parsed_html.get('title', document.get('title')),  # Article title (H1)
+            meta_title=parsed_html.get('meta-title', ''),  # Meta title (HTML title tag)
+            url=full_url,
+            date=metadata.get('date', ''),
+            tags=metadata.get('tags', ''),
+            content_type=content_type,
+            meta_desc=metadata.get('meta-desc', ''),
+            excerpt=parsed_html.get('excerpt', '')
+        )
+
         # Regenerate archive if this is a words post
         archive_updated = False
         if content_type == 'words':
@@ -553,8 +800,8 @@ def main():
             except subprocess.CalledProcessError as e:
                 print(f"⚠ Warning: Archive generation failed: {e}")
 
-        # Git commit and push (include archive in same commit if updated)
-        git_commit_and_push(output_file, document.get('title'), include_archive=archive_updated)
+        # Git commit and push (include archive and metadata in same commit)
+        git_commit_and_push(output_file, document.get('title'), include_archive=archive_updated, include_metadata=True)
 
         print("\n" + "="*60)
         print("✓ SUCCESS! Blog post published")
