@@ -849,6 +849,7 @@ body {
     .site-header .logo {
         font-size: 2.5em;
         white-space: nowrap; /* Prevent "Taken" from wrapping */
+        display: inline-flex; /* Use flexbox to prevent span wrapping */
     }
 
     .site-header .ninja-icon {
