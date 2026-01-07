@@ -198,6 +198,51 @@ Each post entry contains:
 - Tag extraction from HTML handles both plain text and clickable link formats
 - Dual title extraction: H1 for article title, `<title>` tag for meta title
 
+## 5.3 Homepage Strategy (Phase 5D)
+
+**Goal:** Homepage displays excerpt of latest post without creating duplicate content issues.
+
+**Approach: Excerpt-Based Landing Page**
+
+Instead of copying the full post to the homepage (which would create duplicate content), the homepage shows:
+- Title and metadata of the most recent "words" post
+- Character-limited excerpt (~500 characters)
+- "Read full article →" link to the full post
+
+**Implementation:**
+- `generate_homepage.py` script (similar to `generate_archive.py`)
+- Reads `posts-metadata.json` to find latest post
+- Reads full post HTML from `/words/{slug}/index.html`
+- Extracts content from `<main>` tag (excluding `<p class="post-meta">`)
+- Strips HTML tags to get plain text
+- Truncates to 500 characters with smart word-boundary breaking
+- Appends "..." if content was truncated
+- Generates `/index.html` with standard header/nav/footer
+- Nav shows "Home" as active
+
+**Excerpt Truncation Logic:**
+1. Strip all HTML tags from post content
+2. Find character position 500
+3. Backtrack to last space (complete word boundary)
+4. Append "..." only if content was actually truncated
+5. Preserves readability, no mid-word breaks
+
+**Benefits:**
+- **No duplicate content:** Excerpt ≠ full post, Google sees them as different
+- **Stable URLs:** Posts always live at `/words/{slug}/`, never move
+- **Flexible homepage:** Can add additional content/links later
+- **Clear information architecture:** Homepage is gateway, not duplicate post
+
+**SEO Considerations:**
+- Canonical URL not needed (homepage and post have different content)
+- No Google duplicate content penalty
+- Homepage can be optimized separately with its own meta description
+
+**Workflow Integration:**
+- Called from `publish.py` after `generate_archive.py`
+- Only runs when publishing "words" posts
+- Includes `/index.html` in git commit automatically
+
 ---
 
 ## 6. Success Criteria
@@ -350,14 +395,20 @@ Each post entry contains:
 - [ ] Parse frontmatter from Google Docs (type, url, date, meta-desc, tags)
 - [ ] Detect content type from Google Drive folder location
 - [ ] Generate URL slug from `url:` frontmatter field
-- [ ] Save posts to correct directory (`/words/{slug}/`, `/projects/{slug}/`, etc.)
+- [ ] Save posts to correct directory (`/words/{slug}/`, `/projects/{slug}/`, etc`)
 - [ ] Incrementally update metadata index (posts-metadata.json) on each publish
   - Load existing metadata JSON (if exists)
   - Add/update entry for current post being published
   - Write updated JSON back to disk
   - Optional `--rebuild-index` flag to regenerate from scratch (for manual fixes)
 - [ ] Generate `/words/index.html` archive listing from metadata
-- [ ] Auto-copy latest `/words/` post to root `/index.html`
+- [ ] Generate homepage (`/index.html`) with excerpt of latest post
+  - Show most recent "words" post
+  - Extract ~500 character excerpt from post content
+  - Smart truncation: break at word boundary, add "..."
+  - Include "Read full article →" link to full post
+  - Avoids duplicate content issues (excerpt vs full post)
+  - Keeps URLs stable (posts always at `/words/{slug}/`)
 - [ ] Update git commit messages to include content type
 - [ ] Support publishing pages (about, etc.) from `pages/` folder
 
@@ -396,7 +447,7 @@ Live Website (takenbyninjas.com)
 ### Repository Structure (Phase 5)
 ```
 /
-├── index.html                  # Homepage (auto-copy of latest /words/ post)
+├── index.html                  # Homepage (excerpt of latest post)
 ├── words/
 │   ├── index.html             # Archive listing (generated)
 │   ├── first-post/
@@ -409,10 +460,19 @@ Live Website (takenbyninjas.com)
 │       └── index.html         # Individual project
 ├── about/
 │   └── index.html             # About page (from Google Doc)
-├── styles.css                  # Teletext CRT theme
+├── lib/                        # Assets directory
+│   ├── styles/
+│   │   └── styles.css         # Teletext CRT theme
+│   ├── img/
+│   │   ├── image-1.jpg        # Downloaded images from posts
+│   │   └── image-2.jpg
+│   └── fonts/
+│       └── european_teletext/ # Custom fonts
 ├── playground.html             # Style reference/testing
 ├── posts-metadata.json         # Generated index of all content
 ├── publish.py                  # Enhanced publishing script
+├── generate_archive.py         # Archive page generator
+├── generate_homepage.py        # Homepage generator
 ├── docs/                       # Documentation
 │   ├── blog-prd.md
 │   └── architecture.md

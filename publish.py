@@ -15,6 +15,8 @@ import sys
 import subprocess
 import re
 import json
+import urllib.request
+import mimetypes
 from datetime import datetime
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -229,7 +231,30 @@ def read_document(docs_service, document_id):
     return document
 
 
-def convert_to_html(document, metadata, content_start_index=0, content_type='words'):
+def download_image(image_url, save_path):
+    """
+    Download image from URL and save locally
+
+    Args:
+        image_url: URL of the image to download
+        save_path: Local path where image should be saved
+
+    Returns:
+        True if successful, False otherwise
+    """
+    try:
+        # Create directory if it doesn't exist
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+
+        # Download image
+        urllib.request.urlretrieve(image_url, save_path)
+        return True
+    except Exception as e:
+        print(f"⚠ Warning: Failed to download image from {image_url}: {e}")
+        return False
+
+
+def convert_to_html(document, metadata, content_start_index=0, content_type='words', slug=''):
     """
     Convert Google Docs document to HTML
 
@@ -254,9 +279,8 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     html_parts = []
     title = document.get('title', 'Untitled')
     meta_desc = metadata.get('meta-desc', '')
-
-    # Determine CSS path based on content type
-    css_path = 'styles.css' if content_type == 'pages' else '../../styles.css'
+    downloaded_images = []  # Track downloaded image paths for git commit
+    image_counter = 1  # Sequential numbering for images
 
     # HTML head
     html_parts.append('<!DOCTYPE html>')
@@ -267,7 +291,7 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     html_parts.append(f'    <title>{title} - taken</title>')
     if meta_desc:
         html_parts.append(f'    <meta name="description" content="{meta_desc}">')
-    html_parts.append(f'    <link rel="stylesheet" href="{css_path}">')
+    html_parts.append('    <link rel="stylesheet" href="/lib/styles/styles.css">')
     html_parts.append('</head>')
     html_parts.append('<body>')
     html_parts.append('    <div class="crt-overlay"></div>')
@@ -329,9 +353,29 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                             image_url = embedded_obj.get('imageProperties', {}).get('contentUri', '')
 
                             if image_url:
-                                # Get alt text if available
-                                alt_text = embedded_obj.get('title', 'Image')
-                                html_content += f'<img src="{image_url}" alt="{alt_text}">'
+                                # Determine file extension from URL or default to .jpg
+                                ext = '.jpg'
+                                if '.' in image_url:
+                                    url_ext = image_url.split('.')[-1].split('?')[0].lower()
+                                    if url_ext in ['jpg', 'jpeg', 'png', 'gif', 'webp']:
+                                        ext = f'.{url_ext}'
+
+                                # Generate local image path
+                                image_filename = f'image-{image_counter}{ext}'
+                                local_image_path = f'lib/img/{image_filename}'
+                                web_image_path = f'/lib/img/{image_filename}'
+
+                                # Download image
+                                if download_image(image_url, local_image_path):
+                                    downloaded_images.append(local_image_path)
+                                    # Use local path in HTML
+                                    alt_text = embedded_obj.get('title', 'Image')
+                                    html_content += f'<img src="{web_image_path}" alt="{alt_text}">'
+                                    image_counter += 1
+                                else:
+                                    # Fallback to original URL if download fails
+                                    alt_text = embedded_obj.get('title', 'Image')
+                                    html_content += f'<img src="{image_url}" alt="{alt_text}">'
 
                     elif 'textRun' in elem:
                         text_run = elem['textRun']
@@ -389,7 +433,10 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     html_parts.append('</body>')
     html_parts.append('</html>')
 
-    return '\n'.join(html_parts)
+    return {
+        'html': '\n'.join(html_parts),
+        'images': downloaded_images
+    }
 
 
 def load_metadata_index():
@@ -609,7 +656,7 @@ def rebuild_metadata_index():
     print("="*60)
 
 
-def git_commit_and_push(filename, doc_title, include_archive=False, include_homepage=False, include_metadata=False):
+def git_commit_and_push(filename, doc_title, include_archive=False, include_homepage=False, include_metadata=False, images=None):
     """Commit and push changes to GitHub"""
     print("\nCommitting to git...")
 
@@ -628,6 +675,11 @@ def git_commit_and_push(filename, doc_title, include_archive=False, include_home
         # Also add metadata if updated
         if include_metadata:
             subprocess.run(['git', 'add', 'posts-metadata.json'], check=True)
+
+        # Also add downloaded images
+        if images:
+            for image_path in images:
+                subprocess.run(['git', 'add', image_path], check=True)
 
         # Create commit message
         commit_msg = f"""Publish: {doc_title}
@@ -729,8 +781,12 @@ def main():
 
         # Convert to HTML
         print("Converting to HTML...")
-        html = convert_to_html(document, metadata, content_start_index, content_type)
+        result = convert_to_html(document, metadata, content_start_index, content_type, url_slug)
+        html = result['html']
+        downloaded_images = result['images']
         print("✓ Conversion complete")
+        if downloaded_images:
+            print(f"✓ Downloaded {len(downloaded_images)} image(s)")
 
         # Save to preview file
         preview_file = "preview.html"
@@ -814,8 +870,8 @@ def main():
             except subprocess.CalledProcessError as e:
                 print(f"⚠ Warning: Homepage generation failed: {e}")
 
-        # Git commit and push (include archive, homepage, and metadata in same commit)
-        git_commit_and_push(output_file, document.get('title'), include_archive=archive_updated, include_homepage=homepage_updated, include_metadata=True)
+        # Git commit and push (include archive, homepage, metadata, and images in same commit)
+        git_commit_and_push(output_file, document.get('title'), include_archive=archive_updated, include_homepage=homepage_updated, include_metadata=True, images=downloaded_images)
 
         print("\n" + "="*60)
         print("✓ SUCCESS! Blog post published")
