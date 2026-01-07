@@ -609,7 +609,7 @@ def rebuild_metadata_index():
     print("="*60)
 
 
-def git_commit_and_push(filename, doc_title, include_archive=False, include_metadata=False):
+def git_commit_and_push(filename, doc_title, include_archive=False, include_homepage=False, include_metadata=False):
     """Commit and push changes to GitHub"""
     print("\nCommitting to git...")
 
@@ -620,6 +620,10 @@ def git_commit_and_push(filename, doc_title, include_archive=False, include_meta
         # Also add archive if regenerated
         if include_archive:
             subprocess.run(['git', 'add', 'words/index.html'], check=True)
+
+        # Also add homepage if regenerated
+        if include_homepage:
+            subprocess.run(['git', 'add', 'index.html'], check=True)
 
         # Also add metadata if updated
         if include_metadata:
@@ -791,6 +795,7 @@ def main():
 
         # Regenerate archive if this is a words post
         archive_updated = False
+        homepage_updated = False
         if content_type == 'words':
             print("\nRegenerating archive page...")
             try:
@@ -800,8 +805,17 @@ def main():
             except subprocess.CalledProcessError as e:
                 print(f"⚠ Warning: Archive generation failed: {e}")
 
-        # Git commit and push (include archive and metadata in same commit)
-        git_commit_and_push(output_file, document.get('title'), include_archive=archive_updated, include_metadata=True)
+            # Regenerate homepage with latest post
+            print("\nRegenerating homepage...")
+            try:
+                subprocess.run(['python3', 'generate_homepage.py'], check=True, capture_output=True)
+                print("✓ Homepage updated")
+                homepage_updated = True
+            except subprocess.CalledProcessError as e:
+                print(f"⚠ Warning: Homepage generation failed: {e}")
+
+        # Git commit and push (include archive, homepage, and metadata in same commit)
+        git_commit_and_push(output_file, document.get('title'), include_archive=archive_updated, include_homepage=homepage_updated, include_metadata=True)
 
         print("\n" + "="*60)
         print("✓ SUCCESS! Blog post published")
