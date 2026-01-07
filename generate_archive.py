@@ -160,7 +160,7 @@ def generate_archive_html(posts):
     html_parts.append('    <meta charset="UTF-8">')
     html_parts.append('    <meta name="viewport" content="width=device-width, initial-scale=1.0">')
     html_parts.append('    <title>Words - taken</title>')
-    html_parts.append('    <link rel="stylesheet" href="../styles.css">')
+    html_parts.append('    <link rel="stylesheet" href="/lib/styles/styles.css">')
     html_parts.append('</head>')
     html_parts.append('<body>')
     html_parts.append('    <div class="crt-overlay"></div>')

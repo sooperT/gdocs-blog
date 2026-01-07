@@ -142,7 +142,7 @@ def generate_homepage_html(post):
     if post.get('meta-desc'):
         html_parts.append(f'    <meta name="description" content="{post["meta-desc"]}">')
 
-    html_parts.append('    <link rel="stylesheet" href="/styles.css">')
+    html_parts.append('    <link rel="stylesheet" href="/lib/styles/styles.css">')
     html_parts.append('</head>')
     html_parts.append('<body>')
     html_parts.append('    <div class="crt-overlay"></div>')
