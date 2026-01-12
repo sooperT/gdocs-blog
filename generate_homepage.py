@@ -152,7 +152,7 @@ def generate_homepage_html(post):
     html_parts.append('    <!-- HEADER -->')
     html_parts.append('    <header class="site-header">')
     html_parts.append('        <div class="identity">')
-    html_parts.append('            <h1 class="logo"><span class="logo-t">T</span><span class="logo-aken">aken</span></h1>')
+    html_parts.append('            <div class="logo">Taken</div>')
     html_parts.append('            <div class="ninja-icon">🥷</div>')
     html_parts.append('            <p class="tagline">Words on product, systems thinking and life.</p>')
     html_parts.append('        </div>')

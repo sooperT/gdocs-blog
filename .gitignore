@@ -14,3 +14,6 @@ token.json
 test_*.py
 test_output.html
 preview.html
+
+# Internal documentation (keep private)
+docs/
