@@ -13,6 +13,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'European Teletext Taken';
+    src: url('/lib/fonts/european_teletext_taken/EuropeanTeletextTaken.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* ============================================
    COLOR PALETTE
    ============================================ */
@@ -478,28 +485,16 @@ body {
 }
 
 .site-header .logo {
-    font-family: 'European Teletext', 'Courier New', monospace;
+    font-family: 'European Teletext Taken', 'European Teletext', 'Courier New', monospace;
     color: var(--teletext-yellow);
     font-size: 4em;
-    font-weight: bold;
+    font-weight: normal; /* Use font's natural weight to preserve kerning */
     letter-spacing: 0;
     margin: 0;
     line-height: 1;
     text-shadow: none; /* No glow in header band */
     position: relative;
-}
-
-/* Capital T - oversized */
-.site-header .logo .logo-t {
-    font-size: 1.3em;
-    display: inline-block;
-}
-
-/* "aken" - tucked under the T crossbar */
-.site-header .logo .logo-aken {
-    display: inline-block;
-    margin-left: -0.1925em; /* Tuck under the T */
-    text-transform: lowercase;
+    white-space: nowrap; /* Prevent logo from wrapping */
 }
 
 .site-header .ninja-icon {
@@ -850,16 +845,7 @@ body {
     .site-header .logo {
         font-size: 2.5em;
         white-space: nowrap; /* Prevent "Taken" from wrapping */
-    }
-
-    /* Disable the "tucked" layout on mobile - show as simple "Taken" */
-    .site-header .logo .logo-t {
-        font-size: 1em; /* Same size as rest of text */
-        margin-left: 0;
-    }
-
-    .site-header .logo .logo-aken {
-        margin-left: 0; /* No tucking on mobile */
+        flex-shrink: 0; /* Don't let flex container shrink the logo */
     }
 
     .site-header .ninja-icon {
@@ -869,8 +855,10 @@ body {
     .site-header .tagline {
         font-size: 0.75em;
         white-space: normal; /* Allow tagline to wrap */
-        margin-left: 0; /* Left-align on mobile */
-        max-width: 100%; /* Use full width */
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+        padding-left: 0;
         opacity: 0.85;
         text-align: left; /* Explicitly left-align */
     }
@@ -878,16 +866,17 @@ body {
     .site-nav {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 6px; /* Reduce from 8px */
-        margin-top: 6px; /* Match header bottom margin */
-        margin-bottom: 1em; /* Reduce from 1.5em */
-        padding: 0; /* Remove any default padding */
+        gap: 6px;
+        margin-top: 6px;
+        margin-bottom: 1em;
+        padding: 4px 0; /* Reduce from 6px 0 */
     }
 
     .site-nav a {
         text-align: center;
-        padding: 6px 8px; /* Reduce from 8px 12px */
-        font-size: 0.85em; /* Slightly smaller on mobile */
+        padding: 2px 8px; /* Minimal padding for mobile */
+        font-size: 0.85em;
+        line-height: 1.2; /* Reduce line height */
     }
 
     .post-meta {

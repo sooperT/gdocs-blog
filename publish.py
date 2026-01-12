@@ -299,7 +299,7 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     html_parts.append('    <!-- HEADER -->')
     html_parts.append('    <header class="site-header">')
     html_parts.append('        <div class="identity">')
-    html_parts.append('            <div class="logo"><span class="logo-t">T</span><span class="logo-aken">aken</span></div>')
+    html_parts.append('            <div class="logo">Taken</div>')
     html_parts.append('            <div class="ninja-icon">🥷</div>')
     html_parts.append('            <p class="tagline">Words on product, systems thinking and life.</p>')
     html_parts.append('        </div>')
