@@ -3,6 +3,15 @@
 /* Refined with input from Clive (ChatGPT) and Claude (Anthropic) */
 
 /* ============================================
+   GLOBAL
+   ============================================ */
+
+/* Prevent page jiggle when scrollbar appears/disappears */
+html {
+    overflow-y: scroll;
+}
+
+/* ============================================
    FONTS
    ============================================ */
 
@@ -484,6 +493,13 @@ body {
     margin: 0 auto;
 }
 
+.site-header .logo-container {
+    height: 4em; /* Scales with font-size */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .site-header .logo {
     font-family: 'European Teletext Taken', 'European Teletext', 'Courier New', monospace;
     color: var(--teletext-yellow);
@@ -498,9 +514,11 @@ body {
 }
 
 .site-header .ninja-icon {
-    font-size: 2.5em;
-    line-height: 1;
-    filter: brightness(1.2);
+    height: 100%;
+    width: auto;
+    display: inline-block;
+    image-rendering: pixelated; /* Preserve pixel-art sharpness */
+    image-rendering: crisp-edges;
 }
 
 .site-header .tagline {
@@ -842,6 +860,10 @@ body {
         gap: 8px;
     }
 
+    .site-header .logo-container {
+        height: 2.5em; /* Scales with mobile font-size */
+    }
+
     .site-header .logo {
         font-size: 2.5em;
         white-space: nowrap; /* Prevent "Taken" from wrapping */
@@ -849,7 +871,7 @@ body {
     }
 
     .site-header .ninja-icon {
-        display: none; /* Hide ninja on mobile to save space */
+        display: inline-block; /* Show ninja on mobile */
     }
 
     .site-header .tagline {
