@@ -12,7 +12,19 @@ Usage:
 import os
 import json
 import re
+from datetime import datetime
 from html.parser import HTMLParser
+
+
+def format_date_for_display(iso_date):
+    """
+    Convert ISO date (YYYY-MM-DD) to display format (DD/MM/YYYY)
+    """
+    try:
+        date_obj = datetime.strptime(iso_date, '%Y-%m-%d')
+        return date_obj.strftime('%d/%m/%Y')
+    except:
+        return iso_date  # Return original if parsing fails
 
 
 class ContentExtractor(HTMLParser):
@@ -179,7 +191,8 @@ def generate_homepage_html(post):
     # Post metadata (date and tags)
     meta_parts = []
     if post.get('date'):
-        meta_parts.append(f'Published on: {post["date"]}.')
+        display_date = format_date_for_display(post["date"])
+        meta_parts.append(f'Published on: {display_date}.')
     if post.get('tags'):
         # Convert tags to clickable links (uppercase via CSS)
         tag_links = [f'<a href="/words/?tag={tag}">{tag}</a>' for tag in post['tags']]

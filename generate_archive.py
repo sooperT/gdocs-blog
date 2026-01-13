@@ -15,6 +15,17 @@ from datetime import datetime
 from html.parser import HTMLParser
 
 
+def format_date_for_display(iso_date):
+    """
+    Convert ISO date (YYYY-MM-DD) to display format (DD/MM/YYYY)
+    """
+    try:
+        date_obj = datetime.strptime(iso_date, '%Y-%m-%d')
+        return date_obj.strftime('%d/%m/%Y')
+    except:
+        return iso_date  # Return original if parsing fails
+
+
 class PostMetadataExtractor(HTMLParser):
     """Extract metadata from published HTML files"""
 
@@ -205,7 +216,8 @@ def generate_archive_html(posts):
         # Metadata
         meta_parts = []
         if post['date']:
-            meta_parts.append(f'Published on: {post["date"]}.')
+            display_date = format_date_for_display(post["date"])
+            meta_parts.append(f'Published on: {display_date}.')
         if post['tags']:
             tag_list = ', '.join(post['tags'])
             meta_parts.append(f'Filed under: {tag_list}')

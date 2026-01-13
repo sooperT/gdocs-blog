@@ -36,6 +36,17 @@ BLOG_FOLDER_PATH = "09 Lab/Taken"
 OUTPUT_FILE = "index.html"  # Default for backwards compatibility
 
 
+def format_date_for_display(iso_date):
+    """
+    Convert ISO date (YYYY-MM-DD) to display format (DD/MM/YYYY)
+    """
+    try:
+        date_obj = datetime.strptime(iso_date, '%Y-%m-%d')
+        return date_obj.strftime('%d/%m/%Y')
+    except:
+        return iso_date  # Return original if parsing fails
+
+
 def authenticate():
     """Authenticate with Google APIs and return credentials"""
     creds = None
@@ -421,7 +432,8 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                 if metadata.get('date') or metadata.get('tags'):
                     meta_parts = []
                     if metadata.get('date'):
-                        meta_parts.append(f'Published on: {metadata["date"]}.')
+                        display_date = format_date_for_display(metadata["date"])
+                        meta_parts.append(f'Published on: {display_date}.')
                     if metadata.get('tags'):
                         tags = [tag.strip() for tag in metadata['tags'].split(',')]
                         # Make tags clickable links
@@ -570,14 +582,15 @@ def parse_html_frontmatter(html_content):
     if desc_match:
         metadata['meta-desc'] = desc_match.group(1)
 
-    # Extract excerpt (first paragraph after post-meta)
-    # Look for the first <p> tag after post-meta that's not post-meta itself
-    excerpt_pattern = r'<p class="post-meta">.*?</p>\s*<p>(.*?)</p>'
+    # Extract excerpt (first 2 paragraphs after post-meta)
+    # Look for the first 2 <p> tags after post-meta
+    excerpt_pattern = r'<p class="post-meta">.*?</p>\s*<p>(.*?)</p>\s*<p>(.*?)</p>'
     excerpt_match = re.search(excerpt_pattern, html_content, re.DOTALL)
     if excerpt_match:
-        # Strip HTML tags from excerpt and clean up
-        excerpt_text = re.sub(r'<[^>]+>', '', excerpt_match.group(1))
-        metadata['excerpt'] = excerpt_text.strip()
+        # Combine both paragraphs
+        para1 = re.sub(r'<[^>]+>', '', excerpt_match.group(1))
+        para2 = re.sub(r'<[^>]+>', '', excerpt_match.group(2))
+        metadata['excerpt'] = f"{para1.strip()} {para2.strip()}"
 
     return metadata
 

@@ -78,7 +78,7 @@ h1 {
 }
 
 h2 {
-    color: var(--teletext-yellow);
+    color: var(--teletext-text);
     font-size: 2em;
     font-weight: bold;
     margin: 1.5em 0 0.5em 0;
@@ -86,14 +86,14 @@ h2 {
 }
 
 h3 {
-    color: var(--teletext-magenta);
+    color: var(--teletext-text);
     font-size: 1.5em;
     font-weight: bold;
     margin: 1.2em 0 0.4em 0;
 }
 
 h4 {
-    color: var(--teletext-cyan);
+    color: var(--teletext-text);
     font-size: 1.2em;
     font-weight: bold;
     margin: 1em 0 0.3em 0;
@@ -652,12 +652,12 @@ body {
 .site-footer {
     margin-top: 4em;
     padding: 20px 0;
-    border-top: 1px solid var(--teletext-text);
+    border-top: 1px solid var(--teletext-red);
     text-align: center;
 }
 
 .site-footer p {
-    color: var(--teletext-text);
+    color: var(--teletext-red);
     font-size: 0.85em;
     opacity: 0.6;
     margin: 0;
@@ -673,8 +673,8 @@ body {
     align-items: center;
     margin: 1em 0;
     padding: 10px 0;
-    border-top: 1px solid var(--teletext-text);
-    border-bottom: 1px solid var(--teletext-text);
+    border-top: 1px solid var(--teletext-yellow);
+    border-bottom: 1px solid var(--teletext-yellow);
     opacity: 0.8;
 }
 
@@ -709,7 +709,7 @@ body {
 
 .post-preview {
     padding-bottom: 2em;
-    border-bottom: 1px solid var(--teletext-text);
+    border-bottom: 1px solid var(--teletext-yellow);
 }
 
 .post-preview:last-child {
@@ -722,7 +722,7 @@ body {
 }
 
 .post-preview h3 a {
-    color: var(--teletext-cyan);
+    color: var(--teletext-text);
     text-decoration: none;
     border: none;
     transition: color 0.2s ease;
@@ -740,7 +740,7 @@ body {
 }
 
 .post-excerpt {
-    color: var(--teletext-text);
+    color: var(--teletext-cyan);
     margin: 1em 0 0 0;
     opacity: 0.9;
 }
