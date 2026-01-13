@@ -416,26 +416,26 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
             if html_content.strip():
                 html_parts.append(f'    <{tag}>{html_content.rstrip()}</{tag}>')
 
+            # Inject metadata after first h1 (title)
+            if not metadata_injected and tag == 'h1' and content_type in ['words', 'projects']:
+                if metadata.get('date') or metadata.get('tags'):
+                    meta_parts = []
+                    if metadata.get('date'):
+                        meta_parts.append(f'Published on: {metadata["date"]}.')
+                    if metadata.get('tags'):
+                        tags = [tag.strip() for tag in metadata['tags'].split(',')]
+                        # Make tags clickable links
+                        tag_links = [f'<a href="/words/?tag={tag}" class="tag-link">{tag}</a>' for tag in tags]
+                        tag_list = ', '.join(tag_links)
+                        meta_parts.append(f'Filed under: {tag_list}')
+
+                    if meta_parts:
+                        html_parts.append(f'    <p class="post-meta">{" ".join(meta_parts)}</p>')
+                    metadata_injected = True
+
             # Add image as separate element if present
             if has_image and pending_image_html:
                 html_parts.append(pending_image_html)
-
-                # Inject metadata after first h1 (title)
-                if not metadata_injected and tag == 'h1' and content_type in ['words', 'projects']:
-                    if metadata.get('date') or metadata.get('tags'):
-                        meta_parts = []
-                        if metadata.get('date'):
-                            meta_parts.append(f'Published on: {metadata["date"]}.')
-                        if metadata.get('tags'):
-                            tags = [tag.strip() for tag in metadata['tags'].split(',')]
-                            # Make tags clickable links
-                            tag_links = [f'<a href="/words/?tag={tag}" class="tag-link">{tag}</a>' for tag in tags]
-                            tag_list = ', '.join(tag_links)
-                            meta_parts.append(f'Filed under: {tag_list}')
-
-                        if meta_parts:
-                            html_parts.append(f'    <p class="post-meta">{" ".join(meta_parts)}</p>')
-                        metadata_injected = True
 
     # Close HTML
     html_parts.append('    </main>')
