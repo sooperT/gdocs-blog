@@ -4,10 +4,193 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Style Playground - Teletext Theme</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="lib/styles/styles.css">
+    <style>
+        /* LOGO KERNING TESTS */
+        .test-section {
+            margin-bottom: 60px;
+            padding: 20px;
+            border: 2px solid var(--teletext-cyan);
+            background: rgba(0, 255, 255, 0.05);
+        }
+
+        .test-section h2 {
+            color: var(--teletext-cyan);
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+
+        .test-notes {
+            color: var(--teletext-green);
+            font-size: 0.85em;
+            margin-top: 10px;
+            font-family: monospace;
+            opacity: 0.8;
+        }
+
+        /* Current implementation (baseline) */
+        .logo-current {
+            font-family: 'European Teletext', 'Courier New', monospace;
+            color: var(--teletext-yellow);
+            font-size: 4em;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .logo-current .logo-t {
+            font-size: 1.3em;
+            display: inline-block;
+        }
+
+        .logo-current .logo-aken {
+            display: inline-block;
+            margin-left: -0.35em;
+            text-transform: lowercase;
+        }
+
+        /* Option 4: Single element with ::first-letter */
+        .logo-option4 {
+            font-family: 'European Teletext', 'Courier New', monospace;
+            color: var(--teletext-yellow);
+            font-size: 4em;
+            font-weight: bold;
+            line-height: 1;
+            text-transform: lowercase;
+        }
+
+        .logo-option4::first-letter {
+            font-size: 1.3em;
+            text-transform: uppercase;
+            margin-right: -0.35em;
+        }
+
+        /* Test variations */
+        .logo-tight {
+            font-family: 'European Teletext', 'Courier New', monospace;
+            color: var(--teletext-yellow);
+            font-size: 4em;
+            font-weight: bold;
+            line-height: 1;
+            text-transform: lowercase;
+        }
+
+        .logo-tight::first-letter {
+            font-size: 1.3em;
+            text-transform: uppercase;
+            margin-right: -0.5em;
+        }
+
+        .logo-loose {
+            font-family: 'European Teletext', 'Courier New', monospace;
+            color: var(--teletext-yellow);
+            font-size: 4em;
+            font-weight: bold;
+            line-height: 1;
+            text-transform: lowercase;
+        }
+
+        .logo-loose::first-letter {
+            font-size: 1.3em;
+            text-transform: uppercase;
+            margin-right: -0.2em;
+        }
+
+        /* Mobile simulation */
+        .logo-mobile {
+            font-family: 'European Teletext', 'Courier New', monospace;
+            color: var(--teletext-yellow);
+            font-size: 2.5em;
+            font-weight: bold;
+            line-height: 1;
+            text-transform: lowercase;
+        }
+
+        .logo-mobile::first-letter {
+            font-size: 1em;
+            text-transform: uppercase;
+            margin-right: -0.2em;
+        }
+
+        .narrow-container {
+            width: 200px;
+            border: 2px solid var(--teletext-red);
+            padding: 10px;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
     <div class="crt-overlay"></div>
+
+    <h1 style="color: var(--teletext-cyan); padding: 20px;">LOGO KERNING TEST PLAYGROUND</h1>
+
+    <div style="padding: 0 20px;">
+        <div class="test-section">
+            <h2>1. CURRENT IMPLEMENTATION (Two Spans - BASELINE)</h2>
+            <div class="logo-current">
+                <span class="logo-t">T</span><span class="logo-aken">aken</span>
+            </div>
+            <div class="test-notes">
+                HTML: &lt;span class="logo-t"&gt;T&lt;/span&gt;&lt;span class="logo-aken"&gt;aken&lt;/span&gt;<br>
+                CSS: .logo-aken { margin-left: -0.35em; display: inline-block; }<br>
+                ISSUE: Can break across lines on narrow viewports
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>2. OPTION 4: Single Element + ::first-letter (margin-right: -0.35em)</h2>
+            <div class="logo-option4">Taken</div>
+            <div class="test-notes">
+                HTML: &lt;div class="logo"&gt;Taken&lt;/div&gt;<br>
+                CSS: .logo::first-letter { font-size: 1.3em; margin-right: -0.35em; }<br>
+                BENEFIT: Single text node = CANNOT break across lines
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>3. TIGHTER KERNING (margin-right: -0.5em)</h2>
+            <div class="logo-tight">Taken</div>
+            <div class="test-notes">
+                Testing more aggressive tuck with -0.5em
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>4. LOOSER KERNING (margin-right: -0.2em)</h2>
+            <div class="logo-loose">Taken</div>
+            <div class="test-notes">
+                Testing gentler tuck with -0.2em
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>5. MOBILE SIMULATION (2.5em, same-size T, margin-right: -0.2em)</h2>
+            <div class="logo-mobile">Taken</div>
+            <div class="test-notes">
+                Simulating mobile: font-size: 2.5em, T same size (1em) as rest<br>
+                Should NEVER break since it's a single text node
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>6. STRESS TEST: Narrow Container (200px wide)</h2>
+            <div class="test-notes">Current implementation (two spans):</div>
+            <div class="narrow-container">
+                <div class="logo-current" style="font-size: 2.5em;">
+                    <span class="logo-t">T</span><span class="logo-aken">aken</span>
+                </div>
+            </div>
+            <div class="test-notes" style="margin-top: 20px;">Option 4 (single element):</div>
+            <div class="narrow-container">
+                <div class="logo-option4" style="font-size: 2.5em;">Taken</div>
+            </div>
+            <div class="test-notes">
+                The single-element version should never break, even if it overflows
+            </div>
+        </div>
+    </div>
+
+    <hr style="margin: 40px 20px; border-color: var(--teletext-cyan);">
 
     <!-- HEADER: Shows at top like real site -->
     <header class="site-header">
