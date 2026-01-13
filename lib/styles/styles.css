@@ -56,7 +56,7 @@ html {
 
 body {
     background: var(--teletext-bg);
-    color: var(--teletext-text);
+    color: var(--teletext-cyan);
     font-family: 'Courier New', 'Courier', monospace;
     font-size: 18px;
     line-height: 1.6;
@@ -70,7 +70,7 @@ body {
    ============================================ */
 
 h1 {
-    color: var(--teletext-cyan);
+    color: var(--teletext-text);
     font-size: 3em;
     font-weight: bold;
     margin: 1em 0 0.5em 0;
@@ -100,8 +100,8 @@ h4 {
 }
 
 p {
-    color: var(--teletext-text);
-    margin-bottom: 1em;
+    color: var(--teletext-cyan);
+    margin-bottom: 1.5em;
 }
 
 /* ============================================
@@ -243,6 +243,29 @@ hr {
     border-top: 2px solid var(--teletext-cyan);
     margin: 2em 0;
     opacity: 0.5;
+}
+
+/* ============================================
+   IMAGES & FIGURES
+   ============================================ */
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Paragraphs containing only images */
+p:has(img:only-child) {
+    margin-bottom: 0.3em;
+}
+
+/* Figure captions - paragraphs starting with <strong>Figure */
+p:has(strong:first-child) {
+    margin-top: 0;
+    margin-bottom: 2.5em;
+    font-style: italic;
+    color: var(--teletext-yellow);
 }
 
 /* ============================================

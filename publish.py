@@ -341,10 +341,14 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
             # Process text content with inline formatting
             html_content = ""
+            has_image = False
+            pending_image_html = ""
+
             if 'elements' in paragraph:
                 for elem in paragraph['elements']:
                     # Handle inline images
                     if 'inlineObjectElement' in elem:
+                        has_image = True
                         object_id = elem['inlineObjectElement']['inlineObjectId']
                         if object_id in inline_objects:
                             inline_obj = inline_objects[object_id]
@@ -372,16 +376,20 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                                     downloaded_images.append(local_image_path)
                                     # Use local path in HTML
                                     alt_text = embedded_obj.get('title', 'Image')
-                                    html_content += f'<img src="{web_image_path}" alt="{alt_text}">'
+                                    pending_image_html = f'    <p><img src="{web_image_path}" alt="{alt_text}"></p>'
                                     image_counter += 1
                                 else:
                                     # Fallback to original URL if download fails
                                     alt_text = embedded_obj.get('title', 'Image')
-                                    html_content += f'<img src="{image_url}" alt="{alt_text}">'
+                                    pending_image_html = f'    <p><img src="{web_image_path}" alt="{alt_text}"></p>'
 
                     elif 'textRun' in elem:
                         text_run = elem['textRun']
                         text = text_run.get('content', '')
+
+                        # Strip control characters that render as boxes (vertical tab, etc.)
+                        # Keep newlines and tabs but remove other control chars
+                        text = ''.join(char for char in text if ord(char) >= 32 or char in '\n\t')
 
                         # Check for inline formatting
                         text_style = text_run.get('textStyle', {})
@@ -404,9 +412,13 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
                         html_content += formatted_text
 
-            # Only add paragraph if it has content
+            # Add text paragraph if it has content
             if html_content.strip():
                 html_parts.append(f'    <{tag}>{html_content.rstrip()}</{tag}>')
+
+            # Add image as separate element if present
+            if has_image and pending_image_html:
+                html_parts.append(pending_image_html)
 
                 # Inject metadata after first h1 (title)
                 if not metadata_injected and tag == 'h1' and content_type in ['words', 'projects']:
