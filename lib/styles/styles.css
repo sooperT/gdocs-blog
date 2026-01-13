@@ -73,7 +73,7 @@ h1 {
     color: var(--teletext-text);
     font-size: 3em;
     font-weight: bold;
-    margin: 1em 0 0.5em 0;
+    margin: 1em 0 0.3em 0;  /* Reduced bottom margin to group with post-meta */
     letter-spacing: 2px;
 }
 
@@ -560,7 +560,7 @@ body {
 .site-nav {
     display: flex;
     gap: 15px;
-    padding: 6px 0;
+    padding: 8px 0;
     margin-top: 0;
     margin-bottom: 1.5em;
     border-top: 1px solid var(--teletext-red);
@@ -670,11 +670,12 @@ body {
     display: flex;
     gap: 20px;
     align-items: center;
-    margin: 1em 0;
-    padding: 10px 0;
+    margin: 0 0 2em 0;  /* No top margin (grouped with H1), larger bottom margin for breathing room */
+    padding: 6px 0;
     border-top: 1px solid var(--teletext-yellow);
     border-bottom: 1px solid var(--teletext-yellow);
     opacity: 0.8;
+    line-height: 1.2;  /* Tighter line-height to match nav visual density */
 }
 
 .post-date {
