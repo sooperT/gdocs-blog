@@ -29,6 +29,13 @@ SCOPES = [
     'https://www.googleapis.com/auth/documents.readonly'
 ]
 
+def slugify(text):
+    """Convert text to anchor-safe slug"""
+    text = text.lower()
+    text = re.sub(r'\s+', '-', text)  # spaces to hyphens
+    text = re.sub(r'[^0-9a-z-]', '', text)  # remove special chars
+    return text
+
 # Blog folder path in Google Drive
 BLOG_FOLDER_PATH = "09 Lab/Taken"
 
@@ -377,8 +384,8 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                                     if url_ext in ['jpg', 'jpeg', 'png', 'gif', 'webp']:
                                         ext = f'.{url_ext}'
 
-                                # Generate local image path
-                                image_filename = f'image-{image_counter}{ext}'
+                                # Generate local image path with slug prefix
+                                image_filename = f'{slug}-image-{image_counter}{ext}'
                                 local_image_path = f'lib/img/{image_filename}'
                                 web_image_path = f'/lib/img/{image_filename}'
 
@@ -410,8 +417,26 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
                         # Handle links
                         if 'link' in text_style:
-                            url = text_style['link'].get('url', '')
-                            formatted_text = f'<a href="{url}">{formatted_text}</a>'
+                            link = text_style['link']
+
+                            # External URL
+                            if 'url' in link and link['url']:
+                                url = link['url']
+                                formatted_text = f'<a href="{url}">{formatted_text}</a>'
+
+                            # Internal link - try various formats
+                            elif 'headingId' in link and link['headingId']:
+                                anchor_id = link['headingId']
+                                formatted_text = f'<a href="#{anchor_id}">{formatted_text}</a>'
+                            elif 'bookmarkId' in link and link['bookmarkId']:
+                                anchor_id = link['bookmarkId']
+                                formatted_text = f'<a href="#{anchor_id}">{formatted_text}</a>'
+                            elif 'heading' in link and link['heading']:
+                                anchor_id = link['heading'].get('id', '')
+                                formatted_text = f'<a href="#{anchor_id}">{formatted_text}</a>'
+                            elif 'bookmark' in link and link['bookmark']:
+                                anchor_id = link['bookmark'].get('id', '')
+                                formatted_text = f'<a href="#{anchor_id}">{formatted_text}</a>'
 
                         # Handle bold
                         if text_style.get('bold'):
@@ -425,7 +450,12 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
             # Add text paragraph if it has content
             if html_content.strip():
-                html_parts.append(f'    <{tag}>{html_content.rstrip()}</{tag}>')
+                # Generate anchor IDs for headings (h2, h3, h4)
+                if tag in ['h2', 'h3', 'h4']:
+                    anchor_id = slugify(html_content.strip())
+                    html_parts.append(f'    <{tag} id="{anchor_id}">{html_content.rstrip()}</{tag}>')
+                else:
+                    html_parts.append(f'    <{tag}>{html_content.rstrip()}</{tag}>')
 
             # Inject metadata after first h1 (title)
             if not metadata_injected and tag == 'h1' and content_type in ['words', 'projects']:

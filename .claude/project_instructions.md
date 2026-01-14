@@ -41,6 +41,17 @@ problem → plan → review plan → build → test localhost → WAIT FOR APPRO
 - **Hosting**: Netlify (auto-deploys on push to main)
 - **Domain**: takenbyninjas.com
 
+## Documentation Reference
+
+**Architecture & Technical Design:**
+- `/docs/architecture.md` - Complete technical architecture, content flow, file structure
+- `/docs/blog-prd.md` - Product requirements, development phases, feature specs
+
+**When to read these:**
+- Before making architectural changes
+- When exploring "how does X work?"
+- When planning new features
+
 ## Common Commands
 
 ```bash

@@ -160,7 +160,18 @@ def generate_archive_html(posts):
     """Generate the archive page HTML"""
 
     # Sort by date (newest first)
-    posts_sorted = sorted(posts, key=lambda p: p['date'], reverse=True)
+    # Handle both ISO format (YYYY-MM-DD) and display format (DD/MM/YYYY)
+    def parse_date(date_str):
+        if not date_str:
+            return datetime.min
+        try:
+            # Try ISO format first
+            return datetime.strptime(date_str, '%Y-%m-%d')
+        except ValueError:
+            # Try display format
+            return datetime.strptime(date_str, '%d/%m/%Y')
+
+    posts_sorted = sorted(posts, key=lambda p: parse_date(p['date']), reverse=True)
 
     html_parts = []
 
