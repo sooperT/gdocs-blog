@@ -1,18 +1,6 @@
 {
   "posts": [
     {
-      "title": "My third blog post",
-      "meta-title": "My third blog post",
-      "url": "/words/ai-glossary/",
-      "date": "2026-01-09",
-      "tags": [
-        "ai"
-      ],
-      "type": "words",
-      "meta-desc": "A brief SEO-friendly description",
-      "excerpt": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
-    },
-    {
       "title": "AI-coding lexicon",
       "meta-title": "AI-coding lexicon",
       "url": "/words/ai-coding-lexicon/",
