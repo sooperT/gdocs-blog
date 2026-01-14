@@ -85,6 +85,42 @@ h2 {
     letter-spacing: 1px;
 }
 
+/* Welcome banner on homepage */
+.welcome-banner {
+    border-top: 1px solid var(--teletext-yellow);
+    border-bottom: 1px solid var(--teletext-yellow);
+    padding: 6px 0;  /* Match post-meta padding */
+    margin: 2em 0;  /* Increased vertical spacing for breathing room */
+}
+
+.welcome-banner h1 {
+    color: var(--teletext-cyan);
+    font-size: 1em;  /* Match body text size */
+    font-weight: normal;  /* Not bold - less dominant */
+    margin: 0;
+    letter-spacing: 0.5px;
+    line-height: 1.6;  /* Match body text line-height */
+}
+
+.welcome-banner a {
+    color: var(--teletext-cyan);
+    text-decoration: underline;
+    border-bottom: none;  /* Override default link border */
+}
+
+.welcome-banner a:hover {
+    color: var(--teletext-yellow);  /* Hover state for visual feedback */
+}
+
+/* Homepage post title - keep h1 visual appearance for h2 */
+main h2:first-of-type {
+    color: var(--teletext-text);  /* Green */
+    font-size: 3em;  /* Keep same size as h1 */
+    font-weight: bold;
+    margin: 1em 0 0.3em 0;
+    letter-spacing: 2px;
+}
+
 h3 {
     color: var(--teletext-text);
     font-size: 1.5em;
@@ -681,6 +717,10 @@ body {
 .post-date {
     color: var(--teletext-cyan);
     font-size: 0.9em;
+}
+
+.read-more {
+    margin-top: 2em;  /* Add breathing room above the read more link */
 }
 
 .post-tags {
