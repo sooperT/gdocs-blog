@@ -375,6 +375,12 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
         # Skip frontmatter
         if idx < content_start_index:
             continue
+
+        # Handle horizontal rules
+        if 'horizontalRule' in element:
+            html_parts.append('    <hr />')
+            continue
+
         if 'paragraph' in element:
             paragraph = element['paragraph']
 
