@@ -342,7 +342,35 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     inline_objects = document.get('inlineObjects', {})
 
     metadata_injected = False
+    heading_id_map = {}  # Map Google heading ID to slug ID
 
+    # FIRST PASS: Build heading ID mapping
+    heading_text_to_slug = {}  # Map heading text to slug for fallback
+    for idx, element in enumerate(content):
+        if idx < content_start_index:
+            continue
+        if 'paragraph' in element:
+            paragraph = element['paragraph']
+            style = paragraph.get('paragraphStyle', {})
+            named_style = style.get('namedStyleType', 'NORMAL_TEXT')
+            google_heading_id = style.get('headingId', '')
+            tag = STYLE_MAP.get(named_style, 'p')
+
+            # Extract text content for headings
+            if tag in ['h2', 'h3', 'h4']:
+                text_content = ""
+                if 'elements' in paragraph:
+                    for elem in paragraph['elements']:
+                        if 'textRun' in elem:
+                            text_content += elem['textRun'].get('content', '')
+                if text_content.strip():
+                    slug_id = slugify(text_content.strip())
+                    # Store both Google ID mapping and text mapping for fallback
+                    if google_heading_id:
+                        heading_id_map[google_heading_id] = slug_id
+                    heading_text_to_slug[text_content.strip().lower()] = slug_id
+
+    # SECOND PASS: Generate HTML
     for idx, element in enumerate(content):
         # Skip frontmatter
         if idx < content_start_index:
@@ -353,6 +381,7 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
             # Get paragraph style
             style = paragraph.get('paragraphStyle', {})
             named_style = style.get('namedStyleType', 'NORMAL_TEXT')
+            google_heading_id = style.get('headingId', '')  # Extract Google's heading ID
 
             # Get HTML tag for this style
             tag = STYLE_MAP.get(named_style, 'p')
@@ -424,19 +453,30 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                                 url = link['url']
                                 formatted_text = f'<a href="{url}">{formatted_text}</a>'
 
-                            # Internal link - try various formats
+                            # Internal link - map Google ID to slug ID
                             elif 'headingId' in link and link['headingId']:
-                                anchor_id = link['headingId']
-                                formatted_text = f'<a href="#{anchor_id}">{formatted_text}</a>'
+                                google_id = link['headingId']
+                                # Look up slug ID in our mapping
+                                slug_id = heading_id_map.get(google_id)
+
+                                # Fallback: if Google ID not found, try matching by link text
+                                if not slug_id:
+                                    link_text = formatted_text.strip().lower()
+                                    slug_id = heading_text_to_slug.get(link_text, google_id)
+
+                                formatted_text = f'<a href="#{slug_id}">{formatted_text}</a>'
                             elif 'bookmarkId' in link and link['bookmarkId']:
-                                anchor_id = link['bookmarkId']
-                                formatted_text = f'<a href="#{anchor_id}">{formatted_text}</a>'
+                                google_id = link['bookmarkId']
+                                slug_id = heading_id_map.get(google_id, google_id)
+                                formatted_text = f'<a href="#{slug_id}">{formatted_text}</a>'
                             elif 'heading' in link and link['heading']:
-                                anchor_id = link['heading'].get('id', '')
-                                formatted_text = f'<a href="#{anchor_id}">{formatted_text}</a>'
+                                google_id = link['heading'].get('id', '')
+                                slug_id = heading_id_map.get(google_id, google_id)
+                                formatted_text = f'<a href="#{slug_id}">{formatted_text}</a>'
                             elif 'bookmark' in link and link['bookmark']:
-                                anchor_id = link['bookmark'].get('id', '')
-                                formatted_text = f'<a href="#{anchor_id}">{formatted_text}</a>'
+                                google_id = link['bookmark'].get('id', '')
+                                slug_id = heading_id_map.get(google_id, google_id)
+                                formatted_text = f'<a href="#{slug_id}">{formatted_text}</a>'
 
                         # Handle bold
                         if text_style.get('bold'):
@@ -450,30 +490,38 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
             # Add text paragraph if it has content
             if html_content.strip():
+                # Convert newlines to <br> tags for HTML rendering
+                html_content_with_br = html_content.rstrip().replace('\n', '<br>\n    ')
+
                 # Generate anchor IDs for headings (h2, h3, h4)
                 if tag in ['h2', 'h3', 'h4']:
                     anchor_id = slugify(html_content.strip())
-                    html_parts.append(f'    <{tag} id="{anchor_id}">{html_content.rstrip()}</{tag}>')
+
+                    # Store mapping if this heading has a Google ID
+                    if google_heading_id:
+                        heading_id_map[google_heading_id] = anchor_id
+
+                    html_parts.append(f'    <{tag} id="{anchor_id}">{html_content_with_br}</{tag}>')
                 else:
-                    html_parts.append(f'    <{tag}>{html_content.rstrip()}</{tag}>')
+                    html_parts.append(f'    <{tag}>{html_content_with_br}</{tag}>')
 
-            # Inject metadata after first h1 (title)
-            if not metadata_injected and tag == 'h1' and content_type in ['words', 'projects']:
-                if metadata.get('date') or metadata.get('tags'):
-                    meta_parts = []
-                    if metadata.get('date'):
-                        display_date = format_date_for_display(metadata["date"])
-                        meta_parts.append(f'Published on: {display_date}.')
-                    if metadata.get('tags'):
-                        tags = [tag.strip() for tag in metadata['tags'].split(',')]
-                        # Make tags clickable links
-                        tag_links = [f'<a href="/words/?tag={tag}" class="tag-link">{tag}</a>' for tag in tags]
-                        tag_list = ', '.join(tag_links)
-                        meta_parts.append(f'Filed under: {tag_list}')
+                # Inject metadata after first h1 (title) - ONLY after h1 with actual content
+                if not metadata_injected and tag == 'h1' and content_type in ['words', 'projects']:
+                    if metadata.get('date') or metadata.get('tags'):
+                        meta_parts = []
+                        if metadata.get('date'):
+                            display_date = format_date_for_display(metadata["date"])
+                            meta_parts.append(f'Published on: {display_date}.')
+                        if metadata.get('tags'):
+                            tags = [tag.strip() for tag in metadata['tags'].split(',')]
+                            # Make tags clickable links
+                            tag_links = [f'<a href="/words/?tag={tag}" class="tag-link">{tag}</a>' for tag in tags]
+                            tag_list = ', '.join(tag_links)
+                            meta_parts.append(f'Filed under: {tag_list}')
 
-                    if meta_parts:
-                        html_parts.append(f'    <p class="post-meta">{" ".join(meta_parts)}</p>')
-                    metadata_injected = True
+                        if meta_parts:
+                            html_parts.append(f'    <p class="post-meta">{" ".join(meta_parts)}</p>')
+                        metadata_injected = True
 
             # Add image as separate element if present
             if has_image and pending_image_html:
