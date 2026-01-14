@@ -28,11 +28,12 @@ def format_date_for_display(iso_date):
 
 
 class ContentExtractor(HTMLParser):
-    """Extract content from post HTML, excluding post-meta paragraph"""
+    """Extract content from post HTML, excluding title (h1), headings, and post-meta paragraph"""
 
     def __init__(self):
         super().__init__()
         self.in_main = False
+        self.in_heading = False  # Track any heading (h1, h2, h3, h4, h5, h6)
         self.in_post_meta = False
         self.content_parts = []
         self.current_text = ""
@@ -40,6 +41,9 @@ class ContentExtractor(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag == 'main':
             self.in_main = True
+        elif tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] and self.in_main:
+            # Skip all heading content
+            self.in_heading = True
         elif tag == 'p' and self.in_main:
             # Check if this is the post-meta paragraph
             for attr, value in attrs:
@@ -50,21 +54,26 @@ class ContentExtractor(HTMLParser):
     def handle_endtag(self, tag):
         if tag == 'main':
             self.in_main = False
+        elif tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
+            self.in_heading = False
         elif tag == 'p':
             if self.in_post_meta:
                 self.in_post_meta = False
             elif self.in_main and self.current_text.strip():
-                # Save accumulated text from this paragraph
-                self.content_parts.append(self.current_text.strip())
+                # Save accumulated text from this paragraph (only if substantial)
+                text = self.current_text.strip()
+                # Skip very short paragraphs (likely just link text or fragments)
+                if len(text) > 30:  # Arbitrary threshold for "real" paragraphs
+                    self.content_parts.append(text)
                 self.current_text = ""
 
     def handle_data(self, data):
-        if self.in_main and not self.in_post_meta:
+        if self.in_main and not self.in_post_meta and not self.in_heading:
             self.current_text += data
 
-    def get_content(self):
-        """Return all content as plain text, space-separated"""
-        return ' '.join(self.content_parts)
+    def get_paragraphs(self):
+        """Return content as list of paragraphs"""
+        return self.content_parts
 
 
 def load_metadata():
@@ -104,7 +113,7 @@ def extract_excerpt(post_url, max_chars=500):
         max_chars: Maximum characters for excerpt (default 500)
 
     Returns:
-        Truncated excerpt with '...' if content was cut
+        List of paragraph strings (may be truncated with '...' on last paragraph)
     """
     # Convert URL to file path
     # /words/ai-glossary/ -> words/ai-glossary/index.html
@@ -113,7 +122,7 @@ def extract_excerpt(post_url, max_chars=500):
 
     if not os.path.exists(post_path):
         print(f"✗ Post file not found: {post_path}")
-        return ""
+        return []
 
     # Read and parse HTML
     with open(post_path, 'r', encoding='utf-8') as f:
@@ -121,20 +130,37 @@ def extract_excerpt(post_url, max_chars=500):
 
     parser = ContentExtractor()
     parser.feed(html)
-    content = parser.get_content()
+    paragraphs = parser.get_paragraphs()
 
-    # Truncate to max_chars at word boundary
-    if len(content) <= max_chars:
-        return content
+    if not paragraphs:
+        return []
 
-    # Find the last space before max_chars
-    truncated = content[:max_chars]
-    last_space = truncated.rfind(' ')
+    # Build excerpt by accumulating full paragraphs until we exceed max_chars
+    excerpt_paragraphs = []
+    total_chars = 0
 
-    if last_space > 0:
-        truncated = truncated[:last_space]
+    for para in paragraphs:
+        para_length = len(para)
 
-    return truncated + "..."
+        # If adding this paragraph would exceed limit
+        if total_chars + para_length > max_chars and excerpt_paragraphs:
+            # We already have some paragraphs, stop here
+            break
+        elif total_chars + para_length > max_chars:
+            # First paragraph is too long, truncate it
+            available = max_chars - total_chars
+            truncated = para[:available]
+            last_space = truncated.rfind(' ')
+            if last_space > 0:
+                truncated = truncated[:last_space]
+            excerpt_paragraphs.append(truncated + "...")
+            break
+        else:
+            # Add full paragraph
+            excerpt_paragraphs.append(para)
+            total_chars += para_length
+
+    return excerpt_paragraphs
 
 
 def generate_homepage_html(post):
@@ -148,11 +174,10 @@ def generate_homepage_html(post):
     html_parts.append('<head>')
     html_parts.append('    <meta charset="UTF-8">')
     html_parts.append('    <meta name="viewport" content="width=device-width, initial-scale=1.0">')
-    html_parts.append(f'    <title>{post["meta-title"]}</title>')
+    html_parts.append('    <title>Tom Stenson | Senior Product Manager | Systems Thinking | Copenhagen</title>')
 
-    # Use post's meta-desc if available
-    if post.get('meta-desc'):
-        html_parts.append(f'    <meta name="description" content="{post["meta-desc"]}">')
+    # Static SEO meta description for homepage
+    html_parts.append('    <meta name="description" content="I\'m Tom Stenson, a Senior Product Manager in Copenhagen. Writing about product management, growth, AI, and systems thinking.">')
 
     html_parts.append('    <link rel="stylesheet" href="/lib/styles/styles.css">')
     html_parts.append('</head>')
@@ -183,10 +208,17 @@ def generate_homepage_html(post):
     html_parts.append('    </nav>')
     html_parts.append('')
 
+    # Welcome banner
+    html_parts.append('    <!-- WELCOME MESSAGE -->')
+    html_parts.append('    <div class="welcome-banner">')
+    html_parts.append('        <h1>Welcome. I\'m Tom Stenson, a senior product manager &amp; systems thinker based in Copenhagen. This is where I write about product management, growth, AI, and how things connect. <a href="/about/">Here\'s my story</a>.</h1>')
+    html_parts.append('    </div>')
+    html_parts.append('')
+
     # Main content
     html_parts.append('    <!-- MAIN CONTENT -->')
     html_parts.append('    <main>')
-    html_parts.append(f'        <h1>{post["title"]}</h1>')
+    html_parts.append(f'        <h2>{post["title"]}</h2>')
 
     # Post metadata (date and tags)
     meta_parts = []
@@ -202,11 +234,12 @@ def generate_homepage_html(post):
     if meta_parts:
         html_parts.append(f'        <p class="post-meta">{" ".join(meta_parts)}</p>')
 
-    # Extract and display excerpt
-    excerpt = extract_excerpt(post['url'])
-    if excerpt:
+    # Extract and display excerpt (as separate paragraphs)
+    excerpt_paragraphs = extract_excerpt(post['url'])
+    if excerpt_paragraphs:
         html_parts.append('')
-        html_parts.append(f'        <p class="post-excerpt">{excerpt}</p>')
+        for para in excerpt_paragraphs:
+            html_parts.append(f'        <p class="post-excerpt">{para}</p>')
 
     # Read full article link
     html_parts.append('')
