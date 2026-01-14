@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-coding lexicon - taken</title>
+    <meta name="description" content="A summary of AI-coding concepts, what they mean and why I think they’re important: Determinism, Hallucinations, Evals, Context, Tokens, & Vibe coding.">
+    <link rel="stylesheet" href="/lib/styles/styles.css">
+</head>
+<body>
+    <div class="crt-overlay"></div>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="identity">
+            <div class="logo-container">
+                <h2 class="logo">Taken</h2>
+                <img class="ninja-icon" src="/lib/img/ninja-trans.png" alt="Ninja">
+            </div>
+            <p class="tagline">Words on product, systems thinking and AI.</p>
+        </div>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav class="site-nav">
+        <a href="/" class="nav-red">Home</a>
+        <a href="/words/" class="nav-green">Words</a>
+        <a href="/projects/" class="nav-yellow">Projects</a>
+        <a href="/about/" class="nav-blue">About</a>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+    <p class="post-meta">Published on: 09/01/2026. Filed under: <a href="/words/?tag=ai" class="tag-link">ai</a></p>
+    <h1>AI-coding lexicon</h1>
+    <p>Every discipline creates their own language by necessity, a lingua franca for describing new concepts, methodologies and ways of working. To learn a subject, it helps if you understand it’s language.</p>
+    <p>So with this in mind, I present a brief AI-coding lexicon, which I will add to over time. It’s not exhaustive, and intentionally it’s not in alphabetical order.</p>
+    <h2>Contents</h2>
+    <p><a href="">Determinism</a></p>
+    <p><a href="">Hallucinations (to follow)</a></p>
+    <p>…</p>
+    <h2>Determinism</h2>
+    <p><img src="/lib/img/image-1.jpg" alt="Image"></p>
+    <p>Computers are essentially sophisticated calculators, you feed in the sum and you get the result. And just like 1+1 always equals 2, if you feed in the same instructions you will always get the same result. If you’ve grown up with classic software, this is likely something you take for granted.</p>
+    <p>Large-language models (LLMs) work differently, they are non-deterministic, they don’t compute answers but predict the next most likely option.</p>
+    <h3>Example: 1+1</h3>
+    <p>A standard (deterministic) computer executes specific rules, in this case arithmetic:</p>
+    <p>The symbols ‘1’, ‘+’, ‘1’ are parsed according to grammar</p>
+    <p>The operation ‘+’ maps to the instruction ‘addition’</p>
+    <p>The instruction looks up or computes the result in a number system.</p>
+    <p>The output ‘2’  is returned</p>
+    <p>There is exactly one output (2). And given the same input, on any machine, at any time - the output would be exactly the same, anything else is a bug.</p>
+    <p>LLMs do not execute arithmetic, they pattern match to predict the most likely output:</p>
+    <p>The LLM looks for patterns that, based on its training, match ‘1+1 = ‘</p>
+    <p>It most likely recognises ‘1 + 1 = 2’ as a familiar pattern, and most likely estimates this as the most plausible continuation.</p>
+    <p>It most likely returns the continuation as 2.</p>
+    <p>The answer is not a calculated result, but an assumed outcome. The outcome is probabilistic, and repeating the same prompt can yield different outcomes.</p>
+    <h3>So what?</h3>
+    <p>Determinism runs deep, all of us learnt maths by counting out 1 + 1 on our fingers. We take it for granted that solutions are calculated, and software is predictable and consistent.</p>
+    <p>Most of the time, the solution produced by a deterministic system looks exactly the same as one produced by a non-deterministic system. Except sometimes it doesn’t, and this has huge implications.</p>
+    <h2>Hallucinations</h2>
+    <p>TBC …</p>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <p>Code created with AI — Words are my own</p>
+    </footer>
+</body>
+</html>
