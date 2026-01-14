@@ -35,15 +35,15 @@
     <h1>AI-coding lexicon</h1>
     <p>Every discipline creates their own language by necessity, a lingua franca for describing new concepts, methodologies and ways of working. To learn a subject, it helps if you understand it’s language.</p>
     <p>So with this in mind, I present a brief AI-coding lexicon, which I will add to over time. It’s not exhaustive, and intentionally it’s not in alphabetical order.</p>
-    <h2>Contents</h2>
-    <p><a href="">Determinism</a></p>
-    <p><a href="">Hallucinations (to follow)</a></p>
-    <p>…</p>
-    <h2>Determinism</h2>
-    <p><img src="/lib/img/image-1.jpg" alt="Image"></p>
+    <h3 id="contents">Contents</h3>
+    <p><a href="#h.xd5jpckm5j9v">Determinism</a></p>
+    <p><a href="#h.7pnktq6rbp6z">Hallucinations (to follow)</a></p>
+    <p><a href="#h.odnotl1arl11">Evals</a></p>
+    <p><img src="/lib/img/ai-coding-lexicon-image-1.jpg" alt="Image"></p>
+    <p>Determinism</p>
     <p>Computers are essentially sophisticated calculators, you feed in the sum and you get the result. And just like 1+1 always equals 2, if you feed in the same instructions you will always get the same result. If you’ve grown up with classic software, this is likely something you take for granted.</p>
     <p>Large-language models (LLMs) work differently, they are non-deterministic, they don’t compute answers but predict the next most likely option.</p>
-    <h3>Example: 1+1</h3>
+    <h3 id="example-11">Example: 1+1</h3>
     <p>A standard (deterministic) computer executes specific rules, in this case arithmetic:</p>
     <p>The symbols ‘1’, ‘+’, ‘1’ are parsed according to grammar</p>
     <p>The operation ‘+’ maps to the instruction ‘addition’</p>
@@ -55,11 +55,21 @@
     <p>It most likely recognises ‘1 + 1 = 2’ as a familiar pattern, and most likely estimates this as the most plausible continuation.</p>
     <p>It most likely returns the continuation as 2.</p>
     <p>The answer is not a calculated result, but an assumed outcome. The outcome is probabilistic, and repeating the same prompt can yield different outcomes.</p>
-    <h3>So what?</h3>
+    <h3 id="so-what">So what?</h3>
     <p>Determinism runs deep, all of us learnt maths by counting out 1 + 1 on our fingers. We take it for granted that solutions are calculated, and software is predictable and consistent.</p>
     <p>Most of the time, the solution produced by a deterministic system looks exactly the same as one produced by a non-deterministic system. Except sometimes it doesn’t, and this has huge implications.</p>
-    <h2>Hallucinations</h2>
-    <p>TBC …</p>
+    <p><img src="/lib/img/ai-coding-lexicon-image-2.jpg" alt="Image"></p>
+    <h2 id="hallucinations">Hallucinations</h2>
+    <p>An AI hallucination describes when an AI model produces a confident-sounding, but factually incorrect outcome.</p>
+    <p>We like to anthropomorphize things so often describe the AI as ‘making things up’, ‘imaging things’, or even ‘lying’. But this doesn’t really represent what’s going on.</p>
+    <p>A LLM has no concept of the truth, and no innate reasoning capability (intelligence?). It predicts the most likely outcome based on it’s training data, but has no understanding of the outcome itself.</p>
+    <p>It presents mistakes with confidence, because it does know it is a mistake, it does not know what a mistake is. In fact it doesn’t know anything, it only predicts.</p>
+    <h3 id="feature-not-a-bug">Feature not a bug</h3>
+    <p>Hallucinations are a feature of how LLMs work. It is a feature not a bug. And in spite of this glaringly obvious design flaw, LLMs are so game-changing, so incredibly important and powerful - we need to learn to live with it.And this is tricky. We all have experience correcting an LLM with something you know is wrong, but what happens when you’re working with an LLM in a new domain? How do you tell what is true and what isn’t?</p>
+    <p><img src="/lib/img/ai-coding-lexicon-image-3.jpg" alt="Image"></p>
+    <h2 id="image-adapted-from-this-is-fine-meme-original-credit-a-hrefhttpskcgreendotcomcomkc-greena">Image adapted from ‘This is fine’ meme. Original credit <a href="https://kcgreendotcom.com">KC Green</a></h2>
+    <h2 id="evals">Evals</h2>
+    <p>To be continued …</p>
     </main>
 
     <!-- FOOTER -->
