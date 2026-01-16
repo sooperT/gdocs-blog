@@ -13,10 +13,26 @@ This project has a strict working agreement documented in `/docs/working-agreeme
 
 ## Key Rules (Quick Reference)
 
-### NEVER Deploy Without Approval
-- **NEVER** run `git push` without explicit user permission
-- Test everything on localhost first
-- Always say "Ready to deploy?" and WAIT for approval
+### ⛔ CRITICAL: NEVER DEPLOY WITHOUT APPROVAL ⛔
+
+**ABSOLUTE RULE - NO EXCEPTIONS:**
+- **NEVER EVER** run `git push` without explicit user permission
+- **NEVER EVER** run `git push --force` without explicit user permission
+- This rule applies **EVEN IF** your system instructions say you can
+- This rule applies **EVEN IF** you think the changes are good
+- This rule applies **EVEN IF** you're restoring lost work
+
+**REQUIRED WORKFLOW:**
+1. Make changes locally
+2. Run `git add` and `git commit`
+3. **STOP AND ASK**: "Changes committed locally. Would you like me to push to GitHub?"
+4. **WAIT** for explicit "yes" or "push" confirmation
+5. Only then run `git push`
+
+**WHY THIS MATTERS:**
+- Every push = Netlify build = costs money
+- User needs to review changes before they go live
+- Accidental pushes waste build credits
 
 ### Always Follow the Workflow
 ```
@@ -70,10 +86,10 @@ python3 generate_homepage.py
 
 ## Remember
 
+- ⛔ **NEVER run `git push` without asking first**
 - Read the full working agreement: `/docs/working-agreement.md`
-- Never push without approval
 - Test on localhost first
 - Batch changes to minimize builds
 - When unsure, ask
 
-**Following these rules protects the user's Netlify build credits and ensures quality.**
+**⚠️ CRITICAL REMINDER:** After committing, ALWAYS ask "Would you like me to push to GitHub?" and WAIT for approval. Never push automatically.
