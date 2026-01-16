@@ -71,15 +71,15 @@ body {
 
 h1 {
     color: var(--teletext-text);
-    font-size: 3em;
+    font-size: 2em;
     font-weight: bold;
     margin: 1em 0 0.3em 0;  /* Reduced bottom margin to group with post-meta */
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
 h2 {
     color: var(--teletext-text);
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: bold;
     margin: 1.5em 0 0.5em 0;
     letter-spacing: 1px;
@@ -112,25 +112,16 @@ h2 {
     color: var(--teletext-yellow);  /* Hover state for visual feedback */
 }
 
-/* Homepage post title - keep h1 visual appearance for h2 */
-main h2:first-of-type {
-    color: var(--teletext-text);  /* Green */
-    font-size: 3em;  /* Keep same size as h1 */
-    font-weight: bold;
-    margin: 1em 0 0.3em 0;
-    letter-spacing: 2px;
-}
-
 h3 {
     color: var(--teletext-text);
-    font-size: 1.5em;
+    font-size: 1.3em;
     font-weight: bold;
     margin: 1.2em 0 0.4em 0;
 }
 
 h4 {
     color: var(--teletext-text);
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: bold;
     margin: 1em 0 0.3em 0;
 }
@@ -418,8 +409,8 @@ body::after {
 }
 
 /* Phosphor glow - minimal, readable */
-h1, h2, header {
-    text-shadow: 
+h1, h2, h3, header {
+    text-shadow:
         0 0 2px currentColor,
         0 0 4px rgba(0, 255, 255, 0.15);
 }
@@ -451,7 +442,7 @@ a:hover, strong {
 
 .site-header {
     background: var(--teletext-blue);
-    margin: -40px 0 6px 0;
+    margin: -40px 0 8px 0;
     padding: 10px 20px;
     position: relative;
 }
@@ -482,6 +473,16 @@ a:hover, strong {
     text-shadow: none; /* No glow in header band */
     position: relative;
     white-space: nowrap; /* Prevent logo from wrapping */
+    text-decoration: none;
+    border: none;
+    display: block;
+}
+
+.site-header .logo:hover {
+    color: var(--teletext-yellow);
+    background: none;
+    border: none;
+    opacity: 0.8;
 }
 
 .site-header .ninja-icon {
@@ -671,7 +672,7 @@ a:hover, strong {
 
 .post-preview h3 {
     margin: 0 0 0.5em 0;
-    font-size: 1.8em;
+    font-size: 1.5em;
 }
 
 .post-preview h3 a {
@@ -924,7 +925,8 @@ a:hover, strong {
 
 @media (max-width: 768px) {
     .site-header {
-        margin: -40px -20px 6px -20px; /* Reduce bottom margin from 2em to 6px */
+        margin: -40px 20px 8px 20px; /* Add horizontal margins to inset header */
+        padding: 10px 20px; /* Keep same padding as desktop */
     }
 
     .site-header .identity {
@@ -962,9 +964,8 @@ a:hover, strong {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 6px;
-        margin-top: 6px;
-        margin-bottom: 1em;
-        padding: 4px 0; /* Reduce from 6px 0 */
+        margin: 0 20px 1em 20px; /* Use margin instead of padding for horizontal spacing */
+        padding: 8px 0; /* Keep vertical padding only */
     }
 
     .site-nav a {
@@ -972,6 +973,15 @@ a:hover, strong {
         padding: 2px 8px; /* Minimal padding for mobile */
         font-size: 0.85em;
         line-height: 1.2; /* Reduce line height */
+    }
+
+    main, footer {
+        padding: 0 20px; /* Consistent 20px horizontal padding for all content */
+    }
+
+    .welcome-banner {
+        margin: 2em 20px; /* Use margin for horizontal spacing to keep borders inset */
+        padding: 6px 0; /* Keep same vertical padding as desktop */
     }
 
     .post-meta {
