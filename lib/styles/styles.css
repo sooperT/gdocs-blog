@@ -1012,19 +1012,19 @@ a:hover, strong {
     }
 
     .timeline::before {
-        left: 16px; /* Adjust for smaller marker */
+        left: 24px; /* Center line for 48px marker (half of 48px) */
     }
 
     .timeline-marker {
-        width: 32px;
-        height: 32px;
+        width: 48px;
+        height: 48px;
     }
 
     .emoji-icon {
         font-size: 1.4em;
     }
 
-    /* Keep timeline icons full size on mobile for impact */
+    /* Timeline icons stay same size on mobile */
     .timeline-icon {
         width: 48px;
         height: 48px;
