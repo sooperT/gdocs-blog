@@ -888,6 +888,16 @@ a:hover, strong {
     line-height: 1;
 }
 
+.timeline-icon {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 4px;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
 /* Timeline content */
 .timeline-content {
     flex: 1;
@@ -1002,6 +1012,12 @@ a:hover, strong {
 
     .emoji-icon {
         font-size: 1.4em;
+    }
+
+    /* Keep timeline icons full size on mobile for impact */
+    .timeline-icon {
+        width: 48px;
+        height: 48px;
     }
 
     .timeline-item {

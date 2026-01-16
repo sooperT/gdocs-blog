@@ -981,13 +981,24 @@ def main():
             except subprocess.CalledProcessError as e:
                 print(f"⚠ Warning: Homepage generation failed: {e}")
 
-        # Git commit and push (include archive, homepage, metadata, and images in same commit)
-        git_commit_and_push(output_file, document.get('title'), include_archive=archive_updated, include_homepage=homepage_updated, include_metadata=True, images=downloaded_images)
-
+        # Ask for git push confirmation
         print("\n" + "="*60)
-        print("✓ SUCCESS! Blog post published")
+        print("READY TO COMMIT AND PUSH TO GITHUB")
         print("="*60)
-        print(f"Your blog should update automatically via Netlify")
+        push_response = input("\nCommit and push to GitHub? (yes/no): ").strip().lower()
+
+        if push_response in ['yes', 'y']:
+            # Git commit and push (include archive, homepage, metadata, and images in same commit)
+            git_commit_and_push(output_file, document.get('title'), include_archive=archive_updated, include_homepage=homepage_updated, include_metadata=True, images=downloaded_images)
+
+            print("\n" + "="*60)
+            print("✓ SUCCESS! Blog post published")
+            print("="*60)
+            print(f"Your blog should update automatically via Netlify")
+        else:
+            print("\n✓ File saved locally (not pushed to GitHub)")
+            print(f"Published to: /{output_file}")
+            print("Run 'git add . && git commit && git push' when ready to publish live")
 
     except FileNotFoundError as e:
         print(f"\n✗ Error: {e}")
