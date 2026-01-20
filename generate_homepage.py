@@ -155,6 +155,12 @@ def extract_excerpt_html(post_url, max_elements=3):
 
     content_after_meta = main_content[meta_end + 4:].strip()
 
+    # Check for excerpt end marker
+    excerpt_end = content_after_meta.find('<!-- EXCERPT_END -->')
+    if excerpt_end != -1:
+        # Only extract content up to the marker
+        content_after_meta = content_after_meta[:excerpt_end].strip()
+
     # Extract first N top-level elements (figure, p, ul, etc.)
     # Stop at first h2/h3 (section heading)
     elements = []

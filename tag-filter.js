@@ -88,6 +88,13 @@ class TagFilter {
             const article = document.createElement('article');
             article.className = 'post-preview';
 
+            // Format date from YYYY-MM-DD to DD/MM/YYYY
+            let formattedDate = '';
+            if (post.date) {
+                const [year, month, day] = post.date.split('-');
+                formattedDate = `${day}/${month}/${year}`;
+            }
+
             // Build tags HTML
             let tagsHTML = '';
             if (post.tags && post.tags.length > 0) {
@@ -97,13 +104,20 @@ class TagFilter {
                 tagsHTML = `Filed under: ${tagList}`;
             }
 
+            // Split excerpt into paragraphs and render each as separate <p> tag
+            let excerptHTML = '';
+            if (post.excerpt) {
+                const paragraphs = post.excerpt.split('\n\n');
+                excerptHTML = paragraphs.map(p => `<p class="post-excerpt">${p}</p>`).join('\n                ');
+            }
+
             article.innerHTML = `
                 <h3><a href="${post.url}">${post.title}</a></h3>
                 <p class="post-meta">
-                    ${post.date ? `Published on: ${post.date}. ` : ''}
+                    ${formattedDate ? `Published on: ${formattedDate}. ` : ''}
                     ${tagsHTML}
                 </p>
-                <p class="post-excerpt">${post.excerpt || ''}</p>
+                ${excerptHTML}
             `;
 
             container.appendChild(article);

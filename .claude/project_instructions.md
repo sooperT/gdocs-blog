@@ -57,6 +57,18 @@ problem → plan → review plan → build → test localhost → WAIT FOR APPRO
 - **Hosting**: Netlify (auto-deploys on push to main)
 - **Domain**: takenbyninjas.com
 
+## Google Docs Markup
+
+The publishing system supports special markup tags in Google Docs:
+
+- **`[HOZ]`** - Horizontal rule (`<hr />`) - creates visual separator in post
+- **`[CAPTION]`** - Figure caption - wraps image caption in `<figcaption>` tag
+- **`[ENDSNIP]`** - Excerpt end marker - controls where excerpts end on homepage and archive
+  - Place this marker where you want the excerpt to stop
+  - Everything before `[ENDSNIP]` will appear in excerpts
+  - Ignored if not present (defaults to first 3 elements)
+  - Converted to `<!-- EXCERPT_END -->` HTML comment
+
 ## Documentation Reference
 
 **Architecture & Technical Design:**
