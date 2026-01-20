@@ -397,6 +397,7 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     if meta_desc:
         html_parts.append(f'    <meta name="description" content="{meta_desc}">')
     html_parts.append('    <link rel="stylesheet" href="/lib/styles/styles.css">')
+    html_parts.append('    <script src="/tag-filter.js" defer></script>')
     html_parts.append('</head>')
     html_parts.append('<body>')
     html_parts.append('    <div class="crt-overlay"></div>')
@@ -698,9 +699,8 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                                 meta_parts.append(f'Published on: {display_date}.')
                             if metadata.get('tags'):
                                 tags = [tag.strip() for tag in metadata['tags'].split(',')]
-                                # Make tags clickable links
-                                tag_links = [f'<a href="/words/?tag={tag}" class="tag-link">{tag}</a>' for tag in tags]
-                                tag_list = ', '.join(tag_links)
+                                # Plain text tags (enhanced to links via JavaScript)
+                                tag_list = ', '.join(tags)
                                 meta_parts.append(f'Filed under: {tag_list}')
 
                             if meta_parts:

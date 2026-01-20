@@ -208,6 +208,7 @@ def generate_homepage_html(post):
     html_parts.append('    <meta name="description" content="I\'m Tom Stenson, a Senior Product Manager in Copenhagen. Writing about product management, growth, AI, and systems thinking.">')
 
     html_parts.append('    <link rel="stylesheet" href="/lib/styles/styles.css">')
+    html_parts.append('    <script src="/tag-filter.js" defer></script>')
     html_parts.append('</head>')
     html_parts.append('<body>')
     html_parts.append('    <div class="crt-overlay"></div>')
@@ -254,9 +255,8 @@ def generate_homepage_html(post):
         display_date = format_date_for_display(post["date"])
         meta_parts.append(f'Published on: {display_date}.')
     if post.get('tags'):
-        # Convert tags to clickable links (uppercase via CSS)
-        tag_links = [f'<a href="/words/?tag={tag}">{tag}</a>' for tag in post['tags']]
-        tag_list = ', '.join(tag_links)
+        # Plain text tags (enhanced to links via JavaScript)
+        tag_list = ', '.join(post['tags'])
         meta_parts.append(f'Filed under: {tag_list}')
 
     if meta_parts:
