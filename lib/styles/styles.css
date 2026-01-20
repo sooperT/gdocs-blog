@@ -936,9 +936,13 @@ a:hover, strong {
    ============================================ */
 
 @media (max-width: 768px) {
+    body {
+        padding: 40px 8px; /* Reduce horizontal padding on mobile */
+    }
+
     .site-header {
-        margin: -40px 20px 8px 20px; /* Add horizontal margins to inset header */
-        padding: 10px 20px; /* Keep same padding as desktop */
+        margin: -40px 0 8px 0; /* Remove horizontal margins */
+        padding: 10px 12px; /* Reduce horizontal padding */
     }
 
     .site-header .identity {
@@ -976,7 +980,7 @@ a:hover, strong {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 6px;
-        margin: 0 20px 1em 20px; /* Use margin instead of padding for horizontal spacing */
+        margin: 0 0 1em 0; /* Remove horizontal margins */
         padding: 8px 0; /* Keep vertical padding only */
     }
 
@@ -987,12 +991,8 @@ a:hover, strong {
         line-height: 1.2; /* Reduce line height */
     }
 
-    main, footer {
-        padding: 0 20px; /* Consistent 20px horizontal padding for all content */
-    }
-
     .welcome-banner {
-        margin: 2em 20px; /* Use margin for horizontal spacing to keep borders inset */
+        margin: 2em 0; /* Remove horizontal margins */
         padding: 6px 0; /* Keep same vertical padding as desktop */
     }
 

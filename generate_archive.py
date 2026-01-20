@@ -80,9 +80,9 @@ class PostMetadataExtractor(HTMLParser):
                 self.paragraphs_after_meta = 0
             elif self.in_p:
                 self.in_p = False
-                # Add space between paragraphs if we're accumulating multiple
+                # Add paragraph delimiter if we're accumulating multiple
                 if self.excerpt:
-                    self.excerpt += " "
+                    self.excerpt += "\n\n"
                 self.paragraphs_after_meta += 1
 
     def handle_comment(self, data):
@@ -242,7 +242,9 @@ def generate_archive_html(posts):
 
     # Add each post
     for post in posts_sorted:
-        html_parts.append('            <article class="post-preview">')
+        # Build data-tags attribute
+        tags_attr = ','.join(post['tags']) if post['tags'] else ''
+        html_parts.append(f'            <article class="post-preview" data-tags="{tags_attr}">')
         html_parts.append(f'                <h3><a href="{post["url"]}">{post["title"]}</a></h3>')
 
         # Metadata
@@ -257,9 +259,12 @@ def generate_archive_html(posts):
         if meta_parts:
             html_parts.append(f'                <p class="post-meta">{" ".join(meta_parts)}</p>')
 
-        # Excerpt
+        # Excerpt (support multi-paragraph excerpts split by \n\n)
         if post.get('excerpt'):
-            html_parts.append(f'                <p class="post-excerpt">{post["excerpt"]}</p>')
+            paragraphs = post['excerpt'].split('\n\n')
+            for para in paragraphs:
+                if para.strip():  # Only add non-empty paragraphs
+                    html_parts.append(f'                <p class="post-excerpt">{para.strip()}</p>')
 
         html_parts.append('            </article>')
 

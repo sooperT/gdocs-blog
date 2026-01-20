@@ -1,37 +1,38 @@
 /**
- * Tag Filtering Module
+ * Tag Enhancement & Filtering Module (Progressive Enhancement)
  *
- * Provides client-side tag filtering for blog archive pages
- * - Fetches posts-metadata.json
- * - Filters by URL query parameters (?tag=ai,product)
- * - Renders filtered post listing
- * - Handles clickable tags
+ * Works across all pages:
+ * - Converts plain text tags to clickable links
+ * - On archive page: adds filtering functionality
+ *
+ * Without JavaScript: all pages show plain text tags
  */
 
 class TagFilter {
     constructor() {
-        this.allPosts = [];
         this.activeTags = [];
+        this.isArchivePage = !!document.querySelector('.post-listing');
         this.init();
     }
 
     async init() {
-        // Parse URL parameters
-        this.parseURLParams();
+        // Always enhance tag links on all pages
+        this.enhanceTagLinks();
 
-        // Fetch metadata
-        await this.fetchMetadata();
+        // Only add filtering functionality on archive page
+        if (this.isArchivePage) {
+            // Parse URL parameters
+            this.parseURLParams();
 
-        // Render posts (filtered if tags are active)
-        this.renderPosts();
+            // Apply filtering if tags are active
+            if (this.activeTags.length > 0) {
+                this.filterPosts();
+                this.renderFilterUI();
+            }
 
-        // Render filter UI if filters are active
-        if (this.activeTags.length > 0) {
-            this.renderFilterUI();
+            // Setup click handlers for filtering
+            this.setupTagClickHandlers();
         }
-
-        // Setup tag click handlers
-        this.setupTagClickHandlers();
     }
 
     parseURLParams() {
@@ -43,90 +44,74 @@ class TagFilter {
         }
     }
 
-    async fetchMetadata() {
-        try {
-            const response = await fetch('/posts-metadata.json');
-            const data = await response.json();
-            this.allPosts = data.posts || [];
-        } catch (error) {
-            console.error('Failed to load posts metadata:', error);
-            // Graceful fallback: page will show static HTML posts
-        }
+    enhanceTagLinks() {
+        // Find all post-meta paragraphs and convert plain text tags to links
+        document.querySelectorAll('.post-meta').forEach(meta => {
+            const text = meta.textContent;
+            const match = text.match(/Filed under: (.+)/);
+
+            if (match) {
+                const tagsText = match[1];
+                const tags = tagsText.split(', ').map(t => t.trim());
+
+                // Build clickable tag links
+                const tagsHTML = tags.map(tag =>
+                    `<a href="/words/?tag=${encodeURIComponent(tag)}" class="tag-link" data-tag="${tag}">${tag}</a>`
+                ).join(', ');
+
+                // Replace plain text with links
+                const dateMatch = text.match(/Published on: (.+?)\./);
+                const date = dateMatch ? dateMatch[1] : '';
+
+                meta.innerHTML = `${date ? `Published on: ${date}. ` : ''}Filed under: ${tagsHTML}`;
+            }
+        });
     }
 
     filterPosts() {
-        if (this.activeTags.length === 0) {
-            return this.allPosts;
-        }
+        // Hide/show articles based on data-tags attribute
+        document.querySelectorAll('.post-preview').forEach(article => {
+            const articleTags = article.dataset.tags ? article.dataset.tags.split(',') : [];
 
-        // AND logic: post must have ALL active tags
-        return this.allPosts.filter(post => {
-            return this.activeTags.every(tag =>
-                post.tags && post.tags.includes(tag)
-            );
+            // AND logic: article must have ALL active tags
+            const matches = this.activeTags.every(tag => articleTags.includes(tag));
+
+            article.style.display = matches ? 'block' : 'none';
         });
-    }
 
-    renderPosts() {
-        const filteredPosts = this.filterPosts();
+        // Check if any posts are visible
+        const visiblePosts = Array.from(document.querySelectorAll('.post-preview'))
+            .filter(article => article.style.display !== 'none');
+
+        // Show "no results" message if no posts match
         const container = document.querySelector('.post-listing');
+        if (container) {
+            let noResultsMsg = container.querySelector('.no-results');
 
-        if (!container) return;
-
-        // Clear existing posts
-        container.innerHTML = '';
-
-        if (filteredPosts.length === 0) {
-            container.innerHTML = '<p class="no-results">No posts found with the selected tags.</p>';
-            return;
+            if (visiblePosts.length === 0) {
+                if (!noResultsMsg) {
+                    noResultsMsg = document.createElement('p');
+                    noResultsMsg.className = 'no-results';
+                    noResultsMsg.textContent = 'No posts found with the selected tags.';
+                    container.appendChild(noResultsMsg);
+                }
+            } else {
+                if (noResultsMsg) {
+                    noResultsMsg.remove();
+                }
+            }
         }
-
-        // Render filtered posts
-        filteredPosts.forEach(post => {
-            if (post.type !== 'words') return; // Only show words on words archive
-
-            const article = document.createElement('article');
-            article.className = 'post-preview';
-
-            // Format date from YYYY-MM-DD to DD/MM/YYYY
-            let formattedDate = '';
-            if (post.date) {
-                const [year, month, day] = post.date.split('-');
-                formattedDate = `${day}/${month}/${year}`;
-            }
-
-            // Build tags HTML
-            let tagsHTML = '';
-            if (post.tags && post.tags.length > 0) {
-                const tagList = post.tags.map(tag =>
-                    `<a href="?tag=${encodeURIComponent(tag)}" class="tag-link" data-tag="${tag}">${tag}</a>`
-                ).join(', ');
-                tagsHTML = `Filed under: ${tagList}`;
-            }
-
-            // Split excerpt into paragraphs and render each as separate <p> tag
-            let excerptHTML = '';
-            if (post.excerpt) {
-                const paragraphs = post.excerpt.split('\n\n');
-                excerptHTML = paragraphs.map(p => `<p class="post-excerpt">${p}</p>`).join('\n                ');
-            }
-
-            article.innerHTML = `
-                <h3><a href="${post.url}">${post.title}</a></h3>
-                <p class="post-meta">
-                    ${formattedDate ? `Published on: ${formattedDate}. ` : ''}
-                    ${tagsHTML}
-                </p>
-                ${excerptHTML}
-            `;
-
-            container.appendChild(article);
-        });
     }
 
     renderFilterUI() {
         const main = document.querySelector('main');
         if (!main) return;
+
+        // Remove existing filter UI if present
+        const existingFilterUI = document.querySelector('.filter-ui');
+        if (existingFilterUI) {
+            existingFilterUI.remove();
+        }
 
         // Create filter UI container
         const filterUI = document.createElement('div');
@@ -162,6 +147,7 @@ class TagFilter {
 
     setupTagClickHandlers() {
         // Intercept tag link clicks to add to current filter (instead of replacing)
+        // Only on archive page
         document.addEventListener('click', (e) => {
             const tagLink = e.target.closest('.tag-link');
             if (!tagLink) return;
@@ -199,17 +185,17 @@ class TagFilter {
     }
 
     refresh() {
-        // Remove existing filter UI
-        const existingFilterUI = document.querySelector('.filter-ui');
-        if (existingFilterUI) {
-            existingFilterUI.remove();
-        }
+        // Re-filter posts
+        this.filterPosts();
 
-        // Re-render
-        this.renderPosts();
-
+        // Update filter UI
         if (this.activeTags.length > 0) {
             this.renderFilterUI();
+        } else {
+            const existingFilterUI = document.querySelector('.filter-ui');
+            if (existingFilterUI) {
+                existingFilterUI.remove();
+            }
         }
     }
 }
