@@ -35,6 +35,7 @@ class ContentExtractor(HTMLParser):
         self.in_main = False
         self.in_heading = False  # Track any heading (h1, h2, h3, h4, h5, h6)
         self.in_post_meta = False
+        self.in_figcaption = False  # Track figcaption to skip caption text
         self.content_parts = []
         self.current_text = ""
         self.first_image = None  # Track first image src
@@ -45,6 +46,9 @@ class ContentExtractor(HTMLParser):
         elif tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] and self.in_main:
             # Skip all heading content
             self.in_heading = True
+        elif tag == 'figcaption' and self.in_main:
+            # Skip figcaption content (image captions)
+            self.in_figcaption = True
         elif tag == 'img' and self.in_main and not self.first_image:
             # Capture first image src attribute
             for attr, value in attrs:
@@ -63,6 +67,8 @@ class ContentExtractor(HTMLParser):
             self.in_main = False
         elif tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
             self.in_heading = False
+        elif tag == 'figcaption':
+            self.in_figcaption = False
         elif tag == 'p':
             if self.in_post_meta:
                 self.in_post_meta = False
@@ -75,7 +81,7 @@ class ContentExtractor(HTMLParser):
                 self.current_text = ""
 
     def handle_data(self, data):
-        if self.in_main and not self.in_post_meta and not self.in_heading:
+        if self.in_main and not self.in_post_meta and not self.in_heading and not self.in_figcaption:
             self.current_text += data
 
     def get_paragraphs(self):
@@ -111,64 +117,69 @@ def get_latest_post(posts):
     return words_posts[0]
 
 
-def extract_excerpt(post_url, max_chars=500):
+def extract_excerpt_html(post_url, max_elements=3):
     """
-    Extract excerpt from post HTML content
+    Extract excerpt HTML from post content, preserving semantic structure.
 
     Args:
         post_url: URL path like '/words/ai-glossary/'
-        max_chars: Maximum characters for excerpt (default 500)
+        max_elements: Maximum number of top-level elements to include (default 3)
 
     Returns:
-        List of paragraph strings (may be truncated with '...' on last paragraph)
+        String of raw HTML with semantic tags intact (figure, p, ul, etc.)
     """
     # Convert URL to file path
-    # /words/ai-glossary/ -> words/ai-glossary/index.html
     url_parts = [p for p in post_url.split('/') if p]
     post_path = os.path.join(*url_parts, 'index.html')
 
     if not os.path.exists(post_path):
         print(f"✗ Post file not found: {post_path}")
-        return []
+        return ""
 
-    # Read and parse HTML
+    # Read HTML
     with open(post_path, 'r', encoding='utf-8') as f:
         html = f.read()
 
-    parser = ContentExtractor()
-    parser.feed(html)
-    paragraphs = parser.get_paragraphs()
-    first_image = parser.first_image
+    # Extract content between <main> tags, after post-meta
+    import re
+    main_match = re.search(r'<main>(.*?)</main>', html, re.DOTALL)
+    if not main_match:
+        return ""
 
-    if not paragraphs:
-        return {'paragraphs': [], 'image': first_image}
+    main_content = main_match.group(1)
 
-    # Build excerpt by accumulating full paragraphs until we exceed max_chars
-    excerpt_paragraphs = []
-    total_chars = 0
+    # Find where post-meta ends
+    meta_end = main_content.find('</p>', main_content.find('class="post-meta"'))
+    if meta_end == -1:
+        return ""
 
-    for para in paragraphs:
-        para_length = len(para)
+    content_after_meta = main_content[meta_end + 4:].strip()
 
-        # If adding this paragraph would exceed limit
-        if total_chars + para_length > max_chars and excerpt_paragraphs:
-            # We already have some paragraphs, stop here
+    # Extract first N top-level elements (figure, p, ul, etc.)
+    # Stop at first h2/h3 (section heading)
+    elements = []
+    element_count = 0
+    pos = 0
+
+    while element_count < max_elements and pos < len(content_after_meta):
+        # Check for section heading - stop there
+        if content_after_meta[pos:].lstrip().startswith('<h'):
             break
-        elif total_chars + para_length > max_chars:
-            # First paragraph is too long, truncate it
-            available = max_chars - total_chars
-            truncated = para[:available]
-            last_space = truncated.rfind(' ')
-            if last_space > 0:
-                truncated = truncated[:last_space]
-            excerpt_paragraphs.append(truncated + "...")
-            break
+
+        # Match figure or p or ul elements
+        for tag in ['figure', 'p', 'ul', 'ol']:
+            pattern = f'<{tag}[^>]*>.*?</{tag}>'
+            match = re.match(r'\s*' + pattern, content_after_meta[pos:], re.DOTALL)
+            if match:
+                elements.append(match.group().strip())
+                pos += len(match.group())
+                element_count += 1
+                break
         else:
-            # Add full paragraph
-            excerpt_paragraphs.append(para)
-            total_chars += para_length
+            # No match, move forward
+            pos += 1
 
-    return {'paragraphs': excerpt_paragraphs, 'image': first_image}
+    return '\n        '.join(elements)
 
 
 def generate_homepage_html(post):
@@ -178,6 +189,9 @@ def generate_homepage_html(post):
 
     # HTML head
     html_parts.append('<!DOCTYPE html>')
+    html_parts.append('<!-- GENERATED FILE - DO NOT EDIT MANUALLY -->')
+    html_parts.append('<!-- Generated by: generate_homepage.py -->')
+    html_parts.append('<!-- To modify: Edit generate_homepage.py and regenerate -->')
     html_parts.append('<html lang="en">')
     html_parts.append('<head>')
     html_parts.append('    <meta charset="UTF-8">')
@@ -242,21 +256,12 @@ def generate_homepage_html(post):
     if meta_parts:
         html_parts.append(f'        <p class="post-meta">{" ".join(meta_parts)}</p>')
 
-    # Extract and display excerpt with first image
-    excerpt_data = extract_excerpt(post['url'])
-    excerpt_paragraphs = excerpt_data.get('paragraphs', [])
-    first_image = excerpt_data.get('image')
+    # Extract and display excerpt HTML (preserves semantic structure)
+    excerpt_html = extract_excerpt_html(post['url'])
 
-    if excerpt_paragraphs or first_image:
+    if excerpt_html:
         html_parts.append('')
-
-        # Add first image if available
-        if first_image:
-            html_parts.append(f'        <img src="{first_image}" alt="" class="post-preview-image">')
-
-        # Add excerpt paragraphs
-        for para in excerpt_paragraphs:
-            html_parts.append(f'        <p class="post-excerpt">{para}</p>')
+        html_parts.append(f'        {excerpt_html}')
 
     # Read full article link
     html_parts.append('')
