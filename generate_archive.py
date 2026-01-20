@@ -48,6 +48,10 @@ class PostMetadataExtractor(HTMLParser):
         elif tag == 'h1' and self.in_main and not self.title:
             # First h1 in main is the post title
             self.in_h1 = True
+        elif tag == 'figure' and self.in_main and self.date:
+            # Track figure elements - they don't count as paragraphs for excerpt detection
+            # This allows us to skip figures and capture the first actual text paragraph
+            pass
         elif tag == 'p' and self.in_main:
             # Check if this is the post-meta paragraph
             is_meta = False
@@ -57,8 +61,9 @@ class PostMetadataExtractor(HTMLParser):
                     self.in_meta = True
                     break
 
-            # If not meta and we've seen meta, this might be our excerpt
-            if not is_meta and self.date and not self.excerpt and self.paragraphs_after_meta == 0:
+            # If not meta and we've seen meta, capture first real paragraph (skip figcaptions)
+            # Allow a few non-paragraph elements (figures) before capturing excerpt
+            if not is_meta and self.date and not self.excerpt and self.paragraphs_after_meta < 3:
                 self.in_p = True
 
     def handle_endtag(self, tag):
