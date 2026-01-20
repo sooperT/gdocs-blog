@@ -284,12 +284,23 @@ p:has(img:only-child) {
     margin-bottom: 0.3em;
 }
 
-/* Figure captions - paragraphs starting with <strong>Figure */
-p:has(strong:first-child):not(.timeline-content p) {
+/* Figure captions - semantic HTML */
+figcaption {
     margin-top: 0;
     margin-bottom: 2.5em;
     font-style: italic;
     color: var(--teletext-yellow);
+}
+
+/* Figures should have tight spacing with their caption */
+figure {
+    margin: 1.5em 0;
+}
+
+figure img {
+    display: block;
+    max-width: 100%;
+    height: auto;
 }
 
 /* ============================================
