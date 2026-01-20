@@ -297,6 +297,7 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     html_parts = []
     title = document.get('title', 'Untitled')
     meta_desc = metadata.get('meta-desc', '')
+    browser_title = metadata.get('Browser-title', title)  # Use Browser-title from metadata if available
     downloaded_images = []  # Track downloaded image paths for git commit
     image_counter = 1  # Sequential numbering for images
 
@@ -306,7 +307,7 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     html_parts.append('<head>')
     html_parts.append('    <meta charset="UTF-8">')
     html_parts.append('    <meta name="viewport" content="width=device-width, initial-scale=1.0">')
-    html_parts.append(f'    <title>{title} - taken</title>')
+    html_parts.append(f'    <title>{browser_title}</title>')
     if meta_desc:
         html_parts.append(f'    <meta name="description" content="{meta_desc}">')
     html_parts.append('    <link rel="stylesheet" href="/lib/styles/styles.css">')
@@ -371,6 +372,10 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                     heading_text_to_slug[text_content.strip().lower()] = slug_id
 
     # SECOND PASS: Generate HTML
+    in_list = False
+    current_list_id = None
+    pending_figure_image = None  # Store image HTML to wrap in <figure> if next element is caption
+
     for idx, element in enumerate(content):
         # Skip frontmatter
         if idx < content_start_index:
@@ -388,6 +393,7 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
             style = paragraph.get('paragraphStyle', {})
             named_style = style.get('namedStyleType', 'NORMAL_TEXT')
             google_heading_id = style.get('headingId', '')  # Extract Google's heading ID
+            bullet = paragraph.get('bullet')  # Check if this is a list item
 
             # Get HTML tag for this style
             tag = STYLE_MAP.get(named_style, 'p')
@@ -496,42 +502,112 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
             # Add text paragraph if it has content
             if html_content.strip():
+                # Check for [HOZ] marker for horizontal rules
+                is_horizontal_rule = html_content.strip() == '[HOZ]'
+                if is_horizontal_rule:
+                    # Close any open list before adding horizontal rule
+                    if in_list:
+                        html_parts.append('    </ul>')
+                        in_list = False
+                        current_list_id = None
+                    html_parts.append('    <hr />')
+                    continue
+
+                # Check for [CAPTION] marker and strip it
+                is_caption = html_content.strip().startswith('[CAPTION]')
+                if is_caption:
+                    html_content = html_content.strip()[9:].strip()  # Remove [CAPTION]
+
                 # Convert newlines to <br> tags for HTML rendering
                 html_content_with_br = html_content.rstrip().replace('\n', '<br>\n    ')
 
-                # Generate anchor IDs for headings (h2, h3, h4)
-                if tag in ['h2', 'h3', 'h4']:
-                    anchor_id = slugify(html_content.strip())
+                # If this is a caption and we have a pending image, wrap in <figure>
+                if is_caption and pending_figure_image:
+                    html_parts.append('    <figure>')
+                    html_parts.append(f'        {pending_figure_image.strip()}')
+                    html_parts.append(f'        <figcaption>{html_content_with_br}</figcaption>')
+                    html_parts.append('    </figure>')
+                    pending_figure_image = None
+                    continue
 
-                    # Store mapping if this heading has a Google ID
-                    if google_heading_id:
-                        heading_id_map[google_heading_id] = anchor_id
+                # If we have a pending image but this isn't a caption, output the image alone
+                if pending_figure_image:
+                    html_parts.append(f'    {pending_figure_image.strip()}')
+                    pending_figure_image = None
 
-                    html_parts.append(f'    <{tag} id="{anchor_id}">{html_content_with_br}</{tag}>')
+                # Handle bullet lists
+                if bullet:
+                    list_id = bullet.get('listId')
+
+                    # Start new list if needed
+                    if not in_list or current_list_id != list_id:
+                        # Close previous list if open
+                        if in_list:
+                            html_parts.append('    </ul>')
+                        html_parts.append('    <ul>')
+                        in_list = True
+                        current_list_id = list_id
+
+                    # Add list item
+                    html_parts.append(f'        <li>{html_content_with_br}</li>')
                 else:
-                    html_parts.append(f'    <{tag}>{html_content_with_br}</{tag}>')
+                    # Close list if we were in one
+                    if in_list:
+                        html_parts.append('    </ul>')
+                        in_list = False
+                        current_list_id = None
 
-                # Inject metadata after first h1 (title) - ONLY after h1 with actual content
-                if not metadata_injected and tag == 'h1' and content_type in ['words', 'projects']:
-                    if metadata.get('date') or metadata.get('tags'):
-                        meta_parts = []
-                        if metadata.get('date'):
-                            display_date = format_date_for_display(metadata["date"])
-                            meta_parts.append(f'Published on: {display_date}.')
-                        if metadata.get('tags'):
-                            tags = [tag.strip() for tag in metadata['tags'].split(',')]
-                            # Make tags clickable links
-                            tag_links = [f'<a href="/words/?tag={tag}" class="tag-link">{tag}</a>' for tag in tags]
-                            tag_list = ', '.join(tag_links)
-                            meta_parts.append(f'Filed under: {tag_list}')
+                    # Generate anchor IDs for headings (h2, h3, h4)
+                    if tag in ['h2', 'h3', 'h4']:
+                        anchor_id = slugify(html_content.strip())
 
-                        if meta_parts:
-                            html_parts.append(f'    <p class="post-meta">{" ".join(meta_parts)}</p>')
-                        metadata_injected = True
+                        # Store mapping if this heading has a Google ID
+                        if google_heading_id:
+                            heading_id_map[google_heading_id] = anchor_id
+
+                        html_parts.append(f'    <{tag} id="{anchor_id}">{html_content_with_br}</{tag}>')
+                    else:
+                        html_parts.append(f'    <{tag}>{html_content_with_br}</{tag}>')
+
+                    # Inject metadata after first h1 (title) - ONLY after h1 with actual content
+                    if not metadata_injected and tag == 'h1' and content_type in ['words', 'projects']:
+                        if metadata.get('date') or metadata.get('tags'):
+                            meta_parts = []
+                            if metadata.get('date'):
+                                display_date = format_date_for_display(metadata["date"])
+                                meta_parts.append(f'Published on: {display_date}.')
+                            if metadata.get('tags'):
+                                tags = [tag.strip() for tag in metadata['tags'].split(',')]
+                                # Make tags clickable links
+                                tag_links = [f'<a href="/words/?tag={tag}" class="tag-link">{tag}</a>' for tag in tags]
+                                tag_list = ', '.join(tag_links)
+                                meta_parts.append(f'Filed under: {tag_list}')
+
+                            if meta_parts:
+                                html_parts.append(f'    <p class="post-meta">{" ".join(meta_parts)}</p>')
+                            metadata_injected = True
 
             # Add image as separate element if present
             if has_image and pending_image_html:
-                html_parts.append(pending_image_html)
+                # Close any open list before adding image
+                if in_list:
+                    html_parts.append('    </ul>')
+                    in_list = False
+                    current_list_id = None
+
+                # Store image to potentially wrap in <figure> if next element is a caption
+                # First output any previous pending image that wasn't captioned
+                if pending_figure_image:
+                    html_parts.append(f'    {pending_figure_image.strip()}')
+                pending_figure_image = pending_image_html.strip()
+
+    # Close any open list at the end
+    if in_list:
+        html_parts.append('    </ul>')
+
+    # Output any pending image that wasn't followed by a caption
+    if pending_figure_image:
+        html_parts.append(f'    {pending_figure_image.strip()}')
 
     # Close HTML
     html_parts.append('    </main>')
