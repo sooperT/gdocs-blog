@@ -604,6 +604,35 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                     html_parts.append('    <hr />')
                     continue
 
+                # Check for [ENDSNIP] marker for excerpt end
+                # Can appear standalone or within text
+                if '[ENDSNIP]' in html_content:
+                    # Split content at the marker
+                    before_marker, after_marker = html_content.split('[ENDSNIP]', 1)
+                    before_marker = before_marker.strip()
+                    after_marker = after_marker.strip()
+
+                    # Output content before the marker (if any)
+                    if before_marker:
+                        before_marker = before_marker.replace('\n', '<br>')
+                        html_parts.append(f'    <p>{before_marker}</p>')
+
+                    # Close any open list before adding marker
+                    if in_list:
+                        html_parts.append('    </ul>')
+                        in_list = False
+                        current_list_id = None
+
+                    # Add HTML comment marker for excerpt extraction
+                    html_parts.append('    <!-- EXCERPT_END -->')
+
+                    # Output content after the marker (if any)
+                    if after_marker:
+                        after_marker = after_marker.replace('\n', '<br>')
+                        html_parts.append(f'    <p>{after_marker}</p>')
+
+                    continue
+
                 # Check for [CAPTION] marker and strip it
                 is_caption = html_content.strip().startswith('[CAPTION]')
                 if is_caption:
@@ -795,10 +824,11 @@ def parse_html_frontmatter(html_content):
     """
     metadata = {}
 
-    # Extract date from "Published on: YYYY-MM-DD"
-    date_match = re.search(r'Published on: (\d{4}-\d{2}-\d{2})', html_content)
+    # Extract date from "Published on: DD/MM/YYYY" and convert to YYYY-MM-DD
+    date_match = re.search(r'Published on: (\d{2})/(\d{2})/(\d{4})', html_content)
     if date_match:
-        metadata['date'] = date_match.group(1)
+        day, month, year = date_match.groups()
+        metadata['date'] = f"{year}-{month}-{day}"
 
     # Extract tags from "Filed under: tag1, tag2" or "Filed under: <a>tag1</a>, <a>tag2</a>"
     # Find the "Filed under:" section and extract tag text (handles both plain text and links)
@@ -833,15 +863,42 @@ def parse_html_frontmatter(html_content):
     if desc_match:
         metadata['meta-desc'] = desc_match.group(1)
 
-    # Extract excerpt (first 2 paragraphs after post-meta)
-    # Look for the first 2 <p> tags after post-meta
-    excerpt_pattern = r'<p class="post-meta">.*?</p>\s*<p>(.*?)</p>\s*<p>(.*?)</p>'
-    excerpt_match = re.search(excerpt_pattern, html_content, re.DOTALL)
-    if excerpt_match:
-        # Combine both paragraphs
-        para1 = re.sub(r'<[^>]+>', '', excerpt_match.group(1))
-        para2 = re.sub(r'<[^>]+>', '', excerpt_match.group(2))
-        metadata['excerpt'] = f"{para1.strip()} {para2.strip()}"
+    # Extract excerpt - stop at EXCERPT_END marker if present
+    # Otherwise use first 2 paragraphs
+    post_meta_end = html_content.find('</p>', html_content.find('class="post-meta"'))
+    if post_meta_end != -1:
+        content_after_meta = html_content[post_meta_end + 4:]
+
+        # Check for EXCERPT_END marker
+        excerpt_end_marker = content_after_meta.find('<!-- EXCERPT_END -->')
+        if excerpt_end_marker != -1:
+            # Extract content up to the marker
+            excerpt_html = content_after_meta[:excerpt_end_marker]
+        else:
+            # Fall back to first 2 paragraphs
+            excerpt_pattern = r'<p>(.*?)</p>\s*<p>(.*?)</p>'
+            excerpt_match = re.search(excerpt_pattern, content_after_meta, re.DOTALL)
+            if excerpt_match:
+                excerpt_html = excerpt_match.group(0)
+            else:
+                excerpt_html = ''
+
+        # Extract paragraphs (not figures/figcaptions) and preserve paragraph breaks
+        if excerpt_html:
+            # Find all <p> tags, excluding those inside <figure>
+            paragraphs = []
+            # Remove figures entirely (including their content)
+            clean_html = re.sub(r'<figure>.*?</figure>', '', excerpt_html, flags=re.DOTALL)
+            # Now extract paragraphs
+            para_matches = re.findall(r'<p>(.*?)</p>', clean_html, re.DOTALL)
+            for para in para_matches:
+                # Strip HTML tags from paragraph content
+                clean_para = re.sub(r'<[^>]+>', '', para).strip()
+                if clean_para:
+                    paragraphs.append(clean_para)
+
+            # Join paragraphs with double newline (for splitting in JS)
+            metadata['excerpt'] = '\n\n'.join(paragraphs)
 
     return metadata
 

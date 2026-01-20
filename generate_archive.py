@@ -41,6 +41,7 @@ class PostMetadataExtractor(HTMLParser):
         self.in_p = False
         self.meta_text = ""
         self.paragraphs_after_meta = 0
+        self.excerpt_ended = False
 
     def handle_starttag(self, tag, attrs):
         if tag == 'main':
@@ -61,9 +62,10 @@ class PostMetadataExtractor(HTMLParser):
                     self.in_meta = True
                     break
 
-            # If not meta and we've seen meta, capture first real paragraph (skip figcaptions)
+            # If not meta and we've seen meta, capture paragraphs until EXCERPT_END marker
             # Allow a few non-paragraph elements (figures) before capturing excerpt
-            if not is_meta and self.date and not self.excerpt and self.paragraphs_after_meta < 3:
+            # Stop if we've hit the excerpt end marker
+            if not is_meta and self.date and not self.excerpt_ended:
                 self.in_p = True
 
     def handle_endtag(self, tag):
@@ -78,17 +80,27 @@ class PostMetadataExtractor(HTMLParser):
                 self.paragraphs_after_meta = 0
             elif self.in_p:
                 self.in_p = False
-                # Clean up excerpt whitespace after we've accumulated all text
+                # Add space between paragraphs if we're accumulating multiple
+                if self.excerpt:
+                    self.excerpt += " "
+                self.paragraphs_after_meta += 1
+
+    def handle_comment(self, data):
+        """Handle HTML comments - look for EXCERPT_END marker"""
+        if data.strip() == 'EXCERPT_END':
+            self.excerpt_ended = True
+            # If we're currently in a paragraph, close it
+            if self.in_p:
+                self.in_p = False
                 if self.excerpt:
                     self.excerpt = self.excerpt.strip()
-                self.paragraphs_after_meta += 1
 
     def handle_data(self, data):
         if self.in_h1:
             self.title = data.strip()
         elif self.in_meta:
             self.meta_text += data
-        elif self.in_p:
+        elif self.in_p and not self.excerpt_ended:
             # Accumulate all text from the paragraph (handles inline formatting)
             if not self.excerpt:
                 self.excerpt = data

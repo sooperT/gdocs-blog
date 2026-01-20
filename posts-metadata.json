@@ -10,11 +10,11 @@
       ],
       "type": "words",
       "meta-desc": "Unlike web 1.0, the AI gold rush might favour incumbents over disruptors. A metaphor for understanding where durable value will actually be created.",
-      "excerpt": "GenAI is undoubtedly the latest gold-rush, but this time round where will value be generated? But before we jump in, some important context via Ed Zitron.\n    The ‘enshittifinancial crisis’\n    I read this newsletter piece from Ed Zitron before the new year, and it stuck with me. It is deliberately outspoken, but it makes some interesting counterpoints to the LinkedIn AI hype. I’m not sure if his predictions will play out, but in the least it provides a well-reasoned null-hypothesis. I’d recommend reading the article in full, but it is very long so here’s a short(er) summary:"
+      "excerpt": "When I worked in web hosting, a common expression was ‘during a gold-rush, sell shovels”. The idea being during a gold-rush, individual .com ventures may or may not strike gold, but the shovel seller will always profit without incurring the risk.\n\nGenAI is undoubtedly the latest gold-rush, but this time round where will value be generated?"
     },
     {
       "title": "AI-coding lexicon",
-      "meta-title": "AI-coding lexicon",
+      "meta-title": "",
       "url": "/words/ai-coding-lexicon/",
       "date": "2026-01-09",
       "tags": [
@@ -22,11 +22,11 @@
       ],
       "type": "words",
       "meta-desc": "A summary of AI-coding concepts, what they mean and why I think they’re important: Determinism, Hallucinations, Evals, Context, Tokens, & Vibe coding.",
-      "excerpt": "Every discipline creates their own language by necessity, a lingua franca for describing new concepts, methodologies and ways of working. To learn a subject, it helps if you understand it’s language. So with this in mind, I present a brief AI-coding lexicon, which I will add to over time. It’s not exhaustive, and intentionally it’s not in alphabetical order."
+      "excerpt": "Every discipline creates their own language by necessity, a lingua franca for describing new concepts, methodologies and ways of working. To learn a subject, it helps if you understand it’s language.\n\nSo with this in mind, I present a brief AI-coding lexicon, which I will add to over time. It’s not exhaustive, and intentionally it’s not in alphabetical order."
     },
     {
       "title": "Hello world",
-      "meta-title": "Hello world",
+      "meta-title": "",
       "url": "/words/hello-world/",
       "date": "2025-11-12",
       "tags": [
@@ -34,7 +34,7 @@
       ],
       "type": "words",
       "meta-desc": "I first published this website in 2005; in this post I explain why I’ve resurrected it and why everything looks so funky.",
-      "excerpt": "Hello and welcome (back) to my (new) blog. I feel an explanation is probably necessary. I first published this website back in 2005. This was pre-Bootstrap, back when design patterns, information models, and best practice for websites had yet to be defined. Web design could be creative, experimental and often unusable."
+      "excerpt": "Hello and welcome (back) to my (new) blog. I feel an explanation is probably necessary.\n\nI first published this website back in 2005. This was pre-Bootstrap, back when design patterns, information models, and best practice for websites had yet to be defined. Web design could be creative, experimental and often unusable."
     },
     {
       "title": "About",
