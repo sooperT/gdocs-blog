@@ -37,6 +37,7 @@ class ContentExtractor(HTMLParser):
         self.in_post_meta = False
         self.content_parts = []
         self.current_text = ""
+        self.first_image = None  # Track first image src
 
     def handle_starttag(self, tag, attrs):
         if tag == 'main':
@@ -44,6 +45,12 @@ class ContentExtractor(HTMLParser):
         elif tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] and self.in_main:
             # Skip all heading content
             self.in_heading = True
+        elif tag == 'img' and self.in_main and not self.first_image:
+            # Capture first image src attribute
+            for attr, value in attrs:
+                if attr == 'src':
+                    self.first_image = value
+                    break
         elif tag == 'p' and self.in_main:
             # Check if this is the post-meta paragraph
             for attr, value in attrs:
@@ -131,9 +138,10 @@ def extract_excerpt(post_url, max_chars=500):
     parser = ContentExtractor()
     parser.feed(html)
     paragraphs = parser.get_paragraphs()
+    first_image = parser.first_image
 
     if not paragraphs:
-        return []
+        return {'paragraphs': [], 'image': first_image}
 
     # Build excerpt by accumulating full paragraphs until we exceed max_chars
     excerpt_paragraphs = []
@@ -160,7 +168,7 @@ def extract_excerpt(post_url, max_chars=500):
             excerpt_paragraphs.append(para)
             total_chars += para_length
 
-    return excerpt_paragraphs
+    return {'paragraphs': excerpt_paragraphs, 'image': first_image}
 
 
 def generate_homepage_html(post):
@@ -234,10 +242,19 @@ def generate_homepage_html(post):
     if meta_parts:
         html_parts.append(f'        <p class="post-meta">{" ".join(meta_parts)}</p>')
 
-    # Extract and display excerpt (as separate paragraphs)
-    excerpt_paragraphs = extract_excerpt(post['url'])
-    if excerpt_paragraphs:
+    # Extract and display excerpt with first image
+    excerpt_data = extract_excerpt(post['url'])
+    excerpt_paragraphs = excerpt_data.get('paragraphs', [])
+    first_image = excerpt_data.get('image')
+
+    if excerpt_paragraphs or first_image:
         html_parts.append('')
+
+        # Add first image if available
+        if first_image:
+            html_parts.append(f'        <img src="{first_image}" alt="" class="post-preview-image">')
+
+        # Add excerpt paragraphs
         for para in excerpt_paragraphs:
             html_parts.append(f'        <p class="post-excerpt">{para}</p>')
 

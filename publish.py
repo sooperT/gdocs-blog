@@ -18,6 +18,7 @@ import json
 import urllib.request
 import mimetypes
 from datetime import datetime
+from html.parser import HTMLParser
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -28,6 +29,88 @@ SCOPES = [
     'https://www.googleapis.com/auth/drive.readonly',
     'https://www.googleapis.com/auth/documents.readonly'
 ]
+
+def validate_published_article(output_file, url_slug, content_type):
+    """
+    Validate that published article is accessible and well-formed.
+    Returns (success: bool, issues: list)
+    """
+    issues = []
+
+    # 1. File exists
+    if not os.path.exists(output_file):
+        issues.append(f"File not found: {output_file}")
+        return (False, issues)
+
+    # 2. File is not empty
+    if os.path.getsize(output_file) == 0:
+        issues.append("File is empty")
+        return (False, issues)
+
+    # 3. Contains expected elements
+    with open(output_file, 'r', encoding='utf-8') as f:
+        html = f.read()
+
+    if '<html' not in html:
+        issues.append("Missing <html> tag")
+    if '</body>' not in html:
+        issues.append("Missing </body> closing tag")
+    if '<main>' not in html:
+        issues.append("Missing <main> element")
+    if not html.strip().endswith('</html>'):
+        issues.append("File doesn't end with </html>")
+
+    # 4. Check localhost accessibility (if server running)
+    try:
+        url = f"http://localhost:8000/{output_file}"
+        response = urllib.request.urlopen(url, timeout=2)
+        if response.status != 200:
+            issues.append(f"HTTP {response.status} from localhost")
+    except Exception as e:
+        # Server might not be running, just warn
+        issues.append(f"Warning: Could not test localhost (server may not be running): {e}")
+
+    return (len(issues) == 0, issues)
+
+class HTMLValidator(HTMLParser):
+    """
+    Validates HTML structure by tracking opening and closing tags.
+    """
+    def __init__(self):
+        super().__init__()
+        self.errors = []
+        self.tag_stack = []
+        self.self_closing_tags = {'img', 'br', 'hr', 'meta', 'link', 'input'}
+
+    def handle_starttag(self, tag, attrs):
+        if tag not in self.self_closing_tags:
+            self.tag_stack.append(tag)
+
+    def handle_endtag(self, tag):
+        if tag in self.self_closing_tags:
+            return  # Self-closing tags don't need closing
+
+        if not self.tag_stack:
+            self.errors.append(f"Unexpected closing tag: </{tag}>")
+        elif self.tag_stack[-1] != tag:
+            self.errors.append(f"Mismatched tags: expected </{self.tag_stack[-1]}>, got </{tag}>")
+        else:
+            self.tag_stack.pop()
+
+    def validate(self, html):
+        """
+        Validate HTML structure.
+        Returns (valid: bool, errors: list)
+        """
+        try:
+            self.feed(html)
+        except Exception as e:
+            self.errors.append(f"HTML parsing error: {e}")
+
+        if self.tag_stack:
+            self.errors.append(f"Unclosed tags: {', '.join(self.tag_stack)}")
+
+        return (len(self.errors) == 0, self.errors)
 
 def slugify(text):
     """Convert text to anchor-safe slug"""
@@ -394,6 +477,11 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
             named_style = style.get('namedStyleType', 'NORMAL_TEXT')
             google_heading_id = style.get('headingId', '')  # Extract Google's heading ID
             bullet = paragraph.get('bullet')  # Check if this is a list item
+
+            # Debug: Log bullet detection (can be removed later)
+            if bullet:
+                list_id = bullet.get('listId', 'unknown')
+                print(f"DEBUG: Element {idx} has bullet (listId={list_id})")
 
             # Get HTML tag for this style
             tag = STYLE_MAP.get(named_style, 'p')
@@ -975,29 +1063,22 @@ def main():
         if downloaded_images:
             print(f"✓ Downloaded {len(downloaded_images)} image(s)")
 
-        # Save to preview file
-        preview_file = "preview.html"
-        print(f"\nSaving preview to {preview_file}...")
-        with open(preview_file, 'w', encoding='utf-8') as f:
-            f.write(html)
-        print("✓ Preview saved")
+        # Validate HTML structure
+        print("\nValidating HTML structure...")
+        validator = HTMLValidator()
+        valid, errors = validator.validate(html)
+        if not valid:
+            print("\n⚠ HTML VALIDATION FAILED:")
+            for error in errors:
+                print(f"  - {error}")
+            response = input("\nHTML has structural errors. Continue anyway? (yes/no): ").strip().lower()
+            if response not in ['yes', 'y']:
+                print("\n✗ Publishing cancelled due to HTML validation errors")
+                sys.exit(1)
+        else:
+            print("✓ HTML structure valid")
 
-        # Open in browser for review
-        print("\nOpening preview in browser...")
-        subprocess.run(['open', preview_file])
-
-        # Ask for approval
-        print("\n" + "="*60)
-        print("REVIEW THE PREVIEW IN YOUR BROWSER")
-        print("="*60)
-        response = input("\nDoes the preview look good? Publish to blog? (yes/no): ").strip().lower()
-
-        if response not in ['yes', 'y']:
-            print("\n✗ Publishing cancelled")
-            print(f"Preview saved in {preview_file} for your review")
-            sys.exit(0)
-
-        # User approved - determine output path
+        # Determine output path FIRST (before preview)
         if content_type == 'pages':
             # Pages go directly in their folder (e.g., /about/index.html)
             output_dir = url_slug
@@ -1007,18 +1088,45 @@ def main():
             output_dir = os.path.join(content_type, url_slug)
             output_file = os.path.join(output_dir, 'index.html')
 
-        # Create directory if needed
-        print(f"\n✓ Approved! Publishing to /{output_file}...")
+        # Create directory and write to actual destination
         os.makedirs(output_dir, exist_ok=True)
-
-        # Save file
+        print(f"\nSaving preview to /{output_file}...")
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(html)
-        print("✓ File saved")
+        print("✓ Preview saved to actual destination")
 
-        # Clean up preview file
-        if os.path.exists(preview_file):
-            os.remove(preview_file)
+        # Validate the published article
+        print("\nValidating article...")
+        success, issues = validate_published_article(output_file, url_slug, content_type)
+        if not success:
+            print("\n⚠ VALIDATION WARNINGS:")
+            for issue in issues:
+                print(f"  - {issue}")
+            print("\nFile was saved but validation found issues.")
+            # Don't exit - allow user to review and decide
+
+        print("✓ Validation complete")
+
+        # Open in browser for review (use localhost URL for proper testing)
+        localhost_url = f"http://localhost:8000/{output_file}"
+        print(f"\nOpening preview in browser: {localhost_url}")
+        subprocess.run(['open', localhost_url])
+
+        # Ask for approval
+        print("\n" + "="*60)
+        print("REVIEW THE PREVIEW IN YOUR BROWSER")
+        print("="*60)
+        print(f"Preview URL: {localhost_url}")
+        response = input("\nDoes the preview look good? Publish to blog? (yes/no): ").strip().lower()
+
+        if response not in ['yes', 'y']:
+            print("\n✗ Publishing cancelled")
+            print(f"Preview saved in {output_file} for your review")
+            print(f"You can view it at: {localhost_url}")
+            sys.exit(0)
+
+        # User approved - file is already in the right place
+        print(f"\n✓ Approved! Article ready at /{output_file}")
 
         # Update metadata index
         # Extract excerpt and titles from the HTML we just generated
