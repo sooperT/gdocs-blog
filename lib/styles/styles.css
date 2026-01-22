@@ -448,6 +448,66 @@ a:hover, strong {
 }
 
 /* ============================================
+   CRT EFFECT FOR CONTENT IMAGES
+   ============================================ */
+
+/* Container for CRT image effect */
+main p > img,
+main figure img {
+    position: relative;
+    display: block;
+    filter:
+        contrast(1.1)
+        saturate(1.1)
+        brightness(0.95);
+    border-radius: 20px;
+}
+
+/* Wrap images in a container for overlay effects */
+main p:has(> img:only-child) {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+/* Scanlines overlay for images */
+main p:has(> img:only-child)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.12),
+        rgba(0, 0, 0, 0.12) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    pointer-events: none;
+    border-radius: 20px;
+}
+
+/* Vignette effect for images */
+main p:has(> img:only-child)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 30%,
+        rgba(0, 0, 0, 0.6) 100%
+    );
+    pointer-events: none;
+    border-radius: 20px;
+    z-index: 1;
+}
+
+/* ============================================
    SITE HEADER (Phase 5) - Teletext Band Style
    ============================================ */
 
