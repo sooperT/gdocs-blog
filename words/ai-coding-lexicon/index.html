@@ -45,15 +45,18 @@
     <h3 id="contents">Contents</h3>
     <ul>
         <li><a href="#determinism">Determinism</a></li>
-        <li><a href="#hallucinations">Hallucinations (to follow)</a></li>
-        <li><a href="#evals">Evals</a></li>
+        <li><a href="#hallucinations">Hallucinations</a></li>
+        <li><a href="#tests">Tests</a></li>
+        <li><a href="#context">Context</a></li>
+        <li>Tokens (tbc)</li>
+        <li>Vibe coding (tbc)</li>
     </ul>
     <hr />
     <p><img src="/lib/img/ai-coding-lexicon-image-1.jpg" alt="Image"></p>
     <h2 id="determinism">Determinism</h2>
     <p>Computers are essentially sophisticated calculators, you feed in the sum and you get the result. And just like 1+1 always equals 2, if you feed in the same instructions you will always get the same result. If you’ve grown up with classic software, this is likely something you take for granted.</p>
     <p>Large-language models (LLMs) work differently, they are non-deterministic, they don’t compute answers but predict the next most likely option.</p>
-    <h3 id="example-11">Example: 1+1</h3>
+    <h4 id="example-11">Example: 1+1</h4>
     <p>A standard (deterministic) computer executes specific rules, in this case arithmetic:</p>
     <ul>
         <li>The symbols ‘1’, ‘+’, ‘1’ are parsed according to grammar</li>
@@ -69,7 +72,7 @@
         <li>It most likely returns the continuation as 2.</li>
     </ul>
     <p>The answer is not a calculated result, but an assumed outcome. The outcome is probabilistic, and repeating the same prompt can yield different outcomes.</p>
-    <h3 id="so-what">So what?</h3>
+    <h4 id="so-what">So what?</h4>
     <p>Determinism runs deep, all of us learnt maths by counting out 1 + 1 on our fingers. We take it for granted that solutions are calculated, and software is predictable and consistent.</p>
     <p>Most of the time, the solution produced by a deterministic system looks exactly the same as one produced by a non-deterministic system. Except sometimes it doesn’t, and this has huge implications.</p>
     <hr />
@@ -77,15 +80,32 @@
     <h2 id="hallucinations">Hallucinations</h2>
     <p>An AI hallucination describes when an AI model produces a confident-sounding, but factually incorrect outcome.</p>
     <p>We like to anthropomorphize things so often describe the AI as ‘making things up’, ‘imaging things’, or even ‘lying’. But this doesn’t really represent what’s going on.</p>
-    <p>A LLM has no concept of the truth, and no innate reasoning capability (intelligence?). It predicts the most likely outcome based on it’s training data, but has no understanding of the outcome itself.</p>
-    <p>It presents mistakes with confidence, because it does know it is a mistake, it does not know what a mistake is. In fact it doesn’t know anything, it only predicts.</p>
-    <h3 id="feature-not-a-bug">Feature not a bug</h3>
+    <p>An LLM has no concept of the truth, and no innate reasoning capability (intelligence?). It predicts the most likely outcome based on it’s training data, but has no understanding of the outcome itself.</p>
+    <p>It presents mistakes with confidence, because it does not know it is a mistake, it does not know what a mistake is. In fact it doesn’t know anything, it only predicts.</p>
+    <h4 id="feature-not-a-bug">Feature not a bug</h4>
     <p>Hallucinations are a feature of how LLMs work. It is a feature not a bug. And in spite of this glaringly obvious design flaw, LLMs are so game-changing, so incredibly important and powerful - we need to learn to live with it.And this is tricky. We all have experience correcting an LLM with something you know is wrong, but what happens when you’re working with an LLM in a new domain? How do you tell what is true and what isn’t?</p>
     <hr />
     <p><img src="/lib/img/ai-coding-lexicon-image-3.jpg" alt="Image"></p>
     <p>Image adapted from ‘This is fine’ meme. Original credit <a href="https://kcgreendotcom.com">KC Green</a></p>
-    <h2 id="evals">Evals</h2>
-    <p>To be continued …</p>
+    <h2 id="tests">Tests</h2>
+    <p>When using an LLM to write code, hallucinations are typically expressed as a complete disconnect from reality. The LLM has performed some work, and confidently explains that everything is complete and working perfectly - but in reality everything is on fire and nothing executes. Asking the LLM to check, or repeat itself won’t help, because the LLM has no concept of what is correct.</p>
+    <p>Tests are a coping mechanism for working with non-deterministic software. It is a way of tying what was produced back to reality.</p>
+    <p>When using an LLM to write code - the product is the code and the code (hopefully) does something to produce an output. So here you can use a standard test-driven development approach, creating a test to check that the output matches what was expected. Now the LLM will keep trying, until the output meets the test criteria.</p>
+    <p>You can now confirm that the correct output was produced, but you can’t say how it was produced; the LLM could have taken any path to get there, sensible <a href="https://www.reddit.com/r/oddlysatisfying/comments/1oauksr/incomplete_train_works_perfectly/">or otherwise</a>. You now need to create ever increasing checkpoints at intermediary steps to ensure the code follows the expected path. And depending on the extent of the coverage, you can now use a non-deterministic LLM to produce deterministic code and consistent outputs.</p>
+    <p>Note: this situation gets weirder when the LLM output is the product (ie. agentic work), but that’s for another time.</p>
+    <hr />
+    <p><img src="/lib/img/ai-coding-lexicon-image-4.jpg" alt="Image"></p>
+    <h2 id="context">Context</h2>
+    <p>We know from experience that having a good contextual brief for an assignment is a good thing. But what's the right amount of information a brief should contain?</p>
+    <ul>
+        <li>Too little and you're trying to complete a task without knowing the full facts. You can easily misunderstand what was expected, and take a wrong-turn.</li>
+        <li>Too much and you can be drowning in documentation. The relevant information gets buried in noise.</li>
+        <li>Too detailed, well-defined and complete, and there is no work left to be done.</li>
+    </ul>
+    <p>Now imagine you can read the brief only once, and have to memorise it. Human short-term memory can hold around four chunks of information at one time, LLMs are similar, they need a good brief to perform the expected task, and can only hold so many things in their context-window at once.</p>
+    <p>In practice, everything starts out great. You’re shipping code and everything is performing as expected. But as your software grows, you’ll inevitably hit the context-window limit. The LLM starts dropping the ball, bugs creep in & things get weirder.</p>
+    <p>We can compensate for this by borrowing classic software-patterns, by architecting your solution to compartmentalise its functions. Consider how the <a href="https://nordicapis.com/the-bezos-api-mandate-amazons-manifesto-for-externalization/">Bezos API mandate</a>, enabled scaling by reducing the dependencies, complexity, and context that each team needed to maintain and control.</p>
+    <p>But how much context can each function maintain? That depends on tokens.</p>
     </main>
 
     <!-- FOOTER -->
