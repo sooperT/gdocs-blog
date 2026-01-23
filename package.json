@@ -1,0 +1,9 @@
+{
+  "name": "gdocs-blog",
+  "private": true,
+  "description": "takenbyninjas.com - Dependencies for Netlify functions only",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0"
+  }
+}
