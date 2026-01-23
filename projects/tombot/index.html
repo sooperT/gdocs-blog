@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TomBot - taken</title>
+    <meta name="description" content="Chat with an AI that knows about Tom Stenson's career and experience.">
+    <link rel="stylesheet" href="/lib/styles/styles.css">
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="6e0b4ebe-2b6a-4583-9ceb-8316259c5600"></script>
+    <style>
+        /* TomBot styles - scoped to #tombot */
+        #tombot {
+            --tb-black: #000000;
+            --tb-cyan: #00ffff;
+            --tb-yellow: #ffff00;
+            --tb-white: #ffffff;
+            --tb-gray: #333333;
+            --tb-font: 'Courier New', Courier, monospace;
+
+            background: var(--tb-black);
+            color: var(--tb-cyan);
+            font-family: var(--tb-font);
+            font-size: 16px;
+            line-height: 1.5;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            border: 2px solid var(--tb-cyan);
+            margin: 20px 0;
+        }
+
+        #tombot *, #tombot *::before, #tombot *::after {
+            box-sizing: border-box;
+        }
+
+        /* Header */
+        #tombot .tb-header {
+            padding: 20px;
+            border-bottom: 2px solid var(--tb-cyan);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+
+        #tombot .tb-avatar {
+            font-size: 48px;
+            line-height: 1;
+        }
+
+        #tombot .tb-title {
+            flex: 1;
+        }
+
+        #tombot .tb-title h1 {
+            margin: 0;
+            font-size: 24px;
+            color: var(--tb-yellow);
+            font-weight: normal;
+        }
+
+        #tombot .tb-title p {
+            margin: 4px 0 0 0;
+            font-size: 14px;
+            color: var(--tb-cyan);
+            opacity: 0.8;
+        }
+
+        /* Chat area */
+        #tombot .tb-chat {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-height: 300px;
+            max-height: 50vh;
+        }
+
+        /* Messages */
+        #tombot .tb-message {
+            max-width: 85%;
+            padding: 12px 16px;
+        }
+
+        #tombot .tb-message.user {
+            align-self: flex-end;
+            background: var(--tb-gray);
+            color: var(--tb-white);
+            border: 1px solid var(--tb-cyan);
+        }
+
+        #tombot .tb-message.assistant {
+            align-self: flex-start;
+            background: transparent;
+            color: var(--tb-cyan);
+            border-left: 3px solid var(--tb-yellow);
+            padding-left: 16px;
+        }
+
+        #tombot .tb-message p {
+            margin: 0 0 12px 0;
+        }
+
+        #tombot .tb-message p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Typing indicator */
+        #tombot .tb-typing {
+            align-self: flex-start;
+            color: var(--tb-cyan);
+            opacity: 0.7;
+        }
+
+        #tombot .tb-typing::after {
+            content: '...';
+            animation: tb-blink 1s infinite;
+        }
+
+        @keyframes tb-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Input area */
+        #tombot .tb-input-area {
+            padding: 20px;
+            border-top: 2px solid var(--tb-cyan);
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        #tombot .tb-input {
+            flex: 1;
+            padding: 12px 16px;
+            font-family: var(--tb-font);
+            font-size: 16px;
+            background: var(--tb-white);
+            color: var(--tb-black);
+            border: 2px solid var(--tb-cyan);
+            outline: none;
+        }
+
+        #tombot .tb-input:focus {
+            border-color: var(--tb-yellow);
+        }
+
+        #tombot .tb-input::placeholder {
+            color: #666;
+        }
+
+        #tombot .tb-send {
+            padding: 12px 24px;
+            font-family: var(--tb-font);
+            font-size: 16px;
+            background: var(--tb-cyan);
+            color: var(--tb-black);
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #tombot .tb-send:hover {
+            background: var(--tb-yellow);
+        }
+
+        #tombot .tb-send:disabled {
+            background: var(--tb-gray);
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        /* Starter prompts */
+        #tombot .tb-starters {
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        #tombot .tb-starter {
+            padding: 8px 16px;
+            font-family: var(--tb-font);
+            font-size: 14px;
+            background: transparent;
+            color: var(--tb-cyan);
+            border: 1px solid var(--tb-cyan);
+            cursor: pointer;
+        }
+
+        #tombot .tb-starter:hover {
+            background: var(--tb-cyan);
+            color: var(--tb-black);
+        }
+
+        /* Welcome message */
+        #tombot .tb-welcome {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--tb-cyan);
+        }
+
+        #tombot .tb-welcome h2 {
+            color: var(--tb-yellow);
+            font-weight: normal;
+            margin: 0 0 16px 0;
+        }
+
+        #tombot .tb-welcome p {
+            margin: 0 0 8px 0;
+            opacity: 0.8;
+        }
+
+        /* Error state */
+        #tombot .tb-error {
+            color: #ff6b6b;
+            padding: 12px 16px;
+            border: 1px solid #ff6b6b;
+            margin: 10px 20px;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            #tombot .tb-header {
+                padding: 16px;
+            }
+
+            #tombot .tb-avatar {
+                font-size: 36px;
+            }
+
+            #tombot .tb-title h1 {
+                font-size: 20px;
+            }
+
+            #tombot .tb-message {
+                max-width: 95%;
+            }
+
+            #tombot .tb-input-area {
+                padding: 16px;
+                flex-direction: column;
+            }
+
+            #tombot .tb-send {
+                width: 100%;
+            }
+
+            #tombot .tb-starters {
+                flex-direction: column;
+            }
+
+            #tombot .tb-starter {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="crt-overlay"></div>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="identity">
+            <div class="logo-container">
+                <h2 class="logo">Taken</h2>
+                <img class="ninja-icon" src="/lib/img/ninja-trans.png" alt="Ninja">
+            </div>
+            <p class="tagline">Words on product, systems thinking and AI.</p>
+        </div>
+    </header>
+
+    <!-- NAVIGATION -->
+    <nav class="site-nav">
+        <a href="/" class="nav-red">Home</a>
+        <a href="/words/" class="nav-green">Words</a>
+        <a href="/projects/" class="nav-yellow active">Projects</a>
+        <a href="/about/" class="nav-blue">About</a>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div id="tombot">
+            <!-- Header with avatar -->
+            <div class="tb-header">
+                <div class="tb-avatar" id="tb-avatar">😐</div>
+                <div class="tb-title">
+                    <h1>TomBot</h1>
+                    <p>Ask me about Tom's experience, skills, and career</p>
+                </div>
+            </div>
+
+            <!-- Chat messages -->
+            <div class="tb-chat" id="tb-chat">
+                <div class="tb-welcome">
+                    <h2>Hi, I'm TomBot</h2>
+                    <p>I'm an AI that knows about Tom Stenson's career and experience.</p>
+                    <p>Ask me anything about his work, skills, or background.</p>
+                    <p style="font-size: 12px; margin-top: 16px; opacity: 0.6;">For the most accurate info, email tom at tomstenson@gmail.com</p>
+                </div>
+
+                <!-- Starter prompts -->
+                <div class="tb-starters" id="tb-starters">
+                    <button class="tb-starter" data-prompt="Walk me through Tom's career">Walk me through his career</button>
+                    <button class="tb-starter" data-prompt="What's Tom's experience with AI?">Experience with AI?</button>
+                    <button class="tb-starter" data-prompt="Why is Tom leaving Novo Nordisk?">Why leaving Novo?</button>
+                    <button class="tb-starter" data-prompt="Is Tom technical?">Is he technical?</button>
+                    <button class="tb-starter" data-prompt="Tell me about Tom's biggest product win">Biggest product win?</button>
+                </div>
+            </div>
+
+            <!-- Input area -->
+            <div class="tb-input-area">
+                <input
+                    type="text"
+                    class="tb-input"
+                    id="tb-input"
+                    placeholder="Ask me about Tom..."
+                    autocomplete="off"
+                >
+                <button class="tb-send" id="tb-send">Send</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <p>Code created with AI — Words are my own</p>
+    </footer>
+
+    <script>
+    (function() {
+        // State
+        let conversationHistory = [];
+        let isLoading = false;
+
+        // Elements
+        const chat = document.getElementById('tb-chat');
+        const input = document.getElementById('tb-input');
+        const sendBtn = document.getElementById('tb-send');
+        const avatar = document.getElementById('tb-avatar');
+        const starters = document.getElementById('tb-starters');
+
+        // Avatar states
+        const AVATAR = {
+            idle: '😐',
+            thinking: '🤔',
+            talking: '😊'
+        };
+
+        function setAvatar(state) {
+            avatar.textContent = AVATAR[state] || AVATAR.idle;
+        }
+
+        function addMessage(role, content) {
+            const msg = document.createElement('div');
+            msg.className = `tb-message ${role}`;
+            msg.innerHTML = formatMessage(content);
+            chat.appendChild(msg);
+            chat.scrollTop = chat.scrollHeight;
+            return msg;
+        }
+
+        function formatMessage(text) {
+            // Simple markdown-ish formatting
+            return text
+                .split('\n\n')
+                .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
+                .join('');
+        }
+
+        function showTyping() {
+            const typing = document.createElement('div');
+            typing.className = 'tb-typing';
+            typing.id = 'tb-typing';
+            typing.textContent = 'Thinking';
+            chat.appendChild(typing);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function hideTyping() {
+            const typing = document.getElementById('tb-typing');
+            if (typing) typing.remove();
+        }
+
+        function hideWelcome() {
+            const welcome = chat.querySelector('.tb-welcome');
+            if (welcome) welcome.remove();
+            if (starters) starters.remove();
+        }
+
+        function showError(message) {
+            const error = document.createElement('div');
+            error.className = 'tb-error';
+            error.textContent = message;
+            chat.appendChild(error);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        async function sendMessage(userMessage) {
+            if (isLoading || !userMessage.trim()) return;
+
+            isLoading = true;
+            sendBtn.disabled = true;
+            input.disabled = true;
+            hideWelcome();
+
+            // Add user message
+            addMessage('user', userMessage);
+            conversationHistory.push({ role: 'user', content: userMessage });
+
+            // Show thinking state
+            setAvatar('thinking');
+            showTyping();
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ messages: conversationHistory })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to get response');
+                }
+
+                hideTyping();
+                setAvatar('talking');
+
+                // Handle streaming response
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let assistantMessage = '';
+                let messageEl = null;
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value);
+                    const lines = chunk.split('\n');
+
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.slice(6));
+
+                                if (data.type === 'delta') {
+                                    assistantMessage += data.text;
+
+                                    if (!messageEl) {
+                                        messageEl = addMessage('assistant', assistantMessage);
+                                    } else {
+                                        messageEl.innerHTML = formatMessage(assistantMessage);
+                                    }
+                                    chat.scrollTop = chat.scrollHeight;
+                                } else if (data.type === 'error') {
+                                    throw new Error(data.message);
+                                }
+                            } catch (e) {
+                                // Ignore JSON parse errors for incomplete chunks
+                            }
+                        }
+                    }
+                }
+
+                // Save to history
+                if (assistantMessage) {
+                    conversationHistory.push({ role: 'assistant', content: assistantMessage });
+                }
+
+            } catch (error) {
+                hideTyping();
+                console.error('Error:', error);
+                showError('Something went wrong. Please try again.');
+            } finally {
+                isLoading = false;
+                sendBtn.disabled = false;
+                input.disabled = false;
+                input.focus();
+                setAvatar('idle');
+            }
+        }
+
+        // Event listeners
+        sendBtn.addEventListener('click', () => {
+            sendMessage(input.value);
+            input.value = '';
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage(input.value);
+                input.value = '';
+            }
+        });
+
+        // Starter prompts
+        document.querySelectorAll('.tb-starter').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const prompt = btn.dataset.prompt;
+                sendMessage(prompt);
+            });
+        });
+
+        // Focus input on load
+        input.focus();
+    })();
+    </script>
+</body>
+</html>
