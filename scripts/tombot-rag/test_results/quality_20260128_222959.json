@@ -1,0 +1,241 @@
+[
+  {
+    "query": "Tell me about yourself",
+    "expected_section": "META",
+    "notes": "Summary - should match canonical",
+    "status": "success",
+    "response": "I'm a senior product manager with 20 years of experience across product, growth and commercial roles. LinkedIn would call me a \"fixer and doer\", but really I think of myself as a kind of product janitor.\n\nI find things that aren't working well and clean up messy patterns to make it a nicer place to be. Practically, I use systems thinking to find leverage points. I get called in when something is difficult, and I help people think differently along the way.\n\nI'm motivated by impact, learning and fun. This means I drive results, stay curious, and create momentum in teams and products.\n\nI'm currently looking for my next challenge after my time at Novo Nordisk.\n\nWould you like to hear more about my recent experience at Novo Nordisk or my approach to product management, or ask about something else?",
+    "response_length": 804,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [
+        {
+          "claim": "after my time at Novo Nordisk",
+          "severity": "high",
+          "explanation": "The source content does not mention Novo Nordisk at all. This appears to be a fabricated employment detail."
+        }
+      ],
+      "verdict": "major"
+    },
+    "canonical_similarity": 0.808
+  },
+  {
+    "query": "What's your background?",
+    "expected_section": "META.ARC",
+    "notes": "Career arc - long content, high improv risk",
+    "status": "success",
+    "response": "I started out studying biology at university, but the late 90s internet boom changed everything for me. Seeing kids in bedrooms and garages reshape entire industries - I had to get involved.\n\nI taught myself web design and coding, completed my degree, then took a Masters in IT. Graduated right as the dot.com bubble popped in 2001, so I started with freelance web design and eventually got my foot in the door at a web hosting company.\n\nThat's where I really cut my teeth - started answering phones, won their sales competition, but convinced management to let me rebuild their website. When it drove 1 million visits and boosted sales, I moved into web design and quickly became team lead.\n\nFrom there I progressed through increasingly senior roles in tech companies - Head of New Media, Marketing Director, eventually moving into product management. In 2010 I moved to Denmark and got involved in the startup scene.\n\nThe last decade has been focused on health tech - first at LEO Innovation Lab where I learned how to build products from scratch in a proper innovation environment, then at Novo Nordisk where I'm currently an Associated Director working on digital health products and helping transform how the organisation builds products.\n\nWould you like to hear more about my transition into product management, or my experience in health tech specifically?",
+    "response_length": 1363,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [
+        {
+          "claim": "I'm currently an Associated Director",
+          "severity": "medium",
+          "explanation": "The source content shows Tom was promoted to Associated Director at Novo Nordisk during 2020-2022, but that role ended in 2022. The timeline shows 2026 as a separate entry, indicating he's no longer at Novo Nordisk currently."
+        }
+      ],
+      "verdict": "minor"
+    },
+    "canonical_similarity": 0.83
+  },
+  {
+    "query": "What motivates you?",
+    "expected_section": "META.COMPASS",
+    "notes": "Compass - should use exact phrasing",
+    "status": "success",
+    "response": "My motivation comes down to three things: impact, learning, and fun.\n\n**Impact** is fundamental - if what I do doesn't make a difference, then what's the point? I'm driven by outcomes, whether that's hitting big numbers, improving lives, or creating change through others. But I've learnt it often starts small: a microcopy nudge, a well-timed notification, a product loop that compounds, or even a well-placed thought at the coffee machine. I look forward to finding those sparks.\n\n**Learning** keeps me energised. I have 20+ years of experience and solid product sense, but I've learnt the hard way that it's not *my* ideas that matter. The real power lies in creating space for learning - staying curious about new mental models, fresh viewpoints, and unexpected opportunities.\n\n**Fun** is foundational. When I work on compelling challenges with good, smart people I respect and can laugh with, everything flows smoother. That's when great things happen.\n\nWould you like to know more about how I apply this in practice, or ask about something else?",
+    "response_length": 1051,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [],
+      "verdict": "clean"
+    },
+    "canonical_similarity": 0.801
+  },
+  {
+    "query": "What are you looking for?",
+    "expected_section": "META.LOOKING",
+    "notes": "Looking for - should not add education",
+    "status": "success",
+    "response": "I'm looking for roles where I can make real impact, keep learning, and enjoy the work. My compass is impact, learning, and fun, so I focus on the potential rather than just the job title.\n\nI'm drawn to challenging product problems with big upside potential - the kind where there's no established playbook and you have to figure things out. I want to work with smart colleagues who like getting stuff done, and ideally in an organisation that's willing to lean into AI.\n\nI've deliberately moved across different industries throughout my career - web hosting, SaaS, health-tech - because I pick up new domains quickly and genuinely love learning new things.\n\nWould you like to hear more about the types of product challenges I've tackled, or ask about something else?",
+    "response_length": 766,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [],
+      "verdict": "clean"
+    },
+    "canonical_similarity": 0.912
+  },
+  {
+    "query": "What are your strengths?",
+    "expected_section": "META.COMPETENCIES",
+    "notes": "Competencies - structured content",
+    "status": "success",
+    "response": "My core strengths centre around outcome-focused product management and systems thinking:\n\n**Product Leadership:** I'm a senior IC who takes end-to-end ownership of outcomes. I don't just manage features - I shape how product teams work and think about problems.\n\n**Growth Expertise:** A decade of driving acquisition, activation, and retention in high-velocity environments. I understand funnels, experimentation, and conversion at a deep level.\n\n**Problem-First Discovery:** I excel at exploring new domains without a playbook. I start with the problem, not the solution, and create value where others see uncertainty.\n\n**Systems Thinking:** I see connections that others miss. This helps me identify root causes and design solutions that work across the whole system, not just individual parts.\n\n**Building Trust:** I build alignment across different roles, levels, and silos. People trust me to challenge assumptions, surface blindspots, and be a strategic thought partner.\n\nI'm also technically grounded, which means I can have credible conversations with engineering teams and understand implementation constraints.\n\nWould you like to hear more about how I've applied these strengths in specific situations, or ask about something else?",
+    "response_length": 1241,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [],
+      "verdict": "clean"
+    },
+    "canonical_similarity": 0.82
+  },
+  {
+    "query": "Tell me about Novo Nordisk",
+    "expected_section": "NOVO",
+    "notes": "Company summary - should not blend roles",
+    "status": "success",
+    "response": "Novo Nordisk is a global pharmaceutical company, best known for its treatments in obesity and diabetes. I've worked there for almost 6 years now, since 2020.\n\nI joined as a Senior Product Manager to build a digital patient solution for Wegovy, which was then an unheard-of weight loss medicine. I led the full product lifecycle end to end. It was really a stealth transformation project where I could bring my learnings from LEO but apply them to in-house transformation.\n\nLater, I was promoted to Associate Product Director after being asked to scale learnings from Wegovycare across the product organisation. In this role, I have a much wider remit and work on high-impact, cross-functional projects across the organisation.\n\nWould you like to hear more about the Wegovy project specifically, or what I've been doing in my current Associate Product Director role?",
+    "response_length": 865,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [],
+      "verdict": "clean"
+    },
+    "canonical_similarity": 0.96
+  },
+  {
+    "query": "Tell me about LEO Innovation Lab",
+    "expected_section": "LEO",
+    "notes": "Company summary",
+    "status": "success",
+    "response": "I worked at LEO Innovation Lab from 2016 to 2020. It was an independent healthtech incubator established by LEO Pharma, where product leads were essentially mini-CEOs for each venture.\n\nI worked across three different product roles there:\n\n\u00e2\u0080\u00a2 **TREAT**: I was parachuted into this underperforming flagship product, managed to turn it around, then ultimately recommended closure\n\u00e2\u0080\u00a2 **Skincoach**: Built an app for terminally ill cancer patients. Some of the most meaningful work I've done\n\u00e2\u0080\u00a2 **Diagnosis App**: Led the ML and computer vision team\n\nBeyond the product work, I drove adoption of prototyping and direct user interviews across the organisation. I also changed the all-hands format from sharing vanity stats to sharing mistakes instead.\n\nThe innovation lab model ultimately wasn't sustainable, but it was a formative career moment. Accelerated learning, brilliant peers, rapid iteration.\n\nWould you like to hear more about any of those specific products, or how I approach turning around underperforming products?",
+    "response_length": 1026,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [],
+      "verdict": "clean"
+    },
+    "canonical_similarity": 0.899
+  },
+  {
+    "query": "Why are you leaving Novo Nordisk?",
+    "expected_section": "TQ.LEAVING",
+    "notes": "Tricky Q - tight script",
+    "status": "success",
+    "response": "I'm not leaving by choice. Novo Nordisk underwent a massive restructuring in autumn 2025 that impacted 9,000 roles globally, with 5,000 of those in Denmark. Digital was heavily affected, and my role was one of those eliminated.\n\nI'm viewing this as an opportunity to return to my tech roots and look for my next challenge in the industry.\n\nWould you like to know more about my experience at Novo Nordisk or what I'm looking for in my next role?",
+    "response_length": 444,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [],
+      "verdict": "clean"
+    },
+    "canonical_similarity": 0.915
+  },
+  {
+    "query": "Are you technical?",
+    "expected_section": "TQ.TECHNICAL",
+    "notes": "Tricky Q - nuanced answer",
+    "status": "success",
+    "response": "Yes and no.\n\nI'm technical enough to lead machine learning teams and build prototypes, but my value is in bridging disciplines, not writing production code.\n\nI have a lifelong love of technology, a postgrad degree in IT, and I started my career making websites. But I quickly realised I could create more impact by bridging and translating across disciplines than by staying purely technical.\n\nI think logically, grasp technical concepts quickly, and can still write rudimentary code when needed. At LEO I led ML and computer vision teams. At Novo I built a GenAI proof of concept and a weight-loss prediction algorithm. Right now I'm building with Claude Code, GitHub and Netlify.\n\nI'm not a specialist engineer. My value is in understanding enough to ask the right questions, spot opportunities, and provide counterbalance.\n\nWould you like to hear more about the ML teams I've led or the prototypes I've built, or ask about something else?",
+    "response_length": 941,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [],
+      "verdict": "clean"
+    },
+    "canonical_similarity": 0.978
+  },
+  {
+    "query": "Tell me about a time you failed",
+    "expected_section": "TQ.FAILURE",
+    "notes": "Tricky Q - multiple sub-stories",
+    "status": "success",
+    "response": "I've failed lots of times - if you don't fail, you're probably not stretching yourself. That said, I prefer to reframe them as learnings. Here are a few key ones:\n\n**Going on feels rather than numbers**\nI optimised the wrong part of the funnel at LEO Pharma. High conversion rate \u00c3\u0097 tiny audience = marginal impact.\n\n**Knowing when to ship**\nFresh out of university, I cofounded a startup that never launched. We wanted perfect and kept polishing. Learning: ship in small viable increments.\n\n**Prioritising ideas over learning**\nEarly career argument with a designer - each of us convinced we were right. Neither of us knew about testing. Once I learnt to detach from ego, everything changed.\n\nWould you like to hear more about how I've applied these learnings in my recent roles, or ask about something else?",
+    "response_length": 809,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [
+        {
+          "claim": "at LEO Pharma",
+          "severity": "high",
+          "explanation": "The source content mentions optimizing the wrong part of the funnel but does not specify this happened at LEO Pharma. This is a fabricated company attribution."
+        }
+      ],
+      "verdict": "major"
+    },
+    "canonical_similarity": 0.909
+  },
+  {
+    "query": "What's your AI experience?",
+    "expected_section": "THEME.AI",
+    "notes": "Theme - cross-cutting",
+    "status": "success",
+    "response": "I've been hands-on with AI/ML across multiple roles:\n\nAt Novo Nordisk, I built a GenAI proof of concept for automating compliance reviews. This included a RAG model that could auto-document submissions and a Figma agent for shift-left design validation.\n\nAt LEO Pharma, I led the ML team building a skin diagnosis app, where we achieved 80% accuracy on the core classification model.\n\nI also built a weight-loss prediction algorithm at Novo using clinical data, which later became an API product.\n\nRight now I'm building with Claude Code, GitHub and Netlify. This chatbot you're talking to is actually one of those projects.\n\nI'm not a specialist engineer. My value is in understanding enough to ask the right questions, spot opportunities, and bridge between technical and commercial teams.\n\nWould you like to hear more about the GenAI compliance work at Novo or the skin diagnosis project at LEO?",
+    "response_length": 898,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [
+        {
+          "claim": "Novo Nordisk",
+          "severity": "medium",
+          "explanation": "The source content refers to 'Novo' but the response expands this to 'Novo Nordisk', which is a specific company name not explicitly stated in the source"
+        },
+        {
+          "claim": "LEO Pharma",
+          "severity": "medium",
+          "explanation": "The source content refers to 'LEO' but the response expands this to 'LEO Pharma', which is a specific company name not explicitly stated in the source"
+        }
+      ],
+      "verdict": "minor"
+    },
+    "canonical_similarity": 0.93
+  },
+  {
+    "query": "Tell me about the domain search innovation",
+    "expected_section": "HOST.R2.STORY.DOMAIN",
+    "notes": "Story - specific detail",
+    "status": "success",
+    "response": "About 20 years ago, I was working for a domain registrar that's now part of GoDaddy. I saw a major problem with how domain search worked across the industry.\n\nThe standard process was terrible for users: you had to enter a domain name in a text field, pick the ending from a dropdown menu (.com, .net, etc.), then hit search. You could only search one domain at a time, and people kept hitting domains that were already taken. It was frustrating and killed conversions.\n\nThe technical reason it worked this way was that we had to make separate API calls to each domain registry. But I realised we could do better.\n\nI completely reinvented the process. I built a simple text field that would interpret whatever the user typed and automatically search all domain endings at once using asynchronous calls. This was actually the first time we used AJAX in our technology stack.\n\nThe results were immediate: new revenue increased by 20% overnight. The approach worked so well it became the industry standard. If you search for a domain anywhere today, this is exactly how it works.\n\nWould you like to hear more about how I approach product innovation, or ask about something else?",
+    "response_length": 1175,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [],
+      "verdict": "clean"
+    },
+    "canonical_similarity": 0.872
+  },
+  {
+    "query": "What did you study?",
+    "expected_section": "META.EDUCATION",
+    "notes": "Education - ONLY when asked",
+    "status": "success",
+    "response": "I studied Biological Sciences for my undergraduate degree at the University of Birmingham, then did a Masters in Information Technology at the University of Nottingham.\n\nMy Masters dissertation was quite hands-on - I built a multi-threaded client-server application using Java and XML. It was a good bridge between my science background and moving into technology.\n\nWould you like to know more about how I transitioned from biology into tech, or ask about something else?",
+    "response_length": 471,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [],
+      "verdict": "clean"
+    },
+    "canonical_similarity": 0.572
+  },
+  {
+    "query": "How can I contact you?",
+    "expected_section": "META.CONTACT",
+    "notes": "Contact - ONLY when asked",
+    "status": "success",
+    "response": "You can reach me at **tomstenson@gmail.com**.\n\nYou can also find me on LinkedIn at linkedin.com/in/tomstenson, or check out my blog at takenbyninjas.com.\n\nWould you like to know more about my current role or experience before reaching out, or is there something specific you'd like to discuss?",
+    "response_length": 293,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [],
+      "verdict": "clean"
+    },
+    "canonical_similarity": 0.662
+  },
+  {
+    "query": "What tools do you use?",
+    "expected_section": "META.TOOLS",
+    "notes": "Tools - short factual list",
+    "status": "success",
+    "response": "I use a mix of tools depending on the type of work:\n\n**For product and collaboration:**\n- Pen and paper for initial thinking and sketching\n- Miro for workshops and visual collaboration (I'm a top 1% power user there)\n- Project management tools like Jira, Azure DevOps, Trello, and Linear\n\n**For tech work:**\n- AI tools like Claude Code, ChatGPT, and Gemini\n- GitHub for version control and Netlify for deployment\n\nI tend to pick tools based on what the team needs and what works best for the specific project rather than sticking to one platform.\n\nWould you like to know more about how I use Miro in my product work, or are you curious about something else?",
+    "response_length": 657,
+    "violations": [],
+    "hallucination_check": {
+      "hallucinations": [],
+      "verdict": "clean"
+    },
+    "canonical_similarity": 0.793
+  }
+]

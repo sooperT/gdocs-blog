@@ -1,0 +1,738 @@
+[
+  {
+    "query": "Tell me about yourself",
+    "expected": "META",
+    "test_type": "exact",
+    "notes": "Should match META intro",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META",
+    "top_score": 1.0,
+    "top_question": "Tell me about yourself",
+    "all_matches": [
+      {
+        "title": "META",
+        "score": 1.0
+      },
+      {
+        "title": "META.PERSONAL",
+        "score": 0.776
+      }
+    ]
+  },
+  {
+    "query": "What's your background?",
+    "expected": "META.ARC",
+    "test_type": "exact",
+    "notes": "Should match career arc",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.ARC",
+    "top_score": 1.0,
+    "top_question": "What's your background?",
+    "all_matches": [
+      {
+        "title": "META.ARC",
+        "score": 1.0
+      },
+      {
+        "title": "META",
+        "score": 0.851
+      },
+      {
+        "title": "META.EDUCATION",
+        "score": 0.789
+      }
+    ]
+  },
+  {
+    "query": "What's the red thread through your career?",
+    "expected": "META.ARC",
+    "test_type": "exact",
+    "notes": "Red thread = career arc",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.ARC",
+    "top_score": 1.0,
+    "top_question": "What's the red thread through your career?",
+    "all_matches": [
+      {
+        "title": "META.ARC",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "What motivates you?",
+    "expected": "META.COMPASS",
+    "test_type": "exact",
+    "notes": "Should match compass",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.COMPASS",
+    "top_score": 1.0,
+    "top_question": "What motivates you?",
+    "all_matches": [
+      {
+        "title": "META.COMPASS",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "What are you looking for?",
+    "expected": "META.LOOKING",
+    "test_type": "exact",
+    "notes": "Should match looking for",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.LOOKING",
+    "top_score": 1.0,
+    "top_question": "What are you looking for?",
+    "all_matches": [
+      {
+        "title": "META.LOOKING",
+        "score": 1.0
+      },
+      {
+        "title": "What are you looking for?",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "What are your strengths?",
+    "expected": "META.COMPETENCIES",
+    "test_type": "exact",
+    "notes": "Should match competencies",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.COMPETENCIES",
+    "top_score": 1.0,
+    "top_question": "What are your strengths?",
+    "all_matches": [
+      {
+        "title": "META.COMPETENCIES",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "What tools do you use?",
+    "expected": "META.TOOLS",
+    "test_type": "exact",
+    "notes": "Should match tools",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.TOOLS",
+    "top_score": 1.0,
+    "top_question": "What tools do you use?",
+    "all_matches": [
+      {
+        "title": "META.TOOLS",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "What did you study?",
+    "expected": "META.EDUCATION",
+    "test_type": "exact",
+    "notes": "Should match education",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.EDUCATION",
+    "top_score": 0.877,
+    "top_question": "Where did you study?",
+    "all_matches": [
+      {
+        "title": "META.EDUCATION",
+        "score": 0.877
+      }
+    ]
+  },
+  {
+    "query": "How can I contact you?",
+    "expected": "META.CONTACT",
+    "test_type": "exact",
+    "notes": "Should match contact",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.CONTACT",
+    "top_score": 0.787,
+    "top_question": "What's the best way to contact you?",
+    "all_matches": [
+      {
+        "title": "META.CONTACT",
+        "score": 0.787
+      }
+    ]
+  },
+  {
+    "query": "Tell me about Novo Nordisk",
+    "expected": "NOVO",
+    "test_type": "exact",
+    "notes": "Company entry point",
+    "status": "pass",
+    "method": "question",
+    "top_match": "NOVO",
+    "top_score": 1.0,
+    "top_question": "Tell me about Novo Nordisk",
+    "all_matches": [
+      {
+        "title": "NOVO",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "Tell me about LEO Innovation Lab",
+    "expected": "LEO",
+    "test_type": "exact",
+    "notes": "Company entry point",
+    "status": "pass",
+    "method": "question",
+    "top_match": "LEO",
+    "top_score": 1.0,
+    "top_question": "Tell me about LEO Innovation Lab",
+    "all_matches": [
+      {
+        "title": "LEO",
+        "score": 1.0
+      },
+      {
+        "title": "LEO.STORY.MODEL",
+        "score": 0.817
+      }
+    ]
+  },
+  {
+    "query": "What did you do at Opbeat?",
+    "expected": "OPBEAT",
+    "test_type": "exact",
+    "notes": "Company question",
+    "status": "pass",
+    "method": "question",
+    "top_match": "OPBEAT",
+    "top_score": 1.0,
+    "top_question": "What did you do at Opbeat?",
+    "all_matches": [
+      {
+        "title": "OPBEAT",
+        "score": 1.0
+      },
+      {
+        "title": "OPBEAT.R1.GROWTH",
+        "score": 0.774
+      }
+    ]
+  },
+  {
+    "query": "Tell me about the domain search innovation",
+    "expected": "HOST.R2.STORY.DOMAIN",
+    "test_type": "exact",
+    "notes": "Specific story",
+    "status": "pass",
+    "method": "question",
+    "top_match": "HOST.R2.STORY.DOMAIN",
+    "top_score": 1.0,
+    "top_question": "Tell me about the domain search innovation",
+    "all_matches": [
+      {
+        "title": "HOST.R2.STORY.DOMAIN",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "Tell me about a time you failed",
+    "expected": "TQ.FAILURE",
+    "test_type": "exact",
+    "notes": "Tricky question",
+    "status": "pass",
+    "method": "question",
+    "top_match": "Tell me about a time you failed",
+    "top_score": 1.0,
+    "top_question": "Tell me about a time you failed",
+    "all_matches": [
+      {
+        "title": "Tell me about a time you failed",
+        "score": 1.0
+      },
+      {
+        "title": "TQ.FAILURE",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "Why are you leaving Novo Nordisk?",
+    "expected": "TQ.LEAVING",
+    "test_type": "exact",
+    "notes": "Tricky question",
+    "status": "pass",
+    "method": "question",
+    "top_match": "Why are you leaving Novo Nordisk?",
+    "top_score": 1.0,
+    "top_question": "Why are you leaving Novo Nordisk?",
+    "all_matches": [
+      {
+        "title": "Why are you leaving Novo Nordisk?",
+        "score": 1.0
+      },
+      {
+        "title": "TQ.LEAVING",
+        "score": 1.0
+      },
+      {
+        "title": "NOVO",
+        "score": 0.781
+      }
+    ]
+  },
+  {
+    "query": "Are you technical?",
+    "expected": "TQ.TECHNICAL",
+    "test_type": "exact",
+    "notes": "Tricky question",
+    "status": "pass",
+    "method": "question",
+    "top_match": "TQ.TECHNICAL",
+    "top_score": 1.0,
+    "top_question": "Are you technical?",
+    "all_matches": [
+      {
+        "title": "TQ.TECHNICAL",
+        "score": 1.0
+      },
+      {
+        "title": "Are you technical?",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "What's your AI experience?",
+    "expected": "THEME.AI",
+    "test_type": "exact",
+    "notes": "Theme match",
+    "status": "pass",
+    "method": "question",
+    "top_match": "THEME.AI",
+    "top_score": 1.0,
+    "top_question": "What's your AI experience?",
+    "all_matches": [
+      {
+        "title": "THEME.AI",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "How do you approach building software?",
+    "expected": "TQ.APPROACH",
+    "test_type": "exact",
+    "notes": "Approach question",
+    "status": "pass",
+    "method": "question",
+    "top_match": "TQ.APPROACH",
+    "top_score": 1.0,
+    "top_question": "How do you approach building software?",
+    "all_matches": [
+      {
+        "title": "TQ.APPROACH",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "Walk me through your career",
+    "expected": "META.ARC",
+    "test_type": "paraphrase",
+    "notes": "Synonym for background",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.ARC",
+    "top_score": 1.0,
+    "top_question": "Walk me through your career",
+    "all_matches": [
+      {
+        "title": "META.ARC",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "What's your story?",
+    "expected": "META.ARC",
+    "test_type": "paraphrase",
+    "notes": "Informal version",
+    "status": "fail",
+    "method": "content",
+    "top_match": null,
+    "top_score": 0,
+    "top_question": "",
+    "all_matches": []
+  },
+  {
+    "query": "What's your career journey?",
+    "expected": "META.ARC",
+    "test_type": "paraphrase",
+    "notes": "Different wording",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.ARC",
+    "top_score": 0.916,
+    "top_question": "What's your professional journey?",
+    "all_matches": [
+      {
+        "title": "META.ARC",
+        "score": 0.916
+      }
+    ]
+  },
+  {
+    "query": "What drives you?",
+    "expected": "META.COMPASS",
+    "test_type": "paraphrase",
+    "notes": "Synonym for motivates",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.COMPASS",
+    "top_score": 0.859,
+    "top_question": "What drives you professionally?",
+    "all_matches": [
+      {
+        "title": "META.COMPASS",
+        "score": 0.859
+      }
+    ]
+  },
+  {
+    "query": "What gets you excited about work?",
+    "expected": "META.COMPASS",
+    "test_type": "paraphrase",
+    "notes": "Different phrasing",
+    "status": "pass",
+    "method": "content",
+    "top_match": "META.COMPASS",
+    "top_score": 0.444,
+    "top_question": "",
+    "all_matches": [
+      {
+        "title": "META.COMPASS",
+        "score": 0.444
+      },
+      {
+        "title": "THEME.TURNAROUND",
+        "score": 0.418
+      },
+      {
+        "title": "TQ.5YEARS",
+        "score": 0.416
+      },
+      {
+        "title": "What's your biggest weakness?",
+        "score": 0.402
+      }
+    ]
+  },
+  {
+    "query": "What kind of job are you after?",
+    "expected": "META.LOOKING",
+    "test_type": "paraphrase",
+    "notes": "Informal phrasing",
+    "status": "pass",
+    "method": "content",
+    "top_match": "META.LOOKING",
+    "top_score": 0.44,
+    "top_question": "",
+    "all_matches": [
+      {
+        "title": "META.LOOKING",
+        "score": 0.44
+      },
+      {
+        "title": "Why do you want to work for [company]?",
+        "score": 0.436
+      },
+      {
+        "title": "Are you interviewing elsewhere?",
+        "score": 0.41
+      }
+    ]
+  },
+  {
+    "query": "What are you good at?",
+    "expected": "META.COMPETENCIES",
+    "test_type": "paraphrase",
+    "notes": "Simple phrasing",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.COMPETENCIES",
+    "top_score": 1.0,
+    "top_question": "What are you good at?",
+    "all_matches": [
+      {
+        "title": "META.COMPETENCIES",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "How did you get into product?",
+    "expected": "META.ARC",
+    "test_type": "paraphrase",
+    "notes": "Career origin",
+    "status": "pass",
+    "method": "question",
+    "top_match": "HOST",
+    "top_score": 1.0,
+    "top_question": "How did you get into product?",
+    "all_matches": [
+      {
+        "title": "HOST",
+        "score": 1.0
+      },
+      {
+        "title": "META.ARC",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "Tell me about your pharma experience",
+    "expected": "NOVO",
+    "test_type": "paraphrase",
+    "notes": "Industry reference",
+    "status": "pass",
+    "method": "question",
+    "top_match": "NOVO",
+    "top_score": 1.0,
+    "top_question": "Tell me about your pharma experience",
+    "all_matches": [
+      {
+        "title": "NOVO",
+        "score": 1.0
+      },
+      {
+        "title": "TQ.WHYPHARMA",
+        "score": 0.823
+      },
+      {
+        "title": "Why did you get into pharma?",
+        "score": 0.802
+      },
+      {
+        "title": "TQ.PHARMA",
+        "score": 0.762
+      }
+    ]
+  },
+  {
+    "query": "Tell me about your startup experience",
+    "expected": "OPBEAT",
+    "test_type": "paraphrase",
+    "notes": "Company type",
+    "status": "pass",
+    "method": "question",
+    "top_match": "OPBEAT",
+    "top_score": 0.932,
+    "top_question": "Describe your startup experience",
+    "all_matches": [
+      {
+        "title": "OPBEAT",
+        "score": 0.932
+      }
+    ]
+  },
+  {
+    "query": "What's your biggest product win?",
+    "expected": "HOST.R2.STORY.DOMAIN",
+    "test_type": "paraphrase",
+    "notes": "Indirect reference",
+    "status": "pass",
+    "method": "question",
+    "top_match": "HOST.R2.STORY.DOMAIN",
+    "top_score": 0.882,
+    "top_question": "What's the product win you're most proud of?",
+    "all_matches": [
+      {
+        "title": "HOST.R2.STORY.DOMAIN",
+        "score": 0.882
+      }
+    ]
+  },
+  {
+    "query": "Tell me about Novo",
+    "expected": "NOVO",
+    "test_type": "alias",
+    "notes": "Short name",
+    "status": "pass",
+    "method": "question",
+    "top_match": "NOVO",
+    "top_score": 1.0,
+    "top_question": "Tell me about Novo Nordisk",
+    "all_matches": [
+      {
+        "title": "NOVO",
+        "score": 1.0
+      }
+    ]
+  },
+  {
+    "query": "What did you do at LEO?",
+    "expected": "LEO",
+    "test_type": "alias",
+    "notes": "Short name",
+    "status": "pass",
+    "method": "question",
+    "top_match": "LEO",
+    "top_score": 0.938,
+    "top_question": "What was your role at LEO Innovation Lab",
+    "all_matches": [
+      {
+        "title": "LEO",
+        "score": 0.938
+      },
+      {
+        "title": "LEO.STORY.MODEL",
+        "score": 0.791
+      }
+    ]
+  },
+  {
+    "query": "Tell me about iLAB",
+    "expected": "LEO",
+    "test_type": "alias",
+    "notes": "Alternate name",
+    "status": "pass",
+    "method": "question",
+    "top_match": "LEO",
+    "top_score": 1.0,
+    "top_question": "Tell me about LEO Innovation Lab",
+    "all_matches": [
+      {
+        "title": "LEO",
+        "score": 1.0
+      },
+      {
+        "title": "LEO.STORY.MODEL",
+        "score": 0.817
+      }
+    ]
+  },
+  {
+    "query": "Whats your backgrond?",
+    "expected": "META.ARC",
+    "test_type": "typo",
+    "notes": "Typo in query",
+    "status": "pass",
+    "method": "question",
+    "top_match": "META.ARC",
+    "top_score": 0.796,
+    "top_question": "What's your background?",
+    "all_matches": [
+      {
+        "title": "META.ARC",
+        "score": 0.796
+      }
+    ]
+  },
+  {
+    "query": "red thread",
+    "expected": "META.ARC",
+    "test_type": "fragment",
+    "notes": "Incomplete query",
+    "status": "fail",
+    "method": "content",
+    "top_match": null,
+    "top_score": 0,
+    "top_question": "",
+    "all_matches": []
+  },
+  {
+    "query": "motivation",
+    "expected": "META.COMPASS",
+    "test_type": "fragment",
+    "notes": "Single word",
+    "status": "fail",
+    "method": "content",
+    "top_match": null,
+    "top_score": 0,
+    "top_question": "",
+    "all_matches": []
+  },
+  {
+    "query": "Novo Nordisk AI",
+    "expected": "NOVO.R2.GENAI",
+    "test_type": "fragment",
+    "notes": "Keyword combo",
+    "status": "fail",
+    "method": "content",
+    "top_match": null,
+    "top_score": 0,
+    "top_question": "",
+    "all_matches": []
+  },
+  {
+    "query": "true red thread",
+    "expected": "META.ARC",
+    "test_type": "fragment",
+    "notes": "Odd phrasing (real user query)",
+    "status": "fail",
+    "method": "content",
+    "top_match": null,
+    "top_score": 0,
+    "top_question": "",
+    "all_matches": []
+  },
+  {
+    "query": "biggest win",
+    "expected": "HOST.R2.STORY.DOMAIN",
+    "test_type": "fragment",
+    "notes": "Short query",
+    "status": "fail",
+    "method": "content",
+    "top_match": null,
+    "top_score": 0,
+    "top_question": "",
+    "all_matches": []
+  },
+  {
+    "query": "What's your favourite colour?",
+    "expected": null,
+    "test_type": "off_topic",
+    "notes": "Should not match well",
+    "status": "pass",
+    "method": "content",
+    "top_match": null,
+    "top_score": 0,
+    "top_question": "",
+    "all_matches": []
+  },
+  {
+    "query": "Can you write me some code?",
+    "expected": null,
+    "test_type": "off_topic",
+    "notes": "Out of scope",
+    "status": "pass",
+    "method": "content",
+    "top_match": null,
+    "top_score": 0,
+    "top_question": "",
+    "all_matches": []
+  },
+  {
+    "query": "What's the weather like?",
+    "expected": null,
+    "test_type": "off_topic",
+    "notes": "Completely unrelated",
+    "status": "pass",
+    "method": "content",
+    "top_match": null,
+    "top_score": 0,
+    "top_question": "",
+    "all_matches": []
+  }
+]

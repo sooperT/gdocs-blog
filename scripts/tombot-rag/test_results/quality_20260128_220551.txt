@@ -1,0 +1,84 @@
+======================================================================
+TOMBOT RESPONSE QUALITY REPORT
+Run: 2026-01-28T22:05:51.861940
+======================================================================
+
+Total: 15, Successful: 15, Errors: 0
+
+======================================================================
+HALLUCINATION CHECK (zero tolerance)
+======================================================================
+  Checked: 15
+  Clean:   12
+  Minor:   2
+  MAJOR:   1
+
+  *** MAJOR HALLUCINATIONS DETECTED ***
+
+  Query: Tell me about yourself
+  Section: META
+    FABRICATED: current role at Novo Nordisk
+    Severity: high
+    Why: The source content makes no mention of Novo Nordisk or any current role. This appears to be a fabricated company/role reference.
+
+  Minor issues:
+
+  Query: What's your background?
+  Section: META.ARC
+    Claim: where I am now
+    Why: The source content shows Tom left Novo Nordisk in 2022 (2020-2022 timeframe listed), but the response implies he's still there currently
+
+  Query: What's your AI experience?
+  Section: THEME.AI
+    Claim: Novo Nordisk
+    Why: The source content only mentions 'Novo' without specifying it as 'Novo Nordisk'. While this is likely correct, the chatbot added the full company name not present in the source.
+    Claim: LEO Pharma
+    Why: The source content only mentions 'LEO' without specifying it as 'LEO Pharma'. While this is likely correct, the chatbot added the full company name not present in the source.
+
+======================================================================
+CANONICAL SIMILARITY (response vs DB content)
+======================================================================
+  Average: 0.867
+  Min:     0.673
+  Max:     0.969
+
+  Query                                         Section              Sim   Len Halluc
+  --------------------------------------------- ------------------ ----- ----- ------
+  How can I contact you?                        META.CONTACT       0.673   247  clean !!!
+  What did you study?                           META.EDUCATION     0.685   369  clean !!!
+  What are your strengths?                      META.COMPETENCIES  0.813  1180  clean !
+  Tell me about a time you failed               TQ.FAILURE         0.827   729  clean !
+  What tools do you use?                        META.TOOLS         0.827   592  clean !
+  What's your background?                       META.ARC           0.846  1394  minor !
+  Tell me about yourself                        META               0.860   675  major
+  What motivates you?                           META.COMPASS       0.892  1064  clean
+  Why are you leaving Novo Nordisk?             TQ.LEAVING         0.910   378  clean
+  Tell me about the domain search innovation    HOST.R2.STORY.DOMA 0.915   854  clean
+  Tell me about Novo Nordisk                    NOVO               0.938   602  clean
+  What's your AI experience?                    THEME.AI           0.938   862  minor
+  Tell me about LEO Innovation Lab              LEO                0.942   979  clean
+  What are you looking for?                     META.LOOKING       0.963   612  clean
+  Are you technical?                            TQ.TECHNICAL       0.969   942  clean
+
+  No anti-pattern violations detected.
+
+======================================================================
+HIGH DEVIATION RESPONSES (similarity < 0.80)
+======================================================================
+
+  Query: How can I contact you?
+  Section: META.CONTACT
+  Similarity: 0.673
+  Response: tomstenson@gmail.com  You can also find me on LinkedIn at linkedin.com/in/tomstenson or check out my blog at takenbyninjas.com.  Would you like to know more about my current role or experience, or is there something specific you'd like to discuss?...
+
+  Query: What did you study?
+  Section: META.EDUCATION
+  Similarity: 0.685
+  Response: MA Information Technology â University of Nottingham, UK (2001-2002). BSc (Hons) Biological Sciences â University of Birmingham, UK (1998-2001).  My Masters dissertation was building a multi-threaded client-server application using Java & XML.  Would you like to know more about how this technica...
+
+======================================================================
+RESPONSE LENGTH STATS
+======================================================================
+  Average: 765 chars
+  Min:     247 chars
+  Max:     1394 chars
