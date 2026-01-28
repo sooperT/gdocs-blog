@@ -1,0 +1,142 @@
+======================================================================
+TOMBOT RESPONSE QUALITY REPORT
+Run: 2026-01-28T19:59:36.907172
+======================================================================
+
+Total: 15, Successful: 15, Errors: 0
+
+======================================================================
+HALLUCINATION CHECK (zero tolerance)
+======================================================================
+  Checked: 15
+  Clean:   9
+  Minor:   2
+  MAJOR:   4
+
+  *** MAJOR HALLUCINATIONS DETECTED ***
+
+  Query: Tell me about yourself
+  Section: META
+    FABRICATED: I'm British
+    Severity: high
+    Why: No mention of British nationality in the source content
+    FABRICATED: I've been living in Copenhagen since 2010
+    Severity: high
+    Why: No mention of Copenhagen or living there since 2010 in the source content
+    FABRICATED: I have Danish permanent residency
+    Severity: high
+    Why: No mention of Danish residency status in the source content
+    FABRICATED: I'm married with two kids
+    Severity: high
+    Why: No mention of marital status or children in the source content
+
+  Query: What's your background?
+  Section: META.ARC
+    FABRICATED: Now I'm at Novo Nordisk as an Associated Director
+    Severity: high
+    Why: The source content shows the Novo Nordisk role ended in 2022 (2020-2022 timeframe), but the response presents it as current
+    FABRICATED: 20 years of experience
+    Severity: low
+    Why: The timeline shows career starting around 2001-2003, which would be approximately 20+ years by now, so this is reasonable
+
+  Query: Why are you leaving Novo Nordisk?
+  Section: TQ.LEAVING
+    FABRICATED: Autumn 2024
+    Severity: high
+    Why: Source content states the restructuring happened in 'Autumn 2025', but the response incorrectly states 'Autumn 2024'
+
+  Query: Tell me about a time you failed
+  Section: TQ.FAILURE
+    FABRICATED: At LEO Innovation Lab, we were optimising the onboarding funnel and hypothesised that increasing notification opt-ins would increase activation
+    Severity: high
+    Why: The source content only mentions 'Optimised the wrong part of the funnel' without any specific details about LEO Innovation Lab, onboarding funnels, notification opt-ins, or activation metrics
+    FABRICATED: We got clever with a contextually-triggered opt-in at exactly the right moment. The conversion rate was amazing, but activation barely moved
+    Severity: high
+    Why: These specific implementation details about contextually-triggered opt-ins and activation metrics are completely fabricated and not present in the source content
+    FABRICATED: We quickly rolled out a simpler opt-in early in the funnel with much better results
+    Severity: high
+    Why: This resolution and outcome detail is invented - the source content doesn't mention any follow-up actions or results
+    FABRICATED: We had no go-to-market plan and no viable first iteration
+    Severity: medium
+    Why: While the source mentions the startup never launched due to wanting perfection, these specific reasons (no go-to-market plan, no viable first iteration) are not stated in the source
+    FABRICATED: ship in small viable increments to capture value and learn early
+    Severity: low
+    Why: The source says 'ship in small viable increments' but doesn't mention 'to capture value and learn early' - this is elaboration beyond the source
+
+  Minor issues:
+
+  Query: Tell me about LEO Innovation Lab
+  Section: LEO
+    Claim: LEO Pharma created to stay ahead of digital disruption in healthcare
+    Why: The source only states it was 'established by LEO Pharma' without specifying the motivation about digital disruption
+    Claim: We had experts from all sorts of fields - a true melting pot
+    Why: This characterization of the team composition is not mentioned in the source content
+    Claim: We were too remote from the core business - innovations struggled to find a home back in LEO Pharma. You can't outsource disruption to a separate unit and graft it back on later
+    Why: These specific reasons for why the model wasn't sustainable are not provided in the source content, which only states the model 'ultimately wasn't sustainable'
+    Claim: it was a formative career moment with accelerated learning that informed my approach at Novo Nordisk
+    Why: While the source mentions it was 'a formative career moment - accelerated learning', the specific connection to informing approach at Novo Nordisk is not stated
+
+  Query: What's your AI experience?
+  Section: THEME.AI
+    Claim: Novo Nordisk
+    Why: The source content only mentions 'Novo', not the full company name 'Novo Nordisk'
+    Claim: LEO Pharma
+    Why: The source content only mentions 'LEO', not the full company name 'LEO Pharma'
+
+======================================================================
+CANONICAL SIMILARITY (response vs DB content)
+======================================================================
+  Average: 0.855
+  Min:     0.684
+  Max:     0.973
+
+  Query                                         Section              Sim   Len Halluc
+  --------------------------------------------- ------------------ ----- ----- ------
+  How can I contact you?                        META.CONTACT       0.684   397  clean !!!
+  What's your background?                       META.ARC           0.716  1121  major !!!
+  What did you study?                           META.EDUCATION     0.738   748  clean !!!
+  What are your strengths?                      META.COMPETENCIES  0.772   912  clean !
+  Tell me about yourself                        META               0.804   756  major !
+  What tools do you use?                        META.TOOLS         0.814   607  clean !
+  Tell me about a time you failed               TQ.FAILURE         0.825  1438  major !
+  Why are you leaving Novo Nordisk?             TQ.LEAVING         0.889   618  major
+  Tell me about LEO Innovation Lab              LEO                0.904  1466  minor
+  Tell me about the domain search innovation    HOST.R2.STORY.DOMA 0.909  1020  clean
+  What motivates you?                           META.COMPASS       0.925  1180  clean
+  What's your AI experience?                    THEME.AI           0.937   873  minor
+  Tell me about Novo Nordisk                    NOVO               0.959   745  clean
+  What are you looking for?                     META.LOOKING       0.971   628  clean
+  Are you technical?                            TQ.TECHNICAL       0.973   929  clean
+
+  No anti-pattern violations detected.
+
+======================================================================
+HIGH DEVIATION RESPONSES (similarity < 0.80)
+======================================================================
+
+  Query: How can I contact you?
+  Section: META.CONTACT
+  Similarity: 0.684
+  Response: You can reach me at tomstenson@gmail.com or connect with me on LinkedIn at linkedin.com/in/tomstenson.  I'm based in Copenhagen, Denmark, and I also write at takenbyninjas.com if you'd like to see more of my thinking on product and leadership topics.  Would you like to know more about my current rol...
+
+  Query: What's your background?
+  Section: META.ARC
+  Similarity: 0.716
+  Response: I'm a senior product manager with 20 years of experience across product, growth and commercial roles. I started in web development during the dot-com boom and have worked my way through hosting companies, startups, and now health-tech.  My journey began with a biology degree, but the internet revolu...
+
+  Query: What did you study?
+  Section: META.EDUCATION
+  Similarity: 0.738
+  Response: I have a mixed technical and scientific background. I did my undergraduate degree in Biological Sciences at the University of Birmingham (1998-2001), then moved into technology with a Masters in Information Technology at the University of Nottingham (2001-2002).  For my Masters dissertation, I built...
+
+  Query: What are your strengths?
+  Section: META.COMPETENCIES
+  Similarity: 0.772
+  Response: My key strengths are:  **Outcome oriented:** I find the right outcome, then make it happen.  **Systems thinking:** I see connections others miss. This helps me understand how different parts of a business or product fit together.  **Deep-end swimming:** I'm comfortable jumping into new domains and h...
+
+======================================================================
+RESPONSE LENGTH STATS
+======================================================================
+  Average: 896 chars
+  Min:     397 chars
+  Max:     1466 chars

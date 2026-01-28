@@ -1,0 +1,86 @@
+======================================================================
+TOMBOT RESPONSE QUALITY REPORT
+Run: 2026-01-28T19:55:21.926521
+======================================================================
+
+Total: 15, Successful: 15, Errors: 0
+
+  Judge errors (15):
+    Tell me about yourself: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    What's your background?: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    What motivates you?: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    What are you looking for?: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    What are your strengths?: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    Tell me about Novo Nordisk: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    Tell me about LEO Innovation Lab: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    Why are you leaving Novo Nordisk?: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    Are you technical?: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    Tell me about a time you failed: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    What's your AI experience?: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    Tell me about the domain search innovation: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    What did you study?: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    How can I contact you?: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+    What tools do you use?: Claude API 401: {"type":"error","error":{"type":"authentication_error","message"
+
+======================================================================
+CANONICAL SIMILARITY (response vs DB content)
+======================================================================
+  Average: 0.847
+  Min:     0.597
+  Max:     0.971
+
+  Query                                         Section              Sim   Len Halluc
+  --------------------------------------------- ------------------ ----- ----- ------
+  What did you study?                           META.EDUCATION     0.597   465    err !!!
+  How can I contact you?                        META.CONTACT       0.669   244    err !!!
+  Tell me about yourself                        META               0.744   740    err !!!
+  What's your background?                       META.ARC           0.769  1103    err !
+  What are your strengths?                      META.COMPETENCIES  0.779  1011    err !
+  What tools do you use?                        META.TOOLS         0.817   588    err !
+  Tell me about a time you failed               TQ.FAILURE         0.866  1146    err
+  Why are you leaving Novo Nordisk?             TQ.LEAVING         0.885   619    err
+  Tell me about the domain search innovation    HOST.R2.STORY.DOMA 0.898   959    err
+  Tell me about LEO Innovation Lab              LEO                0.915  1491    err
+  What motivates you?                           META.COMPASS       0.934  1057    err
+  What's your AI experience?                    THEME.AI           0.940   842    err
+  Tell me about Novo Nordisk                    NOVO               0.955   850    err
+  Are you technical?                            TQ.TECHNICAL       0.964   908    err
+  What are you looking for?                     META.LOOKING       0.971   628    err
+
+  No anti-pattern violations detected.
+
+======================================================================
+HIGH DEVIATION RESPONSES (similarity < 0.80)
+======================================================================
+
+  Query: What did you study?
+  Section: META.EDUCATION
+  Similarity: 0.597
+  Response: I studied Biological Sciences for my undergraduate degree at the University of Birmingham (1998-2001), then did a Masters in Information Technology at the University of Nottingham (2001-2002).  For my Masters dissertation, I built a multi-threaded client-server application using Java and XML, which ...
+
+  Query: How can I contact you?
+  Section: META.CONTACT
+  Similarity: 0.669
+  Response: You can reach me at tomstenson@gmail.com.  You can also find me on LinkedIn at linkedin.com/in/tomstenson, or check out my blog at takenbyninjas.com.  Would you like to know more about my current role or experience, or ask about something else?...
+
+  Query: Tell me about yourself
+  Section: META
+  Similarity: 0.744
+  Response: I'm a senior product manager with 20 years of experience across product, growth and commercial work. I'd describe myself as a kind of product janitor - I find things and clean up messy patterns to make it a nicer place to be.  Practically, I use systems thinking to find leverage points. I get called...
+
+  Query: What's your background?
+  Section: META.ARC
+  Similarity: 0.769
+  Response: I've been working in product, marketing and web for over 20 years, starting from the dot-com boom in the late 90s.  I studied biology originally, but got pulled into tech when the Internet exploded. Started with web design and coding, then worked my way up through various roles at hosting companies ...
+
+  Query: What are your strengths?
+  Section: META.COMPETENCIES
+  Similarity: 0.779
+  Response: My key strengths are:  **Outcome orientation:** I focus on finding the right outcome first, then making it happen. I don't get stuck in process or tactics.  **Systems thinking:** I see connections that others miss. This helps me understand how different parts of a business or product affect each oth...
+
+======================================================================
+RESPONSE LENGTH STATS
+======================================================================
+  Average: 843 chars
+  Min:     244 chars
+  Max:     1491 chars

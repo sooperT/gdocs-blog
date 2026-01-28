@@ -57,6 +57,28 @@ problem → plan → review plan → build → test localhost → WAIT FOR APPRO
 - **Hosting**: Netlify (auto-deploys on push to main)
 - **Domain**: takenbyninjas.com
 
+## TomBot (AI Chatbot)
+
+An AI chatbot at `/projects/tombot/` that answers questions about Tom's career.
+
+**Status**: Working locally, not yet deployed
+
+**Key Files:**
+- `projects/tombot/index.html` - Frontend UI (NOT generated - edit directly)
+- `netlify/functions/chat.js` - Backend API (Claude Sonnet)
+- `netlify/functions/system-prompt.md` - TomBot's personality and knowledge
+
+**Local Development:**
+```bash
+# Must unset shell env var so .env file loads
+unset ANTHROPIC_API_KEY && netlify dev --port 8888
+
+# Visit http://localhost:8888/projects/tombot/
+```
+
+**Before Deploying:**
+- Set `ANTHROPIC_API_KEY` in Netlify environment variables
+
 ## Google Docs Markup
 
 The publishing system supports special markup tags in Google Docs:

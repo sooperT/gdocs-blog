@@ -1,0 +1,90 @@
+======================================================================
+TOMBOT RESPONSE QUALITY REPORT
+Run: 2026-01-28T21:50:48.987320
+======================================================================
+
+Total: 15, Successful: 15, Errors: 0
+
+======================================================================
+HALLUCINATION CHECK (zero tolerance)
+======================================================================
+  Checked: 15
+  Clean:   12
+  Minor:   1
+  MAJOR:   2
+
+  *** MAJOR HALLUCINATIONS DETECTED ***
+
+  Query: What's your background?
+  Section: META.ARC
+    FABRICATED: Now I'm at Novo Nordisk
+    Severity: high
+    Why: The source content shows Tom left Novo Nordisk in 2022, but the response presents it as current employment using 'Now I'm at'
+
+  Query: Why are you leaving Novo Nordisk?
+  Section: TQ.LEAVING
+    FABRICATED: Autumn 2024
+    Severity: high
+    Why: The source content states the restructuring happened in 'Autumn 2025', but the response claims 'Autumn 2024' - this is a factual error about the timing of events
+
+  Minor issues:
+
+  Query: What's your AI experience?
+  Section: THEME.AI
+    Claim: Novo Nordisk
+    Why: The source content only mentions 'Novo' but the response adds 'Nordisk' which is not specified in the source
+    Claim: LEO Pharma
+    Why: The source content only mentions 'LEO' but the response adds 'Pharma' which is not specified in the source
+
+======================================================================
+CANONICAL SIMILARITY (response vs DB content)
+======================================================================
+  Average: 0.871
+  Min:     0.669
+  Max:     0.978
+
+  Query                                         Section              Sim   Len Halluc
+  --------------------------------------------- ------------------ ----- ----- ------
+  What did you study?                           META.EDUCATION     0.669   404  clean !!!
+  How can I contact you?                        META.CONTACT       0.678   251  clean !!!
+  What are your strengths?                      META.COMPETENCIES  0.790  1111  clean !
+  What tools do you use?                        META.TOOLS         0.832   289  clean !
+  Why are you leaving Novo Nordisk?             TQ.LEAVING         0.847   660  major !
+  Tell me about a time you failed               TQ.FAILURE         0.865   726  clean
+  What's your background?                       META.ARC           0.882  1673  major
+  Tell me about yourself                        META               0.919   631  clean
+  Tell me about the domain search innovation    HOST.R2.STORY.DOMA 0.919   874  clean
+  Tell me about LEO Innovation Lab              LEO                0.920   961  clean
+  What motivates you?                           META.COMPASS       0.924  1055  clean
+  What's your AI experience?                    THEME.AI           0.933   856  minor
+  What are you looking for?                     META.LOOKING       0.952   661  clean
+  Tell me about Novo Nordisk                    NOVO               0.956   731  clean
+  Are you technical?                            TQ.TECHNICAL       0.978   941  clean
+
+  No anti-pattern violations detected.
+
+======================================================================
+HIGH DEVIATION RESPONSES (similarity < 0.80)
+======================================================================
+
+  Query: What did you study?
+  Section: META.EDUCATION
+  Similarity: 0.669
+  Response: MA Information Technology â University of Nottingham, UK (2001-2002).  I built a multi-threaded client-server application using Java & XML for my Masters dissertation.  Before that, I studied BSc (Hons) Biological Sciences at University of Birmingham, UK (1998-2001).  Would you like to know more a...
+
+  Query: How can I contact you?
+  Section: META.CONTACT
+  Similarity: 0.678
+  Response: tomstenson@gmail.com is the best way to reach me.  You can also find me on LinkedIn at linkedin.com/in/tomstenson or check out my blog at takenbyninjas.com.  Would you like to know more about my current role or experience, or ask about something else?...
+
+  Query: What are your strengths?
+  Section: META.COMPETENCIES
+  Similarity: 0.790
+  Response: My core strengths centre around outcome-focused product management and systems thinking.  I'm outcome oriented - I find the right outcome first, then make it happen. I don't get caught up in feature factories or delivery theatre. I focus on what actually moves the needle.  I'm a systems thinker. I s...
+
+======================================================================
+RESPONSE LENGTH STATS
+======================================================================
+  Average: 788 chars
+  Min:     251 chars
+  Max:     1673 chars

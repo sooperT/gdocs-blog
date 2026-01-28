@@ -1,0 +1,105 @@
+======================================================================
+TOMBOT RESPONSE QUALITY REPORT
+Run: 2026-01-28T21:38:31.337741
+======================================================================
+
+Total: 15, Successful: 15, Errors: 0
+
+======================================================================
+HALLUCINATION CHECK (zero tolerance)
+======================================================================
+  Checked: 15
+  Clean:   11
+  Minor:   1
+  MAJOR:   3
+
+  *** MAJOR HALLUCINATIONS DETECTED ***
+
+  Query: Tell me about yourself
+  Section: META
+    FABRICATED: after my time at Novo Nordisk
+    Severity: high
+    Why: The source content does not mention Novo Nordisk at all. This appears to be a completely fabricated detail about the person's work history.
+
+  Query: What's your background?
+  Section: META.ARC
+    FABRICATED: currently at Novo Nordisk as Associate Director of Product Innovation
+    Severity: high
+    Why: The source content shows Tom's role at Novo Nordisk ended in 2022, and his current status is not specified. The response incorrectly presents this as his current role.
+
+  Query: Why are you leaving Novo Nordisk?
+  Section: TQ.LEAVING
+    FABRICATED: Autumn 2024
+    Severity: high
+    Why: Source content states the restructuring happened in 'Autumn 2025', but the response claims it was 'Autumn 2024' - this is a factual error about the timing of events
+    FABRICATED: I originally chose health-tech as it was the last industry to be disrupted by digital
+    Severity: medium
+    Why: This claim about why the person originally chose health-tech is not present in the source content
+    FABRICATED: But now AI is changing everything. It's the same energy as the dot-com era - everything is up for grabs again
+    Severity: medium
+    Why: These specific claims about AI changing everything and comparisons to the dot-com era are not grounded in the source content
+    FABRICATED: And I want to be back on that frontier
+    Severity: low
+    Why: While the source mentions wanting to return to tech-roots, this specific phrasing about being 'back on that frontier' is not in the source content
+
+  Minor issues:
+
+  Query: What's your AI experience?
+  Section: THEME.AI
+    Claim: Novo Nordisk
+    Why: The source content only mentions 'Novo', but the response expands this to 'Novo Nordisk' which is a specific company name not found in the source
+    Claim: LEO Pharma
+    Why: The source content only mentions 'LEO', but the response expands this to 'LEO Pharma' which is a specific company name not found in the source
+
+======================================================================
+CANONICAL SIMILARITY (response vs DB content)
+======================================================================
+  Average: 0.869
+  Min:     0.620
+  Max:     0.978
+
+  Query                                         Section              Sim   Len Halluc
+  --------------------------------------------- ------------------ ----- ----- ------
+  What did you study?                           META.EDUCATION     0.620   407  clean !!!
+  How can I contact you?                        META.CONTACT       0.667   250  clean !!!
+  Tell me about yourself                        META               0.787   703  major !
+  What are your strengths?                      META.COMPETENCIES  0.835  1171  clean !
+  What's your background?                       META.ARC           0.844  1110  major !
+  What tools do you use?                        META.TOOLS         0.862   326  clean
+  Why are you leaving Novo Nordisk?             TQ.LEAVING         0.867   616  major
+  Tell me about the domain search innovation    HOST.R2.STORY.DOMA 0.910   959  clean
+  Tell me about LEO Innovation Lab              LEO                0.919  1042  clean
+  What's your AI experience?                    THEME.AI           0.930   857  minor
+  Tell me about a time you failed               TQ.FAILURE         0.937   775  clean
+  What motivates you?                           META.COMPASS       0.951  1001  clean
+  Tell me about Novo Nordisk                    NOVO               0.955   844  clean
+  What are you looking for?                     META.LOOKING       0.971   628  clean
+  Are you technical?                            TQ.TECHNICAL       0.978   941  clean
+
+  No anti-pattern violations detected.
+
+======================================================================
+HIGH DEVIATION RESPONSES (similarity < 0.80)
+======================================================================
+
+  Query: What did you study?
+  Section: META.EDUCATION
+  Similarity: 0.620
+  Response: I studied Biological Sciences for my undergraduate degree at the University of Birmingham, then did a Masters in Information Technology at the University of Nottingham.   For my Masters dissertation, I built a multi-threaded client-server application using Java and XML.  Would you like to know more ...
+
+  Query: How can I contact you?
+  Section: META.CONTACT
+  Similarity: 0.667
+  Response: You can reach me at tomstenson@gmail.com.  You can also find me on LinkedIn at linkedin.com/in/tomstenson or check out my blog at takenbyninjas.com.  Would you like to know more about my current role or recent experience, or ask about something else?...
+
+  Query: Tell me about yourself
+  Section: META
+  Similarity: 0.787
+  Response: I'm a senior product manager with 20 years of experience across product, growth and commercial. But really, I think of myself as a kind of product janitor.  I find things and clean up messy patterns, making it a nicer place to be. Practically, I use systems thinking to find leverage points. I get ca...
+
+======================================================================
+RESPONSE LENGTH STATS
+======================================================================
+  Average: 775 chars
+  Min:     250 chars
+  Max:     1171 chars
