@@ -104,7 +104,7 @@ async function searchByQuestionMatch(embedding, limit = 5) {
 }
 
 // Main retrieval function - question matching only (no content fallback)
-const QUESTION_MATCH_THRESHOLD = 0.70;  // Lowered from 0.75 — data shows clear gap between good matches (0.78+) and bad (0.55-)
+const QUESTION_MATCH_THRESHOLD = 0.60;  // Lowered from 0.70 — question matching is reliable, content fallback removed
 const TOP_K = 1;  // Single match only — prevents cross-section bleed and hallucination
 
 // Log deflection to dedicated table for review
