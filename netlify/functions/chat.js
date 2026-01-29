@@ -103,32 +103,8 @@ async function searchByQuestionMatch(embedding, limit = 5) {
   }
 }
 
-// Fallback search: match against content embeddings
-// Used when question matching doesn't find good results
-async function searchByContentMatch(embedding, limit = 5) {
-  try {
-    const vectorStr = `[${embedding.join(',')}]`;
-    const result = await pool.query(`
-      SELECT DISTINCT ON (title)
-             id, title, content, chunk_type,
-             1 - (embedding <=> $1::vector) as similarity
-      FROM chunks
-      WHERE embedding IS NOT NULL
-      ORDER BY title, embedding <=> $1::vector
-    `, [vectorStr]);
-
-    // Re-sort by similarity after DISTINCT and take top N
-    const sorted = result.rows.sort((a, b) => b.similarity - a.similarity);
-    return sorted.slice(0, limit);
-  } catch (error) {
-    console.error('Content match search error:', error);
-    return [];
-  }
-}
-
-// Main retrieval function - v3 with question-to-question matching
-const QUESTION_MATCH_THRESHOLD = 0.75;  // High bar for question matching
-const CONTENT_MATCH_THRESHOLD = 0.40;   // Lower bar for content fallback
+// Main retrieval function - question matching only (no content fallback)
+const QUESTION_MATCH_THRESHOLD = 0.70;  // Lowered from 0.75 — data shows clear gap between good matches (0.78+) and bad (0.55-)
 const TOP_K = 1;  // Single match only — prevents cross-section bleed and hallucination
 
 // Log chat session to database
@@ -192,18 +168,9 @@ async function retrieveContent(query) {
     return { chunks: goodQuestionMatches, method: 'question' };
   }
 
-  // Step 5: Fallback to content matching
-  console.log('[RAG] No good question match, falling back to content search');
-  const contentMatches = await searchByContentMatch(embedding, TOP_K);
-  const filteredContent = contentMatches.filter(r => r.similarity >= CONTENT_MATCH_THRESHOLD);
-
-  console.log('[RAG] Content matches:', filteredContent.length);
-  if (filteredContent.length > 0) {
-    console.log('[RAG] Top content match:', filteredContent[0].title,
-                'similarity:', filteredContent[0].similarity?.toFixed(3));
-  }
-
-  return { chunks: filteredContent, method: 'content' };
+  // No match — bot will deflect gracefully
+  console.log('[RAG] No good question match, will deflect');
+  return { chunks: [], method: 'none' };
 }
 
 // Format retrieved chunks for the prompt
@@ -270,6 +237,34 @@ export default async (request, context) => {
 
     if (lastUserMessage) {
       const { chunks, method } = await retrieveContent(lastUserMessage.content);
+
+      // No match found — return hardcoded deflect, skip Claude entirely
+      if (method === 'none') {
+        const deflectMessage = "I don't have specific information about that in my knowledge base. Try asking about my work experience, skills, or background — or rephrase your question.";
+
+        // Log the deflection
+        logChatExchange(chatSessionId, lastUserMessage.content, deflectMessage, { method: 'none', matches: [] });
+
+        // Return deflect as streaming response (for consistent client handling)
+        const encoder = new TextEncoder();
+        const deflectStream = new ReadableStream({
+          start(controller) {
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'delta', text: deflectMessage })}\n\n`));
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'done', sessionId: chatSessionId })}\n\n`));
+            controller.close();
+          }
+        });
+
+        return new Response(deflectStream, {
+          headers: {
+            'Content-Type': 'text/event-stream',
+            'Cache-Control': 'no-cache',
+            'Connection': 'keep-alive',
+            'Access-Control-Allow-Origin': '*',
+          },
+        });
+      }
+
       ragContext = formatRetrievedContent(chunks);
       // Capture retrieval info for logging
       retrievalInfo = {
