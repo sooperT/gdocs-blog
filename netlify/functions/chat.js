@@ -60,6 +60,32 @@ async function getEmbedding(text, retries = 2) {
   return null;
 }
 
+// Normalize third-person references to first-person for better question matching
+// "tell me about tom" -> "tell me about yourself"
+// "where has tom worked" -> "where have you worked"
+function normalizeQuery(query) {
+  let normalized = query;
+
+  // Replace "tom" with "you" (case-insensitive, word boundary)
+  normalized = normalized.replace(/\btom\b/gi, 'you');
+
+  // Fix verb conjugations after replacement
+  // "has you" -> "have you", "does you" -> "do you", "is you" -> "are you"
+  normalized = normalized.replace(/\bhas you\b/gi, 'have you');
+  normalized = normalized.replace(/\bdoes you\b/gi, 'do you');
+  normalized = normalized.replace(/\bis you\b/gi, 'are you');
+  normalized = normalized.replace(/\bwas you\b/gi, 'were you');
+
+  // "you's" -> "your" (possessive)
+  normalized = normalized.replace(/\byou's\b/gi, 'your');
+  normalized = normalized.replace(/\byou's\b/gi, 'your'); // handle curly apostrophe
+
+  // "about you" at end often sounds better as "about yourself"
+  normalized = normalized.replace(/\babout you\b(?=\s*[?.!]?\s*$)/gi, 'about yourself');
+
+  return normalized;
+}
+
 // Expand aliases in query (e.g., "Novo" -> "Novo Nordisk")
 async function expandAliases(query) {
   try {
@@ -149,10 +175,16 @@ async function logChatExchange(sessionId, userMessage, assistantResponse, retrie
 }
 
 async function retrieveContent(query) {
-  // Step 1: Expand aliases
-  const expandedQuery = await expandAliases(query);
-  console.log('[RAG] Query:', query);
-  if (expandedQuery !== query) {
+  // Step 1: Normalize third-person to first-person
+  const normalizedQuery = normalizeQuery(query);
+  if (normalizedQuery !== query) {
+    console.log('[RAG] Normalized:', query, '->', normalizedQuery);
+  }
+
+  // Step 2: Expand aliases
+  const expandedQuery = await expandAliases(normalizedQuery);
+  console.log('[RAG] Query:', normalizedQuery);
+  if (expandedQuery !== normalizedQuery) {
     console.log('[RAG] Expanded to:', expandedQuery);
   }
 
