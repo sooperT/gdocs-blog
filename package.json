@@ -4,6 +4,10 @@
   "description": "takenbyninjas.com - Dependencies for Netlify functions only",
   "type": "module",
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.39.0"
+    "@anthropic-ai/sdk": "^0.39.0",
+    "pg": "^8.17.2"
+  },
+  "devDependencies": {
+    "dotenv": "^17.2.3"
   }
 }

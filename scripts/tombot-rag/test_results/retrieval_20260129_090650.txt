@@ -1,0 +1,28 @@
+======================================================================
+TOMBOT RETRIEVAL TEST REPORT
+Run: 2026-01-29T09:06:50.588299
+Thresholds: question=0.6 (no content fallback)
+======================================================================
+
+SUMMARY: 41/41 passed, 0 failed, 0 errors
+Pass rate: 100%
+
+BY TEST TYPE:
+  exact           18/18 passed
+  paraphrase      11/11 passed
+  alias           3/3 passed
+  typo            1/1 passed
+  fragment        5/5 passed
+  off_topic       3/3 passed
+
+======================================================================
+MARGINAL PASSES (score < 0.80):
+======================================================================
+  How can I contact you?                             -> META.CONTACT         (0.787)
+  What gets you excited about work?                  -> META.COMPASS         (0.748)
+  What kind of job are you after?                    -> META.LOOKING         (0.692)
+  Whats your backgrond?                              -> META.ARC             (0.796)
+  true red thread                                    -> META.ARC             (0.672)
+  What's your favourite colour?                      -> NONE                 (0.000)
+  Can you write me some code?                        -> NONE                 (0.000)
+  What's the weather like?                           -> NONE                 (0.000)

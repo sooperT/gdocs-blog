@@ -1006,7 +1006,6 @@ function generateAliases() {
     { alias: 'GX Networks', canonical_name: 'Host Europe Group', alias_type: 'company' },
     { alias: 'Host Europe', canonical_name: 'Host Europe Group', alias_type: 'company' },
     { alias: 'UK2', canonical_name: 'UK2 Group', alias_type: 'company' },
-    { alias: 'Wegovy', canonical_name: 'Wegovycare', alias_type: 'product' },
     { alias: 'TREAT', canonical_name: 'TREAT app', alias_type: 'product' },
     { alias: 'Skincoach', canonical_name: 'Skincoach app', alias_type: 'product' },
     { alias: 'TwentyThree', canonical_name: 'TwentyThree', alias_type: 'company' },
