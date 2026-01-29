@@ -107,6 +107,18 @@ async function searchByQuestionMatch(embedding, limit = 5) {
 const QUESTION_MATCH_THRESHOLD = 0.70;  // Lowered from 0.75 — data shows clear gap between good matches (0.78+) and bad (0.55-)
 const TOP_K = 1;  // Single match only — prevents cross-section bleed and hallucination
 
+// Log deflection to dedicated table for review
+async function logDeflection(query, topMatch, topScore, sessionId) {
+  try {
+    await pool.query(`
+      INSERT INTO deflections (query, top_match, top_score, session_id)
+      VALUES ($1, $2, $3, $4)
+    `, [query, topMatch, topScore, sessionId]);
+  } catch (error) {
+    console.error('Failed to log deflection:', error);
+  }
+}
+
 // Log chat session to database
 async function logChatExchange(sessionId, userMessage, assistantResponse, retrievalInfo) {
   try {
@@ -165,12 +177,18 @@ async function retrieveContent(query) {
 
   if (goodQuestionMatches.length > 0) {
     console.log('[RAG] Using', goodQuestionMatches.length, 'question matches above threshold');
-    return { chunks: goodQuestionMatches, method: 'question' };
+    return { chunks: goodQuestionMatches, method: 'question', topMatch: null };
   }
 
   // No match — bot will deflect gracefully
+  // Include top match info for logging (even though it's below threshold)
+  const topMatch = questionMatches[0] || null;
   console.log('[RAG] No good question match, will deflect');
-  return { chunks: [], method: 'none' };
+  return {
+    chunks: [],
+    method: 'none',
+    topMatch: topMatch ? { title: topMatch.title, score: topMatch.similarity } : null
+  };
 }
 
 // Format retrieved chunks for the prompt
@@ -236,13 +254,21 @@ export default async (request, context) => {
     let retrievalInfo = { method: 'none', matches: [] };
 
     if (lastUserMessage) {
-      const { chunks, method } = await retrieveContent(lastUserMessage.content);
+      const { chunks, method, topMatch } = await retrieveContent(lastUserMessage.content);
 
       // No match found — return hardcoded deflect, skip Claude entirely
       if (method === 'none') {
         const deflectMessage = "I don't have specific information about that in my knowledge base. Try asking about my work experience, skills, or background — or rephrase your question.";
 
-        // Log the deflection
+        // Log deflection to dedicated table for review
+        logDeflection(
+          lastUserMessage.content,
+          topMatch?.title || null,
+          topMatch?.score || null,
+          chatSessionId
+        );
+
+        // Also log to chat logs
         logChatExchange(chatSessionId, lastUserMessage.content, deflectMessage, { method: 'none', matches: [] });
 
         // Return deflect as streaming response (for consistent client handling)
