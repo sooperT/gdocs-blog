@@ -11,7 +11,10 @@
       "What's your professional background?",
       "How would you describe yourself professionally?",
       "Can you introduce yourself?",
-      "What should I know about you?"
+      "What should I know about you?",
+      "introduce",
+      "pitch",
+      "introduction"
     ],
     "content": "LinkedIn would say \"Senior product manager, fixer and doer with 20 years experience across product, growth and commercial.[META.ARC]\" which is true, but really I'm a kind of product janitor.\n\nI find things and clean up messy patterns, and make it a nicer place to be.  Practically, I use systems thinking to find leverage points, get called in when something is difficult, and I help people think differently along the way.\n\nI'm motivated by impact, learning and fun[META.COMPASS]. This means I drive results, stay curious, and create momentum.\n\nI'm now looking for my next challenge ... [META.LOOKING]",
     "drill_downs": [
@@ -30,7 +33,12 @@
       "What are your professional values?",
       "What matters to you in your work?",
       "What keeps you engaged?",
-      "Why do you do what you do?"
+      "Why do you do what you do?",
+      "motivation",
+      "motivates",
+      "values",
+      "what drives you",
+      "your values"
     ],
     "content": "My compass is simple: impact, learning, and fun.\n\nImpact: If what you do doesn't make a difference, then what's the point?\n\nDriving outcomes is how you make impact. Yes, it's the big stuff, hitting the big numbers, improving lives, driving impact through others, but it often starts in the small things.\n\nSmall sparks that create outsized change: a microcopy nudge, a well-timed notification, a product loop that compounds, a well placed thought-bomb at the coffee machine, an unspoken truth spoken in a user test. I look forward to finding sparks.\n\nLearning: I have 20+ years experience and a solid product sense, but I've learnt the hard way it's not *my* ideas that matter. The real power of product management lies in creating space for learning.\n\nCuriosity invites new mental models, fresh viewpoints, unexpected opportunities, and the complexity of life. I look forward to learning something new.\n\nFun: This is foundational. When you work on a compelling challenge with good, smart people that you respect and can laugh with, everything flows smoother. Great things can happen.",
     "drill_downs": []
@@ -45,7 +53,10 @@
       "What are you looking for in your next job?",
       "What would your dream role look like?",
       "What kind of work environment suits you?",
-      "Are you open to different industries?"
+      "Are you open to different industries?",
+      "looking for",
+      "job search",
+      "next role"
     ],
     "content": "My compass is impact, learning, and fun[META.COMPASS]. So I'm looking for the potential, not the job title.\n\nI like challenging product problems with a big upside - the kind where there's no playbook and you have to figure it out. I enjoy working with smart colleagues who like getting stuff done. And ideally, I'd like to work in an organisation that's willing to lean-in to AI.\n\nI've deliberately moved across industries my whole career - web hosting, SaaS, health-tech - because I pick up new domains quickly and love learning.",
     "drill_downs": []
@@ -58,7 +69,8 @@
       "How do I get in touch?",
       "Can I reach out to Tom directly?",
       "What's the best way to contact you?",
-      "Do you have a LinkedIn?"
+      "Do you have a LinkedIn?",
+      "linkedin"
     ],
     "content": "- **Email:** tomstenson@gmail.com\n- **LinkedIn:** linkedin.com/in/tomstenson\n- **Blog:** takenbyninjas.com\n- **Location:** Copenhagen, Denmark",
     "drill_downs": []
@@ -92,7 +104,11 @@
       "What would colleagues say you're good at?",
       "What are your key professional skills?",
       "What are your skills?",
-      "What are your main skills?"
+      "What are your main skills?",
+      "strengths",
+      "skills",
+      "competencies",
+      "good at"
     ],
     "content": "**What I do:**\n- **Product Management:** Senior IC. Outcome focus, end-to-end ownership, shaping how product teams work.\n- **Growth:** A decade driving acquisition, activation, and retention in high-velocity web/ecommerce. Funnels, experimentation, conversion.\n- **Discovery & Incubation:** Problem-first exploration. Creating value with no playbook.\n- **Fixing things:** I get called when something's broken or stuck.\n- **Strategic Partnership:** Thought partner. Challenging assumptions, surfacing blindspots, shaping decisions.- \n- **Informal leadership:** I help people to think differently.\nAlso: Prototyping, coaching, agile.\n\n**How I operate:**\n- **Outcome oriented:** I find the right outcome, then make it happen.\n- **Systems thinker:** I see connections others miss.\n- **Deep-end swimmer:** New domains, high stakes.\n- **Grounded:** Technically fluent.\n- **Trusted:** I build alignment across roles, levels, and silos.",
     "drill_downs": []
@@ -106,7 +122,8 @@
       "Do you use Jira?",
       "What project management tools are you familiar with?",
       "What AI tools do you use?",
-      "Are you familiar with Miro?"
+      "Are you familiar with Miro?",
+      "tech stack"
     ],
     "content": "**Product & collaboration:**\n- Pen & paper, Miro (top 1% power user), Jira, Azure DevOps, Trello, Linear\n\n**Tech:**\n- Claude Code, ChatGPT, Gemini\n- GitHub, Netlify",
     "drill_downs": []
@@ -122,7 +139,10 @@
       "Where are you from?",
       "Are you Danish?",
       "Do you need a work visa for Denmark?",
-      "What's your nationality?"
+      "What's your nationality?",
+      "hobbies",
+      "family",
+      "work visa"
     ],
     "content": "- Married, two kids (son 11, daughter 7), one rabbit called Bunbun\n- British, living in Copenhagen since 2010 (Danish permanent residency, no work visa required)\n- Interests: snowboarding, playing vinyl, reading, cooking, great design",
     "drill_downs": []
@@ -143,15 +163,57 @@
       "What's your red thread?",
       "How did your career evolve?",
       "Tell me your career story",
-      "What's your professional journey?"
+      "What's your professional journey?",
+      "What's your story?",
+      "career arc",
+      "career journey",
+      "red thread",
+      "your story",
+      "how did you start",
+      "how did you get here"
     ],
-    "content": "**Late 80s:** First computer. Dad spent a month's salary on a home computer. Typing out BASIC from a magazine, syntax errors. Stayed hobby level for a while.\n\n**Late 90s:** Studying biology at university. The Internet happened - dot.com boom. Before that, the coolest thing was an under-construction GIF or a hit counter. Now there was disruption - competition between search engines, online shopping, travel reservations. Kids in bedrooms and garages were reshaping entire bricks and mortar industries. I had to get involved.\n\nStarted learning to make websites, design and code. Completed my degree, took a one-year Masters in IT.\n\n**2001-2004:** Graduated just as the dot.com bubble popped. No jobs. Freelance web design. Co-founded TextualHealing.com - mobile barcode tickets via MMS. Good idea, too early, never launched. [TQ.FAILURE.SHIP]\n\n**2003:** Eventually got a foot in the door answering phones at a web hosting company. Good at it (won the annual sales competition), but not my passion.\n\nAttracted by reach and impact - I wanted to do web. They had a website, but I thought I could do better. In evenings and weekends I made an alternative website, convinced a manager to try it out (1m visits), sales went up. Next week I was in the web design team. [HOST.R3.STORY.ALTSITE]\n\n**2004-2005:** 6 months later, I was leading the web design team. Reinvented the domain search process - first use of AJAX - revenue up 20% overnight. Became industry standard. [HOST.R2.STORY.DOMAIN]\n\n**2005-2006:** Via acquisitions, became part of Pipex - the UK's 4th largest broadband provider. Group Design Manager across multiple offices.\n\n**2006-2008:** Head of New Media at Host Europe Group. Managed all online channels across all brands. Member of Senior Management Team. Still in my 20s. 123-reg.co.uk became first company to register 1 million .uk domains. [HOST]\n\n**2008-2010:** Wanted to try something new. Switched to UK2 Group - another hosting company, but with an interesting Danish CEO with a disruptive mindset (JustEat, Zetland etc). By now doing a mix of web, marketing and product - wherever the opportunity was. Troubleshooter to CEO across UK, US, Ukraine offices. [UK2]\n\n**2010:** Met a girl on a ski slope and moved to Denmark. Went to school to learn Danish (Prøve i Dansk 3) and got involved in the Danish startup scene. Independent consulting - mix of web, ecommerce, marketing, growth. Lots of fun.\n\n**2013-2014:** EuroDNS - Marketing Director. Turnaround project. Reversed 4-year decline, doubled organic traffic, halved bounce rate. Hybrid remote setup that worked really well. [EURODNS]\n\n**2014-2016:** Opbeat - Head of Marketing. SaaS startup backed by cofounders of Facebook and Instagram. Built brand and channels from scratch. Trebled traffic and sign-ups. Later acquired by Elastic. [OPBEAT]\n\n**2016:** TwentyThree - rescued global launch on 6-week deadline. Contract role. [T23]\n\n**2016-2020:** Targeted health-tech as the last place to be disrupted by web.\n\nLEO Innovation Lab - a super interesting place. Arms-length product incubator, with the goal of disrupting LEO before someone else does. Brought in experts from across industries, time was the only limited factor. Move fast. Accelerated learning. Formative career moment, learnt so much. [LEO]\n\nInnovation Lab model ultimately not sustainable. Lab was super innovative, but parent company was unchanged. Need to disrupt from within. [LEO.STORY.MODEL]\n\n**2020-2022:** Product role at Novo Nordisk, convinced the business (in my final round job interview) to set aside their solution-first brief and start with the problem instead. Used this as a mandate to completely reinvent their ways of working. [NOVO.R1.TRANSFORM] Created a meaningful product that's still live today. Built a weight-loss prediction algorithm - later spun out into API product. \n\nAsked to scale this way of working across the organisation. Promoted to Associated Director [NOVO.R2], created incubation model, and helped move the business to the product operating model.[NOVO.R2.INCUBATION]\n\n**2026:** AI changes everything. Same feeling as the 90s.\n\n---\n\n# NOVO (2020-2026)",
+    "content": "**Late 80s:** First computer. Dad spent a month's salary on a home computer. Typing out BASIC from a magazine, syntax errors. Stayed hobby level for a while.\n\n**Late 90s:** Studying biology at university. The Internet happened - dot.com boom. Before that, the coolest thing was an under-construction GIF or a hit counter. Now there was disruption - competition between search engines, online shopping, travel reservations. Kids in bedrooms and garages were reshaping entire bricks and mortar industries. I had to get involved.\n\nStarted learning to make websites, design and code. Completed my degree, took a one-year Masters in IT.\n\n**2001-2004:** Graduated just as the dot.com bubble popped. No jobs. Freelance web design. Co-founded TextualHealing.com - mobile barcode tickets via MMS. Good idea, too early, never launched. [TQ.FAILURE.SHIP]\n\n**2003:** Eventually got a foot in the door answering phones at a web hosting company. Good at it (won the annual sales competition), but not my passion.\n\nAttracted by reach and impact - I wanted to do web. They had a website, but I thought I could do better. In evenings and weekends I made an alternative website, convinced a manager to try it out (1m visits), sales went up. Next week I was in the web design team. [HOST.R3.STORY.ALTSITE]\n\n**2004-2005:** 6 months later, I was leading the web design team. Reinvented the domain search process - first use of AJAX - revenue up 20% overnight. Became industry standard. [HOST.R2.STORY.DOMAIN]\n\n**2005-2006:** Via acquisitions, became part of Pipex - the UK's 4th largest broadband provider. Group Design Manager across multiple offices.\n\n**2006-2008:** Head of New Media at Host Europe Group. Managed all online channels across all brands. Member of Senior Management Team. Still in my 20s. 123-reg.co.uk became first company to register 1 million .uk domains. [HOST]\n\n**2008-2010:** Wanted to try something new. Switched to UK2 Group - another hosting company, but with an interesting Danish CEO with a disruptive mindset (JustEat, Zetland etc). By now doing a mix of web, marketing and product - wherever the opportunity was. Troubleshooter to CEO across UK, US, Ukraine offices. [UK2]\n\n**2010:** Met a girl on a ski slope and moved to Denmark. Went to school to learn Danish (Prøve i Dansk 3) and got involved in the Danish startup scene. Independent consulting - mix of web, ecommerce, marketing, growth. Lots of fun.\n\n**2013-2014:** EuroDNS - Marketing Director. Turnaround project. Reversed 4-year decline, doubled organic traffic, halved bounce rate. Hybrid remote setup that worked really well. [EURODNS]\n\n**2014-2016:** Opbeat - Head of Marketing. SaaS startup backed by cofounders of Facebook and Instagram. Built brand and channels from scratch. Trebled traffic and sign-ups. Later acquired by Elastic. [OPBEAT]\n\n**2016:** TwentyThree - rescued global launch on 6-week deadline. Contract role. [T23]\n\n**2016-2020:** Targeted health-tech as the last place to be disrupted by web.\n\nLEO Innovation Lab - a super interesting place. Arms-length product incubator, with the goal of disrupting LEO before someone else does. Brought in experts from across industries, time was the only limited factor. Move fast. Accelerated learning. Formative career moment, learnt so much. [LEO]\n\nInnovation Lab model ultimately not sustainable. Lab was super innovative, but parent company was unchanged. Need to disrupt from within. [LEO.STORY.MODEL]\n\n**2020-2022:** Product role at Novo Nordisk, convinced the business (in my final round job interview) to set aside their solution-first brief and start with the problem instead. Used this as a mandate to completely reinvent their ways of working. [NOVO.R1.TRANSFORM] Created a meaningful product that's still live today. Built a weight-loss prediction algorithm - later spun out into API product. \n\nAsked to scale this way of working across the organisation. Promoted to Associated Director [NOVO.R2], created incubation model, and helped move the business to the product operating model.[NOVO.R2.INCUBATION]\n\n**2026:** AI changes everything. Same feeling as the 90s.",
     "drill_downs": [
       "HOST",
       "OPBEAT",
       "LEO",
       "NOVO",
       "TQ.FAILURE.SHIP"
+    ]
+  },
+  {
+    "id": "META.JOBS",
+    "questions": [
+      "Which companies have you worked for?",
+      "List your previous employers",
+      "What companies have you worked at?",
+      "Where have you worked?",
+      "Give me a list of your jobs",
+      "Show me your work history",
+      "What's your employment history?",
+      "What jobs have you had?",
+      "List your roles",
+      "Can you list your previous positions?",
+      "employment history",
+      "job history",
+      "work history",
+      "previous employers",
+      "companies worked for"
+    ],
+    "content": "| Years | Role | Company | Location |\n|-------|------|---------|----------|\n| 2022-2026 | Associate Product Director | Novo Nordisk | Copenhagen |\n| 2020-2022 | Product Manager (Wegovycare) | Novo Nordisk | Copenhagen |\n| 2018-2020 | PM/GM - Diagnosis App | LEO Innovation Lab | Copenhagen |\n| 2018 | PM/GM - Skincoach | LEO Innovation Lab | Copenhagen |\n| 2016-2017 | PM/GM - TREAT | LEO Innovation Lab | Copenhagen |\n| 2016 | Head of Marketing (contract) | TwentyThree | Copenhagen |\n| 2014-2016 | Head of Marketing | Opbeat | Copenhagen |\n| 2013-2014 | Marketing Director | EuroDNS | Luxembourg/Copenhagen |\n| 2010-2013 | Independent Consultant | Various | Copenhagen |\n| 2008-2010 | Head of Group Strategy | UK2 Group | London |\n| 2006-2008 | Head of New Media | Host Europe Group | London |\n| 2005-2006 | Group Design Manager | Pipex Internet | UK |\n| 2004-2005 | Web Designer | Host Europe / Pipex | UK |\n| 2003-2004 | Sales Executive | Host Europe | Nottingham |\n| 2002-2004 | Co-founder | TextualHealing.com | UK |\n| 2001-2004 | Freelance Web Designer | Various | UK |\n\nAsk me about any specific role for more detail. [NOVO] [LEO] [OPBEAT] [EURODNS] [UK2] [HOST]\n\n---\n\n# NOVO (2020-2026)",
+    "drill_downs": [
+      "NOVO",
+      "NOVO.R1",
+      "NOVO.R2",
+      "LEO",
+      "LEO.R1",
+      "LEO.R2",
+      "LEO.R3",
+      "T23",
+      "OPBEAT",
+      "EURODNS",
+      "UK2",
+      "HOST"
     ]
   },
   {
@@ -253,7 +315,9 @@
       "What was the MLR automation project?",
       "Tell me about using AI at Novo Nordisk",
       "What GenAI work have you done?",
-      "Have you built anything with LLMs?"
+      "Have you built anything with LLMs?",
+      "Novo Nordisk AI",
+      "AI at Novo"
     ],
     "content": "When developing health software, every release needs extensive review by medical, legal and regulatory experts (MLR). The process was designed for simple marketing materials, not sophisticated software - but it hadn't evolved.\n\nIn practice, every screen had to be captured in PDF format and reviewed individually. The result: significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off.\n\nI used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations. Now we could automatically document and review each submission with a full audit trail - the review team only had to rubber-stamp the release.\n\nI also built a prototype agent that plugged into Figma, so designers could query the guidelines before investing too much effort. This allowed product teams to shift left - fail in design, not at review.\n\nThe product teams loved it. Organisational priorities later shifted and the project was handed to another team, but the proof of concept showed a clear path to dramatically faster release cycles.",
     "drill_downs": []
@@ -550,7 +614,10 @@
       "Describe an innovation you made",
       "How did you reinvent domain search?",
       "How do you identify product opportunities?",
-      "What's an example of a UX innovation you created?"
+      "What's an example of a UX innovation you created?",
+      "biggest product win",
+      "biggest win",
+      "proudest achievement"
     ],
     "content": "20 years ago, I worked for a domain registrar (now part of GoDaddy). The industry standard for domain search was clunky: enter the name in a text field, pick the domain ending from a dropdown, hit search. This was because we had to make a separate API call to each domain registry.\n\nUsers could only search for one domain at a time and kept running into domains that were already taken. Frustrating experience, poor conversion.\n\nI reinvented the process: a simple text field that interpreted whatever the user entered and searched all endings asynchronously. First use of AJAX in our stack.\n\nNew revenue increased by 20% overnight. The approach became the industry standard - if you search for a domain anywhere today, this is how it works.",
     "drill_downs": []
@@ -579,7 +646,10 @@
       "How hands-on are you with AI?",
       "What's your experience with GenAI?",
       "Are you building anything with AI right now?",
-      "Tell me about AI across your career"
+      "Tell me about AI across your career",
+      "AI experience",
+      "machine learning",
+      "GenAI"
     ],
     "content": "I've been hands-on with AI/ML across multiple roles:\n\nAt Novo, I built a GenAI proof of concept for automating compliance reviews - a RAG model that could auto-document submissions and a Figma agent for shift-left design validation. [NOVO.R2.GENAI]\n\nAt LEO, I led the ML team building a skin diagnosis app, achieving 80% accuracy on the core classification model. [LEO.R3.ML]\n\nI also built a weight-loss prediction algorithm at Novo - hands-on work with clinical data that later became an API product. [NOVO.R1.ALGORITHM]\n\nRight now I'm building with Claude Code, GitHub and Netlify. This chatbot is one of those projects. [TQ.GAP]\n\nI'm not a specialist engineer. My value is in understanding enough to ask the right questions, spot opportunities, and bridge between technical and commercial. [TQ.TECHNICAL]",
     "drill_downs": [
@@ -671,7 +741,6 @@
       "Have you worked internationally?",
       "What's your international experience?",
       "Have you managed teams in different countries?",
-      "Where have you worked?",
       "Tell me about cross-country experience",
       "Do you need a work permit for Denmark?",
       "Are you EU-eligible to work?",
@@ -835,7 +904,7 @@
       "What do you earn now?",
       "What package are you targeting?"
     ],
-    "content": "I'd prefer to understand the role and scope first before discussing numbers. Happy to share expectations once we're further along.",
+    "content": "I'd prefer not to discuss salary online.",
     "drill_downs": []
   },
   {
@@ -872,7 +941,9 @@
       "What did you learn from a failure?",
       "Tell me about something that went wrong",
       "When did you get it wrong?",
-      "What's your most valuable learning from a mistake?"
+      "What's your most valuable learning from a mistake?",
+      "biggest mistake",
+      "biggest learning"
     ],
     "content": "Sure, I've failed lots of times - if you don't fail, you're probably not stretching yourself. That said, I prefer to reframe them as learnings. Here are a few:\n\n**Going on feels rather than numbers** [LEO.R1.STORY.FEELS]\nOptimised the wrong part of the funnel. High conversion rate × tiny audience = marginal impact.\n\n**Knowing when to ship** [TQ.FAILURE.SHIP]\nFresh out of university, I cofounded a startup that never launched. We wanted perfect and kept polishing. Learning: ship in small viable increments.\n\n**Prioritising ideas over learning** [TQ.FAILURE.LEARNING]\nEarly career argument with a designer - each convinced we were right. Neither of us knew about testing. Once I learnt to detach from ego, everything changed.",
     "drill_downs": [
@@ -889,7 +960,8 @@
       "Tell me about the startup that never launched",
       "What did you learn about shipping?",
       "When have you over-polished something?",
-      "Tell me about TextualHealing"
+      "Tell me about TextualHealing",
+      "knowing when to ship"
     ],
     "content": "Fresh out of university, I cofounded a startup sending mobile barcode tickets via MMS. The idea was good, but we were way too early and lacked experience.\n\nThe poor decision was never launching. We wanted perfect, and kept polishing instead of shipping. We dreamt of a multi-sided marketplace, but had no go-to-market plan and no viable first iteration.\n\nYears later, I worked with a CEO whose motto was \"launch crap, but launch.\"\n\nMy approach is informed by both:\n- Ship in small viable increments to capture value and learn early\n- But don't ship junk - if you need to learn fast, run a test",
     "drill_downs": []
@@ -902,7 +974,9 @@
       "How did you learn to detach from your ideas?",
       "Tell me about testing vs opinions",
       "When did you learn the value of experimentation?",
-      "How do you handle disagreements about product decisions?"
+      "How do you handle disagreements about product decisions?",
+      "tell me about testing",
+      "tell me about prototyping"
     ],
     "content": "My first job, twenty years ago, was in a PRINCE2 waterfall setup. I recall a passionate argument with a graphic designer, each convinced our idea was right. Neither of us knew about testing.\n\nFast-forward a decade: a similar discussion with a product designer. He preferred A, I preferred B. We quickly agreed to test it, and that afternoon discovered users preferred something entirely different - option C.\n\nThe poor decision was anchoring on our own ideas and locking out better alternatives.\n\nOnce I learnt to detach from ego, everything changed. It was liberating. It's not about who has the best idea - it's about creating space for learning.",
     "drill_downs": []
@@ -954,9 +1028,26 @@
     "questions": [
       "Tell me about this bot?",
       "Why did you make this bot?",
-      "How does this bot work?"
+      "How does this bot work?",
+      "how does this work?"
     ],
     "content": "I made this bot as I thought it could be fun, both for me to make, and for any recruiters who are bored of conventional CVs.\n\nIt works via the Claude API, has a very simple prompt and a chunked RAG vector store.\n\nA key criteria was accuracy of recall, so the bot uses question-to-question matching — it compares what you ask against a bank of pre-mapped questions rather than searching the raw content directly. This limits the true chatbot nature of an LLM, but helps to maintain quality. Also, the helmet helps combat the hallaucinations.\n\nI built the system together with Claude code, but the core content and tone-of-voice is all my own.",
+    "drill_downs": []
+  },
+  {
+    "id": "META.SUGGESTIONS",
+    "questions": [
+      "What should I ask?",
+      "What can I ask?",
+      "Can you offer a suggestion?",
+      "I'm stuck",
+      "Give me some ideas",
+      "What questions can you answer?",
+      "Help me",
+      "suggestions",
+      "what to ask"
+    ],
+    "content": "Here are some things you could ask me:\n\n- **Tell me about yourself** — a quick overview of who I am\n- **What motivates you?** — what drives me professionally\n- **What's your career journey?** — how I got here\n- **What's your biggest learning?** — lessons from mistakes\n- **What's with the helmet?** — the story behind my profile picture",
     "drill_downs": []
   },
   {

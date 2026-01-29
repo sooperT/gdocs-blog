@@ -1,0 +1,65 @@
+======================================================================
+TOMBOT RETRIEVAL TEST REPORT
+Run: 2026-01-29T08:42:57.701102
+Thresholds: question=0.7 (no content fallback)
+======================================================================
+
+SUMMARY: 34/41 passed, 7 failed, 0 errors
+Pass rate: 83%
+
+BY TEST TYPE:
+  exact           18/18 passed
+  paraphrase      9/11 passed
+  alias           3/3 passed
+  typo            1/1 passed
+  fragment        0/5 passed
+  off_topic       3/3 passed
+
+======================================================================
+FAILURES:
+======================================================================
+
+  Query: What's your story?
+  Expected: META.ARC
+  Got: None (score: 0.000, method: question)
+  All matches: []
+
+  Query: What kind of job are you after?
+  Expected: META.LOOKING
+  Got: None (score: 0.000, method: question)
+  All matches: []
+
+  Query: red thread
+  Expected: META.ARC
+  Got: None (score: 0.000, method: question)
+  All matches: []
+
+  Query: motivation
+  Expected: META.COMPASS
+  Got: None (score: 0.000, method: question)
+  All matches: []
+
+  Query: Novo Nordisk AI
+  Expected: NOVO.R2.GENAI
+  Got: None (score: 0.000, method: question)
+  All matches: []
+
+  Query: true red thread
+  Expected: META.ARC
+  Got: None (score: 0.000, method: question)
+  All matches: []
+
+  Query: biggest win
+  Expected: HOST.R2.STORY.DOMAIN
+  Got: None (score: 0.000, method: question)
+  All matches: []
+
+======================================================================
+MARGINAL PASSES (score < 0.80):
+======================================================================
+  How can I contact you?                             -> META.CONTACT         (0.787)
+  What gets you excited about work?                  -> META.COMPASS         (0.748)
+  Whats your backgrond?                              -> META.ARC             (0.796)
+  What's your favourite colour?                      -> NONE                 (0.000)
+  Can you write me some code?                        -> NONE                 (0.000)
+  What's the weather like?                           -> NONE                 (0.000)

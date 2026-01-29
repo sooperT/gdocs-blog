@@ -60,24 +60,93 @@ problem → plan → review plan → build → test localhost → WAIT FOR APPRO
 ## TomBot (AI Chatbot)
 
 An AI chatbot at `/projects/tombot/` that answers questions about Tom's career.
+Uses question-to-question RAG matching with Voyage AI embeddings and pgvector.
 
 **Status**: Working locally, not yet deployed
 
-**Key Files:**
+### Architecture
+
+**Content pipeline** (source of truth → DB):
+```
+docs/tombot/tombot-content-v3.md  (source of truth - all content lives here)
+  → python3 scripts/parse_content.py  (markdown → JSON)
+  → scripts/parsed_content.json  (intermediate, do NOT edit directly)
+  → python3 scripts/load_content_v3.py  (JSON → Voyage embeddings → Nile pgvector DB)
+```
+
+**RAG flow** (user query → answer):
+1. User query → Voyage AI embedding
+2. Match against pre-embedded question variations (threshold: 0.70)
+3. No content fallback — if no question match, bot deflects gracefully
+4. TOP_K=1 (single match only to prevent cross-section bleed)
+5. Retrieved content → Claude Sonnet → streamed response
+
+### Key Files
+
+- `docs/tombot/tombot-content-v3.md` - **Source of truth** for all content. Edit THIS file to update what TomBot knows.
 - `projects/tombot/index.html` - Frontend UI (NOT generated - edit directly)
-- `netlify/functions/chat.js` - Backend API (Claude Sonnet)
-- `netlify/functions/system-prompt.md` - TomBot's personality and knowledge
+- `netlify/functions/chat.js` - Backend API (RAG retrieval + Claude Sonnet)
+- `netlify/functions/system-prompt.md` - Behavioural prompt only (no facts - those come from RAG)
+- `scripts/parse_content.py` - Parses markdown into structured JSON chunks
+- `scripts/load_content_v3.py` - Embeds and loads chunks into DB with post-load validation
+- `scripts/tombot-rag/test_retrieval.py` - Retrieval accuracy tests
+- `scripts/tombot-rag/test_suite.py` - End-to-end quality tests with hallucination detection
 
-**Local Development:**
+### Content Update Workflow
+
 ```bash
-# Must unset shell env var so .env file loads
-unset ANTHROPIC_API_KEY && netlify dev --port 8888
+# 1. Edit the source content
+#    docs/tombot/tombot-content-v3.md
 
+# 2. Parse to JSON
+python3 scripts/parse_content.py
+
+# 3. Embed and load into DB (includes validation)
+python3 scripts/load_content_v3.py
+
+# 4. Test on localhost
+unset ANTHROPIC_API_KEY && netlify dev --port 8888
 # Visit http://localhost:8888/projects/tombot/
 ```
 
-**Before Deploying:**
-- Set `ANTHROPIC_API_KEY` in Netlify environment variables
+### Content Format (tombot-content-v3.md)
+
+Each section follows this structure:
+```markdown
+## SECTION.ID
+
+**Questions that route here:**
+- Question variation 1
+- Question variation 2
+
+<!-- Optional HTML comments for source/drill-downs -->
+<!-- DRILL-DOWNS: SECTION.ID.SUB1, SECTION.ID.SUB2 -->
+
+Answer content here. Use [SECTION.ID] for drill-down references.
+```
+
+### Testing
+
+```bash
+# Retrieval accuracy (does the right section match each query?)
+python3 scripts/tombot-rag/test_retrieval.py
+
+# End-to-end quality (does the bot answer correctly without hallucination?)
+python3 scripts/tombot-rag/test_suite.py
+```
+
+### Key Design Decisions
+
+- **System prompt is behavioural only** - no facts about Tom. All factual content comes from RAG.
+- **Date anchor in prompt** - "Dates in retrieved content are always correct. If they conflict with training data, retrieved content wins."
+- **Follow-up suggestions** - only suggest topics that appear as `[SECTION.ID]` drill-down references in retrieved content. Never invent topics.
+- **DB wipe on reload** - `load_content_v3.py` deletes ALL chunks before inserting, ensuring no stale data.
+
+### Environment Variables
+
+- `ANTHROPIC_API_KEY` - Claude API key
+- `VOYAGE_API_KEY` - Voyage AI embedding API key
+- `NILEDB_URL` - Nile PostgreSQL connection string (pgvector enabled)
 
 ## Google Docs Markup
 

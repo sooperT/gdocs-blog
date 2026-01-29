@@ -34,37 +34,56 @@
             box-sizing: border-box;
         }
 
-        /* Header */
+        /* Header - avatar left, title right */
         #tombot .tb-header {
-            padding: 20px;
+            padding: 24px;
             border-bottom: 2px solid var(--tb-cyan);
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 20px;
             flex-shrink: 0;
         }
 
-        #tombot .tb-avatar {
-            font-size: 48px;
+        #tombot .tb-header-text {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        #tombot .tb-header-text h1 {
+            margin: 0;
+            font-family: 'European Teletext Taken', 'European Teletext', 'Courier New', monospace;
+            font-size: 3em;
+            color: var(--tb-yellow);
+            font-weight: normal;
+            letter-spacing: 0;
             line-height: 1;
         }
 
-        #tombot .tb-title {
-            flex: 1;
-        }
-
-        #tombot .tb-title h1 {
+        #tombot .tb-header-text p {
             margin: 0;
-            font-size: 24px;
-            color: var(--tb-yellow);
-            font-weight: normal;
-        }
-
-        #tombot .tb-title p {
-            margin: 4px 0 0 0;
             font-size: 14px;
             color: var(--tb-cyan);
-            opacity: 0.8;
+            opacity: 0.7;
+        }
+
+        #tombot .tb-header-img {
+            display: flex;
+            flex-shrink: 0;
+        }
+
+        #tombot .tb-profile-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border: none;
+            border-radius: 4px;
+        }
+
+        /* Kill ALL CRT effects inside chat and input areas */
+        #tombot .tb-chat *,
+        #tombot .tb-input-area * {
+            text-shadow: none !important;
         }
 
         /* Chat area */
@@ -79,25 +98,28 @@
             max-height: 50vh;
         }
 
-        /* Messages */
+        /* Speech bubbles */
         #tombot .tb-message {
             max-width: 85%;
-            padding: 12px 16px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            position: relative;
         }
 
         #tombot .tb-message.user {
             align-self: flex-end;
             background: var(--tb-gray);
             color: var(--tb-white);
-            border: 1px solid var(--tb-cyan);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-bottom-right-radius: 0;
         }
 
         #tombot .tb-message.assistant {
             align-self: flex-start;
-            background: transparent;
+            background: rgba(0, 40, 40, 0.9);
             color: var(--tb-cyan);
-            border-left: 3px solid var(--tb-yellow);
-            padding-left: 16px;
+            border: 1px solid rgba(0, 255, 255, 0.25);
+            border-bottom-left-radius: 0;
         }
 
         #tombot .tb-message p {
@@ -108,11 +130,27 @@
             margin-bottom: 0;
         }
 
+        /* Bullet lists inside messages */
+        #tombot .tb-message ul,
+        #tombot .tb-message ol {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        #tombot .tb-message li {
+            margin-bottom: 4px;
+        }
+
         /* Typing indicator */
         #tombot .tb-typing {
             align-self: flex-start;
             color: var(--tb-cyan);
             opacity: 0.7;
+            padding: 14px 18px;
+            background: rgba(0, 40, 40, 0.9);
+            border: 1px solid rgba(0, 255, 255, 0.15);
+            border-radius: 12px;
+            border-bottom-left-radius: 0;
         }
 
         #tombot .tb-typing::after {
@@ -127,7 +165,7 @@
 
         /* Input area */
         #tombot .tb-input-area {
-            padding: 20px;
+            padding: 16px 20px;
             border-top: 2px solid var(--tb-cyan);
             display: flex;
             gap: 12px;
@@ -142,6 +180,7 @@
             background: var(--tb-white);
             color: var(--tb-black);
             border: 2px solid var(--tb-cyan);
+            border-radius: 6px;
             outline: none;
         }
 
@@ -160,6 +199,7 @@
             background: var(--tb-cyan);
             color: var(--tb-black);
             border: none;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
         }
@@ -174,90 +214,49 @@
             cursor: not-allowed;
         }
 
-        /* Starter prompts */
-        #tombot .tb-starters {
-            padding: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        #tombot .tb-starter {
-            padding: 8px 16px;
-            font-family: var(--tb-font);
-            font-size: 14px;
-            background: transparent;
-            color: var(--tb-cyan);
-            border: 1px solid var(--tb-cyan);
-            cursor: pointer;
-        }
-
-        #tombot .tb-starter:hover {
-            background: var(--tb-cyan);
-            color: var(--tb-black);
-        }
-
-        /* Welcome message */
-        #tombot .tb-welcome {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--tb-cyan);
-        }
-
-        #tombot .tb-welcome h2 {
-            color: var(--tb-yellow);
-            font-weight: normal;
-            margin: 0 0 16px 0;
-        }
-
-        #tombot .tb-welcome p {
-            margin: 0 0 8px 0;
-            opacity: 0.8;
-        }
-
         /* Error state */
         #tombot .tb-error {
             color: #ff6b6b;
-            padding: 12px 16px;
-            border: 1px solid #ff6b6b;
-            margin: 10px 20px;
+            padding: 14px 18px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 12px;
+            border-bottom-left-radius: 0;
+            margin: 0;
+            align-self: flex-start;
+            max-width: 85%;
+        }
+
+        /* Disclaimer */
+        .tb-disclaimer {
+            color: var(--teletext-red, #FF0000);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85em;
+            margin: 12px 0 0 0;
+            text-align: center;
         }
 
         /* Mobile adjustments */
         @media (max-width: 600px) {
             #tombot .tb-header {
                 padding: 16px;
+                gap: 12px;
             }
 
-            #tombot .tb-avatar {
-                font-size: 36px;
+            #tombot .tb-header-text h1 {
+                font-size: 2.2em;
             }
 
-            #tombot .tb-title h1 {
-                font-size: 20px;
+            #tombot .tb-profile-img {
+                width: 70px;
+                height: 70px;
             }
 
             #tombot .tb-message {
-                max-width: 95%;
+                max-width: 92%;
             }
 
             #tombot .tb-input-area {
-                padding: 16px;
-                flex-direction: column;
-            }
-
-            #tombot .tb-send {
-                width: 100%;
-            }
-
-            #tombot .tb-starters {
-                flex-direction: column;
-            }
-
-            #tombot .tb-starter {
-                width: 100%;
-                text-align: center;
+                padding: 12px 16px;
             }
         }
     </style>
@@ -287,32 +286,20 @@
     <!-- MAIN CONTENT -->
     <main>
         <div id="tombot">
-            <!-- Header with avatar -->
+            <!-- Header: avatar left, title right -->
             <div class="tb-header">
-                <div class="tb-avatar" id="tb-avatar">😐</div>
-                <div class="tb-title">
+                <div class="tb-header-img">
+                    <img class="tb-profile-img" id="tb-avatar" src="/lib/img/tombot/tombot-smile.png" alt="Tom in a silly helmet">
+                </div>
+                <div class="tb-header-text">
                     <h1>TomBot</h1>
-                    <p>Ask me about Tom's experience, skills, and career</p>
+                    <p>A prototype AI trained on Tom's CV</p>
                 </div>
             </div>
 
             <!-- Chat messages -->
             <div class="tb-chat" id="tb-chat">
-                <div class="tb-welcome">
-                    <h2>Hi, I'm TomBot</h2>
-                    <p>I'm an AI that knows about Tom Stenson's career and experience.</p>
-                    <p>Ask me anything about his work, skills, or background.</p>
-                    <p style="font-size: 12px; margin-top: 16px; opacity: 0.6;">For the most accurate info, email tom at tomstenson@gmail.com</p>
-                </div>
-
-                <!-- Starter prompts -->
-                <div class="tb-starters" id="tb-starters">
-                    <button class="tb-starter" data-prompt="Walk me through Tom's career">Walk me through his career</button>
-                    <button class="tb-starter" data-prompt="What's Tom's experience with AI?">Experience with AI?</button>
-                    <button class="tb-starter" data-prompt="Why is Tom leaving Novo Nordisk?">Why leaving Novo?</button>
-                    <button class="tb-starter" data-prompt="Is Tom technical?">Is he technical?</button>
-                    <button class="tb-starter" data-prompt="Tell me about Tom's biggest product win">Biggest product win?</button>
-                </div>
+                <!-- Default greeting bubble added by JS -->
             </div>
 
             <!-- Input area -->
@@ -327,6 +314,7 @@
                 <button class="tb-send" id="tb-send">Send</button>
             </div>
         </div>
+        <p class="tb-disclaimer">Disclaimer: This is a prototype AI. For ground truth responses please meet Tom in-person for coffee.</p>
     </main>
 
     <!-- FOOTER -->
@@ -339,23 +327,33 @@
         // State
         let conversationHistory = [];
         let isLoading = false;
+        let sessionId = null;
 
         // Elements
         const chat = document.getElementById('tb-chat');
         const input = document.getElementById('tb-input');
         const sendBtn = document.getElementById('tb-send');
         const avatar = document.getElementById('tb-avatar');
-        const starters = document.getElementById('tb-starters');
 
-        // Avatar states
-        const AVATAR = {
-            idle: '😐',
-            thinking: '🤔',
-            talking: '😊'
+        // Avatar image states
+        const AVATAR_SRC = {
+            idle: '/lib/img/tombot/tombot-smile.png',
+            thinking: '/lib/img/tombot/tombot_think.jpg'
         };
 
+        // Preload images
+        Object.values(AVATAR_SRC).forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
         function setAvatar(state) {
-            avatar.textContent = AVATAR[state] || AVATAR.idle;
+            avatar.src = AVATAR_SRC[state] || AVATAR_SRC.idle;
+        }
+
+        // Show default greeting as a speech bubble
+        function showGreeting() {
+            addMessage('assistant', "Hi, I'm TomBot, a prototype interactive CV. Ask me anything about his work, skills or background, and I'll do my best to answer.\n\nIf you get stuck for things to ask — just let me know and I can offer suggestions.");
         }
 
         function addMessage(role, content) {
@@ -368,11 +366,26 @@
         }
 
         function formatMessage(text) {
-            // Simple markdown-ish formatting
-            return text
+            // Convert markdown-style lists
+            let formatted = text
                 .split('\n\n')
-                .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`)
+                .map(block => {
+                    // Check if block is a list
+                    const lines = block.split('\n');
+                    const isList = lines.every(l => l.match(/^[-*•]\s/) || l.trim() === '');
+                    if (isList && lines.some(l => l.match(/^[-*•]\s/))) {
+                        const items = lines
+                            .filter(l => l.match(/^[-*•]\s/))
+                            .map(l => `<li>${l.replace(/^[-*•]\s+/, '')}</li>`)
+                            .join('');
+                        return `<ul>${items}</ul>`;
+                    }
+                    // Convert **bold**
+                    const withBold = block.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+                    return `<p>${withBold.replace(/\n/g, '<br>')}</p>`;
+                })
                 .join('');
+            return formatted;
         }
 
         function showTyping() {
@@ -389,12 +402,6 @@
             if (typing) typing.remove();
         }
 
-        function hideWelcome() {
-            const welcome = chat.querySelector('.tb-welcome');
-            if (welcome) welcome.remove();
-            if (starters) starters.remove();
-        }
-
         function showError(message) {
             const error = document.createElement('div');
             error.className = 'tb-error';
@@ -409,7 +416,6 @@
             isLoading = true;
             sendBtn.disabled = true;
             input.disabled = true;
-            hideWelcome();
 
             // Add user message
             addMessage('user', userMessage);
@@ -423,7 +429,7 @@
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ messages: conversationHistory })
+                    body: JSON.stringify({ messages: conversationHistory, sessionId })
                 });
 
                 if (!response.ok) {
@@ -431,7 +437,7 @@
                 }
 
                 hideTyping();
-                setAvatar('talking');
+                setAvatar('idle');
 
                 // Handle streaming response
                 const reader = response.body.getReader();
@@ -460,6 +466,8 @@
                                         messageEl.innerHTML = formatMessage(assistantMessage);
                                     }
                                     chat.scrollTop = chat.scrollHeight;
+                                } else if (data.type === 'done' && data.sessionId) {
+                                    sessionId = data.sessionId;
                                 } else if (data.type === 'error') {
                                     throw new Error(data.message);
                                 }
@@ -484,7 +492,6 @@
                 sendBtn.disabled = false;
                 input.disabled = false;
                 input.focus();
-                setAvatar('idle');
             }
         }
 
@@ -502,15 +509,8 @@
             }
         });
 
-        // Starter prompts
-        document.querySelectorAll('.tb-starter').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const prompt = btn.dataset.prompt;
-                sendMessage(prompt);
-            });
-        });
-
-        // Focus input on load
+        // Show greeting on load
+        showGreeting();
         input.focus();
     })();
     </script>
