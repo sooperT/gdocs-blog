@@ -3,9 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - taken</title>
+    <title>AI Product Experiments | Exploring AI Product Management</title>
+    <meta name="description" content="AI and product management experiments. What I'm building, breaking and learning in AI product management.">
     <link rel="stylesheet" href="/lib/styles/styles.css">
     <script defer src="https://cloud.umami.is/script.js" data-website-id="6e0b4ebe-2b6a-4583-9ceb-8316259c5600"></script>
+    <style>
+        /* Project card styles */
+        .project-card {
+            padding-bottom: 2em;
+            border-bottom: 1px solid var(--teletext-yellow);
+            margin-bottom: 2em;
+        }
+
+        .project-card:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .project-card h2 {
+            margin-top: 0;
+        }
+
+        .project-card h2 a {
+            border: none;
+        }
+
+        .project-card h2 a:hover {
+            background: none;
+        }
+
+        .project-body {
+            display: flex;
+            gap: 2em;
+            align-items: flex-start;
+        }
+
+        .project-content {
+            flex: 1;
+        }
+
+        .project-image {
+            width: 400px;
+            flex-shrink: 0;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-top: 1em;
+            color: var(--teletext-yellow);
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .project-body {
+                flex-direction: column;
+                gap: 1.5em;
+            }
+
+            .project-image {
+                width: 200px;
+                align-self: center;
+                order: -1;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="crt-overlay"></div>
@@ -31,11 +98,38 @@
 
     <!-- MAIN CONTENT -->
     <main>
-        <div style="text-align: center; padding: 4em 0;">
-            <img src="/lib/img/ninja-work.jpg" alt="Ninja at work" style="max-width: 400px; width: 100%; height: auto; margin-bottom: 1em; display: block; margin-left: auto; margin-right: auto;">
-            <h1 style="margin-bottom: 0.5em;">Stealth Mode</h1>
-            <p style="color: var(--teletext-text); opacity: 0.7;">Projects coming soon...</p>
-        </div>
+        <h1>Projects</h1>
+
+        <!-- TomBot -->
+        <article class="project-card">
+            <h2><a href="/projects/tombot/">TomBot</a></h2>
+            <div class="project-body">
+                <div class="project-content">
+                    <p>A prototype AI trained on my CV.</p>
+                    <p>I made this bot as I thought it could be fun, both for me to make, and for any recruiters who are bored of conventional CVs.</p>
+                    <p>Built with Claude API and a RAG vector store. Uses question-to-question matching for accuracy over hallucination. The helmet helps too.</p>
+                    <a href="/projects/tombot/" class="project-link">Try it →</a>
+                </div>
+                <div class="project-image" style="width: 300px;">
+                    <img src="/lib/img/tombot/tombot-smile.png" alt="TomBot">
+                </div>
+            </div>
+        </article>
+
+        <!-- Stealth Mode -->
+        <article class="project-card">
+            <h2>Stealth Mode</h2>
+            <div class="project-body">
+                <div class="project-content">
+                    <p>Projects coming soon...</p>
+                    <p>More projects are burning. It might be useful. It might be ridiculous. Probably both.</p>
+                    <p>Check back later.</p>
+                </div>
+                <div class="project-image">
+                    <img src="/lib/img/ninja-work.jpg" alt="Ninja at work">
+                </div>
+            </div>
+        </article>
     </main>
 
     <!-- FOOTER -->

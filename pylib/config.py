@@ -31,7 +31,8 @@ NAV_ITEMS = {
 # SEO
 HOMEPAGE_TITLE = 'Tom Stenson | Senior Product Manager | Systems Thinking | Copenhagen'
 HOMEPAGE_META_DESC = "I'm Tom Stenson, a Senior Product Manager in Copenhagen. Writing about product management, growth, AI, and systems thinking."
-ARCHIVE_TITLE = 'Words - taken'
+ARCHIVE_TITLE = 'Product Strategy & GenAI Articles | Tom Stenson | Copenhagen'
+ARCHIVE_META_DESC = 'Writing on Product strategy, GenAI, & systems thinking. Musings on future impact.'
 
 # Styles
 STYLESHEET_PATH = '/lib/styles/styles.css'

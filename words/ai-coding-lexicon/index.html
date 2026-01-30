@@ -48,8 +48,8 @@
         <li><a href="#hallucinations">Hallucinations</a></li>
         <li><a href="#tests">Tests</a></li>
         <li><a href="#context">Context</a></li>
-        <li>Tokens (tbc)</li>
-        <li>Vibe coding (tbc)</li>
+        <li><a href="#tokens">Tokens</a></li>
+        <li><a href="#vibe-coding">Vibe coding</a></li>
     </ul>
     <hr />
     <p><img src="/lib/img/ai-coding-lexicon-image-1.jpg" alt="Image"></p>
@@ -106,6 +106,24 @@
     <p>In practice, everything starts out great. You’re shipping code and everything is performing as expected. But as your software grows, you’ll inevitably hit the context-window limit. The LLM starts dropping the ball, bugs creep in & things get weirder.</p>
     <p>We can compensate for this by borrowing classic software-patterns, by architecting your solution to compartmentalise its functions. Consider how the <a href="https://nordicapis.com/the-bezos-api-mandate-amazons-manifesto-for-externalization/">Bezos API mandate</a>, enabled scaling by reducing the dependencies, complexity, and context that each team needed to maintain and control.</p>
     <p>But how much context can each function maintain? That depends on tokens.</p>
+    <hr />
+    <p><img src="/lib/img/ai-coding-lexicon-image-5.jpg" alt="Image"></p>
+    <h2 id="tokens">Tokens</h2>
+    <p>Tokens are the basic units of text that LLM models break down, process and generate.</p>
+    <p>When you send a prompt to an LLM, it doesn’t read words like we do. Instead it breaks it down into manageable chunks of around 3-4 characters each. Once it has all of the tokens (the context), it generates the response (again at the token level), predicting the next most likely token based on everything that has come before.</p>
+    <p>The context window is the maximum number of tokens an LLM can hold and ‘reason from’ at once. This includes system instructions, conversation history, the last prompt, & all previously generated output.</p>
+    <p>The maximum number of tokens has increased with each generation of LLM (GPT-3 had 4K tokens, GPT-4 128K, & GPT-5 up to ~400K). And <em>generally</em> more tokens equals better, more nuanced, ‘reasoned’ results.</p>
+    <h4 id="the-cost">The cost</h4>
+    <p>Every token processed requires computation, computation consumes energy, and energy costs money. The cost of goods is per token.But pricing models obscure this. A million tokens sounds generous, but it's abstract - hard to benchmark, easy to burn through.</p>
+    <p>Token caps have become a growth lever. Start users on generous limits, let them get hooked, then throttle back. The paywall appears: upgrade to Pro. It’s classic playbook.The same playbook is being applied to drive adoption (& job losses?) at a societal level. The big labs are subsidising adoption (eg <a href="https://www.thurrott.com/cloud/290661/report-github-copilot-loses-an-average-of-20-per-user-per-month">Github copilot is reportedly subsidizing each user by $20 each month</a>). What happens when the subsidies stop?</p>
+    <hr />
+    <p><img src="/lib/img/ai-coding-lexicon-image-6.jpg" alt="Image"></p>
+    <h2 id="vibe-coding">Vibe coding</h2>
+    <p>Vibe coding is the aspirational product pitch of GenAI coding.</p>
+    <p>Technology, startup stardom & untold riches are no longer the reserve of the technology elite. Now anyone can create software! Just whisper what you want in easy general terms (vibes), and hey presto out pops a fully formed, working product that’s exactly as you imagined.</p>
+    <h4 id="the-reality">The reality</h4>
+    <p>This is great when it works. But more often than not, the results are mediocre. A tangle of confident sounding code that doesn’t land. Or derivative work that sits in the middle.</p>
+    <p>This is not to say AI-assisted coding is not valuable - it is immensely. But until the scaffolding matures to handle more of the engineering discipline automatically, creating great software needs more than just vibes.</p>
     </main>
 
     <!-- FOOTER -->
