@@ -746,11 +746,13 @@ main p:has(> img:only-child)::before {
     font-size: 1.5em;
 }
 
-.post-preview h3 a {
+.post-preview h3 a,
+main > h2 a {
     border: none;
 }
 
-.post-preview h3 a:hover {
+.post-preview h3 a:hover,
+main > h2 a:hover {
     background: none;
 }
 

@@ -214,7 +214,7 @@ def generate_homepage_html(post):
     # Main content
     html_parts.append('    <!-- MAIN CONTENT -->')
     html_parts.append('    <main>')
-    html_parts.append(f'        <h2>{post["title"]}</h2>')
+    html_parts.append(f'        <h2><a href="{post["url"]}">{post["title"]}</a></h2>')
 
     # Post metadata (date and tags)
     meta_parts = []

@@ -126,6 +126,11 @@ def slugify(text):
     text = re.sub(r'[^0-9a-z-]', '', text)  # remove special chars
     return text
 
+
+def strip_html_tags(text):
+    """Remove HTML tags from text, keeping only plain text content"""
+    return re.sub(r'<[^>]+>', '', text)
+
 # Blog folder path in Google Drive
 BLOG_FOLDER_PATH = "09 Lab/Taken"
 
@@ -658,13 +663,15 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
                     # Generate anchor IDs for headings (h2, h3, h4)
                     if tag in ['h2', 'h3', 'h4']:
-                        anchor_id = slugify(html_content.strip())
+                        # Headings: strip inline tags (styling handled by CSS)
+                        heading_text = strip_html_tags(html_content).strip()
+                        anchor_id = slugify(heading_text)
 
                         # Store mapping if this heading has a Google ID
                         if google_heading_id:
                             heading_id_map[google_heading_id] = anchor_id
 
-                        html_parts.append(f'    <{tag} id="{anchor_id}">{html_content_with_br}</{tag}>')
+                        html_parts.append(f'    <{tag} id="{anchor_id}">{heading_text}</{tag}>')
                     else:
                         html_parts.append(f'    <{tag}>{html_content_with_br}</{tag}>')
 
@@ -964,7 +971,7 @@ def rebuild_metadata_index():
     print("="*60)
 
 
-def git_commit_and_push(filename, doc_title, include_archive=False, include_homepage=False, include_metadata=False, images=None):
+def git_commit_and_push(filename, doc_title, include_archive=False, include_homepage=False, include_metadata=False, include_sitemap=False, images=None):
     """Commit and push changes to GitHub"""
     print("\nCommitting to git...")
 
@@ -983,6 +990,10 @@ def git_commit_and_push(filename, doc_title, include_archive=False, include_home
         # Also add metadata if updated
         if include_metadata:
             subprocess.run(['git', 'add', METADATA_FILE], check=True)
+
+        # Also add sitemap if regenerated
+        if include_sitemap:
+            subprocess.run(['git', 'add', 'sitemap.xml'], check=True)
 
         # Also add downloaded images
         if images:
@@ -1198,6 +1209,14 @@ def main():
             except subprocess.CalledProcessError as e:
                 print(f"⚠ Warning: Homepage generation failed: {e}")
 
+        # Always regenerate sitemap (for any content type)
+        print("\nRegenerating sitemap...")
+        try:
+            subprocess.run(['python3', 'generate_sitemap.py'], check=True, capture_output=True)
+            print("✓ Sitemap updated")
+        except subprocess.CalledProcessError as e:
+            print(f"⚠ Warning: Sitemap generation failed: {e}")
+
         # Ask for git push confirmation
         print("\n" + "="*60)
         print("READY TO COMMIT AND PUSH TO GITHUB")
@@ -1205,8 +1224,8 @@ def main():
         push_response = input("\nCommit and push to GitHub? (yes/no): ").strip().lower()
 
         if push_response in ['yes', 'y']:
-            # Git commit and push (include archive, homepage, metadata, and images in same commit)
-            git_commit_and_push(output_file, document.get('title'), include_archive=archive_updated, include_homepage=homepage_updated, include_metadata=True, images=downloaded_images)
+            # Git commit and push (include archive, homepage, metadata, sitemap, and images in same commit)
+            git_commit_and_push(output_file, document.get('title'), include_archive=archive_updated, include_homepage=homepage_updated, include_metadata=True, include_sitemap=True, images=downloaded_images)
 
             print("\n" + "="*60)
             print("✓ SUCCESS! Blog post published")
