@@ -86,6 +86,45 @@ function normalizeQuery(query) {
   return normalized;
 }
 
+// Expand contractions for consistent matching with stored questions
+// "what's" -> "what is", "how's" -> "how is", etc.
+function expandContractions(query) {
+  return query
+    .replace(/\bwhat's\b/gi, 'what is')
+    .replace(/\bwhere's\b/gi, 'where is')
+    .replace(/\bhow's\b/gi, 'how is')
+    .replace(/\bwho's\b/gi, 'who is')
+    .replace(/\bthat's\b/gi, 'that is')
+    .replace(/\bit's\b/gi, 'it is')
+    .replace(/\bthere's\b/gi, 'there is')
+    .replace(/\bwhat're\b/gi, 'what are')
+    .replace(/\bwho're\b/gi, 'who are')
+    .replace(/\bthey're\b/gi, 'they are');
+}
+
+// Expand synonyms to boost matching for short/ambiguous queries (LSI-lite)
+// Appends related terms rather than replacing
+function expandSynonyms(query) {
+  const synonyms = {
+    'kids': 'children family',
+    'married': 'wife spouse family',
+    'wife': 'married spouse family',
+    'hobbies': 'interests outside work',
+    'pitch': 'elevator summary introduction',
+    'story': 'journey arc background career',
+    'janitor': 'product janitor fixer'
+  };
+
+  let expanded = query;
+  for (const [term, expansion] of Object.entries(synonyms)) {
+    const regex = new RegExp(`\\b${term}\\b`, 'gi');
+    if (regex.test(query)) {
+      expanded += ` ${expansion}`;
+    }
+  }
+  return expanded;
+}
+
 // Expand aliases in query (e.g., "Novo" -> "Novo Nordisk")
 async function expandAliases(query) {
   try {
@@ -181,15 +220,28 @@ async function retrieveContent(query) {
     console.log('[RAG] Normalized:', query, '->', normalizedQuery);
   }
 
-  // Step 2: Expand aliases
-  const expandedQuery = await expandAliases(normalizedQuery);
-  console.log('[RAG] Query:', normalizedQuery);
-  if (expandedQuery !== normalizedQuery) {
-    console.log('[RAG] Expanded to:', expandedQuery);
+  // Step 2: Expand contractions for consistent matching
+  const contractionsExpanded = expandContractions(normalizedQuery);
+  if (contractionsExpanded !== normalizedQuery) {
+    console.log('[RAG] Contractions expanded:', normalizedQuery, '->', contractionsExpanded);
   }
 
-  // Step 2: Get embedding
-  const embedding = await getEmbedding(expandedQuery);
+  // Step 3: Expand aliases
+  const aliasExpanded = await expandAliases(contractionsExpanded);
+  if (aliasExpanded !== contractionsExpanded) {
+    console.log('[RAG] Aliases expanded:', contractionsExpanded, '->', aliasExpanded);
+  }
+
+  // Step 4: Expand synonyms (LSI-lite) to boost short queries
+  const synonymExpanded = expandSynonyms(aliasExpanded);
+  if (synonymExpanded !== aliasExpanded) {
+    console.log('[RAG] Synonyms expanded:', aliasExpanded, '->', synonymExpanded);
+  }
+
+  console.log('[RAG] Final query:', synonymExpanded);
+
+  // Step 5: Get embedding
+  const embedding = await getEmbedding(synonymExpanded);
   if (!embedding) {
     console.log('[RAG] Failed to get embedding');
     return { chunks: [], method: 'none' };
