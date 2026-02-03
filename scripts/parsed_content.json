@@ -43,6 +43,37 @@
     ]
   },
   {
+    "id": "META.GREETING",
+    "questions": [
+      "hello",
+      "hi",
+      "hey",
+      "hi there",
+      "hello there",
+      "good morning",
+      "good afternoon",
+      "good evening",
+      "howdy",
+      "greetings"
+    ],
+    "content": "Hello to you too! I'm Tom's CV chatbot. Try asking about my background, experience, or something else.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "tell me about yourself",
+        "target": "META"
+      },
+      {
+        "text": "what motivates you",
+        "target": "META.COMPASS"
+      },
+      {
+        "text": "what is on your reading list",
+        "target": "META.BOOKS"
+      }
+    ]
+  },
+  {
     "id": "META.COMPASS",
     "questions": [
       "What motivates you?",
@@ -133,6 +164,37 @@
       {
         "text": "tell me about your career journey",
         "target": "META.ARC"
+      }
+    ]
+  },
+  {
+    "id": "META.COFFEE",
+    "questions": [
+      "when are you free for a coffee",
+      "can we grab coffee",
+      "let us meet for coffee",
+      "can we meet",
+      "let us meet up",
+      "are you free to meet",
+      "I would like to meet you",
+      "can we chat over coffee",
+      "coffee chat",
+      "schedule a meeting",
+      "book a meeting",
+      "set up a call",
+      "let us talk",
+      "free for a chat"
+    ],
+    "content": "I'd love to! Drop me an email at tomstenson@gmail.com and we can find a time.\n\nI'm based in Copenhagen but happy to do a video call if you're elsewhere.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "tell me about yourself",
+        "target": "META"
+      },
+      {
+        "text": "what are you looking for",
+        "target": "META.LOOKING"
       }
     ]
   },
