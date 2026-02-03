@@ -7,7 +7,11 @@ Output format for each section:
     "id": "NOVO.R1",
     "questions": ["Tell me about...", "What did you do..."],
     "content": "The answer content...",
-    "drill_downs": ["NOVO.R1.TRANSFORM", "NOVO.R1.ALGORITHM"]
+    "drill_downs": ["NOVO.R1.TRANSFORM", "NOVO.R1.ALGORITHM"],
+    "follow_ups": [
+        {"text": "tell me about X", "target": "SECTION.ID"},
+        ...
+    ]
 }
 """
 
@@ -90,11 +94,41 @@ def parse_section(section_id: str, raw: str):
             if d.strip()
         ]
 
+    # Extract follow-up suggestions
+    follow_ups = []
+    followups_match = re.search(
+        r'\*\*Suggested follow-ups:\*\*\s*\n((?:- .+\n?)+)',
+        raw
+    )
+    if followups_match:
+        followups_block = followups_match.group(1)
+        for line in followups_block.strip().split('\n'):
+            if line.strip().startswith('- '):
+                # Parse: - "suggestion text" [TARGET.ID]
+                fu_match = re.match(r'- "([^"]+)"\s*\[([A-Z][A-Z0-9_.]+)\]', line.strip())
+                if fu_match:
+                    follow_ups.append({
+                        'text': fu_match.group(1),
+                        'target': fu_match.group(2)
+                    })
+                else:
+                    # Fallback: just the text without target (shouldn't happen but handle gracefully)
+                    text_match = re.match(r'- "([^"]+)"', line.strip())
+                    if text_match:
+                        follow_ups.append({
+                            'text': text_match.group(1),
+                            'target': None
+                        })
+
     # Extract content (everything after questions block and comments, before ---)
-    # Remove the questions block
+    # Remove the questions block and follow-ups block
     content = raw
     if questions_match:
         content = content.replace(questions_match.group(0), '')
+    if followups_match:
+        content = content.replace(followups_match.group(0), '')
+        # Also remove the header line
+        content = content.replace('**Suggested follow-ups:**', '')
 
     # Remove HTML comments
     content = re.sub(r'<!--[^>]*-->\n?', '', content)
@@ -112,7 +146,8 @@ def parse_section(section_id: str, raw: str):
         'id': section_id,
         'questions': questions,
         'content': content,
-        'drill_downs': drill_downs
+        'drill_downs': drill_downs,
+        'follow_ups': follow_ups
     }
 
 
@@ -137,6 +172,14 @@ def main():
     sections_with_drilldowns = sum(1 for c in chunks if c['drill_downs'])
     print(f"Sections with drill-downs: {sections_with_drilldowns}")
 
+    total_followups = sum(len(c['follow_ups']) for c in chunks)
+    sections_with_followups = sum(1 for c in chunks if c['follow_ups'])
+    followups_with_targets = sum(
+        1 for c in chunks for f in c['follow_ups'] if f['target']
+    )
+    print(f"Total follow-ups: {total_followups} ({sections_with_followups} sections)")
+    print(f"Follow-ups with targets: {followups_with_targets}")
+
     # Show sample
     print("\n--- Sample (first 3 sections) ---\n")
     for chunk in chunks[:3]:
@@ -144,6 +187,7 @@ def main():
         print(f"Questions ({len(chunk['questions'])}): {chunk['questions'][:3]}...")
         print(f"Content preview: {chunk['content'][:100]}...")
         print(f"Drill-downs: {chunk['drill_downs']}")
+        print(f"Follow-ups: {chunk['follow_ups']}")
         print()
 
     # Save to JSON

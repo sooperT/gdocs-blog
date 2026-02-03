@@ -94,6 +94,12 @@ def load_content():
     conn = psycopg2.connect(NILEDB_URL)
     cur = conn.cursor()
 
+    # Ensure follow_ups column exists (JSONB for array of {text, target} objects)
+    cur.execute("""
+        ALTER TABLE chunks ADD COLUMN IF NOT EXISTS follow_ups JSONB
+    """)
+    conn.commit()
+
     # Clear ALL chunks — ensures no stale data from previous versions
     cur.execute("DELETE FROM chunks")
     deleted = cur.rowcount
@@ -139,15 +145,18 @@ def load_content():
             # Generate unique ID: section_id + question hash
             row_id = f"{section['id']}_{q_idx}"
 
+            # Convert follow_ups to JSON string for JSONB column
+            follow_ups_json = json.dumps(section.get("follow_ups", []))
+
             cur.execute("""
                 INSERT INTO chunks (
                     id, chunk_type, title, content,
                     embedding, question_text, question_embedding,
-                    tags, source_file
+                    tags, source_file, follow_ups
                 ) VALUES (
                     %s, %s, %s, %s,
                     %s, %s, %s,
-                    %s, %s
+                    %s, %s, %s
                 )
             """, (
                 row_id,
@@ -158,21 +167,24 @@ def load_content():
                 question,
                 question_embedding,
                 section.get("drill_downs", []),
-                "tombot-content-v3.md"
+                "tombot-content-v3.md",
+                follow_ups_json
             ))
             inserted += 1
 
         # Also insert one row with just the content embedding (no question)
         # This helps with direct content matching
+        follow_ups_json = json.dumps(section.get("follow_ups", []))
+
         cur.execute("""
             INSERT INTO chunks (
                 id, chunk_type, title, content,
                 embedding, question_text, question_embedding,
-                tags, source_file
+                tags, source_file, follow_ups
             ) VALUES (
                 %s, %s, %s, %s,
                 %s, %s, %s,
-                %s, %s
+                %s, %s, %s
             )
         """, (
             section["id"],  # Main section ID
@@ -183,7 +195,8 @@ def load_content():
             None,  # No question text
             None,  # No question embedding
             section.get("drill_downs", []),
-            "tombot-content-v3.md"
+            "tombot-content-v3.md",
+            follow_ups_json
         ))
         inserted += 1
 
@@ -268,6 +281,17 @@ def load_content():
     q_count = cur.fetchone()[0]
     print(f"\nRows with question embeddings: {q_count}")
     print(f"Content-only rows: {total_db - q_count}")
+
+    # 6. Verify follow_ups are stored correctly
+    cur.execute("SELECT COUNT(*) FROM chunks WHERE follow_ups IS NOT NULL AND follow_ups != '[]'::jsonb")
+    rows_with_followups = cur.fetchone()[0]
+    print(f"Rows with follow-ups: {rows_with_followups}")
+
+    # Check a sample to verify structure
+    cur.execute("SELECT title, follow_ups FROM chunks WHERE follow_ups IS NOT NULL LIMIT 1")
+    sample = cur.fetchone()
+    if sample:
+        print(f"Sample follow-ups for {sample[0]}: {len(sample[1])} suggestions")
 
     # Final verdict
     print("\n" + "=" * 60)
