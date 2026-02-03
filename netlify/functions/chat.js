@@ -152,7 +152,7 @@ async function searchByQuestionMatch(embedding, limit = 5) {
     const vectorStr = `[${embedding.join(',')}]`;
     const result = await pool.query(`
       SELECT DISTINCT ON (title)
-             id, title, content, chunk_type, question_text,
+             id, title, content, chunk_type, question_text, follow_ups,
              1 - (question_embedding <=> $1::vector) as similarity
       FROM chunks
       WHERE question_embedding IS NOT NULL
@@ -169,7 +169,7 @@ async function searchByQuestionMatch(embedding, limit = 5) {
 }
 
 // Main retrieval function - question matching only (no content fallback)
-const QUESTION_MATCH_THRESHOLD = 0.60;  // Lowered from 0.70 — question matching is reliable, content fallback removed
+const QUESTION_MATCH_THRESHOLD = 0.55;  // Testing: lowered from 0.60 to catch borderline matches like "wegovy" (0.591)
 const TOP_K = 1;  // Single match only — prevents cross-section bleed and hallucination
 
 // Log deflection to dedicated table for review
@@ -290,7 +290,15 @@ function formatRetrievedContent(chunks) {
     return `${header}\n${chunk.content}`;
   }).join('\n\n---\n\n');
 
-  return `\n\n<retrieved_content>\n${formatted}\n</retrieved_content>\n\nUse the retrieved content above to inform your response. This is grounded information about Tom's experience. If the answer isn't in the retrieved content or the system prompt, acknowledge that you don't have that information and suggest emailing Tom directly.`;
+  // Extract follow-ups from the matched content
+  let followUpsSection = '';
+  const followUps = chunks[0]?.follow_ups;
+  if (followUps && followUps.length > 0) {
+    const suggestionList = followUps.map(f => `- "${f.text}" [${f.target}]`).join('\n');
+    followUpsSection = `\n\n<follow_up_suggestions>\nONLY suggest these specific follow-ups to the user (pick 2-3 that are most relevant):\n${suggestionList}\n</follow_up_suggestions>`;
+  }
+
+  return `\n\n<retrieved_content>\n${formatted}\n</retrieved_content>${followUpsSection}\n\nUse the retrieved content above to inform your response. This is grounded information about Tom's experience. If the answer isn't in the retrieved content or the system prompt, acknowledge that you don't have that information and suggest emailing Tom directly.`;
 }
 
 export default async (request, context) => {
