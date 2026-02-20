@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-coding lexicon</title>
-    <meta name="description" content="A summary of AI-coding concepts, what they mean and why I think they’re important: Determinism, Hallucinations, Evals, Context, Tokens, & Vibe coding.">
+    <title>Vibe coding - 6 words to know</title>
+    <meta name="description" content="Vibe coding, 6 words to know & why they’re important: Determinism, Hallucinations, Tests, Context, Tokens, & Vibe coding.">
     <link rel="stylesheet" href="/lib/styles/styles.css">
     <script defer src="https://cloud.umami.is/script.js" data-website-id="6e0b4ebe-2b6a-4583-9ceb-8316259c5600"></script>
     <script src="/tag-filter.js" defer></script>
@@ -37,10 +37,12 @@
 
     <!-- MAIN CONTENT -->
     <main>
-    <h1>AI-coding lexicon</h1>
+    <h1>Vibe coding - 6 words to know</h1>
     <p class="post-meta">Published on: 09/01/2026. Filed under: ai</p>
-    <p>Every discipline creates their own language by necessity, a lingua franca for describing new concepts, methodologies and ways of working. To learn a subject, it helps if you understand it’s language.</p>
-    <p>So with this in mind, I present a brief AI-coding lexicon, which I will add to over time. It’s not exhaustive, and intentionally it’s not in alphabetical order.</p>
+    <p><br>
+    I’ve been playing around with vibe-coding a lot last year. The promise is incredible, everyone can build amazing software - but the reality is a bit more technical.<br>
+    <br>
+    In this post, I share some of the terms I picked up along the way, and explain why I think they’re important.</p>
     <!-- EXCERPT_END -->
     <h3 id="contents">Contents</h3>
     <ul>
@@ -52,10 +54,11 @@
         <li><a href="#vibe-coding">Vibe coding</a></li>
     </ul>
     <hr />
-    <p><img src="/lib/img/ai-coding-lexicon-image-1.jpg" alt="Image"></p>
+    <p><img src="/lib/img/vibe-coding-6-words-to-know-image-1.jpg" alt="Image"></p>
     <h2 id="determinism">Determinism</h2>
     <p>Computers are essentially sophisticated calculators, you feed in the sum and you get the result. And just like 1+1 always equals 2, if you feed in the same instructions you will always get the same result. If you’ve grown up with classic software, this is likely something you take for granted.</p>
-    <p>Large-language models (LLMs) work differently, they are non-deterministic, they don’t compute answers but predict the next most likely option.</p>
+    <p><br>
+    Large-language models (LLMs) work differently, they are non-deterministic, they don’t compute answers but predict the next most likely option.</p>
     <h4 id="example-11">Example: 1+1</h4>
     <p>A standard (deterministic) computer executes specific rules, in this case arithmetic:</p>
     <ul>
@@ -74,18 +77,21 @@
     <p>The answer is not a calculated result, but an assumed outcome. The outcome is probabilistic, and repeating the same prompt can yield different outcomes.</p>
     <h4 id="so-what">So what?</h4>
     <p>Determinism runs deep, all of us learnt maths by counting out 1 + 1 on our fingers. We take it for granted that solutions are calculated, and software is predictable and consistent.</p>
-    <p>Most of the time, the solution produced by a deterministic system looks exactly the same as one produced by a non-deterministic system. Except sometimes it doesn’t, and this has huge implications.</p>
+    <p><br>
+    Most of the time, the solution produced by a deterministic system looks exactly the same as one produced by a non-deterministic system. Except sometimes it doesn’t, and this has huge implications.</p>
     <hr />
-    <p><img src="/lib/img/ai-coding-lexicon-image-2.jpg" alt="Image"></p>
+    <p><img src="/lib/img/vibe-coding-6-words-to-know-image-2.jpg" alt="Image"></p>
     <h2 id="hallucinations">Hallucinations</h2>
     <p>An AI hallucination describes when an AI model produces a confident-sounding, but factually incorrect outcome.</p>
     <p>We like to anthropomorphize things so often describe the AI as ‘making things up’, ‘imaging things’, or even ‘lying’. But this doesn’t really represent what’s going on.</p>
     <p>An LLM has no concept of the truth, and no innate reasoning capability (intelligence?). It predicts the most likely outcome based on it’s training data, but has no understanding of the outcome itself.</p>
     <p>It presents mistakes with confidence, because it does not know it is a mistake, it does not know what a mistake is. In fact it doesn’t know anything, it only predicts.</p>
     <h4 id="feature-not-a-bug">Feature not a bug</h4>
-    <p>Hallucinations are a feature of how LLMs work. It is a feature not a bug. And in spite of this glaringly obvious design flaw, LLMs are so game-changing, so incredibly important and powerful - we need to learn to live with it.And this is tricky. We all have experience correcting an LLM with something you know is wrong, but what happens when you’re working with an LLM in a new domain? How do you tell what is true and what isn’t?</p>
+    <p>Hallucinations are a feature of how LLMs work. It is a feature not a bug. And in spite of this glaringly obvious design flaw, LLMs are so game-changing, so incredibly important and powerful - we need to learn to live with it.<br>
+    <br>
+    And this is tricky. We all have experience correcting an LLM with something you know is wrong, but what happens when you’re working with an LLM in a new domain? How do you tell what is true and what isn’t?</p>
     <hr />
-    <p><img src="/lib/img/ai-coding-lexicon-image-3.jpg" alt="Image"></p>
+    <p><img src="/lib/img/vibe-coding-6-words-to-know-image-3.jpg" alt="Image"></p>
     <p>Image adapted from ‘This is fine’ meme. Original credit <a href="https://kcgreendotcom.com">KC Green</a></p>
     <h2 id="tests">Tests</h2>
     <p>When using an LLM to write code, hallucinations are typically expressed as a complete disconnect from reality. The LLM has performed some work, and confidently explains that everything is complete and working perfectly - but in reality everything is on fire and nothing executes. Asking the LLM to check, or repeat itself won’t help, because the LLM has no concept of what is correct.</p>
@@ -94,7 +100,7 @@
     <p>You can now confirm that the correct output was produced, but you can’t say how it was produced; the LLM could have taken any path to get there, sensible <a href="https://www.reddit.com/r/oddlysatisfying/comments/1oauksr/incomplete_train_works_perfectly/">or otherwise</a>. You now need to create ever increasing checkpoints at intermediary steps to ensure the code follows the expected path. And depending on the extent of the coverage, you can now use a non-deterministic LLM to produce deterministic code and consistent outputs.</p>
     <p>Note: this situation gets weirder when the LLM output is the product (ie. agentic work), but that’s for another time.</p>
     <hr />
-    <p><img src="/lib/img/ai-coding-lexicon-image-4.jpg" alt="Image"></p>
+    <p><img src="/lib/img/vibe-coding-6-words-to-know-image-4.jpg" alt="Image"></p>
     <h2 id="context">Context</h2>
     <p>We know from experience that having a good contextual brief for an assignment is a good thing. But what's the right amount of information a brief should contain?</p>
     <ul>
@@ -107,22 +113,27 @@
     <p>We can compensate for this by borrowing classic software-patterns, by architecting your solution to compartmentalise its functions. Consider how the <a href="https://nordicapis.com/the-bezos-api-mandate-amazons-manifesto-for-externalization/">Bezos API mandate</a>, enabled scaling by reducing the dependencies, complexity, and context that each team needed to maintain and control.</p>
     <p>But how much context can each function maintain? That depends on tokens.</p>
     <hr />
-    <p><img src="/lib/img/ai-coding-lexicon-image-5.jpg" alt="Image"></p>
+    <p><img src="/lib/img/vibe-coding-6-words-to-know-image-5.jpg" alt="Image"></p>
     <h2 id="tokens">Tokens</h2>
     <p>Tokens are the basic units of text that LLM models break down, process and generate.</p>
     <p>When you send a prompt to an LLM, it doesn’t read words like we do. Instead it breaks it down into manageable chunks of around 3-4 characters each. Once it has all of the tokens (the context), it generates the response (again at the token level), predicting the next most likely token based on everything that has come before.</p>
     <p>The context window is the maximum number of tokens an LLM can hold and ‘reason from’ at once. This includes system instructions, conversation history, the last prompt, & all previously generated output.</p>
     <p>The maximum number of tokens has increased with each generation of LLM (GPT-3 had 4K tokens, GPT-4 128K, & GPT-5 up to ~400K). And <em>generally</em> more tokens equals better, more nuanced, ‘reasoned’ results.</p>
     <h4 id="the-cost">The cost</h4>
-    <p>Every token processed requires computation, computation consumes energy, and energy costs money. The cost of goods is per token.But pricing models obscure this. A million tokens sounds generous, but it's abstract - hard to benchmark, easy to burn through.</p>
-    <p>Token caps have become a growth lever. Start users on generous limits, let them get hooked, then throttle back. The paywall appears: upgrade to Pro. It’s classic playbook.The same playbook is being applied to drive adoption (& job losses?) at a societal level. The big labs are subsidising adoption (eg <a href="https://www.thurrott.com/cloud/290661/report-github-copilot-loses-an-average-of-20-per-user-per-month">Github copilot is reportedly subsidizing each user by $20 each month</a>). What happens when the subsidies stop?</p>
+    <p>Every token processed requires computation, computation consumes energy, and energy costs money. The cost of goods is per token.<br>
+    <br>
+    But pricing models obscure this. A million tokens sounds generous, but it's abstract - hard to benchmark, easy to burn through.</p>
+    <p>Token caps have become a growth lever. Start users on generous limits, let them get hooked, then throttle back. The paywall appears: upgrade to Pro. It’s classic playbook.<br>
+    <br>
+    The same playbook is being applied to drive adoption (& job losses?) at a societal level. The big labs are subsidising adoption (eg <a href="https://www.thurrott.com/cloud/290661/report-github-copilot-loses-an-average-of-20-per-user-per-month">Github copilot is reportedly subsidizing each user by $20 each month</a>). What happens when the subsidies stop?</p>
     <hr />
-    <p><img src="/lib/img/ai-coding-lexicon-image-6.jpg" alt="Image"></p>
+    <p><img src="/lib/img/vibe-coding-6-words-to-know-image-6.jpg" alt="Image"></p>
     <h2 id="vibe-coding">Vibe coding</h2>
     <p>Vibe coding is the aspirational product pitch of GenAI coding.</p>
     <p>Technology, startup stardom & untold riches are no longer the reserve of the technology elite. Now anyone can create software! Just whisper what you want in easy general terms (vibes), and hey presto out pops a fully formed, working product that’s exactly as you imagined.</p>
     <h4 id="the-reality">The reality</h4>
-    <p>This is great when it works. But more often than not, the results are mediocre. A tangle of confident sounding code that doesn’t land. Or derivative work that sits in the middle.</p>
+    <p><br>
+    This is great when it works. But more often than not, the results are mediocre. A tangle of confident sounding code that doesn’t land. Or derivative work that sits in the middle.</p>
     <p>This is not to say AI-assisted coding is not valuable - it is immensely. But until the scaffolding matures to handle more of the engineering discipline automatically, creating great software needs more than just vibes.</p>
     </main>
 
