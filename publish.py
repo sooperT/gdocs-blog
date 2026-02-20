@@ -520,7 +520,9 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                         text_run = elem['textRun']
                         text = text_run.get('content', '')
 
-                        # Strip control characters that render as boxes (vertical tab, etc.)
+                        # Convert vertical tabs (Google Docs soft returns / Shift+Enter) to newlines
+                        text = text.replace('\u000b', '\n')
+                        # Strip remaining control characters that render as boxes
                         # Keep newlines and tabs but remove other control chars
                         text = ''.join(char for char in text if ord(char) >= 32 or char in '\n\t')
 

@@ -13,16 +13,16 @@
       "excerpt": "When I worked in web hosting, a common expression was ‘during a gold-rush, sell shovels”. The idea being during a gold-rush, individual .com ventures may or may not strike gold, but the shovel seller will always profit without incurring the risk.\n\nGenAI is undoubtedly the latest gold-rush, but this time round where will value be generated?"
     },
     {
-      "title": "AI-coding lexicon",
+      "title": "Vibe coding - 6 words to know",
       "meta-title": "",
-      "url": "/words/ai-coding-lexicon/",
+      "url": "/words/vibe-coding-6-words-to-know/",
       "date": "2026-01-09",
       "tags": [
         "ai"
       ],
       "type": "words",
-      "meta-desc": "A summary of AI-coding concepts, what they mean and why I think they’re important: Determinism, Hallucinations, Evals, Context, Tokens, & Vibe coding.",
-      "excerpt": "Every discipline creates their own language by necessity, a lingua franca for describing new concepts, methodologies and ways of working. To learn a subject, it helps if you understand it’s language.\n\nSo with this in mind, I present a brief AI-coding lexicon, which I will add to over time. It’s not exhaustive, and intentionally it’s not in alphabetical order."
+      "meta-desc": "Vibe coding, 6 words to know & why they're important: Determinism, Hallucinations, Tests, Context, Tokens, & Vibe coding.",
+      "excerpt": "I've been playing around with vibe-coding a lot last year. The promise is incredible, everyone can build amazing software - but the reality is a bit more technical.\n\nIn this post, I share some of the terms I picked up along the way, and explain why I think they're important."
     },
     {
       "title": "Hello world",
