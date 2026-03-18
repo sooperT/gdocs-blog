@@ -735,13 +735,25 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                         in_list = False
                         current_list_id = None
 
-                    # Split around [HOZ] and output surrounding text as paragraphs
+                    # Split around [HOZ] and output surrounding text
                     parts = html_content.split('[HOZ]')
                     for i, part in enumerate(parts):
                         part = part.strip()
                         if part:
-                            part = part.replace('\n', '<br>')
-                            html_parts.append(f'    <p>{part}</p>')
+                            # Strip [CAPTION] and check for pending figure
+                            is_cap = part.startswith('[CAPTION]')
+                            if is_cap:
+                                part = part[9:].strip()
+                            if part and is_cap and pending_figure_image:
+                                part_br = part.replace('\n', '<br>\n    ')
+                                html_parts.append('    <figure>')
+                                html_parts.append(f'        {pending_figure_image.strip()}')
+                                html_parts.append(f'        <figcaption>{part_br}</figcaption>')
+                                html_parts.append('    </figure>')
+                                pending_figure_image = None
+                            elif part:
+                                part = part.replace('\n', '<br>')
+                                html_parts.append(f'    <p>{part}</p>')
                         if i < len(parts) - 1:
                             html_parts.append('    <hr />')
                     continue
@@ -784,22 +796,27 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                 html_content_with_br = html_content.rstrip().replace('\n', '<br>\n    ')
 
                 # If this is a caption and we have a pending image, wrap in <figure>
+                caption_handled = False
                 if is_caption and pending_figure_image:
                     html_parts.append('    <figure>')
                     html_parts.append(f'        {pending_figure_image.strip()}')
                     html_parts.append(f'        <figcaption>{html_content_with_br}</figcaption>')
                     html_parts.append('    </figure>')
                     pending_figure_image = None
-                    continue
+                    caption_handled = True
 
                 # If we have a pending image but this isn't a caption, output the image alone
                 # Output BEFORE the current element (especially headings) to preserve document order
-                if pending_figure_image:
+                if not caption_handled and pending_figure_image:
                     html_parts.append(f'    {pending_figure_image.strip()}')
                     pending_figure_image = None
 
+                # Skip remaining text output if caption was handled,
+                # but fall through to image storage below
+                if caption_handled:
+                    pass
                 # Handle bullet lists
-                if bullet:
+                elif bullet:
                     list_id = bullet.get('listId')
 
                     # Start new list if needed
