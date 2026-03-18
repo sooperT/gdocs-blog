@@ -7,7 +7,24 @@ from pylib.config import (
 )
 
 
-def html_head(title, extra_scripts=None, meta_description=None):
+NO_CRT_STYLE = """    <style>
+        /* Override CRT effects for this post */
+        main p > img,
+        main figure img {
+            filter: none !important;
+            border-radius: 0 !important;
+            position: relative;
+            z-index: 10000;
+            background: white;
+        }
+        main p:has(> img:only-child)::after,
+        main p:has(> img:only-child)::before {
+            content: none !important;
+        }
+    </style>"""
+
+
+def html_head(title, extra_scripts=None, meta_description=None, no_crt=False):
     """
     Generate HTML head section
 
@@ -15,6 +32,7 @@ def html_head(title, extra_scripts=None, meta_description=None):
         title: Page title
         extra_scripts: Optional list of additional script tags to include
         meta_description: Optional meta description for SEO
+        no_crt: If True, inject styles to disable CRT image effects
     """
     parts = [
         '<!DOCTYPE html>',
@@ -31,6 +49,10 @@ def html_head(title, extra_scripts=None, meta_description=None):
         parts.append(f'    <meta name="description" content="{meta_description}">')
 
     parts.append(f'    <link rel="stylesheet" href="{STYLESHEET_PATH}">')
+
+    # Add no-CRT override styles if requested
+    if no_crt:
+        parts.append(NO_CRT_STYLE)
 
     # Add Umami analytics tracking
     parts.append('    <script defer src="https://cloud.umami.is/script.js" data-website-id="6e0b4ebe-2b6a-4583-9ceb-8316259c5600"></script>')
@@ -56,7 +78,7 @@ def site_header():
     <header class="site-header">
         <div class="identity">
             <div class="logo-container">
-                <h2 class="logo">{SITE_NAME}</h2>
+                <a href="/" class="logo">{SITE_NAME}</a>
                 <img class="ninja-icon" src="{SITE_LOGO_PATH}" alt="Ninja">
             </div>
             <p class="tagline">{SITE_TAGLINE}</p>

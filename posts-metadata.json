@@ -1,12 +1,27 @@
 {
   "posts": [
     {
+      "title": "Opbeat illustrations",
+      "meta-title": "",
+      "url": "/words/opbeat-illustrations/",
+      "date": "2026-03-18",
+      "tags": [
+        "product",
+        "marketing"
+      ],
+      "type": "words",
+      "meta-desc": "A collection of devops illustrations and thoughts on how we made them from Opbeat, a developer tooling startup.",
+      "excerpt": "I found these illustrations on my hard disk from the Opbeat days. The brand got acquired, so they’re no longer online and would otherwise be lost - but I think they’re too good not to be online.\n\nFull credit to Mads Themberg, our amazing illustrator for bringing the product to life. Also to Rasmus, Ron, and ofc the rest of the Opbeat crew. Making comms for a developer brand is so much better when you have an amazing team of developers to bounce ideas with.",
+      "hero-image": "/lib/img/opbeat-illustrations-image-15.png"
+    },
+    {
       "title": "Winners in the AI gold-rush",
       "meta-title": "",
       "url": "/words/ai-gold-rush/",
       "date": "2026-01-20",
       "tags": [
-        "ai"
+        "ai",
+        "product"
       ],
       "type": "words",
       "meta-desc": "Unlike web 1.0, the AI gold rush might favour incumbents over disruptors. A metaphor for understanding where durable value will actually be created.",

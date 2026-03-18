@@ -238,10 +238,15 @@ def parse_frontmatter(document):
                 in_frontmatter = False
                 break
 
-            # Parse frontmatter key: value pairs
-            if text and ':' in text:
-                key, value = text.split(':', 1)
-                metadata[key.strip()] = value.strip()
+            # Split on vertical tabs (soft returns / Shift+Enter) to handle
+            # multiple frontmatter fields in the same paragraph
+            lines = text.split('\u000b') if '\u000b' in text else [text]
+            for line in lines:
+                line = line.strip()
+                # Parse frontmatter key: value pairs
+                if line and ':' in line:
+                    key, value = line.split(':', 1)
+                    metadata[key.strip()] = value.strip()
 
     return metadata, content_start_index
 
@@ -347,21 +352,27 @@ def compress_image(save_path, max_width=1024):
             ['sips', '-g', 'pixelWidth', save_path],
             capture_output=True, text=True
         )
+        # Use temp file with same extension to avoid sips issues
+        base, ext = os.path.splitext(save_path)
+        tmp_path = base + '_tmp' + ext
+
         width_line = [l for l in result.stdout.split('\n') if 'pixelWidth' in l]
         if width_line:
             current_width = int(width_line[0].split(':')[-1].strip())
             if current_width > max_width:
                 subprocess.run(
-                    ['sips', '--resampleWidth', str(max_width), save_path, '--out', save_path],
+                    ['sips', '--resampleWidth', str(max_width), save_path, '--out', tmp_path],
                     capture_output=True, text=True
                 )
+                os.replace(tmp_path, save_path)
 
         # Apply JPEG compression (quality 70)
         if save_path.lower().endswith(('.jpg', '.jpeg')):
             subprocess.run(
-                ['sips', '-s', 'formatOptions', '70', save_path, '--out', save_path],
+                ['sips', '-s', 'formatOptions', '70', save_path, '--out', tmp_path],
                 capture_output=True, text=True
             )
+            os.replace(tmp_path, save_path)
 
         size_kb = os.path.getsize(save_path) / 1024
         print(f"  → Compressed: {os.path.basename(save_path)} ({size_kb:.0f}KB)")
@@ -369,16 +380,96 @@ def compress_image(save_path, max_width=1024):
         print(f"  ⚠ Warning: Could not compress {save_path}: {e}")
 
 
-def download_image(image_url, save_path):
+def crop_image(save_path, crop_properties):
     """
-    Download image from URL and save locally, then compress it.
+    Apply Google Docs crop properties to a downloaded image using sips.
+
+    Google Docs cropProperties use fractional offsets (0.0 to 1.0) from each edge:
+        offsetTop, offsetBottom, offsetLeft, offsetRight
+
+    Args:
+        save_path: Path to the image file
+        crop_properties: Dict with offsetTop, offsetBottom, offsetLeft, offsetRight
+    """
+    top = crop_properties.get('offsetTop', 0)
+    bottom = crop_properties.get('offsetBottom', 0)
+    left = crop_properties.get('offsetLeft', 0)
+    right = crop_properties.get('offsetRight', 0)
+
+    # Skip if no meaningful crop
+    if top == 0 and bottom == 0 and left == 0 and right == 0:
+        return
+
+    try:
+        # Get current dimensions
+        result = subprocess.run(
+            ['sips', '-g', 'pixelWidth', '-g', 'pixelHeight', save_path],
+            capture_output=True, text=True
+        )
+        width_line = [l for l in result.stdout.split('\n') if 'pixelWidth' in l]
+        height_line = [l for l in result.stdout.split('\n') if 'pixelHeight' in l]
+
+        if width_line and height_line:
+            w = int(width_line[0].split(':')[-1].strip())
+            h = int(height_line[0].split(':')[-1].strip())
+
+            # Calculate crop rectangle
+            crop_left = int(w * left)
+            crop_top = int(h * top)
+            crop_right = int(w * right)
+            crop_bottom = int(h * bottom)
+            crop_w = w - crop_left - crop_right
+            crop_h = h - crop_top - crop_bottom
+
+            if crop_w > 0 and crop_h > 0:
+                # Use temp file with same extension to avoid sips issues
+                base, ext = os.path.splitext(save_path)
+                tmp_path = base + '_tmp' + ext
+                subprocess.run(
+                    ['sips', '--cropOffset', str(crop_top), str(crop_left),
+                     '-c', str(crop_h), str(crop_w),
+                     save_path, '--out', tmp_path],
+                    capture_output=True, text=True
+                )
+                os.replace(tmp_path, save_path)
+                print(f"  → Cropped: {os.path.basename(save_path)} ({crop_w}x{crop_h})")
+    except Exception as e:
+        print(f"  ⚠ Warning: Could not crop {save_path}: {e}")
+
+
+def detect_image_format(file_path):
+    """
+    Detect actual image format by reading file magic bytes.
+    Returns correct extension (e.g. '.png', '.jpg', '.gif', '.webp').
+    """
+    try:
+        with open(file_path, 'rb') as f:
+            header = f.read(12)
+        if header[:8] == b'\x89PNG\r\n\x1a\n':
+            return '.png'
+        if header[:3] == b'\xff\xd8\xff':
+            return '.jpg'
+        if header[:6] in (b'GIF87a', b'GIF89a'):
+            return '.gif'
+        if header[:4] == b'RIFF' and header[8:12] == b'WEBP':
+            return '.webp'
+    except Exception:
+        pass
+    return None
+
+
+def download_image(image_url, save_path, crop_properties=None):
+    """
+    Download image from URL and save locally, optionally crop, then compress.
+    Detects actual image format and corrects the file extension if needed.
 
     Args:
         image_url: URL of the image to download
         save_path: Local path where image should be saved
+        crop_properties: Optional dict with Google Docs crop offsets
 
     Returns:
-        True if successful, False otherwise
+        Corrected save_path if successful, None otherwise
     """
     try:
         # Create directory if it doesn't exist
@@ -387,12 +478,25 @@ def download_image(image_url, save_path):
         # Download image
         urllib.request.urlretrieve(image_url, save_path)
 
+        # Detect actual format and fix extension if wrong
+        actual_ext = detect_image_format(save_path)
+        if actual_ext:
+            base, current_ext = os.path.splitext(save_path)
+            if current_ext.lower() != actual_ext:
+                corrected_path = base + actual_ext
+                os.rename(save_path, corrected_path)
+                save_path = corrected_path
+
+        # Apply crop before compression if crop properties exist
+        if crop_properties:
+            crop_image(save_path, crop_properties)
+
         # Compress after download
         compress_image(save_path)
-        return True
+        return save_path
     except Exception as e:
         print(f"⚠ Warning: Failed to download image from {image_url}: {e}")
-        return False
+        return None
 
 
 def convert_to_html(document, metadata, content_start_index=0, content_type='words', slug=''):
@@ -473,10 +577,12 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     # HTML head (generated after first pass so we can use h1_title)
     html_parts.append('<!-- Generated by: publish.py -->')
     html_parts.append('<!-- To modify: Edit Google Doc and republish, or edit publish.py -->')
+    no_crt = metadata.get('no-crt', '').lower() in ('true', 'yes', '1')
     html_parts.append(html_head(
         browser_title,
         extra_scripts=[TAG_FILTER_SCRIPT],
-        meta_description=meta_desc if meta_desc else None
+        meta_description=meta_desc if meta_desc else None,
+        no_crt=no_crt
     ))
 
     # Header
@@ -536,33 +642,27 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                             image_props = inline_obj.get('inlineObjectProperties', {})
                             embedded_obj = image_props.get('embeddedObject', {})
 
-                            # Get image URL
-                            image_url = embedded_obj.get('imageProperties', {}).get('contentUri', '')
+                            # Get image URL and crop properties
+                            image_props_inner = embedded_obj.get('imageProperties', {})
+                            image_url = image_props_inner.get('contentUri', '')
+                            crop_properties = image_props_inner.get('cropProperties', None)
 
                             if image_url:
-                                # Determine file extension from URL or default to .jpg
-                                ext = '.jpg'
-                                if '.' in image_url:
-                                    url_ext = image_url.split('.')[-1].split('?')[0].lower()
-                                    if url_ext in ['jpg', 'jpeg', 'png', 'gif', 'webp']:
-                                        ext = f'.{url_ext}'
+                                # Download with .jpg default; download_image detects actual
+                                # format and renames to correct extension
+                                initial_filename = f'{slug}-image-{image_counter}.jpg'
+                                initial_local_path = f'lib/img/{initial_filename}'
 
-                                # Generate local image path with slug prefix
-                                image_filename = f'{slug}-image-{image_counter}{ext}'
-                                local_image_path = f'lib/img/{image_filename}'
-                                web_image_path = f'/lib/img/{image_filename}'
-
-                                # Download image
-                                if download_image(image_url, local_image_path):
-                                    downloaded_images.append(local_image_path)
-                                    # Use local path in HTML
+                                corrected_path = download_image(image_url, initial_local_path, crop_properties)
+                                if corrected_path:
+                                    downloaded_images.append(corrected_path)
+                                    web_image_path = f'/{corrected_path}'
                                     alt_text = embedded_obj.get('title', 'Image')
                                     pending_image_html = f'    <p><img src="{web_image_path}" alt="{alt_text}"></p>'
                                     image_counter += 1
                                 else:
-                                    # Fallback to original URL if download fails
                                     alt_text = embedded_obj.get('title', 'Image')
-                                    pending_image_html = f'    <p><img src="{web_image_path}" alt="{alt_text}"></p>'
+                                    pending_image_html = f'    <p><img src="/lib/img/{initial_filename}" alt="{alt_text}"></p>'
 
                     elif 'textRun' in elem:
                         text_run = elem['textRun']
@@ -627,14 +727,23 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
             # Add text paragraph if it has content
             if html_content.strip():
                 # Check for [HOZ] marker for horizontal rules
-                is_horizontal_rule = html_content.strip() == '[HOZ]'
-                if is_horizontal_rule:
+                # Can appear standalone or within text (e.g. joined by soft returns)
+                if '[HOZ]' in html_content:
                     # Close any open list before adding horizontal rule
                     if in_list:
                         html_parts.append('    </ul>')
                         in_list = False
                         current_list_id = None
-                    html_parts.append('    <hr />')
+
+                    # Split around [HOZ] and output surrounding text as paragraphs
+                    parts = html_content.split('[HOZ]')
+                    for i, part in enumerate(parts):
+                        part = part.strip()
+                        if part:
+                            part = part.replace('\n', '<br>')
+                            html_parts.append(f'    <p>{part}</p>')
+                        if i < len(parts) - 1:
+                            html_parts.append('    <hr />')
                     continue
 
                 # Check for [ENDSNIP] marker for excerpt end
@@ -790,7 +899,7 @@ def load_metadata_index():
     return {"posts": []}
 
 
-def update_metadata_index(title, meta_title, url, date, tags, content_type, meta_desc, excerpt=''):
+def update_metadata_index(title, meta_title, url, date, tags, content_type, meta_desc, excerpt='', hero_image=''):
     """
     Incrementally update metadata index with current post
     - Loads existing metadata
@@ -818,7 +927,8 @@ def update_metadata_index(title, meta_title, url, date, tags, content_type, meta
         "tags": tags_array,
         "type": content_type,
         "meta-desc": meta_desc,
-        "excerpt": excerpt
+        "excerpt": excerpt,
+        "hero-image": hero_image if hero_image else ""
     }
 
     # Find if this post already exists (match by URL)
@@ -1235,7 +1345,8 @@ def main():
             tags=metadata.get('tags', ''),
             content_type=content_type,
             meta_desc=metadata.get('meta-desc', ''),
-            excerpt=parsed_html.get('excerpt', '')
+            excerpt=parsed_html.get('excerpt', ''),
+            hero_image=metadata.get('hero-image', '')
         )
 
         # Regenerate archive if this is a words post
