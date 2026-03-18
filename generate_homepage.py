@@ -229,6 +229,11 @@ def generate_homepage_html(post):
     if meta_parts:
         html_parts.append(f'        <p class="post-meta">{" ".join(meta_parts)}</p>')
 
+    # Hero image (from frontmatter hero-image field)
+    if post.get('hero-image'):
+        html_parts.append('')
+        html_parts.append(f'        <p><a href="{post["url"]}"><img src="{post["hero-image"]}" alt="{post["title"]}"></a></p>')
+
     # Extract and display excerpt HTML (preserves semantic structure)
     excerpt_html = extract_excerpt_html(post['url'])
 

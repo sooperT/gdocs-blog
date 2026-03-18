@@ -55,9 +55,9 @@ class TagFilter {
                 const tags = tagsText.split(', ').map(t => t.trim());
 
                 // Build clickable tag links
-                const tagsHTML = tags.map(tag =>
-                    `<a href="/words/?tag=${encodeURIComponent(tag)}" class="tag-link" data-tag="${tag}">${tag}</a>`
-                ).join(', ');
+                const tagsHTML = '<span class="post-tags">' + tags.map(tag =>
+                    `<a href="/words/?tag=${encodeURIComponent(tag)}" class="tag-link tag" data-tag="${tag}">${tag}</a>`
+                ).join('') + '</span>';
 
                 // Replace plain text with links
                 const dateMatch = text.match(/Published on: (.+?)\./);
