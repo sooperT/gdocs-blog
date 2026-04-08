@@ -787,6 +787,20 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
                     continue
 
+                # Check for [QUOTE] marker for blockquotes
+                # Can appear standalone or within text (joined by soft returns)
+                if '[QUOTE]' in html_content:
+                    before_quote, quote_content = html_content.split('[QUOTE]', 1)
+                    before_quote = before_quote.strip()
+                    quote_content = quote_content.strip()
+                    if before_quote:
+                        before_quote = before_quote.replace('\n', '<br>\n    ')
+                        html_parts.append(f'    <p>{before_quote}</p>')
+                    if quote_content:
+                        quote_content_with_br = quote_content.replace('\n', '<br>\n    ')
+                        html_parts.append(f'    <blockquote>{quote_content_with_br}</blockquote>')
+                    continue
+
                 # Check for [CAPTION] marker and strip it
                 is_caption = html_content.strip().startswith('[CAPTION]')
                 if is_caption:
