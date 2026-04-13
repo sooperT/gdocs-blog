@@ -112,7 +112,8 @@ function expandSynonyms(query) {
     'hobbies': 'interests outside work',
     'pitch': 'elevator summary introduction',
     'story': 'journey arc background career',
-    'janitor': 'product janitor fixer'
+    'janitor': 'product janitor fixer',
+    'compass': 'motivation values drives purpose'
   };
 
   let expanded = query;
@@ -290,15 +291,7 @@ function formatRetrievedContent(chunks) {
     return `${header}\n${chunk.content}`;
   }).join('\n\n---\n\n');
 
-  // Extract follow-ups from the matched content
-  let followUpsSection = '';
-  const followUps = chunks[0]?.follow_ups;
-  if (followUps && followUps.length > 0) {
-    const suggestionList = followUps.map(f => `- "${f.text}" [${f.target}]`).join('\n');
-    followUpsSection = `\n\n<follow_up_suggestions>\nONLY suggest these specific follow-ups to the user (pick 2-3 that are most relevant):\n${suggestionList}\n</follow_up_suggestions>`;
-  }
-
-  return `\n\n<retrieved_content>\n${formatted}\n</retrieved_content>${followUpsSection}\n\nUse the retrieved content above to inform your response. This is grounded information about Tom's experience. If the answer isn't in the retrieved content or the system prompt, acknowledge that you don't have that information and suggest emailing Tom directly.`;
+  return `\n\n<retrieved_content>\n${formatted}\n</retrieved_content>\n\nUse the retrieved content above to inform your response. This is grounded information about Tom's experience. If the answer isn't in the retrieved content or the system prompt, acknowledge that you don't have that information and suggest emailing Tom directly.`;
 }
 
 export default async (request, context) => {
@@ -343,6 +336,7 @@ export default async (request, context) => {
     // Get the latest user message for RAG search
     const lastUserMessage = trimmedMessages.filter(m => m.role === 'user').pop();
     let ragContext = '';
+    let followUps = [];
     let retrievalInfo = { method: 'none', matches: [] };
 
     if (lastUserMessage) {
@@ -384,6 +378,8 @@ export default async (request, context) => {
       }
 
       ragContext = formatRetrievedContent(chunks);
+      // Extract follow-ups for clickable chips (sent as structured SSE data)
+      followUps = (chunks[0]?.follow_ups || []).slice(0, 3);
       // Capture retrieval info for logging
       retrievalInfo = {
         method,
@@ -423,6 +419,10 @@ export default async (request, context) => {
           // Log the complete exchange after streaming finishes
           if (lastUserMessage) {
             logChatExchange(chatSessionId, lastUserMessage.content, fullResponse, retrievalInfo);
+          }
+          // Send follow-up suggestions as structured data for clickable chips
+          if (followUps.length > 0) {
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'follow_ups', suggestions: followUps })}\n\n`));
           }
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'done', sessionId: chatSessionId })}\n\n`));
           controller.close();
