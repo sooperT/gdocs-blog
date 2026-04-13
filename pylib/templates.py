@@ -49,6 +49,7 @@ def html_head(title, extra_scripts=None, meta_description=None, no_crt=False):
         parts.append(f'    <meta name="description" content="{meta_description}">')
 
     parts.append(f'    <link rel="stylesheet" href="{STYLESHEET_PATH}">')
+    parts.append('    <link rel="icon" type="image/png" href="/favicon.png">')
 
     # Add no-CRT override styles if requested
     if no_crt:
