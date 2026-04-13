@@ -226,6 +226,11 @@
             max-width: 85%;
         }
 
+        /* Suggestion links — global a styles handle colour/hover, just need pointer */
+        #tombot .tb-suggestion {
+            cursor: pointer;
+        }
+
         /* Disclaimer */
         .tb-disclaimer {
             color: var(--teletext-red, #FF0000);
@@ -351,9 +356,58 @@
             avatar.src = AVATAR_SRC[state] || AVATAR_SRC.idle;
         }
 
-        // Show default greeting as a speech bubble
+        // Show default greeting with inline suggestion links
         function showGreeting() {
-            addMessage('assistant', "Hi, I'm TomBot, a prototype interactive CV. Ask me anything about his work, skills or background, and I'll do my best to answer.\n\nIf you get stuck for things to ask — just let me know and I can offer suggestions.");
+            const msg = addMessage('assistant', "Hi, I'm TomBot, a prototype interactive CV. Ask me anything about Tom's work, skills or background, and I'll do my best to answer.");
+            appendSuggestionsLine(msg, [
+                "what's Tom like to work with?",
+                "tell me about a mistake you made",
+                "what's your compass?"
+            ], "If you're stuck for what to ask, you could try: ");
+        }
+
+        function appendSuggestionsLine(messageEl, suggestions, prefix, suffix) {
+            if (!suggestions || suggestions.length === 0) return;
+            prefix = prefix || 'You could try ';
+            const p = document.createElement('p');
+            p.className = 'tb-suggestions-line';
+            p.appendChild(document.createTextNode(prefix));
+            suggestions.forEach((s, i) => {
+                const link = document.createElement('a');
+                link.className = 'tb-suggestion';
+                link.textContent = typeof s === 'string' ? s : s.text;
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    sendMessage(link.textContent);
+                });
+                p.appendChild(link);
+                if (suffix) {
+                    if (i < suggestions.length - 1) {
+                        p.appendChild(document.createTextNode(', '));
+                    }
+                } else {
+                    if (i < suggestions.length - 2) {
+                        p.appendChild(document.createTextNode(', '));
+                    } else if (i === suggestions.length - 2) {
+                        p.appendChild(document.createTextNode(', or '));
+                    }
+                }
+            });
+            if (suffix) {
+                p.appendChild(document.createTextNode(suffix));
+            } else {
+                const lastText = typeof suggestions[suggestions.length - 1] === 'string'
+                    ? suggestions[suggestions.length - 1]
+                    : suggestions[suggestions.length - 1].text;
+                if (!lastText.endsWith('?') && !lastText.endsWith('.')) {
+                    p.appendChild(document.createTextNode('.'));
+                }
+            }
+            messageEl.appendChild(p);
+        }
+
+        function removeSuggestions() {
+            chat.querySelectorAll('.tb-suggestions-line').forEach(el => el.remove());
         }
 
         function addMessage(role, content) {
@@ -413,6 +467,8 @@
         async function sendMessage(userMessage) {
             if (isLoading || !userMessage.trim()) return;
 
+            removeSuggestions();
+
             isLoading = true;
             sendBtn.disabled = true;
             input.disabled = true;
@@ -466,6 +522,12 @@
                                         messageEl.innerHTML = formatMessage(assistantMessage);
                                     }
                                     chat.scrollTop = chat.scrollHeight;
+                                } else if (data.type === 'follow_ups' && data.suggestions) {
+                                    if (messageEl) {
+                                        appendSuggestionsLine(messageEl, data.suggestions,
+                                            "Stuck for what to ask next? You could try ",
+                                            ", or type something else below.");
+                                    }
                                 } else if (data.type === 'done' && data.sessionId) {
                                     sessionId = data.sessionId;
                                 } else if (data.type === 'error') {
