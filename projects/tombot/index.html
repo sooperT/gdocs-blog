@@ -501,6 +501,7 @@
                 const decoder = new TextDecoder();
                 let assistantMessage = '';
                 let messageEl = null;
+                let streamErrored = false;
 
                 while (true) {
                     const { done, value } = await reader.read();
@@ -532,7 +533,17 @@
                                 } else if (data.type === 'done' && data.sessionId) {
                                     sessionId = data.sessionId;
                                 } else if (data.type === 'error') {
-                                    throw new Error(data.message);
+                                    console.error('Stream error:', data.message);
+                                    hideTyping();
+                                    setAvatar('idle');
+                                    streamErrored = true;
+                                    const errorText = "Sorry — something went wrong on my end. Try again in a moment.";
+                                    if (messageEl && assistantMessage) {
+                                        messageEl.innerHTML = formatMessage(assistantMessage + '\n\n' + errorText);
+                                    } else {
+                                        messageEl = addMessage('assistant', errorText);
+                                    }
+                                    chat.scrollTop = chat.scrollHeight;
                                 }
                             } catch (e) {
                                 // Ignore JSON parse errors for incomplete chunks
@@ -542,7 +553,7 @@
                 }
 
                 // Save to history
-                if (assistantMessage) {
+                if (assistantMessage && !streamErrored) {
                     conversationHistory.push({ role: 'assistant', content: assistantMessage });
                 }
 

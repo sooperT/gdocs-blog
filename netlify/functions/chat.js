@@ -214,6 +214,19 @@ async function logChatExchange(sessionId, userMessage, assistantResponse, retrie
   }
 }
 
+// Log an error to dedicated table for review (fire-and-forget)
+async function logError(sessionId, query, errorMessage) {
+  try {
+    await pool.query(`
+      INSERT INTO error_logs (session_id, query, error)
+      VALUES ($1, $2, $3)
+    `, [sessionId, query, errorMessage]);
+  } catch (error) {
+    console.error('Failed to log error:', error);
+    // Don't throw - logging failures shouldn't break chat
+  }
+}
+
 async function retrieveContent(query) {
   // Step 1: Normalize third-person to first-person
   const normalizedQuery = normalizeQuery(query);
@@ -315,6 +328,10 @@ export default async (request, context) => {
     });
   }
 
+  // Declared outside try so the outer catch can log with context
+  let chatSessionId = null;
+  let lastUserQuery = null;
+
   try {
     const { messages, sessionId } = await request.json();
 
@@ -327,7 +344,7 @@ export default async (request, context) => {
     }
 
     // Generate session ID if not provided
-    const chatSessionId = sessionId || `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    chatSessionId = sessionId || `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
     // Cap conversation history to prevent token overflow
     const MAX_MESSAGES = 20;
@@ -335,6 +352,7 @@ export default async (request, context) => {
 
     // Get the latest user message for RAG search
     const lastUserMessage = trimmedMessages.filter(m => m.role === 'user').pop();
+    lastUserQuery = lastUserMessage?.content || null;
     let ragContext = '';
     let followUps = [];
     let retrievalInfo = { method: 'none', matches: [] };
@@ -429,6 +447,7 @@ export default async (request, context) => {
           controller.close();
         } catch (error) {
           console.error('Streaming error:', error);
+          logError(chatSessionId, lastUserMessage?.content || null, error.message);
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'error', message: error.message })}\n\n`));
           controller.close();
         }
@@ -446,6 +465,7 @@ export default async (request, context) => {
 
   } catch (error) {
     console.error('Chat error:', error);
+    logError(chatSessionId, lastUserQuery, error.message);
 
     // User-friendly error messages based on error type
     let userMessage = 'Something went wrong. Please try again.';

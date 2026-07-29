@@ -1,0 +1,106 @@
+name: TomBot health check
+
+on:
+  schedule:
+    - cron: '17 8 * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  healthcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe /api/chat
+        id: probe
+        run: |
+          set -uo pipefail
+
+          ENDPOINT="https://takenbyninjas.com/api/chat"
+          DEFLECTION="I don't have specific information about that in my knowledge base."
+
+          ask() {
+            curl -sS -m 60 -X POST "$ENDPOINT" \
+              -H 'Content-Type: application/json' \
+              -d "{\"messages\":[{\"role\":\"user\",\"content\":\"$1\"}]}" || true
+          }
+
+          deltas() { printf '%s\n' "$1" | sed -n 's/^data: //p' | jq -r 'select(.type=="delta") | .text' 2>/dev/null | tr -d '\n'; }
+          errors() { printf '%s\n' "$1" | sed -n 's/^data: //p' | jq -r 'select(.type=="error") | .message' 2>/dev/null; }
+
+          FAILURES=""
+
+          # --- Check 1: a query that MUST produce a real answer ---
+          GOOD_RAW="$(ask 'tell me about your skills')"
+          GOOD_TEXT="$(deltas "$GOOD_RAW")"
+          GOOD_ERR="$(errors "$GOOD_RAW")"
+
+          if [ -n "$GOOD_ERR" ]; then
+            FAILURES="${FAILURES}- Known-good query returned an error event: ${GOOD_ERR}"$'\n'
+          fi
+          if [ -z "$GOOD_TEXT" ]; then
+            FAILURES="${FAILURES}- Known-good query returned no text."$'\n'
+          fi
+          case "$GOOD_TEXT" in
+            "$DEFLECTION"*) FAILURES="${FAILURES}- Known-good query was deflected (retrieval broken?)."$'\n' ;;
+          esac
+
+          # --- Check 2: gibberish MUST be deflected ---
+          BAD_RAW="$(ask 'xqzzy blorptang frimble')"
+          BAD_TEXT="$(deltas "$BAD_RAW")"
+          BAD_ERR="$(errors "$BAD_RAW")"
+
+          if [ -n "$BAD_ERR" ]; then
+            FAILURES="${FAILURES}- Gibberish query returned an error event: ${BAD_ERR}"$'\n'
+          fi
+          case "$BAD_TEXT" in
+            "$DEFLECTION"*) ;;
+            *) FAILURES="${FAILURES}- Gibberish query was NOT deflected (retrieval matching too loose or broken)."$'\n' ;;
+          esac
+
+          {
+            echo "### Known-good query: \`tell me about your skills\`"
+            echo '```'
+            echo "${GOOD_TEXT:-<no text>}"
+            echo '```'
+            echo "### Gibberish query: \`xqzzy blorptang frimble\`"
+            echo '```'
+            echo "${BAD_TEXT:-<no text>}"
+            echo '```'
+          } > body.md
+
+          if [ -n "$FAILURES" ]; then
+            {
+              echo "TomBot health check failed at $(date -u '+%Y-%m-%d %H:%M UTC')."
+              echo
+              echo "$FAILURES"
+              echo
+              cat body.md
+              echo
+              echo "Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            } > issue-body.md
+            echo "failed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "failed=false" >> "$GITHUB_OUTPUT"
+            echo "All checks passed."
+          fi
+
+      - name: Open or update issue
+        if: steps.probe.outputs.failed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TITLE="TomBot health check failed"
+          EXISTING="$(gh issue list --state open --search "\"$TITLE\" in:title" --json number,title \
+            --jq "[.[] | select(.title == \"$TITLE\")] | .[0].number // empty")"
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body-file issue-body.md
+          else
+            gh issue create --title "$TITLE" --body-file issue-body.md
+          fi
+
+      - name: Fail the run
+        if: steps.probe.outputs.failed == 'true'
+        run: exit 1
