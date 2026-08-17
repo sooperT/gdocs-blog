@@ -12,6 +12,7 @@
     "packageJson": {
       "dependencies": [
         "npm:@anthropic-ai/sdk@0.39",
+        "npm:dotenv@^17.2.3",
         "npm:pg@^8.17.2"
       ]
     }
