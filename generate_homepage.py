@@ -207,7 +207,7 @@ def generate_homepage_html(post):
     # Welcome banner
     html_parts.append('    <!-- WELCOME MESSAGE -->')
     html_parts.append('    <div class="welcome-banner">')
-    html_parts.append('        <h1>Welcome. I\'m Tom Stenson, a senior product manager &amp; systems thinker based in Copenhagen. This is where I write about product management, growth, AI, and how things connect. <a href="/about/">Here\'s my story</a>.</h1>')
+    html_parts.append('        <h1>Welcome. I\'m Tom Stenson, a product manager, fixer &amp; builder based in Copenhagen. I do fractional &amp; interim product work. This is where I occasionally write about product. <a href="/about/">Here\'s my story</a>.</h1>')
     html_parts.append('    </div>')
     html_parts.append('')
 
