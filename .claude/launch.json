@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "blog",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["http-server", "-p", "8000", "-c-1"],
+      "port": 8000
+    },
+    {
+      "name": "tombot",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["netlify", "dev", "--port", "8888"],
+      "port": 8888
+    }
+  ]
+}
