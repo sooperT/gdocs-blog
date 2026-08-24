@@ -56,7 +56,7 @@ def html_head(title, extra_scripts=None, meta_description=None, no_crt=False):
         parts.append(NO_CRT_STYLE)
 
     # Add Umami analytics tracking
-    parts.append('    <script defer src="https://cloud.umami.is/script.js" data-website-id="6e0b4ebe-2b6a-4583-9ceb-8316259c5600"></script>')
+    parts.append('    <script defer src="https://cloud.umami.is/script.js" data-website-id="6e0b4ebe-2b6a-4583-9ceb-8316259c5600" data-domains="takenbyninjas.com"></script>')
 
     # Add extra scripts if provided
     if extra_scripts:
