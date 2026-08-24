@@ -1291,8 +1291,8 @@ def main():
             metadata['date'] = parse_uk_date(metadata['date'])
             print(f"✓ Date normalized: {metadata['date']}")
 
-        # Get URL slug from metadata
-        url_slug = metadata.get('url', doc_name.lower().replace(' ', '-'))
+        # Get URL slug from metadata. URLs are always lowercase by convention.
+        url_slug = metadata.get('url', doc_name.replace(' ', '-')).lower()
 
         # Convert to HTML
         print("Converting to HTML...")

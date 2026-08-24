@@ -189,7 +189,11 @@ pre code {
    LISTS
    ============================================ */
 
-ul, ol {
+ul {
+    margin: 1em 0;
+}
+
+ol {
     margin: 1em 0 1em 2em;
 }
 
@@ -997,10 +1001,6 @@ main > h2 a:hover {
 /* CTA Section */
 .about-cta {
     margin-top: 3em;
-}
-
-.about-cta ul {
-    margin-left: 0;
 }
 
 /* ============================================
