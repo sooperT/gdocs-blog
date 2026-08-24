@@ -207,7 +207,7 @@ def generate_homepage_html(post):
     # Welcome banner
     html_parts.append('    <!-- WELCOME MESSAGE -->')
     html_parts.append('    <div class="welcome-banner">')
-    html_parts.append('        <h1>Welcome. I\'m Tom Stenson, a product manager, fixer &amp; builder based in Copenhagen. I do fractional &amp; interim product work. This is where I occasionally write about product. <a href="/about/">Here\'s my story</a>.</h1>')
+    html_parts.append('        <h1>Welcome to the website of Tom Stenson, a product manager based in Copenhagen. This is where I occasionally <a href="/words/">write about product</a>, and share my <a href="/projects/">projects</a>.</h1>')
     html_parts.append('    </div>')
     html_parts.append('')
 
@@ -236,6 +236,16 @@ def generate_homepage_html(post):
 
     # Extract and display excerpt HTML (preserves semantic structure)
     excerpt_html = extract_excerpt_html(post['url'])
+
+    # Convention: post images on the homepage always link to the post.
+    # Wrap each <img> in a link unless it is already inside one.
+    if excerpt_html:
+        import re as _re
+        excerpt_html = _re.sub(
+            r'(<a [^>]*>\s*)?(<img [^>]*>)',
+            lambda m: m.group(0) if m.group(1) else f'<a href="{post["url"]}">{m.group(2)}</a>',
+            excerpt_html,
+        )
 
     if excerpt_html:
         html_parts.append('')

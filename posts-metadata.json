@@ -1,6 +1,21 @@
 {
   "posts": [
     {
+      "title": "Meet me @ TechBBQ",
+      "meta-title": "",
+      "url": "/words/tech-BBQ/",
+      "date": "2026-08-24",
+      "tags": [
+        "general",
+        "product",
+        "marketing"
+      ],
+      "type": "words",
+      "meta-desc": "20+ years in SaaS, growth, and AI. Open for fractional product roles, mentoring PMs, and deep-end product talks at TechBBQ. Ping me on Brella.",
+      "excerpt": "This week, I’ll be at TechBBQ in Copenhagen (26 & 27 August). I’ll also be at the Claude Conversation pre-event work session (August 25th).I’m looking forward to meeting new, interesting people. If we’ve just met, or you’re thinking about reaching out for a coffee, this page is for you.",
+      "hero-image": ""
+    },
+    {
       "title": "Opbeat illustrations",
       "meta-title": "",
       "url": "/words/opbeat-illustrations/",

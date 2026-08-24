@@ -104,8 +104,8 @@ h2 {
 
 .welcome-banner a {
     color: var(--teletext-cyan);
-    text-decoration: underline;
-    border-bottom: none;  /* Override default link border */
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;  /* Match body link underline style */
 }
 
 .welcome-banner a:hover {
@@ -997,6 +997,10 @@ main > h2 a:hover {
 /* CTA Section */
 .about-cta {
     margin-top: 3em;
+}
+
+.about-cta ul {
+    margin-left: 0;
 }
 
 /* ============================================
