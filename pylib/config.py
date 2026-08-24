@@ -16,6 +16,7 @@ CONTENT_TYPE_PROJECTS = 'projects'
 CONTENT_TYPE_PAGES = 'pages'
 
 # Site metadata
+SITE_URL = 'https://takenbyninjas.com'
 SITE_NAME = 'Taken'
 SITE_TAGLINE = 'Words on product, systems thinking and AI.'
 SITE_LOGO_PATH = '/lib/img/ninja-trans.png'

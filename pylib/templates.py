@@ -3,7 +3,7 @@ Shared HTML templates for blog generators
 """
 from pylib.config import (
     STYLESHEET_PATH, SITE_NAME, SITE_TAGLINE,
-    SITE_LOGO_PATH, NAV_ITEMS
+    SITE_LOGO_PATH, NAV_ITEMS, SITE_URL
 )
 
 
@@ -24,7 +24,7 @@ NO_CRT_STYLE = """    <style>
     </style>"""
 
 
-def html_head(title, extra_scripts=None, meta_description=None, no_crt=False):
+def html_head(title, extra_scripts=None, meta_description=None, no_crt=False, canonical_path=None):
     """
     Generate HTML head section
 
@@ -33,6 +33,7 @@ def html_head(title, extra_scripts=None, meta_description=None, no_crt=False):
         extra_scripts: Optional list of additional script tags to include
         meta_description: Optional meta description for SEO
         no_crt: If True, inject styles to disable CRT image effects
+        canonical_path: Optional site-relative path (e.g. '/words/my-post/') for the canonical URL tag
     """
     parts = [
         '<!DOCTYPE html>',
@@ -47,6 +48,10 @@ def html_head(title, extra_scripts=None, meta_description=None, no_crt=False):
     # Add meta description if provided
     if meta_description:
         parts.append(f'    <meta name="description" content="{meta_description}">')
+
+    # Add canonical URL if provided
+    if canonical_path:
+        parts.append(f'    <link rel="canonical" href="{SITE_URL}{canonical_path}">')
 
     parts.append(f'    <link rel="stylesheet" href="{STYLESHEET_PATH}">')
     parts.append('    <link rel="icon" type="image/png" href="/favicon.png">')

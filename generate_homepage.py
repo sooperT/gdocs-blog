@@ -195,7 +195,8 @@ def generate_homepage_html(post):
     html_parts.append(html_head(
         HOMEPAGE_TITLE,
         extra_scripts=[TAG_FILTER_SCRIPT],
-        meta_description=HOMEPAGE_META_DESC
+        meta_description=HOMEPAGE_META_DESC,
+        canonical_path='/'
     ))
 
     # Header
