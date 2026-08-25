@@ -724,10 +724,24 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                         if text_style.get('italic'):
                             formatted_text = f'<em>{formatted_text}</em>'
 
+                        # Heading intent: Docs can't give a soft-return line a real
+                        # paragraph style, so a heading applied there degrades to
+                        # bold text in Docs' heading blue. Honour that as a heading.
+                        rgb = text_style.get('foregroundColor', {}).get('color', {}).get('rgbColor', {})
+                        if (text_style.get('bold') and text.strip()
+                                and abs(rgb.get('red', 0) - 0.1686) < 0.02
+                                and abs(rgb.get('green', 0) - 0.3412) < 0.02
+                                and abs(rgb.get('blue', 0) - 0.6039) < 0.02):
+                            formatted_text = f'[INLINE-HEADING]{text.strip()}[/INLINE-HEADING]'
+
                         html_content += formatted_text
 
-            # Add text paragraph if it has content
-            if html_content.strip():
+            # Add text paragraph if it has visible content.
+            # Tag-only / whitespace-only paragraphs are Doc noise, not intent.
+            if strip_html_tags(html_content).strip():
+                # Normalise whitespace: trim soft-returns at paragraph edges and
+                # cap blank-line runs at one, so stray Doc spacing never piles up
+                html_content = re.sub(r'\n{3,}', '\n\n', html_content.strip('\n '))
                 # Check for [HOZ] marker for horizontal rules
                 # Can appear standalone or within text (e.g. joined by soft returns)
                 if '[HOZ]' in html_content:
@@ -773,8 +787,8 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                     before_marker = before_marker.strip()
                     after_marker = after_marker.strip()
 
-                    # Output content before the marker (if any)
-                    if before_marker:
+                    # Output content before the marker (if it has visible text)
+                    if strip_html_tags(before_marker).strip():
                         before_marker = before_marker.replace('\n', '<br>')
                         html_parts.append(f'    <p>{before_marker}</p>')
 
@@ -787,11 +801,33 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                     # Add HTML comment marker for excerpt extraction
                     html_parts.append('    <!-- EXCERPT_END -->')
 
-                    # Output content after the marker (if any)
-                    if after_marker:
+                    # Output content after the marker (if it has visible text)
+                    if strip_html_tags(after_marker).strip():
                         after_marker = after_marker.replace('\n', '<br>')
                         html_parts.append(f'    <p>{after_marker}</p>')
 
+                    continue
+
+                # Emit inline headings (heading styling on a soft-return line)
+                # as real headings, splitting the surrounding text into paragraphs
+                if '[INLINE-HEADING]' in html_content:
+                    if pending_figure_image:
+                        html_parts.append(f'    {pending_figure_image.strip()}')
+                        pending_figure_image = None
+                    if in_list:
+                        html_parts.append('    </ul>')
+                        in_list = False
+                        current_list_id = None
+                    segments = re.split(r'\[INLINE-HEADING\](.*?)\[/INLINE-HEADING\]', html_content)
+                    for seg_idx, seg in enumerate(segments):
+                        seg = seg.strip()
+                        if not seg:
+                            continue
+                        if seg_idx % 2 == 1:  # odd segments are the headings
+                            heading_text = strip_html_tags(seg).strip()
+                            html_parts.append(f'    <h3 id="{slugify(heading_text)}">{heading_text}</h3>')
+                        else:
+                            html_parts.append(f'    <p>{seg.replace(chr(10), "<br>")}</p>')
                     continue
 
                 # Check for [QUOTE] marker for blockquotes
