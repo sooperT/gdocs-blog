@@ -67,7 +67,15 @@ def validate_published_article(output_file, url_slug, content_type):
     if not html.strip().endswith('</html>'):
         issues.append("File doesn't end with </html>")
 
-    # 4. Check localhost accessibility (if server running)
+    # 4. Inline formatting is balanced
+    # A dangling <strong> bolds every paragraph after it (see balance_inline_tags)
+    for tag in ('strong', 'em', 'u', 'code', 'a'):
+        opens = len(re.findall(rf'<{tag}(?:\s[^>]*)?>', html))
+        closes = len(re.findall(rf'</{tag}>', html))
+        if opens != closes:
+            issues.append(f"Unbalanced <{tag}>: {opens} open, {closes} close")
+
+    # 5. Check localhost accessibility (if server running)
     try:
         url = f"http://localhost:8000/{output_file}"
         response = urllib.request.urlopen(url, timeout=2)
@@ -130,6 +138,48 @@ def slugify(text):
 def strip_html_tags(text):
     """Remove HTML tags from text, keeping only plain text content"""
     return re.sub(r'<[^>]+>', '', text)
+
+
+# Inline formatting tags that a marker split can cut in half
+INLINE_TAGS = {'strong', 'em', 'u', 's', 'code', 'a', 'sub', 'sup', 'span'}
+
+
+def balance_inline_tags(fragment):
+    """Repair inline formatting that a marker split cut in half.
+
+    Markers ([ENDSNIP], [HOZ], soft-return headings) are split out of already-
+    formatted HTML. If an author formats the marker itself (bold [ENDSNIP], say),
+    the split lands inside a <strong>...</strong> pair: one half keeps a dangling
+    open tag, the other an orphan closer. A dangling <strong> bolds the rest of
+    the page. Close what's open, drop what was never opened.
+    """
+    stack = []
+    out = []
+    for token in re.split(r'(<[^>]+>)', fragment):
+        m = re.fullmatch(r'<(/?)(\w+)[^>]*>', token or '')
+        if not m or m.group(2).lower() not in INLINE_TAGS:
+            out.append(token)
+            continue
+        closing, tag = m.group(1), m.group(2).lower()
+        if not closing:
+            stack.append(tag)
+            out.append(token)
+        elif tag in stack:
+            # Close anything opened inside this tag, then the tag itself
+            while stack[-1] != tag:
+                out.append(f'</{stack.pop()}>')
+            stack.pop()
+            out.append(token)
+        # else: orphan closer — drop it
+
+    out.extend(f'</{tag}>' for tag in reversed(stack))
+    result = ''.join(out)
+    # Splitting often leaves empty pairs behind; they're noise
+    prev = None
+    while prev != result:
+        prev = result
+        result = re.sub(r'<(\w+)[^>]*>\s*</\1>', '', result)
+    return result
 
 # Blog folder path in Google Drive
 BLOG_FOLDER_PATH = "09 Lab/Taken"
@@ -761,14 +811,14 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                             if is_cap:
                                 part = part[9:].strip()
                             if part and is_cap and pending_figure_image:
-                                part_br = part.replace('\n', '<br>\n    ')
+                                part_br = balance_inline_tags(part.replace('\n', '<br>\n    '))
                                 html_parts.append('    <figure>')
                                 html_parts.append(f'        {pending_figure_image.strip()}')
                                 html_parts.append(f'        <figcaption>{part_br}</figcaption>')
                                 html_parts.append('    </figure>')
                                 pending_figure_image = None
                             elif part:
-                                part = part.replace('\n', '<br>')
+                                part = balance_inline_tags(part.replace('\n', '<br>'))
                                 html_parts.append(f'    <p>{part}</p>')
                         if i < len(parts) - 1:
                             html_parts.append('    <hr />')
@@ -789,7 +839,7 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
                     # Output content before the marker (if it has visible text)
                     if strip_html_tags(before_marker).strip():
-                        before_marker = before_marker.replace('\n', '<br>')
+                        before_marker = balance_inline_tags(before_marker.replace('\n', '<br>'))
                         html_parts.append(f'    <p>{before_marker}</p>')
 
                     # Close any open list before adding marker
@@ -803,7 +853,7 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
                     # Output content after the marker (if it has visible text)
                     if strip_html_tags(after_marker).strip():
-                        after_marker = after_marker.replace('\n', '<br>')
+                        after_marker = balance_inline_tags(after_marker.replace('\n', '<br>'))
                         html_parts.append(f'    <p>{after_marker}</p>')
 
                     continue
@@ -827,7 +877,8 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                             heading_text = strip_html_tags(seg).strip()
                             html_parts.append(f'    <h3 id="{slugify(heading_text)}">{heading_text}</h3>')
                         else:
-                            html_parts.append(f'    <p>{seg.replace(chr(10), "<br>")}</p>')
+                            seg = balance_inline_tags(seg.replace(chr(10), '<br>'))
+                            html_parts.append(f'    <p>{seg}</p>')
                     continue
 
                 # Check for [QUOTE] marker for blockquotes
