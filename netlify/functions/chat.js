@@ -364,8 +364,9 @@ export default async (request, context) => {
       if (method === 'none') {
         const deflectMessage = "I don't have specific information about that in my knowledge base. Try asking about my work experience, skills, or background — or rephrase your question.";
 
-        // Log deflection to dedicated table for review
-        logDeflection(
+        // Log deflection to dedicated table for review (awaited — Netlify
+        // freezes the invocation once the response closes, killing in-flight writes)
+        await logDeflection(
           lastUserMessage.content,
           topMatch?.title || null,
           topMatch?.score || null,
@@ -373,7 +374,7 @@ export default async (request, context) => {
         );
 
         // Also log to chat logs
-        logChatExchange(chatSessionId, lastUserMessage.content, deflectMessage, { method: 'none', matches: [] });
+        await logChatExchange(chatSessionId, lastUserMessage.content, deflectMessage, { method: 'none', matches: [] });
 
         // Return deflect as streaming response (for consistent client handling)
         const encoder = new TextEncoder();
@@ -437,7 +438,7 @@ export default async (request, context) => {
           }
           // Log the complete exchange after streaming finishes
           if (lastUserMessage) {
-            logChatExchange(chatSessionId, lastUserMessage.content, fullResponse, retrievalInfo);
+            await logChatExchange(chatSessionId, lastUserMessage.content, fullResponse, retrievalInfo);
           }
           // Send follow-up suggestions as structured data for clickable chips
           if (followUps.length > 0) {
