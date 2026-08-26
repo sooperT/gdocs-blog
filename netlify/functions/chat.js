@@ -227,7 +227,8 @@ async function logError(sessionId, query, errorMessage) {
   }
 }
 
-async function retrieveContent(query) {
+// Exported for scripts/eval-routing.js — keeps the eval on the exact production path
+export async function retrieveContent(query) {
   // Step 1: Normalize third-person to first-person
   const normalizedQuery = normalizeQuery(query);
   if (normalizedQuery !== query) {
@@ -377,10 +378,17 @@ export default async (request, context) => {
         await logChatExchange(chatSessionId, lastUserMessage.content, deflectMessage, { method: 'none', matches: [] });
 
         // Return deflect as streaming response (for consistent client handling)
+        const deflectFollowUps = [
+          'What can I ask you?',
+          'Tell me about yourself',
+          'What are you looking for?',
+        ];
+
         const encoder = new TextEncoder();
         const deflectStream = new ReadableStream({
           start(controller) {
             controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'delta', text: deflectMessage })}\n\n`));
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'follow_ups', suggestions: deflectFollowUps })}\n\n`));
             controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'done', sessionId: chatSessionId })}\n\n`));
             controller.close();
           }
@@ -397,8 +405,9 @@ export default async (request, context) => {
       }
 
       ragContext = formatRetrievedContent(chunks);
-      // Extract follow-ups for clickable chips (sent as structured SSE data)
-      followUps = (chunks[0]?.follow_ups || []).slice(0, 3);
+      // Extract follow-ups for clickable chips (sent as structured SSE data).
+      // Chip count is content-driven (most sections define 3); cap is a safety net.
+      followUps = (chunks[0]?.follow_ups || []).slice(0, 8);
       // Capture retrieval info for logging
       retrievalInfo = {
         method,

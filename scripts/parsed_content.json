@@ -15,13 +15,11 @@
       "How would you describe yourself professionally?",
       "Can you introduce yourself?",
       "What should I know about you?",
-      "Are you a product janitor?",
       "introduce",
       "pitch",
-      "introduction",
-      "product janitor"
+      "introduction"
     ],
-    "content": "I think in systems and I ship things. I've been doing both for 20 years across product, growth and marketing.[META.ARC]\n\nI pick up new domains fast, and like problems with no playbook. Right now I'm building with AI.\n\nI'm motivated by impact, learning and fun[META.COMPASS]. This means I drive results, stay curious, and create momentum.\n\nI'm now looking for my next challenge ... [META.LOOKING]",
+    "content": "I think in systems and I ship things. I've been doing both for 20 years across product, growth and marketing.[META.ARC]\n\nI pick up new domains fast, and like problems with no playbook. Right now I'm building with AI.\n\nI'm motivated by impact, learning and fun[META.COMPASS]. This means I drive results, stay curious, and create momentum.\n\nI'm now a product janitor for hire[META.JANITOR] - available for fractional & interim product management work, and open to the right permanent role.[META.LOOKING]",
     "drill_downs": [
       "META.LOOKING",
       "META.CONTACT",
@@ -39,6 +37,34 @@
       {
         "text": "tell me more about what motivates you",
         "target": "META.COMPASS"
+      }
+    ]
+  },
+  {
+    "id": "META.JANITOR",
+    "questions": [
+      "What is a product janitor?",
+      "Are you a product janitor?",
+      "What does product janitor mean?",
+      "Why do you call yourself a product janitor?",
+      "Why product janitor?",
+      "product janitor",
+      "janitor"
+    ],
+    "content": "A product janitor is someone who cleans up messy product problems.\n\nThe mess that other people ignore or walk past. The stuff that sits outside of roles, or is too gross for others to tackle.\n\nIt's also someone who doesn't take themselves too seriously. The problem & the outcome IMO is more interesting than the job title.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "what turnarounds have you led",
+        "target": "THEME.TURNAROUND"
+      },
+      {
+        "text": "what are you looking for",
+        "target": "META.LOOKING"
+      },
+      {
+        "text": "what are your key skills",
+        "target": "META.COMPETENCIES"
       }
     ]
   },
@@ -121,13 +147,29 @@
       "What would your dream role look like?",
       "What kind of work environment suits you?",
       "Are you open to different industries?",
+      "Are you available for fractional work?",
+      "Do you do fractional work?",
+      "Do you do interim work?",
+      "Do you do consulting?",
+      "Are you a freelancer?",
+      "Are you a contractor?",
+      "Can I hire you?",
+      "Are you open to permanent roles?",
       "looking for",
       "job search",
-      "next role"
+      "next role",
+      "fractional",
+      "interim",
+      "consulting",
+      "freelance"
     ],
-    "content": "My compass is impact, learning, and fun[META.COMPASS]. So I'm looking for the potential, not the job title.\n\nI like challenging product problems with a big upside - the kind where there's no playbook and you have to figure it out. I enjoy working with smart colleagues who like getting stuff done. And ideally, I'd like to work in an organisation that's willing to lean-in to AI.\n\nI've deliberately moved across industries my whole career - web hosting, SaaS, health-tech - because I pick up new domains quickly and love learning.\n\nYou could ask about my career journey, my strengths, or what motivates me.",
+    "content": "My compass is impact, learning, and fun[META.COMPASS]. So I'm looking for the potential, not the job title.\n\nI'm available for fractional & interim product management work, also open to the right permanent role.\n\nI like challenging product problems with a big upside - the kind where there's no playbook and you have to figure it out. I enjoy working with smart colleagues who like getting stuff done. And of course, I'd like to work in an organisation that's leaning-in to AI.\n\nI've deliberately moved across industries my whole career - web hosting, SaaS, health-tech - because I pick up new domains quickly and love learning.\n\nYou could ask about my career journey, my strengths, or what motivates me.",
     "drill_downs": [],
     "follow_ups": [
+      {
+        "text": "What can you help with?",
+        "target": "META.SERVICES"
+      },
       {
         "text": "what motivates you",
         "target": "META.COMPASS"
@@ -139,6 +181,37 @@
       {
         "text": "what are your key skills",
         "target": "META.COMPETENCIES"
+      }
+    ]
+  },
+  {
+    "id": "META.SERVICES",
+    "questions": [
+      "What services do you offer?",
+      "What can you help with?",
+      "How can you help me?",
+      "How can you help my company?",
+      "What do you offer?",
+      "How do we work together?",
+      "What kind of work do you take on?",
+      "What does a fractional PM do for me?",
+      "services",
+      "what can you help with"
+    ],
+    "content": "I'm available for fractional & interim product management support, and also open to the right permanent role.\n\nI can help you with:\n\n- Taking an idea from 0 to shipped product.\n- Turning around an underperforming product, team or initiative.\n- Addressing complex / critical initiatives that no-one else can get moving.\n- Scaling your team - maturing product ops & structuring better ways of working.\n- Creating growth.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "what turnarounds have you led",
+        "target": "THEME.TURNAROUND"
+      },
+      {
+        "text": "what growth results have you delivered",
+        "target": "THEME.GROWTH"
+      },
+      {
+        "text": "what are you looking for",
+        "target": "META.LOOKING"
       }
     ]
   },
@@ -198,6 +271,37 @@
       {
         "text": "what are you looking for",
         "target": "META.LOOKING"
+      }
+    ]
+  },
+  {
+    "id": "META.MENTORING",
+    "questions": [
+      "Do you do mentoring?",
+      "Can you mentor me?",
+      "Do you coach PMs?",
+      "Do you offer mentorship?",
+      "Are you open to mentoring?",
+      "Can I get career advice from you?",
+      "mentoring",
+      "mentor",
+      "mentorship",
+      "coaching"
+    ],
+    "content": "I mentor early-career PM's pro-bono, so if you'd like a safe-space to chat or nerd out about product - I'd be happy to talk.\n\nEmail me at tomstenson@gmail.com and we'll find a time.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "can we grab coffee",
+        "target": "META.COFFEE"
+      },
+      {
+        "text": "what are you like to work with",
+        "target": "META.COLLEAGUE"
+      },
+      {
+        "text": "what motivates you",
+        "target": "META.COMPASS"
       }
     ]
   },
@@ -433,7 +537,7 @@
       "books",
       "reading list"
     ],
-    "content": "The books on my desk right now:\n\n- **Reshuffle** by Sangeet Paul Choudary (just started) — a very interesting take on AI in a systems thinking context\n- **Hooked** by Nir Eyal (re-reading) — very good, but a bit dubious given the wider societal context\n- **The Business** by Iain Banks (re-reading again) — one of my favourites\n\nHappy to chat books over coffee.",
+    "content": "The books on my desk right now:\n\n- **Hooked** by Nir Eyal (re-reading) — very good, but a bit dubious given the wider societal context\n- **Careless People** by Sarah Wynn-Williams — a proper page turner, with some surprises. I suspected it was bad, but not that bad.\n- **The Business** by Iain Banks (re-reading again) — one of my favourites\n\nHappy to chat books over coffee.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -468,20 +572,32 @@
       "suggestions",
       "what to ask"
     ],
-    "content": "Here's what you can ask me about:\n\n- **Background** - what's your career arc, how did you get into product, what's your journey\n- **Work experience** - tell me about Novo Nordisk, LEO Innovation Lab, UK2, EuroDNS, or Host Europe\n- **Skills & approach** - how do you work, what are you good at, what tools do you use\n- **What you're looking for** - what's your next role, what motivates you\n- **Personal** - what are your hobbies, tell me about your family, what are you reading\n- **Tricky questions** - tell me about a time you failed, what are your weaknesses, why did you leave\n\nJust ask naturally!",
+    "content": "You can ask me about my career journey, my motivations, work experience (web hosting, saas, devops, health-tech), my skills, what I'm looking for, my hobbies and books - or the classic tricky interview questions. Tap a suggestion below to try one.",
     "drill_downs": [],
     "follow_ups": [
-      {
-        "text": "tell me about yourself",
-        "target": "META"
-      },
       {
         "text": "tell me about your career journey",
         "target": "META.ARC"
       },
       {
+        "text": "what are your key skills",
+        "target": "META.COMPETENCIES"
+      },
+      {
+        "text": "what can you help with",
+        "target": "META.SERVICES"
+      },
+      {
         "text": "what are you looking for",
         "target": "META.LOOKING"
+      },
+      {
+        "text": "what are your hobbies",
+        "target": "META.HOBBIES"
+      },
+      {
+        "text": "tell me about a time you failed",
+        "target": "TQ.FAILURE"
       }
     ]
   },
@@ -589,6 +705,7 @@
       "Tell me about Novo Nordisk",
       "What did you do at Novo?",
       "Tell me about your pharma experience",
+      "What was your job at the pharma company?",
       "What is your current company?",
       "Tell me about your most recent employer",
       "Tell me about your last job",
@@ -777,6 +894,8 @@
       "Describe your time at LEO",
       "What products did you build at LEO?",
       "Tell me about your health-tech incubator experience",
+      "Tell me about your health-tech experience",
+      "What is your health-tech experience?",
       "What was your role at LEO",
       "What was your role at LEO Innovation Lab",
       "Have you worked in a product incubator?",
@@ -1014,6 +1133,10 @@
       "What did you do at Opbeat?",
       "Tell me about the developer tools startup",
       "What was Opbeat?",
+      "Tell me about your SaaS experience",
+      "What is your SaaS experience?",
+      "Tell me about your devops experience",
+      "What is your devops experience?",
       "Describe your startup experience",
       "Have you worked at a VC-backed startup?",
       "Tell me about building a brand from scratch",
@@ -1363,6 +1486,7 @@
       "What is your track record with growth metrics?",
       "Give me examples of improving funnels",
       "What growth results have you delivered?",
+      "Give me examples of growing a business",
       "Tell me about activation and retention work",
       "How do you approach growth?"
     ],
@@ -1436,7 +1560,7 @@
       "management experience",
       "management"
     ],
-    "content": "I've led teams of 5-12 across multiple roles:\n\n- LEO Diagnosis App: 10-person ML/CV team [LEO.R3]\n- Host Europe: Created New Media department, 5-6 direct reports [HOST.R1]\n- EuroDNS: 4 direct reports, remote/hybrid setup [EURODNS.R1.STORY.REMOTE]\n- LEO TREAT: Inherited 15-person team in turnaround situation [LEO.R1.TURNAROUND]\n\nManaging people is something I can do and enjoy, but it's not my primary motivation. I'm motivated by creating impact - sometimes that means being a people manager, other times it works best through informal leadership or hands-on building. [TQ.MGMT]",
+    "content": "I've led teams of 5-12 across multiple roles:\n\n- LEO Diagnosis App: 10-person ML/CV team [LEO.R3]\n- Host Europe: Created New Media department, 5-6 direct reports [HOST]\n- EuroDNS: 4 direct reports, remote/hybrid setup [EURODNS.R1.STORY.REMOTE]\n- LEO TREAT: Inherited 15-person team in turnaround situation [LEO.R1.TURNAROUND]\n\nManaging people is something I can do and enjoy, but it's not my primary motivation. I'm motivated by creating impact - sometimes that means being a people manager, other times it works best through informal leadership or hands-on building. [TQ.MGMT]",
     "drill_downs": [
       "LEO.R3",
       "HOST.R1",
@@ -1542,7 +1666,7 @@
       "When were you made redundant?",
       "When was the restructuring?"
     ],
-    "content": "Novo Nordisk underwent a giant restructuring in Autumn 2025, impacting 9,000 roles globally, 5,000 of which were in Denmark. Digital was heavily impacted and my role was one of those.\n\nI'm currently on garden leave, and using this opportunity to return to my tech-roots and look for my next challenge[META.LOOKING].\n\nYou could ask what I'm looking for, or what I've been doing since leaving.",
+    "content": "Novo Nordisk underwent a giant restructuring in Autumn 2025, impacting 9,000 roles globally, 5,000 of which were in Denmark. Digital was heavily impacted and my role was one of those.\n\nYou could ask what I'm looking for[META.LOOKING], or what I've been doing since leaving.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1567,10 +1691,9 @@
       "What are you doing now?",
       "what are you doing now",
       "Are you currently employed?",
-      "What have you been up to?",
-      "When did you leave Novo?"
+      "What have you been up to?"
     ],
-    "content": "I'm currently on garden leave, spending time with my family, coding with AI (Claude Code, ChatGPT, Gemini), reading, writing, and networking. This chatbot is one of those projects.",
+    "content": "When I'm not working, I like to spend time with my family, go mountain biking, read, write or work on personal projects like this one.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1870,16 +1993,16 @@
     "drill_downs": [],
     "follow_ups": [
       {
+        "text": "What can you help with?",
+        "target": "META.SERVICES"
+      },
+      {
         "text": "what motivates you",
         "target": "META.COMPASS"
       },
       {
         "text": "what kind of roles are you looking for",
         "target": "META.LOOKING"
-      },
-      {
-        "text": "what are your key skills",
-        "target": "META.COMPETENCIES"
       }
     ]
   },
@@ -2031,6 +2154,34 @@
       {
         "text": "what are your hobbies",
         "target": "META.HOBBIES"
+      }
+    ]
+  },
+  {
+    "id": "META.PINEAPPLE",
+    "questions": [
+      "Do you like pineapple on your pizza?",
+      "Do you like pineapple on pizza?",
+      "Is pineapple on pizza acceptable?",
+      "What is your opinion on pineapple pizza?",
+      "pineapple",
+      "pineapple pizza",
+      "hawaiian pizza"
+    ],
+    "content": "Yes, I love it.\n\nIncidentally, if you were to measure my height in hedgehogs, I would be approx 10.5 hedgehogs tall.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "why the helmet",
+        "target": "META.HELMET"
+      },
+      {
+        "text": "what are your hobbies",
+        "target": "META.HOBBIES"
+      },
+      {
+        "text": "tell me about yourself",
+        "target": "META"
       }
     ]
   },

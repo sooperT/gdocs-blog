@@ -432,7 +432,7 @@
                     if (isList && lines.some(l => l.match(/^[-*•]\s/))) {
                         const items = lines
                             .filter(l => l.match(/^[-*•]\s/))
-                            .map(l => `<li>${l.replace(/^[-*•]\s+/, '')}</li>`)
+                            .map(l => `<li>${l.replace(/^[-*•]\s+/, '').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')}</li>`)
                             .join('');
                         return `<ul>${items}</ul>`;
                     }
