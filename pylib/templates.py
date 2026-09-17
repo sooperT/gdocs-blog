@@ -24,7 +24,7 @@ NO_CRT_STYLE = """    <style>
     </style>"""
 
 
-def html_head(title, extra_scripts=None, meta_description=None, no_crt=False, canonical_path=None):
+def html_head(title, extra_scripts=None, meta_description=None, no_crt=False, canonical_path=None, og_image=None):
     """
     Generate HTML head section
 
@@ -34,6 +34,7 @@ def html_head(title, extra_scripts=None, meta_description=None, no_crt=False, ca
         meta_description: Optional meta description for SEO
         no_crt: If True, inject styles to disable CRT image effects
         canonical_path: Optional site-relative path (e.g. '/words/my-post/') for the canonical URL tag
+        og_image: Optional site-relative image path for social share previews
     """
     parts = [
         '<!DOCTYPE html>',
@@ -52,6 +53,16 @@ def html_head(title, extra_scripts=None, meta_description=None, no_crt=False, ca
     # Add canonical URL if provided
     if canonical_path:
         parts.append(f'    <link rel="canonical" href="{SITE_URL}{canonical_path}">')
+
+    # Open Graph tags for link previews (LinkedIn, Slack, etc.)
+    parts.append(f'    <meta property="og:title" content="{title}">')
+    if meta_description:
+        parts.append(f'    <meta property="og:description" content="{meta_description}">')
+    if canonical_path:
+        parts.append(f'    <meta property="og:url" content="{SITE_URL}{canonical_path}">')
+    if og_image:
+        parts.append(f'    <meta property="og:image" content="{SITE_URL}{og_image}">')
+        parts.append('    <meta name="twitter:card" content="summary_large_image">')
 
     parts.append(f'    <link rel="stylesheet" href="{STYLESHEET_PATH}">')
     parts.append('    <link rel="icon" type="image/png" href="/favicon.png">')

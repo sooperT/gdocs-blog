@@ -1,3 +1,7 @@
 # Private file store — linkable, but never indexed
 /downloads/*
   X-Robots-Tag: noindex, nofollow
+
+# Early prototype — linkable from the post, but never indexed
+/projects/kitten-pm-v0/*
+  X-Robots-Tag: noindex, nofollow

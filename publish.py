@@ -181,6 +181,9 @@ def balance_inline_tags(fragment):
         result = re.sub(r'<(\w+)[^>]*>\s*</\1>', '', result)
     return result
 
+# Swapped for the real share image once the post's images are known
+OG_IMAGE_PLACEHOLDER = '/__OG_IMAGE__'
+
 # Blog folder path in Google Drive
 BLOG_FOLDER_PATH = "09 Lab/Taken"
 
@@ -634,7 +637,8 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
         extra_scripts=[TAG_FILTER_SCRIPT],
         meta_description=meta_desc if meta_desc else None,
         no_crt=no_crt,
-        canonical_path=canonical_path
+        canonical_path=canonical_path,
+        og_image=OG_IMAGE_PLACEHOLDER
     ))
 
     # Header
@@ -1014,8 +1018,23 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     # Footer
     html_parts.append(site_footer())
 
+    html = '\n'.join(html_parts)
+
+    # Share image: the Doc's hero-image if set, else the first image in the post.
+    # The head is built before images are downloaded, hence the placeholder.
+    og_image = metadata.get('hero-image', '')
+    if og_image and not og_image.startswith(('/', 'http')):
+        og_image = f'/lib/img/{og_image}'
+    if not og_image:
+        first_img = re.search(r'<main>.*?<img src="([^"]+)"', html, re.DOTALL)
+        og_image = first_img.group(1) if first_img else ''
+    if og_image:
+        html = html.replace(OG_IMAGE_PLACEHOLDER, og_image)
+    else:
+        html = re.sub(r'\n[^\n]*' + OG_IMAGE_PLACEHOLDER + r'[^\n]*\n[^\n]*twitter:card[^\n]*', '', html)
+
     return {
-        'html': '\n'.join(html_parts),
+        'html': html,
         'images': downloaded_images
     }
 
