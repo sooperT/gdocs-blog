@@ -1,0 +1,23 @@
+* { box-sizing: border-box; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
+body { margin: 0; background: #0b0f14; color: #d9e1ee; }
+#ui { padding: 8px 12px; background: #0f1620; border-bottom: 1px solid #1e2733; }
+h1 { margin: 0; font-size: 18px; color: #b3d4ff; }
+.sub { margin: 4px 0 10px; color: #97a7bf; }
+.row { display: flex; gap: 24px; align-items: flex-start; }
+.col { flex: 1; }
+.controls label { display: inline-flex; align-items: center; gap: 8px; margin-right: 16px; }
+.controls input[type=range] { width: 160px; }
+.legend { margin-top: 6px; }
+.pill { display: inline-block; padding: 2px 6px; margin-right: 6px; border-radius: 4px; font-size: 12px; border: 1px solid #334; }
+.pill.toy { background: #224a2a; color: #c8ffc8; }
+.pill.ramp { background: #243a4f; color: #c8e7ff; }
+.pill.pit { background: #4a2222; color: #ffd0d0; }
+.pill.pond { background: #203a5a; color: #c8e0ff; }
+.pill.billboard { background: #403a20; color: #ffe9b3; }
+.metrics { display: grid; grid-template-columns: repeat(2, minmax(160px,1fr)); gap: 6px; }
+.metric { background: #0c131b; padding: 8px; border: 1px solid #1a2533; border-radius: 6px; }
+#game { display: block; width: 960px; height: 420px; margin: 8px auto; border: 1px solid #1e2733; background: #0a1118; image-rendering: pixelated; }
+#toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-top: 1px solid #1e2733; background: #0f1620; position: sticky; bottom: 0; }
+#toolbar button { background: #162232; color: #cde0ff; border: 1px solid #2a3a52; border-radius: 4px; padding: 4px 8px; cursor: pointer; }
+#toolbar button:hover { background: #1b2b40; }
+#toolbar .hint { color: #7d8aa3; margin-left: 8px; }

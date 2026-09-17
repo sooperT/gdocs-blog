@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product Manager Simulation 2008 — v0.1</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="ui">
+    <div class="row">
+      <div class="col">
+        <h1>Product Manager Simulation 2008 — v0.1</h1>
+        <p class="sub">Prototype: continuous flow, basic happiness, churn, referrals, price & release controls.</p>
+        <div class="controls">
+          <label>Price
+            <input type="range" id="price" min="5" max="50" step="1" value="15" />
+            <span id="priceVal">15</span>
+          </label>
+          <label>Release rate
+            <input type="range" id="release" min="0" max="10" step="0.1" value="2.0" />
+            <span id="releaseVal">2.0</span>/s
+          </label>
+          <label>Speed
+            <input type="range" id="speed" min="0.5" max="3" step="0.1" value="1.0" />
+            <span id="speedVal">1.0</span>x
+          </label>
+          <button id="pauseBtn">Pause</button>
+          <button id="resetBtn">Reset</button>
+        </div>
+        <div class="legend">
+          <span class="pill toy">Toy = activation</span>
+          <span class="pill ramp">Ramp = friction↓</span>
+          <span class="pill pit">Pit = churn</span>
+          <span class="pill pond">Pond = loyalty/referrals</span>
+          <span class="pill billboard">Billboard = +acq, -happy</span>
+        </div>
+      </div>
+      <div class="col metrics">
+        <div class="metric"><b>MRR</b> <span id="mrr">$0</span></div>
+        <div class="metric"><b>Cash</b> <span id="cash">$50,000</span></div>
+        <div class="metric"><b>Active</b> <span id="active">0</span></div>
+        <div class="metric"><b>Churned</b> <span id="churned">0</span></div>
+        <div class="metric"><b>Referrals</b> <span id="referrals">0</span></div>
+        <div class="metric"><b>NRR (approx)</b> <span id="nrr">100%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="game" width="960" height="420"></canvas>
+
+  <div id="toolbar">
+    <span>Place:</span>
+    <button data-tool="ramp">Ramp</button>
+    <button data-tool="toy">Toy</button>
+    <button data-tool="pit">Pit</button>
+    <button data-tool="pond">Pond</button>
+    <button data-tool="billboard">Billboard</button>
+    <span class="hint">Click on terrain to place. Each costs cash.</span>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
