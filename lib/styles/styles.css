@@ -81,7 +81,7 @@ h2 {
     color: var(--teletext-text);
     font-size: 1.5em;
     font-weight: bold;
-    margin: 1.5em 0 0.5em 0;
+    margin: 3em 0 1em 0;
     letter-spacing: 1px;
 }
 
@@ -116,7 +116,7 @@ h3 {
     color: var(--teletext-text);
     font-size: 1.3em;
     font-weight: bold;
-    margin: 2.4em 0 0.8em 0;
+    margin: 3em 0 1em 0;
 }
 
 h4 {
@@ -227,7 +227,7 @@ ol li {
 blockquote {
     border-left: 4px solid var(--teletext-cyan);
     padding-left: 20px;
-    margin: 1.5em 0;
+    margin: 2.5em 0;
     color: var(--teletext-cyan);
 }
 
@@ -285,6 +285,11 @@ img {
 /* Paragraphs containing only images */
 p:has(img:only-child) {
     margin-bottom: 0.3em;
+}
+
+/* Lead image under the post meta: body text follows, not a caption */
+.post-meta + p:has(img:only-child) {
+    margin-bottom: 1.5em;
 }
 
 /* Figure captions - semantic HTML */

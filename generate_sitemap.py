@@ -71,6 +71,9 @@ def collect_pages():
             # Skip pages we've already added (like /about/)
             if post.get('type') == 'pages':
                 continue
+            # Hidden posts stay live but are linked from nowhere
+            if post.get('hidden'):
+                continue
 
             url = post.get('url', '')
             if url:

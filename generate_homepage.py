@@ -102,7 +102,7 @@ def load_metadata():
 def get_latest_post(posts):
     """Get the most recent 'words' post"""
     # Filter for 'words' type posts only
-    words_posts = [p for p in posts if p.get('type') == CONTENT_TYPE_WORDS and p.get('date')]
+    words_posts = [p for p in posts if p.get('type') == CONTENT_TYPE_WORDS and p.get('date') and not p.get('hidden')]
 
     if not words_posts:
         return None
@@ -156,6 +156,8 @@ def extract_excerpt_html(post_url, max_elements=3):
     if excerpt_end != -1:
         # Only extract content up to the marker
         content_after_meta = content_after_meta[:excerpt_end].strip()
+        # The author marked the excerpt end explicitly — honour all of it
+        max_elements = float('inf')
 
     # Extract first N top-level elements (figure, p, ul, etc.)
     # Stop at first h2/h3 (section heading)
@@ -231,9 +233,13 @@ def generate_homepage_html(post):
         html_parts.append(f'        <p class="post-meta">{" ".join(meta_parts)}</p>')
 
     # Hero image (from frontmatter hero-image field)
-    if post.get('hero-image'):
+    # A bare filename in the Doc means an image in /lib/img/
+    hero_src = post.get('hero-image', '')
+    if hero_src and not hero_src.startswith(('/', 'http')):
+        hero_src = f'/lib/img/{hero_src}'
+    if hero_src:
         html_parts.append('')
-        html_parts.append(f'        <p><a href="{post["url"]}"><img src="{post["hero-image"]}" alt="{post["title"]}"></a></p>')
+        html_parts.append(f'        <p><a href="{post["url"]}"><img src="{hero_src}" alt="{post["title"]}"></a></p>')
 
     # Extract and display excerpt HTML (preserves semantic structure)
     excerpt_html = extract_excerpt_html(post['url'])
@@ -242,6 +248,10 @@ def generate_homepage_html(post):
     # Wrap each <img> in a link unless it is already inside one.
     if excerpt_html:
         import re as _re
+        # The hero already shows this image — don't repeat it in the excerpt
+        if hero_src:
+            excerpt_html = _re.sub(
+                r'\s*<p>\s*<img src="' + _re.escape(hero_src) + r'"[^>]*>\s*</p>', '', excerpt_html)
         excerpt_html = _re.sub(
             r'(<a [^>]*>\s*)?(<img [^>]*>)',
             lambda m: m.group(0) if m.group(1) else f'<a href="{post["url"]}">{m.group(2)}</a>',

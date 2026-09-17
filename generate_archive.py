@@ -147,7 +147,7 @@ def scan_posts():
 
     # Filter for 'words' type posts only (exclude pages)
     for post in data.get('posts', []):
-        if post.get('type') == CONTENT_TYPE_WORDS and post.get('date'):
+        if post.get('type') == CONTENT_TYPE_WORDS and post.get('date') and not post.get('hidden'):
             posts.append({
                 'slug': post['url'].strip('/').split('/')[-1],  # Extract slug from URL
                 'title': post['title'],

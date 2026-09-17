@@ -1,6 +1,19 @@
 {
   "posts": [
     {
+      "title": "How to make a product management game with kittens",
+      "meta-title": "",
+      "url": "/words/kitten-pm/",
+      "date": "2026-09-17",
+      "tags": [
+        "product"
+      ],
+      "type": "words",
+      "meta-desc": "How I made Kitten PM, a free product management sim inspired by Lemmings. But the lemmings are kittens, and the kittens are your customers. Obviously.",
+      "excerpt": "I made Kitten PM, a free product management simulation game, inspired by Lemmings. But the lemmings are kittens, and the kittens are your customers. Obviously.\n\nI made it because after 20 years working in product, I still struggle to explain the complexity and interconnectedness of it all.\n\nI wanted to see if there was an interactive way to share what I’ve learnt, and mimic the learning loops that you only get from doing. If you understand the first principles then everything else can follow.\n    \n    This is my thought process …",
+      "hero-image": ""
+    },
+    {
       "title": "Meet me @ TechBBQ",
       "meta-title": "",
       "url": "/words/tech-bbq/",
@@ -13,7 +26,8 @@
       "type": "words",
       "meta-desc": "20+ years in SaaS, growth, and AI. Open for fractional product roles, mentoring PMs, and deep-end product talks at TechBBQ. Ping me on Brella.",
       "excerpt": "This week, I’ll be at TechBBQ in Copenhagen (26 & 27 August). I’ll also be at the Claude Conversation pre-event work session (August 25th).I’m looking forward to meeting new, interesting people. If we’ve just met, or you’re thinking about reaching out for a coffee, this page is for you.",
-      "hero-image": ""
+      "hero-image": "",
+      "hidden": true
     },
     {
       "title": "Opbeat illustrations",

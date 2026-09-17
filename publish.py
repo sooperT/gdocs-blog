@@ -791,6 +791,8 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
             if strip_html_tags(html_content).strip():
                 # Normalise whitespace: trim soft-returns at paragraph edges and
                 # cap blank-line runs at one, so stray Doc spacing never piles up
+                # Formatting applied to nothing but whitespace (e.g. a bold soft return) is noise
+                html_content = re.sub(r'<(strong|em|u)>(\s*)</\1>', r'\2', html_content)
                 html_content = re.sub(r'\n{3,}', '\n\n', html_content.strip('\n '))
                 # Check for [HOZ] marker for horizontal rules
                 # Can appear standalone or within text (e.g. joined by soft returns)
@@ -905,6 +907,13 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
                 # If this is a caption and we have a pending image, wrap in <figure>
                 caption_handled = False
+                # Image and its caption in the SAME paragraph (joined by a soft
+                # return in the Doc): the intent is still image + caption.
+                if is_caption and has_image and pending_image_html:
+                    if pending_figure_image:
+                        html_parts.append(f'    {pending_figure_image.strip()}')
+                    pending_figure_image = pending_image_html.strip()
+                    pending_image_html = None
                 if is_caption and pending_figure_image:
                     html_parts.append('    <figure>')
                     html_parts.append(f'        {pending_figure_image.strip()}')
@@ -1065,6 +1074,9 @@ def update_metadata_index(title, meta_title, url, date, tags, content_type, meta
 
     # Update or append
     if existing_index is not None:
+        # 'hidden' is set by hand in the metadata file — survive republishes
+        if metadata['posts'][existing_index].get('hidden'):
+            new_entry['hidden'] = True
         metadata['posts'][existing_index] = new_entry
         print(f"✓ Updated existing entry in metadata index")
     else:
