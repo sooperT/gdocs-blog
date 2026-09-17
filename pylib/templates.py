@@ -24,7 +24,7 @@ NO_CRT_STYLE = """    <style>
     </style>"""
 
 
-def html_head(title, extra_scripts=None, meta_description=None, no_crt=False, canonical_path=None, og_image=None):
+def html_head(title, extra_scripts=None, meta_description=None, no_crt=False, canonical_path=None, og_image=None, og_title=None):
     """
     Generate HTML head section
 
@@ -35,6 +35,7 @@ def html_head(title, extra_scripts=None, meta_description=None, no_crt=False, ca
         no_crt: If True, inject styles to disable CRT image effects
         canonical_path: Optional site-relative path (e.g. '/words/my-post/') for the canonical URL tag
         og_image: Optional site-relative image path for social share previews
+        og_title: Optional share-card title (defaults to the page title)
     """
     parts = [
         '<!DOCTYPE html>',
@@ -55,7 +56,7 @@ def html_head(title, extra_scripts=None, meta_description=None, no_crt=False, ca
         parts.append(f'    <link rel="canonical" href="{SITE_URL}{canonical_path}">')
 
     # Open Graph tags for link previews (LinkedIn, Slack, etc.)
-    parts.append(f'    <meta property="og:title" content="{title}">')
+    parts.append(f'    <meta property="og:title" content="{og_title or title}">')
     if meta_description:
         parts.append(f'    <meta property="og:description" content="{meta_description}">')
     if canonical_path:

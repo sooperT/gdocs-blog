@@ -638,7 +638,9 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
         meta_description=meta_desc if meta_desc else None,
         no_crt=no_crt,
         canonical_path=canonical_path,
-        og_image=OG_IMAGE_PLACEHOLDER
+        og_image=OG_IMAGE_PLACEHOLDER,
+        # Share card mirrors the article headline, not the SEO browser title
+        og_title=h1_title or None
     ))
 
     # Header
