@@ -590,6 +590,14 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
     # FIRST PASS: Build heading ID mapping and extract h1 title
     heading_text_to_slug = {}  # Map heading text to slug for fallback
     h1_title = None  # Will be extracted from first TITLE paragraph
+    # Intent: a Doc with no TITLE-styled paragraph but a leading HEADING_1
+    # (e.g. imported HTML) means the HEADING_1 is the post title.
+    has_title_style = any(
+        e.get('paragraph', {}).get('paragraphStyle', {}).get('namedStyleType') == 'TITLE'
+        and ''.join(r.get('textRun', {}).get('content', '') for r in e['paragraph'].get('elements', [])).strip()
+        for i, e in enumerate(content) if i >= content_start_index and 'paragraph' in e
+    )
+    promoted_title_idx = None
     for idx, element in enumerate(content):
         if idx < content_start_index:
             continue
@@ -599,6 +607,9 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
             named_style = style.get('namedStyleType', 'NORMAL_TEXT')
             google_heading_id = style.get('headingId', '')
             tag = STYLE_MAP.get(named_style, 'p')
+            if not has_title_style and named_style == 'HEADING_1' and h1_title is None and promoted_title_idx is None:
+                promoted_title_idx = idx
+                tag = 'h1'
 
             # Extract h1 title text (first TITLE paragraph)
             if tag == 'h1' and h1_title is None:
@@ -683,6 +694,8 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
             # Get HTML tag for this style
             tag = STYLE_MAP.get(named_style, 'p')
+            if idx == promoted_title_idx:
+                tag = 'h1'
 
             # Process text content with inline formatting
             html_content = ""
