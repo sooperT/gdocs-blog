@@ -11,7 +11,8 @@
       "type": "words",
       "meta-desc": "Interim & fractional digital product & growth. 20+ years across SaaS, growth, innovation & tech. Meet me at Nordic Fintech Week.",
       "excerpt": "This week, I’ll be at Nordic Fintech Week in Copenhagen (23 & 24 September). I’m looking forward to meeting new, interesting people. If we’ve just met, or you’re thinking about reaching out for a coffee, this page is for you.",
-      "hero-image": ""
+      "hero-image": "",
+      "hidden": true
     },
     {
       "title": "How to make a product management game with kittens",
