@@ -23,3 +23,6 @@ docs/
 
 # Local Netlify folder
 .netlify
+
+# Night shift worktrees (one per night, created by the /nightshift skill)
+.claude/worktrees/
