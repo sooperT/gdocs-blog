@@ -1,0 +1,25 @@
+# takenbyninjas.com
+
+> Tom Stenson, product, Copenhagen: I'm now a product janitor for hire - available for fractional & interim product management work, and open to the right permanent role.
+
+## Agent-readable facts
+
+- [Tom Stenson: facts for agents](https://takenbyninjas.com/about/agent/): who Tom is, proof points and behavioural facts, each a verbatim line with its TomBot section id
+
+## Ask TomBot
+
+- [TomBot](https://takenbyninjas.com/projects/tombot/): a prototype AI trained on Tom's CV
+
+## Writing
+
+- [Words](https://takenbyninjas.com/words/): all posts
+- [How to make a product management game with kittens](https://takenbyninjas.com/words/kitten-pm/)
+- [Opbeat illustrations](https://takenbyninjas.com/words/opbeat-illustrations/)
+- [Winners in the AI gold-rush](https://takenbyninjas.com/words/ai-gold-rush/)
+- [Vibe coding - 6 words to know](https://takenbyninjas.com/words/vibe-coding-6-words-to-know/)
+- [Hello world](https://takenbyninjas.com/words/hello-world/)
+
+## Human pages
+
+- [About](https://takenbyninjas.com/about/)
+- [Projects](https://takenbyninjas.com/projects/)

@@ -12,6 +12,7 @@ Usage:
     python3 generate_agent_page.py
 """
 
+import json
 import os
 import re
 import sys
@@ -45,6 +46,24 @@ PAGE_STYLE = '''<style>
         .agent-page table { margin: 0; font-size: 15px; }
         .agent-page th, .agent-page td { padding: 6px 8px; vertical-align: top; }
     </style>'''
+
+# JSON-LD schema.org/Person (W1.3). Only name, givenName and familyName:
+# the other name forms (D3) wait on a source and decision N1010-2.
+PAGE_URL = 'https://takenbyninjas.com/about/agent/'
+LINKEDIN_URL = 'https://www.linkedin.com/in/tomstenson/'
+# (section id, verbatim phrase): role phrase quoted in the proof points table
+JOB_TITLE = ('NOVO.R1', 'Product Manager')
+# (section id, verbatim phrases)
+KNOWS_ABOUT = ('META.COMPETENCIES', [
+    'Product Management',
+    'Growth',
+    'Discovery & Incubation',
+    'Strategic Partnership',
+    'Informal leadership',
+    'Prototyping',
+    'coaching',
+    'agile',
+])
 
 # Who: (term, section id, verbatim line or list of lines)
 WHO = [
@@ -216,6 +235,37 @@ def build_behaviour(sections):
     return lines
 
 
+def build_jsonld(sections):
+    """schema.org/Person as a JSON-LD script tag; quoted phrases are checked verbatim."""
+    check(sections, *JOB_TITLE)
+    kb_sid, kb_items = KNOWS_ABOUT
+    for item in kb_items:
+        check(sections, kb_sid, item)
+    person = {
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        'name': 'Tom Stenson',
+        'givenName': 'Tom',
+        'familyName': 'Stenson',
+        'jobTitle': JOB_TITLE[1],
+        'address': {
+            '@type': 'PostalAddress',
+            'addressLocality': 'Copenhagen',
+            'addressCountry': 'DK',
+        },
+        'url': PAGE_URL,
+        'mainEntityOfPage': PAGE_URL,
+        'sameAs': [
+            LINKEDIN_URL,
+            'https://takenbyninjas.com/projects/tombot/',
+            'https://takenbyninjas.com/about/',
+        ],
+        'knowsAbout': kb_items,
+    }
+    body = json.dumps(person, ensure_ascii=False, indent=2).replace('\n', '\n    ')
+    return f'<script type="application/ld+json">\n    {body}\n    </script>'
+
+
 def generate_html(sections):
     check(sections, *META_DESC_LINE)
     meta_desc = _escape(META_DESC_PREFIX + META_DESC_LINE[1])
@@ -248,7 +298,7 @@ def generate_html(sections):
     return '\n'.join([
         html_head(
             title=TITLE,
-            extra_scripts=[PAGE_STYLE],
+            extra_scripts=[PAGE_STYLE, build_jsonld(sections)],
             meta_description=meta_desc,
             no_crt=True,
             canonical_path='/about/agent/',
