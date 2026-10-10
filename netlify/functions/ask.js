@@ -2,10 +2,13 @@
 // Retrieval only: returns the matched TomBot section verbatim, with its id
 // as provenance. No Claude call, no generated text, no guessing below the
 // match threshold. Routed from /ask by netlify.toml.
+// GET /ask?brief=... is brief calibration (W4) and is handed to calibrate.js;
+// POST briefs go to /ask/brief.
 import { retrieve as defaultRetrieve } from './lib/retrieval.js';
+import { createCalibrateHandler } from './calibrate.js';
 
 const HUMAN_VERSION = '/projects/tombot/';
-const USAGE = 'Usage: GET /ask?q=<your question>&asker=<optional: recruiter-agent | hiring-manager | human>';
+const USAGE = 'Usage: GET /ask?q=<your question>&asker=<optional: recruiter-agent | hiring-manager | human>. For a job brief: GET /ask?brief=<brief>, or POST it to /ask/brief.';
 
 function json(body, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(body, null, 2), {
@@ -65,13 +68,19 @@ export function followUpTexts(followUps) {
     .filter(t => typeof t === 'string' && t.length > 0);
 }
 
-export function createHandler({ retrieve = defaultRetrieve } = {}) {
+export function createHandler({ retrieve = defaultRetrieve, calibrate } = {}) {
+  let calibrateHandler = calibrate || null;
   return async (request) => {
     if (request.method !== 'GET') {
       return json({ error: 'Method not allowed. ' + USAGE }, 405, { 'Allow': 'GET' });
     }
 
     const url = new URL(request.url);
+    if (url.searchParams.has('brief')) {
+      // Created lazily: calibrate.js imports helpers from this module.
+      calibrateHandler = calibrateHandler || createCalibrateHandler({ retrieve });
+      return calibrateHandler(request);
+    }
     const q = (url.searchParams.get('q') || '').trim();
     const asker = url.searchParams.get('asker') || null;
 

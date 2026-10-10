@@ -9,6 +9,14 @@
 [functions]
   node_bundler = "esbuild"
 
+# W4 brief calibration: GET or POST /ask/brief (netlify/functions/calibrate.js).
+# GET /ask?brief=... also works; ask.js hands it to the same handler.
+[[redirects]]
+  from = "/ask/brief"
+  to = "/.netlify/functions/calibrate"
+  status = 200
+  force = true
+
 # GET /ask?q=... -> TomBot retrieval as JSON (netlify/functions/ask.js)
 [[redirects]]
   from = "/ask"
