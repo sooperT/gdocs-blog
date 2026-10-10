@@ -101,8 +101,10 @@ def load_metadata():
 
 def get_latest_post(posts):
     """Get the most recent 'words' post"""
-    # Filter for 'words' type posts only
-    words_posts = [p for p in posts if p.get('type') == CONTENT_TYPE_WORDS and p.get('date') and not p.get('hidden')]
+    # Filter for 'words' type posts only. "hidden" drops a post everywhere;
+    # "homepage": false only keeps it off the homepage (it stays in the archive).
+    words_posts = [p for p in posts if p.get('type') == CONTENT_TYPE_WORDS and p.get('date')
+                   and not p.get('hidden') and p.get('homepage', True) is not False]
 
     if not words_posts:
         return None
