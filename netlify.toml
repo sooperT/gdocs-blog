@@ -8,3 +8,10 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# GET /ask?q=... -> TomBot retrieval as JSON (netlify/functions/ask.js)
+[[redirects]]
+  from = "/ask"
+  to = "/.netlify/functions/ask"
+  status = 200
+  force = true

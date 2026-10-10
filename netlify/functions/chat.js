@@ -3,6 +3,7 @@ import pg from 'pg';
 import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { embedQuery, matchSections, QUESTION_MATCH_THRESHOLD, TOP_K } from './lib/retrieval.js';
 
 // Load .env in development
 const currentFilePath = fileURLToPath(import.meta.url);
@@ -28,37 +29,6 @@ const pool = new pg.Pool({
   connectionString: process.env.NILEDB_URL,
   ssl: { rejectUnauthorized: false }
 });
-
-// Get embedding from Voyage AI with retry
-async function getEmbedding(text, retries = 2) {
-  for (let attempt = 0; attempt <= retries; attempt++) {
-    const response = await fetch('https://api.voyageai.com/v1/embeddings', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        input: [text],
-        model: 'voyage-3'
-      })
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return data.data[0].embedding;
-    }
-
-    if (response.status === 429 && attempt < retries) {
-      await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
-      continue;
-    }
-
-    console.error('Voyage API error:', await response.text());
-    return null;
-  }
-  return null;
-}
 
 // Normalize third-person references to first-person for better question matching
 // "tell me about tom" -> "tell me about yourself"
@@ -146,33 +116,6 @@ async function expandAliases(query) {
   }
 }
 
-// Primary search: match user query against question embeddings
-// This finds the best matching pre-defined question variations
-async function searchByQuestionMatch(embedding, limit = 5) {
-  try {
-    const vectorStr = `[${embedding.join(',')}]`;
-    const result = await pool.query(`
-      SELECT DISTINCT ON (title)
-             id, title, content, chunk_type, question_text, follow_ups,
-             1 - (question_embedding <=> $1::vector) as similarity
-      FROM chunks
-      WHERE question_embedding IS NOT NULL
-      ORDER BY title, question_embedding <=> $1::vector
-    `, [vectorStr]);
-
-    // Re-sort by similarity after DISTINCT and take top N
-    const sorted = result.rows.sort((a, b) => b.similarity - a.similarity);
-    return sorted.slice(0, limit);
-  } catch (error) {
-    console.error('Question match search error:', error);
-    return [];
-  }
-}
-
-// Main retrieval function - question matching only (no content fallback)
-const QUESTION_MATCH_THRESHOLD = 0.55;  // Testing: lowered from 0.60 to catch borderline matches like "wegovy" (0.591)
-const TOP_K = 1;  // Single match only — prevents cross-section bleed and hallucination
-
 // Log deflection to dedicated table for review
 async function logDeflection(query, topMatch, topScore, sessionId) {
   try {
@@ -256,14 +199,14 @@ export async function retrieveContent(query) {
   console.log('[RAG] Final query:', synonymExpanded);
 
   // Step 5: Get embedding
-  const embedding = await getEmbedding(synonymExpanded);
+  const embedding = await embedQuery(synonymExpanded);
   if (!embedding) {
     console.log('[RAG] Failed to get embedding');
     return { chunks: [], method: 'none' };
   }
 
   // Step 3: Primary search - match against question embeddings
-  const questionMatches = await searchByQuestionMatch(embedding, TOP_K);
+  const questionMatches = await matchSections(embedding, { topK: TOP_K, sql: pool });
   console.log('[RAG] Question matches:', questionMatches.length);
   if (questionMatches.length > 0) {
     console.log('[RAG] Top question match:', questionMatches[0].title,
