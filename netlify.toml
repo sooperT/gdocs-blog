@@ -15,3 +15,20 @@
   to = "/.netlify/functions/ask"
   status = 200
   force = true
+
+# D5: count crawler fetches of the agent surfaces (netlify/functions/agent-fetch.js).
+# The function logs the fetch and returns the bundled static file.
+[functions."agent-fetch"]
+  included_files = ["about/agent/index.html", "llms.txt"]
+
+[[redirects]]
+  from = "/about/agent/"
+  to = "/.netlify/functions/agent-fetch/page"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/llms.txt"
+  to = "/.netlify/functions/agent-fetch/llms"
+  status = 200
+  force = true

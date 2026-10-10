@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+"""Set up the agent_fetches table in the Nile database (PRD D5, bot logging).
+
+Tom runs this ONCE, by hand, before (or right after) deploying the
+agent-fetch function:
+
+    python3 scripts/setup_agent_fetches.py
+
+Safe to re-run (CREATE ... IF NOT EXISTS). Until it has run, the function
+still serves /about/agent/ and /llms.txt; its inserts just fail with a
+console warning.
+
+One row per fetch of an agent surface. No IP address, no query strings,
+nothing from the request body (PRD guardrail 8).
+"""
+
+import os
+import psycopg2
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+def setup_agent_fetches():
+    conn = psycopg2.connect(os.environ['NILEDB_URL'])
+    cur = conn.cursor()
+
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS agent_fetches (
+            id SERIAL PRIMARY KEY,
+            created_at TIMESTAMPTZ DEFAULT NOW(),
+            path TEXT,
+            user_agent TEXT,
+            referer TEXT NULL,
+            country TEXT NULL,
+            status INT
+        )
+    ''')
+
+    # Index for querying by date
+    cur.execute('''
+        CREATE INDEX IF NOT EXISTS idx_agent_fetches_created_at
+        ON agent_fetches(created_at DESC)
+    ''')
+
+    conn.commit()
+    print("✓ agent_fetches table created")
+
+    cur.close()
+    conn.close()
+
+
+if __name__ == '__main__':
+    setup_agent_fetches()
