@@ -4,6 +4,7 @@
 import assert from 'node:assert/strict';
 import {
   embedQuery, matchSections, retrieve, QUESTION_MATCH_THRESHOLD, TOP_K, VOYAGE_MODEL,
+  prepareQuery, prepareQuerySteps, normalizeQuery, expandContractions, expandAliases, expandSynonyms,
 } from '../netlify/functions/lib/retrieval.js';
 import { createHandler, cleanAnswer, deriveYear } from '../netlify/functions/ask.js';
 
@@ -24,10 +25,16 @@ const fetchOk = async (url, init) => {
 };
 const quiet = (fn) => async (...a) => { const e = console.error; console.error = () => {}; try { return await fn(...a); } finally { console.error = e; } };
 
-function stubSql(rows) {
+// Answers the aliases lookup with `aliases`, every other query with `rows`.
+function stubSql(rows, aliases = []) {
   const calls = [];
-  return { calls, query: async (text, params) => { calls.push({ text, params }); return { rows: rows.map(r => ({ ...r })) }; } };
+  return { calls, query: async (text, params) => {
+    calls.push({ text, params });
+    const src = /FROM aliases/.test(text) ? aliases : rows;
+    return { rows: src.map(r => ({ ...r })) };
+  } };
 }
+const ALIASES = [{ alias: 'novo', canonical_name: 'Novo Nordisk' }];
 
 const NOVO = {
   title: 'NOVO.R1',
@@ -79,6 +86,44 @@ await test('retrieve reports embedding failure', quiet(async () => {
   assert.equal(r.match, null);
   assert.equal(r.error, 'embedding failed');
 }));
+
+// --- query preparation (moved from chat.js) ---
+await test('prepareQuery: "tell me about tom" -> "tell me about yourself"', async () => {
+  assert.equal(await prepareQuery('tell me about tom', { sql: stubSql([]) }), 'tell me about yourself');
+});
+await test('prepareQuery: "where has tom worked" -> "where have you worked"', async () => {
+  assert.equal(await prepareQuery('where has tom worked', { sql: stubSql([]) }), 'where have you worked');
+});
+await test('prepareQuery: "what\'s tom\'s story" -> contractions + synonyms', async () => {
+  const s = await prepareQuerySteps("what's tom's story", { sql: stubSql([]) });
+  assert.equal(s.normalized, "what's your story");
+  assert.equal(s.contractions, 'what is your story');
+  assert.equal(s.final, 'what is your story journey arc background career');
+});
+await test('expandAliases: novo -> Novo Nordisk, no double expansion', async () => {
+  assert.equal(await expandAliases('what did you build at novo', { sql: stubSql([], ALIASES) }), 'what did you build at Novo Nordisk');
+  assert.equal(await expandAliases('what did you build at Novo Nordisk', { sql: stubSql([], ALIASES) }), 'what did you build at Novo Nordisk');
+  assert.equal(await prepareQuery('what did Tom build at Novo', { sql: stubSql([], ALIASES) }), 'what did you build at Novo Nordisk');
+});
+await test('expandAliases: DB error leaves query unchanged', quiet(async () => {
+  const sql = { query: async () => { throw new Error('db down'); } };
+  assert.equal(await expandAliases('at novo', { sql }), 'at novo');
+  assert.equal(await prepareQuery('where has tom worked', { sql }), 'where have you worked');
+}));
+await test('pure steps: contractions and synonyms only append/expand', async () => {
+  assert.equal(normalizeQuery('was tom married'), 'were you married');
+  assert.equal(expandContractions("who's they're"), 'who is they are');
+  assert.equal(expandSynonyms('kids'), 'kids children family');
+});
+await test('retrieve embeds the prepared text, not the raw query', async () => {
+  const sent = [];
+  const f = async (url, init) => { sent.push(JSON.parse(init.body).input[0]); return fetchOk(url, init); };
+  const sql = stubSql([NOVO], ALIASES);
+  const { match } = await retrieve('what did Tom build at Novo', { fetchImpl: f, env: {}, sql });
+  assert.deepEqual(sent, ['what did you build at Novo Nordisk']);
+  assert.equal(match.title, 'NOVO.R1');
+  assert.ok(/FROM aliases/.test(sql.calls[0].text) && /FROM chunks/.test(sql.calls[1].text));
+});
 
 // --- ask.js ---
 const req = (path, method = 'GET') => new Request(`http://localhost${path}`, { method });
