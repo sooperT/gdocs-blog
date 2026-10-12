@@ -7,8 +7,9 @@
 #
 # ASK (popup):
 #   git push                      -> Netlify build (costs money)
-#   scripts/load_content_v3.py    -> wipes and reloads the LIVE TomBot DB
-#   scripts/load_content*.py      -> any other loader variant
+#   load_content*.py --env production -> DENIED (no popup) until cut-over
+#   load_content*.py --env staging    -> allowed, no popup
+#   load_content*.py with no --env    -> ask which environment
 #   any command that names NILEDB_URL together with DELETE/TRUNCATE/DROP/
 #   INSERT/UPDATE/ALTER            -> ad-hoc writes to the live DB
 #
@@ -33,8 +34,18 @@ if printf '%s\n' "$COMMAND" | grep -qE "${GIT_AT}push\b"; then
   ask "git push triggers a Netlify build (costs money). Tom approves each push here."
 fi
 
-if printf '%s\n' "$COMMAND" | grep -qE 'load_content[A-Za-z0-9_]*\.py'; then
-  ask "This wipes and reloads the LIVE TomBot database. Tom approves each reload here."
+# Only a real invocation matches (python3 ... load_content...), not the
+# filename inside a heredoc or an echo. Production is denied, not asked: the
+# live reload is the cut-over, decided in chat beforehand. Lift it here on
+# the day. Staging runs without a popup.
+LOADER='python[0-9.]*\s+\S*load_content[A-Za-z0-9_]*\.py'
+if printf '%s\n' "$COMMAND" | grep -qE "$LOADER"; then
+  if printf '%s\n' "$COMMAND" | grep -qE "$LOADER"'[^|;&]*--env[= ]+production'; then
+    python3 -c "import json; print(json.dumps({'hookSpecificOutput': {'hookEventName': 'PreToolUse', 'permissionDecision': 'deny', 'permissionDecisionReason': 'Production loader is blocked until cut-over (docs/agent-readable/STATUS.md). Lift it in .claude/hooks/guard-live.sh on the day.'}}))"
+    exit 0
+  elif ! printf '%s\n' "$COMMAND" | grep -qE "$LOADER"'[^|;&]*--env[= ]+staging'; then
+    ask "Loader without --env staging. Say which environment you mean."
+  fi
 fi
 
 if printf '%s\n' "$COMMAND" | grep -q 'NILEDB_URL' && printf '%s\n' "$COMMAND" | grep -qiE '\b(DELETE|TRUNCATE|DROP|INSERT|UPDATE|ALTER)\b'; then
