@@ -1647,9 +1647,9 @@ def build_cv_appendix(sections, recs):
     md = [
         '## For AI agents and applicant tracking systems',
         '',
-        'This page is a machine-readable summary of the CV above, generated from the same evidence base, with sources. '
-        f'If you can fetch URLs, start at {base}/for-agents/start.md: it offers five jobs (screen against a job description, '
-        'brief on proof points, fit for a role shape, ask a specific question, draft outreach) and the endpoints for each. '
+        'This page is a machine-readable summary of the CV above, generated from the same record, with a source for every line. '
+        f'If you can fetch URLs, start at {base}/for-agents/start.md: it offers three jobs (how Tom fits a role, '
+        'explore his background, what he has done) and the endpoints for each. '
         f'Every proof point with its sources: {base}/for-agents/proof-points.json. Facts page: {base}/for-agents/. '
         f'Ask one question: GET {base}/ask?q=<question>. Post a job description: POST {base}/ask/brief. '
         f'Generated {GENERATED}.',
@@ -1666,10 +1666,10 @@ def build_cv_appendix(sections, recs):
     md += ['', '### Skills (each tagged from the proof points that carry it)', '', ', '.join(skills) + '.',
            '', '### References', '',
            f'{len(recs)} LinkedIn recommendations, full text, grouped by role: {base}{RECS_PATH}. They vouch for a role, not for a claim.',
-           '', '### Evidence rules', '',
+           '', '### How this was put together', '',
            'Every line above is Tom Stenson\'s own account (tier: self-reported) with a section id; the pages link external sources where accepted. '
            'Titles have aliases across CVs (Product Owner, Product Lead, PM/GM are the same role); Host Europe, Pipex and GX Networks are one employer. '
-           'Gaps are stated as gaps. Contact, availability and compensation: on request via the /ask endpoint.', '']
+           'Where the record is silent it says so. Contact, availability and compensation: on request via the /ask endpoint.', '']
     md_text = '\n'.join(md)
     # HTML page: the same text, plain
     body = [ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>', '        <h1>Tom Stenson: CV appendix for agents</h1>',
@@ -1686,7 +1686,7 @@ def build_cv_appendix(sections, recs):
         body.append(f'            <li>{escape(cv_line(row))} <small>source: TomBot {escape(row["result"][1])}</small> <a href="{href}">more</a></li>')
     body += ['        </ol>', '        <h2>Skills</h2>', f'        <p>{escape(", ".join(skills))}.</p>',
              '        <h2>References</h2>', f'        <p>{len(recs)} LinkedIn recommendations, full text, grouped by role: <a href="{RECS_PATH}">{RECS_PATH}</a>. They vouch for a role, not for a claim.</p>',
-             '        <h2>Evidence rules</h2>', f'        <p>{escape(md[-2])}</p>',
+             '        <h2>How this was put together</h2>', f'        <p>{escape(md[-2])}</p>',
              f'        <p>Markdown of this page, to append to a CV: <a href="/for-agents/cv-appendix.md">/for-agents/cv-appendix.md</a>.</p>',
              '    </main>', '']
     html = '\n'.join([agent_head('Tom Stenson: CV appendix for agents',
@@ -1695,12 +1695,44 @@ def build_cv_appendix(sections, recs):
     return md_text, html
 
 
+START_MD = 'for-agents/start.md'
+START_PAGE = 'for-agents/start/index.html'
+
+
+def start_page_html():
+    """The entry file as an HTML page (the paste URL): ChatGPT's reader rejects .md
+    URLs; the same text in a pre block fetched first time (paste-test run 2)."""
+    with open(START_MD, encoding='utf-8') as f:
+        md = f.read()
+    return '\n'.join([
+        '<!DOCTYPE html>',
+        '<!-- GENERATED FILE - DO NOT EDIT MANUALLY: the entry file for-agents/start.md as a page -->',
+        '<html lang="en">', '<head>', '    <meta charset="UTF-8">',
+        '    <meta name="viewport" content="width=device-width, initial-scale=1.0">',
+        '    <title>Tom Stenson: start here, agent</title>',
+        '    <meta name="description" content="Entry file for AI assistants helping someone who wants to know about Tom Stenson: three jobs, the endpoints, and how to use what comes back.">',
+        f'    <link rel="canonical" href="{SITE_URL}/for-agents/start/">',
+        '    <style>body{margin:0;background:#fff;color:#222;font:16px/1.5 system-ui,sans-serif;padding:1rem}pre{white-space:pre-wrap;word-wrap:break-word;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace}</style>',
+        '</head>', '<body>',
+        '<p>This page is the agent entry file as plain text. Markdown source: <a href="/for-agents/start.md">/for-agents/start.md</a>. Human? Go to the <a href="/">human-readable version</a>.</p>',
+        '<pre>' + _escape(md) + '</pre>',
+        f'<p><small>Created by AI for AI. Generated {GENERATED}.</small></p>',
+        '</body>', '</html>', '',
+    ])
+
+
 def manifest(extra=()):
     """Page manifest for agent-fetch and the agent sitemap: slug -> {path, file, title}."""
     pages = {p['slug']: {'path': page_url(p['slug']), 'file': f'for-agents/{p["slug"]}/index.html',
                          'title': p['title']} for p in PAGES}
     for slug, title, path, _ in extra:
         pages[slug] = {'path': path, 'file': f'for-agents/{slug}/index.html', 'title': title}
+    # Per-send fit pages (scripts/cv_appendix.py --tag) survive a regenerate.
+    if os.path.exists(MANIFEST_FILE):
+        with open(MANIFEST_FILE, encoding='utf-8') as f:
+            for slug, entry in json.load(f).get('pages', {}).items():
+                if slug.startswith('fit/') and os.path.exists(entry.get('file', '')):
+                    pages[slug] = entry
     return json.dumps({'generated_by': 'generate_agent_page.py', 'pages': pages}, ensure_ascii=False, indent=2) + '\n'
 
 
@@ -1772,6 +1804,8 @@ def main():
     write(CV_APPENDIX_MD, md_text)
     write('for-agents/cv-appendix/index.html', cv_html)
     print(f'✓ CV appendix written: {CV_APPENDIX_MD} and for-agents/cv-appendix/ ({len(md_text.split())} words)')
+    write(START_PAGE, start_page_html())
+    print(f'✓ Entry page written: {START_PAGE}')
     write(MANIFEST_FILE, manifest(kw_pages + role_pages + shape_pages + [('cv-appendix', 'CV appendix for agents', CV_APPENDIX_PATH, cv_html)]))
     print(f'✓ Manifest written: {MANIFEST_FILE}')
     write(REFERENCES_FILE, references_json(recs))

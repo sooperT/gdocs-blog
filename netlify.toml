@@ -70,11 +70,14 @@
   included_files = [
     "for-agents/index.html",
     "for-agents/start.md",
+    "for-agents/start/index.html",
     "for-agents/wegovycare/index.html",
     "for-agents/treat-turnaround/index.html",
     "for-agents/recommendations/index.html",
     "for-agents/pages.json",
     "for-agents/proof-points.json",
+    "for-agents/sends.json",
+    "for-agents/fit/*/index.html",
     "for-agents/*/index.html",
     "for-agents/skills/*/index.html",
     "for-agents/shapes/*/index.html",
@@ -106,6 +109,13 @@
 [[redirects]]
   from = "/for-agents/start.md"
   to = "/.netlify/functions/agent-fetch/start"
+  status = 200
+  force = true
+
+# The entry file as an HTML page: the paste URL (ChatGPT's reader rejects .md).
+[[redirects]]
+  from = "/for-agents/start/"
+  to = "/.netlify/functions/agent-fetch/start-page"
   status = 200
   force = true
 

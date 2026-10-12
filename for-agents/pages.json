@@ -425,6 +425,11 @@
       "path": "/for-agents/cv-appendix/",
       "file": "for-agents/cv-appendix/index.html",
       "title": "CV appendix for agents"
+    },
+    "fit/novonesis": {
+      "path": "/for-agents/fit/novonesis/",
+      "file": "for-agents/fit/novonesis/index.html",
+      "title": "How Tom Stenson fits Senior Principal Innovation PM at Novonesis"
     }
   }
 }

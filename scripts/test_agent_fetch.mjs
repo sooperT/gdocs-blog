@@ -21,7 +21,9 @@ const quiet = (fn) => async (...a) => {
 const FILES = {
   'for-agents/index.html': '<!DOCTYPE html><title>facts</title>',
   'llms.txt': '# takenbyninjas.com\n',
-  'for-agents/start.md': '# Start here\n',
+  'for-agents/start.md': '# Start here\n\n## 0. What would your person like to do?\n\n## 1. Where things are\n',
+  'for-agents/start/index.html': '<!DOCTYPE html><title>Start page</title>',
+  'for-agents/sends.json': JSON.stringify({ sends: { 'novonesis-2026': { role: 'Senior Principal Innovation PM', company: 'Novonesis', fit: '/for-agents/fit/novonesis-2026/' } } }),
   'for-agents/wegovycare/index.html': '<!DOCTYPE html><title>Wegovycare</title>',
   'for-agents/treat-turnaround/index.html': '<!DOCTYPE html><title>TREAT</title>',
   'for-agents/recommendations/index.html': '<!DOCTYPE html><title>Recommendations</title>',
@@ -233,7 +235,12 @@ await test('tagged start: /for-agents/start/<tag>.md serves start.md with the ta
   assert.equal(res.status, 200);
   assert.equal(res.headers.get('content-type'), 'text/plain; charset=utf-8');
   const text = await res.text();
-  assert.ok(text.startsWith(FILES['for-agents/start.md'].trim()) || text.includes('# Start here'), 'serves start.md');
+  assert.ok(text.includes('# Start here'), 'serves start.md');
+  assert.ok(text.includes("Tom's application for Senior Principal Innovation PM at Novonesis"), 'send context from sends.json');
+  assert.ok(text.includes('https://takenbyninjas.com/for-agents/fit/novonesis-2026/'), 'fit link');
+  assert.ok(text.indexOf('## 0b. About this copy') < text.indexOf('## 1. Where things are'), 'inserted before section 1');
+  const unknown = await (await h(new Request('https://takenbyninjas.com/for-agents/start/other-tag.md'), c)).text();
+  assert.ok(unknown.includes('came with a specific CV send') && !unknown.includes('application for'), 'unknown tag: generic note');
   assert.equal(pool.calls[0].params[0], '/for-agents/start/novonesis-2026.md');
   assert.deepEqual(JSON.parse(pool.calls[0].params[5]), { tag: 'novonesis-2026' });
   const rewritten = await h(req('/start/novonesis-2026.md'), c);

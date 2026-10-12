@@ -118,7 +118,9 @@ def collect_agent_pages():
     pages = list(AGENT_PAGES)
     if os.path.exists("for-agents/pages.json"):
         with open("for-agents/pages.json", encoding="utf-8") as f:
-            for p in json.load(f)["pages"].values():
+            for slug, p in json.load(f)["pages"].items():
+                if slug.startswith("fit/"):
+                    continue   # per-send fit pages are unlisted (scripts/cv_appendix.py)
                 if (p["path"], p["file"]) not in pages:
                     pages.append((p["path"], p["file"]))
     return [{"url": url, "lastmod": get_file_modified_date(path)}

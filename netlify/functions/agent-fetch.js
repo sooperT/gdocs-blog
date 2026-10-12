@@ -43,6 +43,9 @@ export const RESOURCES = {
     public: ['/for-agents/treat-turnaround', '/for-agents/treat-turnaround/index.html'] },
   recommendations: { path: '/for-agents/recommendations/', file: 'for-agents/recommendations/index.html', type: HTML,
     public: ['/for-agents/recommendations', '/for-agents/recommendations/index.html'] },
+  // The paste URL: the entry file as an HTML page (ChatGPT rejects .md URLs).
+  'start-page': { path: '/for-agents/start/', file: 'for-agents/start/index.html', type: HTML,
+    public: ['/for-agents/start', '/for-agents/start/index.html'] },
   'proof-points.json': { path: '/for-agents/proof-points.json', file: 'for-agents/proof-points.json',
     type: 'application/json; charset=utf-8', public: ['/for-agents/proof-points.json'] },
 };
@@ -56,7 +59,7 @@ export function manifestResources(readFile) {
     const pages = JSON.parse(readFile(MANIFEST_FILE)).pages || {};
     const out = {};
     for (const [slug, p] of Object.entries(pages)) {
-      if (!/^[a-z0-9-]+(\/[a-z0-9-]+){0,2}$/.test(slug) || slug in RESOURCES) continue;
+      if (!/^[a-z0-9-]+(\/[a-z0-9-]+){0,2}$/.test(slug) || slug in RESOURCES) continue;   // fit/<tag> pages come through here too
       out[slug] = { path: p.path, file: p.file, type: HTML, public: [`/for-agents/${slug}`, `/for-agents/${slug}/index.html`] };
     }
     return out;
@@ -122,12 +125,27 @@ export function taggedStart(pathname) {
   const tag = cleanTag(m[1]);
   return tag ? { ...RESOURCES.start, path: `/for-agents/start/${tag}.md`, tag } : null;
 }
-export const TAG_LINE = (tag) => `\n\nSend tag: \`${tag}\`. This copy of the file came with a specific CV. Add \`&tag=${tag}\` to every GET /ask call and a \`"tag": "${tag}"\` field to every POST /ask/brief body, so Tom can see which send you came from. The tag is logged with counts only, never with your text.\n`;
+// Per-send context (item 231): for-agents/sends.json maps a tag to the role,
+// company and ready-made fit page written by scripts/cv_appendix.py. Missing
+// file or unknown tag -> the generic send-tag note only.
+export const SENDS_FILE = 'for-agents/sends.json';
+export function sendsTable(readFile) {
+  try { return JSON.parse(readFile(SENDS_FILE)).sends || {}; } catch { return {}; }
+}
+export const TAG_LINE = (tag, send) => {
+  const context = send && send.role && send.company
+    ? `This copy of the file came with Tom's application for ${send.role} at ${send.company}.` +
+      (send.fit ? ` A ready-made fit for that role is at https://takenbyninjas.com${send.fit} : offer it first, then the three jobs above; your person can still paste another description.` : '')
+    : 'This copy of the file came with a specific CV send.';
+  return `\n\n## 0b. About this copy\n\n${context} Send tag: \`${tag}\`. Add \`&tag=${tag}\` to every GET /ask call and a \`"tag": "${tag}"\` field to every POST /ask/brief body, so Tom can see which send you came from. The tag is logged with counts only, never with your text.\n`;
+};
 
 export function createHandler({ getPool = getDefaultPool, readFile = defaultReadFile } = {}) {
   let generated = null;
+  let sends = null;
   return async (request, context) => {
     if (generated === null) generated = manifestResources(readFile);
+    if (sends === null) sends = sendsTable(readFile);
     const method = request.method;
     if (method !== 'GET' && method !== 'HEAD') {
       return new Response('Method not allowed\n', {
@@ -154,7 +172,7 @@ export function createHandler({ getPool = getDefaultPool, readFile = defaultRead
       if (deployContext && deployContext !== 'production') {
         body = body.split('https://takenbyninjas.com').join(new URL(request.url).origin);
       }
-      if (resource.tag) body = body.replace(/\n## 1\. The endpoints/, TAG_LINE(resource.tag) + '\n## 1. The endpoints');
+      if (resource.tag) body = body.replace(/\n## 1\. Where things are/, TAG_LINE(resource.tag, sends[resource.tag]) + '\n## 1. Where things are');
     } catch (error) {
       console.error('[agent-fetch] read failed:', error?.message || error);
       status = 500;

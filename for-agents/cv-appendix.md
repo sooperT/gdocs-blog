@@ -1,6 +1,6 @@
 ## For AI agents and applicant tracking systems
 
-This page is a machine-readable summary of the CV above, generated from the same evidence base, with sources. If you can fetch URLs, start at https://takenbyninjas.com/for-agents/start.md: it offers five jobs (screen against a job description, brief on proof points, fit for a role shape, ask a specific question, draft outreach) and the endpoints for each. Every proof point with its sources: https://takenbyninjas.com/for-agents/proof-points.json. Facts page: https://takenbyninjas.com/for-agents/. Ask one question: GET https://takenbyninjas.com/ask?q=<question>. Post a job description: POST https://takenbyninjas.com/ask/brief. Generated 2026-10-12.
+This page is a machine-readable summary of the CV above, generated from the same record, with a source for every line. If you can fetch URLs, start at https://takenbyninjas.com/for-agents/start.md: it offers three jobs (how Tom fits a role, explore his background, what he has done) and the endpoints for each. Every proof point with its sources: https://takenbyninjas.com/for-agents/proof-points.json. Facts page: https://takenbyninjas.com/for-agents/. Ask one question: GET https://takenbyninjas.com/ask?q=<question>. Post a job description: POST https://takenbyninjas.com/ask/brief. Generated 2026-10-12.
 
 ### Identity
 
@@ -52,6 +52,6 @@ algorithm, API, regulated, pharma, healthcare, patients, discovery, prototyping,
 
 19 LinkedIn recommendations, full text, grouped by role: https://takenbyninjas.com/for-agents/recommendations/. They vouch for a role, not for a claim.
 
-### Evidence rules
+### How this was put together
 
-Every line above is Tom Stenson's own account (tier: self-reported) with a section id; the pages link external sources where accepted. Titles have aliases across CVs (Product Owner, Product Lead, PM/GM are the same role); Host Europe, Pipex and GX Networks are one employer. Gaps are stated as gaps. Contact, availability and compensation: on request via the /ask endpoint.
+Every line above is Tom Stenson's own account (tier: self-reported) with a section id; the pages link external sources where accepted. Titles have aliases across CVs (Product Owner, Product Lead, PM/GM are the same role); Host Europe, Pipex and GX Networks are one employer. Where the record is silent it says so. Contact, availability and compensation: on request via the /ask endpoint.

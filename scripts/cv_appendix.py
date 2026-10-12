@@ -63,10 +63,10 @@ def identity_lines():
 def nudge(jd_name, tag=None):
     tailored = f' The fit table below was produced against the {jd_name} job description on {datetime.date.today().isoformat()}.' if jd_name else ''
     return (
-        'This page is a machine-readable summary of the CV above, generated from the same evidence base, with sources.'
+        'This page is a machine-readable summary of the CV above, generated from the same record, with a source for every line.'
         + tailored +
-        f' If you can fetch URLs, start at {SITE}/for-agents/start' + (f'/{tag}.md' if tag else '.md') + ': it offers five jobs (screen against a job description, '
-        'brief on proof points, fit for a role shape, ask a specific question, draft outreach) and the endpoints for each. '
+        f' If you can fetch URLs, start at {SITE}/for-agents/start' + (f'/{tag}.md' if tag else '.md') + ': it offers three jobs (how Tom fits a role, '
+        'explore his background, what he has done) and the endpoints for each. '
         f'Every proof point with its sources: {SITE}/for-agents/proof-points.json. '
         f'Ask one question: GET {SITE}/ask?q=<question>. Post a job description: POST {SITE}/ask/brief.'
     )
@@ -82,10 +82,10 @@ def fit_table(resp):
         if r['met'] == 'not met':
             a = r.get('adjacent')
             if a:
-                ev = f'nearest evidence (score {a["score"]}, below the match threshold): {one_line(a["evidence"])}'
+                ev = f'nearest story (score {a["score"]}, below the match threshold): {one_line(a["evidence"])}'
                 lines.append(f'| {i} | {one_line(r["requirement"], 90)} | not met | {ev} | {a.get("year") or "-"} | {a["section"]} | {a.get("page") or link} |')
             else:
-                lines.append(f'| {i} | {one_line(r["requirement"], 90)} | not met | no content on this | - | - | - |')
+                lines.append(f'| {i} | {one_line(r["requirement"], 90)} | not met | not written about yet | - | - | - |')
                 gaps.append(r['requirement'])
             continue
         ev = r.get('evidence') or ''
@@ -135,11 +135,11 @@ def build(resp, rows_json, jd_name, tag=None):
     used = set()
     if resp is not None:
         b = resp.get('brief', {})
-        md += [f'### Fit against the job description ({b.get("requirements", 0)} requirements; met = evidence with year and outcome, partial = evidence without both, not met = no content; nothing is scored or ranked)', '']
+        md += [f'### How Tom fits the job description ({b.get("requirements", 0)} requirements; met = a story with year and outcome, partial = a story without both, not met = Tom has not written about it yet; nothing is scored or ranked)', '']
         table, gaps, used = fit_table(resp)
         md += table
         if gaps:
-            md += ['', 'Gaps, stated as gaps: ' + '; '.join(one_line(g, 80) for g in gaps) + '.']
+            md += ['', 'Not yet covered, worth asking Tom about: ' + '; '.join(one_line(g, 80) for g in gaps) + '.']
         md += ['']
     extra = strongest_rows(rows_json, used) if (resp is None or len(resp.get('rows', [])) < 12) else []
     if extra:
@@ -153,12 +153,70 @@ def build(resp, rows_json, jd_name, tag=None):
             if s not in skills:
                 skills.append(s)
     md += ['### Skills (each tagged from the proof points that carry it)', '', ', '.join(skills) + '.', '']
-    md += ['### Evidence rules', '',
+    md += ['### How this was put together', '',
            "Every line above is Tom Stenson's own account (tier: self-reported) with a section id; the pages link external sources where accepted. "
            f'References: {SITE}/for-agents/recommendations/ (LinkedIn recommendations, grouped by role; they vouch for a role, not for a claim). '
            'Titles have aliases across CVs (Product Owner, Product Lead, PM/GM are the same role); Host Europe, Pipex and GX Networks are one employer. '
-           'Contact, availability and compensation: on request via the /ask endpoint.', '']
+           'Where the record is silent it says so. Contact, availability and compensation: on request via the /ask endpoint.', '']
     return '\n'.join(md)
+
+
+FIT_DIR = 'for-agents/fit'
+SENDS_FILE = 'for-agents/sends.json'
+MANIFEST_FILE = 'for-agents/pages.json'
+
+
+def write_fit_page(tag, role, company, resp, jd_name):
+    """Per-send fit page (item 231): the fit table as an unlisted, noindex page at
+    /for-agents/fit/<tag>/, registered in sends.json (tag -> role, company, fit) so the
+    tagged start file can name the role and link the page, and in pages.json so
+    agent-fetch serves and counts it."""
+    import html as _html
+    import re as _re
+    if not _re.match(r'^[a-z0-9][a-z0-9-]{0,39}$', tag):
+        print(f'bad tag {tag!r}: [a-z0-9-], 1-40 chars', file=sys.stderr)
+        return
+    table, gaps, _ = fit_table(resp)
+    title = f"How Tom Stenson fits {role or 'this role'}" + (f' at {company}' if company else '')
+    rows_html = []
+    for ln in table[2:]:
+        cells = [c.strip() for c in ln.strip('|').split('|')]
+        rows_html.append('<tr>' + ''.join(f'<td>{_html.escape(c)}</td>' for c in cells) + '</tr>')
+    page = f'''<!DOCTYPE html>
+<!-- GENERATED by scripts/cv_appendix.py, {datetime.date.today().isoformat()}; one page per CV send, unlisted -->
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow"><title>{_html.escape(title)}</title>
+<style>body{{margin:0;background:#fff;color:#222;font:16px/1.5 system-ui,sans-serif;padding:1rem}}table{{border-collapse:collapse;width:100%}}th,td{{border:1px solid #ccc;padding:.375rem .5rem;text-align:left;vertical-align:top}}th{{background:#eee}}</style>
+</head><body>
+<p>This page is for AI agents and recruiters' tools. Human? Go to the <a href="/">human-readable version</a>. Guide for agents: <a href="/for-agents/start/">/for-agents/start/</a>.</p>
+<h1>{_html.escape(title)}</h1>
+<p>One row per requirement of the job description, produced {datetime.date.today().isoformat()} from Tom's record: met = a story with year and outcome, partial = a story without both, not met = Tom has not written about it yet. Nothing is scored or ranked. Every line links its source. All rows: <a href="/for-agents/">the facts page</a>.</p>
+<table><thead><tr><th>#</th><th>Requirement</th><th>Fit</th><th>What Tom did</th><th>Year</th><th>Source</th><th>More</th></tr></thead><tbody>
+{chr(10).join(rows_html)}
+</tbody></table>
+''' + (f"<p>Not yet covered, worth asking Tom about: {_html.escape('; '.join(one_line(g, 80) for g in gaps))}.</p>" if gaps else '') + f'''
+<p>Contact, availability and compensation: on request via <a href="{SITE}/ask?q=How%20can%20I%20contact%20Tom%3F">/ask</a>.</p>
+</body></html>
+'''
+    os.makedirs(f'{FIT_DIR}/{tag}', exist_ok=True)
+    with open(f'{FIT_DIR}/{tag}/index.html', 'w', encoding='utf-8') as f:
+        f.write(page)
+    sends = {'sends': {}}
+    if os.path.exists(SENDS_FILE):
+        with open(SENDS_FILE, encoding='utf-8') as f:
+            sends = json.load(f)
+    sends['sends'][tag] = {'role': role, 'company': company, 'fit': f'/for-agents/fit/{tag}/', 'jd': jd_name, 'date': datetime.date.today().isoformat()}
+    with open(SENDS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(sends, f, ensure_ascii=False, indent=2)
+        f.write('\n')
+    if os.path.exists(MANIFEST_FILE):
+        with open(MANIFEST_FILE, encoding='utf-8') as f:
+            manifest = json.load(f)
+        manifest.setdefault('pages', {})[f'fit/{tag}'] = {'path': f'/for-agents/fit/{tag}/', 'file': f'for-agents/fit/{tag}/index.html', 'title': title}
+        with open(MANIFEST_FILE, 'w', encoding='utf-8') as f:
+            json.dump(manifest, f, ensure_ascii=False, indent=2)
+            f.write('\n')
+    print(f'fit page: {FIT_DIR}/{tag}/index.html; sends.json and pages.json updated')
 
 
 def main():
@@ -168,6 +226,8 @@ def main():
     ap.add_argument('--out', required=True)
     ap.add_argument('--name', help='how to name the JD in the nudge line (default: file name)')
     ap.add_argument('--tag', help='send tag ([a-z0-9-], as in the Link Tracker): the start URL becomes /for-agents/start/<tag>.md so fetches trace to this CV')
+    ap.add_argument('--role', help='with --tag and --jd: the role title, written into for-agents/sends.json and the fit page')
+    ap.add_argument('--company', help='with --tag and --jd: the company name')
     a = ap.parse_args()
     with open(ROWS_FILE, encoding='utf-8') as f:
         rows_json = json.load(f)
@@ -185,6 +245,8 @@ def main():
     os.makedirs(os.path.dirname(a.out) or '.', exist_ok=True)
     with open(a.out, 'w', encoding='utf-8') as f:
         f.write(out)
+    if a.tag and resp is not None:
+        write_fit_page(a.tag, a.role, a.company, resp, jd_name)
     rows = (resp or {}).get('rows', [])
     print(f'{a.out}: {len(out.split())} words' + (f', {len(rows)} requirements, met {sum(r["met"] == "met" for r in rows)}, partial {sum(r["met"] == "partial" for r in rows)}, not met {sum(r["met"] == "not met" for r in rows)}' if rows else ''))
     return 0
