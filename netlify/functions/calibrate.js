@@ -15,7 +15,7 @@ import { retrieve as defaultRetrieve, listSections as defaultListSections, isPro
 import { isDbEnvError } from './lib/db_env.js';
 import {
   agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap, readTextBody,
-  checkRequirementCount, stripInjection, applyDenyList, validateRows, dropUnknownSections,
+  checkRequirementCount, stripInjection, isInjectionLine, applyDenyList, validateRows, dropUnknownSections,
 } from './lib/guard.js';
 import { classifyBrief } from './lib/role_shape.js';
 import { cleanAnswer, deriveYear, deriveStrength, SELF_REPORTED, HUMAN_VERSION } from './ask.js';
@@ -128,6 +128,67 @@ export async function splitBriefLLM(text, { createMessage = defaultCreateMessage
     console.error('[ask:brief] splitter call failed, using heuristic:', error?.status || error?.name || 'error');
   }
   return { requirements: splitBriefHeuristic(text, { max }), splitter: 'heuristic' };
+}
+
+// Item 32: evidence queries. Requirements are abstract ("set the quality bar
+// and instrument it"); proof points are concrete ("doubled labelling
+// throughput"). One more Claude call rewrites each requirement as up to two
+// short queries phrased the way a CV line reads, using only the requirement's
+// own nouns. Retrieval then runs the requirement and its queries and keeps
+// the best match. Any failure -> no queries, the requirement alone.
+export const EVIDENCE_SYSTEM_PROMPT = [
+  'You rewrite job requirements as short search queries for a database of one person\'s past work.',
+  'Input: a JSON array of requirement strings. Output: only a JSON array of the same length, each entry an array of up to two query strings. No prose, no code fences.',
+  'Each query is a concrete past-tense phrase the way a CV line reads: "built a ...", "led a ... team", "reduced ... by", "launched ...".',
+  'Use only nouns and verbs from the requirement; add no facts, no names, no numbers. Keep each query under 15 words.',
+  'An empty array is fine when a requirement has no concrete form (for example "taste and judgement").',
+].join('\n');
+export const MAX_EVIDENCE_QUERIES = 2;
+export const MAX_EVIDENCE_QUERY_CHARS = 120;
+
+export function parseEvidenceQueries(reply, count, { max = MAX_EVIDENCE_QUERIES } = {}) {
+  if (typeof reply !== 'string') return null;
+  const text = reply.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
+  let parsed;
+  try { parsed = JSON.parse(text); } catch { return null; }
+  if (!Array.isArray(parsed) || parsed.length !== count) return null;
+  return parsed.map(entry => (Array.isArray(entry) ? entry : [])
+    .filter(q => typeof q === 'string' && q.trim() && !isInjectionLine(q))
+    .map(q => q.trim().slice(0, MAX_EVIDENCE_QUERY_CHARS))
+    .slice(0, max));
+}
+
+export async function evidenceQueries(requirements, { createMessage = defaultCreateMessage } = {}) {
+  const empty = requirements.map(() => []);
+  if (!requirements.length) return empty;
+  try {
+    const msg = await createMessage({
+      model: SPLITTER_MODEL,
+      max_tokens: 1024,
+      thinking: { type: 'disabled' },
+      system: EVIDENCE_SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: JSON.stringify(requirements) }],
+    });
+    const reply = (msg?.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+    const parsed = parseEvidenceQueries(reply, requirements.length);
+    if (parsed) return parsed;
+    console.error('[ask:brief] evidence queries malformed, using requirements only');
+  } catch (error) {
+    console.error('[ask:brief] evidence queries call failed, using requirements only:', error?.status || error?.name || 'error');
+  }
+  return empty;
+}
+
+// Merge the matches of a requirement and its queries: best similarity per title.
+export function mergeMatches(results) {
+  const byTitle = new Map();
+  for (const r of results) {
+    for (const m of (r?.matches || [])) {
+      const prev = byTitle.get(m.title);
+      if (!prev || Number(m.similarity) > Number(prev.similarity)) byTitle.set(m.title, m);
+    }
+  }
+  return [...byTitle.values()].sort((a, b) => Number(b.similarity) - Number(a.similarity));
 }
 
 const OUTCOME = /\d+(?:[.,]\d+)?\s*(?:%|x\b|k\b|m\b|bn\b|million|billion|users|customers|patients|people|countries|markets|teams?)|\b(?:launched|shipped|grew|increased|reduced|cut|doubled|tripled|delivered|acquired|won|saved|raised|turned around)\b/i;
@@ -276,13 +337,23 @@ export function createCalibrateHandler({
       if (tooMany) return json({ error: tooMany.error, requirements: tooMany.requirements, usage: USAGE }, tooMany.status);
       const requirements = split.requirements.slice(0, MAX_REQUIREMENTS);
       const { splitter } = split;
+      // Item 32: evidence queries per requirement (one Claude call; none without a key).
+      const queries = runEnv.ANTHROPIC_API_KEY ? await evidenceQueries(requirements, { createMessage }) : requirements.map(() => []);
 
-      // Small batches so 12 requirements don't hit Voyage all at once.
+      // Small batches so 12 requirements x up to 3 texts don't hit Voyage all at once.
       let rows = [];
-      for (let i = 0; i < requirements.length; i += 4) {
-        const batch = requirements.slice(i, i + 4);
-        // Item 31: sections and STAR rows compete; the best match wins.
-        const results = await Promise.all(batch.map(r => retrieve(r, { env: runEnv, kinds: 'all', topK: 5 })));
+      for (let i = 0; i < requirements.length; i += 2) {
+        const batch = requirements.slice(i, i + 2);
+        // Item 31: sections and STAR rows compete; the best match wins. Item 32:
+        // the requirement and its evidence queries all retrieve; matches merge.
+        const results = await Promise.all(batch.map(async (r, j) => {
+          const texts = [r, ...(queries[i + j] || [])];
+          const rs = await Promise.all(texts.map(t => retrieve(t, { env: runEnv, kinds: 'all', topK: 5 })));
+          if (rs.some(x => x?.error)) return { error: 'embedding failed' };
+          const matches = mergeMatches(rs);
+          // A retrieve stub (or an old shape) may carry only `match`: keep it.
+          return { matches, match: matches[0] || rs[0]?.match || null };
+        }));
         if (results.some(r => r?.error)) {
           console.error('[ask:brief] retrieval error');
           return json({ error: 'Retrieval is unavailable right now. Please try again later.', human_version: HUMAN_VERSION }, 503);
@@ -308,6 +379,7 @@ export function createCalibrateHandler({
       console.log('[ask:brief]', JSON.stringify({
         asker, requirements: rows.length, met: count('met'), partial: count('partial'), not_met: count('not met'), splitter,
         proof_point_rows: rows.filter(r => r.kind === 'proof-point').length,
+        evidence_queries: queries.reduce((n, q) => n + q.length, 0),
         seniority: shape.seniority, function: shape.function, sector: shape.sector,
       }));
 
