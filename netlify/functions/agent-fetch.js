@@ -15,6 +15,13 @@ import { fileURLToPath } from 'url';
 import { dirname, join, resolve } from 'path';
 
 export const CACHE_CONTROL = 'public, max-age=86400';
+
+// Function responses bypass _headers, so non-production deploys add the
+// noindex themselves (netlify.toml appends it to _headers for static files).
+export function robotsHeaders(context) {
+  const c = String(context && context.deploy && context.deploy.context || '').toLowerCase();
+  return c && c !== 'production' ? { 'X-Robots-Tag': 'noindex, nofollow' } : {};
+}
 const LOG_WAIT_MS = 1500; // cap when the runtime has no waitUntil
 
 // Public path -> bundled file + content type.
@@ -156,7 +163,7 @@ export function createHandler({ getPool = getDefaultPool, readFile = defaultRead
     }
     return new Response(method === 'HEAD' ? null : body, {
       status,
-      headers: { 'Content-Type': resource.type, 'Cache-Control': CACHE_CONTROL },
+      headers: { 'Content-Type': resource.type, 'Cache-Control': CACHE_CONTROL, ...robotsHeaders(context) },
     });
   };
 }

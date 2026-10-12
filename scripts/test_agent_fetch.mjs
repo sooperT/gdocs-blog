@@ -2,6 +2,7 @@
 // Stubs the file reader and the DB pool; never touches the DB or the network.
 // Run: node scripts/test_agent_fetch.mjs
 import assert from 'node:assert/strict';
+import { robotsHeaders } from '../netlify/functions/agent-fetch.js';
 import { createHandler, defaultReadFile, CACHE_CONTROL } from '../netlify/functions/agent-fetch.js';
 
 globalThis.fetch = () => { throw new Error('real fetch called in test'); };
@@ -134,3 +135,13 @@ await test('default reader finds the real repo files (bundle layout fallback)', 
 });
 
 console.log(`\n${passed} passed${process.exitCode ? ', some FAILED' : ''}`);
+
+// Non-production deploys mark function responses noindex; production does not.
+{
+  const assert = (await import('node:assert/strict')).default;
+  assert.deepEqual(robotsHeaders({ deploy: { context: 'branch-deploy' } }), { 'X-Robots-Tag': 'noindex, nofollow' });
+  assert.deepEqual(robotsHeaders({ deploy: { context: 'deploy-preview' } }), { 'X-Robots-Tag': 'noindex, nofollow' });
+  assert.deepEqual(robotsHeaders({ deploy: { context: 'production' } }), {});
+  assert.deepEqual(robotsHeaders(undefined), {});
+  console.log('ok   robotsHeaders: noindex outside production');
+}
