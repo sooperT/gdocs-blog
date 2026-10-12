@@ -144,7 +144,7 @@ await test('unknown subpath -> 404', async () => {
 
 // Item 26: start.md and the two case studies are counted like the facts page.
 const NEW = [
-  { key: 'start', pub: '/for-agents/start.md', logged: '/for-agents/start.md', file: 'for-agents/start.md', type: 'text/markdown; charset=utf-8' },
+  { key: 'start', pub: '/for-agents/start.md', logged: '/for-agents/start.md', file: 'for-agents/start.md', type: 'text/plain; charset=utf-8' },
   { key: 'wegovycare', pub: '/for-agents/wegovycare/', logged: '/for-agents/wegovycare/', file: 'for-agents/wegovycare/index.html', type: 'text/html; charset=utf-8' },
   { key: 'treat-turnaround', pub: '/for-agents/treat-turnaround/', logged: '/for-agents/treat-turnaround/', file: 'for-agents/treat-turnaround/index.html', type: 'text/html; charset=utf-8' },
   { key: 'recommendations', pub: '/for-agents/recommendations/', logged: '/for-agents/recommendations/', file: 'for-agents/recommendations/index.html', type: 'text/html; charset=utf-8' },
@@ -231,7 +231,7 @@ await test('tagged start: /for-agents/start/<tag>.md serves start.md with the ta
   const res = await h(new Request('https://takenbyninjas.com/for-agents/start/novonesis-2026.md'), c);
   await Promise.all(c.pending);
   assert.equal(res.status, 200);
-  assert.equal(res.headers.get('content-type'), 'text/markdown; charset=utf-8');
+  assert.equal(res.headers.get('content-type'), 'text/plain; charset=utf-8');
   const text = await res.text();
   assert.ok(text.startsWith(FILES['for-agents/start.md'].trim()) || text.includes('# Start here'), 'serves start.md');
   assert.equal(pool.calls[0].params[0], '/for-agents/start/novonesis-2026.md');

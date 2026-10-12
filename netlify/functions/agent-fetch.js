@@ -33,9 +33,9 @@ export const RESOURCES = {
     public: ['/for-agents', '/for-agents/index.html'] },
   llms: { path: '/llms.txt', file: 'llms.txt', type: 'text/plain; charset=utf-8',
     public: ['/llms.txt'] },
-  // The assistant entry file: markdown, so every fetch tool reads it as text
+  // The assistant entry file: markdown text served as text/plain
   // (function responses bypass the netlify.toml [[headers]] block).
-  start: { path: '/for-agents/start.md', file: 'for-agents/start.md', type: 'text/markdown; charset=utf-8',
+  start: { path: '/for-agents/start.md', file: 'for-agents/start.md', type: 'text/plain; charset=utf-8',   // not text/markdown: ChatGPT's reader rejects it (run 2)
     public: ['/for-agents/start.md'] },
   wegovycare: { path: '/for-agents/wegovycare/', file: 'for-agents/wegovycare/index.html', type: HTML,
     public: ['/for-agents/wegovycare', '/for-agents/wegovycare/index.html'] },
