@@ -20,8 +20,8 @@ from db_target import resolve_db
 import psycopg2
 
 
+NILEDB_URL = resolve_db("DELETE every chunk and reload")   # loads .env (keys) and the env file (database) first
 VOYAGE_API_KEY = os.getenv("VOYAGE_API_KEY")
-NILEDB_URL = resolve_db("DELETE every chunk and reload")
 
 
 def get_embeddings(texts, model="voyage-3"):
