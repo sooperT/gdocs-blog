@@ -194,7 +194,7 @@ await test('every RESOURCES file is in netlify.toml included_files, with a force
   }
   assert.match(toml, /from = "\/for-agents\/README\.md"\s*\n\s*to = "\/for-agents\/start\.md"\s*\n\s*status = 301/);
   assert.ok(toml.indexOf('"/for-agents/README.md"') < toml.indexOf('from = "/for-agents/start.md"'), '301 before the start.md rewrite');
-  assert.match(toml, /for = "\/for-agents\/start\.md"[\s\S]*?Content-Type = "text\/markdown; charset=utf-8"/);
+  assert.match(toml, /for = "\/for-agents\/start\.md"[\s\S]*?Content-Type = "text\/plain; charset=utf-8"/);
 });
 
 await test('default reader finds the real repo files (bundle layout fallback)', async () => {
