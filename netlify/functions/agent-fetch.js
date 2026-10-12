@@ -1,4 +1,4 @@
-// Serves /about/agent/ and /llms.txt through a function so crawler fetches
+// Serves /for-agents/ and /llms.txt through a function so crawler fetches
 // are counted (PRD W2.5, decision D5). Umami is JavaScript and never sees bots.
 //
 // Routed by netlify.toml rewrites (force = true) to
@@ -19,7 +19,7 @@ const LOG_WAIT_MS = 1500; // cap when the runtime has no waitUntil
 
 // Public path -> bundled file + content type.
 export const RESOURCES = {
-  page: { path: '/about/agent/', file: 'about/agent/index.html', type: 'text/html; charset=utf-8' },
+  page: { path: '/for-agents/', file: 'for-agents/index.html', type: 'text/html; charset=utf-8' },
   llms: { path: '/llms.txt', file: 'llms.txt', type: 'text/plain; charset=utf-8' },
 };
 
@@ -28,7 +28,7 @@ export const RESOURCES = {
 export function resourceFor(pathname) {
   const p = String(pathname || '').replace(/\/+$/, '').toLowerCase();
   if (p.endsWith('/llms') || p.endsWith('/llms.txt')) return RESOURCES.llms;
-  if (p.endsWith('/page') || p.endsWith('/about/agent') || p.endsWith('/about/agent/index.html')) return RESOURCES.page;
+  if (p.endsWith('/page') || p.endsWith('/for-agents') || p.endsWith('/for-agents/index.html')) return RESOURCES.page;
   return null;
 }
 

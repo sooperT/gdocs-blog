@@ -15,7 +15,7 @@ set -u
 BASE="${1:-http://localhost:8199}"
 BASE="${BASE%/}"
 
-PATHS=(/robots.txt /about/agent/ /llms.txt)
+PATHS=(/robots.txt /for-agents/ /llms.txt)
 
 AGENTS=(
   "GPTBot|Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; GPTBot/1.1; +https://openai.com/gptbot"

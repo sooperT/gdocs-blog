@@ -9,6 +9,21 @@
 [functions]
   node_bundler = "esbuild"
 
+# Staging (PRD v3 section 8, R1012-3). Branch deploys and deploy previews run
+# against the staging database; the NILEDB_URL for those contexts is set per
+# context in Netlify (never in this file). TOMBOT_ENV tells the functions which
+# rule to enforce: netlify/functions/lib/db_env.js refuses to connect when the
+# database name does not match the environment (staging must contain "staging",
+# production must be "niledb"). No operator confirmation anywhere.
+[context.production.environment]
+  TOMBOT_ENV = "production"
+
+[context.branch-deploy.environment]
+  TOMBOT_ENV = "staging"
+
+[context.deploy-preview.environment]
+  TOMBOT_ENV = "staging"
+
 # W4 brief calibration: GET or POST /ask/brief (netlify/functions/calibrate.js).
 # GET /ask?brief=... also works; ask.js hands it to the same handler.
 [[redirects]]
@@ -27,10 +42,10 @@
 # D5: count crawler fetches of the agent surfaces (netlify/functions/agent-fetch.js).
 # The function logs the fetch and returns the bundled static file.
 [functions."agent-fetch"]
-  included_files = ["about/agent/index.html", "llms.txt"]
+  included_files = ["for-agents/index.html", "llms.txt"]
 
 [[redirects]]
-  from = "/about/agent/"
+  from = "/for-agents/"
   to = "/.netlify/functions/agent-fetch/page"
   status = 200
   force = true

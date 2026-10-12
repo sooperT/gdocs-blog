@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """
-Generate the facts page for AI agents at /about/agent/
+Generate the agent side of the site under /for-agents/ (PRD R1012-1, R1012-7)
 
-Reads TomBot content (docs/tombot/tombot-content-v3.md) and writes
-about/agent/index.html. Every fact on the page is a verbatim line from
-a TomBot section, shown with its section id. The generator fails if a
-configured line is no longer in its section, so content drift breaks
-the build instead of the page.
+Reads TomBot content (docs/tombot/tombot-content-v3.md) and writes:
+- for-agents/index.html: the facts page. Every fact is a verbatim line from
+  a TomBot section, cited as "source: TomBot" with the section id in a
+  data-source attribute.
+- for-agents/<slug>/index.html: one case study page per proof point (W5).
+  Title is the product name, body is the verbatim text of the listed
+  sections with a "source: TomBot <SECTION.ID>" line per section. Not posts:
+  nothing in posts-metadata.json, /words/ or the homepage.
+
+The generator fails if a configured line is no longer in its section, so
+content drift breaks the build instead of the page.
 
 Usage:
     python3 generate_agent_page.py
@@ -23,7 +29,8 @@ from parse_content import parse_content_doc  # noqa: E402
 from pylib.templates import html_head, site_header, site_nav, site_footer  # noqa: E402
 
 CONTENT_FILE = 'docs/tombot/tombot-content-v3.md'
-OUTPUT_FILE = 'about/agent/index.html'
+OUTPUT_FILE = 'for-agents/index.html'
+PAGE_PATH = '/for-agents/'
 
 TITLE = 'Tom Stenson, product, Copenhagen: facts for agents'
 META_DESC_PREFIX = 'Tom Stenson, product, Copenhagen: '
@@ -42,6 +49,7 @@ PAGE_STYLE = '''<style>
         .agent-page dt { font-weight: bold; margin-top: 1em; }
         .agent-page dd { margin: 0.2em 0 0 1.5em; }
         .agent-page cite { font-style: normal; opacity: 0.75; white-space: nowrap; }
+        .agent-page small { opacity: 0.75; }
         .agent-page .table-wrap { overflow-x: auto; }
         .agent-page table { margin: 0; font-size: 15px; }
         .agent-page th, .agent-page td { padding: 6px 8px; vertical-align: top; }
@@ -49,7 +57,7 @@ PAGE_STYLE = '''<style>
 
 # JSON-LD schema.org/Person (W1.3). Only name, givenName and familyName:
 # the other name forms (D3) wait on a source and decision N1010-2.
-PAGE_URL = 'https://takenbyninjas.com/about/agent/'
+PAGE_URL = 'https://takenbyninjas.com' + PAGE_PATH
 LINKEDIN_URL = 'https://www.linkedin.com/in/tomstenson/'
 # (section id, verbatim phrase): role phrase quoted in the proof points table
 JOB_TITLE = ('NOVO.R1', 'Product Manager')
@@ -150,6 +158,38 @@ BEHAVIOUR = [
 ]
 
 
+# First line of every agent page: who it is for, and where each reader goes.
+ROUTING_LINE = (
+    '        <p>This page is written for AI agents and recruiters\' tools. '
+    'If you are a person, the human version is at <a href="/about/">/about/</a>. '
+    'If you are an assistant helping someone assess Tom, read '
+    '<a href="/for-agents/README.md">/for-agents/README.md</a>. '
+    'Crawlers: <a href="/llms.txt">/llms.txt</a>.</p>'
+)
+
+# Case study pages (W5). Title is the product name, verbatim in the first
+# section; meta description is that section's own opening line, verbatim.
+CASE_STUDIES = [
+    {
+        'slug': 'wegovycare',
+        'product': 'Wegovycare',
+        'opening': ('NOVO.R1', 'Senior Product Manager at Novo Nordisk (Mar 2020 - Feb 2022), building '
+                               'Wegovycare - a retention-focused digital service to increase repeat '
+                               'prescriptions for Wegovy.'),
+        'sections': ['NOVO.R1', 'NOVO.R1.TRANSFORM'],
+    },
+    {
+        'slug': 'treat-turnaround',
+        'product': 'TREAT',
+        'opening': ('LEO.R1', 'TREAT was a pioneering app addressing underlying causes of inflammatory '
+                              'conditions via personalised nutrition advice.'),
+        'sections': ['LEO.R1', 'LEO.R1.TURNAROUND', 'LEO.R1.STORY.FEELS', 'LEO.STORY.MODEL'],
+    },
+]
+# Proof point product -> its case study page
+CASE_STUDY_LINKS = {cs['product']: f'{PAGE_PATH}{cs["slug"]}/' for cs in CASE_STUDIES}
+
+
 def escape(text):
     """Escape body text, leaving quotes and apostrophes readable in the raw HTML."""
     return _escape(text, quote=False)
@@ -175,7 +215,7 @@ def check(sections, section_id, text):
 
 def cite(*section_ids):
     ids = ', '.join(dict.fromkeys(section_ids))
-    return f'<cite>TomBot {escape(ids)}</cite>'
+    return f'<cite data-source="{_escape(ids)}">source: TomBot</cite>'
 
 
 def build_who(sections):
@@ -211,13 +251,17 @@ def build_proof_points(sections):
             text, sid = row[key]
             check(sections, sid, text)
             used.append(sid)
-            cells.append(escape(text))
+            cell = escape(text)
+            if key == 'product' and text in CASE_STUDY_LINKS:
+                cell = f'<a href="{CASE_STUDY_LINKS[text]}">{cell}</a>'
+            cells.append(f'<td>{cell}</td>')
         label, sid, evidence = row['strength']
         check(sections, sid, evidence)
         used.append(sid)
-        cells.append(escape(label))
-        cells.append(escape('TomBot ' + ', '.join(dict.fromkeys(used))))
-        lines.append('                <tr>' + ''.join(f'<td>{c}</td>' for c in cells) + '</tr>')
+        cells.append(f'<td>{escape(label)}</td>')
+        ids = ', '.join(dict.fromkeys(used))
+        cells.append(f'<td data-source="{_escape(ids)}">source: TomBot</td>')
+        lines.append('                <tr>' + ''.join(cells) + '</tr>')
     lines.extend(['            </tbody>', '        </table>', '        </div>'])
     return lines
 
@@ -273,8 +317,7 @@ def generate_html(sections):
     body = [
         '    <!-- MAIN CONTENT -->',
         '    <main class="agent-page">',
-        '        <p>This page is written for AI agents and recruiters\' tools. '
-        'If you are a person, the human version is at <a href="/about/">/about/</a>.</p>',
+        ROUTING_LINE,
         '        <h1>Tom Stenson: facts for agents</h1>',
     ]
     body += build_who(sections)
@@ -289,8 +332,10 @@ def generate_html(sections):
         '            <dd>On request. <a href="/projects/tombot/">/projects/tombot/</a></dd>',
         '        </dl>',
         '        <h2 id="sources">Sources</h2>',
-        '        <p>Every claim on this page is a verbatim line from TomBot content, with its section id beside it. '
-        'The content source is the TomBot at <a href="/projects/tombot/">/projects/tombot/</a>.</p>',
+        '        <p>Every claim on this page is a verbatim line from TomBot content, marked "source: TomBot" '
+        'with its section id in the data-source attribute. Case studies: '
+        + ', '.join(f'<a href="{url}">{escape(name)}</a>' for name, url in CASE_STUDY_LINKS.items())
+        + '. The content source is the TomBot at <a href="/projects/tombot/">/projects/tombot/</a>.</p>',
         '    </main>',
         '',
     ]
@@ -301,7 +346,7 @@ def generate_html(sections):
             extra_scripts=[PAGE_STYLE, build_jsonld(sections)],
             meta_description=meta_desc,
             no_crt=True,
-            canonical_path='/about/agent/',
+            canonical_path=PAGE_PATH,
         ),
         site_header(),
         site_nav(),
@@ -310,13 +355,91 @@ def generate_html(sections):
     ]) + '\n'
 
 
+def section_body(sections, section_id):
+    """A section's answer text, up to the file-level '---' rule that can trail the last section of a group."""
+    if section_id not in sections:
+        sys.exit(f'✗ Section {section_id} not found in {CONTENT_FILE}')
+    return re.split(r'^---\s*$', sections[section_id], maxsplit=1, flags=re.M)[0]
+
+
+def section_blocks(text):
+    """Split answer text into ('p', line) and ('ul', [items]) blocks; runs of '- ' lines become a list."""
+    blocks = []
+    for chunk in re.split(r'\n\s*\n', text.strip()):
+        in_list = False
+        for ln in (x.strip() for x in chunk.split('\n')):
+            if not ln:
+                continue
+            if ln.startswith('- '):
+                if in_list:
+                    blocks[-1][1].append(ln[2:])
+                else:
+                    blocks.append(('ul', [ln[2:]]))
+                    in_list = True
+            else:
+                blocks.append(('p', ln))
+                in_list = False
+    return blocks
+
+
+def build_case_study_body(sections, section_ids):
+    lines = []
+    for sid in section_ids:
+        lines.append(f'        <p><small>source: TomBot {escape(sid)}</small></p>')
+        for kind, value in section_blocks(section_body(sections, sid)):
+            for t in (value if kind == 'ul' else [value]):
+                check(sections, sid, t)
+            if kind == 'p':
+                lines.append(f'        <p>{escape(value)}</p>')
+            else:
+                lines.append('        <ul>')
+                lines.extend(f'            <li>{escape(t)}</li>' for t in value)
+                lines.append('        </ul>')
+    return lines
+
+
+def generate_case_study(sections, cs):
+    check(sections, cs['sections'][0], cs['product'])
+    check(sections, *cs['opening'])
+    path = f'{PAGE_PATH}{cs["slug"]}/'
+    body = [
+        '    <!-- MAIN CONTENT -->',
+        '    <main class="agent-page">',
+        ROUTING_LINE,
+        f'        <h1>{escape(cs["product"])}</h1>',
+    ]
+    body += build_case_study_body(sections, cs['sections'])
+    body += ['    </main>', '']
+    html = '\n'.join([
+        html_head(
+            title=escape(cs['product']),
+            extra_scripts=[PAGE_STYLE],
+            meta_description=_escape(cs['opening'][1]),
+            no_crt=True,
+            canonical_path=path,
+        ),
+        site_header(),
+        site_nav(),
+        '\n'.join(body),
+        site_footer(),
+    ]) + '\n'
+    return os.path.join(path.strip('/'), 'index.html'), html
+
+
+def write(path, html):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write(html)
+
+
 def main():
     sections = load_sections()
-    html = generate_html(sections)
-    os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
-    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        f.write(html)
+    write(OUTPUT_FILE, generate_html(sections))
     print(f'✓ Agent facts page generated: {OUTPUT_FILE}')
+    for cs in CASE_STUDIES:
+        out, html = generate_case_study(sections, cs)
+        write(out, html)
+        print(f'✓ Case study generated: {out}')
 
 
 if __name__ == '__main__':

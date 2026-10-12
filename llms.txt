@@ -4,7 +4,10 @@
 
 ## Agent-readable facts
 
-- [Tom Stenson: facts for agents](https://takenbyninjas.com/about/agent/): who Tom is, proof points and behavioural facts, each a verbatim line with its TomBot section id
+- [Tom Stenson: facts for agents](https://takenbyninjas.com/for-agents/): who Tom is, proof points and behavioural facts, each a verbatim line with its TomBot section id
+- [Agent README](https://takenbyninjas.com/for-agents/README.md): for an assistant helping someone assess Tom: what to fetch and call, and how to cite
+- [Wegovycare](https://takenbyninjas.com/for-agents/wegovycare/): case study, verbatim TomBot sections NOVO.R1 and NOVO.R1.TRANSFORM
+- [TREAT](https://takenbyninjas.com/for-agents/treat-turnaround/): case study, verbatim TomBot sections LEO.R1, LEO.R1.TURNAROUND, LEO.R1.STORY.FEELS and LEO.STORY.MODEL
 
 ## Ask TomBot
 

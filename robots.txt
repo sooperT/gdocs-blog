@@ -2,5 +2,6 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
+# Sitemap locations: human pages, then the agent side (/for-agents/, llms.txt)
 Sitemap: https://takenbyninjas.com/sitemap.xml
+Sitemap: https://takenbyninjas.com/sitemap-agent.xml
