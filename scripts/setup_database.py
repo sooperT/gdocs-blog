@@ -5,14 +5,12 @@ Schema based on: docs/tombot/RAG/cv-chatbot-rag-schema.md
 """
 
 import os
-from dotenv import load_dotenv
 import psycopg2
-
-load_dotenv()
+from db_target import resolve_db
 
 
 def setup_schema():
-    db_url = os.getenv("NILEDB_URL")
+    db_url = resolve_db("DROP and recreate the chunks and aliases tables in")
     conn = psycopg2.connect(db_url)
     cur = conn.cursor()
 

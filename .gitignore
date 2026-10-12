@@ -9,6 +9,8 @@ token.json
 # Local development
 *.local
 .env
+.env.*
+!.env.example
 
 # Node.js
 node_modules/

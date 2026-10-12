@@ -22,8 +22,10 @@ python3 generate_homepage.py
 python3 generate_archive.py
 
 # TomBot: update content pipeline
-python3 scripts/parse_content.py      # markdown → JSON
-python3 scripts/load_content_v3.py    # JSON → embeddings → DB
+python3 scripts/parse_content.py                      # markdown → JSON
+python3 scripts/load_content_v3.py --env staging      # JSON → embeddings → staging DB (.env.staging)
+python3 scripts/load_content_v3.py --env production   # same, live DB (.env). Wipes and reloads.
+# Every DB script takes --env and refuses a database whose name does not match (scripts/db_target.py).
 
 # TomBot: run locally
 unset ANTHROPIC_API_KEY && netlify dev --port 8888
