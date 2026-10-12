@@ -24,6 +24,8 @@
 - [Growth](https://takenbyninjas.com/for-agents/growth/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
 - [Leadership and management](https://takenbyninjas.com/for-agents/management/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
 - [International and remote](https://takenbyninjas.com/for-agents/international/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [CV appendix for agents](https://takenbyninjas.com/for-agents/cv-appendix/): one-page machine-readable summary of the CV, strongest proof points with sources, skills, links to fetch more; markdown at /for-agents/cv-appendix.md
+- [Proof points as JSON](https://takenbyninjas.com/for-agents/proof-points.json): every STAR row with section ids, shapes, skills and page URLs
 - [LinkedIn recommendations, full text](https://takenbyninjas.com/for-agents/recommendations/): every recommendation visible on Tom's LinkedIn profile, verbatim, grouped by the role it refers to, with the recommender's title when written and now
 
 ## Ask TomBot
