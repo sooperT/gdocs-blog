@@ -82,7 +82,7 @@ def screening_facts(facts, asks=None, answers=None, applying=None):
         # Answer what was asked, nothing else: with no JD the whole fact; on a send
         # the core, plus only the qualifiers the JD line asks about; Tom's own
         # answer for this job replaces the qualifiers.
-        if not applying:
+        if not applying and not asked and not answer:
             said = f['value']
         elif asked and not answer:
             said = '; '.join([f['base']] + [q['text'] for q in f.get('qualifiers', []) if re.search(q['ask'], asked, re.I)]) if f['base'] else None
@@ -91,8 +91,8 @@ def screening_facts(facts, asks=None, answers=None, applying=None):
         # The ask is not echoed (Tom, 2026-10-12): the reader has the JD; the line
         # only has to address it. Tom's answer names what was asked where it matters.
         line = f"- {f['label']}: {(said or 'not stated').rstrip('.')}"
-        if answer:
-            line += f'; {answer}'
+        if answer:   # Tom's answer stands alone where the record has nothing: never "not stated; <answer>"
+            line = f"- {f['label']}: " + '; '.join(x for x in ((said or '').rstrip('.'), answer) if x)
         elif asked and (f.get('per_send') or not f['value']):
             open_q.append({'type': t, 'asked': asked, 'record': f['value']})
         lines.append(line)
@@ -218,11 +218,11 @@ def fit_plain(rows, section_pages):
             cells = ('result',) if r['same_as'] else ('result', 'action')
             said = ' '.join(end(cell(first, k)) for k in cells if cell(first, k)) + f' {who_of(first)}.'
             said += ''.join(f" Also: {end(cell(x, 'result'))} {who_of(x)}." for x in stories[1:])
-            said += f" {first.get('page') or link or ''}".rstrip()
+            said += f" {first.get('page') or link or SITE + '/for-agents/'}"
         elif r['pointer']:
             said = f"On record, no summarised story yet. {link or SITE + '/for-agents/'}"
         elif r.get('near'):
-            said = f"Nearest, not a match: {end(cell(r['near'], 'result'))} {who_of(r['near'])}. {r['near'].get('page') or ''}".rstrip()
+            said = f"Nearest, not a match: {end(cell(r['near'], 'result'))} {who_of(r['near'])}. {r['near'].get('page') or SITE + '/for-agents/'}"
         else:
             said = 'Not on record.'
         md += [f"{r['n']}. {end(r['requirement'])}", f"Evidence ({r['fit']}): {said}", '']
