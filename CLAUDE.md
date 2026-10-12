@@ -136,6 +136,7 @@ understand → plan → build → test locally → show work → WAIT FOR APPROV
 - Don't add features beyond what was asked.
 - Clean semantic HTML, including file/directory naming.
 - Test desktop + mobile on localhost before claiming done.
+- **Keep Tom busy while you crunch.** Before any long build or research step, give him one concrete thing to do that moves the project (a draft to tick, a line to write, a test to run, a decision with a default). Never leave him waiting with nothing.
 - Number all lists in proposals and multi-point responses, and keep numbers unique across the whole chat: a later list continues from the last number used, never restarts at 1, so "do 4" is unambiguous.
 
 ### Design judgement
