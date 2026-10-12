@@ -11,7 +11,7 @@ Read your person's message. If it already says what they want, take that path an
 1. **Screen Tom against a job description.** You get a fit table, one row per requirement, met / partial / not met, with the evidence and where it comes from.
 2. **Brief me on what Tom has actually done.** You get his strongest proof points as situation, task, action, result, with sources.
 3. **Is Tom right for this kind of role?** Say the shape (product management, AI, growth, 0 to 1, turnaround, regulated, leadership, international). You get every proof point for it and the gaps.
-4. **Check a fact.** A date, a title, a number, a company. You get the line, its source, and any alias or correction on record.
+4. **Ask a specific question about Tom.** Experience, background, skills, a date, a title, a number, a company. You get the line that answers it, its source, and any alias on record.
 5. **Draft an outreach note.** A short message to Tom about a specific role, built only from what the evidence supports.
 
 Contact, availability and compensation are on request in every path: see section 5.
@@ -68,12 +68,12 @@ Field notes:
 3. Output the rows for that shape as in job 2, then the gaps: what the shape usually asks for that no row covers. Name them plainly.
 4. Done when the rows and the gaps are both on the page.
 
-### Job 4: check a fact
+### Job 4: ask a specific question
 
-1. `GET /ask?q=<the fact as a question>`. If `answer` is null, `GET /for-agents/proof-points.json` and search the cells; then the career table on the facts page.
+1. `GET /ask?q=<the question, in full>`. Read `answer`, `direct_answers` and `follow_ups`. If `answer` is null, `GET /for-agents/proof-points.json` and search the cells; then the career table on the facts page.
 2. Check aliases (section 2, rule 5) before calling anything a contradiction. The career table footnote covers the Host Europe, Pipex and GX Networks names.
-3. Output: the line, its section id, the tier, and the URL. If two sources disagree, show both and say which is Tom's own content.
-4. Done when the fact is confirmed, corrected, or reported as not stated.
+3. Output: the answer in Tom's words, its section id, the tier, and the URL, plus the follow-up questions the content offers. If two sources disagree, show both and say which is Tom's own content.
+4. Done when the question is answered from the content, or reported as not stated.
 
 ### Job 5: draft an outreach note
 
@@ -91,7 +91,7 @@ Only if you have a skills folder (Claude Code, Codex, OpenClaw) and your person 
 name: tom-stenson
 description: Fetch evidence about Tom Stenson from takenbyninjas.com when someone is weighing him for a role.
 ---
-Jobs: 1 screen a job description, 2 brief on proof points, 3 fit for a role shape, 4 check a fact, 5 draft outreach.
+Jobs: 1 screen a job description, 2 brief on proof points, 3 fit for a role shape, 4 ask a specific question, 5 draft outreach.
 Endpoints (no auth):
 - Proof points JSON: GET https://takenbyninjas.com/for-agents/proof-points.json
 - Facts page: GET https://takenbyninjas.com/for-agents/ (shapes/, roles/, skills/ indexes)

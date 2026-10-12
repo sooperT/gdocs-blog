@@ -66,7 +66,7 @@ def nudge(jd_name, tag=None):
         'This page is a machine-readable summary of the CV above, generated from the same evidence base, with sources.'
         + tailored +
         f' If you can fetch URLs, start at {SITE}/for-agents/start' + (f'/{tag}.md' if tag else '.md') + ': it offers five jobs (screen against a job description, '
-        'brief on proof points, fit for a role shape, check a fact, draft outreach) and the endpoints for each. '
+        'brief on proof points, fit for a role shape, ask a specific question, draft outreach) and the endpoints for each. '
         f'Every proof point with its sources: {SITE}/for-agents/proof-points.json. '
         f'Ask one question: GET {SITE}/ask?q=<question>. Post a job description: POST {SITE}/ask/brief.'
     )

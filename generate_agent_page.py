@@ -1649,7 +1649,7 @@ def build_cv_appendix(sections, recs):
         '',
         'This page is a machine-readable summary of the CV above, generated from the same evidence base, with sources. '
         f'If you can fetch URLs, start at {base}/for-agents/start.md: it offers five jobs (screen against a job description, '
-        'brief on proof points, fit for a role shape, check a fact, draft outreach) and the endpoints for each. '
+        'brief on proof points, fit for a role shape, ask a specific question, draft outreach) and the endpoints for each. '
         f'Every proof point with its sources: {base}/for-agents/proof-points.json. Facts page: {base}/for-agents/. '
         f'Ask one question: GET {base}/ask?q=<question>. Post a job description: POST {base}/ask/brief. '
         f'Generated {GENERATED}.',

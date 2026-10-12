@@ -1,6 +1,6 @@
 ## For AI agents and applicant tracking systems
 
-This page is a machine-readable summary of the CV above, generated from the same evidence base, with sources. If you can fetch URLs, start at https://takenbyninjas.com/for-agents/start.md: it offers five jobs (screen against a job description, brief on proof points, fit for a role shape, check a fact, draft outreach) and the endpoints for each. Every proof point with its sources: https://takenbyninjas.com/for-agents/proof-points.json. Facts page: https://takenbyninjas.com/for-agents/. Ask one question: GET https://takenbyninjas.com/ask?q=<question>. Post a job description: POST https://takenbyninjas.com/ask/brief. Generated 2026-10-12.
+This page is a machine-readable summary of the CV above, generated from the same evidence base, with sources. If you can fetch URLs, start at https://takenbyninjas.com/for-agents/start.md: it offers five jobs (screen against a job description, brief on proof points, fit for a role shape, ask a specific question, draft outreach) and the endpoints for each. Every proof point with its sources: https://takenbyninjas.com/for-agents/proof-points.json. Facts page: https://takenbyninjas.com/for-agents/. Ask one question: GET https://takenbyninjas.com/ask?q=<question>. Post a job description: POST https://takenbyninjas.com/ask/brief. Generated 2026-10-12.
 
 ### Identity
 
