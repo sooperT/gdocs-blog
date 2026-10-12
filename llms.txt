@@ -4,11 +4,27 @@
 
 ## Agent-readable facts
 
-- [Tom Stenson: facts for agents](https://takenbyninjas.com/for-agents/): who Tom is, proof points and behavioural facts, each a verbatim line with its TomBot section id
+- [Tom Stenson: facts for agents](https://takenbyninjas.com/for-agents/): every proof point grouped by role shape, who Tom is and behavioural facts, each a verbatim line with its TomBot section id
 - [Start here for agents](https://takenbyninjas.com/for-agents/start.md): for an assistant helping someone assess Tom: what to fetch and call, and how to cite
-- [Wegovycare](https://takenbyninjas.com/for-agents/wegovycare/): case study, verbatim TomBot sections NOVO.R1 and NOVO.R1.TRANSFORM
-- [TREAT](https://takenbyninjas.com/for-agents/treat-turnaround/): case study, verbatim TomBot sections LEO.R1, LEO.R1.TURNAROUND, LEO.R1.STORY.FEELS and LEO.STORY.MODEL
-- [LinkedIn recommendations, full text](https://takenbyninjas.com/for-agents/recommendations/): attested tier, every recommendation visible on Tom's LinkedIn profile, verbatim, with each recommender's current title, date and the TomBot sections it is quoted against
+- [Wegovycare](https://takenbyninjas.com/for-agents/wegovycare/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [Associate Product Director at Novo Nordisk](https://takenbyninjas.com/for-agents/novo-product-director/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [Novo Nordisk](https://takenbyninjas.com/for-agents/novo-nordisk/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [TREAT](https://takenbyninjas.com/for-agents/treat-turnaround/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [Skincoach](https://takenbyninjas.com/for-agents/skincoach/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [Diagnosis App](https://takenbyninjas.com/for-agents/diagnosis-app/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [LEO Innovation Lab](https://takenbyninjas.com/for-agents/leo-innovation-lab/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [TwentyThree](https://takenbyninjas.com/for-agents/twentythree/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [Opbeat](https://takenbyninjas.com/for-agents/opbeat/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [EuroDNS](https://takenbyninjas.com/for-agents/eurodns/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [UK2 Group](https://takenbyninjas.com/for-agents/uk2/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [Host Europe Group](https://takenbyninjas.com/for-agents/host-europe/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [AI](https://takenbyninjas.com/for-agents/ai/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [0 to 1, incubation and new ways of working](https://takenbyninjas.com/for-agents/building/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [Turnarounds](https://takenbyninjas.com/for-agents/turnarounds/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [Growth](https://takenbyninjas.com/for-agents/growth/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [Leadership and management](https://takenbyninjas.com/for-agents/management/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [International and remote](https://takenbyninjas.com/for-agents/international/): verbatim TomBot sections, direct answers and external sources where accepted, and the questions to ask next
+- [LinkedIn recommendations, full text](https://takenbyninjas.com/for-agents/recommendations/): every recommendation visible on Tom's LinkedIn profile, verbatim, grouped by the role it refers to, with the recommender's title when written and now
 
 ## Ask TomBot
 

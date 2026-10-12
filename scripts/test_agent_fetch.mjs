@@ -25,6 +25,12 @@ const FILES = {
   'for-agents/wegovycare/index.html': '<!DOCTYPE html><title>Wegovycare</title>',
   'for-agents/treat-turnaround/index.html': '<!DOCTYPE html><title>TREAT</title>',
   'for-agents/recommendations/index.html': '<!DOCTYPE html><title>Recommendations</title>',
+  'for-agents/opbeat/index.html': '<!DOCTYPE html><title>Opbeat</title>',
+  'for-agents/pages.json': JSON.stringify({ pages: {
+    opbeat: { path: '/for-agents/opbeat/', file: 'for-agents/opbeat/index.html', title: 'Opbeat' },
+    '../evil': { path: '/x', file: '../.env', title: 'bad slug' },
+    wegovycare: { path: '/for-agents/wegovycare/', file: 'for-agents/wegovycare/index.html', title: 'dupe of RESOURCES' },
+  } }),
 };
 const readFile = (p) => { if (!(p in FILES)) throw new Error('no such file'); return FILES[p]; };
 function stubPool() {
@@ -197,6 +203,28 @@ await test('default reader finds the real repo files (bundle layout fallback)', 
   for (const r of NEW) assert.ok(defaultReadFile(r.file).length > 0, r.file);
 });
 
+await test('manifest page (pages.json): /for-agents/opbeat/ -> 200 html, logged; bad slug ignored; RESOURCES win', async () => {
+  const pool = stubPool(); const c = ctx({ deploy: { context: 'production' } });
+  const h = createHandler({ getPool: () => pool, readFile });
+  for (const path of ['/for-agents/opbeat/', '/for-agents/opbeat', '/.netlify/functions/agent-fetch/opbeat']) {
+    const res = await h(new Request('https://takenbyninjas.com' + path), c);
+    await Promise.all(c.pending);
+    assert.equal(res.status, 200, path);
+    assert.equal(res.headers.get('content-type'), 'text/html; charset=utf-8');
+    assert.equal(await res.text(), FILES['for-agents/opbeat/index.html']);
+  }
+  assert.equal(pool.calls.length, 3);
+  assert.equal(pool.calls[0].params[0], '/for-agents/opbeat/');
+  assert.equal((await h(new Request('https://takenbyninjas.com/x'), c)).status, 404);
+  assert.equal(await (await h(new Request('https://takenbyninjas.com/for-agents/wegovycare/'), c)).text(), FILES['for-agents/wegovycare/index.html']);
+});
+await test('manifest missing or malformed: RESOURCES still resolve, unknown slug 404', quiet(async () => {
+  const noManifest = (p) => { if (p === 'for-agents/pages.json') throw new Error('no such file'); return readFile(p); };
+  const h = createHandler({ getPool: () => stubPool(), readFile: noManifest });
+  const c = ctx({ deploy: { context: 'production' } });
+  assert.equal((await h(new Request('https://takenbyninjas.com/llms.txt'), c)).status, 200);
+  assert.equal((await h(new Request('https://takenbyninjas.com/for-agents/opbeat/'), c)).status, 404);
+}));
 console.log(`\n${passed} passed${process.exitCode ? ', some FAILED' : ''}`);
 
 // Non-production deploys mark function responses noindex; production does not.

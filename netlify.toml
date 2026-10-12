@@ -72,6 +72,13 @@
     "for-agents/wegovycare/index.html",
     "for-agents/treat-turnaround/index.html",
     "for-agents/recommendations/index.html",
+    "for-agents/pages.json",
+    "for-agents/proof-points.json",
+    "for-agents/*/index.html",
+    "for-agents/skills/*/index.html",
+    "for-agents/shapes/*/index.html",
+    "for-agents/roles/*/index.html",
+    "for-agents/roles/*/*/index.html",
     "llms.txt"
   ]
 
@@ -116,5 +123,21 @@
 [[redirects]]
   from = "/for-agents/recommendations/"
   to = "/.netlify/functions/agent-fetch/recommendations"
+  status = 200
+  force = true
+
+# The proof points as JSON (same rows as the facts page), counted too.
+[[redirects]]
+  from = "/for-agents/proof-points.json"
+  to = "/.netlify/functions/agent-fetch/proof-points.json"
+  status = 200
+  force = true
+
+# Every other generated agent page (for-agents/pages.json, one per role or
+# theme) goes through agent-fetch too, so the whole spider is counted. Last,
+# so the specific rules above win.
+[[redirects]]
+  from = "/for-agents/*"
+  to = "/.netlify/functions/agent-fetch/:splat"
   status = 200
   force = true

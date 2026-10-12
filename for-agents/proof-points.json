@@ -1,0 +1,1717 @@
+{
+  "generated": "2026-10-12",
+  "source": "TomBot content, Tom's own account (self-reported)",
+  "human_version": "https://takenbyninjas.com/about/",
+  "facts_page": "https://takenbyninjas.com/for-agents/",
+  "references": "https://takenbyninjas.com/for-agents/recommendations/",
+  "shapes": [
+    {
+      "id": "product-management",
+      "label": "Product management"
+    },
+    {
+      "id": "ai",
+      "label": "AI"
+    },
+    {
+      "id": "growth",
+      "label": "Growth"
+    },
+    {
+      "id": "zero-to-one",
+      "label": "0 to 1, incubation and new ways of working"
+    },
+    {
+      "id": "turnaround",
+      "label": "Turnarounds"
+    },
+    {
+      "id": "regulated",
+      "label": "Regulated and health"
+    },
+    {
+      "id": "leadership",
+      "label": "Leadership and management"
+    },
+    {
+      "id": "international",
+      "label": "International and remote"
+    }
+  ],
+  "count": 28,
+  "proof_points": [
+    {
+      "role": {
+        "text": "Senior Product Manager at Novo Nordisk",
+        "section": "NOVO.R1"
+      },
+      "product": {
+        "text": "Wegovycare",
+        "section": "NOVO.R1"
+      },
+      "desc": {
+        "text": "a retention-focused digital service to increase repeat prescriptions for Wegovy",
+        "section": "NOVO.R1"
+      },
+      "situation": {
+        "text": "The brief I was given in my final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients.",
+        "section": "NOVO.R1"
+      },
+      "task": {
+        "text": "Identified a key growth lever.",
+        "section": "NOVO.R1"
+      },
+      "action": {
+        "text": "Created a weight-loss prediction model in Excel",
+        "section": "NOVO.R1"
+      },
+      "result": {
+        "text": "Achieved 10% penetration in our first national market",
+        "section": "NOVO.R1"
+      },
+      "year": {
+        "text": "Mar 2020 - Feb 2022",
+        "section": "NOVO.R1"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "zero-to-one",
+        "regulated"
+      ],
+      "skills": [
+        "algorithm",
+        "API",
+        "regulated",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "prototyping",
+        "ways of working",
+        "growth",
+        "retention",
+        "roadmap",
+        "0 to 1",
+        "marketing",
+        "team leadership",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Manager (Wegovycare)"
+      ]
+    },
+    {
+      "role": {
+        "text": "Senior Product Manager at Novo Nordisk",
+        "section": "NOVO.R1"
+      },
+      "product": {
+        "text": "Wegovycare",
+        "section": "NOVO.R1"
+      },
+      "desc": {
+        "text": "a weight-loss prediction algorithm",
+        "section": "NOVO.R1"
+      },
+      "situation": {
+        "text": "everyone wants to know the same things - how much weight will I lose, is this normal, am I on track",
+        "section": "NOVO.R1"
+      },
+      "task": {
+        "text": "Those three questions became the core loop, and the weight-loss prediction model answered the first.",
+        "section": "NOVO.R1"
+      },
+      "action": {
+        "text": "Built a weight-loss prediction algorithm from concept to prototype",
+        "section": "NOVO.R1"
+      },
+      "result": {
+        "text": "later spun out into a new API product",
+        "section": "NOVO.R1"
+      },
+      "year": {
+        "text": "Mar 2020 - Feb 2022",
+        "section": "NOVO.R1"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "ai"
+      ],
+      "skills": [
+        "algorithm",
+        "API",
+        "regulated",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "prototyping",
+        "ways of working",
+        "growth",
+        "retention",
+        "roadmap",
+        "0 to 1",
+        "marketing",
+        "team leadership",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Manager (Wegovycare)"
+      ]
+    },
+    {
+      "role": {
+        "text": "Senior Product Manager at Novo Nordisk",
+        "section": "NOVO.R1"
+      },
+      "product": {
+        "text": "Wegovycare",
+        "section": "NOVO.R1"
+      },
+      "desc": {
+        "text": "a retention-focused digital service to increase repeat prescriptions for Wegovy",
+        "section": "NOVO.R1"
+      },
+      "situation": {
+        "text": "The brief I was given in my final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients.",
+        "section": "NOVO.R1"
+      },
+      "task": {
+        "text": "use this as a mandate to completely reinvent their ways of working",
+        "section": "NOVO.R1.TRANSFORM"
+      },
+      "action": {
+        "text": "We were the first product team to interview patients, run discovery, make prototypes, co-create with markets and so on.",
+        "section": "NOVO.R1.TRANSFORM"
+      },
+      "result": {
+        "text": "Automated documentation and shifted release cycles from yearly to bi-monthly in high-regulation environment",
+        "section": "NOVO.R1"
+      },
+      "year": {
+        "text": "Mar 2020 - Feb 2022",
+        "section": "NOVO.R1"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "zero-to-one",
+        "regulated",
+        "leadership"
+      ],
+      "skills": [
+        "regulated",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "prototyping",
+        "ways of working",
+        "retention",
+        "0 to 1",
+        "team leadership",
+        "stakeholders"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Manager (Wegovycare)"
+      ]
+    },
+    {
+      "role": {
+        "text": "Associate Product Director at Novo Nordisk",
+        "section": "NOVO.R2"
+      },
+      "product": {
+        "text": "GenAI proof of concept for automating compliance reviews",
+        "section": "NOVO.R2"
+      },
+      "desc": {
+        "text": "a RAG model that captured the various guidelines and regulations",
+        "section": "NOVO.R2.GENAI"
+      },
+      "situation": {
+        "text": "significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off",
+        "section": "NOVO.R2.GENAI"
+      },
+      "task": {
+        "text": "automating compliance reviews",
+        "section": "NOVO.R2"
+      },
+      "action": {
+        "text": "I used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations",
+        "section": "NOVO.R2.GENAI"
+      },
+      "result": {
+        "text": "the proof of concept showed a clear path to dramatically faster release cycles",
+        "section": "NOVO.R2.GENAI"
+      },
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "ai",
+        "regulated"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "pharma",
+        "healthcare",
+        "prototyping",
+        "ways of working",
+        "marketing",
+        "team leadership"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "role_aliases": [
+        "Incubation Lead",
+        "Digital Product Operations Lead",
+        "Head of Patient Products",
+        "Head of Product Ops"
+      ]
+    },
+    {
+      "role": {
+        "text": "Consumer Lead",
+        "section": "NOVO.R2.WEGOVY"
+      },
+      "product": {
+        "text": "Wegovy Pill launch",
+        "section": "NOVO.R2.WEGOVY"
+      },
+      "desc": {
+        "text": "a company-critical initiative",
+        "section": "NOVO.R2.WEGOVY"
+      },
+      "situation": {
+        "text": "Invited into company-critical Wegovy pill launch to challenge assumptions on digital, packaging, and direct distribution.",
+        "section": "NOVO.R2.WEGOVY"
+      },
+      "task": {
+        "text": "Aligned silos to create unified physical-to-digital experience.",
+        "section": "NOVO.R2.WEGOVY"
+      },
+      "action": {
+        "text": "Used subscription-model thinking to link packaging to digital fulfilment for biggest ever pharma launch.",
+        "section": "NOVO.R2.WEGOVY"
+      },
+      "result": {
+        "text": "driving prescription growth",
+        "section": "NOVO.R2"
+      },
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Contributed",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "growth",
+        "regulated",
+        "international"
+      ],
+      "skills": [
+        "pharma",
+        "growth",
+        "retention",
+        "launch",
+        "SaaS",
+        "team leadership",
+        "international",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2-wegovy",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/consumer-lead/",
+      "role_aliases": []
+    },
+    {
+      "role": {
+        "text": "Associate Product Director at Novo Nordisk",
+        "section": "NOVO.R2"
+      },
+      "product": {
+        "text": "CagriSema",
+        "section": "NOVO.R2"
+      },
+      "desc": {
+        "text": "a six-month discovery programme for the company's top drug asset",
+        "section": "NOVO.R2"
+      },
+      "situation": {
+        "text": "CagriSema was the first drug to span two therapy areas, diabetes and obesity, that had never collaborated. Nobody had authority over both, so the discovery programme ran on influence.",
+        "section": "NOVO.R2"
+      },
+      "task": {
+        "text": "Led a six-month discovery programme for the company's top drug asset",
+        "section": "NOVO.R2"
+      },
+      "action": {
+        "text": "128 candidate ideas, a shortlist of 5, assumption-tested, 4 recommended and funded, each with a funding-gated rollout",
+        "section": "NOVO.R2"
+      },
+      "result": {
+        "text": "securing funding for a portfolio of digital initiatives",
+        "section": "NOVO.R2"
+      },
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "zero-to-one",
+        "regulated"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "incubation",
+        "ways of working",
+        "growth",
+        "retention",
+        "funnels",
+        "experimentation",
+        "launch",
+        "brand",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "role_aliases": [
+        "Incubation Lead",
+        "Digital Product Operations Lead",
+        "Head of Patient Products",
+        "Head of Product Ops"
+      ]
+    },
+    {
+      "role": {
+        "text": "Associate Product Director at Novo Nordisk",
+        "section": "NOVO.R2"
+      },
+      "product": {
+        "text": "Digital Incubation",
+        "section": "NOVO.R2"
+      },
+      "desc": {
+        "text": "a digital product incubation unit, evaluating build, buy and partner solutions",
+        "section": "NOVO.R2"
+      },
+      "situation": {
+        "text": "The organisational reflex was solution-first and siloed: output and theatre over outcomes.",
+        "section": "NOVO.R2"
+      },
+      "task": {
+        "text": "Secured funding, managed resourcing and cross-charges for incubation teams.",
+        "section": "NOVO.R2"
+      },
+      "action": {
+        "text": "Designed portfolio model and gated incubation pipeline for branded digital engagement.",
+        "section": "NOVO.R2"
+      },
+      "result": {
+        "text": "shifted the organisation from output to outcomes",
+        "section": "NOVO.R2"
+      },
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "zero-to-one",
+        "leadership"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "incubation",
+        "ways of working",
+        "growth",
+        "retention",
+        "funnels",
+        "experimentation",
+        "launch",
+        "brand",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "role_aliases": [
+        "Incubation Lead",
+        "Digital Product Operations Lead",
+        "Head of Patient Products",
+        "Head of Product Ops"
+      ]
+    },
+    {
+      "role": {
+        "text": "Associate Product Director at Novo Nordisk",
+        "section": "NOVO.R2"
+      },
+      "product": {
+        "text": "Product Operations",
+        "section": "NOVO.R2"
+      },
+      "desc": {
+        "text": "standards, artefacts, ways of working",
+        "section": "NOVO.R2"
+      },
+      "situation": {
+        "text": "Given a wider remit to work across the product pipeline and complete the transition to a product operating model.",
+        "section": "NOVO.R2"
+      },
+      "task": {
+        "text": "Established metrics across a diverse portfolio (12 products).",
+        "section": "NOVO.R2"
+      },
+      "action": {
+        "text": "Established product artefacts & quality standards across the product org, eg: gate model & deliverables, product-ops metrics, portfolio reports, business case templates, problem/north-star statements.",
+        "section": "NOVO.R2"
+      },
+      "result": {
+        "text": "Helped product teams connect work to commercial outcomes.",
+        "section": "NOVO.R2"
+      },
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "leadership"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "incubation",
+        "ways of working",
+        "growth",
+        "retention",
+        "funnels",
+        "experimentation",
+        "launch",
+        "brand",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "role_aliases": [
+        "Incubation Lead",
+        "Digital Product Operations Lead",
+        "Head of Patient Products",
+        "Head of Product Ops"
+      ]
+    },
+    {
+      "role": {
+        "text": "Associate Product Director at Novo Nordisk",
+        "section": "NOVO.R2"
+      },
+      "product": {
+        "text": "Head of Patient Products",
+        "section": "NOVO.R2"
+      },
+      "desc": {
+        "text": "consumer engagement products",
+        "section": "NOVO.R2"
+      },
+      "situation": {
+        "text": "Overcame resistance to establish weekly demos and experiment sharing.",
+        "section": "NOVO.R2"
+      },
+      "task": {
+        "text": "led 6 experienced PMs building consumer engagement products. Management by outcomes.",
+        "section": "NOVO.R2"
+      },
+      "action": {
+        "text": "Broke product silos and encouraged learning loops.",
+        "section": "NOVO.R2"
+      },
+      "result": null,
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "leadership"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "incubation",
+        "ways of working",
+        "growth",
+        "retention",
+        "funnels",
+        "experimentation",
+        "launch",
+        "brand",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "role_aliases": [
+        "Incubation Lead",
+        "Digital Product Operations Lead",
+        "Head of Patient Products",
+        "Head of Product Ops"
+      ]
+    },
+    {
+      "role": {
+        "text": "Associate Product Director at Novo Nordisk",
+        "section": "NOVO.R2"
+      },
+      "product": {
+        "text": "project steercos",
+        "section": "NOVO.R2"
+      },
+      "desc": {
+        "text": "Thought partner to Product VP.",
+        "section": "NOVO.R2"
+      },
+      "situation": null,
+      "task": {
+        "text": "Chaired project steercos.",
+        "section": "NOVO.R2"
+      },
+      "action": {
+        "text": "Flipped the format from status updates to interactive co-creation",
+        "section": "NOVO.R2"
+      },
+      "result": {
+        "text": "shifting cross-functional VPs from product sceptics to advocates",
+        "section": "NOVO.R2"
+      },
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "leadership"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "incubation",
+        "ways of working",
+        "growth",
+        "retention",
+        "funnels",
+        "experimentation",
+        "launch",
+        "brand",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "role_aliases": [
+        "Incubation Lead",
+        "Digital Product Operations Lead",
+        "Head of Patient Products",
+        "Head of Product Ops"
+      ]
+    },
+    {
+      "role": {
+        "text": "Senior Product Manager at Novo Nordisk",
+        "section": "NOVO.R1"
+      },
+      "product": {
+        "text": "Wegovycare",
+        "section": "NOVO.R1"
+      },
+      "desc": {
+        "text": "risk-profiling engine combining clinical data, usage signals, & PROMs",
+        "section": "NOVO.R1"
+      },
+      "situation": {
+        "text": "Through research identified every user-journey is different.",
+        "section": "NOVO.R1"
+      },
+      "task": {
+        "text": "identify drop-off risks",
+        "section": "NOVO.R1"
+      },
+      "action": {
+        "text": "Applied consumer marketing playbook to act on risks, personalising experience for each patient. Built profiling and customisation engine to create an interactive magazine.",
+        "section": "NOVO.R1"
+      },
+      "result": {
+        "text": "First digital Novo product to successfully scale.",
+        "section": "NOVO.R1"
+      },
+      "year": {
+        "text": "Mar 2020 - Feb 2022",
+        "section": "NOVO.R1"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "ai",
+        "growth"
+      ],
+      "skills": [
+        "algorithm",
+        "API",
+        "regulated",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "prototyping",
+        "ways of working",
+        "growth",
+        "retention",
+        "roadmap",
+        "0 to 1",
+        "marketing",
+        "team leadership",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Manager (Wegovycare)"
+      ]
+    },
+    {
+      "role": {
+        "text": "Senior Product Manager at Novo Nordisk",
+        "section": "NOVO.R1"
+      },
+      "product": {
+        "text": "Wegovycare",
+        "section": "NOVO.R1"
+      },
+      "desc": {
+        "text": "Digital patient platform for obesity medicine, built to scale.",
+        "section": "NOVO.R1"
+      },
+      "situation": null,
+      "task": {
+        "text": "Led cross-functional team of 10.",
+        "section": "NOVO.R1"
+      },
+      "action": {
+        "text": "Designed for scaling: modular architecture, feature flags, integrated CMS & translation pipeline, and systematised cocreation with markets.",
+        "section": "NOVO.R1"
+      },
+      "result": {
+        "text": "Made Novo's first digital health product adopted by multiple markets.",
+        "section": "NOVO.R1"
+      },
+      "year": {
+        "text": "Mar 2020 - Feb 2022",
+        "section": "NOVO.R1"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "zero-to-one",
+        "international",
+        "leadership"
+      ],
+      "skills": [
+        "algorithm",
+        "API",
+        "regulated",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "prototyping",
+        "ways of working",
+        "growth",
+        "retention",
+        "roadmap",
+        "0 to 1",
+        "marketing",
+        "team leadership",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Manager (Wegovycare)"
+      ]
+    },
+    {
+      "role": {
+        "text": "PM/GM at LEO Innovation Lab",
+        "section": "LEO.R3"
+      },
+      "product": {
+        "text": "Diagnosis App",
+        "section": "LEO"
+      },
+      "desc": {
+        "text": "a prototype diagnosis app using machine learning",
+        "section": "LEO.R3"
+      },
+      "situation": {
+        "text": "Led a team of AI engineers all wired for logic and certainty through the deep uncertainty of product discovery",
+        "section": "LEO.R3"
+      },
+      "task": {
+        "text": "to rethink how a smartphone camera could diagnose skin conditions",
+        "section": "LEO.R3"
+      },
+      "action": {
+        "text": "Worked with derms to redesign closed-loop diagnosis and ML training platform. Bootstrapped ML engine with clinical decision trees.",
+        "section": "LEO.R3"
+      },
+      "result": {
+        "text": "Achieved >80% accuracy across 3 skin conditions, doubled labelling throughput",
+        "section": "LEO.R3"
+      },
+      "year": {
+        "text": "Nov 2018 - Jan 2020",
+        "section": "LEO.R3"
+      },
+      "company": "LEO Innovation Lab",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "ai",
+        "leadership"
+      ],
+      "skills": [
+        "AI",
+        "machine learning",
+        "computer vision",
+        "discovery",
+        "prototyping",
+        "growth",
+        "launch",
+        "team leadership"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Lead",
+        "Product Lead / GM",
+        "Product Manager / GM"
+      ]
+    },
+    {
+      "role": {
+        "text": "PM/GM at LEO Innovation Lab",
+        "section": "LEO.R2"
+      },
+      "product": {
+        "text": "Skincoach",
+        "section": "LEO"
+      },
+      "desc": {
+        "text": "a patient-support app for terminally ill cancer patients in partnership with Amgen",
+        "section": "LEO.R2"
+      },
+      "situation": {
+        "text": "The app was designed to help patients manage side effects from their treatment.",
+        "section": "LEO.R2"
+      },
+      "task": {
+        "text": "Worked with oncologists to reimagine patient care between appointments. Interviewed terminally ill patients.",
+        "section": "LEO.R2"
+      },
+      "action": {
+        "text": "Dynamically spliced video to simulate personalised dermatology consultations for terminally ill cancer patients, designed for simplicity and trust.",
+        "section": "LEO.R2"
+      },
+      "result": {
+        "text": "Completed the full product lifecycle in 8 months, on time and on budget",
+        "section": "LEO.R2"
+      },
+      "year": {
+        "text": "Feb 2018 - Oct 2018",
+        "section": "LEO.R2"
+      },
+      "company": "LEO Innovation Lab",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "zero-to-one",
+        "regulated"
+      ],
+      "skills": [
+        "regulated",
+        "healthcare",
+        "patients",
+        "discovery",
+        "launch",
+        "international",
+        "stakeholders",
+        "partnerships",
+        "budget"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Lead",
+        "Product Lead / GM",
+        "Product Manager / GM"
+      ]
+    },
+    {
+      "role": {
+        "text": "PM/GM at LEO Innovation Lab",
+        "section": "LEO.R3"
+      },
+      "product": {
+        "text": "TREAT",
+        "section": "LEO.R1"
+      },
+      "desc": {
+        "text": "a pioneering app addressing underlying causes of inflammatory conditions via personalised nutrition advice",
+        "section": "LEO.R1"
+      },
+      "situation": {
+        "text": "massive tech debt, no prioritisation, flaky metrics, no roadmap, unclear reporting structure, massive churn, no pathway to profitability",
+        "section": "LEO.R1.TURNAROUND"
+      },
+      "task": {
+        "text": "I was parachuted in with a 6-month mandate to stabilise and assess viability.",
+        "section": "LEO.R1"
+      },
+      "action": {
+        "text": "rebuilt from the ground-up, established metrics",
+        "section": "LEO.R1"
+      },
+      "result": {
+        "text": "Halved customer acquisition costs, increased customer activation by 7x",
+        "section": "LEO.R1"
+      },
+      "year": {
+        "text": "Nov 2016 - Aug 2017",
+        "section": "LEO.R1"
+      },
+      "company": "LEO Innovation Lab",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "turnaround",
+        "growth",
+        "regulated"
+      ],
+      "skills": [
+        "ways of working",
+        "growth",
+        "activation",
+        "retention",
+        "roadmap",
+        "launch",
+        "0 to 1",
+        "team leadership"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/treat-turnaround/#leo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Lead",
+        "Product Lead / GM",
+        "Product Manager / GM"
+      ]
+    },
+    {
+      "role": {
+        "text": "Head of Marketing",
+        "section": "T23"
+      },
+      "product": {
+        "text": "TwentyThree",
+        "section": "T23"
+      },
+      "desc": {
+        "text": "an integrated video marketing platform built for digital marketers",
+        "section": "T23"
+      },
+      "situation": {
+        "text": "I joined as Head of Marketing on a short-term contract, initially six weeks and extended to the end of the year, to rescue a global launch.",
+        "section": "T23"
+      },
+      "task": {
+        "text": "to rescue a global launch",
+        "section": "T23"
+      },
+      "action": {
+        "text": "Implemented OKRs, produced video content, crystalised USPs, introduced reporting structure.",
+        "section": "T23"
+      },
+      "result": {
+        "text": "Rescued global launch on a 6-week deadline",
+        "section": "T23"
+      },
+      "year": {
+        "text": "2016",
+        "section": "META.JOBS"
+      },
+      "company": "TwentyThree",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "turnaround"
+      ],
+      "skills": [
+        "turnaround",
+        "launch",
+        "marketing",
+        "team leadership",
+        "deadline"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/twentythree/#t23",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/twentythree/head-of-marketing/",
+      "role_aliases": []
+    },
+    {
+      "role": {
+        "text": "Head of Marketing",
+        "section": "OPBEAT"
+      },
+      "product": {
+        "text": "Opbeat",
+        "section": "OPBEAT"
+      },
+      "desc": {
+        "text": "a developer tools SaaS startup providing application performance monitoring",
+        "section": "OPBEAT"
+      },
+      "situation": {
+        "text": "The founders had a good product and famous backers, and believed that if they built it, customers would come. They launched into silence.",
+        "section": "OPBEAT"
+      },
+      "task": {
+        "text": "built the brand, marketing strategy, team and channels from scratch",
+        "section": "OPBEAT"
+      },
+      "action": {
+        "text": "Blended experimentation, growth hacks and activation tactics.",
+        "section": "OPBEAT.R1.GROWTH"
+      },
+      "result": {
+        "text": "Trebled traffic and sign-ups in 12 months",
+        "section": "OPBEAT"
+      },
+      "year": {
+        "text": "2014-2016",
+        "section": "META.JOBS"
+      },
+      "company": "Opbeat",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "growth",
+        "zero-to-one",
+        "international"
+      ],
+      "skills": [
+        "growth",
+        "activation",
+        "experimentation",
+        "KPIs",
+        "launch",
+        "0 to 1",
+        "brand",
+        "marketing",
+        "SaaS",
+        "startup",
+        "developer tools",
+        "team leadership",
+        "international",
+        "budget"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/opbeat/#opbeat",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/opbeat/head-of-marketing/",
+      "role_aliases": []
+    },
+    {
+      "role": {
+        "text": "Marketing Director",
+        "section": "EURODNS"
+      },
+      "product": {
+        "text": "EuroDNS",
+        "section": "EURODNS"
+      },
+      "desc": {
+        "text": "an ICANN-accredited international domain registrar",
+        "section": "EURODNS"
+      },
+      "situation": {
+        "text": "The business had been in decline for 4 years when I joined. Traffic was dropping, online sales were down, and the website was legacy.",
+        "section": "EURODNS.R1.TURNAROUND"
+      },
+      "task": {
+        "text": "A turnaround project.",
+        "section": "EURODNS"
+      },
+      "action": {
+        "text": "I restructured the marketing department, implemented KPIs, and rebooted all marketing channels including the website - all in under 8 months.",
+        "section": "EURODNS.R1.TURNAROUND"
+      },
+      "result": {
+        "text": "reversed the decline, doubled organic traffic, halved bounce rate",
+        "section": "EURODNS.R1.TURNAROUND"
+      },
+      "year": {
+        "text": "2013-2014",
+        "section": "META.JOBS"
+      },
+      "company": "EuroDNS",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "turnaround",
+        "growth"
+      ],
+      "skills": [
+        "turnaround",
+        "growth",
+        "conversion",
+        "SEO",
+        "funnels",
+        "KPIs",
+        "marketing",
+        "ecommerce",
+        "domains",
+        "international"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/eurodns/#eurodns",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/eurodns/marketing-director/",
+      "role_aliases": []
+    },
+    {
+      "role": {
+        "text": "Marketing Director",
+        "section": "EURODNS"
+      },
+      "product": {
+        "text": "EuroDNS",
+        "section": "EURODNS"
+      },
+      "desc": {
+        "text": "an ICANN-accredited international domain registrar",
+        "section": "EURODNS"
+      },
+      "situation": {
+        "text": "based in Copenhagen while the team was in Luxembourg",
+        "section": "EURODNS.R1.STORY.REMOTE"
+      },
+      "task": {
+        "text": "mostly managing the team from Copenhagen",
+        "section": "EURODNS"
+      },
+      "action": {
+        "text": "I created a natural cadence: fortnightly face-to-face meetings and plenum discussions when I was in the office, then space to focus and get on with it in-between.",
+        "section": "EURODNS.R1.STORY.REMOTE"
+      },
+      "result": {
+        "text": "The rhythm gave structure without micromanagement. The team had clarity on direction and autonomy on execution.",
+        "section": "EURODNS.R1.STORY.REMOTE"
+      },
+      "year": {
+        "text": "2013-2014",
+        "section": "META.JOBS"
+      },
+      "company": "EuroDNS",
+      "strength": null,
+      "tier": "self-reported",
+      "shapes": [
+        "international",
+        "leadership"
+      ],
+      "skills": [
+        "ways of working",
+        "marketing",
+        "domains",
+        "team leadership",
+        "remote",
+        "international"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/eurodns/#eurodns",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/eurodns/marketing-director/",
+      "role_aliases": []
+    },
+    {
+      "role": {
+        "text": "Acting Marketing Manager US",
+        "section": "UK2"
+      },
+      "product": {
+        "text": "US Marketing department",
+        "section": "UK2.R1.USTURNAROUND"
+      },
+      "desc": {
+        "text": "Managed all online and marketing activity across 5 web properties",
+        "section": "UK2.R1.USTURNAROUND"
+      },
+      "situation": {
+        "text": "The challenge was doing this remotely from the UK, with a team I'd never met in person.",
+        "section": "UK2.R1.USTURNAROUND"
+      },
+      "task": {
+        "text": "Rebuilt the underperforming US Marketing department before recruiting a US-based successor",
+        "section": "UK2.R1.USTURNAROUND"
+      },
+      "action": {
+        "text": "Created marketing strategy, implemented reporting structure, set and met budget targets.",
+        "section": "UK2.R1.USTURNAROUND"
+      },
+      "result": {
+        "text": "reduced bounce rate by ~15%, nearly doubled sales conversion, created product roadmap and launched 8 products in 10 months",
+        "section": "UK2.R1.USTURNAROUND"
+      },
+      "year": {
+        "text": "Feb 2009 - Feb 2010",
+        "section": "UK2.R1.USTURNAROUND"
+      },
+      "company": "UK2 Group",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "turnaround",
+        "international"
+      ],
+      "skills": [
+        "turnaround",
+        "growth",
+        "conversion",
+        "roadmap",
+        "launch",
+        "marketing",
+        "team leadership",
+        "remote",
+        "international",
+        "budget"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/uk2/#uk2-r1-usturnaround",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/uk2-group/acting-marketing-manager-us/",
+      "role_aliases": []
+    },
+    {
+      "role": {
+        "text": "Head of Group Strategy",
+        "section": "UK2"
+      },
+      "product": {
+        "text": "new domain platform",
+        "section": "UK2"
+      },
+      "desc": {
+        "text": "One platform replaced them",
+        "section": "UK2"
+      },
+      "situation": {
+        "text": "we had 6 brands using 3 different providers, and in some cases going direct to the registry, each with different APIs, rules and management fees",
+        "section": "UK2"
+      },
+      "task": {
+        "text": "Managed development of new domain platform",
+        "section": "UK2"
+      },
+      "action": {
+        "text": "I owned the business case, budget, specifications, contracts and migration strategy.",
+        "section": "UK2"
+      },
+      "result": {
+        "text": "(500,000+ customer domains)",
+        "section": "UK2"
+      },
+      "year": {
+        "text": "2008-2010",
+        "section": "META.JOBS"
+      },
+      "company": "UK2 Group",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "zero-to-one"
+      ],
+      "skills": [
+        "turnaround",
+        "brand",
+        "marketing",
+        "ecommerce",
+        "domains",
+        "web hosting",
+        "international",
+        "budget"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/uk2/#uk2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/uk2-group/head-of-group-strategy/",
+      "role_aliases": []
+    },
+    {
+      "role": {
+        "text": "Head of New Media",
+        "section": "HOST"
+      },
+      "product": {
+        "text": "GX Networks",
+        "section": "HOST.R1.REBRAND"
+      },
+      "desc": {
+        "text": "The company was renamed GX Networks",
+        "section": "HOST.R1.REBRAND"
+      },
+      "situation": {
+        "text": "Due to a sale we needed to rename the company. We had 5 weeks.",
+        "section": "HOST.R1.REBRAND"
+      },
+      "task": {
+        "text": "rename the company",
+        "section": "HOST.R1.REBRAND"
+      },
+      "action": {
+        "text": "brand identity, corporate website, campaigns, office signage, stationery, email signatures, lawyers, and pushed the change through",
+        "section": "HOST.R1.REBRAND"
+      },
+      "result": {
+        "text": "we got it done in 5 weeks",
+        "section": "HOST.R1.REBRAND"
+      },
+      "year": {
+        "text": "Jan 2006 - Jun 2008",
+        "section": "HOST"
+      },
+      "company": "Host Europe Group",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "leadership"
+      ],
+      "skills": [
+        "brand",
+        "domains",
+        "deadline"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/host-europe/#host-r1-rebrand",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/",
+      "role_aliases": [
+        "Head of New Media, Pipex Hosting / GX Networks"
+      ]
+    },
+    {
+      "role": {
+        "text": "Head of New Media",
+        "section": "HOST"
+      },
+      "product": {
+        "text": "New Media",
+        "section": "HOST"
+      },
+      "desc": {
+        "text": "responsible for all online touchpoints, ecommerce, digital campaigns, email marketing and SaaS dashboards",
+        "section": "HOST"
+      },
+      "situation": {
+        "text": "Managed all online channels (2M+ monthly visits)",
+        "section": "HOST"
+      },
+      "task": {
+        "text": "Created department from scratch",
+        "section": "HOST"
+      },
+      "action": {
+        "text": "introduced self-service support, pioneered site-building tools, optimised support centre, led ecommerce, dominated SEO rankings",
+        "section": "HOST"
+      },
+      "result": {
+        "text": "member of Senior Management Team",
+        "section": "HOST"
+      },
+      "year": {
+        "text": "Jan 2006 - Jun 2008",
+        "section": "HOST"
+      },
+      "company": "Host Europe Group",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "zero-to-one",
+        "leadership"
+      ],
+      "skills": [
+        "SEO",
+        "0 to 1",
+        "brand",
+        "marketing",
+        "SaaS",
+        "ecommerce",
+        "domains",
+        "web hosting",
+        "team leadership",
+        "stakeholders"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/",
+      "role_aliases": [
+        "Head of New Media, Pipex Hosting / GX Networks"
+      ]
+    },
+    {
+      "role": {
+        "text": "PM/GM at LEO Innovation Lab",
+        "section": "LEO.R3"
+      },
+      "product": {
+        "text": "BetterVisitBot",
+        "section": "LEO"
+      },
+      "desc": {
+        "text": "a pre-briefing chatbot for doctor consultations",
+        "section": "LEO"
+      },
+      "situation": null,
+      "task": {
+        "text": "Worked with GPs to prototype it.",
+        "section": "LEO"
+      },
+      "action": {
+        "text": "I hid a dermatologist in an adjacent room to simulate a consultation chatbot.",
+        "section": "LEO"
+      },
+      "result": {
+        "text": "Right idea, too early. Now it isn't.",
+        "section": "LEO"
+      },
+      "year": {
+        "text": "2016 to 2020",
+        "section": "LEO"
+      },
+      "company": "LEO Innovation Lab",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "ai",
+        "regulated"
+      ],
+      "skills": [
+        "AI",
+        "machine learning",
+        "computer vision",
+        "discovery",
+        "prototyping",
+        "growth",
+        "launch",
+        "team leadership"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Lead",
+        "Product Lead / GM",
+        "Product Manager / GM"
+      ]
+    },
+    {
+      "role": {
+        "text": "Head of Marketing",
+        "section": "OPBEAT"
+      },
+      "product": {
+        "text": "Opbeat",
+        "section": "OPBEAT"
+      },
+      "desc": {
+        "text": "B2B devops startup backed by Balderton Capital and the cofounders of Facebook & Instagram.",
+        "section": "OPBEAT"
+      },
+      "situation": null,
+      "task": {
+        "text": "Introduced KPIs, reporting & budgeting.",
+        "section": "OPBEAT"
+      },
+      "action": {
+        "text": "Grew grassroots meetups and created video engine to connect with developers",
+        "section": "OPBEAT"
+      },
+      "result": {
+        "text": "creating the traction that enabled a $2M bridge-funding round",
+        "section": "OPBEAT"
+      },
+      "year": {
+        "text": "2014-2016",
+        "section": "META.JOBS"
+      },
+      "company": "Opbeat",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "growth",
+        "zero-to-one"
+      ],
+      "skills": [
+        "growth",
+        "KPIs",
+        "launch",
+        "0 to 1",
+        "brand",
+        "marketing",
+        "SaaS",
+        "startup",
+        "developer tools",
+        "team leadership",
+        "international",
+        "budget"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/opbeat/#opbeat",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/opbeat/head-of-marketing/",
+      "role_aliases": []
+    },
+    {
+      "role": {
+        "text": "Independent Consultant",
+        "section": "META.JOBS"
+      },
+      "product": {
+        "text": "independent consultant",
+        "section": "META.JOBS"
+      },
+      "desc": {
+        "text": "freelance internet consultant",
+        "section": "META.JOBS"
+      },
+      "situation": {
+        "text": "worked as a freelance internet consultant to finance my relocation to Denmark",
+        "section": "META.JOBS"
+      },
+      "task": {
+        "text": "Clients included Host Europe (UK), EuroDNS (LUX), & Everplaces (DK).",
+        "section": "META.JOBS"
+      },
+      "action": {
+        "text": "Content creation & SEO including interviews with MailChimp, Creative Commons, EFF, Rand Fishkin & Michael Palin.",
+        "section": "META.JOBS"
+      },
+      "result": {
+        "text": "Spotted RaspberryPi before launch & created a partnership.",
+        "section": "META.JOBS"
+      },
+      "year": {
+        "text": "2010-2013",
+        "section": "META.JOBS"
+      },
+      "company": "Independent consulting",
+      "strength": null,
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "growth",
+        "international"
+      ],
+      "skills": [
+        "pharma",
+        "SEO",
+        "launch",
+        "marketing",
+        "web hosting",
+        "remote",
+        "international",
+        "partnerships"
+      ],
+      "page": null,
+      "role_page": "https://takenbyninjas.com/for-agents/roles/independent-consulting/independent-consultant/",
+      "role_aliases": []
+    },
+    {
+      "role": {
+        "text": "Head of New Media",
+        "section": "HOST"
+      },
+      "product": {
+        "text": "online order process",
+        "section": "HOST"
+      },
+      "desc": {
+        "text": "Restructured the online order process",
+        "section": "HOST"
+      },
+      "situation": null,
+      "task": null,
+      "action": {
+        "text": "Restructured the online order process",
+        "section": "HOST"
+      },
+      "result": {
+        "text": "increasing new revenue by 20%",
+        "section": "HOST"
+      },
+      "year": {
+        "text": "Jan 2006 - Jun 2008",
+        "section": "HOST"
+      },
+      "company": "Host Europe Group",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "growth"
+      ],
+      "skills": [
+        "SEO",
+        "0 to 1",
+        "brand",
+        "marketing",
+        "SaaS",
+        "ecommerce",
+        "domains",
+        "web hosting",
+        "team leadership",
+        "stakeholders"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/",
+      "role_aliases": [
+        "Head of New Media, Pipex Hosting / GX Networks"
+      ]
+    },
+    {
+      "role": {
+        "text": "Web Designer",
+        "section": "HOST"
+      },
+      "product": {
+        "text": "domain search",
+        "section": "HOST.R2.STORY.DOMAIN"
+      },
+      "desc": {
+        "text": "a simple text field that interpreted whatever the user entered and searched all endings asynchronously",
+        "section": "HOST.R2.STORY.DOMAIN"
+      },
+      "situation": {
+        "text": "Users could only search for one domain at a time and kept running into domains that were already taken. Frustrating experience, poor conversion.",
+        "section": "HOST.R2.STORY.DOMAIN"
+      },
+      "task": {
+        "text": "Nobody asked for it. I thought it was a poor experience at the top of the sales funnel, the shop window of the business, and worth fixing.",
+        "section": "HOST.R2.STORY.DOMAIN"
+      },
+      "action": {
+        "text": "I reinvented the process: a simple text field that interpreted whatever the user entered and searched all endings asynchronously. First use of AJAX in our stack.",
+        "section": "HOST.R2.STORY.DOMAIN"
+      },
+      "result": {
+        "text": "The approach became the industry standard",
+        "section": "HOST.R2.STORY.DOMAIN"
+      },
+      "year": {
+        "text": "Feb 2004 - Aug 2005",
+        "section": "HOST"
+      },
+      "company": "Host Europe Group",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "growth"
+      ],
+      "skills": [
+        "API",
+        "growth",
+        "conversion",
+        "funnels",
+        "domains"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/host-europe/#host-r2-story-domain",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/web-designer/",
+      "role_aliases": []
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import { envForRequest } from './lib/db_env.js';
 import { retrieve as defaultRetrieve, listSections as defaultListSections } from './lib/retrieval.js';
 import { isDbEnvError } from './lib/db_env.js';
 import { strengthFor } from './lib/strength.js';
+import { referencesFor } from './lib/references.js';
 import {
   agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap,
   applyDenyList, validateRows, dropUnknownSections,
@@ -90,14 +91,12 @@ export function deriveStrength(match) {
 }
 
 // Evidence tiers (PRD W1b). Every row's own answer/evidence is TomBot content,
-// Tom's own account: self-reported. Attested entries are LinkedIn
-// recommendations (D8, N1010-6 a), parsed from the section's `**Attested:**`
-// block by parse_content.py into the `attested` column; never shown in chat.
+// Tom's own account: self-reported. LinkedIn recommendations are references
+// for the period a section belongs to (R1012-15), never quoted against a
+// claim: `references` on a row is {period, count, url, tier, note} or null.
 export const SELF_REPORTED = 'self-reported';
 export const ATTESTED = 'attested';
 export const LINKEDIN_RECORD = 'https://www.linkedin.com/in/tomstenson/details/recommendations/';
-// LinkedIn's export carries each recommender's title today, not at the time (N1010-7 a).
-export const ATTESTED_TITLE_LABEL = 'current title';
 
 const parseJsonList = (v) => {
   let list = v;
@@ -106,31 +105,6 @@ const parseJsonList = (v) => {
   }
   return Array.isArray(list) ? list : null;
 };
-
-// attested column -> [{name, title, title_label, company, date, excerpt, record, tier}].
-// Null, missing or malformed -> []. The deny-list runs on each excerpt like
-// on any outgoing text; returns { entries, withheld }.
-export function buildAttested(raw) {
-  const list = parseJsonList(raw) || [];
-  let withheld = 0;
-  const entries = [];
-  for (const a of list) {
-    if (!a || typeof a !== 'object' || typeof a.name !== 'string' || typeof a.excerpt !== 'string') continue;
-    const d = applyDenyList(a.excerpt);
-    withheld += d.withheld;
-    entries.push({
-      name: a.name,
-      title: typeof a.title === 'string' ? a.title : null,
-      title_label: ATTESTED_TITLE_LABEL,
-      company: typeof a.company === 'string' ? a.company : null,
-      date: typeof a.date === 'string' ? a.date : null,
-      excerpt: d.text,
-      record: LINKEDIN_RECORD,
-      tier: ATTESTED,
-    });
-  }
-  return { entries, withheld };
-}
 
 // direct_answers: the column when the loader filled it, else the
 // `**Direct answers:**` block parsed out of the text (older loads), else null.
@@ -162,8 +136,6 @@ export function buildMatch(match) {
   const denied = applyDenyList(cleanAnswer(match.content));
   let withheld = denied.withheld;
   const directAnswers = direct ? direct.map(l => { const d = applyDenyList(l); withheld += d.withheld; return d.text; }) : null;
-  const attested = buildAttested(match.attested);
-  withheld += attested.withheld;
   return {
     withheld,
     row: {
@@ -175,7 +147,7 @@ export function buildMatch(match) {
       strength: deriveStrength(match),
       score: roundScore(match.similarity),
       direct_answers: directAnswers,
-      attested: attested.entries,
+      references: referencesFor(match.title),
     },
   };
 }
@@ -267,7 +239,7 @@ export function createHandler({
         strength: best.strength,
         year: best.year,
         direct_answers: best.direct_answers,
-        attested: best.attested,
+        references: best.references,
         follow_ups: followUpTexts(bestMatch.follow_ups),
         score: best.score,
         matches: rows,

@@ -1,0 +1,425 @@
+{
+  "generated_by": "generate_agent_page.py",
+  "pages": {
+    "wegovycare": {
+      "path": "/for-agents/wegovycare/",
+      "file": "for-agents/wegovycare/index.html",
+      "title": "Wegovycare"
+    },
+    "novo-product-director": {
+      "path": "/for-agents/novo-product-director/",
+      "file": "for-agents/novo-product-director/index.html",
+      "title": "Associate Product Director at Novo Nordisk"
+    },
+    "novo-nordisk": {
+      "path": "/for-agents/novo-nordisk/",
+      "file": "for-agents/novo-nordisk/index.html",
+      "title": "Novo Nordisk"
+    },
+    "treat-turnaround": {
+      "path": "/for-agents/treat-turnaround/",
+      "file": "for-agents/treat-turnaround/index.html",
+      "title": "TREAT"
+    },
+    "skincoach": {
+      "path": "/for-agents/skincoach/",
+      "file": "for-agents/skincoach/index.html",
+      "title": "Skincoach"
+    },
+    "diagnosis-app": {
+      "path": "/for-agents/diagnosis-app/",
+      "file": "for-agents/diagnosis-app/index.html",
+      "title": "Diagnosis App"
+    },
+    "leo-innovation-lab": {
+      "path": "/for-agents/leo-innovation-lab/",
+      "file": "for-agents/leo-innovation-lab/index.html",
+      "title": "LEO Innovation Lab"
+    },
+    "twentythree": {
+      "path": "/for-agents/twentythree/",
+      "file": "for-agents/twentythree/index.html",
+      "title": "TwentyThree"
+    },
+    "opbeat": {
+      "path": "/for-agents/opbeat/",
+      "file": "for-agents/opbeat/index.html",
+      "title": "Opbeat"
+    },
+    "eurodns": {
+      "path": "/for-agents/eurodns/",
+      "file": "for-agents/eurodns/index.html",
+      "title": "EuroDNS"
+    },
+    "uk2": {
+      "path": "/for-agents/uk2/",
+      "file": "for-agents/uk2/index.html",
+      "title": "UK2 Group"
+    },
+    "host-europe": {
+      "path": "/for-agents/host-europe/",
+      "file": "for-agents/host-europe/index.html",
+      "title": "Host Europe Group"
+    },
+    "ai": {
+      "path": "/for-agents/ai/",
+      "file": "for-agents/ai/index.html",
+      "title": "AI"
+    },
+    "building": {
+      "path": "/for-agents/building/",
+      "file": "for-agents/building/index.html",
+      "title": "0 to 1, incubation and new ways of working"
+    },
+    "turnarounds": {
+      "path": "/for-agents/turnarounds/",
+      "file": "for-agents/turnarounds/index.html",
+      "title": "Turnarounds"
+    },
+    "growth": {
+      "path": "/for-agents/growth/",
+      "file": "for-agents/growth/index.html",
+      "title": "Growth"
+    },
+    "management": {
+      "path": "/for-agents/management/",
+      "file": "for-agents/management/index.html",
+      "title": "Leadership and management"
+    },
+    "international": {
+      "path": "/for-agents/international/",
+      "file": "for-agents/international/index.html",
+      "title": "International and remote"
+    },
+    "skills": {
+      "path": "/for-agents/skills/",
+      "file": "for-agents/skills/index.html",
+      "title": "Proof points by skill"
+    },
+    "skills/ai": {
+      "path": "/for-agents/skills/ai/",
+      "file": "for-agents/skills/ai/index.html",
+      "title": "AI"
+    },
+    "skills/genai": {
+      "path": "/for-agents/skills/genai/",
+      "file": "for-agents/skills/genai/index.html",
+      "title": "GenAI"
+    },
+    "skills/machine-learning": {
+      "path": "/for-agents/skills/machine-learning/",
+      "file": "for-agents/skills/machine-learning/index.html",
+      "title": "machine learning"
+    },
+    "skills/computer-vision": {
+      "path": "/for-agents/skills/computer-vision/",
+      "file": "for-agents/skills/computer-vision/index.html",
+      "title": "computer vision"
+    },
+    "skills/algorithm": {
+      "path": "/for-agents/skills/algorithm/",
+      "file": "for-agents/skills/algorithm/index.html",
+      "title": "algorithm"
+    },
+    "skills/api": {
+      "path": "/for-agents/skills/api/",
+      "file": "for-agents/skills/api/index.html",
+      "title": "API"
+    },
+    "skills/regulated": {
+      "path": "/for-agents/skills/regulated/",
+      "file": "for-agents/skills/regulated/index.html",
+      "title": "regulated"
+    },
+    "skills/compliance": {
+      "path": "/for-agents/skills/compliance/",
+      "file": "for-agents/skills/compliance/index.html",
+      "title": "compliance"
+    },
+    "skills/pharma": {
+      "path": "/for-agents/skills/pharma/",
+      "file": "for-agents/skills/pharma/index.html",
+      "title": "pharma"
+    },
+    "skills/healthcare": {
+      "path": "/for-agents/skills/healthcare/",
+      "file": "for-agents/skills/healthcare/index.html",
+      "title": "healthcare"
+    },
+    "skills/patients": {
+      "path": "/for-agents/skills/patients/",
+      "file": "for-agents/skills/patients/index.html",
+      "title": "patients"
+    },
+    "skills/discovery": {
+      "path": "/for-agents/skills/discovery/",
+      "file": "for-agents/skills/discovery/index.html",
+      "title": "discovery"
+    },
+    "skills/prototyping": {
+      "path": "/for-agents/skills/prototyping/",
+      "file": "for-agents/skills/prototyping/index.html",
+      "title": "prototyping"
+    },
+    "skills/incubation": {
+      "path": "/for-agents/skills/incubation/",
+      "file": "for-agents/skills/incubation/index.html",
+      "title": "incubation"
+    },
+    "skills/ways-of-working": {
+      "path": "/for-agents/skills/ways-of-working/",
+      "file": "for-agents/skills/ways-of-working/index.html",
+      "title": "ways of working"
+    },
+    "skills/turnaround": {
+      "path": "/for-agents/skills/turnaround/",
+      "file": "for-agents/skills/turnaround/index.html",
+      "title": "turnaround"
+    },
+    "skills/growth": {
+      "path": "/for-agents/skills/growth/",
+      "file": "for-agents/skills/growth/index.html",
+      "title": "growth"
+    },
+    "skills/conversion": {
+      "path": "/for-agents/skills/conversion/",
+      "file": "for-agents/skills/conversion/index.html",
+      "title": "conversion"
+    },
+    "skills/activation": {
+      "path": "/for-agents/skills/activation/",
+      "file": "for-agents/skills/activation/index.html",
+      "title": "activation"
+    },
+    "skills/retention": {
+      "path": "/for-agents/skills/retention/",
+      "file": "for-agents/skills/retention/index.html",
+      "title": "retention"
+    },
+    "skills/seo": {
+      "path": "/for-agents/skills/seo/",
+      "file": "for-agents/skills/seo/index.html",
+      "title": "SEO"
+    },
+    "skills/funnels": {
+      "path": "/for-agents/skills/funnels/",
+      "file": "for-agents/skills/funnels/index.html",
+      "title": "funnels"
+    },
+    "skills/experimentation": {
+      "path": "/for-agents/skills/experimentation/",
+      "file": "for-agents/skills/experimentation/index.html",
+      "title": "experimentation"
+    },
+    "skills/kpis": {
+      "path": "/for-agents/skills/kpis/",
+      "file": "for-agents/skills/kpis/index.html",
+      "title": "KPIs"
+    },
+    "skills/roadmap": {
+      "path": "/for-agents/skills/roadmap/",
+      "file": "for-agents/skills/roadmap/index.html",
+      "title": "roadmap"
+    },
+    "skills/launch": {
+      "path": "/for-agents/skills/launch/",
+      "file": "for-agents/skills/launch/index.html",
+      "title": "launch"
+    },
+    "skills/zero-to-one": {
+      "path": "/for-agents/skills/zero-to-one/",
+      "file": "for-agents/skills/zero-to-one/index.html",
+      "title": "0 to 1"
+    },
+    "skills/brand": {
+      "path": "/for-agents/skills/brand/",
+      "file": "for-agents/skills/brand/index.html",
+      "title": "brand"
+    },
+    "skills/marketing": {
+      "path": "/for-agents/skills/marketing/",
+      "file": "for-agents/skills/marketing/index.html",
+      "title": "marketing"
+    },
+    "skills/saas": {
+      "path": "/for-agents/skills/saas/",
+      "file": "for-agents/skills/saas/index.html",
+      "title": "SaaS"
+    },
+    "skills/startup": {
+      "path": "/for-agents/skills/startup/",
+      "file": "for-agents/skills/startup/index.html",
+      "title": "startup"
+    },
+    "skills/developer-tools": {
+      "path": "/for-agents/skills/developer-tools/",
+      "file": "for-agents/skills/developer-tools/index.html",
+      "title": "developer tools"
+    },
+    "skills/ecommerce": {
+      "path": "/for-agents/skills/ecommerce/",
+      "file": "for-agents/skills/ecommerce/index.html",
+      "title": "ecommerce"
+    },
+    "skills/domains": {
+      "path": "/for-agents/skills/domains/",
+      "file": "for-agents/skills/domains/index.html",
+      "title": "domains"
+    },
+    "skills/web-hosting": {
+      "path": "/for-agents/skills/web-hosting/",
+      "file": "for-agents/skills/web-hosting/index.html",
+      "title": "web hosting"
+    },
+    "skills/team-leadership": {
+      "path": "/for-agents/skills/team-leadership/",
+      "file": "for-agents/skills/team-leadership/index.html",
+      "title": "team leadership"
+    },
+    "skills/remote": {
+      "path": "/for-agents/skills/remote/",
+      "file": "for-agents/skills/remote/index.html",
+      "title": "remote"
+    },
+    "skills/international": {
+      "path": "/for-agents/skills/international/",
+      "file": "for-agents/skills/international/index.html",
+      "title": "international"
+    },
+    "skills/stakeholders": {
+      "path": "/for-agents/skills/stakeholders/",
+      "file": "for-agents/skills/stakeholders/index.html",
+      "title": "stakeholders"
+    },
+    "skills/consumer": {
+      "path": "/for-agents/skills/consumer/",
+      "file": "for-agents/skills/consumer/index.html",
+      "title": "consumer"
+    },
+    "skills/partnerships": {
+      "path": "/for-agents/skills/partnerships/",
+      "file": "for-agents/skills/partnerships/index.html",
+      "title": "partnerships"
+    },
+    "skills/budget": {
+      "path": "/for-agents/skills/budget/",
+      "file": "for-agents/skills/budget/index.html",
+      "title": "budget"
+    },
+    "skills/deadline": {
+      "path": "/for-agents/skills/deadline/",
+      "file": "for-agents/skills/deadline/index.html",
+      "title": "deadline"
+    },
+    "roles": {
+      "path": "/for-agents/roles/",
+      "file": "for-agents/roles/index.html",
+      "title": "Proof points by role"
+    },
+    "roles/novo-nordisk/senior-product-manager": {
+      "path": "/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "file": "for-agents/roles/novo-nordisk/senior-product-manager/index.html",
+      "title": "Senior Product Manager at Novo Nordisk"
+    },
+    "roles/novo-nordisk/associate-product-director": {
+      "path": "/for-agents/roles/novo-nordisk/associate-product-director/",
+      "file": "for-agents/roles/novo-nordisk/associate-product-director/index.html",
+      "title": "Associate Product Director at Novo Nordisk"
+    },
+    "roles/novo-nordisk/consumer-lead": {
+      "path": "/for-agents/roles/novo-nordisk/consumer-lead/",
+      "file": "for-agents/roles/novo-nordisk/consumer-lead/index.html",
+      "title": "Consumer Lead, Novo Nordisk"
+    },
+    "roles/leo-innovation-lab/pm-gm": {
+      "path": "/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "file": "for-agents/roles/leo-innovation-lab/pm-gm/index.html",
+      "title": "PM/GM at LEO Innovation Lab"
+    },
+    "roles/twentythree/head-of-marketing": {
+      "path": "/for-agents/roles/twentythree/head-of-marketing/",
+      "file": "for-agents/roles/twentythree/head-of-marketing/index.html",
+      "title": "Head of Marketing, TwentyThree"
+    },
+    "roles/opbeat/head-of-marketing": {
+      "path": "/for-agents/roles/opbeat/head-of-marketing/",
+      "file": "for-agents/roles/opbeat/head-of-marketing/index.html",
+      "title": "Head of Marketing, Opbeat"
+    },
+    "roles/eurodns/marketing-director": {
+      "path": "/for-agents/roles/eurodns/marketing-director/",
+      "file": "for-agents/roles/eurodns/marketing-director/index.html",
+      "title": "Marketing Director, EuroDNS"
+    },
+    "roles/uk2-group/acting-marketing-manager-us": {
+      "path": "/for-agents/roles/uk2-group/acting-marketing-manager-us/",
+      "file": "for-agents/roles/uk2-group/acting-marketing-manager-us/index.html",
+      "title": "Acting Marketing Manager US, UK2 Group"
+    },
+    "roles/uk2-group/head-of-group-strategy": {
+      "path": "/for-agents/roles/uk2-group/head-of-group-strategy/",
+      "file": "for-agents/roles/uk2-group/head-of-group-strategy/index.html",
+      "title": "Head of Group Strategy, UK2 Group"
+    },
+    "roles/host-europe-group/head-of-new-media": {
+      "path": "/for-agents/roles/host-europe-group/head-of-new-media/",
+      "file": "for-agents/roles/host-europe-group/head-of-new-media/index.html",
+      "title": "Head of New Media, Host Europe Group"
+    },
+    "roles/independent-consulting/independent-consultant": {
+      "path": "/for-agents/roles/independent-consulting/independent-consultant/",
+      "file": "for-agents/roles/independent-consulting/independent-consultant/index.html",
+      "title": "Independent Consultant"
+    },
+    "roles/host-europe-group/web-designer": {
+      "path": "/for-agents/roles/host-europe-group/web-designer/",
+      "file": "for-agents/roles/host-europe-group/web-designer/index.html",
+      "title": "Web Designer, Host Europe Group"
+    },
+    "shapes": {
+      "path": "/for-agents/shapes/",
+      "file": "for-agents/shapes/index.html",
+      "title": "Proof points by role shape"
+    },
+    "shapes/product-management": {
+      "path": "/for-agents/shapes/product-management/",
+      "file": "for-agents/shapes/product-management/index.html",
+      "title": "Product management"
+    },
+    "shapes/ai": {
+      "path": "/for-agents/shapes/ai/",
+      "file": "for-agents/shapes/ai/index.html",
+      "title": "AI"
+    },
+    "shapes/growth": {
+      "path": "/for-agents/shapes/growth/",
+      "file": "for-agents/shapes/growth/index.html",
+      "title": "Growth"
+    },
+    "shapes/zero-to-one": {
+      "path": "/for-agents/shapes/zero-to-one/",
+      "file": "for-agents/shapes/zero-to-one/index.html",
+      "title": "0 to 1, incubation and new ways of working"
+    },
+    "shapes/turnaround": {
+      "path": "/for-agents/shapes/turnaround/",
+      "file": "for-agents/shapes/turnaround/index.html",
+      "title": "Turnarounds"
+    },
+    "shapes/regulated": {
+      "path": "/for-agents/shapes/regulated/",
+      "file": "for-agents/shapes/regulated/index.html",
+      "title": "Regulated and health"
+    },
+    "shapes/leadership": {
+      "path": "/for-agents/shapes/leadership/",
+      "file": "for-agents/shapes/leadership/index.html",
+      "title": "Leadership and management"
+    },
+    "shapes/international": {
+      "path": "/for-agents/shapes/international/",
+      "file": "for-agents/shapes/international/index.html",
+      "title": "International and remote"
+    }
+  }
+}

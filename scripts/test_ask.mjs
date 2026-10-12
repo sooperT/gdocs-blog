@@ -7,7 +7,7 @@ import {
   prepareQuery, prepareQuerySteps, normalizeQuery, expandContractions, expandAliases, expandSynonyms,
   listSections,
 } from '../netlify/functions/lib/retrieval.js';
-import { createHandler as createHandlerRaw, cleanAnswer, deriveYear, extractDirectAnswers, buildAttested, AGENT_TOP_K, HUMAN_VERSION, LINKEDIN_RECORD } from '../netlify/functions/ask.js';
+import { createHandler as createHandlerRaw, cleanAnswer, deriveYear, extractDirectAnswers, AGENT_TOP_K, HUMAN_VERSION, LINKEDIN_RECORD } from '../netlify/functions/ask.js';
 import { RANKING_PATTERNS } from '../netlify/functions/lib/guard.js';
 import { strengthFor } from '../netlify/functions/lib/strength.js';
 
@@ -53,18 +53,15 @@ const NOVO = {
   similarity: 0.8234,
 };
 const mkRow = (title, similarity) => ({ title, content: `Section ${title} text.`, follow_ups: [], similarity });
-const ATTESTED_KEYS = ['name', 'title', 'title_label', 'company', 'date', 'excerpt', 'record', 'tier'];
-function assertAttested(list) {
-  assert.ok(Array.isArray(list), 'attested must be an array');
-  for (const a of list) {
-    assert.deepEqual(Object.keys(a), ATTESTED_KEYS);
-    assert.equal(a.tier, 'attested');
-    assert.equal(a.title_label, 'current title');
-    assert.equal(a.record, 'https://www.linkedin.com/in/tomstenson/details/recommendations/');
-    assert.match(a.date, /^\d{4}-\d{2}-\d{2}$/);
-    for (const k of ['name', 'title', 'company', 'excerpt']) assert.equal(typeof a[k], 'string');
-    assert.doesNotMatch(a.name, /Martin Baker|Paul Hugh Mollin/);
-  }
+const REFERENCE_KEYS = ['period', 'count', 'url', 'tier', 'note'];
+function assertAttested(ref) {
+  if (ref === null) return;
+  assert.deepEqual(Object.keys(ref), REFERENCE_KEYS);
+  assert.equal(ref.tier, 'attested');
+  assert.ok(Number.isInteger(ref.count) && ref.count > 0);
+  assert.match(ref.url, /^https:\/\/takenbyninjas\.com\/for-agents\/recommendations\/#[a-z]+$/);
+  // The two HIDDEN recommenders never appear anywhere in a response.
+  assert.doesNotMatch(JSON.stringify(ref), /Martin Baker|Paul Hugh Mollin/);
 }
 const LOW = { title: 'META.BOOKS', content: 'Books.', follow_ups: [], similarity: 0.41 };
 
@@ -198,19 +195,20 @@ await test('ask: match shape', withLogs(async () => {
   const res = await h(req('/ask?q=what%20did%20you%20build%20at%20novo&asker=recruiter-agent'));
   assert.equal(res.status, 200); headersOk(res);
   const b = await body(res);
-  assert.deepEqual(Object.keys(b), ['answer', 'section', 'source', 'tier', 'strength', 'year', 'direct_answers', 'attested', 'follow_ups', 'score', 'matches', 'withheld', 'human_version']);
+  assert.deepEqual(Object.keys(b), ['answer', 'section', 'source', 'tier', 'strength', 'year', 'direct_answers', 'references', 'follow_ups', 'score', 'matches', 'withheld', 'human_version']);
   assert.equal(b.direct_answers, null);
   assert.equal(b.withheld, 0);
   assert.equal(b.matches.length, 1);
-  assert.deepEqual(Object.keys(b.matches[0]), ['section', 'answer', 'source', 'tier', 'year', 'strength', 'score', 'direct_answers', 'attested']);
+  assert.deepEqual(Object.keys(b.matches[0]), ['section', 'answer', 'source', 'tier', 'year', 'strength', 'score', 'direct_answers', 'references']);
   assert.equal(b.tier, 'self-reported');
   assert.equal(b.matches[0].tier, 'self-reported');
-  assertAttested(b.attested);
-  assert.equal(b.attested.length, 1);
-  assert.deepEqual(b.attested, b.matches[0].attested);
-  assert.equal(b.attested[0].name, 'Erik Ejlskov Jensen');
-  assert.equal(b.attested[0].excerpt, NOVO.attested[0].excerpt);
-  assert.ok(!b.answer.includes('admired'), 'attested excerpt must not leak into answer');
+  assertAttested(b.references);
+  assert.ok(b.references, 'NOVO section carries references for the Novo period');
+  assert.deepEqual(b.references, b.matches[0].references);
+  assert.match(b.references.period, /^Novo Nordisk/);
+  assert.equal(b.references.url, 'https://takenbyninjas.com/for-agents/recommendations/#novo');
+  assert.ok(!b.answer.includes('admired'), 'recommendation text must never appear in an answer (R1012-15)');
+  assert.ok(!JSON.stringify(b).includes('Erik'), 'no recommender quoted against a claim');
   assertTrustContract(b);
   assert.equal(b.section, 'NOVO.R1');
   assert.equal(b.source, 'TomBot NOVO.R1');
@@ -330,7 +328,7 @@ await test('direct_answers: column is read when filled, text parser is the fallb
   const h3 = createHandler({ retrieve: async () => ({ matches: [{ ...NOVO, content, direct_answers: '["As a JSON string"]' }] }) });
   assert.deepEqual((await body(await h3(req('/ask?q=novo')))).direct_answers, ['As a JSON string']);
 });
-await test('attested: [] when the column is null, missing, empty or malformed; tiers on every row', async () => {
+await test('references: by section prefix, null for sections with no period; the attested column is ignored', async () => {
   const rows = [
     { ...NOVO, title: 'NOVO.R1', attested: null },
     { ...mkRow('LEO.R1', 0.7), attested: undefined },
@@ -340,21 +338,22 @@ await test('attested: [] when the column is null, missing, empty or malformed; t
   const h = createHandler({ retrieve: async () => ({ matches: rows }) });
   const b = await body(await h(req('/ask?q=x')));
   assert.equal(b.matches.length, 4);
-  for (const m of b.matches) { assert.deepEqual(m.attested, []); assert.equal(m.tier, 'self-reported'); }
-  assert.deepEqual(b.attested, []);
+  for (const m of b.matches) { assertAttested(m.references); assert.equal(m.tier, 'self-reported'); }
+  assert.ok(b.matches[0].references && b.matches[1].references, 'NOVO and LEO have periods');
+  assert.equal(b.matches[2].references, null);
+  assert.equal(b.matches[3].references, null);
+  assert.deepEqual(b.references, b.matches[0].references);
   assertTrustContract(b);
 });
-await test('attested: JSON-string column parsed; deny-list runs on excerpts', async () => {
-  const json = JSON.stringify([
-    { name: 'A Person', title: 'Director, Innovation (Contract)', company: 'Acme & Co', date: '2026-03-16', excerpt: 'Plain praise.' },
-    { name: 'B Person', title: 'CEO', company: 'B', date: '2016-04-12', excerpt: 'His salary was 900,000 DKK.' },
-  ]);
-  const { entries, withheld } = buildAttested(json);
-  assertAttested(entries);
-  assert.equal(entries[0].title, 'Director, Innovation (Contract)');
-  assert.equal(entries[0].record, LINKEDIN_RECORD);
-  assert.equal(entries[1].excerpt, '[withheld]');
-  assert.equal(withheld, 1);
+await test('referencesFor: prefix table, unknown prefix null, prototype keys safe', async () => {
+  const { referencesFor } = await import('../netlify/functions/lib/references.js');
+  const data = { prefixes: { NOVO: 'novo' }, periods: { novo: { label: 'Novo Nordisk, 2020-2026', count: 5, url: 'https://takenbyninjas.com/for-agents/recommendations/#novo' } } };
+  assert.equal(referencesFor('NOVO.R2.GENAI', data).count, 5);
+  assert.equal(referencesFor('UK2', data), null);
+  assert.equal(referencesFor('toString', data), null);
+  assert.equal(referencesFor('constructor.x', data), null);
+  assert.equal(referencesFor(undefined, data), null);
+  assert.ok(referencesFor('HOST.R1.REBRAND'), 'real table has a Host Europe period');
 });
 await test('matchSections selects attested and direct_answers; falls back on an old table (42703)', quiet(async () => {
   const sql = stubSql([{ ...NOVO }]);

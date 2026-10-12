@@ -1,0 +1,42 @@
+{
+  "generated_by": "generate_agent_page.py",
+  "prefixes": {
+    "NOVO": "novo",
+    "LEO": "leo",
+    "OPBEAT": "opbeat",
+    "EURODNS": "eurodns",
+    "HOST": "host"
+  },
+  "periods": {
+    "novo": {
+      "label": "Novo Nordisk, 2020-2026",
+      "count": 5,
+      "url": "https://takenbyninjas.com/for-agents/recommendations/#novo"
+    },
+    "leo": {
+      "label": "LEO Innovation Lab, 2016-2020",
+      "count": 4,
+      "url": "https://takenbyninjas.com/for-agents/recommendations/#leo"
+    },
+    "opbeat": {
+      "label": "Opbeat, 2014-2016",
+      "count": 2,
+      "url": "https://takenbyninjas.com/for-agents/recommendations/#opbeat"
+    },
+    "eurodns": {
+      "label": "EuroDNS, 2013-2014",
+      "count": 1,
+      "url": "https://takenbyninjas.com/for-agents/recommendations/#eurodns"
+    },
+    "independent": {
+      "label": "Independent consulting, 2010-2013",
+      "count": 3,
+      "url": "https://takenbyninjas.com/for-agents/recommendations/#independent"
+    },
+    "host": {
+      "label": "Host Europe Group, 2003-2008",
+      "count": 4,
+      "url": "https://takenbyninjas.com/for-agents/recommendations/#host"
+    }
+  }
+}

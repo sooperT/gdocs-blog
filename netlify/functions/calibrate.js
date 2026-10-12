@@ -18,7 +18,8 @@ import {
   checkRequirementCount, stripInjection, applyDenyList, validateRows, dropUnknownSections,
 } from './lib/guard.js';
 import { classifyBrief } from './lib/role_shape.js';
-import { cleanAnswer, deriveYear, deriveStrength, buildAttested, SELF_REPORTED, HUMAN_VERSION } from './ask.js';
+import { cleanAnswer, deriveYear, deriveStrength, SELF_REPORTED, HUMAN_VERSION } from './ask.js';
+import { referencesFor } from './lib/references.js';
 
 export const MAX_BRIEF_CHARS = 8000;
 export const MAX_REQUIREMENTS = 12;
@@ -144,8 +145,8 @@ export function trimEvidence(answer, max = EVIDENCE_CHARS) {
 // a quantified result or an outcome verb), otherwise "partial".
 export function buildRow(requirement, match) {
   if (!match) {
-    // No evidence, so no tier and nothing attested.
-    return { requirement, met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, attested: [] };
+    // No evidence, so no tier and no references.
+    return { requirement, met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null };
   }
   const answer = cleanAnswer(match.content);
   const year = deriveYear(answer);
@@ -159,8 +160,7 @@ export function buildRow(requirement, match) {
     source: `TomBot ${match.title}`,
     tier: SELF_REPORTED,
     score: Math.round(Number(match.similarity) * 100) / 100,
-    // Excerpts already went through the deny-list in buildAttested.
-    attested: buildAttested(match.attested).entries,
+    references: referencesFor(match.title),
   };
 }
 

@@ -113,9 +113,16 @@ def collect_pages():
 
 
 def collect_agent_pages():
-    """Collect the agent-side URLs for sitemap-agent.xml"""
+    """Collect the agent-side URLs for sitemap-agent.xml: the fixed list plus every
+    page in for-agents/pages.json (written by generate_agent_page.py)."""
+    pages = list(AGENT_PAGES)
+    if os.path.exists("for-agents/pages.json"):
+        with open("for-agents/pages.json", encoding="utf-8") as f:
+            for p in json.load(f)["pages"].values():
+                if (p["path"], p["file"]) not in pages:
+                    pages.append((p["path"], p["file"]))
     return [{"url": url, "lastmod": get_file_modified_date(path)}
-            for url, path in AGENT_PAGES if os.path.exists(path)]
+            for url, path in pages if os.path.exists(path)]
 
 
 def generate_sitemap(pages):

@@ -196,7 +196,11 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "Open to fractional, interim and permanent roles.",
+      "Target industries: B2B, B2C, SaaS, health-tech, pharma, fintech, developer tooling, ecommerce, regulated industries.",
+      "Company size: Startup, Scaleup, Enterprise."
+    ],
     "external": []
   },
   {
@@ -362,7 +366,9 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "IDEO U: Designing for Change (2024). Scrum Alliance: Certified Scrum Product Owner (2021-2023). Mind the Product: AI for Product Management (in progress, 2026)."
+    ],
     "external": []
   },
   {
@@ -591,7 +597,10 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "Copenhagen, Denmark. Open to onsite roles in Copenhagen, and remote roles across the EU.",
+      "British & French; Danish permanent resident; no work visa is required in EU and UK."
+    ],
     "external": []
   },
   {
@@ -778,7 +787,10 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "2010-2013, independent consultant: worked as a freelance internet consultant to finance my relocation to Denmark. Clients included Host Europe (UK), EuroDNS (LUX), & Everplaces (DK). Content creation & SEO including interviews with MailChimp, Creative Commons, EFF, Rand Fishkin & Michael Palin. Spotted RaspberryPi before launch & created a partnership.",
+      "Host Europe, Pipex Hosting, Pipex Internet, GX Networks and Host Europe Group are one employer under successive names (2003-2008)."
+    ],
     "external": []
   },
   {
@@ -867,7 +879,17 @@
         "excerpt": "I admired Toms ability to get the entire development team engaged in complex algorithms and turning them into simple solutions for the benefit of the end user."
       }
     ],
-    "direct_answers": [],
+    "direct_answers": [
+      "Patient interviews surfaced two insights: every patient's journey is different, but everyone wants to know the same things - how much weight will I lose, is this normal, am I on track. Those three questions became the core loop, and the weight-loss prediction model answered the first.",
+      "The brief I was given in my final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients.",
+      "Through research identified every user-journey is different. Built risk-profiling engine combining clinical data, usage signals, & PROMs to identify drop-off risks.",
+      "Applied consumer marketing playbook to act on risks, personalising experience for each patient. Built profiling and customisation engine to create an interactive magazine.",
+      "Digital patient platform for obesity medicine, built to scale. Designed for scaling: modular architecture, feature flags, integrated CMS & translation pipeline, and systematised cocreation with markets.",
+      "First digital Novo product to successfully scale. Made Novo's first digital health product adopted by multiple markets.",
+      "Led cross-functional team of 10. Set vision, implemented OKRs & used qual-quant signals to steer priorities and shape the roadmap.",
+      "Identified a key growth lever. Created a weight-loss prediction model in Excel, now spun-out to a Bayesian API service.",
+      "Title: Senior Product Manager; the internal title was Product Owner. Same role."
+    ],
     "external": []
   },
   {
@@ -916,7 +938,9 @@
         "excerpt": "He excels in driving innovation and bringing agile principles to life."
       }
     ],
-    "direct_answers": [],
+    "direct_answers": [
+      "Borrowed an anthropologist from another division & proved the value. It later became the Insights team."
+    ],
     "external": []
   },
   {
@@ -933,7 +957,7 @@
       "What was your scope as Associate Product Director?",
       "Tell me about your leadership role at Novo"
     ],
-    "content": "Associate Product Director at Novo Nordisk (Feb 2022 - Mar 2026). Senior IC product role working across silos on complex, high-impact initiatives.\n\nWork includes:\n- Consumer lead for the Wegovy Pill launch, driving prescription growth [NOVO.R2.WEGOVY]\n- Pitched and built a GenAI proof of concept for automating compliance reviews [NOVO.R2.GENAI]\n- Led a six-month discovery programme for the company's top drug asset, securing funding for a portfolio of digital initiatives\n- Introduced a digital incubation model that shifted the organisation from output to outcomes\n- Head of product operations. Helped product teams connect work to commercial outcomes.",
+    "content": "Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026). Senior IC product role working across silos on complex, high-impact initiatives.\n\nWork includes:\n- Consumer lead for the Wegovy Pill launch, driving prescription growth [NOVO.R2.WEGOVY]\n- Pitched and built a GenAI proof of concept for automating compliance reviews [NOVO.R2.GENAI]\n- Led a six-month discovery programme for the company's top drug asset, securing funding for a portfolio of digital initiatives\n- Introduced a digital incubation model that shifted the organisation from output to outcomes\n- Head of product operations. Helped product teams connect work to commercial outcomes.",
     "drill_downs": [
       "NOVO.R2.WEGOVY",
       "NOVO.R2.GENAI"
@@ -975,7 +999,27 @@
         "excerpt": "If you ever need someone to run a high attention level, strategically and commercially important innovation project…. Tom’s your guy."
       }
     ],
-    "direct_answers": [],
+    "direct_answers": [
+      "CagriSema was the first drug to span two therapy areas, diabetes and obesity, that had never collaborated. Nobody had authority over both, so the discovery programme ran on influence.",
+      "The discovery funnel: 128 candidate ideas, a shortlist of 5, assumption-tested, 4 recommended and funded, each with a funding-gated rollout.",
+      "The organisational reflex was solution-first and siloed: output and theatre over outcomes. The incubation model was built to break that pattern.",
+      "Product Operations: standards, artefacts, ways of working. I know what good looks like because I've done it.",
+      "Digital Incubation: I established and led a digital product incubation unit, evaluating build, buy and partner solutions. It moved the business from solution-first to problem-first; CagriSema was its hardest test.",
+      "Head of Patient Products: led 6 experienced PMs building consumer engagement products. Management by outcomes.",
+      "Overcame resistance to establish weekly demos and experiment sharing. Broke product silos and encouraged learning loops.",
+      "Given a wider remit to work across the product pipeline and complete the transition to a product operating model.",
+      "Established metrics across a diverse portfolio (12 products).",
+      "Built first cross-portfolio view of product team costs and capacity, started conversation around ROI.",
+      "Established product artefacts & quality standards across the product org, eg: gate model & deliverables, product-ops metrics, portfolio reports, business case templates, problem/north-star statements.",
+      "Mentored PMs to move from delivery-led outputs to commercial outcomes.",
+      "Secured funding, managed resourcing and cross-charges for incubation teams.",
+      "Designed portfolio model and gated incubation pipeline for branded digital engagement.",
+      "Shifted cross-functional VPs from product sceptics to advocates.",
+      "Chaired project steercos. Flipped the format from status updates to interactive co-creation, shifting cross-functional VPs from product sceptics to advocates.",
+      "Thought partner to Product VP.",
+      "Pitched 'Rybelsus Beyond The Pill' to Senior Management, an ambitious cross-functional pipeline for generating learnings & extending staytime. A small pilot is underway.",
+      "I lobbied Novo to switch sales data to a cohort retention model and failed."
+    ],
     "external": []
   },
   {
@@ -1005,7 +1049,16 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "I rethought the user journey and created a simple structural fix to drive prescription growth.",
+      "I worked closely with the US affiliate for the Wegovy Pill launch.",
+      "Invited into company-critical Wegovy pill launch to challenge assumptions on digital, packaging, and direct distribution.",
+      "Used subscription-model thinking to link packaging to digital fulfilment for biggest ever pharma launch.",
+      "Aligned silos to create unified physical-to-digital experience.",
+      "Designed unified physical-to-digital experience to increase prescriptions for company-critical launch.",
+      "Selected for one-year placement on the company's most critical drug launch, representing the consumer voice in a science-first organisation.",
+      "Brought new commercial thinking by reframing adherence through a SaaS retention lens."
+    ],
     "external": []
   },
   {
@@ -1102,7 +1155,10 @@
         "excerpt": "Both times Tom established a goal and process setup that helped focus the team on delivering value."
       }
     ],
-    "direct_answers": [],
+    "direct_answers": [
+      "BetterVisitBot: a pre-briefing chatbot for doctor consultations. Worked with GPs to prototype it. I hid a dermatologist in an adjacent room to simulate a consultation chatbot. Right idea, too early. Now it isn't.",
+      "Title: PM/GM, also written Product Owner, Product Lead or Product Lead / GM on different CVs. Same role: product leads were mini-CEOs for each venture."
+    ],
     "external": []
   },
   {
@@ -1135,7 +1191,9 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "A struggling psoriasis chatbot app with everything on fire. Worked with nutritionists to fix a struggling diet coaching app: rebuilt from the ground-up, established metrics. 7x activation. Then closed product."
+    ],
     "external": []
   },
   {
@@ -1150,7 +1208,7 @@
       "How do you handle taking over a struggling product?",
       "Tell me about building trust with an inherited team"
     ],
-    "content": "I was brought in to troubleshoot the flagship product \"TREAT\".\n\nIt was the first product to launch, and had a lot of attention. But behind the scenes it was in trouble: massive tech debt, no prioritisation, flaky metrics, no roadmap, unclear reporting structure, massive churn, no pathway to profitability.\n\nThe product had an existing team of about 15 people, including a product lead and product manager. They were passionate but in over their heads. We needed to be delicate - keep their passion and expertise while helping them out.\n\nI started as a consultant for the first month. After that, it was proposed I become the lead with them reporting to me. This required trust and humility from everyone. I gave them the option to veto - but we went ahead.\n\nWhat followed was intense. Fires, chaos, blurred reporting lines, people problems. We paused the service to refactor faster. Team morale hit rock bottom.\n\nBut we kept the faith. New cadences, new ways of working. We came out the other side not only intact but better and stronger - with real trust.",
+    "content": "I was brought in to troubleshoot the flagship product \"TREAT\".\n\nIt was the first product to launch, and had a lot of attention. But behind the scenes it was in trouble: massive tech debt, no prioritisation, flaky metrics, no roadmap, unclear reporting structure, massive churn, no pathway to profitability.\n\nThe product had an existing team of about 17 people, including a product lead and product manager. They were passionate but in over their heads. We needed to be delicate - keep their passion and expertise while helping them out.\n\nI started as a consultant for the first month. After that, it was proposed I become the lead with them reporting to me. This required trust and humility from everyone. I gave them the option to veto - but we went ahead.\n\nWhat followed was intense. Fires, chaos, blurred reporting lines, people problems. We paused the service to refactor faster. Team morale hit rock bottom.\n\nBut we kept the faith. New cadences, new ways of working. We came out the other side not only intact but better and stronger - with real trust.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1236,7 +1294,11 @@
         "excerpt": "I particularly valued Tom's pragmatic approach to problem solving within a complex pharma environment and talent to convert patient insights into tangible tech solutions."
       }
     ],
-    "direct_answers": [],
+    "direct_answers": [
+      "Worked with oncologists to reimagine patient care between appointments. Interviewed terminally ill patients.",
+      "Dynamically spliced video to simulate personalised dermatology consultations for terminally ill cancer patients, designed for simplicity and trust.",
+      "Led in-market discovery with patients, affiliates and HCPs, a new approach later adopted across their wider org. Negotiated a novel outcome-based partnership with Amgen."
+    ],
     "external": []
   },
   {
@@ -1251,7 +1313,7 @@
       "Describe the skin diagnosis project",
       "Have you worked with computer vision?"
     ],
-    "content": "PM/GM at LEO Innovation Lab (Nov 2018 - Jan 2020), leading a 10-person team building a prototype diagnosis app using machine learning. This was my first deep experience with ML teams.[THEME.AI]\n\nKey achievements:\n- Led machine learning and computer vision specialists\n- Achieved >80% accuracy across 3 skin conditions, doubled labelling throughput\n- Evaluated go-to-market for a moonshot ML prototype; identified seven paths to market",
+    "content": "PM/GM at LEO Innovation Lab (Nov 2018 - Jan 2020), leading a 12-person team building a prototype diagnosis app using machine learning. This was my first deep experience with ML teams.[THEME.AI]\n\nKey achievements:\n- Led machine learning and computer vision specialists\n- Achieved >80% accuracy across 3 skin conditions, doubled labelling throughput\n- Evaluated go-to-market for a moonshot ML prototype; identified seven paths to market",
     "drill_downs": [
       "LEO.R3.ML"
     ],
@@ -1270,7 +1332,10 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "Led a team of AI engineers all wired for logic and certainty through the deep uncertainty of product discovery, to rethink how a smartphone camera could diagnose skin conditions.",
+      "Worked with derms to redesign closed-loop diagnosis and ML training platform. Bootstrapped ML engine with clinical decision trees. Safe to launch with a path to full automation. Doubled dermatologist throughput."
+    ],
     "external": []
   },
   {
@@ -1315,7 +1380,7 @@
       "What was the global launch you rescued?",
       "Describe your contract role at TwentyThree"
     ],
-    "content": "TwentyThree was an integrated video marketing platform built for digital marketers. I joined on a 6-month contract as Head of Marketing to rescue a global launch.\n\nKey achievements:\n- Rescued global launch on a 6-week deadline\n- Stabilised a 10-12 person marketing team\n- Introduced lightweight reporting and planning structure",
+    "content": "TwentyThree was an integrated video marketing platform built for digital marketers. I joined as Head of Marketing on a short-term contract, initially six weeks and extended to the end of the year, to rescue a global launch.\n\nKey achievements:\n- Rescued global launch on a 6-week deadline\n- Stabilised a 10-12 person marketing team\n- Introduced lightweight reporting and planning structure",
     "drill_downs": [
       "T23.R1.RESCUE"
     ],
@@ -1334,7 +1399,9 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "A trouble-shooting assignment: short-term contract to provide structure to a team of 10 reports. Implemented OKRs, produced video content, crystalised USPs, introduced reporting structure."
+    ],
     "external": []
   },
   {
@@ -1387,7 +1454,12 @@
         "excerpt": "Tom is a very talented marketeer, and it's been a pleasure working with him at Opbeat, where he led the marketing team. Tom is driven, hard-working, creative - and a great guy."
       }
     ],
-    "direct_answers": [],
+    "direct_answers": [
+      "The founders had a good product and famous backers, and believed that if they built it, customers would come. They launched into silence.",
+      "Our customers were in the US, so most of the marketing was international.",
+      "B2B devops startup backed by Balderton Capital and the cofounders of Facebook & Instagram.",
+      "Introduced KPIs, reporting & budgeting. Grew grassroots meetups and created video engine to connect with developers, creating the traction that enabled a $2M bridge-funding round."
+    ],
     "external": []
   },
   {
@@ -1495,7 +1567,9 @@
         "excerpt": "He impressed me by thoroughly analyzing our positioning in the market place and then recommending something very different of what was already in the pipeline and 90% done."
       }
     ],
-    "direct_answers": [],
+    "direct_answers": [
+      "Repositioned dry domains with curated photography, created content marketing & rebooted newsletter. Introduced OKRs and implemented tracking."
+    ],
     "external": []
   },
   {
@@ -1559,7 +1633,11 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "The domain platform: we had 6 brands using 3 different providers, and in some cases going direct to the registry, each with different APIs, rules and management fees. One platform replaced them.",
+      "For the domain platform I owned the business case, budget, specifications, contracts and migration strategy.",
+      "Troubleshooter for the CEO across London, Chicago & Utah offices. Owned strategy across pricing, product and marketing. Diagnosed underperforming brand, created product & ecommerce strategy."
+    ],
     "external": []
   },
   {
@@ -1604,7 +1682,7 @@
       "Host Europe Group",
       "Pipex"
     ],
-    "content": "Host Europe Group was Europe's largest privately-owned web hosting provider. In 2017 it was acquired by GoDaddy for $1.82 billion.\n\nThis is where I started, and where I learnt the trade - five years spanning sales, web, and leadership. It's also where I learnt *the hard way* about technical debt, waterfall, and PRINCE2.\n\nCareer progression:\n- Sales Executive (Mar 2003 - Feb 2004): Won annual sales competition, made an alternative website in my free time [HOST.R3.STORY.ALTSITE]\n- Web Designer (Feb 2004 - Aug 2005): Reinvented domain search, increasing revenue 20% overnight [HOST.R2.STORY.DOMAIN] [THEME.GROWTH]\n- Group Design Manager (Aug 2005 - Jan 2006): Led web design across multiple brands\n- Head of New Media (Jan 2006 - Jun 2008): Created department from scratch, member of Senior Management Team",
+    "content": "Host Europe Group was Europe's largest privately-owned web hosting provider. In 2017 it was acquired by GoDaddy for $1.82 billion.\n\nThis is where I started, and where I learnt the trade - five years spanning sales, web, and leadership. It's also where I learnt *the hard way* about technical debt, waterfall, and PRINCE2.\n\nCareer progression:\n- Sales Executive (Mar 2003 - Feb 2004): Won annual sales competition, made an alternative website in my free time [HOST.R3.STORY.ALTSITE]\n- Web Designer (Feb 2004 - Aug 2005): Reinvented domain search, now the industry standard [HOST.R2.STORY.DOMAIN]\n- Group Design Manager (Aug 2005 - Jan 2006): Led web design across multiple brands\n- Head of New Media (Jan 2006 - Jun 2008): Created department from scratch, member of Senior Management Team. Restructured the online order process, increasing new revenue by 20% [THEME.GROWTH]",
     "drill_downs": [
       "HOST.R1",
       "HOST.R2",
@@ -1648,8 +1726,17 @@
         "excerpt": "Tom is a highly motivated, knowledgeable and productive individual who innately makes a great Web designer-developer and team manager."
       }
     ],
-    "direct_answers": [],
-    "external": []
+    "direct_answers": [
+      "New Media: responsible for all online touchpoints, ecommerce, digital campaigns, email marketing and SaaS dashboards.",
+      "One employer under several names: Pipex Communications acquired Host Europe in April 2004; the company reverted to the GX Networks name in 2008 after selling Pipex, was renamed Host Europe Group in 2009, and was acquired by GoDaddy in 2017.",
+      "Managed all online channels (2M+ monthly visits): introduced self-service support, pioneered site-building tools, optimised support centre, led ecommerce, dominated SEO rankings."
+    ],
+    "external": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Host_Europe_Group",
+        "label": "Host Europe Group, Wikipedia"
+      }
+    ]
   },
   {
     "id": "HOST.R1.REBRAND",
@@ -1674,7 +1761,9 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "The company was renamed GX Networks. Host Europe Group had been acquired by Pipex in 2004; the 2008 rename to GX Networks was the project."
+    ],
     "external": []
   },
   {
@@ -1690,7 +1779,7 @@
       "biggest win",
       "proudest achievement"
     ],
-    "content": "20 years ago, I worked for a domain registrar (now part of GoDaddy). The industry standard for domain search was clunky: enter the name in a text field, pick the domain ending from a dropdown, hit search. This was because we had to make a separate API call to each domain registry.\n\nUsers could only search for one domain at a time and kept running into domains that were already taken. Frustrating experience, poor conversion.\n\nI reinvented the process: a simple text field that interpreted whatever the user entered and searched all endings asynchronously. First use of AJAX in our stack.\n\nNew revenue increased by 20% overnight. The approach became the industry standard - if you search for a domain anywhere today, this is how it works.",
+    "content": "20 years ago, I worked for a domain registrar (now part of GoDaddy). The industry standard for domain search was clunky: enter the name in a text field, pick the domain ending from a dropdown, hit search. This was because we had to make a separate API call to each domain registry.\n\nUsers could only search for one domain at a time and kept running into domains that were already taken. Frustrating experience, poor conversion.\n\nI reinvented the process: a simple text field that interpreted whatever the user entered and searched all endings asynchronously. First use of AJAX in our stack.\n\nThe approach became the industry standard - if you search for a domain anywhere today, this is how it works.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1707,7 +1796,9 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "Nobody asked for it. I thought it was a poor experience at the top of the sales funnel, the shop window of the business, and worth fixing."
+    ],
     "external": []
   },
   {
@@ -1776,7 +1867,10 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "Solo projects, 2026: kittenpm.com, a product training SIM inspired by Lemmings, built with React, TypeScript & Phaser, using Claude as my engineering team; deathspiralorgoldenage.org, a public poll, live sentiment tracker and open economic model with CC0 data, researched & built with AI.",
+      "We used to build tools to help people get an outcome; AI lets us deliver the outcome directly. Don't build drills, build holes! The temptation is to use AI to help us do the same work but faster, when really we can change the workflow entirely."
+    ],
     "external": []
   },
   {
@@ -1799,7 +1893,7 @@
       "What marketing have you done?",
       "marketing"
     ],
-    "content": "I have a track record of driving growth. Improving funnels, reducing bounce rates, increasing activation and conversion. I have done this both from marketing and product seats.\n\n- Host Europe: Reinvented domain search, increasing new revenue 20% overnight - inadvertently creating an industry standard. [HOST.R2.STORY.DOMAIN]\n- Opbeat: Trebled traffic and sign-ups in 12 months. Created a grass-roots video growth engine. [OPBEAT.R1.GROWTH]\n- EuroDNS: Reversed a 4-year decline, doubled organic traffic, halved bounce rate (60% → 30%) [EURODNS.R1.TURNAROUND]\n- LEO TREAT: Halved acquisition costs, increased activation 7x with an experiment-led work rhythm [LEO.R1]",
+    "content": "I have a track record of driving growth. Improving funnels, reducing bounce rates, increasing activation and conversion. I have done this both from marketing and product seats.\n\n- Host Europe: Restructured the online order process, increasing new revenue by 20%; reinvented domain search, inadvertently creating an industry standard. [HOST.R2.STORY.DOMAIN]\n- Opbeat: Trebled traffic and sign-ups in 12 months. Created a grass-roots video growth engine. [OPBEAT.R1.GROWTH]\n- EuroDNS: Reversed a 4-year decline, doubled organic traffic, halved bounce rate (60% → 30%) [EURODNS.R1.TURNAROUND]\n- LEO TREAT: Halved acquisition costs, increased activation 7x with an experiment-led work rhythm [LEO.R1]",
     "drill_downs": [
       "HOST.R2.STORY.DOMAIN",
       "EURODNS.R1.TURNAROUND",
@@ -1902,7 +1996,7 @@
       "management experience",
       "management"
     ],
-    "content": "I've led teams of 5-12 across multiple roles:\n\n- LEO Diagnosis App: 10-person ML/CV team [LEO.R3]\n- Host Europe: Created New Media department, 5-6 direct reports [HOST]\n- EuroDNS: 4 direct reports, remote/hybrid setup [EURODNS.R1.STORY.REMOTE]\n- LEO TREAT: Inherited 15-person team in turnaround situation [LEO.R1.TURNAROUND]\n\nManaging people is something I can do and enjoy, but it's not my primary motivation. I'm motivated by creating impact - sometimes that means being a people manager, other times it works best through informal leadership or hands-on building. [TQ.MGMT]",
+    "content": "I've led teams of 5-17 across multiple roles:\n\n- LEO Diagnosis App: 12-person ML/CV team [LEO.R3]\n- Host Europe: Created New Media department, 5-6 direct reports [HOST]\n- EuroDNS: 4 direct reports, remote/hybrid setup [EURODNS.R1.STORY.REMOTE]\n- LEO TREAT: Inherited 17-person team in turnaround situation [LEO.R1.TURNAROUND]\n\nManaging people is something I can do and enjoy, but it's not my primary motivation. I'm motivated by creating impact - sometimes that means being a people manager, other times it works best through informal leadership or hands-on building. [TQ.MGMT]",
     "drill_downs": [
       "LEO.R3",
       "HOST.R1",
@@ -2005,7 +2099,7 @@
       "Are you EU-eligible to work?",
       "What is your experience with distributed teams?"
     ],
-    "content": "I've worked across multiple countries and managed remote and distributed teams throughout my career:\n\n- **UK (2001-2010):** Host Europe, UK2 Group — London, Nottingham\n- **Luxembourg (2013-2014):** EuroDNS — hybrid, mostly Copenhagen with Luxembourg every two weeks [EURODNS.R1.STORY.REMOTE]\n- **Denmark (2010-2026):** LEO, Novo Nordisk, Opbeat, TwentyThree, independent consulting\n- **Remote teams:** Managed teams across UK, US, Ukraine, Romania [UK2.R1.USTURNAROUND]\n\nI'm a British citizen with Danish permanent residency (no work visa required for Denmark). I've lived in Copenhagen since 2010.",
+    "content": "I've worked across multiple countries and managed remote and distributed teams throughout my career:\n\n- **UK (2001-2010):** Host Europe, UK2 Group — London, Nottingham\n- **Luxembourg (2013-2014):** EuroDNS — hybrid, mostly Copenhagen with Luxembourg every two weeks [EURODNS.R1.STORY.REMOTE]\n- **Denmark (2010-2026):** LEO, Novo Nordisk, Opbeat, TwentyThree, independent consulting\n- **Remote teams:** Managed teams across UK, US and Ukraine [UK2.R1.USTURNAROUND], and a Romanian SEO team as a consultant (2010-2013)\n\nI'm a British citizen with Danish permanent residency (no work visa required for Denmark). I've lived in Copenhagen since 2010.",
     "drill_downs": [
       "EURODNS.R1.STORY.REMOTE",
       "UK2.R1.USTURNAROUND"

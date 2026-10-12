@@ -43,13 +43,33 @@ export const RESOURCES = {
     public: ['/for-agents/treat-turnaround', '/for-agents/treat-turnaround/index.html'] },
   recommendations: { path: '/for-agents/recommendations/', file: 'for-agents/recommendations/index.html', type: HTML,
     public: ['/for-agents/recommendations', '/for-agents/recommendations/index.html'] },
+  'proof-points.json': { path: '/for-agents/proof-points.json', file: 'for-agents/proof-points.json',
+    type: 'application/json; charset=utf-8', public: ['/for-agents/proof-points.json'] },
 };
+
+// The generated pages (generate_agent_page.py writes for-agents/pages.json:
+// slug -> {path, file}). Read once per instance; a missing manifest means
+// only RESOURCES resolve.
+export const MANIFEST_FILE = 'for-agents/pages.json';
+export function manifestResources(readFile) {
+  try {
+    const pages = JSON.parse(readFile(MANIFEST_FILE)).pages || {};
+    const out = {};
+    for (const [slug, p] of Object.entries(pages)) {
+      if (!/^[a-z0-9-]+(\/[a-z0-9-]+){0,2}$/.test(slug) || slug in RESOURCES) continue;
+      out[slug] = { path: p.path, file: p.file, type: HTML, public: [`/for-agents/${slug}`, `/for-agents/${slug}/index.html`] };
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
 
 // Accepts both the rewritten form (/.netlify/functions/agent-fetch/llms)
 // and the public form (/llms.txt), in case the runtime hands us either.
-export function resourceFor(pathname) {
+export function resourceFor(pathname, extra = {}) {
   const p = String(pathname || '').replace(/\/+$/, '').toLowerCase();
-  for (const [key, r] of Object.entries(RESOURCES)) {
+  for (const [key, r] of Object.entries({ ...RESOURCES, ...extra })) {
     if (p.endsWith(`/agent-fetch/${key}`) || r.public.some(pub => p.endsWith(pub))) return r;
   }
   return null;
@@ -134,7 +154,9 @@ export async function logFetch(pool, row) {
 }
 
 export function createHandler({ getPool = getDefaultPool, readFile = defaultReadFile } = {}) {
+  let generated = null;
   return async (request, context) => {
+    if (generated === null) generated = manifestResources(readFile);
     const method = request.method;
     if (method !== 'GET' && method !== 'HEAD') {
       return new Response('Method not allowed\n', {
@@ -143,7 +165,7 @@ export function createHandler({ getPool = getDefaultPool, readFile = defaultRead
       });
     }
 
-    const resource = resourceFor(new URL(request.url).pathname);
+    const resource = resourceFor(new URL(request.url).pathname, generated);
     if (!resource) {
       return new Response('Not found\n', { status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
     }

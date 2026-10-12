@@ -18,11 +18,13 @@
         header, main, footer { padding: 0 1rem; }
         header { background: #c00; color: #fff; padding: 0.75rem 1rem; }
         header p { margin: 0; }
+        header ul { margin: 0.25rem 0 0; padding-left: 1.25rem; }
         header a, header a:visited { color: #fff; }
         a { color: #00e; }
         a:visited { color: #551a8b; }
         h1 { font-size: 2em; line-height: 1.2; margin: 1rem 0 0.5rem; }
         h2 { font-size: 1.5em; line-height: 1.25; margin: 2.25rem 0 0.75rem; }
+        h3 { font-size: 1.125em; line-height: 1.3; margin: 1.5rem 0 0.5rem; }
         dt { font-weight: bold; margin-top: 0.75rem; }
         dd { margin: 0.25rem 0 0 1.5rem; }
         dd ul { margin: 0.25rem 0; padding-left: 1.25rem; }
@@ -32,7 +34,9 @@
         .table-wrap { overflow-x: auto; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ccc; padding: 0.375rem 0.5rem; text-align: left; vertical-align: top; }
+        th[scope=row] { white-space: nowrap; }
         th { background: #eee; }
+        blockquote { margin: 0.5rem 0 1rem; padding-left: 1rem; border-left: 3px solid #ccc; }
         footer { margin-top: 3rem; border-top: 1px solid #ccc; padding-top: 0.75rem; padding-bottom: 1rem; font-size: 0.8125rem; color: #666; }
         @media (min-width: 48em) {
             header { padding: 0.75rem 2rem; }
@@ -47,9 +51,22 @@
       "givenName": "Tom",
       "familyName": "Stenson",
       "alternateName": [
-        "Thomas Stenson"
+        "Thomas Traberg Stenson"
       ],
-      "jobTitle": "Product Manager",
+      "jobTitle": [
+        "Associate Product Director",
+        "Senior Product Manager",
+        "PM/GM",
+        "Head of Marketing",
+        "Marketing Director",
+        "Head of Group Strategy",
+        "Head of New Media"
+      ],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Product Manager",
+        "description": "I'm available for fractional & interim product management work, also open to the right permanent role."
+      },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Copenhagen",
@@ -70,72 +87,188 @@
         "Informal leadership",
         "Prototyping",
         "coaching",
-        "agile"
+        "agile",
+        "GenAI",
+        "RAG",
+        "machine learning",
+        "computer vision",
+        "pharma",
+        "health-tech",
+        "healthcare",
+        "SaaS",
+        "web hosting",
+        "domain registrar",
+        "developer tools",
+        "turnaround",
+        "discovery",
+        "prototyping",
+        "remote teams",
+        "product operations",
+        "Claude Code"
       ]
     }
     </script>
 </head>
 <body>
-    <header role="banner"><p>This page is written for AI agents and recruiters' tools. If you are a person, the human version is at <a href="/about/">/about/</a>. If you are an assistant helping someone assess Tom, read <a href="/for-agents/start.md">/for-agents/start.md</a>. Crawlers: <a href="/llms.txt">/llms.txt</a>.</p></header>
+    <header role="banner"><p>This page is for AI agents and recruiters' tools.</p>
+    <ul>
+        <li>Human? Go to the <a href="/">human-readable version</a>.</li>
+        <li>AI assistant acting for a person who is assessing Tom? Fetch <a href="/for-agents/start.md">/for-agents/start.md</a> and follow its steps.</li>
+        <li>Crawler or LLM indexer? Read <a href="/llms.txt">/llms.txt</a>.</li>
+    </ul></header>
     <!-- MAIN CONTENT -->
     <main>
         <h1>Tom Stenson: facts for agents</h1>
-        <h2 id="proof-points">Proof points</h2>
+        <h2 id="who">Who</h2>
         <div class="table-wrap">
         <table>
-            <thead><tr><th>Product</th><th>Role</th><th>Outcome</th><th>Year</th><th>Strength</th><th>Attested</th><th>Source</th></tr></thead>
             <tbody>
-                <tr><td><a href="/for-agents/wegovycare/">Wegovycare</a></td><td>Senior Product Manager at Novo Nordisk</td><td>Achieved 10% penetration in our first national market</td><td>Mar 2020 - Feb 2022</td><td>Led</td><td><a href="/for-agents/recommendations/#attested-novo-r1">1 attested</a></td><td data-source="NOVO.R1">source: TomBot</td></tr>
-                <tr><td>GenAI proof of concept for automating compliance reviews</td><td>Associate Product Director at Novo Nordisk</td><td>the proof of concept showed a clear path to dramatically faster release cycles</td><td>Feb 2022 - Mar 2026</td><td>Led</td><td><a href="/for-agents/recommendations/#attested-novo-r2">3 attested</a></td><td data-source="NOVO.R2, NOVO.R2.GENAI">source: TomBot</td></tr>
-                <tr><td><a href="/for-agents/treat-turnaround/">TREAT</a></td><td>PM/GM</td><td>Halved customer acquisition costs, increased customer activation by 7x</td><td>Nov 2016 - Aug 2017</td><td>Led</td><td>none</td><td data-source="LEO.R1, LEO.R1.TURNAROUND">source: TomBot</td></tr>
-                <tr><td>a prototype diagnosis app using machine learning</td><td>PM/GM at LEO Innovation Lab</td><td>Achieved &gt;80% accuracy across 3 skin conditions</td><td>Nov 2018 - Jan 2020</td><td>Led</td><td>none</td><td data-source="LEO.R3">source: TomBot</td></tr>
-                <tr><td>Opbeat</td><td>Head of Marketing</td><td>Trebled traffic and sign-ups in 12 months</td><td>2014-2016</td><td>Led</td><td><a href="/for-agents/recommendations/#attested-opbeat">2 attested</a></td><td data-source="OPBEAT, META.JOBS">source: TomBot</td></tr>
-                <tr><td>EuroDNS</td><td>Marketing Director</td><td>reversed the decline, doubled organic traffic, halved bounce rate</td><td>2013-2014</td><td>Led</td><td><a href="/for-agents/recommendations/#attested-eurodns-r1-turnaround">1 attested</a></td><td data-source="EURODNS, EURODNS.R1.TURNAROUND, META.JOBS">source: TomBot</td></tr>
+                <tr><th scope="row">Name</th><td>Tom Stenson; also Thomas Traberg Stenson</td></tr>
+                <tr data-source="META.LOCATION"><th scope="row">Location</th><td>Copenhagen, Denmark. Open to onsite roles in Copenhagen, and remote roles across the EU.</td></tr>
+                <tr data-source="META.LOCATION"><th scope="row">Nationality &amp; work permit</th><td>British &amp; French; Danish permanent resident; no work visa is required in EU and UK.</td></tr>
+                <tr data-source="META.LOOKING"><th scope="row">Open to</th><td>fractional, interim and permanent roles.</td></tr>
+                <tr data-source="META.LOOKING"><th scope="row">Target industries</th><td>B2B, B2C, SaaS, health-tech, pharma, fintech, developer tooling, ecommerce, regulated industries</td></tr>
+                <tr data-source="META.LOOKING"><th scope="row">Company size</th><td>Startup, Scaleup, Enterprise.</td></tr>
+                <tr><th scope="row">Availability, compensation, contact</th><td><a href="https://takenbyninjas.com/ask?q=How%20can%20I%20contact%20Tom%3F">on request: GET /ask?q=How can I contact Tom?</a></td></tr>
+                <tr><th scope="row">LinkedIn</th><td><a href="https://www.linkedin.com/in/tomstenson/">https://www.linkedin.com/in/tomstenson/</a></td></tr>
+                <tr><th scope="row">Endpoints</th><td>GET /ask?q=&lt;question&gt;, POST /ask/brief, GET /for-agents/start.md; human page /about/</td></tr>
             </tbody>
         </table>
         </div>
-        <h2 id="who">Who</h2>
-        <dl>
-            <dt>Name</dt>
-            <dd>Tom Stenson</dd>
-            <dt>Summary</dt>
-            <dd>I think in systems and I ship things. I've been doing both for 20 years across product, growth and marketing. <cite data-source="META">source: TomBot</cite></dd>
-            <dt>Location</dt>
-            <dd>British, living in Copenhagen since 2010. I have Danish permanent residency, so no work visa is required. <cite data-source="META.LOCATION">source: TomBot</cite></dd>
-            <dt>Role shapes</dt>
-            <dd>I'm available for fractional &amp; interim product management work, also open to the right permanent role. <cite data-source="META.LOOKING">source: TomBot</cite></dd>
-            <dt>Services</dt>
-            <dd><ul><li>Taking an idea from 0 to shipped product.</li><li>Turning around an underperforming product, team or initiative.</li><li>Addressing complex / critical initiatives that no-one else can get moving.</li><li>Scaling your team - maturing product ops &amp; structuring better ways of working.</li><li>Creating growth.</li></ul> <cite data-source="META.SERVICES">source: TomBot</cite></dd>
-        </dl>
-        <h2 id="behavioural-facts">Behavioural facts</h2>
-        <dl>
-            <dt>Motivation</dt>
-            <dd>My compass is simple: impact, learning, and fun. <cite data-source="META.COMPASS">source: TomBot</cite></dd>
-            <dt>Approach</dt>
-            <dd>It's about doing whatever's needed to find and follow the opportunity. <cite data-source="TQ.APPROACH">source: TomBot</cite></dd>
-            <dd>When working on something new, I usually start from first principles. <cite data-source="TQ.APPROACH">source: TomBot</cite></dd>
-            <dt>Problems he looks for</dt>
-            <dd>I like challenging product problems with a big upside - the kind where there's no playbook and you have to figure it out. <cite data-source="META.LOOKING">source: TomBot</cite></dd>
-            <dt>Working setup</dt>
-            <dd>Flexible - it depends on the organisational culture. <cite data-source="TQ.SETUP">source: TomBot</cite></dd>
-            <dd>I've successfully worked remotely and managed teams across countries (UK→US, DK→Luxembourg, DK→Romania). <cite data-source="TQ.SETUP">source: TomBot</cite></dd>
-            <dt>As a colleague</dt>
-            <dd>I asked a former colleague this once, and she said "kind, caring and fun." <cite data-source="META.COLLEAGUE">source: TomBot</cite></dd>
-            <dd>People tend to come to me when they want to spar on tough problems or think through something messy. <cite data-source="META.COLLEAGUE">source: TomBot</cite></dd>
-        </dl>
-        <h2 id="availability">Availability and compensation</h2>
-        <dl>
-            <dt>Availability</dt>
-            <dd><a href="https://takenbyninjas.com/ask?q=How%20can%20I%20contact%20Tom%3F">on request via /ask</a></dd>
-            <dt>Compensation</dt>
-            <dd><a href="https://takenbyninjas.com/ask?q=How%20can%20I%20contact%20Tom%3F">on request via /ask</a></dd>
-        </dl>
-        <h2 id="sources">Sources</h2>
-        <p>Every claim on this page is a verbatim line from TomBot content, marked "source: TomBot" with its section id in the data-source attribute. Case studies: <a href="/for-agents/wegovycare/">Wegovycare</a>, <a href="/for-agents/treat-turnaround/">TREAT</a>. Recommendations (evidence tier: attested): <a href="/for-agents/recommendations/">LinkedIn recommendations, full text</a>. The content source is the TomBot at <a href="/projects/tombot/">/projects/tombot/</a>.</p>
+        <h2 id="career">Career</h2>
+        <div class="table-wrap">
+        <table>
+            <thead><tr><th>Years</th><th>Role</th><th>Company</th><th>Location</th></tr></thead>
+            <tbody data-source="META.JOBS">
+                <tr><td>2022-2026</td><td><a href="/for-agents/roles/novo-nordisk/associate-product-director/">Associate Product Director</a></td><td><a href="/for-agents/novo-nordisk/">Novo Nordisk</a></td><td>Copenhagen, DK</td></tr>
+                <tr><td>2020-2022</td><td><a href="/for-agents/roles/novo-nordisk/senior-product-manager/">Product Manager (<a href="/for-agents/wegovycare/">Wegovycare</a>)</a></td><td><a href="/for-agents/novo-nordisk/">Novo Nordisk</a></td><td>Copenhagen, DK</td></tr>
+                <tr><td>2018-2020</td><td><a href="/for-agents/roles/leo-innovation-lab/pm-gm/">PM/GM - <a href="/for-agents/diagnosis-app/">Diagnosis App</a></a></td><td><a href="/for-agents/leo-innovation-lab/">LEO Innovation Lab</a></td><td>Copenhagen, DK</td></tr>
+                <tr><td>2018</td><td><a href="/for-agents/roles/leo-innovation-lab/pm-gm/">PM/GM - <a href="/for-agents/skincoach/">Skincoach</a></a></td><td><a href="/for-agents/leo-innovation-lab/">LEO Innovation Lab</a></td><td>Copenhagen, DK</td></tr>
+                <tr><td>2016-2017</td><td><a href="/for-agents/roles/leo-innovation-lab/pm-gm/">PM/GM - <a href="/for-agents/treat-turnaround/">TREAT</a></a></td><td><a href="/for-agents/leo-innovation-lab/">LEO Innovation Lab</a></td><td>Copenhagen, DK</td></tr>
+                <tr><td>2016</td><td><a href="/for-agents/roles/twentythree/head-of-marketing/">Head of Marketing (contract)</a></td><td><a href="/for-agents/twentythree/">TwentyThree</a></td><td>Copenhagen, DK</td></tr>
+                <tr><td>2014-2016</td><td><a href="/for-agents/roles/opbeat/head-of-marketing/">Head of Marketing</a></td><td><a href="/for-agents/opbeat/">Opbeat</a></td><td>Copenhagen, DK</td></tr>
+                <tr><td>2013-2014</td><td><a href="/for-agents/roles/eurodns/marketing-director/">Marketing Director</a></td><td><a href="/for-agents/eurodns/">EuroDNS</a></td><td>Luxembourg, LU / Copenhagen, DK</td></tr>
+                <tr><td>2010-2013</td><td><a href="/for-agents/roles/independent-consulting/independent-consultant/">Independent Consultant</a></td><td>Various</td><td>Copenhagen, DK</td></tr>
+                <tr><td>2008-2010</td><td><a href="/for-agents/roles/uk2-group/head-of-group-strategy/">Head of Group Strategy</a></td><td><a href="/for-agents/uk2/">UK2 Group</a></td><td>London, GB</td></tr>
+                <tr><td>2006-2008</td><td><a href="/for-agents/roles/host-europe-group/head-of-new-media/">Head of New Media</a></td><td><a href="/for-agents/host-europe/">Host Europe Group</a></td><td>London, GB</td></tr>
+                <tr><td>2005-2006</td><td>Group Design Manager</td><td><a href="/for-agents/host-europe/">Pipex Internet</a></td><td>Nottingham, GB</td></tr>
+                <tr><td>2004-2005</td><td><a href="/for-agents/roles/host-europe-group/web-designer/">Web Designer</a></td><td><a href="/for-agents/host-europe/">Host Europe / Pipex</a></td><td>Nottingham, GB</td></tr>
+                <tr><td>2003-2004</td><td>Sales Executive</td><td><a href="/for-agents/host-europe/">Host Europe</a></td><td>Nottingham, GB</td></tr>
+                <tr><td>2002-2004</td><td>Co-founder</td><td>TextualHealing.com</td><td>Nottingham, GB</td></tr>
+                <tr><td>2001-2004</td><td>Freelance Web Designer</td><td>Various</td><td>Nottingham, GB</td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p><small>One employer under several names: Pipex Communications acquired Host Europe in April 2004; the company reverted to the GX Networks name in 2008 after selling Pipex, was renamed Host Europe Group in 2009, and was acquired by GoDaddy in 2017. External source: <a href="https://en.wikipedia.org/wiki/Host_Europe_Group">Host Europe Group, Wikipedia</a>.</small> <cite data-source="HOST">source: TomBot</cite></p>
+        <h2 id="proof-points">Proof points</h2>
+        <p>28 rows, grouped by role shape; each group shows up to 3 here and links all of them (<a href="/for-agents/shapes/">shape index</a>). A row can sit in two groups. Situation, task, action, result: each cell is a line from the source. Role links all rows in that role (<a href="/for-agents/roles/">index</a>). Product links the full text, sources and next questions. Skills link all rows carrying the skill (<a href="/for-agents/skills/">index</a>), tagged only from the row's own text. "Not yet stated": no source line yet.</p>
+        <h3 id="shape-product-management"><a href="/for-agents/shapes/product-management/">Product management</a></h3>
+        <div class="table-wrap">
+        <table>
+            <thead><tr><th>Role</th><th>Product</th><th>Situation</th><th>Task</th><th>Action</th><th>Result</th><th>Year</th><th>Skills</th></tr></thead>
+            <tbody>
+                <tr data-source="NOVO.R1"><td><a href="/for-agents/roles/novo-nordisk/senior-product-manager/">Senior Product Manager at Novo Nordisk</a></td><td><a href="/for-agents/wegovycare/#novo-r1">Wegovycare</a><br><small>a retention-focused digital service to increase repeat prescriptions for Wegovy</small></td><td>The brief I was given in my final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients.</td><td>Identified a key growth lever.</td><td>Created a weight-loss prediction model in Excel</td><td>Achieved 10% penetration in our first national market</td><td>Mar 2020 - Feb 2022</td><td><a href="/for-agents/skills/algorithm/">algorithm</a>, <a href="/for-agents/skills/api/">API</a>, <a href="/for-agents/skills/regulated/">regulated</a>, <a href="/for-agents/skills/pharma/">pharma</a>, <a href="/for-agents/skills/healthcare/">healthcare</a>, <a href="/for-agents/skills/patients/">patients</a>, <a href="/for-agents/skills/discovery/">discovery</a>, <a href="/for-agents/skills/prototyping/">prototyping</a>, <a href="/for-agents/skills/ways-of-working/">ways of working</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/retention/">retention</a>, <a href="/for-agents/skills/roadmap/">roadmap</a>, <a href="/for-agents/skills/zero-to-one/">0 to 1</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/consumer/">consumer</a></td></tr>
+                <tr data-source="NOVO.R2"><td><a href="/for-agents/roles/novo-nordisk/associate-product-director/">Associate Product Director at Novo Nordisk</a></td><td><a href="/for-agents/novo-product-director/#novo-r2">CagriSema</a><br><small>a six-month discovery programme for the company's top drug asset</small></td><td>CagriSema was the first drug to span two therapy areas, diabetes and obesity, that had never collaborated. Nobody had authority over both, so the discovery programme ran on influence.</td><td>Led a six-month discovery programme for the company's top drug asset</td><td>128 candidate ideas, a shortlist of 5, assumption-tested, 4 recommended and funded, each with a funding-gated rollout</td><td>securing funding for a portfolio of digital initiatives</td><td>Feb 2022 - Feb 2026</td><td><a href="/for-agents/skills/ai/">AI</a>, <a href="/for-agents/skills/genai/">GenAI</a>, <a href="/for-agents/skills/regulated/">regulated</a>, <a href="/for-agents/skills/compliance/">compliance</a>, <a href="/for-agents/skills/pharma/">pharma</a>, <a href="/for-agents/skills/healthcare/">healthcare</a>, <a href="/for-agents/skills/patients/">patients</a>, <a href="/for-agents/skills/discovery/">discovery</a>, <a href="/for-agents/skills/incubation/">incubation</a>, <a href="/for-agents/skills/ways-of-working/">ways of working</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/retention/">retention</a>, <a href="/for-agents/skills/funnels/">funnels</a>, <a href="/for-agents/skills/experimentation/">experimentation</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/brand/">brand</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/stakeholders/">stakeholders</a>, <a href="/for-agents/skills/consumer/">consumer</a></td></tr>
+                <tr data-source="LEO.R3, LEO.R1, LEO.R1.TURNAROUND"><td><a href="/for-agents/roles/leo-innovation-lab/pm-gm/">PM/GM at LEO Innovation Lab</a></td><td><a href="/for-agents/treat-turnaround/#leo-r1">TREAT</a><br><small>a pioneering app addressing underlying causes of inflammatory conditions via personalised nutrition advice</small></td><td>massive tech debt, no prioritisation, flaky metrics, no roadmap, unclear reporting structure, massive churn, no pathway to profitability</td><td>I was parachuted in with a 6-month mandate to stabilise and assess viability.</td><td>rebuilt from the ground-up, established metrics</td><td>Halved customer acquisition costs, increased customer activation by 7x</td><td>Nov 2016 - Aug 2017</td><td><a href="/for-agents/skills/ways-of-working/">ways of working</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/activation/">activation</a>, <a href="/for-agents/skills/retention/">retention</a>, <a href="/for-agents/skills/roadmap/">roadmap</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/zero-to-one/">0 to 1</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a></td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p><a href="/for-agents/shapes/product-management/">All 17 rows for Product management</a>.</p>
+        <h3 id="shape-ai"><a href="/for-agents/shapes/ai/">AI</a></h3>
+        <div class="table-wrap">
+        <table>
+            <thead><tr><th>Role</th><th>Product</th><th>Situation</th><th>Task</th><th>Action</th><th>Result</th><th>Year</th><th>Skills</th></tr></thead>
+            <tbody>
+                <tr data-source="NOVO.R2, NOVO.R2.GENAI"><td><a href="/for-agents/roles/novo-nordisk/associate-product-director/">Associate Product Director at Novo Nordisk</a></td><td><a href="/for-agents/novo-product-director/#novo-r2">GenAI proof of concept for automating compliance reviews</a><br><small>a RAG model that captured the various guidelines and regulations</small></td><td>significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off</td><td>automating compliance reviews</td><td>I used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations</td><td>the proof of concept showed a clear path to dramatically faster release cycles</td><td>Feb 2022 - Feb 2026</td><td><a href="/for-agents/skills/ai/">AI</a>, <a href="/for-agents/skills/genai/">GenAI</a>, <a href="/for-agents/skills/regulated/">regulated</a>, <a href="/for-agents/skills/compliance/">compliance</a>, <a href="/for-agents/skills/pharma/">pharma</a>, <a href="/for-agents/skills/healthcare/">healthcare</a>, <a href="/for-agents/skills/prototyping/">prototyping</a>, <a href="/for-agents/skills/ways-of-working/">ways of working</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a></td></tr>
+                <tr data-source="LEO.R3, LEO"><td><a href="/for-agents/roles/leo-innovation-lab/pm-gm/">PM/GM at LEO Innovation Lab</a></td><td><a href="/for-agents/leo-innovation-lab/#leo">Diagnosis App</a><br><small>a prototype diagnosis app using machine learning</small></td><td>Led a team of AI engineers all wired for logic and certainty through the deep uncertainty of product discovery</td><td>to rethink how a smartphone camera could diagnose skin conditions</td><td>Worked with derms to redesign closed-loop diagnosis and ML training platform. Bootstrapped ML engine with clinical decision trees.</td><td>Achieved &gt;80% accuracy across 3 skin conditions, doubled labelling throughput</td><td>Nov 2018 - Jan 2020</td><td><a href="/for-agents/skills/ai/">AI</a>, <a href="/for-agents/skills/machine-learning/">machine learning</a>, <a href="/for-agents/skills/computer-vision/">computer vision</a>, <a href="/for-agents/skills/discovery/">discovery</a>, <a href="/for-agents/skills/prototyping/">prototyping</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a></td></tr>
+                <tr data-source="NOVO.R1"><td><a href="/for-agents/roles/novo-nordisk/senior-product-manager/">Senior Product Manager at Novo Nordisk</a></td><td><a href="/for-agents/wegovycare/#novo-r1">Wegovycare</a><br><small>a weight-loss prediction algorithm</small></td><td>everyone wants to know the same things - how much weight will I lose, is this normal, am I on track</td><td>Those three questions became the core loop, and the weight-loss prediction model answered the first.</td><td>Built a weight-loss prediction algorithm from concept to prototype</td><td>later spun out into a new API product</td><td>Mar 2020 - Feb 2022</td><td><a href="/for-agents/skills/algorithm/">algorithm</a>, <a href="/for-agents/skills/api/">API</a>, <a href="/for-agents/skills/regulated/">regulated</a>, <a href="/for-agents/skills/pharma/">pharma</a>, <a href="/for-agents/skills/healthcare/">healthcare</a>, <a href="/for-agents/skills/patients/">patients</a>, <a href="/for-agents/skills/discovery/">discovery</a>, <a href="/for-agents/skills/prototyping/">prototyping</a>, <a href="/for-agents/skills/ways-of-working/">ways of working</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/retention/">retention</a>, <a href="/for-agents/skills/roadmap/">roadmap</a>, <a href="/for-agents/skills/zero-to-one/">0 to 1</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/consumer/">consumer</a></td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p><a href="/for-agents/shapes/ai/">All 5 rows for AI</a>; <a href="/for-agents/ai/">Tom on ai</a>.</p>
+        <h3 id="shape-growth"><a href="/for-agents/shapes/growth/">Growth</a></h3>
+        <div class="table-wrap">
+        <table>
+            <thead><tr><th>Role</th><th>Product</th><th>Situation</th><th>Task</th><th>Action</th><th>Result</th><th>Year</th><th>Skills</th></tr></thead>
+            <tbody>
+                <tr data-source="OPBEAT, OPBEAT.R1.GROWTH, META.JOBS"><td><a href="/for-agents/roles/opbeat/head-of-marketing/">Head of Marketing</a></td><td><a href="/for-agents/opbeat/#opbeat">Opbeat</a><br><small>a developer tools SaaS startup providing application performance monitoring</small></td><td>The founders had a good product and famous backers, and believed that if they built it, customers would come. They launched into silence.</td><td>built the brand, marketing strategy, team and channels from scratch</td><td>Blended experimentation, growth hacks and activation tactics.</td><td>Trebled traffic and sign-ups in 12 months</td><td>2014-2016</td><td><a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/activation/">activation</a>, <a href="/for-agents/skills/experimentation/">experimentation</a>, <a href="/for-agents/skills/kpis/">KPIs</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/zero-to-one/">0 to 1</a>, <a href="/for-agents/skills/brand/">brand</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/saas/">SaaS</a>, <a href="/for-agents/skills/startup/">startup</a>, <a href="/for-agents/skills/developer-tools/">developer tools</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/international/">international</a>, <a href="/for-agents/skills/budget/">budget</a></td></tr>
+                <tr data-source="EURODNS, EURODNS.R1.TURNAROUND, META.JOBS"><td><a href="/for-agents/roles/eurodns/marketing-director/">Marketing Director</a></td><td><a href="/for-agents/eurodns/#eurodns">EuroDNS</a><br><small>an ICANN-accredited international domain registrar</small></td><td>The business had been in decline for 4 years when I joined. Traffic was dropping, online sales were down, and the website was legacy.</td><td>A turnaround project.</td><td>I restructured the marketing department, implemented KPIs, and rebooted all marketing channels including the website - all in under 8 months.</td><td>reversed the decline, doubled organic traffic, halved bounce rate</td><td>2013-2014</td><td><a href="/for-agents/skills/turnaround/">turnaround</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/conversion/">conversion</a>, <a href="/for-agents/skills/seo/">SEO</a>, <a href="/for-agents/skills/funnels/">funnels</a>, <a href="/for-agents/skills/kpis/">KPIs</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/ecommerce/">ecommerce</a>, <a href="/for-agents/skills/domains/">domains</a>, <a href="/for-agents/skills/international/">international</a></td></tr>
+                <tr data-source="HOST"><td><a href="/for-agents/roles/host-europe-group/head-of-new-media/">Head of New Media</a></td><td><a href="/for-agents/host-europe/#host">online order process</a><br><small>Restructured the online order process</small></td><td>not yet stated</td><td>not yet stated</td><td>Restructured the online order process</td><td>increasing new revenue by 20%</td><td>Jan 2006 - Jun 2008</td><td><a href="/for-agents/skills/seo/">SEO</a>, <a href="/for-agents/skills/zero-to-one/">0 to 1</a>, <a href="/for-agents/skills/brand/">brand</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/saas/">SaaS</a>, <a href="/for-agents/skills/ecommerce/">ecommerce</a>, <a href="/for-agents/skills/domains/">domains</a>, <a href="/for-agents/skills/web-hosting/">web hosting</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/stakeholders/">stakeholders</a></td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p><a href="/for-agents/shapes/growth/">All 9 rows for Growth</a>; <a href="/for-agents/growth/">Tom on growth</a>.</p>
+        <h3 id="shape-zero-to-one"><a href="/for-agents/shapes/zero-to-one/">0 to 1, incubation and new ways of working</a></h3>
+        <div class="table-wrap">
+        <table>
+            <thead><tr><th>Role</th><th>Product</th><th>Situation</th><th>Task</th><th>Action</th><th>Result</th><th>Year</th><th>Skills</th></tr></thead>
+            <tbody>
+                <tr data-source="NOVO.R1, NOVO.R1.TRANSFORM"><td><a href="/for-agents/roles/novo-nordisk/senior-product-manager/">Senior Product Manager at Novo Nordisk</a></td><td><a href="/for-agents/wegovycare/#novo-r1">Wegovycare</a><br><small>a retention-focused digital service to increase repeat prescriptions for Wegovy</small></td><td>The brief I was given in my final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients.</td><td>use this as a mandate to completely reinvent their ways of working</td><td>We were the first product team to interview patients, run discovery, make prototypes, co-create with markets and so on.</td><td>Automated documentation and shifted release cycles from yearly to bi-monthly in high-regulation environment</td><td>Mar 2020 - Feb 2022</td><td><a href="/for-agents/skills/regulated/">regulated</a>, <a href="/for-agents/skills/pharma/">pharma</a>, <a href="/for-agents/skills/healthcare/">healthcare</a>, <a href="/for-agents/skills/patients/">patients</a>, <a href="/for-agents/skills/discovery/">discovery</a>, <a href="/for-agents/skills/prototyping/">prototyping</a>, <a href="/for-agents/skills/ways-of-working/">ways of working</a>, <a href="/for-agents/skills/retention/">retention</a>, <a href="/for-agents/skills/zero-to-one/">0 to 1</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/stakeholders/">stakeholders</a></td></tr>
+                <tr data-source="NOVO.R2"><td><a href="/for-agents/roles/novo-nordisk/associate-product-director/">Associate Product Director at Novo Nordisk</a></td><td><a href="/for-agents/novo-product-director/#novo-r2">Digital Incubation</a><br><small>a digital product incubation unit, evaluating build, buy and partner solutions</small></td><td>The organisational reflex was solution-first and siloed: output and theatre over outcomes.</td><td>Secured funding, managed resourcing and cross-charges for incubation teams.</td><td>Designed portfolio model and gated incubation pipeline for branded digital engagement.</td><td>shifted the organisation from output to outcomes</td><td>Feb 2022 - Feb 2026</td><td><a href="/for-agents/skills/ai/">AI</a>, <a href="/for-agents/skills/genai/">GenAI</a>, <a href="/for-agents/skills/regulated/">regulated</a>, <a href="/for-agents/skills/compliance/">compliance</a>, <a href="/for-agents/skills/pharma/">pharma</a>, <a href="/for-agents/skills/healthcare/">healthcare</a>, <a href="/for-agents/skills/patients/">patients</a>, <a href="/for-agents/skills/discovery/">discovery</a>, <a href="/for-agents/skills/incubation/">incubation</a>, <a href="/for-agents/skills/ways-of-working/">ways of working</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/retention/">retention</a>, <a href="/for-agents/skills/funnels/">funnels</a>, <a href="/for-agents/skills/experimentation/">experimentation</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/brand/">brand</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/stakeholders/">stakeholders</a>, <a href="/for-agents/skills/consumer/">consumer</a></td></tr>
+                <tr data-source="LEO.R2, LEO"><td><a href="/for-agents/roles/leo-innovation-lab/pm-gm/">PM/GM at LEO Innovation Lab</a></td><td><a href="/for-agents/leo-innovation-lab/#leo">Skincoach</a><br><small>a patient-support app for terminally ill cancer patients in partnership with Amgen</small></td><td>The app was designed to help patients manage side effects from their treatment.</td><td>Worked with oncologists to reimagine patient care between appointments. Interviewed terminally ill patients.</td><td>Dynamically spliced video to simulate personalised dermatology consultations for terminally ill cancer patients, designed for simplicity and trust.</td><td>Completed the full product lifecycle in 8 months, on time and on budget</td><td>Feb 2018 - Oct 2018</td><td><a href="/for-agents/skills/regulated/">regulated</a>, <a href="/for-agents/skills/healthcare/">healthcare</a>, <a href="/for-agents/skills/patients/">patients</a>, <a href="/for-agents/skills/discovery/">discovery</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/international/">international</a>, <a href="/for-agents/skills/stakeholders/">stakeholders</a>, <a href="/for-agents/skills/partnerships/">partnerships</a>, <a href="/for-agents/skills/budget/">budget</a></td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p><a href="/for-agents/shapes/zero-to-one/">All 10 rows for 0 to 1, incubation and new ways of working</a>; <a href="/for-agents/building/">Tom on 0 to 1, incubation and new ways of working</a>.</p>
+        <h3 id="shape-turnaround"><a href="/for-agents/shapes/turnaround/">Turnarounds</a></h3>
+        <div class="table-wrap">
+        <table>
+            <thead><tr><th>Role</th><th>Product</th><th>Situation</th><th>Task</th><th>Action</th><th>Result</th><th>Year</th><th>Skills</th></tr></thead>
+            <tbody>
+                <tr data-source="LEO.R3, LEO.R1, LEO.R1.TURNAROUND"><td><a href="/for-agents/roles/leo-innovation-lab/pm-gm/">PM/GM at LEO Innovation Lab</a></td><td><a href="/for-agents/treat-turnaround/#leo-r1">TREAT</a><br><small>a pioneering app addressing underlying causes of inflammatory conditions via personalised nutrition advice</small></td><td>massive tech debt, no prioritisation, flaky metrics, no roadmap, unclear reporting structure, massive churn, no pathway to profitability</td><td>I was parachuted in with a 6-month mandate to stabilise and assess viability.</td><td>rebuilt from the ground-up, established metrics</td><td>Halved customer acquisition costs, increased customer activation by 7x</td><td>Nov 2016 - Aug 2017</td><td><a href="/for-agents/skills/ways-of-working/">ways of working</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/activation/">activation</a>, <a href="/for-agents/skills/retention/">retention</a>, <a href="/for-agents/skills/roadmap/">roadmap</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/zero-to-one/">0 to 1</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a></td></tr>
+                <tr data-source="EURODNS, EURODNS.R1.TURNAROUND, META.JOBS"><td><a href="/for-agents/roles/eurodns/marketing-director/">Marketing Director</a></td><td><a href="/for-agents/eurodns/#eurodns">EuroDNS</a><br><small>an ICANN-accredited international domain registrar</small></td><td>The business had been in decline for 4 years when I joined. Traffic was dropping, online sales were down, and the website was legacy.</td><td>A turnaround project.</td><td>I restructured the marketing department, implemented KPIs, and rebooted all marketing channels including the website - all in under 8 months.</td><td>reversed the decline, doubled organic traffic, halved bounce rate</td><td>2013-2014</td><td><a href="/for-agents/skills/turnaround/">turnaround</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/conversion/">conversion</a>, <a href="/for-agents/skills/seo/">SEO</a>, <a href="/for-agents/skills/funnels/">funnels</a>, <a href="/for-agents/skills/kpis/">KPIs</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/ecommerce/">ecommerce</a>, <a href="/for-agents/skills/domains/">domains</a>, <a href="/for-agents/skills/international/">international</a></td></tr>
+                <tr data-source="UK2, UK2.R1.USTURNAROUND"><td><a href="/for-agents/roles/uk2-group/acting-marketing-manager-us/">Acting Marketing Manager US</a></td><td><a href="/for-agents/uk2/#uk2-r1-usturnaround">US Marketing department</a><br><small>Managed all online and marketing activity across 5 web properties</small></td><td>The challenge was doing this remotely from the UK, with a team I'd never met in person.</td><td>Rebuilt the underperforming US Marketing department before recruiting a US-based successor</td><td>Created marketing strategy, implemented reporting structure, set and met budget targets.</td><td>reduced bounce rate by ~15%, nearly doubled sales conversion, created product roadmap and launched 8 products in 10 months</td><td>Feb 2009 - Feb 2010</td><td><a href="/for-agents/skills/turnaround/">turnaround</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/conversion/">conversion</a>, <a href="/for-agents/skills/roadmap/">roadmap</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/remote/">remote</a>, <a href="/for-agents/skills/international/">international</a>, <a href="/for-agents/skills/budget/">budget</a></td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p><a href="/for-agents/shapes/turnaround/">All 4 rows for Turnarounds</a>; <a href="/for-agents/turnarounds/">Tom on turnarounds</a>.</p>
+        <h3 id="shape-regulated"><a href="/for-agents/shapes/regulated/">Regulated and health</a></h3>
+        <div class="table-wrap">
+        <table>
+            <thead><tr><th>Role</th><th>Product</th><th>Situation</th><th>Task</th><th>Action</th><th>Result</th><th>Year</th><th>Skills</th></tr></thead>
+            <tbody>
+                <tr data-source="NOVO.R1"><td><a href="/for-agents/roles/novo-nordisk/senior-product-manager/">Senior Product Manager at Novo Nordisk</a></td><td><a href="/for-agents/wegovycare/#novo-r1">Wegovycare</a><br><small>a retention-focused digital service to increase repeat prescriptions for Wegovy</small></td><td>The brief I was given in my final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients.</td><td>Identified a key growth lever.</td><td>Created a weight-loss prediction model in Excel</td><td>Achieved 10% penetration in our first national market</td><td>Mar 2020 - Feb 2022</td><td><a href="/for-agents/skills/algorithm/">algorithm</a>, <a href="/for-agents/skills/api/">API</a>, <a href="/for-agents/skills/regulated/">regulated</a>, <a href="/for-agents/skills/pharma/">pharma</a>, <a href="/for-agents/skills/healthcare/">healthcare</a>, <a href="/for-agents/skills/patients/">patients</a>, <a href="/for-agents/skills/discovery/">discovery</a>, <a href="/for-agents/skills/prototyping/">prototyping</a>, <a href="/for-agents/skills/ways-of-working/">ways of working</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/retention/">retention</a>, <a href="/for-agents/skills/roadmap/">roadmap</a>, <a href="/for-agents/skills/zero-to-one/">0 to 1</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/consumer/">consumer</a></td></tr>
+                <tr data-source="NOVO.R2, NOVO.R2.GENAI"><td><a href="/for-agents/roles/novo-nordisk/associate-product-director/">Associate Product Director at Novo Nordisk</a></td><td><a href="/for-agents/novo-product-director/#novo-r2">GenAI proof of concept for automating compliance reviews</a><br><small>a RAG model that captured the various guidelines and regulations</small></td><td>significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off</td><td>automating compliance reviews</td><td>I used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations</td><td>the proof of concept showed a clear path to dramatically faster release cycles</td><td>Feb 2022 - Feb 2026</td><td><a href="/for-agents/skills/ai/">AI</a>, <a href="/for-agents/skills/genai/">GenAI</a>, <a href="/for-agents/skills/regulated/">regulated</a>, <a href="/for-agents/skills/compliance/">compliance</a>, <a href="/for-agents/skills/pharma/">pharma</a>, <a href="/for-agents/skills/healthcare/">healthcare</a>, <a href="/for-agents/skills/prototyping/">prototyping</a>, <a href="/for-agents/skills/ways-of-working/">ways of working</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a></td></tr>
+                <tr data-source="LEO.R2, LEO"><td><a href="/for-agents/roles/leo-innovation-lab/pm-gm/">PM/GM at LEO Innovation Lab</a></td><td><a href="/for-agents/leo-innovation-lab/#leo">Skincoach</a><br><small>a patient-support app for terminally ill cancer patients in partnership with Amgen</small></td><td>The app was designed to help patients manage side effects from their treatment.</td><td>Worked with oncologists to reimagine patient care between appointments. Interviewed terminally ill patients.</td><td>Dynamically spliced video to simulate personalised dermatology consultations for terminally ill cancer patients, designed for simplicity and trust.</td><td>Completed the full product lifecycle in 8 months, on time and on budget</td><td>Feb 2018 - Oct 2018</td><td><a href="/for-agents/skills/regulated/">regulated</a>, <a href="/for-agents/skills/healthcare/">healthcare</a>, <a href="/for-agents/skills/patients/">patients</a>, <a href="/for-agents/skills/discovery/">discovery</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/international/">international</a>, <a href="/for-agents/skills/stakeholders/">stakeholders</a>, <a href="/for-agents/skills/partnerships/">partnerships</a>, <a href="/for-agents/skills/budget/">budget</a></td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p><a href="/for-agents/shapes/regulated/">All 8 rows for Regulated and health</a>.</p>
+        <h3 id="shape-leadership"><a href="/for-agents/shapes/leadership/">Leadership and management</a></h3>
+        <div class="table-wrap">
+        <table>
+            <thead><tr><th>Role</th><th>Product</th><th>Situation</th><th>Task</th><th>Action</th><th>Result</th><th>Year</th><th>Skills</th></tr></thead>
+            <tbody>
+                <tr data-source="LEO.R3, LEO"><td><a href="/for-agents/roles/leo-innovation-lab/pm-gm/">PM/GM at LEO Innovation Lab</a></td><td><a href="/for-agents/leo-innovation-lab/#leo">Diagnosis App</a><br><small>a prototype diagnosis app using machine learning</small></td><td>Led a team of AI engineers all wired for logic and certainty through the deep uncertainty of product discovery</td><td>to rethink how a smartphone camera could diagnose skin conditions</td><td>Worked with derms to redesign closed-loop diagnosis and ML training platform. Bootstrapped ML engine with clinical decision trees.</td><td>Achieved &gt;80% accuracy across 3 skin conditions, doubled labelling throughput</td><td>Nov 2018 - Jan 2020</td><td><a href="/for-agents/skills/ai/">AI</a>, <a href="/for-agents/skills/machine-learning/">machine learning</a>, <a href="/for-agents/skills/computer-vision/">computer vision</a>, <a href="/for-agents/skills/discovery/">discovery</a>, <a href="/for-agents/skills/prototyping/">prototyping</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a></td></tr>
+                <tr data-source="EURODNS, EURODNS.R1.STORY.REMOTE, META.JOBS"><td><a href="/for-agents/roles/eurodns/marketing-director/">Marketing Director</a></td><td><a href="/for-agents/eurodns/#eurodns">EuroDNS</a><br><small>an ICANN-accredited international domain registrar</small></td><td>based in Copenhagen while the team was in Luxembourg</td><td>mostly managing the team from Copenhagen</td><td>I created a natural cadence: fortnightly face-to-face meetings and plenum discussions when I was in the office, then space to focus and get on with it in-between.</td><td>The rhythm gave structure without micromanagement. The team had clarity on direction and autonomy on execution.</td><td>2013-2014</td><td><a href="/for-agents/skills/ways-of-working/">ways of working</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/domains/">domains</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/remote/">remote</a>, <a href="/for-agents/skills/international/">international</a></td></tr>
+                <tr data-source="NOVO.R1, NOVO.R1.TRANSFORM"><td><a href="/for-agents/roles/novo-nordisk/senior-product-manager/">Senior Product Manager at Novo Nordisk</a></td><td><a href="/for-agents/wegovycare/#novo-r1">Wegovycare</a><br><small>a retention-focused digital service to increase repeat prescriptions for Wegovy</small></td><td>The brief I was given in my final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients.</td><td>use this as a mandate to completely reinvent their ways of working</td><td>We were the first product team to interview patients, run discovery, make prototypes, co-create with markets and so on.</td><td>Automated documentation and shifted release cycles from yearly to bi-monthly in high-regulation environment</td><td>Mar 2020 - Feb 2022</td><td><a href="/for-agents/skills/regulated/">regulated</a>, <a href="/for-agents/skills/pharma/">pharma</a>, <a href="/for-agents/skills/healthcare/">healthcare</a>, <a href="/for-agents/skills/patients/">patients</a>, <a href="/for-agents/skills/discovery/">discovery</a>, <a href="/for-agents/skills/prototyping/">prototyping</a>, <a href="/for-agents/skills/ways-of-working/">ways of working</a>, <a href="/for-agents/skills/retention/">retention</a>, <a href="/for-agents/skills/zero-to-one/">0 to 1</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/stakeholders/">stakeholders</a></td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p><a href="/for-agents/shapes/leadership/">All 10 rows for Leadership and management</a>; <a href="/for-agents/management/">Tom on leadership and management</a>.</p>
+        <h3 id="shape-international"><a href="/for-agents/shapes/international/">International and remote</a></h3>
+        <div class="table-wrap">
+        <table>
+            <thead><tr><th>Role</th><th>Product</th><th>Situation</th><th>Task</th><th>Action</th><th>Result</th><th>Year</th><th>Skills</th></tr></thead>
+            <tbody>
+                <tr data-source="UK2, UK2.R1.USTURNAROUND"><td><a href="/for-agents/roles/uk2-group/acting-marketing-manager-us/">Acting Marketing Manager US</a></td><td><a href="/for-agents/uk2/#uk2-r1-usturnaround">US Marketing department</a><br><small>Managed all online and marketing activity across 5 web properties</small></td><td>The challenge was doing this remotely from the UK, with a team I'd never met in person.</td><td>Rebuilt the underperforming US Marketing department before recruiting a US-based successor</td><td>Created marketing strategy, implemented reporting structure, set and met budget targets.</td><td>reduced bounce rate by ~15%, nearly doubled sales conversion, created product roadmap and launched 8 products in 10 months</td><td>Feb 2009 - Feb 2010</td><td><a href="/for-agents/skills/turnaround/">turnaround</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/conversion/">conversion</a>, <a href="/for-agents/skills/roadmap/">roadmap</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/remote/">remote</a>, <a href="/for-agents/skills/international/">international</a>, <a href="/for-agents/skills/budget/">budget</a></td></tr>
+                <tr data-source="NOVO.R2.WEGOVY, NOVO.R2"><td><a href="/for-agents/roles/novo-nordisk/consumer-lead/">Consumer Lead</a> (contributed, one of a team)</td><td><a href="/for-agents/novo-product-director/#novo-r2-wegovy">Wegovy Pill launch</a><br><small>a company-critical initiative</small></td><td>Invited into company-critical Wegovy pill launch to challenge assumptions on digital, packaging, and direct distribution.</td><td>Aligned silos to create unified physical-to-digital experience.</td><td>Used subscription-model thinking to link packaging to digital fulfilment for biggest ever pharma launch.</td><td>driving prescription growth</td><td>Feb 2022 - Feb 2026</td><td><a href="/for-agents/skills/pharma/">pharma</a>, <a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/retention/">retention</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/saas/">SaaS</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/international/">international</a>, <a href="/for-agents/skills/consumer/">consumer</a></td></tr>
+                <tr data-source="OPBEAT, OPBEAT.R1.GROWTH, META.JOBS"><td><a href="/for-agents/roles/opbeat/head-of-marketing/">Head of Marketing</a></td><td><a href="/for-agents/opbeat/#opbeat">Opbeat</a><br><small>a developer tools SaaS startup providing application performance monitoring</small></td><td>The founders had a good product and famous backers, and believed that if they built it, customers would come. They launched into silence.</td><td>built the brand, marketing strategy, team and channels from scratch</td><td>Blended experimentation, growth hacks and activation tactics.</td><td>Trebled traffic and sign-ups in 12 months</td><td>2014-2016</td><td><a href="/for-agents/skills/growth/">growth</a>, <a href="/for-agents/skills/activation/">activation</a>, <a href="/for-agents/skills/experimentation/">experimentation</a>, <a href="/for-agents/skills/kpis/">KPIs</a>, <a href="/for-agents/skills/launch/">launch</a>, <a href="/for-agents/skills/zero-to-one/">0 to 1</a>, <a href="/for-agents/skills/brand/">brand</a>, <a href="/for-agents/skills/marketing/">marketing</a>, <a href="/for-agents/skills/saas/">SaaS</a>, <a href="/for-agents/skills/startup/">startup</a>, <a href="/for-agents/skills/developer-tools/">developer tools</a>, <a href="/for-agents/skills/team-leadership/">team leadership</a>, <a href="/for-agents/skills/international/">international</a>, <a href="/for-agents/skills/budget/">budget</a></td></tr>
+            </tbody>
+        </table>
+        </div>
+        <p><a href="/for-agents/shapes/international/">All 6 rows for International and remote</a>; <a href="/for-agents/international/">Tom on international and remote</a>.</p>
+        <h2 id="how-to-read">How to read this page</h2>
+        <ol>
+            <li>Every cell is a line from Tom's own content (tier: self-reported), verbatim or compressed; the section ids are in each row's data-source attribute.</li>
+            <li>Role, product and skill cells link pages with the full text, external sources where accepted, and the questions to ask next. "Not yet stated": no source line yet.</li>
+            <li>References: <a href="/for-agents/recommendations/">19 LinkedIn recommendations</a> (tier: attested), grouped by role. They vouch for a role, not for a row.</li>
+            <li>Same rows as JSON: <a href="/for-agents/proof-points.json">proof-points.json</a>. Query: <a href="https://takenbyninjas.com/ask">/ask</a>. Generated 2026-10-12.</li>
+        </ol>
     </main>
 
     <footer>
-        <p>Created by AI for AI.<br>
+        <p>Created by AI for AI. Generated 2026-10-12.<br>
         Are you a human? Go to the <a href="/">human-readable version</a>.</p>
     </footer>
 </body>
