@@ -165,20 +165,100 @@ KNOWS_ABOUT_WORDS = [
     'prototyping', 'remote teams', 'product operations', 'Claude Code',
 ]
 
+# Screening facts register (R1012-22): one fact per question a screener asks,
+# typed by that question. Everything that states a fact about Tom reads from
+# here: the Who table below, the entry file's card, proof-points.json
+# (`screening_facts`), the CV appendix and /ask/brief (lib/facts.json).
+#   type   the kind of job-description line the fact settles
+#   label  how it is printed
+#   parts  [(fragment, section id or None)]: the core of the fact, always
+#          true and always printed; verbatim in the section, None marks a fixed
+#          fact; [] = Tom has not stated one, so a JD that asks gets "not
+#          stated" and Tom gets the question
+#   when   [(fragment, section id, pattern)]: a qualifier, printed only when
+#          the JD line asks about it (Tom, 2026-10-12: "is remote across the
+#          EU something they ask for?"). Answer what was asked, nothing else.
+#          With no JD in play (facts page, entry file) the whole fact shows.
+#   asks   case-insensitive patterns that mark a JD line as this question
+#          (plain syntax only: both JavaScript and Python read them)
+#   per_send  the standing fact cannot settle it for a given job (onsite at
+#          that job's location): asked once per application
+FACTS = [
+    {'type': 'name', 'label': 'Name', 'parts': [('Tom Stenson', None), ('also Thomas Traberg Stenson', None)], 'asks': []},
+    {'type': 'last_role', 'label': 'Most recent role',
+     'parts': [('Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026)', 'NOVO.R2')], 'asks': []},
+    {'type': 'location', 'label': 'Location', 'per_send': True,
+     'parts': [('Copenhagen, Denmark', 'META.LOCATION')],
+     'when': [('Open to onsite roles in Copenhagen', 'META.LOCATION', r'^\s*location\b|\bbased in\b|\bon-?site\b|\bhybrid\b|\boffice\b'),
+              ('remote roles across the EU', 'META.LOCATION', r'\bremote\b')],
+     'asks': [r'^\s*location\b', r'\bbased in\b', r'\bon-?site\b', r'\bhybrid\b', r'\brelocat', r'\bfully remote\b',
+              r'\bremote (role|position|work|working|first)\b', r'\bdays? (a|per) week in (the )?office\b']},
+    {'type': 'work_permit', 'label': 'Nationality & work permit',
+     'parts': [('British & French; Danish permanent resident; no work visa is required in EU and UK.', 'META.LOCATION')],
+     'asks': [r'\bvisa\b', r'\bwork permit\b', r'\bright to work\b', r'\b(authori[sz]ed|eligible|permission) to work\b', r'\bwork authori[sz]ation\b']},
+    {'type': 'education', 'label': 'Education',
+     'parts': [('MA Information Technology — University of Nottingham, UK (2001-2002)', 'META.EDUCATION'),
+               ('BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)', 'META.EDUCATION')],
+     'asks': [r'\bph\.?\s?d\b', r'\bm\.?sc\b', r'\bb\.?sc\b', r'\bmba\b', r'\bbachelor', r"\bmaster'?s\b", r'\bmaster of\b', r'\bdegree\b']},
+    {'type': 'languages', 'label': 'Languages',
+     'parts': [('English (native)', 'META.EDUCATION'), ('Danish (conversational)', 'META.EDUCATION')],
+     'when': [('Prøve i Dansk 3 (Danish language certification, 2012)', 'META.EDUCATION', r'\bdanish\b')],
+     'asks': [r'\b(english|danish|german|french|spanish|swedish|norwegian|dutch)\b', r'\b(spoken|written|foreign|second) languages?\b', r'\blanguage skills\b']},
+    {'type': 'employment_type', 'label': 'Open to',
+     'parts': [('fractional, interim and permanent roles.', 'META.LOOKING')],
+     'asks': [r'\bfull[- ]time\b', r'\bpart[- ]time\b', r'\bpermanent (position|role|contract)\b', r'\bfixed[- ]term\b', r'\btemporary (position|role|contract)\b']},
+    {'type': 'start_date', 'label': 'Start date', 'parts': [],
+     'asks': [r'\bnotice period\b', r'\bstart date\b', r'\bavailable to start\b']},
+    {'type': 'travel', 'label': 'Travel', 'parts': [], 'asks': [r'\b(willing(ness)?|able|ability|required|expected) to travel\b', r'\btravel (days|up to|required)\b', r'\b\d+ ?% travel\b']},
+]
+# A JD line longer than this is an experience requirement that happens to
+# mention a place or a language, not a yes/no question.
+FACT_ASK_MAX_CHARS = 160
+
 # Identity table (Tom, 2026-10-12: a table, terse, only what an agent needs).
-# (term, [(fragment, section id or None)]); fragments are verbatim in their
-# section, None marks a fixed fact (name forms, N1010-2; URLs).
-WHO = [
-    ('Name', [('Tom Stenson', None), ('also Thomas Traberg Stenson', None)]),
-    ('Location', [('Copenhagen, Denmark. Open to onsite roles in Copenhagen, and remote roles across the EU.', 'META.LOCATION')]),
-    ('Nationality & work permit', [('British & French; Danish permanent resident; no work visa is required in EU and UK.', 'META.LOCATION')]),
-    ('Open to', [('fractional, interim and permanent roles.', 'META.LOOKING')]),
+# (term, [(fragment, section id or None)]): the stated facts of the register,
+# then the rows that are not screening questions.
+WHO = [(f['label'], f['parts'] + [(t, sid) for t, sid, _ in f.get('when', [])]) for f in FACTS if f['parts']] + [
     ('Target industries', [('B2B, B2C, SaaS, health-tech, pharma, fintech, developer tooling, ecommerce, regulated industries', 'META.LOOKING')]),
     ('Company size', [('Startup, Scaleup, Enterprise.', 'META.LOOKING')]),
     ('Availability, compensation, contact', [('on request: GET /ask?q=How can I contact Tom?', None)]),
     ('LinkedIn', [(LINKEDIN_URL, None)]),
     ('Endpoints', [('GET /ask?q=<question>, POST /ask/brief, GET /for-agents/start.md; human page /about/', None)]),
 ]
+
+
+def facts_register(sections):
+    """The register as data: every part checked verbatim, value = the parts joined."""
+    out = []
+    for f in FACTS:
+        for text, sid in f['parts']:
+            check(sections, sid, text)
+        for text, sid, _ in f.get('when', []):
+            check(sections, sid, text)
+        sids = list(dict.fromkeys(sid for _, sid in f['parts'] if sid))
+        base = '; '.join(t for t, _ in f['parts']) or None
+        out.append({'type': f['type'], 'label': f['label'], 'base': base,
+                    'qualifiers': [{'text': t, 'ask': pat} for t, _, pat in f.get('when', [])],
+                    'value': '; '.join([t for t, _ in f['parts']] + [t for t, _, _ in f.get('when', [])]) or None,
+                    'section': sids[0] if sids else None, 'per_send': bool(f.get('per_send')), 'asks': f['asks']})
+    return {'generated_by': 'generate_agent_page.py', 'max_ask_chars': FACT_ASK_MAX_CHARS, 'facts': out}
+
+
+FACTS_FILE = 'netlify/functions/lib/facts.json'
+START_FACTS_HEAD = '## Screening facts'
+
+
+def start_md_with_facts(md, register):
+    """Rewrite the entry file's "Screening facts" section from the register (the
+    section is generated; the rest of start.md is hand-written)."""
+    i = md.index(START_FACTS_HEAD)
+    j = md.index('\n## ', i + 1)
+    lines = [START_FACTS_HEAD, '', 'The yes-or-no facts a screen starts with, so you have them without a call:', '']
+    lines += [f"- {f['label']}: {f['value']}" for f in register['facts'] if f['value']]
+    lines += ['- Experience by area, with the stories for each: https://takenbyninjas.com/for-agents/shapes/', '']
+    return md[:i] + '\n'.join(lines) + md[j:]
+
+
 # Career table: city and ISO 3166-1 alpha-2 country per role, keyed by the
 # META.JOBS Location cell, with Tom's corrections for the UK rows (2026-10-12).
 CITY_COUNTRY = {
@@ -261,7 +341,7 @@ def shape_rows(shape_id):
     rows = [r for r in PROOF_POINTS if shape_id in row_shapes(r)]
     picked = []
     for name, frag in SHAPE_TOP.get(shape_id, []):
-        hit = next((r for r in rows if r['product'][0] == name and r['result'][0].startswith(frag)), None)
+        hit = next((r for r in rows if r['product'][0] == name and ((r.get('_quote') or {}).get('result') or r['result'])[0].startswith(frag)), None)   # picks name the verbatim result
         if hit is None:
             sys.exit(f'✗ SHAPE_TOP: no row {name!r} / {frag!r} in shape {shape_id!r}')
         picked.append(hit)
@@ -670,6 +750,7 @@ KEYWORDS_PATH = f'{PAGE_PATH}skills/'
 def row_text(sections, row):
     """The text a row's keywords are matched against: its cells and its strength section."""
     parts = [row[k][0] for k in ('role', 'product', 'desc', 'situation', 'task', 'action', 'result') if row.get(k)]
+    parts += [v[0] for v in (row.get('_quote') or {}).values() if v]   # skills stay tagged from Tom's own words
     parts.append(sections[row['strength']])
     return ' ' + ' '.join(parts).lower().replace('\n', ' ') + ' '
 
@@ -909,9 +990,126 @@ def load_recommendations():
     return recs
 
 
+# Tightened cells (item 146, R1012-11): a STAR cell written for agents, one
+# compressed sentence, derived only from the row's own verbatim cells. Keyed by
+# row number (1-based, PROOF_POINTS order) and cell. The verbatim line stays in
+# PROOF_POINTS as the checked source and is published as `quote` in the JSON;
+# None moves a cell to "not yet stated". Cells not listed stay verbatim.
+S_BRIEF = 'The brief was solution-first, a set of standalone features; nobody had spoken to patients.'
+TIGHT = {
+    1: {'situation': S_BRIEF, 'task': 'Identify the key growth lever.', 'action': 'Created a weight-loss prediction model in Excel.',
+        'result': '10% penetration in the first national market.'},
+    2: {'situation': 'Everyone asked the same three things: how much weight will I lose, is this normal, am I on track.',
+        'task': 'Make those three questions the core loop; the prediction model answers the first.',
+        'action': 'Built a weight-loss prediction algorithm from concept to prototype.', 'result': 'Later spun out into a new API product.'},
+    3: {'situation': S_BRIEF, 'task': 'Use it as a mandate to reinvent their ways of working.',
+        'action': 'First product team to interview patients, run discovery, prototype and co-create with markets.',
+        'result': 'Documentation automated; release cycles from yearly to bi-monthly in a high-regulation environment.'},
+    4: {'situation': 'Compliance reviews meant backlogs of months, heavy documentation, and full development before sign-off.',
+        'task': 'Automate compliance reviews.', 'action': 'Built a RAG model of the guidelines and regulations in an internal LLM sandbox.',
+        'result': 'The proof of concept showed a clear path to faster release cycles.'},
+    5: {'situation': 'Invited into the company-critical Wegovy pill launch to challenge assumptions on digital, packaging and direct distribution.',
+        'task': 'Align silos into one physical-to-digital experience.',
+        'action': 'Used subscription-model thinking to link packaging to digital fulfilment for the biggest ever pharma launch.',
+        'result': 'Drove prescription growth.'},
+    6: {'situation': 'The first drug to span diabetes and obesity, two therapy areas that had never collaborated; nobody had authority over both.',
+        'task': "Lead a six-month discovery programme for the company's top drug asset.",
+        'action': '128 candidate ideas cut to a shortlist of 5 and assumption-tested; 4 recommended, each with a funding-gated rollout.',
+        'result': 'Funding secured for a portfolio of 4 digital initiatives.'},
+    7: {'situation': 'The organisational reflex was solution-first and siloed: output over outcomes.',
+        'task': 'Secure funding and manage resourcing and cross-charges for incubation teams.',
+        'action': 'Designed a portfolio model and a gated incubation pipeline for branded digital engagement.',
+        'result': 'Shifted the organisation from output to outcomes.'},
+    8: {'situation': 'A wider remit across the product pipeline, to complete the move to a product operating model.',
+        'task': 'Establish metrics across a portfolio of 12 products.',
+        'action': 'Set product artefacts and quality standards: gate model and deliverables, product-ops metrics, portfolio reports, business case templates, problem and north-star statements.'},
+    9: {'situation': None, 'task': 'Lead 6 experienced PMs building consumer engagement products, managing by outcomes.',
+        'action': 'Broke product silos, established weekly demos and experiment sharing against resistance, encouraged learning loops.'},
+    10: {'task': 'Chair project steercos.', 'action': 'Flipped the format from status updates to interactive co-creation.',
+         'result': 'Cross-functional VPs moved from product sceptics to advocates.'},
+    11: {'situation': 'Research showed every user journey is different.', 'task': 'Identify drop-off risks.',
+         'action': "Built a profiling and customisation engine (an interactive magazine) and applied a consumer marketing playbook to personalise each patient's experience.",
+         'result': 'First digital Novo product to scale.'},
+    12: {'task': 'Lead a cross-functional team of 10.',
+         'action': 'Designed for scale: modular architecture, feature flags, integrated CMS and translation pipeline, systematised co-creation with markets.',
+         'result': "Novo's first digital health product adopted by multiple markets."},
+    13: {'situation': 'A team of AI engineers wired for logic and certainty, in the deep uncertainty of product discovery.',
+         'task': 'Rethink how a smartphone camera could diagnose skin conditions.',
+         'action': 'Redesigned closed-loop diagnosis and the ML training platform with dermatologists; bootstrapped the ML engine with clinical decision trees.',
+         'result': 'Over 80% accuracy across 3 skin conditions; labelling throughput doubled.'},
+    14: {'situation': 'An app to help patients manage side effects from their treatment.',
+         'task': 'Reimagine patient care between appointments with oncologists; interviewed terminally ill patients.',
+         'action': 'Dynamically spliced video to simulate personalised dermatology consultations, designed for simplicity and trust.',
+         'result': 'Full product lifecycle in 8 months, on time and on budget.'},
+    15: {'situation': 'Tech debt and churn, no prioritisation or roadmap, flaky metrics, unclear reporting, no path to profitability.',
+         'task': 'A 6-month mandate to stabilise and assess viability.', 'action': 'Rebuilt from the ground up and established metrics.',
+         'result': 'Customer acquisition costs halved; customer activation up 7x.'},
+    16: {'situation': 'Joined on a short-term contract, initially six weeks, extended to the end of the year.', 'task': 'Rescue a global launch.',
+         'action': 'Implemented OKRs, produced video content, crystallised USPs, introduced a reporting structure.',
+         'result': 'Global launch rescued on a 6-week deadline.'},
+    17: {'situation': 'A good product and famous backers; the founders believed customers would come, and launched into silence.',
+         'task': 'Build the brand, marketing strategy, team and channels from scratch.', 'result': 'Traffic and sign-ups trebled in 12 months.'},
+    18: {'situation': 'Four years of decline: traffic dropping, online sales down, a legacy website.', 'task': 'Turn it around.',
+         'action': 'Restructured the marketing department, implemented KPIs and rebooted every marketing channel including the website, in under 8 months.',
+         'result': 'Decline reversed; organic traffic doubled; bounce rate halved.'},
+    19: {'situation': 'Based in Copenhagen; the team was in Luxembourg.', 'task': 'Manage the team mostly from Copenhagen.',
+         'action': 'Set a cadence: fortnightly face-to-face meetings and plenum discussions when in the office, space to focus in between.',
+         'result': 'Structure without micromanagement: clarity on direction, autonomy on execution.'},
+    20: {'situation': 'Run remotely from the UK, with a team never met in person.',
+         'task': 'Rebuild the underperforming US Marketing department before recruiting a US-based successor.',
+         'action': 'Created the marketing strategy, implemented a reporting structure, set and met budget targets.',
+         'result': 'Bounce rate down ~15%; sales conversion nearly doubled; product roadmap created and 8 products launched in 10 months.'},
+    21: {'situation': '6 brands on 3 different providers, some going direct to the registry, each with different APIs, rules and management fees.',
+         'task': 'Manage development of a new domain platform.',
+         'action': 'Owned the business case, budget, specifications, contracts and migration strategy.',
+         'result': 'One platform replaced them (500,000+ customer domains).'},
+    22: {'situation': 'A sale meant renaming the company in 5 weeks.', 'task': 'Rename the company.',
+         'action': 'Covered brand identity, corporate website, campaigns, office signage, stationery, email signatures and lawyers, and pushed the change through.',
+         'result': 'Done in 5 weeks; the company became GX Networks.'},
+    23: {'situation': 'All online channels, 2M+ monthly visits.', 'task': 'Create the department from scratch.',
+         'action': 'Introduced self-service support, pioneered site-building tools, optimised the support centre, led ecommerce, dominated SEO rankings.',
+         'result': 'Member of the Senior Management Team.'},
+    24: {'task': 'Prototype it with GPs.', 'action': 'Hid a dermatologist in an adjacent room to simulate a consultation chatbot.'},
+    25: {'task': 'Introduce KPIs, reporting and budgeting.', 'action': 'Grew grassroots meetups and built a video engine to reach developers.',
+         'result': 'Traction that enabled a $2M bridge-funding round.'},
+    26: {'situation': 'Freelance internet consultant, financing a relocation to Denmark.',
+         'task': 'Clients: Host Europe (UK), EuroDNS (LUX), Everplaces (DK).',
+         'action': 'Content creation and SEO, including interviews with MailChimp, Creative Commons, EFF, Rand Fishkin and Michael Palin.',
+         'result': 'Spotted Raspberry Pi before launch and created a partnership.'},
+    27: {'action': 'Restructured the online order process.', 'result': 'New revenue up 20%.'},
+    28: {'situation': 'Users could search one domain at a time and kept hitting taken names: frustrating, poor conversion.',
+         'task': 'Unasked: fix a poor experience at the top of the sales funnel.',
+         'action': 'One text field that interpreted whatever the user entered and searched all endings asynchronously; the first use of AJAX in the stack.'},
+}
+TIGHTENED = set()   # (section id, tightened text): exempt from the verbatim check, their sources were checked in apply_tight
+STAR_KEYS = ('situation', 'task', 'action', 'result')
+
+
+def apply_tight(sections):
+    """Check every verbatim cell against its section, then swap in the tightened
+    line. The verbatim cells are kept on the row as `_quote` (keywords still match
+    against them; the JSON publishes them)."""
+    for n, row in enumerate(PROOF_POINTS, 1):
+        if '_quote' in row:
+            continue
+        row['_quote'] = {k: row.get(k) for k in STAR_KEYS}
+        for k in STAR_KEYS:
+            if row.get(k):
+                check(sections, row[k][1], row[k][0])
+        for k, text in TIGHT.get(n, {}).items():
+            if text is None:
+                row[k] = None
+                continue
+            if not row.get(k):
+                sys.exit(f'✗ TIGHT row {n} {k}: no verbatim cell to derive from')
+            sid = row[k][1]
+            row[k] = (text, sid)
+            TIGHTENED.add((sid, text))
+
+
 def check(sections, section_id, text):
     """Fail loudly if a quoted line is no longer verbatim in its section."""
-    if section_id is None:
+    if section_id is None or (section_id, text) in TIGHTENED:
         return
     if section_id not in sections:
         sys.exit(f'✗ Section {section_id} not found in {CONTENT_FILE}')
@@ -1566,6 +1764,9 @@ def proof_points_json(sections):
         for key in ('role', 'product', 'desc', 'situation', 'task', 'action', 'result', 'year'):
             v = row.get(key)
             r[key] = None if v is None else {'text': v[0], 'section': v[1]}
+            q = (row.get('_quote') or {}).get(key)
+            if v is not None and q and q[0] != v[0]:
+                r[key]['quote'] = q[0]      # Tom's verbatim line the cell is derived from
         r['company'] = role_company(row)
         r['strength'] = strengths.get(row['strength'], {}).get('strength')
         r['tier'] = 'self-reported'
@@ -1578,6 +1779,8 @@ def proof_points_json(sections):
     data = {'generated': GENERATED, 'source': 'TomBot content, Tom\'s own account (self-reported)',
             'human_version': 'https://takenbyninjas.com/about/', 'facts_page': PAGE_URL,
             'references': f'https://takenbyninjas.com{RECS_PATH}', 'shapes': [{'id': i, 'label': l} for i, l, _ in SHAPES],
+            'screening_facts': facts_register(sections)['facts'],
+            'skill_pages': {term: f'https://takenbyninjas.com{KEYWORDS_PATH}{slug}/' for term, slug, _ in KEYWORDS},
             'count': len(rows), 'proof_points': rows}
     return json.dumps(data, ensure_ascii=False, indent=2) + '\n'
 
@@ -1783,6 +1986,7 @@ def write(path, html):
 def main():
     parsed = load_parsed()
     sections = {sid: s['quotable'] for sid, s in parsed.items()}
+    apply_tight(sections)
     recs = load_recommendations()
     write(OUTPUT_FILE, generate_html(sections, recs))
     print(f'✓ Agent facts page generated: {OUTPUT_FILE} ({len(PROOF_POINTS)} proof points, {len(SHAPES)} shapes)')
@@ -1804,6 +2008,12 @@ def main():
     write(CV_APPENDIX_MD, md_text)
     write('for-agents/cv-appendix/index.html', cv_html)
     print(f'✓ CV appendix written: {CV_APPENDIX_MD} and for-agents/cv-appendix/ ({len(md_text.split())} words)')
+    register = facts_register(sections)
+    write(FACTS_FILE, json.dumps(register, ensure_ascii=False, indent=2) + '\n')
+    with open(START_MD, encoding='utf-8') as f:
+        start_md = f.read()
+    write(START_MD, start_md_with_facts(start_md, register))
+    print(f'✓ Screening facts register written: {FACTS_FILE} ({len(register["facts"])} facts); entry file card refreshed')
     write(START_PAGE, start_page_html())
     print(f'✓ Entry page written: {START_PAGE}')
     write(MANIFEST_FILE, manifest(kw_pages + role_pages + shape_pages + [('cv-appendix', 'CV appendix for agents', CV_APPENDIX_PATH, cv_html)]))

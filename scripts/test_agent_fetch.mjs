@@ -22,7 +22,7 @@ const FILES = {
   'for-agents/index.html': '<!DOCTYPE html><title>facts</title>',
   'llms.txt': '# takenbyninjas.com\n',
   'for-agents/start.md': '# Start here\n\n## 0. What would your person like to do?\n\n## 1. Where things are\n',
-  'for-agents/start/index.html': '<!DOCTYPE html><title>Start page</title>',
+  'for-agents/start/index.html': '<!DOCTYPE html><title>Start page</title><pre># Start here\n\n## 0. What would your person like to do?\n\n## 1. Where things are\n</pre>',
   'for-agents/sends.json': JSON.stringify({ sends: { 'novonesis-2026': { role: 'Senior Principal Innovation PM', company: 'Novonesis', fit: '/for-agents/fit/novonesis-2026/' } } }),
   'for-agents/wegovycare/index.html': '<!DOCTYPE html><title>Wegovycare</title>',
   'for-agents/treat-turnaround/index.html': '<!DOCTYPE html><title>TREAT</title>',
@@ -245,6 +245,24 @@ await test('tagged start: /for-agents/start/<tag>.md serves start.md with the ta
   assert.deepEqual(JSON.parse(pool.calls[0].params[5]), { tag: 'novonesis-2026' });
   const rewritten = await h(req('/start/novonesis-2026.md'), c);
   assert.equal(rewritten.status, 200);
+  // The paste URL per send: the HTML entry page with the same block, escaped.
+  const page = await h(new Request('https://takenbyninjas.com/for-agents/start/novonesis-2026/'), c);
+  assert.equal(page.status, 200);
+  assert.equal(page.headers.get('content-type'), 'text/html; charset=utf-8');
+  const html = await page.text();
+  assert.ok(html.includes('Tom&#x27;s application for Senior Principal Innovation PM at Novonesis'), 'send context, escaped');
+  assert.ok(html.includes('&amp;tag=novonesis-2026') && html.includes('&quot;tag&quot;: &quot;novonesis-2026&quot;'), 'tag instructions escaped');
+  assert.ok(html.indexOf('## 0b. About this copy') < html.indexOf('## 1. Where things are'), 'inserted before section 1');
+  await Promise.all(c.pending);
+  const logged = pool.calls.find(x => x.params[0] === '/for-agents/start/novonesis-2026/');
+  assert.deepEqual(JSON.parse(logged.params[5]), { tag: 'novonesis-2026' });
+  assert.equal((await h(new Request('https://takenbyninjas.com/for-agents/start/novonesis-2026'), c)).status, 200, 'no trailing slash');
+  assert.equal((await h(req('/start/novonesis-2026/'), c)).status, 200, 'rewritten form');
+  const plain = await (await h(new Request('https://takenbyninjas.com/for-agents/start/'), c)).text();
+  assert.ok(!plain.includes('0b. About this copy'), 'untagged page has no send block');
+  // Outside production the fit link in the block points at the deploy too.
+  const stg = await (await h(new Request('https://staging--x.netlify.app/for-agents/start/novonesis-2026.md'), ctx({ deploy: { context: 'branch-deploy' } }))).text();
+  assert.ok(stg.includes('https://staging--x.netlify.app/for-agents/fit/novonesis-2026/') && !stg.includes('takenbyninjas.com/for-agents/fit'), 'fit link follows the deploy');
   for (const bad of ['/for-agents/start/Bad_Tag.md', '/for-agents/start/' + 'x'.repeat(41) + '.md', '/for-agents/start/x.txt']) {
     assert.equal((await h(new Request('https://takenbyninjas.com' + bad), c)).status, 404, bad);
   }

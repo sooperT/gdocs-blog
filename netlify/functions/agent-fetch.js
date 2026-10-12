@@ -115,16 +115,21 @@ export function buildLogRow(request, context, resource, status, meta = null) {
 }
 export async function logFetch(pool, row) { return insertUsage(pool, { meta: null, ...row }); }
 
-// The tagged entry file (Tom, 2026-10-12): /for-agents/start/<tag>.md serves
-// start.md, logged under its own path with the tag in meta, so a fetch can be
-// traced to the CV it came from. The served text tells the agent to pass the
-// tag on every /ask call. Tag: [a-z0-9-], up to 40 characters.
+// The tagged entry file (Tom, 2026-10-12): /for-agents/start/<tag>/ serves the
+// HTML entry page (the paste URL) and /for-agents/start/<tag>.md serves
+// start.md, each logged under its own path with the tag in meta, so a fetch
+// can be traced to the CV it came from. The served text tells the agent to
+// pass the tag on every /ask call. Tag: [a-z0-9-], up to 40 characters.
 export function taggedStart(pathname) {
-  const m = String(pathname || '').toLowerCase().match(/\/(?:agent-fetch\/)?(?:for-agents\/)?start\/([a-z0-9-]{1,40})\.md$/);
+  const m = String(pathname || '').toLowerCase().match(/\/(?:agent-fetch\/)?(?:for-agents\/)?start\/([a-z0-9-]{1,40})(\.md|\/?)$/);
   if (!m) return null;
   const tag = cleanTag(m[1]);
-  return tag ? { ...RESOURCES.start, path: `/for-agents/start/${tag}.md`, tag } : null;
+  if (!tag) return null;
+  return m[2] === '.md'
+    ? { ...RESOURCES.start, path: `/for-agents/start/${tag}.md`, tag }
+    : { ...RESOURCES['start-page'], path: `/for-agents/start/${tag}/`, tag, html: true };
 }
+const escapeHtml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
 // Per-send context (item 231): for-agents/sends.json maps a tag to the role,
 // company and ready-made fit page written by scripts/cv_appendix.py. Missing
 // file or unknown tag -> the generic send-tag note only.
@@ -164,6 +169,11 @@ export function createHandler({ getPool = getDefaultPool, readFile = defaultRead
     let status = 200;
     try {
       body = readFile(resource.file);
+      // The HTML page carries the same text escaped in a pre block.
+      if (resource.tag) {
+        const line = TAG_LINE(resource.tag, sends[resource.tag]);
+        body = body.replace(/\n## 1\. Where things are/, () => (resource.html ? escapeHtml(line) : line) + '\n## 1. Where things are');
+      }
       // Outside production the agent side must be self-contained: every
       // absolute takenbyninjas.com link in a served file points at this
       // deploy instead, so a paste test on staging never falls through to
@@ -172,7 +182,6 @@ export function createHandler({ getPool = getDefaultPool, readFile = defaultRead
       if (deployContext && deployContext !== 'production') {
         body = body.split('https://takenbyninjas.com').join(new URL(request.url).origin);
       }
-      if (resource.tag) body = body.replace(/\n## 1\. Where things are/, TAG_LINE(resource.tag, sends[resource.tag]) + '\n## 1. Where things are');
     } catch (error) {
       console.error('[agent-fetch] read failed:', error?.message || error);
       status = 500;

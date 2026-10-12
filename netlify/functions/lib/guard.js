@@ -174,6 +174,14 @@ export function isValidRow(row) {
   if (!['section', 'source', 'year', 'score'].every(k => has(row, k))) return false;
   if (!(row.year === null || typeof row.year === 'string')) return false;
   const content = row.answer ?? row.evidence ?? null;
+  // A screening fact (R1012-22) is not retrieved, so it has no score; "not
+  // stated" has nothing to cite, a stated fact may be a fixed one (no section).
+  if (row.kind === 'fact') {
+    if (row.score !== null) return false;
+    if (content === null) return row.met === 'not stated' && row.section === null && row.source === null;
+    return row.met === 'fact' && typeof content === 'string'
+      && (row.section === null ? row.source === null : typeof row.section === 'string' && typeof row.source === 'string');
+  }
   if (content !== null) {
     return typeof content === 'string'
       && typeof row.section === 'string' && row.section.length > 0

@@ -5,17 +5,18 @@ import assert from 'node:assert/strict';
 import { SENIORITY, FUNCTION, SECTOR } from '../netlify/functions/lib/role_shape.js';
 import {
   splitBriefHeuristic, splitBriefLLM, parseRequirementArray, buildRow, createCalibrateHandler as createCalibrateHandlerRaw,
-  SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS, pickMatch, PP_MARGIN, plainEvidence, trimEvidence, nearestBelowThreshold, buildAdjacent, ADJACENT_MIN, ADJACENT_NOTE, BRIEF_THRESHOLD, sectionYear, evidenceQueries, parseEvidenceQueries, mergeMatches, EVIDENCE_SYSTEM_PROMPT,
+  SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS, pickMatch, PP_MARGIN, plainEvidence, trimEvidence, nearestBelowThreshold, buildAdjacent, ADJACENT_MIN, ADJACENT_NOTE, BRIEF_THRESHOLD, sectionYear, evidenceQueries, parseEvidenceQueries, mergeMatches, EVIDENCE_SYSTEM_PROMPT, alsoRows,
 } from '../netlify/functions/calibrate.js';
 import { createHandler as createAskHandlerRaw } from '../netlify/functions/ask.js';
 import { retrieve as realRetrieve } from '../netlify/functions/lib/retrieval.js';
-import { RANKING_PATTERNS } from '../netlify/functions/lib/guard.js';
+import { RANKING_PATTERNS, isValidRow } from '../netlify/functions/lib/guard.js';
+import { classifyKnockout, answerFor, FACT_NOTE, NOT_STATED_NOTE } from '../netlify/functions/lib/facts.js';
 
 // Never let a test reach a real database: drop any NILEDB_URL from the shell.
 delete process.env.NILEDB_URL;
 
 // Stubbed map: the sections the stubs can return, nothing else.
-const MAP = ['META.BOOKS', 'NOVO.R1', 'NOVO.R2.GENAI', 'STYLE.DISCOVERY'].map(id => ({ id, questions: [] }));
+const MAP = ['META.BOOKS', 'META.EDUCATION', 'META.LOCATION', 'NOVO.R1', 'NOVO.R2.GENAI', 'STYLE.DISCOVERY'].map(id => ({ id, questions: [] }));
 const stubListSections = async () => MAP;
 const createCalibrateHandler = (o = {}) => createCalibrateHandlerRaw({ listSections: stubListSections, limiter: null, ...o });
 const createAskHandler = (o = {}) => createAskHandlerRaw({ listSections: stubListSections, limiter: null, env: {}, ...o });
@@ -33,7 +34,11 @@ function assertTrustContract(b) {
   for (const row of b.rows) {
     for (const k of ['section', 'source', 'year', 'score']) assert.ok(Object.hasOwn(row, k), `row missing ${k}`);
     assert.ok(row.year === null || typeof row.year === 'string');
-    if (row.evidence === null) {
+    if (row.kind === 'fact') {          // a screening fact is not retrieved: no score, no verdict
+      assert.ok(['fact', 'not stated'].includes(row.met));
+      assert.equal(row.score, null);
+      assert.equal(row.evidence === null, row.met === 'not stated');
+    } else if (row.evidence === null) {
       assert.equal(row.met, 'not met');  // the reason for the nulls
       assert.equal(row.section, null); assert.equal(row.source, null); assert.equal(row.score, null);
     } else {
@@ -143,7 +148,7 @@ await test('system prompt: no facts about Tom, no ranking language', async () =>
 // --- rows ---
 await test('row above threshold with year + outcome: met, evidence trimmed to 400', async () => {
   const row = buildRow('5+ years of product management experience', NOVO);
-  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'references', 'kind', 'evidence_star', 'role', 'product', 'page', 'skills', 'adjacent']);
+  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'references', 'kind', 'evidence_star', 'role', 'product', 'page', 'skills', 'adjacent', 'fact_type', 'also']);
   assert.equal(row.kind, 'section');
   assert.equal(row.tier, 'self-reported');
   assert.equal(row.references.count > 0, true);
@@ -170,7 +175,7 @@ await test('row above threshold with no year: partial, short evidence not cut', 
 });
 await test('row below threshold: not met, null evidence and source', async () => {
   assert.deepEqual(buildRow('Danish is a plus', null),
-    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null, kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null });
+    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null, kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, also: null });
 });
 await test('row on a section with no period: references null, tier self-reported', async () => {
   const row = buildRow('Hands-on with discovery', NOYEAR);
@@ -191,7 +196,12 @@ await test('POST JSON body: response shape, heuristic splitter without a key', w
   assert.equal(b.withheld, 0); assert.deepEqual(b.flags, []); assert.equal(b.injection_lines, 0);
   assertTrustContract(b);
   assert.deepEqual(b.brief, { requirements: 3, splitter: 'heuristic', evidence_queries: 0, threshold: 0.5 });
-  assert.deepEqual(b.rows.map(r => [r.requirement, r.met]), [['Fluent in Danish', 'not met'], ['Shipped consumer health apps', 'met'], ['Hands-on with discovery', 'partial']]);
+  assert.deepEqual(b.rows.map(r => [r.requirement, r.met]), [['Fluent in Danish', 'fact'], ['Shipped consumer health apps', 'met'], ['Hands-on with discovery', 'partial']]);
+  // R1012-22: the language line is a knockout, answered from the facts register in the brief's order.
+  assert.equal(b.rows[0].kind, 'fact'); assert.equal(b.rows[0].fact_type, 'languages');
+  assert.match(b.rows[0].evidence, /Danish \(conversational\)/); assert.equal(b.rows[0].section, 'META.EDUCATION');
+  assert.equal(b.rows[0].score, null); assert.equal(b.rows[0].note, FACT_NOTE);
+  assert.ok(logs.some(l => /"facts":\["languages"\],"facts_not_stated":\[\]/.test(l)));
   assert.equal(b.human_version, 'https://takenbyninjas.com/projects/tombot/');
   assert.equal(b.note, "Evidence only. 'not met' means TomBot content has nothing on it, not that Tom lacks it.");
   origLog('     ' + JSON.stringify({ ...b, rows: b.rows.map(r => ({ ...r, evidence: r.evidence && r.evidence.slice(0, 40) + '…' })) }));
@@ -206,6 +216,7 @@ await test('LLM splitter used when ANTHROPIC_API_KEY is set', async () => {
     createMessage: async () => ({ content: [{ type: 'text', text: '["Fluent in Danish"]' }] }) });
   const b = await body(await h(req('/ask/brief?brief=' + encodeURIComponent(JD2))));
   assert.deepEqual(b.brief, { requirements: 1, splitter: 'llm', evidence_queries: 0, threshold: 0.5 });
+  assert.equal(b.rows[0].met, 'fact', 'a brief of knockouts only never reaches retrieval or the evidence-query call');
 });
 await test('GET /ask?brief= via ask.js; q and brief together -> brief wins, note says so', async () => {
   const ask = createAskHandler({ retrieve: stubRetrieve, calibrate: handler });
@@ -317,7 +328,7 @@ await test('log line: one line, counts only, no brief text', withLogs(async () =
   const line = logs[0];
   origLog('     ' + line);
   const parsed = JSON.parse(line.replace(/^\[ask:brief\] /, ''));
-  assert.deepEqual(Object.keys(parsed), ['asker', 'tag', 'requirements', 'met', 'partial', 'not_met', 'splitter', 'proof_point_rows', 'evidence_queries', 'adjacent', 'seniority', 'function', 'sector']);
+  assert.deepEqual(Object.keys(parsed), ['asker', 'tag', 'requirements', 'met', 'partial', 'not_met', 'splitter', 'proof_point_rows', 'evidence_queries', 'adjacent', 'facts', 'facts_not_stated', 'seniority', 'function', 'sector']);
   assert.equal(parsed.asker, 'hiring-manager');
   // Item 27: the three labels come from fixed lists, never from the brief.
   assert.ok(SENIORITY.includes(parsed.seniority) && FUNCTION.includes(parsed.function) && SECTOR.includes(parsed.sector));
@@ -454,6 +465,68 @@ await test('adjacent: nearest topMatch in [0.45, 0.55) is reported on a not-met 
   const h2 = createCalibrateHandler({ retrieve: async () => ({ match: null, topMatch: { ...near, title: 'GHOST.X', similarity: 0.47 }, matches: [] }), createMessage: noAnthropic, env: {} });
   const b2 = await body(await h2(req('/ask/brief?brief=' + encodeURIComponent('Experience setting the quality bar and instrumenting it is required.'))));
   assert.equal(b2.rows[0].adjacent, null, 'adjacent outside the map is dropped');
+  // 0.4996 is below the threshold and must not print as 0.5; a table-only
+  // section flattens to no story at all, so it is not offered as nearest.
+  assert.equal(buildAdjacent({ ...near, similarity: 0.4996 }).score, 0.49);
+  const table = { ...near, similarity: 0.47, content: '| Role | Company |\n|---|---|\n| PM | Novo Nordisk |' };
+  const h3 = createCalibrateHandler({ retrieve: async () => ({ match: null, topMatch: table, matches: [] }), createMessage: noAnthropic, env: {} });
+  const b3 = await body(await h3(req('/ask/brief?brief=' + encodeURIComponent('Experience working within food industries is required.'))));
+  assert.equal(b3.rows[0].met, 'not met');
+  assert.equal(b3.rows[0].adjacent, null, 'table-only nearest section is dropped');
+}));
+await test('evidence queries: a reply without the outer brackets still parses; a wrong count does not', async () => {
+  assert.deepEqual(parseEvidenceQueries('["led a team"], ["shipped an app", "launched in 5 markets"], []', 3), [['led a team'], ['shipped an app', 'launched in 5 markets'], []]);
+  assert.equal(parseEvidenceQueries('["led a team"], []', 3), null);
+  assert.equal(parseEvidenceQueries('not json', 1), null);
+});
+// --- more than one example (R1012-23) ---
+await test('also: other STAR rows above the threshold, one per product, never the chosen one; none -> null', async () => {
+  const other = (title, product, sim) => ({ ...PP, title, similarity: sim, row: { ...PP.row, product: { text: product, section: 'NOVO.R1' }, result: { text: `${product} result`, section: 'NOVO.R1' } } });
+  const matches = [PP, other('PP.9', 'Wegovycare', 0.66), other('PP.10', 'Wegovycare', 0.64), { ...NOVO, similarity: 0.6 }, other('PP.11', 'Diagnosis App', 0.58), other('PP.12', 'TREAT', 0.55)];
+  const also = alsoRows(matches, PP);
+  assert.deepEqual(also.map(x => [x.product, x.score]), [['Wegovycare', 0.66], ['Diagnosis App', 0.58]], 'two at most, a product once, sections skipped');
+  assert.deepEqual(Object.keys(also[0]), ['evidence', 'role', 'product', 'year', 'section', 'page', 'score']);
+  assert.equal(alsoRows([PP, { ...PP, title: 'PP.4' }], PP), null, 'the same product again is not a second example');
+  assert.equal(alsoRows([NOVO], NOVO), null);
+  const h = createCalibrateHandler({ retrieve: async () => ({ match: PP, topMatch: PP, matches: [PP, other('PP.9', 'Wegovycare', 0.66)] }), createMessage: noAnthropic, env: {} });
+  const b = await body(await h(req('/ask/brief?brief=' + encodeURIComponent('Experience shipping AI in a regulated company is required.'))));
+  assert.equal(b.rows[0].product, 'GenAI proof of concept');
+  assert.deepEqual(b.rows[0].also.map(x => x.product), ['Wegovycare']);
+  assertTrustContract(b);
+});
+// --- screening facts (R1012-22) ---
+await test('knockouts: typed by the question; experience lines and long lines are not knockouts', async () => {
+  const type = (t) => classifyKnockout(t)?.type || null;
+  assert.equal(type('Location: Hørsholm, Denmark'), 'location');
+  assert.equal(type('Hybrid, three days a week in the office'), 'location');
+  assert.equal(type('Ph.D. or M.Sc. within Science, Biotechnology, Engineering, Business Administration, or a related field.'), 'education');
+  assert.equal(type('Fluent English, written and spoken'), 'languages');
+  assert.equal(type('You must have the right to work in the EU'), 'work_permit');
+  assert.equal(type('Full-time, permanent position'), 'employment_type');
+  assert.equal(type('Willingness to travel up to 20 days a year'), 'travel');
+  for (const exp of ['Experience leading remote teams across time zones', 'Fluent enough in data and AI to make the right calls',
+    'Master data management experience', 'Experience working within food industries.', '6-8 years of product management experience']) {
+    assert.equal(type(exp), null, exp);
+  }
+  assert.equal(type('Lead discovery with markets in Copenhagen, based in the Hørsholm office, ' + 'working across functions '.repeat(8)), null, 'a long line is experience');
+});
+await test('knockouts: a stated fact is a fact row; an unstated one is "not stated" with what to do; both pass the guard', withLogs(async () => {
+  const h = createCalibrateHandler({ retrieve: stubRetrieve, createMessage: noAnthropic, env: {} });
+  const b = await body(await h(req('/ask/brief', { method: 'POST', headers: { 'content-type': 'text/plain' },
+    body: '- Location: Hørsholm, Denmark\n- Shipped consumer health apps\n- Willingness to travel up to 20 days a year' })));
+  assert.deepEqual(b.rows.map(r => [r.met, r.kind, r.fact_type]), [['fact', 'fact', 'location'], ['met', 'section', null], ['not stated', 'fact', 'travel']]);
+  // Answer what was asked: an office location gets the onsite line, not the remote one.
+  assert.equal(b.rows[0].evidence, 'Copenhagen, Denmark; Open to onsite roles in Copenhagen');
+  assert.equal(answerFor('Fully remote role', classifyKnockout('Fully remote role')), 'Copenhagen, Denmark; remote roles across the EU');
+  assert.equal(answerFor('Fluent English', classifyKnockout('Fluent English')), 'English (native); Danish (conversational)');
+  assert.match(answerFor('Fluent in Danish', classifyKnockout('Fluent in Danish')), /Prøve i Dansk 3/);
+  assert.deepEqual([b.rows[2].evidence, b.rows[2].section, b.rows[2].source, b.rows[2].score], [null, null, null, null]);
+  assert.equal(b.rows[2].note, NOT_STATED_NOTE);
+  assertTrustContract(b);
+  assert.ok(logs.some(l => /"met":1,"partial":0,"not_met":0/.test(l) && /"facts":\["location","travel"\],"facts_not_stated":\["travel"\]/.test(l)), 'counted by type, never by text');
+  assert.ok(b.rows.every(isValidRow));
+  assert.equal(isValidRow({ ...b.rows[0], score: 0.9 }), false, 'a fact has no score');
+  assert.equal(isValidRow({ ...b.rows[2], met: 'not met' }), false);
 }));
 await test('section years: a drill-down inherits its role year; a section with its own year keeps it; unknown null', async () => {
   const table = { years: { 'NOVO.R2': 'Feb 2022 - Feb 2026', 'NOVO.R2.GENAI': 'Feb 2022 - Feb 2026' } };

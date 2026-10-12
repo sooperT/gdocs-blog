@@ -20,6 +20,7 @@ import {
 import { classifyBrief } from './lib/role_shape.js';
 import { cleanAnswer, deriveYear, deriveStrength, SELF_REPORTED, HUMAN_VERSION } from './ask.js';
 import { referencesFor } from './lib/references.js';
+import { classifyKnockout, answerFor, FACT_NOTE, NOT_STATED_NOTE } from './lib/facts.js';
 import SECTION_YEARS from './lib/section_years.json' with { type: 'json' };
 import { logUsage, getUsagePool, cleanTag } from './lib/usage.js';
 
@@ -152,7 +153,10 @@ export function parseEvidenceQueries(reply, count, { max = MAX_EVIDENCE_QUERIES 
   if (typeof reply !== 'string') return null;
   const text = reply.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
   let parsed;
-  try { parsed = JSON.parse(text); } catch { return null; }
+  try { parsed = JSON.parse(text); } catch {
+    // The model sometimes drops the outer brackets: ["a"], ["b"], [] (Novonesis, 2026-10-12).
+    try { parsed = JSON.parse(`[${text}]`); } catch { return null; }
+  }
   if (!Array.isArray(parsed) || parsed.length !== count) return null;
   return parsed.map(entry => (Array.isArray(entry) ? entry : [])
     .filter(q => typeof q === 'string' && q.trim() && !isInjectionLine(q))
@@ -207,8 +211,10 @@ export function nearestBelowThreshold(results, { threshold = BRIEF_THRESHOLD, mi
 export function buildAdjacent(match) {
   if (!match) return null;
   const row = buildRow('', match);
+  // Floored, not rounded: 0.4996 must not print as 0.5, the threshold it is below.
+  const score = Math.floor(Number(match.similarity) * 100 + 1e-9) / 100;
   return {
-    evidence: row.evidence, section: row.section, source: row.source, score: row.score, year: row.year,
+    evidence: row.evidence, section: row.section, source: row.source, score, year: row.year,
     kind: row.kind, product: row.product, page: row.page, note: ADJACENT_NOTE,
   };
 }
@@ -253,7 +259,51 @@ export function sectionYear(title, table = SECTION_YEARS) {
   return y || years[title] || null;
 }
 
-const NO_STAR = { kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null };
+const NO_STAR = { kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, also: null };
+
+// More than one example (Tom, 2026-10-12): the other STAR rows that cleared
+// the threshold for this requirement, a different product each, best first.
+// One story answering three requirements reads as one story; a reader weighing
+// a must-have looks for a second.
+export const MAX_ALSO = 2;
+export function alsoRows(matches, chosen, { max = MAX_ALSO } = {}) {
+  const taken = new Set([chosen?.row?.product?.text].filter(Boolean));
+  const out = [];
+  for (const m of (matches || [])) {
+    if (m === chosen || !isProofPoint(m.title) || !m.row || typeof m.row !== 'object') continue;
+    const product = m.row.product?.text;
+    if (!product || taken.has(product) || !m.row.result?.text) continue;
+    taken.add(product);
+    const r = buildProofPointRow('', m);
+    out.push({ evidence: r.evidence, role: r.role, product: r.product, year: r.year, section: r.section, page: r.page, score: r.score });
+    if (out.length === max) break;
+  }
+  return out.length ? out : null;
+}
+
+// A knockout (R1012-22): the fact, in Tom's words, next to the requirement. No
+// verdict: `met` is "fact" (the reader compares) or "not stated" (no fact on
+// record; `evidence` carries what to do about it, there is nothing to cite).
+export function buildFactRow(requirement, fact) {
+  const answer = answerFor(requirement, fact);
+  const stated = answer !== null;
+  return {
+    requirement,
+    met: stated ? 'fact' : 'not stated',
+    evidence: answer,
+    strength: null,
+    year: null,
+    section: stated ? fact.section : null,
+    source: stated && fact.section ? `TomBot ${fact.section}` : null,
+    tier: stated ? SELF_REPORTED : null,
+    score: null,
+    references: null,
+    ...NO_STAR,
+    kind: 'fact',
+    fact_type: fact.type,
+    note: stated ? FACT_NOTE : NOT_STATED_NOTE,
+  };
+}
 
 // A STAR row (PP.<n> chunk, item 31): evidence is the result cell, the section
 // is the result's section id (always in the map), evidence_star carries the
@@ -282,6 +332,8 @@ function buildProofPointRow(requirement, match) {
     page: r.page || null,
     skills: Array.isArray(r.skills) ? r.skills : [],
     adjacent: null,
+    fact_type: null,
+    also: null,
   };
 }
 
@@ -389,10 +441,14 @@ export function createCalibrateHandler({
         : { requirements: splitBriefHeuristic(brief, { max: Infinity }), splitter: 'heuristic' };
       const tooMany = checkRequirementCount(split.requirements.length);
       if (tooMany) return json({ error: tooMany.error, requirements: tooMany.requirements, usage: USAGE }, tooMany.status);
-      const requirements = split.requirements.slice(0, MAX_REQUIREMENTS);
+      const allRequirements = split.requirements.slice(0, MAX_REQUIREMENTS);
       const { splitter } = split;
+      // R1012-22: knockouts are answered from the facts register and never
+      // reach retrieval; only experience requirements are matched to stories.
+      const knockouts = allRequirements.map(r => classifyKnockout(r));
+      const requirements = allRequirements.filter((_, i) => !knockouts[i]);
       // Item 32: evidence queries per requirement (one Claude call; none without a key).
-      const queries = runEnv.ANTHROPIC_API_KEY ? await evidenceQueries(requirements, { createMessage }) : requirements.map(() => []);
+      const queries = runEnv.ANTHROPIC_API_KEY && requirements.length ? await evidenceQueries(requirements, { createMessage }) : requirements.map(() => []);
 
       // Small batches so 12 requirements x up to 3 texts don't hit Voyage all at once.
       let rows = [];
@@ -413,11 +469,17 @@ export function createCalibrateHandler({
           return json({ error: 'Retrieval is unavailable right now. Please try again later.', human_version: HUMAN_VERSION }, 503);
         }
         batch.forEach((r, j) => {
-          const row = buildRow(r, pickMatch(results[j].matches) || results[j].match);
+          const chosen = pickMatch(results[j].matches) || results[j].match;
+          const row = buildRow(r, chosen);
           if (row.met === 'not met' && results[j].nearest) row.adjacent = buildAdjacent(results[j].nearest);
+          if (row.met !== 'not met') row.also = alsoRows(results[j].matches, chosen);
           rows.push(row);
         });
       }
+      // Back into the brief's order, the fact rows in their places.
+      const matched = rows;
+      rows = [];
+      allRequirements.forEach((r, i) => rows.push(knockouts[i] ? buildFactRow(r, knockouts[i]) : matched.shift()));
 
       // Outgoing guard: sections outside the map, deny-list, schema.
       const { ids } = await map.get();
@@ -434,8 +496,18 @@ export function createCalibrateHandler({
           if (!ids.has(out.adjacent.section)) out = { ...out, adjacent: null };
         }
         // Prose for a table cell, after the per-line deny-list has run.
-        if (out.evidence) out = { ...out, evidence: plainEvidence(out.evidence) };
+        if (out.evidence && out.kind !== 'fact') out = { ...out, evidence: plainEvidence(out.evidence) };
         if (out.adjacent && out.adjacent.evidence) out = { ...out, adjacent: { ...out.adjacent, evidence: plainEvidence(out.adjacent.evidence) } };
+        if (out.also) {
+          const kept = out.also.filter(x => ids.has(x.section)).map(x => {
+            const d2 = applyDenyList(x.evidence || '');
+            withheld += d2.withheld;
+            return { ...x, evidence: plainEvidence(d2.text) };
+          });
+          out = { ...out, also: kept.length ? kept : null };
+        }
+        // A table-only section (META.JOBS) flattens to nothing: no story, no adjacent.
+        if (out.adjacent && !out.adjacent.evidence) out = { ...out, adjacent: null };
         return out;
       });
       rows = validateRows(rows, { tag: '[ask:brief]' }).rows;
@@ -449,6 +521,9 @@ export function createCalibrateHandler({
         proof_point_rows: rows.filter(r => r.kind === 'proof-point').length,
         evidence_queries: queries.reduce((n, q) => n + q.length, 0),
         adjacent: rows.filter(r => r.adjacent).length,
+        // Fixed-list labels only: which knockout types the brief asked, and which had no fact.
+        facts: rows.filter(r => r.kind === 'fact').map(r => r.fact_type),
+        facts_not_stated: rows.filter(r => r.met === 'not stated').map(r => r.fact_type),
         seniority: shape.seniority, function: shape.function, sector: shape.sector,
       };
       console.log('[ask:brief]', JSON.stringify(usage));
