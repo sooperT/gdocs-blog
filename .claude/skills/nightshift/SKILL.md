@@ -33,7 +33,7 @@ The ledger is SHARED with Kitten PM: `~/.claude/projects/-Users-tom-Developer-ki
 
 ## 2. Workspace
 
-1. Base: if the newest `night/*` branch is not merged into local `main`, base on it (stacking). Otherwise base on local `main`.
+1. Base: `staging` (PRD v3 section 8, R1012-3). Night branches start from local `staging` and are merged into `staging` at review; `main` is for cut-over only. If `staging` does not exist, base on local `main` and say so in the report.
 2. Make your own worktree, never work in `/Users/tom/Developer/takenbyninjas`:
    `git -C /Users/tom/Developer/takenbyninjas worktree add .claude/worktrees/night-YYYY-MM-DD -b night/YYYY-MM-DD <base>`
    Reuse tonight's worktree if the branch exists and is unmerged; suffix (`-2`) if it is already merged. From then on every command starts with `cd` into the worktree, and every file path is absolute.

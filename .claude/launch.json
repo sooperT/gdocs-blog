@@ -19,7 +19,7 @@
         "http.server",
         "8199",
         "--directory",
-        ".claude/worktrees/night-2026-10-11"
+        ".claude/worktrees/staging"
       ],
       "port": 8199
     },

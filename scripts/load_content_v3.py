@@ -16,13 +16,12 @@ import json
 import time
 from pathlib import Path
 import requests
-from dotenv import load_dotenv
+from db_target import resolve_db
 import psycopg2
 
-load_dotenv()
 
 VOYAGE_API_KEY = os.getenv("VOYAGE_API_KEY")
-NILEDB_URL = os.getenv("NILEDB_URL")
+NILEDB_URL = resolve_db("DELETE every chunk and reload")
 
 
 def get_embeddings(texts, model="voyage-3"):
@@ -100,12 +99,6 @@ def load_content():
     """)
     conn.commit()
 
-    # Clear ALL chunks — ensures no stale data from previous versions
-    cur.execute("DELETE FROM chunks")
-    deleted = cur.rowcount
-    conn.commit()
-    print(f"Cleared {deleted} existing rows from chunks table")
-
     # Collect all texts to embed
     # For each section: the content + all question variations
     content_texts = []
@@ -130,8 +123,14 @@ def load_content():
         print("Failed to get question embeddings")
         return
 
-    # Insert rows - one per question variation
-    print("Inserting into database...")
+    # Wipe + insert in ONE transaction: if anything fails mid-load the
+    # rollback leaves the previous content live (Nile drops connections
+    # from time to time — 2026-09-24 the bot sat empty after a failed load).
+    # Embeddings are fetched above, before the wipe, so no network call
+    # happens inside the transaction.
+    print("Replacing chunks (single transaction)...")
+    cur.execute("DELETE FROM chunks")
+    print(f"  Cleared {cur.rowcount} existing rows")
     inserted = 0
     q_idx = 0
 

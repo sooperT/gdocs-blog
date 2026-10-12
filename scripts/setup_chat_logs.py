@@ -3,12 +3,11 @@
 
 import os
 import psycopg2
-from dotenv import load_dotenv
+from db_target import resolve_db
 
-load_dotenv()
 
 def setup_chat_logs():
-    conn = psycopg2.connect(os.environ['NILEDB_URL'])
+    conn = psycopg2.connect(resolve_db('create the chat_logs table in'))
     cur = conn.cursor()
 
     # Create chat_logs table - one row per session
