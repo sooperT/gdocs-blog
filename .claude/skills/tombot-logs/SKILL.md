@@ -90,6 +90,17 @@ Present results in a readable summary:
 - For deflections: show the query, nearest match, and score
 - For errors: show the timestamp, query, and error message; group repeats and call out any error seen more than once
 
+## Known automated traffic — ignore
+
+A daily automated smoke test hits TomBot around 13:20–13:40 UTC with two
+single-message sessions:
+- `tell me about your skills` (expects a META.COMPETENCIES match)
+- `xqzzy blorptang frimble` (expects a deflection)
+
+These are not real visitors. Exclude them from summaries and don't raise them
+with Tom. Its gibberish deflection is expected. Only mention the test if it
+breaks: the skills query deflects or errors, or the test stops appearing.
+
 ## Reference
 
 See `scripts/view_chat_logs.py` for the existing Python log viewer.

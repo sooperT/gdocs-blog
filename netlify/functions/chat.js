@@ -308,13 +308,32 @@ function formatRetrievedContent(chunks) {
   return `\n\n<retrieved_content>\n${formatted}\n</retrieved_content>\n\nUse the retrieved content above to inform your response. This is grounded information about Tom's experience. If the answer isn't in the retrieved content or the system prompt, acknowledge that you don't have that information and suggest emailing Tom directly.`;
 }
 
+// Only the site itself may call this from a browser. Non-browser callers (curl, the
+// GitHub Actions health check) send no Origin and aren't subject to CORS anyway.
+const ALLOWED_ORIGIN = 'https://takenbyninjas.com';
+
+// Per-IP limiter: 20 requests per minute. Lives in the function instance's memory, so
+// it's per-instance and resets on cold start — a cheap floor under Netlify's own
+// rateLimit in `config` below, which is the real cross-instance control.
+const RATE_WINDOW_MS = 60_000;
+const RATE_LIMIT = 20;
+const hitsByIp = new Map();
+function rateLimited(ip) {
+  const now = Date.now();
+  const hits = (hitsByIp.get(ip) || []).filter(t => now - t < RATE_WINDOW_MS);
+  hits.push(now);
+  hitsByIp.set(ip, hits);
+  if (hitsByIp.size > 5000) hitsByIp.clear(); // bound memory on a flood
+  return hits.length > RATE_LIMIT;
+}
+
 export default async (request, context) => {
   // Handle CORS preflight
   if (request.method === 'OPTIONS') {
     return new Response(null, {
       status: 204,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
       },
@@ -326,6 +345,14 @@ export default async (request, context) => {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
       status: 405,
       headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  const ip = context?.ip || request.headers.get('x-nf-client-connection-ip') || 'unknown';
+  if (rateLimited(ip)) {
+    return new Response(JSON.stringify({ error: 'Too many requests — try again in a minute.' }), {
+      status: 429,
+      headers: { 'Content-Type': 'application/json', 'Retry-After': '60' },
     });
   }
 
@@ -399,7 +426,7 @@ export default async (request, context) => {
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',
             'Connection': 'keep-alive',
-            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
           },
         });
       }
@@ -469,7 +496,7 @@ export default async (request, context) => {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
         'Connection': 'keep-alive',
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
       },
     });
 
@@ -494,7 +521,7 @@ export default async (request, context) => {
       status: 500,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
       },
     });
   }
@@ -502,4 +529,6 @@ export default async (request, context) => {
 
 export const config = {
   path: '/api/chat',
+  // Netlify-side limit, aggregated across instances: 20 requests/min per IP -> 429.
+  rateLimit: { windowLimit: 20, windowSize: 60, aggregateBy: ['ip'], action: 'rate_limit' },
 };
