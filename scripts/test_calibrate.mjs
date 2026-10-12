@@ -15,7 +15,7 @@ import { RANKING_PATTERNS } from '../netlify/functions/lib/guard.js';
 delete process.env.NILEDB_URL;
 
 // Stubbed map: the sections the stubs can return, nothing else.
-const MAP = ['META.BOOKS', 'NOVO.R1', 'STYLE.DISCOVERY'].map(id => ({ id, questions: [] }));
+const MAP = ['META.BOOKS', 'NOVO.R1', 'NOVO.R2.GENAI', 'STYLE.DISCOVERY'].map(id => ({ id, questions: [] }));
 const stubListSections = async () => MAP;
 const createCalibrateHandler = (o = {}) => createCalibrateHandlerRaw({ listSections: stubListSections, limiter: null, ...o });
 const createAskHandler = (o = {}) => createAskHandlerRaw({ listSections: stubListSections, limiter: null, env: {}, ...o });
@@ -143,7 +143,8 @@ await test('system prompt: no facts about Tom, no ranking language', async () =>
 // --- rows ---
 await test('row above threshold with year + outcome: met, evidence trimmed to 400', async () => {
   const row = buildRow('5+ years of product management experience', NOVO);
-  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'references']);
+  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'references', 'kind', 'evidence_star', 'role', 'product', 'page', 'skills']);
+  assert.equal(row.kind, 'section');
   assert.equal(row.tier, 'self-reported');
   assert.equal(row.references.count > 0, true);
   assert.deepEqual(Object.keys(row.references), ['period', 'count', 'url', 'tier', 'note']);
@@ -169,7 +170,7 @@ await test('row above threshold with no year: partial, short evidence not cut', 
 });
 await test('row below threshold: not met, null evidence and source', async () => {
   assert.deepEqual(buildRow('Danish is a plus', null),
-    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null });
+    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null, kind: null, evidence_star: null, role: null, product: null, page: null, skills: null });
 });
 await test('row on a section with no period: references null, tier self-reported', async () => {
   const row = buildRow('Hands-on with discovery', NOYEAR);
@@ -325,4 +326,47 @@ await test('log line: one line, counts only, no brief text', withLogs(async () =
   for (const word of ['Copenhagen', 'GDPR', 'Danish', 'stakeholder', 'product']) assert.ok(!sansLabels.includes(word), word);
 }));
 
+// --- item 31: STAR rows (PP.<n> chunks) ---
+const PP = {
+  title: 'PP.3', similarity: 0.71, content: 'Role: Associate Product Director at Novo Nordisk\nResult: the proof of concept showed a clear path',
+  follow_ups: [],
+  row: { role: { text: 'Associate Product Director at Novo Nordisk', section: 'NOVO.R2' }, product: { text: 'GenAI proof of concept', section: 'NOVO.R2' },
+    desc: { text: 'a RAG model', section: 'NOVO.R2.GENAI' }, situation: { text: 'significant delays', section: 'NOVO.R2.GENAI' },
+    task: { text: 'automating compliance reviews', section: 'NOVO.R2' }, action: { text: 'I used an internal LLM sandbox', section: 'NOVO.R2.GENAI' },
+    result: { text: 'the proof of concept showed a clear path to dramatically faster release cycles', section: 'NOVO.R2.GENAI' },
+    year: { text: 'Feb 2022 - Feb 2026', section: 'NOVO.R2' }, strength: 'Led', tier: 'self-reported', shapes: ['ai'], skills: ['AI', 'GenAI'],
+    page: 'https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2-genai', company: 'Novo Nordisk' },
+};
+await test('item 31: a PP row match -> kind proof-point, evidence = result cell, section = result section, STAR cells, page', async () => {
+  const row = buildRow('Experience with GenAI in a regulated environment', PP);
+  assert.equal(row.kind, 'proof-point');
+  assert.equal(row.section, 'NOVO.R2.GENAI');
+  assert.equal(row.source, 'TomBot NOVO.R2.GENAI');
+  assert.equal(row.evidence, PP.row.result.text);
+  assert.deepEqual(row.evidence_star, { situation: 'significant delays', task: 'automating compliance reviews', action: 'I used an internal LLM sandbox', result: PP.row.result.text });
+  assert.equal(row.met, 'met');
+  assert.equal(row.year, '2022-2026');   // deriveYear normalises ranges like section rows
+  assert.equal(row.strength, 'Led');
+  assert.deepEqual(row.skills, ['AI', 'GenAI']);
+  assert.equal(row.page, PP.row.page);
+  assert.equal(row.role, PP.row.role.text);
+  assert.ok(row.references && row.references.url.endsWith('#novo'));
+  assert.ok(!row.section.startsWith('PP.'), 'PP ids never reach the response');
+});
+await test('item 31: a PP chunk without its row column falls back to section behaviour', async () => {
+  const row = buildRow('x', { ...PP, row: null });
+  assert.equal(row.kind, 'section');
+  assert.equal(row.section, 'PP.3');
+});
+await test('item 31: handler asks retrieval for all kinds, 5 deep; PP rows pass the map guard via their result section', withLogs(async () => {
+  const seen = [];
+  const h = createCalibrateHandler({ retrieve: async (q, opts) => { seen.push(opts); return { match: PP, topMatch: PP, matches: [PP] }; }, env: {} });
+  const res = await h(req('/ask/brief?brief=' + encodeURIComponent('Hands-on GenAI experience. Regulated industry background.')));
+  assert.equal(res.status, 200);
+  const b = await body(res);
+  assert.ok(seen.every(o => o.kinds === 'all' && o.topK === 5));
+  assert.ok(b.rows.length >= 1);
+  for (const r of b.rows) { assert.equal(r.kind, 'proof-point'); assert.equal(r.section, 'NOVO.R2.GENAI'); }
+  assertTrustContract(b);
+}));
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);

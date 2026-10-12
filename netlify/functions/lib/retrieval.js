@@ -180,33 +180,40 @@ export async function embedQuery(text, {
 // by load_content_v3.py. A database loaded before that has no such columns:
 // the query then falls back to the old column list and every row carries
 // attested/direct_answers = null, so TomBot chat keeps working either way.
-const AGENT_COLUMNS = 'attested, direct_answers,';
+const AGENT_COLUMNS = 'attested, direct_answers, row,';
+// Item 31: STAR rows live in the same table as PP.<n>. `kinds` picks what a
+// query sees: 'sections' (chat, /ask: the default), 'rows', or 'all' (/ask/brief).
+export const PP_PREFIX = 'PP.';
+const KIND_FILTER = { sections: "AND title NOT LIKE 'PP.%'", rows: "AND title LIKE 'PP.%'", all: '' };
+export const isProofPoint = (title) => typeof title === 'string' && title.startsWith(PP_PREFIX);
 const UNDEFINED_COLUMN = '42703';
-function matchQuery(agentColumns) {
+function matchQuery(agentColumns, kinds = 'sections') {
+  const filter = KIND_FILTER[kinds] ?? KIND_FILTER.sections;
   return `
       SELECT DISTINCT ON (title)
              id, title, content, chunk_type, question_text, follow_ups,${agentColumns ? `\n             ${AGENT_COLUMNS}` : ''}
              1 - (question_embedding <=> $1::vector) as similarity
       FROM chunks
-      WHERE question_embedding IS NOT NULL
+      WHERE question_embedding IS NOT NULL ${filter}
       ORDER BY title, question_embedding <=> $1::vector
     `;
 }
 
-export async function matchSections(embedding, { topK = TOP_K, threshold, sql } = {}) {
+export async function matchSections(embedding, { topK = TOP_K, threshold, sql, kinds = 'sections' } = {}) {
   try {
     const db = sql || getPool();
     const vectorStr = `[${embedding.join(',')}]`;
     let result;
     try {
-      result = await db.query(matchQuery(true), [vectorStr]);
+      result = await db.query(matchQuery(true, kinds), [vectorStr]);
     } catch (error) {
       if (error?.code !== UNDEFINED_COLUMN) throw error;
-      result = await db.query(matchQuery(false), [vectorStr]);
+      result = await db.query(matchQuery(false, kinds), [vectorStr]);
     }
     for (const row of result.rows) {
       row.attested = row.attested ?? null;
       row.direct_answers = row.direct_answers ?? null;
+      row.row = row.row ?? null;
     }
 
     // Re-sort by similarity after DISTINCT and take top N
@@ -230,13 +237,14 @@ export async function retrieve(query, {
   fetchImpl, env = process.env, sql, sleep, connectionString,
   topK = TOP_K,
   threshold = QUESTION_MATCH_THRESHOLD,
+  kinds = 'sections',
 } = {}) {
   const db = sql || getPool(env, connectionString);
   const prepared = await prepareQuery(query, { sql: db });
   const embedding = await embedQuery(prepared, { fetchImpl, env, sleep });
   if (!embedding) return { match: null, topMatch: null, matches: [], error: 'embedding failed' };
 
-  const rows = await matchSections(embedding, { topK, sql: db });
+  const rows = await matchSections(embedding, { topK, sql: db, kinds });
   const topMatch = rows[0] || null;
   const matches = rows.filter(r => r.similarity >= threshold);
   const match = matches[0] || null;
@@ -253,6 +261,7 @@ export async function listSections({ env = process.env, sql, connectionString } 
     SELECT title,
            array_agg(question_text ORDER BY LENGTH(id), id) FILTER (WHERE question_text IS NOT NULL) AS questions
     FROM chunks
+    WHERE title NOT LIKE 'PP.%'
     GROUP BY title
     ORDER BY title
   `);

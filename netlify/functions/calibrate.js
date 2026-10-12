@@ -11,7 +11,7 @@
 // schema validation, deny-list on evidence, sections outside the map dropped.
 import Anthropic from '@anthropic-ai/sdk';
 import { envForRequest } from './lib/db_env.js';
-import { retrieve as defaultRetrieve, listSections as defaultListSections } from './lib/retrieval.js';
+import { retrieve as defaultRetrieve, listSections as defaultListSections, isProofPoint } from './lib/retrieval.js';
 import { isDbEnvError } from './lib/db_env.js';
 import {
   agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap, readTextBody,
@@ -143,10 +143,44 @@ export function trimEvidence(answer, max = EVIDENCE_CHARS) {
 // Rule: below threshold -> "not met". Above threshold -> "met" when the
 // section states a year (deriveYear) AND a direct outcome (hasOutcome:
 // a quantified result or an outcome verb), otherwise "partial".
+const NO_STAR = { kind: null, evidence_star: null, role: null, product: null, page: null, skills: null };
+
+// A STAR row (PP.<n> chunk, item 31): evidence is the result cell, the section
+// is the result's section id (always in the map), evidence_star carries the
+// four cells. met: a result counts as an outcome, so year decides.
+function buildProofPointRow(requirement, match) {
+  const r = match.row;
+  const cell = (k) => (r[k] && typeof r[k].text === 'string' ? r[k].text : null);
+  const section = r.result?.section || r.product?.section;
+  const result = cell('result');
+  const year = cell('year') ? deriveYear(cell('year')) || cell('year') : null;
+  return {
+    requirement,
+    met: year && result ? 'met' : 'partial',
+    evidence: result ? trimEvidence(applyDenyList(result).text) : null,
+    strength: r.strength || null,
+    year,
+    section,
+    source: `TomBot ${section}`,
+    tier: SELF_REPORTED,
+    score: Math.round(Number(match.similarity) * 100) / 100,
+    references: referencesFor(section),
+    kind: 'proof-point',
+    evidence_star: { situation: cell('situation'), task: cell('task'), action: cell('action'), result },
+    role: cell('role'),
+    product: cell('product'),
+    page: r.page || null,
+    skills: Array.isArray(r.skills) ? r.skills : [],
+  };
+}
+
 export function buildRow(requirement, match) {
   if (!match) {
     // No evidence, so no tier and no references.
-    return { requirement, met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null };
+    return { requirement, met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null, ...NO_STAR };
+  }
+  if (isProofPoint(match.title) && match.row && typeof match.row === 'object') {
+    return buildProofPointRow(requirement, match);
   }
   const answer = cleanAnswer(match.content);
   const year = deriveYear(answer);
@@ -161,6 +195,8 @@ export function buildRow(requirement, match) {
     tier: SELF_REPORTED,
     score: Math.round(Number(match.similarity) * 100) / 100,
     references: referencesFor(match.title),
+    ...NO_STAR,
+    kind: 'section',
   };
 }
 
@@ -233,7 +269,8 @@ export function createCalibrateHandler({
       let rows = [];
       for (let i = 0; i < requirements.length; i += 4) {
         const batch = requirements.slice(i, i + 4);
-        const results = await Promise.all(batch.map(r => retrieve(r, { env: runEnv })));
+        // Item 31: sections and STAR rows compete; the best match wins.
+        const results = await Promise.all(batch.map(r => retrieve(r, { env: runEnv, kinds: 'all', topK: 5 })));
         if (results.some(r => r?.error)) {
           console.error('[ask:brief] retrieval error');
           return json({ error: 'Retrieval is unavailable right now. Please try again later.', human_version: HUMAN_VERSION }, 503);

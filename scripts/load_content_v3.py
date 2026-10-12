@@ -79,6 +79,43 @@ def get_embeddings(texts, model="voyage-3"):
     return all_embeddings
 
 
+def _t(cell):
+    return cell["text"] if isinstance(cell, dict) and cell.get("text") else None
+
+
+def proof_point_section(i, r):
+    """One STAR row -> a pseudo-section: content is the row as text, questions are the
+    terms a job requirement would use (product, what it is, result, role, company, skills)."""
+    parts = []
+    for label, key in (("Role", "role"), ("Product", "product"), ("What it is", "desc"), ("Situation", "situation"),
+                       ("Task", "task"), ("Action", "action"), ("Result", "result"), ("Year", "year")):
+        v = _t(r.get(key))
+        if v:
+            parts.append(f"{label}: {v}")
+    if r.get("company"):
+        parts.append(f"Company: {r['company']}")
+    questions = []
+    for key in ("product", "desc", "result", "role", "situation", "task", "action"):
+        v = _t(r.get(key))
+        if v and v not in questions:
+            questions.append(v)
+    for sk in r.get("skills", []):
+        if sk not in questions:
+            questions.append(sk)
+    if r.get("company") and r["company"] not in questions:
+        questions.append(r["company"])
+    return {
+        "id": f"PP.{i}",
+        "questions": questions,
+        "content": "\n".join(parts),
+        "drill_downs": [],
+        "follow_ups": [],
+        "attested": [],
+        "direct_answers": [],
+        "row": r,
+    }
+
+
 def load_content():
     # Load parsed content
     script_dir = Path(__file__).parent
@@ -88,6 +125,18 @@ def load_content():
         sections = json.load(f)
 
     print(f"Loaded {len(sections)} sections")
+
+    # Item 31: the STAR rows (for-agents/proof-points.json, written by
+    # generate_agent_page.py) join the index as pseudo-sections titled PP.<n>.
+    # /ask/brief matches requirements against them; /ask and chat exclude
+    # them (retrieval.js filters on the PP. prefix).
+    pp_file = script_dir.parent / "for-agents" / "proof-points.json"
+    pp_rows = []
+    if pp_file.exists():
+        with open(pp_file, "r", encoding="utf-8") as f:
+            pp_rows = json.load(f).get("proof_points", [])
+        sections = sections + [proof_point_section(i, r) for i, r in enumerate(pp_rows)]
+        print(f"Plus {len(pp_rows)} proof-point rows as PP.<n> sections")
 
     # Connect to database
     conn = psycopg2.connect(NILEDB_URL)
@@ -105,6 +154,10 @@ def load_content():
     """)
     cur.execute("""
         ALTER TABLE chunks ADD COLUMN IF NOT EXISTS direct_answers JSONB
+    """)
+    # Item 31: the STAR row as JSON on PP.<n> chunks, NULL on sections.
+    cur.execute("""
+        ALTER TABLE chunks ADD COLUMN IF NOT EXISTS row JSONB
     """)
     conn.commit()
 
@@ -157,16 +210,17 @@ def load_content():
             follow_ups_json = json.dumps(section.get("follow_ups", []))
             attested_json = json.dumps(section.get("attested", []), ensure_ascii=False)
             direct_answers_json = json.dumps(section.get("direct_answers", []), ensure_ascii=False)
+            row_json = json.dumps(section["row"], ensure_ascii=False) if section.get("row") else None
 
             cur.execute("""
                 INSERT INTO chunks (
                     id, chunk_type, title, content,
                     embedding, question_text, question_embedding,
-                    tags, source_file, follow_ups, attested, direct_answers
+                    tags, source_file, follow_ups, attested, direct_answers, row
                 ) VALUES (
                     %s, %s, %s, %s,
                     %s, %s, %s,
-                    %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s, %s
                 )
             """, (
                 row_id,
@@ -177,26 +231,28 @@ def load_content():
                 question,
                 question_embedding,
                 section.get("drill_downs", []),
-                "tombot-content-v3.md",
+                "proof-points.json" if section.get("row") else "tombot-content-v3.md",
                 follow_ups_json,
                 attested_json,
-                direct_answers_json
+                direct_answers_json,
+                row_json
             ))
             inserted += 1
 
         # Also insert one row with just the content embedding (no question)
         # This helps with direct content matching
         follow_ups_json = json.dumps(section.get("follow_ups", []))
+        row_json = json.dumps(section["row"], ensure_ascii=False) if section.get("row") else None
 
         cur.execute("""
             INSERT INTO chunks (
                 id, chunk_type, title, content,
                 embedding, question_text, question_embedding,
-                tags, source_file, follow_ups, attested, direct_answers
+                tags, source_file, follow_ups, attested, direct_answers, row
             ) VALUES (
                 %s, %s, %s, %s,
                 %s, %s, %s,
-                %s, %s, %s, %s, %s
+                %s, %s, %s, %s, %s, %s
             )
         """, (
             section["id"],  # Main section ID
@@ -207,10 +263,11 @@ def load_content():
             None,  # No question text
             None,  # No question embedding
             section.get("drill_downs", []),
-            "tombot-content-v3.md",
+            "proof-points.json" if section.get("row") else "tombot-content-v3.md",
             follow_ups_json,
             attested_json,
-            direct_answers_json
+            direct_answers_json,
+            row_json
         ))
         inserted += 1
 
@@ -316,6 +373,15 @@ def load_content():
         validation_passed = False
     else:
         print(f"OK: {attested_db} sections carry attested entries")
+
+    # 8. Proof-point rows (item 31)
+    cur.execute("SELECT COUNT(DISTINCT title) FROM chunks WHERE title LIKE 'PP.%%' AND row IS NOT NULL")
+    pp_db = cur.fetchone()[0]
+    if pp_db != len(pp_rows):
+        print(f"FAIL: {pp_db} proof-point rows in DB, expected {len(pp_rows)}")
+        validation_passed = False
+    else:
+        print(f"OK: {pp_db} proof-point rows (PP.<n>) carry their STAR row")
 
     # Final verdict
     print("\n" + "=" * 60)

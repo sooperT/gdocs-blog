@@ -18,7 +18,8 @@ All plain GET or POST, no auth, JSON back unless noted. About 20 calls a minute 
    No match: `{"answer": null, "reason": "no matching content", "matches": []}`.
 4. Check a job description against the content: `POST https://takenbyninjas.com/ask/brief`
    Body: `{"brief": "<job description>"}` as `application/json`, or the raw text as `text/plain`. Max 8000 characters. Short briefs also work as `GET https://takenbyninjas.com/ask?brief=<URL-encoded>`.
-   Returns `rows`, one per requirement (at most 12), each `{requirement, met, evidence, strength, year, section, source, tier, score, references}`, plus `withheld`, `flags`, `note`.
+   Returns `rows`, one per requirement (at most 12), each `{requirement, met, evidence, strength, year, section, source, tier, score, references, kind, evidence_star, role, product, page, skills}`, plus `withheld`, `flags`, `note`.
+   `kind` is `proof-point` when the best match is a STAR row from `proof-points.json` (then `evidence` is the result cell, `evidence_star` holds `{situation, task, action, result}`, `page` is the row's page) or `section` when it is a TomBot section (then the STAR fields are null).
    Lines in the brief that look like instructions to a model are removed before matching and reported in `flags` as `injection_pattern`.
 
 Field notes, as the endpoints behave today:

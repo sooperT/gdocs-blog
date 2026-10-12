@@ -492,4 +492,23 @@ await test('ask: stubbed match on an unlabelled section -> strength null', async
   assert.equal(b.strength, null);
   assert.equal(b.matches[0].strength, null);
 });
+await test('item 31: retrieval kinds filter; /ask map and chat never see PP.<n> rows', async () => {
+  const { matchSections, listSections, isProofPoint, retrieve } = await import('../netlify/functions/lib/retrieval.js');
+  const calls = []; const sql = { query: async (t) => { calls.push(t); return { rows: [] }; } };
+  await matchSections(EMB, { sql });
+  await matchSections(EMB, { sql, kinds: 'all' });
+  await matchSections(EMB, { sql, kinds: 'rows' });
+  await matchSections(EMB, { sql, kinds: 'bogus' });
+  await listSections({ sql });
+  assert.match(calls[0], /NOT LIKE 'PP\.%'/);
+  assert.doesNotMatch(calls[1], /PP\./);
+  assert.match(calls[2], /title LIKE 'PP\.%'/);
+  assert.match(calls[3], /NOT LIKE 'PP\.%'/, 'unknown kinds -> sections');
+  assert.match(calls[4], /NOT LIKE 'PP\.%'/, 'the map excludes rows');
+  assert.ok(isProofPoint('PP.0') && !isProofPoint('NOVO.R1') && !isProofPoint(undefined));
+  // retrieve default is sections: /ask with a PP row in the table never returns it
+  const sql2 = { query: async (t) => ({ rows: /NOT LIKE/.test(t) ? [NOVO] : [{ title: 'PP.1', content: 'x', similarity: 0.99, row: {} }, NOVO] }) };
+  const r = await retrieve('novo', { fetchImpl: fetchOk, env: {}, sql: sql2, topK: 5 });
+  assert.ok(r.matches.every(m => !isProofPoint(m.title)));
+});
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);
