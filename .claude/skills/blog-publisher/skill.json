@@ -1,5 +1,0 @@
-{
-  "name": "blog-publisher",
-  "description": "Publishes and edits blog posts from Google Docs to the static site",
-  "tags": ["publishing", "blogging", "content"]
-}

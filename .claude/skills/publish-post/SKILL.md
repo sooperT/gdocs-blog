@@ -5,7 +5,7 @@ description: Publish or update a takenbyninjas.com blog post from its Google Doc
 
 # Publish a post from Google Docs
 
-The post's source of truth is a Google Doc in Drive `Taken/words/` (pages live in `Taken/pages/` — but note `about` is hand-maintained, NEVER republish it). You have read-only Doc access: content fixes happen in the Doc (Tom's job), pipeline fixes happen in `publish.py` (your job). When output looks wrong but the Doc looks right to Tom, debug the Doc's API structure before asking him to change anything — the pipeline should interpret intent (see CLAUDE.md "Google Docs markup").
+The post's source of truth is a Google Doc in Drive. The Drive folder decides the content type: `09 Lab/Taken/words/` → `/words/{slug}/` (archive + homepage excerpt), `09 Lab/Taken/projects/` → `/projects/{slug}/`, `09 Lab/Taken/pages/` → `/{slug}/`. `publish.py` finds the Doc by exact title across all three folders. The frontmatter ends at a line starting with an em-dash or `---`; `date` is UK `d-mm-yyyy`. Note `about` is hand-maintained, NEVER republish it. You have read-only Doc access: content fixes happen in the Doc (Tom's job), pipeline fixes happen in `publish.py` (your job). When output looks wrong but the Doc looks right to Tom, debug the Doc's API structure before asking him to change anything — the pipeline should interpret intent (see CLAUDE.md "Google Docs markup").
 
 ## Local draft loop (never pushes)
 
@@ -38,3 +38,5 @@ python3 scripts/publish_local.py "doc-name"
 ## Taking a post down (e.g. temporary posts)
 
 Remove its entry from `posts-metadata.json`, delete `words/{slug}/`, run `generate_homepage.py`, `generate_archive.py`, `generate_sitemap.py`, verify locally, then commit/push on approval.
+
+If `posts-metadata.json` is ever corrupt or out of step with the published HTML, `python3 publish.py --rebuild-index` rebuilds it from the `words/`, `projects/` and page directories.

@@ -136,7 +136,7 @@ understand → plan → build → test locally → show work → WAIT FOR APPROV
 - Don't add features beyond what was asked.
 - Clean semantic HTML, including file/directory naming.
 - Test desktop + mobile on localhost before claiming done.
-- Number all lists in proposals and multi-point responses (makes feedback easier).
+- Number all lists in proposals and multi-point responses, and keep numbers unique across the whole chat: a later list continues from the last number used, never restarts at 1, so "do 4" is unambiguous.
 
 ### Design judgement
 - **Balance the whole page before showing it.** After any change, screenshot and judge the full page as a layout — spacing rhythm, gaps, grouping — not just the element you touched. Never present unbalanced work; Tom should not have to micromanage layout.
@@ -178,14 +178,14 @@ docs/tombot/tombot-content-v3.md          # Source of truth — edit THIS file
 
 ### RAG flow (user query → answer)
 1. User query → Voyage AI embedding
-2. Match against pre-embedded question variations (threshold: 0.70)
+2. Match against pre-embedded question variations (`QUESTION_MATCH_THRESHOLD` in chat.js, currently 0.55)
 3. If no match → bot deflects gracefully (never hallucinate)
 4. TOP_K=1 (single match to prevent cross-section bleed)
 5. Retrieved content → Claude Sonnet → streamed response
 
 ### Key design decisions
 - **System prompt is behavioural only** — no facts about Tom. All factual content comes from RAG.
-- **Follow-up suggestions** — only suggest topics from `<follow_up_suggestions>` block in retrieved content. Never invent topics.
+- **Follow-up chips** — come from the matched section's `follow_ups` (content file → DB) and reach the frontend as an SSE `follow_ups` event. The model is told to write none.
 - **DB wipe on reload** — `load_content_v3.py` deletes ALL chunks before inserting (no stale data).
 - **Dates in retrieved content are always correct.** If they conflict with Claude's training data, retrieved content wins.
 
