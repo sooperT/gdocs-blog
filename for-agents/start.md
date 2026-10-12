@@ -21,7 +21,7 @@ All plain GET or POST, no auth, JSON back unless noted. About 20 calls a minute 
 
 Field notes, as the endpoints behave today:
 
-- `strength` (Led / Contributed) is always `null`. The content does not carry it yet.
+- `strength` (Led / Contributed) is set for sections labelled from a verbatim line in that section (the same labels as the facts page proof points), and `null` otherwise.
 - `direct_answers` is `null` until Tom adds those blocks to his content. Use `answer`.
 - `year` is `null` unless the text states one plainly.
 - `score` is retrieval similarity (0 to 1). Nothing below 0.55 is returned.

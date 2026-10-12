@@ -9,6 +9,7 @@ import {
 } from '../netlify/functions/lib/retrieval.js';
 import { createHandler as createHandlerRaw, cleanAnswer, deriveYear, extractDirectAnswers, AGENT_TOP_K, HUMAN_VERSION } from '../netlify/functions/ask.js';
 import { RANKING_PATTERNS } from '../netlify/functions/lib/guard.js';
+import { strengthFor } from '../netlify/functions/lib/strength.js';
 
 // Never let a test reach a real database: drop any NILEDB_URL from the shell.
 delete process.env.NILEDB_URL;
@@ -187,7 +188,8 @@ await test('ask: match shape', withLogs(async () => {
   assertTrustContract(b);
   assert.equal(b.section, 'NOVO.R1');
   assert.equal(b.source, 'TomBot NOVO.R1');
-  assert.equal(b.strength, null);
+  assert.equal(b.strength, 'Led');
+  assert.equal(b.matches[0].strength, 'Led');
   assert.equal(b.year, '2020-2022');
   assert.deepEqual(b.follow_ups, ['how did you transform ways of working at Novo', 'tell me about Skincoach']);
   assert.equal(b.human_version, 'https://takenbyninjas.com/projects/tombot/');
@@ -395,4 +397,20 @@ await test('deriveYear: plain single year, none, ambiguous', async () => {
   assert.equal(deriveYear('Lead (2016-present).'), '2016-present');
 });
 
+await test('strength: labelled section -> Led, unlabelled or missing -> null (item 25)', async () => {
+  assert.equal(strengthFor('NOVO.R1'), 'Led');
+  assert.equal(strengthFor('LEO.R1.TURNAROUND'), 'Led');
+  assert.equal(strengthFor('LEO.R1'), null);
+  assert.equal(strengthFor('META.BOOKS'), null);
+  assert.equal(strengthFor(undefined), null);
+  assert.equal(strengthFor('toString'), null);
+});
+await test('ask: stubbed match on an unlabelled section -> strength null', async () => {
+  const STYLE = { title: 'STYLE.DISCOVERY', content: 'I run discovery with interviews and prototypes.', follow_ups: [], similarity: 0.7 };
+  const h = createHandler({ retrieve: async () => ({ match: STYLE, topMatch: STYLE }) });
+  const b = await body(await h(req('/ask?q=how%20do%20you%20run%20discovery')));
+  assert.equal(b.section, 'STYLE.DISCOVERY');
+  assert.equal(b.strength, null);
+  assert.equal(b.matches[0].strength, null);
+});
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);

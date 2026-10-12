@@ -12,6 +12,7 @@
 import { envForRequest } from './lib/db_env.js';
 import { retrieve as defaultRetrieve, listSections as defaultListSections } from './lib/retrieval.js';
 import { isDbEnvError } from './lib/db_env.js';
+import { strengthFor } from './lib/strength.js';
 import {
   agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap,
   applyDenyList, validateRows, dropUnknownSections,
@@ -81,10 +82,11 @@ export function deriveYear(answer) {
   return years.length === 1 ? years[0] : null;
 }
 
-// Strength (Led / Contributed) is not a field in TomBot content yet, and
-// inferring it from prose would be a guess. Null until the content carries it.
-export function deriveStrength(/* section */) {
-  return null;
+// Strength (Led / Contributed) comes from the shared label table
+// (lib/strength.json), never inferred from prose: labelled sections carry
+// their label, every other section null.
+export function deriveStrength(match) {
+  return strengthFor(match?.title);
 }
 
 export function followUpTexts(followUps) {

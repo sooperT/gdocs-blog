@@ -41,7 +41,8 @@
   TOMBOT_ENV = "staging"
 
 # The public README for assistants is markdown; serve it as text so every
-# fetch tool reads it (scripts/check_staging.py asserts this).
+# fetch tool reads it (scripts/check_staging.py asserts this). agent-fetch
+# sets the same type itself; this block covers the static file.
 [[headers]]
   for = "/for-agents/start.md"
   [headers.values]
@@ -65,7 +66,21 @@
 # D5: count crawler fetches of the agent surfaces (netlify/functions/agent-fetch.js).
 # The function logs the fetch and returns the bundled static file.
 [functions."agent-fetch"]
-  included_files = ["for-agents/index.html", "llms.txt"]
+  included_files = [
+    "for-agents/index.html",
+    "for-agents/start.md",
+    "for-agents/wegovycare/index.html",
+    "for-agents/treat-turnaround/index.html",
+    "llms.txt"
+  ]
+
+# The old entry file name (N1011-1). A 301 to start.md, which the rewrite
+# below then hands to agent-fetch, so the redirected fetch is counted too.
+[[redirects]]
+  from = "/for-agents/README.md"
+  to = "/for-agents/start.md"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/for-agents/"
@@ -76,5 +91,23 @@
 [[redirects]]
   from = "/llms.txt"
   to = "/.netlify/functions/agent-fetch/llms"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/for-agents/start.md"
+  to = "/.netlify/functions/agent-fetch/start"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/for-agents/wegovycare/"
+  to = "/.netlify/functions/agent-fetch/wegovycare"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/for-agents/treat-turnaround/"
+  to = "/.netlify/functions/agent-fetch/treat-turnaround"
   status = 200
   force = true

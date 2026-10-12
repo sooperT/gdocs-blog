@@ -3,7 +3,7 @@
 // Run: node scripts/test_agent_fetch.mjs
 import assert from 'node:assert/strict';
 import { robotsHeaders } from '../netlify/functions/agent-fetch.js';
-import { createHandler, defaultReadFile, CACHE_CONTROL } from '../netlify/functions/agent-fetch.js';
+import { createHandler, defaultReadFile, CACHE_CONTROL, RESOURCES } from '../netlify/functions/agent-fetch.js';
 
 globalThis.fetch = () => { throw new Error('real fetch called in test'); };
 
@@ -18,7 +18,13 @@ const quiet = (fn) => async (...a) => {
   try { return await fn(seen, ...a); } finally { console.warn = w; console.error = e; }
 };
 
-const FILES = { 'for-agents/index.html': '<!DOCTYPE html><title>facts</title>', 'llms.txt': '# takenbyninjas.com\n' };
+const FILES = {
+  'for-agents/index.html': '<!DOCTYPE html><title>facts</title>',
+  'llms.txt': '# takenbyninjas.com\n',
+  'for-agents/start.md': '# Start here\n',
+  'for-agents/wegovycare/index.html': '<!DOCTYPE html><title>Wegovycare</title>',
+  'for-agents/treat-turnaround/index.html': '<!DOCTYPE html><title>TREAT</title>',
+};
 const readFile = (p) => { if (!(p in FILES)) throw new Error('no such file'); return FILES[p]; };
 function stubPool() {
   const calls = [];
@@ -129,9 +135,64 @@ await test('unknown subpath -> 404', async () => {
   assert.equal(res.status, 404);
 });
 
+// Item 26: start.md and the two case studies are counted like the facts page.
+const NEW = [
+  { key: 'start', pub: '/for-agents/start.md', logged: '/for-agents/start.md', file: 'for-agents/start.md', type: 'text/markdown; charset=utf-8' },
+  { key: 'wegovycare', pub: '/for-agents/wegovycare/', logged: '/for-agents/wegovycare/', file: 'for-agents/wegovycare/index.html', type: 'text/html; charset=utf-8' },
+  { key: 'treat-turnaround', pub: '/for-agents/treat-turnaround/', logged: '/for-agents/treat-turnaround/', file: 'for-agents/treat-turnaround/index.html', type: 'text/html; charset=utf-8' },
+];
+for (const r of NEW) {
+  await test(`GET ${r.pub} -> 200 ${r.type.split(';')[0]}, cache header, logged as ${r.logged}`, async () => {
+    const pool = stubPool(); const c = ctx({ deploy: { context: 'production' } });
+    const res = await createHandler({ getPool: () => pool, readFile })(req('/' + r.key), c);
+    await Promise.all(c.pending);
+    assert.equal(res.status, 200);
+    assert.equal(res.headers.get('content-type'), r.type);
+    assert.equal(res.headers.get('cache-control'), CACHE_CONTROL);
+    assert.equal(res.headers.get('x-robots-tag'), null);
+    assert.equal(await res.text(), FILES[r.file]);
+    assert.equal(pool.calls.length, 1);
+    assert.equal(pool.calls[0].params[0], r.logged);
+  });
+  await test(`${r.pub}: public path resolves, noindex outside production, throwing pool still 200`, quiet(async () => {
+    const c = ctx({ deploy: { context: 'branch-deploy' } });
+    for (const path of [r.pub, r.pub.replace(/\/$/, '')]) {
+      const res = await createHandler({ getPool: () => throwingPool, readFile })(new Request('https://takenbyninjas.com' + path), c);
+      await Promise.all(c.pending);
+      assert.equal(res.status, 200);
+      assert.equal(res.headers.get('x-robots-tag'), 'noindex, nofollow');
+      assert.equal(await res.text(), FILES[r.file]);
+    }
+  }));
+}
+
+await test('case-study paths do not fall through to the facts page', async () => {
+  assert.equal(RESOURCES.page.file, 'for-agents/index.html');
+  const h = createHandler({ getPool: () => stubPool(), readFile });
+  const res = await h(new Request('https://takenbyninjas.com/for-agents/wegovycare/index.html'), ctx());
+  assert.equal(await res.text(), FILES['for-agents/wegovycare/index.html']);
+  const other = await h(new Request('https://takenbyninjas.com/for-agents/unknown/'), ctx());
+  assert.equal(other.status, 404);
+});
+
+await test('every RESOURCES file is in netlify.toml included_files, with a forced rewrite', async () => {
+  const { readFileSync } = await import('node:fs');
+  const toml = readFileSync(new URL('../netlify.toml', import.meta.url), 'utf-8');
+  const included = toml.match(/included_files = \[([\s\S]*?)\]/)[1];
+  for (const [key, r] of Object.entries(RESOURCES)) {
+    assert.ok(included.includes(`"${r.file}"`), `${r.file} bundled`);
+    const rule = new RegExp(`from = "${r.path.replace(/[.]/g, '\\.')}"\\s*\\n\\s*to = "/\\.netlify/functions/agent-fetch/${key}"\\s*\\n\\s*status = 200\\s*\\n\\s*force = true`);
+    assert.match(toml, rule, `rewrite for ${r.path}`);
+  }
+  assert.match(toml, /from = "\/for-agents\/README\.md"\s*\n\s*to = "\/for-agents\/start\.md"\s*\n\s*status = 301/);
+  assert.ok(toml.indexOf('"/for-agents/README.md"') < toml.indexOf('from = "/for-agents/start.md"'), '301 before the start.md rewrite');
+  assert.match(toml, /for = "\/for-agents\/start\.md"[\s\S]*?Content-Type = "text\/markdown; charset=utf-8"/);
+});
+
 await test('default reader finds the real repo files (bundle layout fallback)', async () => {
   assert.match(defaultReadFile('for-agents/index.html'), /<!DOCTYPE html>/i);
   assert.match(defaultReadFile('llms.txt'), /^# takenbyninjas\.com/);
+  for (const r of NEW) assert.ok(defaultReadFile(r.file).length > 0, r.file);
 });
 
 console.log(`\n${passed} passed${process.exitCode ? ', some FAILED' : ''}`);

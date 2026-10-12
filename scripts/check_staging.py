@@ -87,6 +87,10 @@ CHECKS = [
     # path, accepted content types, extra check
     ("/for-agents/", ("text/html",), check_routing),
     ("/for-agents/start.md", ("text/markdown", "text/plain", "text/x-markdown"), None),
+    # Old entry file name: 301 to start.md (urllib follows it), served by agent-fetch.
+    ("/for-agents/README.md", ("text/markdown", "text/plain", "text/x-markdown"), None),
+    ("/for-agents/wegovycare/", ("text/html",), check_routing),
+    ("/for-agents/treat-turnaround/", ("text/html",), check_routing),
     ("/llms.txt", ("text/plain", "text/markdown"), None),
     ("/robots.txt", ("text/plain",), check_robots),
     ("/sitemap.xml", ("application/xml", "text/xml"), None),

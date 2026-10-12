@@ -1,8 +1,9 @@
-// Serves /for-agents/ and /llms.txt through a function so crawler fetches
-// are counted (PRD W2.5, decision D5). Umami is JavaScript and never sees bots.
+// Serves the agent side (/for-agents/ facts page, /for-agents/start.md, the
+// case studies) and /llms.txt through a function so fetches are counted
+// (PRD W2.5, decision D5, backlog item 26). Umami is JavaScript and never sees bots.
 //
 // Routed by netlify.toml rewrites (force = true) to
-//   /.netlify/functions/agent-fetch/page  and  /.netlify/functions/agent-fetch/llms
+//   /.netlify/functions/agent-fetch/<key>, one key per RESOURCES entry
 // The files are bundled with `included_files` and read with fs.
 //
 // Logging is best effort: one row per fetch in `agent_fetches` (path, user
@@ -24,18 +25,31 @@ export function robotsHeaders(context) {
 }
 const LOG_WAIT_MS = 1500; // cap when the runtime has no waitUntil
 
-// Public path -> bundled file + content type.
+// Public path -> bundled file + content type. Keys are the rewrite targets
+// (/.netlify/functions/agent-fetch/<key>); `public` lists the public forms.
+const HTML = 'text/html; charset=utf-8';
 export const RESOURCES = {
-  page: { path: '/for-agents/', file: 'for-agents/index.html', type: 'text/html; charset=utf-8' },
-  llms: { path: '/llms.txt', file: 'llms.txt', type: 'text/plain; charset=utf-8' },
+  page: { path: '/for-agents/', file: 'for-agents/index.html', type: HTML,
+    public: ['/for-agents', '/for-agents/index.html'] },
+  llms: { path: '/llms.txt', file: 'llms.txt', type: 'text/plain; charset=utf-8',
+    public: ['/llms.txt'] },
+  // The assistant entry file: markdown, so every fetch tool reads it as text
+  // (function responses bypass the netlify.toml [[headers]] block).
+  start: { path: '/for-agents/start.md', file: 'for-agents/start.md', type: 'text/markdown; charset=utf-8',
+    public: ['/for-agents/start.md'] },
+  wegovycare: { path: '/for-agents/wegovycare/', file: 'for-agents/wegovycare/index.html', type: HTML,
+    public: ['/for-agents/wegovycare', '/for-agents/wegovycare/index.html'] },
+  'treat-turnaround': { path: '/for-agents/treat-turnaround/', file: 'for-agents/treat-turnaround/index.html', type: HTML,
+    public: ['/for-agents/treat-turnaround', '/for-agents/treat-turnaround/index.html'] },
 };
 
 // Accepts both the rewritten form (/.netlify/functions/agent-fetch/llms)
 // and the public form (/llms.txt), in case the runtime hands us either.
 export function resourceFor(pathname) {
   const p = String(pathname || '').replace(/\/+$/, '').toLowerCase();
-  if (p.endsWith('/llms') || p.endsWith('/llms.txt')) return RESOURCES.llms;
-  if (p.endsWith('/page') || p.endsWith('/for-agents') || p.endsWith('/for-agents/index.html')) return RESOURCES.page;
+  for (const [key, r] of Object.entries(RESOURCES)) {
+    if (p.endsWith(`/agent-fetch/${key}`) || r.public.some(pub => p.endsWith(pub))) return r;
+  }
   return null;
 }
 

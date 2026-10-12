@@ -148,12 +148,13 @@ await test('row above threshold with year + outcome: met, evidence trimmed to 40
   assert.ok(!row.evidence.includes('[NOVO.R1.TRANSFORM]'));
   assert.equal(row.year, '2020-2022');
   assert.equal(row.source, 'TomBot NOVO.R1');
-  assert.equal(row.strength, null);
+  assert.equal(row.strength, 'Led');
   assert.equal(row.score, 0.82);
 });
 await test('row above threshold with no year: partial, short evidence not cut', async () => {
   const row = buildRow('Hands-on with discovery', NOYEAR);
   assert.equal(row.met, 'partial');
+  assert.equal(row.strength, null);
   assert.equal(row.evidence, 'I run discovery with interviews and prototypes.');
   assert.equal(row.year, null);
 });

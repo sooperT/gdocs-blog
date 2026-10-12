@@ -64,6 +64,9 @@ def agent_head(title, meta_description, canonical_path, jsonld=None):
     return '\n'.join(parts)
 
 CONTENT_FILE = 'docs/tombot/tombot-content-v3.md'
+# Section id -> {"strength": "Led", "phrase": verbatim}. Bundled by the
+# functions (lib/strength.js); Led only where the section says so plainly.
+STRENGTH_FILE = 'netlify/functions/lib/strength.json'
 OUTPUT_FILE = 'for-agents/index.html'
 PAGE_PATH = '/for-agents/'
 
@@ -138,14 +141,15 @@ WHO = [
 ]
 
 # Proof points: each cell is (verbatim text, section id it is quoted from).
-# Strength is a label, not a quote: Led only where the section says so plainly.
+# 'strength' names the section whose label is used; the label and the verbatim
+# phrase that justifies it live in STRENGTH_FILE, shared with /ask and /ask/brief.
 PROOF_POINTS = [
     {
         'product': ('Wegovycare', 'NOVO.R1'),
         'role': ('Senior Product Manager at Novo Nordisk', 'NOVO.R1'),
         'outcome': ('Achieved 10% penetration in our first national market', 'NOVO.R1'),
         'year': ('Mar 2020 - Feb 2022', 'NOVO.R1'),
-        'strength': ('Led', 'NOVO.R1', 'I led the full product lifecycle end to end'),
+        'strength': 'NOVO.R1',
     },
     {
         'product': ('GenAI proof of concept for automating compliance reviews', 'NOVO.R2'),
@@ -153,37 +157,35 @@ PROOF_POINTS = [
         'outcome': ('the proof of concept showed a clear path to dramatically faster release cycles',
                     'NOVO.R2.GENAI'),
         'year': ('Feb 2022 - 2026', 'NOVO.R2'),
-        'strength': ('Led', 'NOVO.R2', 'Pitched and built a GenAI proof of concept'),
+        'strength': 'NOVO.R2',
     },
     {
         'product': ('TREAT', 'LEO.R1'),
         'role': ('PM/GM', 'LEO.R1'),
         'outcome': ('Halved customer acquisition costs, increased customer activation by 7x', 'LEO.R1'),
         'year': ('Nov 2016 - Aug 2017', 'LEO.R1'),
-        'strength': ('Led', 'LEO.R1.TURNAROUND',
-                     'it was proposed I become the lead with them reporting to me'),
+        'strength': 'LEO.R1.TURNAROUND',
     },
     {
         'product': ('a prototype diagnosis app using machine learning', 'LEO.R3'),
         'role': ('PM/GM at LEO Innovation Lab', 'LEO.R3'),
         'outcome': ('Achieved >80% accuracy across 3 skin conditions', 'LEO.R3'),
         'year': ('Nov 2018 - Jan 2020', 'LEO.R3'),
-        'strength': ('Led', 'LEO.R3', 'leading a 10-person team'),
+        'strength': 'LEO.R3',
     },
     {
         'product': ('Opbeat', 'OPBEAT'),
         'role': ('Head of Marketing', 'OPBEAT'),
         'outcome': ('Trebled traffic and sign-ups in 12 months', 'OPBEAT'),
         'year': ('2014-2016', 'META.JOBS'),
-        'strength': ('Led', 'OPBEAT',
-                     'I joined as Head of Marketing and built the brand, marketing strategy, team and channels'),
+        'strength': 'OPBEAT',
     },
     {
         'product': ('EuroDNS', 'EURODNS'),
         'role': ('Marketing Director', 'EURODNS'),
         'outcome': ('reversed the decline, doubled organic traffic, halved bounce rate', 'EURODNS.R1.TURNAROUND'),
         'year': ('2013-2014', 'META.JOBS'),
-        'strength': ('Led', 'EURODNS.R1.TURNAROUND', 'I restructured the marketing department'),
+        'strength': 'EURODNS.R1.TURNAROUND',
     },
 ]
 
@@ -203,6 +205,9 @@ BEHAVIOUR = [
                                          'problems or think through something messy.'),
 ]
 
+
+# "On request" facts send an agent to the contact answer (META.CONTACT) via /ask.
+CONTACT_ASK = 'https://takenbyninjas.com/ask?q=How%20can%20I%20contact%20Tom%3F'
 
 # First line of every agent page: who it is for, and where each reader goes.
 ROUTING_LINE = (
@@ -281,7 +286,19 @@ def build_who(sections):
     return lines
 
 
+def load_strengths(sections):
+    """Strength labels from STRENGTH_FILE; each phrase must still be verbatim in its section."""
+    with open(STRENGTH_FILE, encoding='utf-8') as f:
+        strengths = json.load(f)
+    for sid, entry in strengths.items():
+        if entry.get('strength') not in ('Led', 'Contributed'):
+            sys.exit(f'✗ Bad strength for {sid} in {STRENGTH_FILE}: {entry.get("strength")!r}')
+        check(sections, sid, entry.get('phrase'))
+    return strengths
+
+
 def build_proof_points(sections):
+    strengths = load_strengths(sections)
     lines = [
         '        <h2 id="proof-points">Proof points</h2>',
         '        <div class="table-wrap">',
@@ -301,10 +318,11 @@ def build_proof_points(sections):
             if key == 'product' and text in CASE_STUDY_LINKS:
                 cell = f'<a href="{CASE_STUDY_LINKS[text]}">{cell}</a>'
             cells.append(f'<td>{cell}</td>')
-        label, sid, evidence = row['strength']
-        check(sections, sid, evidence)
+        sid = row['strength']
+        if sid not in strengths:
+            sys.exit(f'✗ No strength label for {sid} in {STRENGTH_FILE}')
         used.append(sid)
-        cells.append(f'<td>{escape(label)}</td>')
+        cells.append(f'<td>{escape(strengths[sid]["strength"])}</td>')
         ids = ', '.join(dict.fromkeys(used))
         cells.append(f'<td data-source="{_escape(ids)}">source: TomBot</td>')
         lines.append('                <tr>' + ''.join(cells) + '</tr>')
@@ -373,9 +391,9 @@ def generate_html(sections):
         '        <h2 id="availability">Availability and compensation</h2>',
         '        <dl>',
         '            <dt>Availability</dt>',
-        '            <dd>On request. <a href="/projects/tombot/">/projects/tombot/</a></dd>',
+        f'            <dd><a href="{CONTACT_ASK}">on request via /ask</a></dd>',
         '            <dt>Compensation</dt>',
-        '            <dd>On request. <a href="/projects/tombot/">/projects/tombot/</a></dd>',
+        f'            <dd><a href="{CONTACT_ASK}">on request via /ask</a></dd>',
         '        </dl>',
         '        <h2 id="sources">Sources</h2>',
         '        <p>Every claim on this page is a verbatim line from TomBot content, marked "source: TomBot" '
