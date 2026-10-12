@@ -202,62 +202,41 @@ def end(text):
     return text if text[-1:] in '.!?' else text + '.'
 
 
-def fit_summary(rows, section_pages):
-    """One terse line per requirement: result, action, who and when, deep link."""
-    md = []
+STORY_FIELDS = ['id', 'role', 'product', 'situation', 'task', 'action', 'result', 'years', 'link']
+FIT_FIELDS = ['n', 'requirement', 'fit', 'stories', 'note']
+
+
+def fit_compact(rows, section_pages):
+    """The appendix form (Tom, 2026-10-12: a table is a construct for people; this
+    page is for machines). Each story once, as an array with the fields declared
+    once; each requirement an array pointing at its stories by id. A story that
+    answers three requirements is written once, not three times."""
+    ids, stories, fit = {}, [], []
+
+    def sid(r):
+        key = (cell(r, 'product'), cell(r, 'result'))
+        if key not in ids:
+            ids[key] = f'S{len(ids) + 1}'
+            stories.append([ids[key], cell(r, 'role'), cell(r, 'product'), cell(r, 'situation'), cell(r, 'task'), cell(r, 'action'),
+                            cell(r, 'result'), year_span([cell(r, 'year')]), r.get('page')])
+        return ids[key]
+
     for r in rows:
-        head = f"{r['n']}. **{one_line(r['requirement'], 110)}** ({r['fit']})"
-        link = r['link'] or section_pages.get(r['section'])
-        more = f' {link}' if link else ''
-        also = ' Also: ' + ' '.join(f"{end(cell(x, 'result'))} {who_of(x)}. {x.get('page') or ''}".strip() for x in r['also']) if r.get('also') else ''
-        if r['fact']:
-            md.append(f"{head}: {r['fact']}")
-        elif r['same_as'] and also:
-            md.append(f"{head}:{also[6:]} (and as {r['same_as']}.)")
-        elif r['same_as']:
-            md.append(f"{head}: as {r['same_as']}.")
-        elif r['star']:
-            st = r['star']
-            did = ' '.join(end(st[k]) for k in ('result', 'action') if st.get(k))
-            md.append(f"{head}: {did} {r['who']}.{more}{also}")
-        elif r['pointer']:
-            md.append(f"{head}: on record, no summarised story yet.{more or ' ' + SITE + '/for-agents/'}")
-        elif r['nearest']:
-            md.append(f"{head}: nearest, not a match: {end(r['nearest'])} {r['who']}.{more}")
-        else:
-            md.append(f"{head}: not on record.")
-    return md + ['']
-
-
-STAR_HEAD = ['| Role | Product | Situation | Task | Action | Result | Year |', '|---|---|---|---|---|---|---|']
-
-
-def star_table_row(r, note=''):
-    """One story in the facts page's row format (role, product linking its page, the four STAR cells, year)."""
-    def c(k):
-        return (cell(r, k) or 'not yet stated').replace('|', '/')
-    product = f"[{c('product')}]({r['page']})" if r.get('page') else c('product')
-    return f"| {c('role')}{note} | {product} | {c('situation')} | {c('task')} | {c('action')} | {c('result')} | {year_span([cell(r, 'year')])} |"
-
-
-def fit_tables(rows, section_pages):
-    """The appendix form (Tom, 2026-10-12): each requirement as a subtitle, then a
-    small table of its top stories in the same format as the /for-agents/ tables."""
-    md = []
-    for r in rows:
-        md += [f"#### {r['n']}. {r['requirement']} ({r['fit']})", '']
-        stories = ([r['local']] if r.get('local') else []) + list(r.get('also') or [])
-        link = r['link'] or section_pages.get(r['section'])
-        if r['same_as'] and not r.get('also'):
-            md += [f"Same story as requirement {r['same_as']}.", '']
-        elif stories:
-            md += STAR_HEAD + [star_table_row(x) for x in stories] + ['']
-        elif r['pointer']:
-            md += [f"On record, no summarised story yet. {link or SITE + '/for-agents/'}", '']
-        elif r.get('near'):
-            md += STAR_HEAD + [star_table_row(r['near'], ' (nearest, not a match)')] + ['']
-        else:
-            md += ['Not on record.', '']
+        mine = [sid(x) for x in ([r['local']] if r.get('local') else []) + list(r.get('also') or [])]
+        note = None
+        if not mine:
+            link = r['link'] or section_pages.get(r['section']) or f'{SITE}/for-agents/'
+            if r['pointer']:
+                note = f'on record, no summarised story yet: {link}'
+            elif r.get('near'):
+                note = f"nearest, not a match: {sid(r['near'])}"
+            else:
+                note = 'not on record'
+        fit.append([r['n'], r['requirement'], r['fit'], mine] + ([note] if note else []))
+    dump = lambda a: json.dumps(a, ensure_ascii=False)
+    md = [f'Requirements: {dump(FIT_FIELDS)}. met = a story with an outcome and a date; partial = on record without both; not met = not on record.', '']
+    md += [dump(a) for a in fit] + ['']
+    md += [f'Stories: {dump(STORY_FIELDS)}. null = not yet stated.', ''] + [dump(a) for a in stories] + ['']
     return md
 
 
@@ -337,9 +316,8 @@ def build(resp, rows_json, jd_name, tag=None, applying=None, answers=None):
     md[-2:-2] = [f'- Experience by area, with the stories for each: {SITE}/for-agents/shapes/']
     if resp is not None:
         exp = experience_rows(rows)
-        md += [f'### Fit: {jd_name} ({len(exp)} experience requirements, in the job description\'s words)', '',
-               'met = a story with an outcome and a date; partial = on record without both; not met = not on record. Each product links its full story.', '']
-        md += fit_tables(exp, load_section_pages())
+        md += [f'### Fit: {jd_name} ({len(exp)} experience requirements, in the job description\'s words)', '']
+        md += fit_compact(exp, load_section_pages())
         if gaps:
             md += ['Not on record, ask Tom: ' + '; '.join(one_line(g, 80).rstrip('.') for g in gaps) + '.']
         md += ['']
