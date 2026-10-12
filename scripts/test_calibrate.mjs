@@ -2,6 +2,7 @@
 // Stubs fetch (Voyage), the sql pool and the Anthropic call. Never calls an API.
 // Run: node scripts/test_calibrate.mjs
 import assert from 'node:assert/strict';
+import { SENIORITY, FUNCTION, SECTOR } from '../netlify/functions/lib/role_shape.js';
 import {
   splitBriefHeuristic, splitBriefLLM, parseRequirementArray, buildRow, createCalibrateHandler as createCalibrateHandlerRaw,
   SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS,
@@ -317,10 +318,13 @@ await test('log line: one line, counts only, no brief text', withLogs(async () =
   const line = logs[0];
   origLog('     ' + line);
   const parsed = JSON.parse(line.replace(/^\[ask:brief\] /, ''));
-  assert.deepEqual(Object.keys(parsed), ['asker', 'requirements', 'met', 'partial', 'not_met', 'splitter']);
+  assert.deepEqual(Object.keys(parsed), ['asker', 'requirements', 'met', 'partial', 'not_met', 'splitter', 'seniority', 'function', 'sector']);
   assert.equal(parsed.asker, 'hiring-manager');
+  // Item 27: the three labels come from fixed lists, never from the brief.
+  assert.ok(SENIORITY.includes(parsed.seniority) && FUNCTION.includes(parsed.function) && SECTOR.includes(parsed.sector));
+  const sansLabels = line.replace(`"seniority":"${parsed.seniority}","function":"${parsed.function}","sector":"${parsed.sector}"`, '');
   for (const r of splitBriefHeuristic(JD)) assert.ok(!line.includes(r));
-  for (const word of ['Copenhagen', 'GDPR', 'Danish', 'stakeholder', 'product']) assert.ok(!line.includes(word), word);
+  for (const word of ['Copenhagen', 'GDPR', 'Danish', 'stakeholder', 'product']) assert.ok(!sansLabels.includes(word), word);
 }));
 
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);

@@ -748,7 +748,7 @@
       "previous employers",
       "companies worked for"
     ],
-    "content": "| Years | Role | Company | Location |\n|-------|------|---------|----------|\n| 2022-2026 | Associate Product Director | Novo Nordisk | Copenhagen |\n| 2020-2022 | Product Manager (Wegovycare) | Novo Nordisk | Copenhagen |\n| 2018-2020 | PM/GM - Diagnosis App | LEO Innovation Lab | Copenhagen |\n| 2018 | PM/GM - Skincoach | LEO Innovation Lab | Copenhagen |\n| 2016-2017 | PM/GM - TREAT | LEO Innovation Lab | Copenhagen |\n| 2016 | Head of Marketing (contract) | TwentyThree | Copenhagen |\n| 2014-2016 | Head of Marketing | Opbeat | Copenhagen |\n| 2013-2014 | Marketing Director | EuroDNS | Luxembourg/Copenhagen |\n| 2010-2013 | Independent Consultant | Various | Copenhagen |\n| 2008-2010 | Head of Group Strategy | UK2 Group | London |\n| 2006-2008 | Head of New Media | Host Europe Group | London |\n| 2005-2006 | Group Design Manager | Pipex Internet | UK |\n| 2004-2005 | Web Designer | Host Europe / Pipex | UK |\n| 2003-2004 | Sales Executive | Host Europe | Nottingham |\n| 2002-2004 | Co-founder | TextualHealing.com | UK |\n| 2001-2004 | Freelance Web Designer | Various | UK |\n\nAsk me about any specific role for more detail. [NOVO] [LEO] [OPBEAT] [EURODNS] [UK2] [HOST]\n\n\n---\n\n# NOVO (2020-2026)",
+    "content": "| Years | Role | Company | Location |\n|-------|------|---------|----------|\n| 2022-2026 | Associate Product Director | Novo Nordisk | Copenhagen |\n| 2020-2022 | Product Manager (Wegovycare) | Novo Nordisk | Copenhagen |\n| 2018-2020 | PM/GM - Diagnosis App | LEO Innovation Lab | Copenhagen |\n| 2018 | PM/GM - Skincoach | LEO Innovation Lab | Copenhagen |\n| 2016-2017 | PM/GM - TREAT | LEO Innovation Lab | Copenhagen |\n| 2016 | Head of Marketing (contract) | TwentyThree | Copenhagen |\n| 2014-2016 | Head of Marketing | Opbeat | Copenhagen |\n| 2013-2014 | Marketing Director | EuroDNS | Luxembourg/Copenhagen |\n| 2010-2013 | Independent Consultant | Various | Copenhagen |\n| 2008-2010 | Head of Group Strategy | UK2 Group | London |\n| 2006-2008 | Head of New Media | Host Europe Group | London |\n| 2005-2006 | Group Design Manager | Pipex Internet | UK |\n| 2004-2005 | Web Designer | Host Europe / Pipex | UK |\n| 2003-2004 | Sales Executive | Host Europe | Nottingham |\n| 2002-2004 | Co-founder | TextualHealing.com | UK |\n| 2001-2004 | Freelance Web Designer | Various | UK |\n\nAsk me about any specific role for more detail. [NOVO] [LEO] [OPBEAT] [EURODNS] [UK2] [HOST]",
     "drill_downs": [
       "NOVO",
       "NOVO.R1",
@@ -1021,7 +1021,7 @@
       "Novo Nordisk AI",
       "AI at Novo"
     ],
-    "content": "When developing health software, every release needs extensive review by medical, legal and regulatory experts (MLR). The process was designed for simple marketing materials, not sophisticated software - but it hadn't evolved.\n\nIn practice, every screen had to be captured in PDF format and reviewed individually. The result: significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off.\n\nI used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations. Now we could automatically document and review each submission with a full audit trail - the review team only had to rubber-stamp the release.\n\nI also built a prototype agent that plugged into Figma, so designers could query the guidelines before investing too much effort. This allowed product teams to shift left - fail in design, not at review.\n\nThe product teams loved it. Organisational priorities later shifted and the project was handed to another team, but the proof of concept showed a clear path to dramatically faster release cycles.\n\n\n---\n\n# LEO INNOVATION LAB (2016-2020)",
+    "content": "When developing health software, every release needs extensive review by medical, legal and regulatory experts (MLR). The process was designed for simple marketing materials, not sophisticated software - but it hadn't evolved.\n\nIn practice, every screen had to be captured in PDF format and reviewed individually. The result: significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off.\n\nI used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations. Now we could automatically document and review each submission with a full audit trail - the review team only had to rubber-stamp the release.\n\nI also built a prototype agent that plugged into Figma, so designers could query the guidelines before investing too much effort. This allowed product teams to shift left - fail in design, not at review.\n\nThe product teams loved it. Organisational priorities later shifted and the project was handed to another team, but the proof of concept showed a clear path to dramatically faster release cycles.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1285,7 +1285,7 @@
       "How do you think about disruption from within vs outside?",
       "Why didn't it work at LEO?"
     ],
-    "content": "LEO Pharma could see digital disruption coming to healthcare. Their response was to create an arm's-length innovation lab - better we disrupt ourselves than let a competitor do it.\n\nThe logic for keeping it separate made sense: to be truly innovative, you need different thinking, different ways of working. If you stay too close to the mothership, you just replicate what already exists. So they brought in experts from all sorts of fields. A true melting pot.\n\nAnd it worked - in isolation. LEO Innovation Lab was incredibly agile, with rapid learning cycles and brilliant peers.\n\nBut the parent ship continued sailing unchanged. We were too remote. The innovations we created struggled to find a home back in the core business. You can't outsource disruption to a separate unit and graft it back on later. The parent organisation has to change too.\n\nAnd this informed my approach at Novo.[NOVO.R1.TRANSFORM]\n\n\n---\n\n# TWENTYTHREE (2016)",
+    "content": "LEO Pharma could see digital disruption coming to healthcare. Their response was to create an arm's-length innovation lab - better we disrupt ourselves than let a competitor do it.\n\nThe logic for keeping it separate made sense: to be truly innovative, you need different thinking, different ways of working. If you stay too close to the mothership, you just replicate what already exists. So they brought in experts from all sorts of fields. A true melting pot.\n\nAnd it worked - in isolation. LEO Innovation Lab was incredibly agile, with rapid learning cycles and brilliant peers.\n\nBut the parent ship continued sailing unchanged. We were too remote. The innovations we created struggled to find a home back in the core business. You can't outsource disruption to a separate unit and graft it back on later. The parent organisation has to change too.\n\nAnd this informed my approach at Novo.[NOVO.R1.TRANSFORM]",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1315,7 +1315,7 @@
       "What was the global launch you rescued?",
       "Describe your contract role at TwentyThree"
     ],
-    "content": "TwentyThree was an integrated video marketing platform built for digital marketers. I joined on a 6-month contract as Head of Marketing to rescue a global launch.\n\nKey achievements:\n- Rescued global launch on a 6-week deadline\n- Stabilised a 10-12 person marketing team\n- Introduced lightweight reporting and planning structure\n\n\n---\n\n# OPBEAT (2014-2016)",
+    "content": "TwentyThree was an integrated video marketing platform built for digital marketers. I joined on a 6-month contract as Head of Marketing to rescue a global launch.\n\nKey achievements:\n- Rescued global launch on a 6-week deadline\n- Stabilised a 10-12 person marketing team\n- Introduced lightweight reporting and planning structure",
     "drill_downs": [
       "T23.R1.RESCUE"
     ],
@@ -1399,7 +1399,7 @@
       "What was your growth strategy at Opbeat?",
       "How did you build a developer brand?"
     ],
-    "content": "Used data-driven marketing principles to treble traffic and sign-ups in 12 months. Blended experimentation, growth hacks and activation tactics.\n\nThe key here was understanding the developer audience - which I did by talking to the engineers in the team. This approach built loyalty that converted to sign-ups, and the brand became well known in the Python, Django and Node.js communities.\n\n\n---\n\n# EURODNS (2013-2014)",
+    "content": "Used data-driven marketing principles to treble traffic and sign-ups in 12 months. Blended experimentation, growth hacks and activation tactics.\n\nThe key here was understanding the developer audience - which I did by talking to the engineers in the team. This approach built loyalty that converted to sign-ups, and the brand became well known in the Python, Django and Node.js communities.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1508,7 +1508,7 @@
       "How did the Luxembourg remote setup work?",
       "What is your experience managing distributed teams?"
     ],
-    "content": "I was Marketing Director at EuroDNS, but based in Copenhagen while the team was in Luxembourg. I travelled there every two weeks for three days.\n\nLike any long-distance relationship, you need to trust each other.\n\nI created a natural cadence: fortnightly face-to-face meetings and plenum discussions when I was in the office, then space to focus and get on with it in-between. I was available for ad-hoc calls but wasn't hovering.\n\nIt worked really well. The rhythm gave structure without micromanagement. The team had clarity on direction and autonomy on execution.\n\nThis setup taught me about managing by outcomes, not prescriptive tasks. When you're not in the room every day, you have to delegate properly.\n\n\n---\n\n# UK2 GROUP (2008-2010)",
+    "content": "I was Marketing Director at EuroDNS, but based in Copenhagen while the team was in Luxembourg. I travelled there every two weeks for three days.\n\nLike any long-distance relationship, you need to trust each other.\n\nI created a natural cadence: fortnightly face-to-face meetings and plenum discussions when I was in the office, then space to focus and get on with it in-between. I was available for ad-hoc calls but wasn't hovering.\n\nIt worked really well. The rhythm gave structure without micromanagement. The team had clarity on direction and autonomy on execution.\n\nThis setup taught me about managing by outcomes, not prescriptive tasks. When you're not in the room every day, you have to delegate properly.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1569,7 +1569,7 @@
       "How did you turn around the US marketing",
       "Tell me about the US turnaround"
     ],
-    "content": "Rebuilt the underperforming US Marketing department before recruiting a US-based successor (Feb 2009 - Feb 2010).\n\nCreated marketing strategy, implemented reporting structure, set and met budget targets. Managed all online and marketing activity across 5 web properties.\n\nAlso ran a business unit turnaround in parallel: reduced bounce rate by ~15%, nearly doubled sales conversion, created product roadmap and launched 8 products in 10 months.\n\nThe challenge was doing this remotely from the UK, with a team I'd never met in person. Required building trust fast and being very clear about expectations.\n\n\n---\n\n# HOST EUROPE (2003-2008)",
+    "content": "Rebuilt the underperforming US Marketing department before recruiting a US-based successor (Feb 2009 - Feb 2010).\n\nCreated marketing strategy, implemented reporting structure, set and met budget targets. Managed all online and marketing activity across 5 web properties.\n\nAlso ran a business unit turnaround in parallel: reduced bounce rate by ~15%, nearly doubled sales conversion, created product roadmap and launched 8 products in 10 months.\n\nThe challenge was doing this remotely from the UK, with a team I'd never met in person. Required building trust fast and being very clear about expectations.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1721,7 +1721,7 @@
       "How did you transition from sales to web?",
       "How did you get into web design?"
     ],
-    "content": "I'd got my foot in the door answering phones at a web hosting company. I was good at it - won the annual sales competition - but it wasn't my passion. I wanted to do web.\n\nThe existing website was dated. The marketing material did a poor job of explaining the \"why\" of the product, it was busy and cluttered, and it lacked focus and a core funnel.\n\nI thought I could do better.\n\nIn evenings and weekends, I built an alternative version. Then I reached out to the brand manager and booked a meeting. I made my pitch and showed her what I'd made and why.\n\nHer response: \"Well, let's try it out then.\"\n\nSales went up. Next week I was in the web design team. Six months later, I was leading it.\n\nI really appreciate the break she gave me. The website had a million visitors a month - it was a risk on her part. But she backed someone who'd shown initiative and done the work upfront.\n\nYou can create your own path.\n\n\n---\n\n# THEMES (Cross-cutting)",
+    "content": "I'd got my foot in the door answering phones at a web hosting company. I was good at it - won the annual sales competition - but it wasn't my passion. I wanted to do web.\n\nThe existing website was dated. The marketing material did a poor job of explaining the \"why\" of the product, it was busy and cluttered, and it lacked focus and a core funnel.\n\nI thought I could do better.\n\nIn evenings and weekends, I built an alternative version. Then I reached out to the brand manager and booked a meeting. I made my pitch and showed her what I'd made and why.\n\nHer response: \"Well, let's try it out then.\"\n\nSales went up. Next week I was in the web design team. Six months later, I was leading it.\n\nI really appreciate the break she gave me. The website had a million visitors a month - it was a risk on her part. But she backed someone who'd shown initiative and done the work upfront.\n\nYou can create your own path.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -2005,7 +2005,7 @@
       "Are you EU-eligible to work?",
       "What is your experience with distributed teams?"
     ],
-    "content": "I've worked across multiple countries and managed remote and distributed teams throughout my career:\n\n- **UK (2001-2010):** Host Europe, UK2 Group — London, Nottingham\n- **Luxembourg (2013-2014):** EuroDNS — hybrid, mostly Copenhagen with Luxembourg every two weeks [EURODNS.R1.STORY.REMOTE]\n- **Denmark (2010-2026):** LEO, Novo Nordisk, Opbeat, TwentyThree, independent consulting\n- **Remote teams:** Managed teams across UK, US, Ukraine, Romania [UK2.R1.USTURNAROUND]\n\nI'm a British citizen with Danish permanent residency (no work visa required for Denmark). I've lived in Copenhagen since 2010.\n\n\n---\n\n# TRICKY QUESTIONS",
+    "content": "I've worked across multiple countries and managed remote and distributed teams throughout my career:\n\n- **UK (2001-2010):** Host Europe, UK2 Group — London, Nottingham\n- **Luxembourg (2013-2014):** EuroDNS — hybrid, mostly Copenhagen with Luxembourg every two weeks [EURODNS.R1.STORY.REMOTE]\n- **Denmark (2010-2026):** LEO, Novo Nordisk, Opbeat, TwentyThree, independent consulting\n- **Remote teams:** Managed teams across UK, US, Ukraine, Romania [UK2.R1.USTURNAROUND]\n\nI'm a British citizen with Danish permanent residency (no work visa required for Denmark). I've lived in Copenhagen since 2010.",
     "drill_downs": [
       "EURODNS.R1.STORY.REMOTE",
       "UK2.R1.USTURNAROUND"

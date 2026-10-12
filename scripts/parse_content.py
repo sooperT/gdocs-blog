@@ -68,6 +68,13 @@ def parse_content_doc(filepath: str):
             # Start new section
             current_section = match.group(1)
             current_lines = []
+        elif line.startswith('# '):
+            # A top-level company banner ("# EURODNS (2013-2014)") closes the
+            # section above it; it is not part of any answer.
+            if current_section:
+                sections.append({'id': current_section, 'raw': '\n'.join(current_lines)})
+            current_section = None
+            current_lines = []
         elif current_section:
             current_lines.append(line)
 

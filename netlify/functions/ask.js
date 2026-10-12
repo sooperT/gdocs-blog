@@ -282,3 +282,10 @@ export function createHandler({
 }
 
 export default createHandler();
+
+// Netlify-side limit, aggregated across instances (P-1011-1): same numbers as
+// chat.js and the in-memory floor in lib/guard.js. No `path`: routing stays in
+// netlify.toml.
+export const config = {
+  rateLimit: { windowLimit: 20, windowSize: 60, aggregateBy: ['ip'], action: 'rate_limit' },
+};

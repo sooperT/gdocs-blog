@@ -17,6 +17,7 @@ import {
   agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap, readTextBody,
   checkRequirementCount, stripInjection, applyDenyList, validateRows, dropUnknownSections,
 } from './lib/guard.js';
+import { classifyBrief } from './lib/role_shape.js';
 import { cleanAnswer, deriveYear, deriveStrength, buildAttested, SELF_REPORTED, HUMAN_VERSION } from './ask.js';
 
 export const MAX_BRIEF_CHARS = 8000;
@@ -252,9 +253,12 @@ export function createCalibrateHandler({
       rows = validateRows(rows, { tag: '[ask:brief]' }).rows;
 
       const count = (m) => rows.filter(r => r.met === m).length;
-      // Guardrail 8: counts only, never the brief or the requirements.
+      // Guardrail 8: counts and three fixed-list labels (item 27), never the
+      // brief or the requirements.
+      const shape = classifyBrief(brief);
       console.log('[ask:brief]', JSON.stringify({
         asker, requirements: rows.length, met: count('met'), partial: count('partial'), not_met: count('not met'), splitter,
+        seniority: shape.seniority, function: shape.function, sector: shape.sector,
       }));
 
       return json({
@@ -278,3 +282,10 @@ export function createCalibrateHandler({
 }
 
 export default createCalibrateHandler();
+
+// Netlify-side limit, aggregated across instances (P-1011-1): same numbers as
+// chat.js and the in-memory floor in lib/guard.js. No `path`: routing stays in
+// netlify.toml.
+export const config = {
+  rateLimit: { windowLimit: 20, windowSize: 60, aggregateBy: ['ip'], action: 'rate_limit' },
+};
