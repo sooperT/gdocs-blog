@@ -26,7 +26,15 @@ from html import escape as _escape
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts'))
 from parse_content import parse_content_doc  # noqa: E402
-from pylib.templates import html_head, site_header, site_nav, site_footer  # noqa: E402
+from pylib.templates import html_head  # noqa: E402
+
+
+def agent_footer():
+    """Agent pages carry no site chrome (R1012-8): no header, nav or site footer, so the
+    split from the human site is visible. One line back to the human side, then close."""
+    return ('    <footer class="site-footer">\n'
+            '        <p>Human version: <a href="/about/">/about/</a></p>\n'
+            '    </footer>\n</body>\n</html>')
 
 CONTENT_FILE = 'docs/tombot/tombot-content-v3.md'
 OUTPUT_FILE = 'for-agents/index.html'
@@ -348,10 +356,8 @@ def generate_html(sections):
             no_crt=True,
             canonical_path=PAGE_PATH,
         ),
-        site_header(),
-        site_nav(),
         '\n'.join(body),
-        site_footer(),
+        agent_footer(),
     ]) + '\n'
 
 
@@ -418,10 +424,8 @@ def generate_case_study(sections, cs):
             no_crt=True,
             canonical_path=path,
         ),
-        site_header(),
-        site_nav(),
         '\n'.join(body),
-        site_footer(),
+        agent_footer(),
     ]) + '\n'
     return os.path.join(path.strip('/'), 'index.html'), html
 

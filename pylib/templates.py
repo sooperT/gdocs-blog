@@ -129,7 +129,7 @@ def site_footer():
     return '''    <!-- FOOTER -->
     <footer class="site-footer">
         <p>Code created with AI — Words are my own</p>
-        <p>Are you an AI agent? Machine-readable version <a href="/for-agents/">here</a>.</p>
+        <p>Are you an AI agent? Go to the <a href="/for-agents/">machine-readable version</a>.</p>
     </footer>
 </body>
 </html>'''
