@@ -21,6 +21,7 @@ import { classifyBrief } from './lib/role_shape.js';
 import { cleanAnswer, deriveYear, deriveStrength, SELF_REPORTED, HUMAN_VERSION } from './ask.js';
 import { referencesFor } from './lib/references.js';
 import SECTION_YEARS from './lib/section_years.json' with { type: 'json' };
+import { logUsage, getUsagePool, cleanTag } from './lib/usage.js';
 
 export const MAX_BRIEF_CHARS = 12000;   // real JDs run to 8,500 (Sword Health, 2026-10-12)
 export const MAX_REQUIREMENTS = 16;   // 12 dropped half the Sword Health JD (run 3b, 2026-10-12)
@@ -326,7 +327,7 @@ export function buildRow(requirement, match) {
 // Returns { brief, asker } or { status, error }.
 async function readBrief(request, url) {
   if (request.method === 'GET') {
-    return { brief: url.searchParams.get('brief') || '', asker: url.searchParams.get('asker') };
+    return { brief: url.searchParams.get('brief') || '', asker: url.searchParams.get('asker'), tag: url.searchParams.get('tag') };
   }
   const body = await readTextBody(request);
   if (body.status) return body;
@@ -335,14 +336,16 @@ async function readBrief(request, url) {
     try { parsed = JSON.parse(body.raw || '{}'); } catch { return { status: 400, error: 'Body is not valid JSON.' }; }
     const shapeOk = parsed && typeof parsed === 'object' && !Array.isArray(parsed)
       && (parsed.brief === undefined || typeof parsed.brief === 'string')
-      && (parsed.asker === undefined || parsed.asker === null || typeof parsed.asker === 'string');
-    if (!shapeOk) return { status: 415, error: 'JSON body must be {"brief": "<text>", "asker": "<optional text>"}.' };
-    return { brief: parsed.brief || '', asker: parsed.asker || url.searchParams.get('asker') };
+      && (parsed.asker === undefined || parsed.asker === null || typeof parsed.asker === 'string')
+      && (parsed.tag === undefined || parsed.tag === null || typeof parsed.tag === 'string');
+    if (!shapeOk) return { status: 415, error: 'JSON body must be {"brief": "<text>", "asker": "<optional text>", "tag": "<optional send tag>"}.' };
+    return { brief: parsed.brief || '', asker: parsed.asker || url.searchParams.get('asker'), tag: parsed.tag || url.searchParams.get('tag') };
   }
-  return { brief: body.raw, asker: url.searchParams.get('asker') };
+  return { brief: body.raw, asker: url.searchParams.get('asker'), tag: url.searchParams.get('tag') };
 }
 
 export function createCalibrateHandler({
+  usagePool,   // test seam; default: the shared pool when NILEDB_URL is set
   retrieve = defaultRetrieve,
   createMessage = defaultCreateMessage,
   env = process.env,
@@ -377,6 +380,7 @@ export function createCalibrateHandler({
       return json({ error: 'Brief has no requirements once instruction-like lines are removed.', flags, injection_lines: injectionLines, usage: USAGE }, 400);
     }
     const asker = input.asker ? String(input.asker).slice(0, 40) : null;
+    const tag = cleanTag(input.tag);
     const qIgnored = Boolean((url.searchParams.get('q') || '').trim());
 
     try {
@@ -440,13 +444,15 @@ export function createCalibrateHandler({
       // Guardrail 8: counts and three fixed-list labels (item 27), never the
       // brief or the requirements.
       const shape = classifyBrief(brief);
-      console.log('[ask:brief]', JSON.stringify({
-        asker, requirements: rows.length, met: count('met'), partial: count('partial'), not_met: count('not met'), splitter,
+      const usage = {
+        asker, tag, requirements: rows.length, met: count('met'), partial: count('partial'), not_met: count('not met'), splitter,
         proof_point_rows: rows.filter(r => r.kind === 'proof-point').length,
         evidence_queries: queries.reduce((n, q) => n + q.length, 0),
         adjacent: rows.filter(r => r.adjacent).length,
         seniority: shape.seniority, function: shape.function, sector: shape.sector,
-      }));
+      };
+      console.log('[ask:brief]', JSON.stringify(usage));
+      await logUsage({ pool: usagePool === undefined ? getUsagePool(runEnv) : usagePool, request, context, path: '/ask/brief', status: 200, meta: usage });
 
       return json({
         brief: { requirements: rows.length, splitter, evidence_queries: queries.reduce((n, q) => n + q.length, 0), threshold: BRIEF_THRESHOLD },

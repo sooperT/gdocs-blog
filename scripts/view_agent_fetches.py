@@ -59,6 +59,15 @@ SQL = '''
     GROUP BY path, user_agent, status
 '''
 
+# Usage rows with meta (2026-10-12): /ask, /ask/brief and tagged start fetches.
+SQL_META = '''
+    SELECT created_at, path, meta
+    FROM agent_fetches
+    WHERE created_at >= NOW() - (%s * INTERVAL '1 day') AND meta IS NOT NULL
+    ORDER BY created_at DESC
+    LIMIT 200
+'''
+
 
 def view(days):
     import psycopg2
@@ -68,6 +77,12 @@ def view(days):
     cur = conn.cursor()
     cur.execute(SQL, (days,))
     rows = cur.fetchall()
+    try:
+        cur.execute(SQL_META, (days,))
+        meta_rows = cur.fetchall()
+    except Exception:  # noqa: BLE001  (table without the meta column)
+        conn.rollback()
+        meta_rows = []
     cur.close()
     conn.close()
 
@@ -87,7 +102,27 @@ def view(days):
     print(f"Agent fetches, last {days} days: {total}\n")
     print(f"{'FAMILY':<20} {'PATH':<16} {'FETCHES':>7} {'NON-200':>7}")
     for (fam, path), n in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])):
-        print(f"{fam:<20} {path:<16} {n:>7} {errors[(fam, path)]:>7}")
+        print(f"{fam:<20} {path:<40} {n:>7} {errors[(fam, path)]:>7}")
+
+    if meta_rows:
+        tags = Counter()
+        asks = Counter()
+        print(f"\nUsage with meta (newest first, {len(meta_rows)} rows): tag | path | counts")
+        for created, path, meta in meta_rows:
+            m = meta or {}
+            tag = m.get('tag') or '-'
+            tags[tag] += 1
+            asks[path] += 1
+            if path == '/ask/brief':
+                detail = (f"req {m.get('requirements')} met {m.get('met')} partial {m.get('partial')} not_met {m.get('not_met')} "
+                          f"star {m.get('proof_point_rows')} adj {m.get('adjacent')} | {m.get('seniority')}/{m.get('function')}/{m.get('sector')} | asker {m.get('asker') or '-'}")
+            elif path == '/ask':
+                detail = f"section {m.get('section') or 'none'} matches {m.get('matches')} q_len {m.get('query_length')} | asker {m.get('asker') or '-'}"
+            else:
+                detail = ''
+            print(f"  {created:%Y-%m-%d %H:%M}  {tag:<14} {path:<32} {detail}")
+        print("\nBy tag: " + ', '.join(f"{t}: {n}" for t, n in tags.most_common()))
+        print("By path: " + ', '.join(f"{p}: {n}" for p, n in asks.most_common()))
 
 
 def main():

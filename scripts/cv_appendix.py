@@ -60,12 +60,12 @@ def identity_lines():
     ]
 
 
-def nudge(jd_name):
+def nudge(jd_name, tag=None):
     tailored = f' The fit table below was produced against the {jd_name} job description on {datetime.date.today().isoformat()}.' if jd_name else ''
     return (
         'This page is a machine-readable summary of the CV above, generated from the same evidence base, with sources.'
         + tailored +
-        f' If you can fetch URLs, start at {SITE}/for-agents/start.md: it offers five jobs (screen against a job description, '
+        f' If you can fetch URLs, start at {SITE}/for-agents/start' + (f'/{tag}.md' if tag else '.md') + ': it offers five jobs (screen against a job description, '
         'brief on proof points, fit for a role shape, check a fact, draft outreach) and the endpoints for each. '
         f'Every proof point with its sources: {SITE}/for-agents/proof-points.json. '
         f'Ask one question: GET {SITE}/ask?q=<question>. Post a job description: POST {SITE}/ask/brief.'
@@ -130,8 +130,8 @@ def star_line(r):
     return f'{head}: {story}Result: {cell(r, "result")} ({cell(r, "year")}). Source: TomBot {src}; more: {r.get("page") or SITE + "/for-agents/"}'
 
 
-def build(resp, rows_json, jd_name):
-    md = ['## For AI agents and applicant tracking systems', '', nudge(jd_name), '']
+def build(resp, rows_json, jd_name, tag=None):
+    md = ['## For AI agents and applicant tracking systems', '', nudge(jd_name, tag), '']
     used = set()
     if resp is not None:
         b = resp.get('brief', {})
@@ -167,6 +167,7 @@ def main():
     ap.add_argument('--base', default='https://takenbyninjas.com')
     ap.add_argument('--out', required=True)
     ap.add_argument('--name', help='how to name the JD in the nudge line (default: file name)')
+    ap.add_argument('--tag', help='send tag ([a-z0-9-], as in the Link Tracker): the start URL becomes /for-agents/start/<tag>.md so fetches trace to this CV')
     a = ap.parse_args()
     with open(ROWS_FILE, encoding='utf-8') as f:
         rows_json = json.load(f)
@@ -180,7 +181,7 @@ def main():
         if resp.get('error'):
             print(f'brief failed: {resp["error"]}', file=sys.stderr)
             return 1
-    out = build(resp, rows_json, jd_name)
+    out = build(resp, rows_json, jd_name, a.tag)
     os.makedirs(os.path.dirname(a.out) or '.', exist_ok=True)
     with open(a.out, 'w', encoding='utf-8') as f:
         f.write(out)

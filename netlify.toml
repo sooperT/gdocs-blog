@@ -108,6 +108,14 @@
   status = 200
   force = true
 
+# The tagged entry file: /for-agents/start/<tag>.md serves start.md and logs
+# the tag (one tag per CV send, from the tracking-links skill).
+[[redirects]]
+  from = "/for-agents/start/*"
+  to = "/.netlify/functions/agent-fetch/start/:splat"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/for-agents/wegovycare/"
   to = "/.netlify/functions/agent-fetch/wegovycare"

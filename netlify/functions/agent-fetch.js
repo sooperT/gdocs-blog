@@ -10,7 +10,7 @@
 // agent, referer without query string, country, status). No IP, no query
 // strings, no body (PRD guardrail 8). Any error — DB down, table missing,
 // pool misconfigured — is a console warning; the static file is still served.
-import pg from 'pg';
+import { getUsagePool, buildUsageRow, insertUsage, cleanReferer as cleanRefererShared, cleanTag } from './lib/usage.js';
 import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join, resolve } from 'path';
@@ -102,56 +102,27 @@ export function defaultReadFile(relPath) {
   throw new Error(`agent-fetch: ${relPath} not found in bundle`);
 }
 
-let defaultPool = null;
-function getDefaultPool() {
-  if (!process.env.NILEDB_URL) return null;
-  if (!defaultPool) {
-    defaultPool = new pg.Pool({
-      connectionString: process.env.NILEDB_URL,
-      ssl: { rejectUnauthorized: false },
-      connectionTimeoutMillis: 3000,
-      max: 2,
-    });
-    // An idle-client error must never crash the function.
-    defaultPool.on('error', (e) => console.warn('[agent-fetch] pool error:', e.message));
-  }
-  return defaultPool;
+// Pool and logging live in lib/usage.js (shared with /ask and /ask/brief).
+function getDefaultPool() { return getUsagePool(); }
+export function cleanReferer(value) { return cleanRefererShared(value); }
+export function buildLogRow(request, context, resource, status, meta = null) {
+  const row = buildUsageRow(request, context, resource.path, status, meta);
+  const { meta: m, ...rest } = row;
+  return m ? row : rest;
 }
+export async function logFetch(pool, row) { return insertUsage(pool, { meta: null, ...row }); }
 
-// Referer without query string or fragment; null when absent or unparseable.
-export function cleanReferer(value) {
-  if (!value) return null;
-  try {
-    const u = new URL(value);
-    return (u.origin + u.pathname).slice(0, 512);
-  } catch {
-    return null;
-  }
+// The tagged entry file (Tom, 2026-10-12): /for-agents/start/<tag>.md serves
+// start.md, logged under its own path with the tag in meta, so a fetch can be
+// traced to the CV it came from. The served text tells the agent to pass the
+// tag on every /ask call. Tag: [a-z0-9-], up to 40 characters.
+export function taggedStart(pathname) {
+  const m = String(pathname || '').toLowerCase().match(/\/(?:agent-fetch\/)?(?:for-agents\/)?start\/([a-z0-9-]{1,40})\.md$/);
+  if (!m) return null;
+  const tag = cleanTag(m[1]);
+  return tag ? { ...RESOURCES.start, path: `/for-agents/start/${tag}.md`, tag } : null;
 }
-
-export function buildLogRow(request, context, resource, status) {
-  const h = request.headers;
-  const country = h.get('x-country') || context?.geo?.country?.code || null;
-  return {
-    path: resource.path,
-    user_agent: (h.get('user-agent') || '').slice(0, 512),
-    referer: cleanReferer(h.get('referer')),
-    country: country ? String(country).slice(0, 8) : null,
-    status,
-  };
-}
-
-export async function logFetch(pool, row) {
-  try {
-    if (!pool) throw new Error('NILEDB_URL not set');
-    await pool.query(
-      'INSERT INTO agent_fetches (path, user_agent, referer, country, status) VALUES ($1, $2, $3, $4, $5)',
-      [row.path, row.user_agent, row.referer, row.country, row.status],
-    );
-  } catch (error) {
-    console.warn('[agent-fetch] log failed:', error?.message || error);
-  }
-}
+export const TAG_LINE = (tag) => `\n\nSend tag: \`${tag}\`. This copy of the file came with a specific CV. Add \`&tag=${tag}\` to every GET /ask call and a \`"tag": "${tag}"\` field to every POST /ask/brief body, so Tom can see which send you came from. The tag is logged with counts only, never with your text.\n`;
 
 export function createHandler({ getPool = getDefaultPool, readFile = defaultReadFile } = {}) {
   let generated = null;
@@ -165,7 +136,8 @@ export function createHandler({ getPool = getDefaultPool, readFile = defaultRead
       });
     }
 
-    const resource = resourceFor(new URL(request.url).pathname, generated);
+    const pathname = new URL(request.url).pathname;
+    const resource = taggedStart(pathname) || resourceFor(pathname, generated);
     if (!resource) {
       return new Response('Not found\n', { status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
     }
@@ -182,6 +154,7 @@ export function createHandler({ getPool = getDefaultPool, readFile = defaultRead
       if (deployContext && deployContext !== 'production') {
         body = body.split('https://takenbyninjas.com').join(new URL(request.url).origin);
       }
+      if (resource.tag) body = body.replace(/\n## 1\. The endpoints/, TAG_LINE(resource.tag) + '\n## 1. The endpoints');
     } catch (error) {
       console.error('[agent-fetch] read failed:', error?.message || error);
       status = 500;
@@ -191,7 +164,7 @@ export function createHandler({ getPool = getDefaultPool, readFile = defaultRead
     // response is sent; without it, wait at most LOG_WAIT_MS.
     let logging;
     try {
-      logging = logFetch(getPool(), buildLogRow(request, context, resource, status));
+      logging = logFetch(getPool(), buildLogRow(request, context, resource, status, resource.tag ? { tag: resource.tag } : null));
     } catch (error) {
       console.warn('[agent-fetch] log setup failed:', error?.message || error);
       logging = Promise.resolve();

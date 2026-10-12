@@ -317,7 +317,7 @@ await test('log line: one line, counts only, no brief text', withLogs(async () =
   const line = logs[0];
   origLog('     ' + line);
   const parsed = JSON.parse(line.replace(/^\[ask:brief\] /, ''));
-  assert.deepEqual(Object.keys(parsed), ['asker', 'requirements', 'met', 'partial', 'not_met', 'splitter', 'proof_point_rows', 'evidence_queries', 'adjacent', 'seniority', 'function', 'sector']);
+  assert.deepEqual(Object.keys(parsed), ['asker', 'tag', 'requirements', 'met', 'partial', 'not_met', 'splitter', 'proof_point_rows', 'evidence_queries', 'adjacent', 'seniority', 'function', 'sector']);
   assert.equal(parsed.asker, 'hiring-manager');
   // Item 27: the three labels come from fixed lists, never from the brief.
   assert.ok(SENIORITY.includes(parsed.seniority) && FUNCTION.includes(parsed.function) && SECTOR.includes(parsed.sector));
@@ -473,4 +473,26 @@ await test('plainEvidence: no bold, no table rows, no list markers, one paragrap
   assert.equal(plainEvidence('| a | b |\n|---|---|'), '');
   assert.equal(trimEvidence('y'.repeat(500)).length, 403);
 });
+// --- usage logging (Tom, 2026-10-12: "how do we track if anyone uses it") ---
+await test('usage: /ask/brief persists one agent_fetches row with meta counts and the tag, never the brief text', withLogs(async () => {
+  const calls = [];
+  const pool = { query: async (text, params) => { calls.push({ text, params }); return { rows: [] }; } };
+  const pending = [];
+  const c = { waitUntil: (p) => pending.push(p), deploy: { context: 'production' } };
+  const h = createCalibrateHandler({ env: {}, createMessage: noAnthropic, retrieve: stubRetrieve, usagePool: pool });
+  const res = await h(req('/ask/brief', { method: 'POST', headers: { 'content-type': 'application/json', 'referer': 'https://chatgpt.com/c/x?k=secret' },
+    body: JSON.stringify({ brief: JD, asker: 'recruiter-agent', tag: 'Novonesis-2026' }) }), c);
+  assert.equal(res.status, 200);
+  await Promise.all(pending);
+  assert.equal(calls.length, 1);
+  assert.match(calls[0].text, /INSERT INTO agent_fetches/);
+  const [path, ua, referer, country, status, meta] = calls[0].params;
+  assert.equal(path, '/ask/brief'); assert.equal(status, 200); assert.equal(referer, 'https://chatgpt.com/c/x');
+  const m = JSON.parse(meta);
+  assert.equal(m.tag, 'novonesis-2026'); assert.equal(m.asker, 'recruiter-agent');
+  for (const k of ['requirements', 'met', 'partial', 'not_met', 'seniority', 'function', 'sector']) assert.ok(Object.hasOwn(m, k), k);
+  for (const word of ['Copenhagen', 'GDPR', 'Danish', 'stakeholder']) assert.ok(!meta.includes(word), word);
+  const bad = createCalibrateHandler({ env: {}, createMessage: noAnthropic, retrieve: stubRetrieve, usagePool: { query: async () => { throw new Error('db down'); } } });
+  assert.equal((await bad(req('/ask/brief?brief=' + encodeURIComponent(JD2) + '&tag=bad%20tag!'))).status, 200, 'logging failure never breaks the response');
+}));
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);

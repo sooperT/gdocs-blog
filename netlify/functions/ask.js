@@ -14,6 +14,7 @@ import { retrieve as defaultRetrieve, listSections as defaultListSections } from
 import { isDbEnvError } from './lib/db_env.js';
 import { strengthFor } from './lib/strength.js';
 import { referencesFor } from './lib/references.js';
+import { logUsage, getUsagePool, cleanTag } from './lib/usage.js';
 import {
   agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap,
   applyDenyList, validateRows, dropUnknownSections,
@@ -168,6 +169,7 @@ export function createHandler({
   env = process.env,
   limiter = createRateLimiter(),
   sectionMap,
+  usagePool,   // test seam; default: the shared pool when NILEDB_URL is set
 } = {}) {
   let runEnv = env;   // pinned per request from the runtime deploy context (db_env.envForRequest)
   const map = sectionMap || createSectionMap({ listSections: listSections || (() => defaultListSections({ env: runEnv })) });
@@ -187,11 +189,12 @@ export function createHandler({
     if (url.searchParams.has('brief')) {
       // Created lazily: calibrate.js imports helpers from this module.
       // Rate limit already counted here, so the delegate does not count again.
-      calibrateHandler = calibrateHandler || createCalibrateHandler({ retrieve, env, limiter: null, sectionMap: map });
+      calibrateHandler = calibrateHandler || createCalibrateHandler({ retrieve, env, limiter: null, sectionMap: map, usagePool });
       return calibrateHandler(request, context);
     }
     const q = (url.searchParams.get('q') || '').trim();
     const asker = url.searchParams.get('asker') || null;
+    const tag = cleanTag(url.searchParams.get('tag'));
 
     if (!q) {
       // The map: every section id and the first questions that route to it.
@@ -223,7 +226,9 @@ export function createHandler({
       const built = raw.slice(0, AGENT_TOP_K).map(m => { const b = buildMatch(m); withheld += b.withheld; return { row: b.row, match: m }; });
       const known = dropUnknownSections(built.map(b => b.row), ids).rows;
       const { rows } = validateRows(known, { tag: '[ask]' });
-      console.log('[ask]', JSON.stringify({ asker, query_length: q.length, section: rows[0]?.section || null, matches: rows.length, withheld }));
+      const usage = { asker, tag, query_length: q.length, section: rows[0]?.section || null, matches: rows.length, withheld };
+      console.log('[ask]', JSON.stringify(usage));
+      await logUsage({ pool: usagePool === undefined ? getUsagePool(runEnv) : usagePool, request, context, path: '/ask', status: 200, meta: usage });
 
       if (!rows.length) {
         return json({ answer: null, reason: 'no matching content', matches: [], human_version: HUMAN_VERSION });

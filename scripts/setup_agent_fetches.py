@@ -36,6 +36,15 @@ def setup_agent_fetches():
         )
     ''')
 
+    # 2026-10-12: meta (counts, role shape, asker, send tag; never text) for
+    # /ask and /ask/brief rows and tagged start.md fetches.
+    cur.execute('''
+        ALTER TABLE agent_fetches ADD COLUMN IF NOT EXISTS meta JSONB
+    ''')
+    cur.execute('''
+        CREATE INDEX IF NOT EXISTS idx_agent_fetches_path ON agent_fetches(path)
+    ''')
+
     # Index for querying by date
     cur.execute('''
         CREATE INDEX IF NOT EXISTS idx_agent_fetches_created_at

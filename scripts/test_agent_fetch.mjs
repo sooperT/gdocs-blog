@@ -123,8 +123,8 @@ await test('logged row: path, UA, referer, country, status; no IP, no query stri
   await createHandler({ getPool: () => pool, readFile })(r, c);
   await Promise.all(c.pending);
   const { text, params } = pool.calls[0];
-  assert.match(text, /INSERT INTO agent_fetches \(path, user_agent, referer, country, status\)/);
-  assert.deepEqual(params, ['/for-agents/', UA, 'https://chatgpt.com/c/abc', 'DK', 200]);
+  assert.match(text, /INSERT INTO agent_fetches \(path, user_agent, referer, country, status, meta\)/);
+  assert.deepEqual(params, ['/for-agents/', UA, 'https://chatgpt.com/c/abc', 'DK', 200, null]);
   const flat = JSON.stringify(pool.calls);
   assert.ok(!flat.includes('203.0.113.7'), 'no IP');
   assert.ok(!flat.includes('secret') && !flat.includes('utm_') && !flat.includes('?'), 'no query string');
@@ -134,7 +134,7 @@ await test('country falls back to context.geo, referer/UA absent -> null/empty',
   const pool = stubPool(); const c = ctx({ geo: { country: { code: 'SE' } } });
   await createHandler({ getPool: () => pool, readFile })(req('/llms'), c);
   await Promise.all(c.pending);
-  assert.deepEqual(pool.calls[0].params, ['/llms.txt', '', null, 'SE', 200]);
+  assert.deepEqual(pool.calls[0].params, ['/llms.txt', '', null, 'SE', 200, null]);
 });
 
 await test('unknown subpath -> 404', async () => {
@@ -225,6 +225,23 @@ await test('manifest missing or malformed: RESOURCES still resolve, unknown slug
   assert.equal((await h(new Request('https://takenbyninjas.com/llms.txt'), c)).status, 200);
   assert.equal((await h(new Request('https://takenbyninjas.com/for-agents/opbeat/'), c)).status, 404);
 }));
+await test('tagged start: /for-agents/start/<tag>.md serves start.md with the tag line, logs the tagged path and meta.tag; bad tags 404', async () => {
+  const pool = stubPool(); const c = ctx({ deploy: { context: 'production' } });
+  const h = createHandler({ getPool: () => pool, readFile });
+  const res = await h(new Request('https://takenbyninjas.com/for-agents/start/novonesis-2026.md'), c);
+  await Promise.all(c.pending);
+  assert.equal(res.status, 200);
+  assert.equal(res.headers.get('content-type'), 'text/markdown; charset=utf-8');
+  const text = await res.text();
+  assert.ok(text.startsWith(FILES['for-agents/start.md'].trim()) || text.includes('# Start here'), 'serves start.md');
+  assert.equal(pool.calls[0].params[0], '/for-agents/start/novonesis-2026.md');
+  assert.deepEqual(JSON.parse(pool.calls[0].params[5]), { tag: 'novonesis-2026' });
+  const rewritten = await h(req('/start/novonesis-2026.md'), c);
+  assert.equal(rewritten.status, 200);
+  for (const bad of ['/for-agents/start/Bad_Tag.md', '/for-agents/start/' + 'x'.repeat(41) + '.md', '/for-agents/start/x.txt']) {
+    assert.equal((await h(new Request('https://takenbyninjas.com' + bad), c)).status, 404, bad);
+  }
+});
 console.log(`\n${passed} passed${process.exitCode ? ', some FAILED' : ''}`);
 
 // Non-production deploys mark function responses noindex; production does not.

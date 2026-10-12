@@ -32,7 +32,7 @@ Field notes:
 
 - `tier` is `self-reported` on every `answer` and `evidence` (TomBot content, Tom's own account). `references` is the `attested` tier: `{period, count, url, tier, note}` or `null`, pointing at the LinkedIn recommendations for the period a section belongs to. They vouch for the role, not for the row.
 - `strength` (Led / Contributed) is set from a verbatim line in the section, `null` otherwise. `year` is `null` unless the text states one. `score` is retrieval similarity (0 to 1); nothing below 0.55 is returned.
-- `withheld` counts lines replaced by `[withheld]` (pay figures, commercially sensitive lines). `asker` is accepted and logged; it does not change the answer.
+- `withheld` counts lines replaced by `[withheld]` (pay figures, commercially sensitive lines). `asker` is accepted and logged; it does not change the answer. `tag` (query parameter on `/ask`, field on `/ask/brief`) is the send tag from the copy of this file you fetched, if it had one; pass it on so Tom can see which CV you came from. Counts only are logged, never your text.
 - Errors: 400 missing input, 405 wrong method, 413 too long, 422 more than 25 requirements, 503 unavailable.
 
 ## 2. How to read what comes back
