@@ -230,6 +230,14 @@ export function hasOutcome(answer) {
   return OUTCOME.test(String(answer || ''));
 }
 
+// Evidence is prose for a table cell: no markdown bold, no table rows, no
+// list markers, one paragraph. A section that is only a table (META.JOBS)
+// yields its first non-table line, else an empty string.
+export function plainEvidence(text) {
+  const lines = String(text || '').split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('|') && !/^-{3,}$/.test(l));
+  return lines.map(l => l.replace(/\*\*/g, '').replace(/^[-*]\s+/, '').replace(/^#+\s+/, '')).join(' ').replace(/\s+/g, ' ').trim();
+}
+
 export function trimEvidence(answer, max = EVIDENCE_CHARS) {
   return answer.length <= max ? answer : answer.slice(0, max).trimEnd() + '...';
 }
@@ -421,6 +429,9 @@ export function createCalibrateHandler({
           if (a.withheld) out = { ...out, adjacent: { ...out.adjacent, evidence: a.text } };
           if (!ids.has(out.adjacent.section)) out = { ...out, adjacent: null };
         }
+        // Prose for a table cell, after the per-line deny-list has run.
+        if (out.evidence) out = { ...out, evidence: plainEvidence(out.evidence) };
+        if (out.adjacent && out.adjacent.evidence) out = { ...out, adjacent: { ...out.adjacent, evidence: plainEvidence(out.adjacent.evidence) } };
         return out;
       });
       rows = validateRows(rows, { tag: '[ask:brief]' }).rows;

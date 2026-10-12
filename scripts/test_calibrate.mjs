@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { SENIORITY, FUNCTION, SECTOR } from '../netlify/functions/lib/role_shape.js';
 import {
   splitBriefHeuristic, splitBriefLLM, parseRequirementArray, buildRow, createCalibrateHandler as createCalibrateHandlerRaw,
-  SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS, pickMatch, PP_MARGIN, nearestBelowThreshold, buildAdjacent, ADJACENT_MIN, ADJACENT_NOTE, BRIEF_THRESHOLD, sectionYear, evidenceQueries, parseEvidenceQueries, mergeMatches, EVIDENCE_SYSTEM_PROMPT,
+  SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS, pickMatch, PP_MARGIN, plainEvidence, trimEvidence, nearestBelowThreshold, buildAdjacent, ADJACENT_MIN, ADJACENT_NOTE, BRIEF_THRESHOLD, sectionYear, evidenceQueries, parseEvidenceQueries, mergeMatches, EVIDENCE_SYSTEM_PROMPT,
 } from '../netlify/functions/calibrate.js';
 import { createHandler as createAskHandlerRaw } from '../netlify/functions/ask.js';
 import { retrieve as realRetrieve } from '../netlify/functions/lib/retrieval.js';
@@ -275,7 +275,7 @@ await test('guard: deny-list on evidence ([withheld] + count); section outside m
     retrieve: async (q) => ({ match: /ghost/i.test(q) ? GHOST : PAY }) });
   const b = await body(await h(req('/ask/brief?brief=' + encodeURIComponent('- Shipped products\n- Ghost requirement'))));
   assert.equal(b.rows.length, 1);
-  assert.equal(b.rows[0].evidence, 'Senior PM (2020-2022), launched in 5 markets.\n[withheld]\n[withheld]');
+  assert.equal(b.rows[0].evidence, 'Senior PM (2020-2022), launched in 5 markets. [withheld] [withheld]');
   assert.equal(b.withheld, 2);
   assertTrustContract(b);
 });
@@ -467,5 +467,10 @@ await test('section years: a drill-down inherits its role year; a section with i
   assert.equal(row.met, 'partial', 'year present but no outcome verb or number');
   const launched = { ...genai, content: 'Launched a RAG model for compliance reviews.' };
   assert.equal(buildRow('GenAI experience', launched).met, 'met');
+});
+await test('plainEvidence: no bold, no table rows, no list markers, one paragraph; trimEvidence uses it', async () => {
+  assert.equal(plainEvidence('**Education:**\n- MA Information Technology\n- BSc (Hons)\n\n| Years | Role |\n|---|---|\n| 2022 | APD |\nAsk me.'), 'Education: MA Information Technology BSc (Hons) Ask me.');
+  assert.equal(plainEvidence('| a | b |\n|---|---|'), '');
+  assert.equal(trimEvidence('y'.repeat(500)).length, 403);
 });
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);
