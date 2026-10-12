@@ -62,10 +62,9 @@ SQL = '''
 
 def view(days):
     import psycopg2
-    from dotenv import load_dotenv
-    load_dotenv()
+    from db_target import resolve_db
 
-    conn = psycopg2.connect(os.environ['NILEDB_URL'])
+    conn = psycopg2.connect(resolve_db('read agent_fetches from'))
     cur = conn.cursor()
     cur.execute(SQL, (days,))
     rows = cur.fetchall()
@@ -93,6 +92,7 @@ def view(days):
 
 def main():
     parser = argparse.ArgumentParser(description='View agent-surface fetches by user agent family and path')
+    parser.add_argument('--env', choices=['staging', 'production'], required=True, help='which database (scripts/db_target.py)')
     parser.add_argument('-d', '--days', type=int, default=7, help='Look back this many days (default 7)')
     parser.add_argument('--dry-run', action='store_true', help='Print the SQL and exit without touching the DB')
     args = parser.parse_args()

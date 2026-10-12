@@ -16,13 +16,12 @@ nothing from the request body (PRD guardrail 8).
 
 import os
 import psycopg2
-from dotenv import load_dotenv
+from db_target import resolve_db
 
-load_dotenv()
 
 
 def setup_agent_fetches():
-    conn = psycopg2.connect(os.environ['NILEDB_URL'])
+    conn = psycopg2.connect(resolve_db('create the agent_fetches table in'))
     cur = conn.cursor()
 
     cur.execute('''
