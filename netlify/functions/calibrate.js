@@ -22,7 +22,7 @@ import { cleanAnswer, deriveYear, deriveStrength, SELF_REPORTED, HUMAN_VERSION }
 import { referencesFor } from './lib/references.js';
 
 export const MAX_BRIEF_CHARS = 12000;   // real JDs run to 8,500 (Sword Health, 2026-10-12)
-export const MAX_REQUIREMENTS = 12;
+export const MAX_REQUIREMENTS = 16;   // 12 dropped half the Sword Health JD (run 3b, 2026-10-12)
 export const EVIDENCE_CHARS = 400;
 const NOTE = "Evidence only. 'not met' means TomBot content has nothing on it, not that Tom lacks it.";
 const NOTE_Q_IGNORED = ' Both q and brief were given; brief was used and q was ignored.';
@@ -38,7 +38,7 @@ export const SPLITTER_SYSTEM_PROMPT = [
   "Each string is one requirement, copied in the brief's own words. Do not paraphrase, summarise, merge or add anything.",
   'Include skills, experience, qualifications, languages, location and working-pattern conditions.',
   'Leave out company descriptions, benefits and application instructions.',
-  'At most 12 items, in the order they appear in the brief.',
+  'At most 16 items, in the order they appear in the brief.',
 ].join('\n');
 
 function json(body, status = 200, extraHeaders = {}) {

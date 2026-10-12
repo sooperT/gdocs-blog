@@ -420,6 +420,11 @@
       "path": "/for-agents/shapes/international/",
       "file": "for-agents/shapes/international/index.html",
       "title": "International and remote"
+    },
+    "cv-appendix": {
+      "path": "/for-agents/cv-appendix/",
+      "file": "for-agents/cv-appendix/index.html",
+      "title": "CV appendix for agents"
     }
   }
 }

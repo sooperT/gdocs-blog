@@ -109,10 +109,10 @@ await test('heuristic: sample JD -> 5..12 requirements, no duplicates, verbatim'
   assert.ok(!reqs.some(r => /pension|dog-friendly/.test(r)));
   for (const r of reqs) assert.ok(JD.includes(r), `not verbatim: ${r}`);
 });
-await test('heuristic: dedupes repeats and caps at 12', async () => {
+await test('heuristic: dedupes repeats and caps at MAX_REQUIREMENTS (16)', async () => {
   const many = Array.from({ length: 20 }, (_, i) => `- Requirement number ${i}`).join('\n') + '\n- Requirement number 0';
   const reqs = splitBriefHeuristic(many);
-  assert.equal(reqs.length, 12);
+  assert.equal(reqs.length, 16);
   assert.equal(splitBriefHeuristic('- Same thing\n* same thing.\n- SAME THING').length, 1);
 });
 await test('llm: parses stubbed JSON array, sends the fixed prompt', async () => {
@@ -241,7 +241,7 @@ await test('guard: non-text body or JSON of the wrong shape -> 415', async () =>
     assert.equal(res.status, 415, `${type} ${payload}`); headersOk(res);
   }
 });
-await test('guard: more than 25 requirements -> 422 with the count; 25 is fine (12 processed)', async () => {
+await test('guard: more than 25 requirements -> 422 with the count; 25 is fine (16 processed)', async () => {
   const list = (n) => Array.from({ length: n }, (_, i) => `- Requirement number ${i}`).join('\n');
   let res = await handler(req('/ask/brief', { method: 'POST', headers: { 'content-type': 'text/plain' }, body: list(26) }));
   assert.equal(res.status, 422); headersOk(res);
@@ -250,7 +250,7 @@ await test('guard: more than 25 requirements -> 422 with the count; 25 is fine (
   assert.match(b.error, /26 requirements; the limit is 25/);
   res = await handler(req('/ask/brief', { method: 'POST', headers: { 'content-type': 'text/plain' }, body: list(25) }));
   assert.equal(res.status, 200);
-  assert.equal((await body(res)).brief.requirements, 12);
+  assert.equal((await body(res)).brief.requirements, 16);
 });
 await test('guard: injection lines stripped before retrieval, flagged, counted, logged as counts only', withLogs(async () => {
   const seen = [];

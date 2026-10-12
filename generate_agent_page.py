@@ -1582,6 +1582,119 @@ def proof_points_json(sections):
     return json.dumps(data, ensure_ascii=False, indent=2) + '\n'
 
 
+# CV appendix (PRD J4, W6; Tom 2026-10-12): a one-page machine-readable summary
+# to sit at the end of the human CV, flagged for agents and ATS, with links
+# to fetch more. Same rows, same sources; the strongest picks, once each.
+CV_APPENDIX_ROWS = 8
+CV_APPENDIX_MD = 'for-agents/cv-appendix.md'
+CV_APPENDIX_PATH = f'{PAGE_PATH}cv-appendix/'
+
+
+def cv_appendix_rows(sections):
+    seen, rows = set(), []
+    for shape_id, _, _ in SHAPES:
+        for row in shape_rows(shape_id)[:FACTS_ROWS_PER_SHAPE]:
+            key = (row['product'][0], row['result'][0])
+            if key in seen:
+                continue
+            seen.add(key)
+            rows.append(row)
+            if len(rows) == CV_APPENDIX_ROWS:
+                return rows
+    return rows
+
+
+def cv_line(row):
+    """One STAR line: Role, Product (what it is): situation; task; action; result (year)."""
+    def t(k):
+        return row[k][0] if row.get(k) else None
+    bits = [b for b in (t('situation'), t('task'), t('action')) if b]
+    story = '; '.join(bits)
+    out = f"{t('role')}, {t('product')}"
+    if t('desc') and t('desc') != t('product'):
+        out += f" ({t('desc')})"
+    out += ': ' + (story + '. ' if story else '') + f"Result: {t('result')} ({t('year')})."
+    return out
+
+
+def build_cv_appendix(sections, recs):
+    rows = cv_appendix_rows(sections)
+    for row in rows:
+        for k in ('role', 'product', 'desc', 'situation', 'task', 'action', 'result', 'year'):
+            if row.get(k):
+                check(sections, row[k][1], row[k][0])
+    who = []
+    for term, items in WHO:
+        if term in ('Availability, compensation, contact', 'Endpoints'):
+            continue
+        for text, sid in items:
+            check(sections, sid, text)
+        who.append((term, '; '.join(t for t, _ in items)))
+    career = []
+    for ln in sections[CAREER_SECTION].split('\n'):
+        if ln.startswith('|') and not ln.startswith('| Years') and not ln.startswith('|---'):
+            cells = [c.strip() for c in ln.strip('|').split('|')]
+            if len(cells) == 4 and cells[3] in CITY_COUNTRY:
+                city, country = CITY_COUNTRY[cells[3]]
+                loc = ' / '.join(f'{ci.strip()}, {co.strip()}' for ci, co in zip(city.split('/'), country.split('/')))
+                career.append((cells[0], cells[1], cells[2], loc))
+    skills = []
+    for row in PROOF_POINTS:
+        for term, _ in row_keywords(sections, row):
+            if term not in skills:
+                skills.append(term)
+    base = 'https://takenbyninjas.com'
+    md = [
+        '## For AI agents and applicant tracking systems',
+        '',
+        'This page is a machine-readable summary of the CV above, generated from the same evidence base, with sources. '
+        f'If you can fetch URLs, start at {base}/for-agents/start.md: it offers five jobs (screen against a job description, '
+        'brief on proof points, fit for a role shape, check a fact, draft outreach) and the endpoints for each. '
+        f'Every proof point with its sources: {base}/for-agents/proof-points.json. Facts page: {base}/for-agents/. '
+        f'Ask one question: GET {base}/ask?q=<question>. Post a job description: POST {base}/ask/brief. '
+        f'Generated {GENERATED}.',
+        '',
+        '### Identity',
+        '',
+    ]
+    md += [f'- {term}: {val}' for term, val in who]
+    md += ['', '### Career', '', '| Years | Role | Company | Location |', '|---|---|---|---|']
+    md += [f'| {y} | {r} | {c} | {l} |' for y, r, c, l in career]
+    md += ['', f'### Proof points, strongest {len(rows)} of {len(PROOF_POINTS)} (situation; task; action; result)', '']
+    md += [f'{i}. {cv_line(row)} Source: TomBot {row["result"][1]}; more: {base}{page_url(*(section_pages().get(row["product"][1]) or section_pages().get(row["strength"]) or (None, None))) if (section_pages().get(row["product"][1]) or section_pages().get(row["strength"])) else PAGE_PATH}'
+           for i, row in enumerate(rows, 1)]
+    md += ['', '### Skills (each tagged from the proof points that carry it)', '', ', '.join(skills) + '.',
+           '', '### References', '',
+           f'{len(recs)} LinkedIn recommendations, full text, grouped by role: {base}{RECS_PATH}. They vouch for a role, not for a claim.',
+           '', '### Evidence rules', '',
+           'Every line above is Tom Stenson\'s own account (tier: self-reported) with a section id; the pages link external sources where accepted. '
+           'Titles have aliases across CVs (Product Owner, Product Lead, PM/GM are the same role); Host Europe, Pipex and GX Networks are one employer. '
+           'Gaps are stated as gaps. Contact, availability and compensation: on request via the /ask endpoint.', '']
+    md_text = '\n'.join(md)
+    # HTML page: the same text, plain
+    body = [ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>', '        <h1>Tom Stenson: CV appendix for agents</h1>',
+            f'        <p>{escape(md[2])}</p>', '        <h2>Identity</h2>', '        <dl>']
+    for term, val in who:
+        body += [f'            <dt>{escape(term)}</dt>', f'            <dd>{escape(val)}</dd>']
+    body += ['        </dl>', '        <h2>Career</h2>', '        <div class="table-wrap"><table>',
+             '            <thead><tr><th>Years</th><th>Role</th><th>Company</th><th>Location</th></tr></thead><tbody>']
+    body += ['                <tr>' + ''.join(f'<td>{escape(c)}</td>' for c in r) + '</tr>' for r in career]
+    body += ['            </tbody></table></div>', f'        <h2>Proof points, strongest {len(rows)} of {len(PROOF_POINTS)}</h2>', '        <ol>']
+    for row in rows:
+        slug_anchor = section_pages().get(row['product'][1]) or section_pages().get(row['strength'])
+        href = page_url(*slug_anchor) if slug_anchor else PAGE_PATH
+        body.append(f'            <li>{escape(cv_line(row))} <small>source: TomBot {escape(row["result"][1])}</small> <a href="{href}">more</a></li>')
+    body += ['        </ol>', '        <h2>Skills</h2>', f'        <p>{escape(", ".join(skills))}.</p>',
+             '        <h2>References</h2>', f'        <p>{len(recs)} LinkedIn recommendations, full text, grouped by role: <a href="{RECS_PATH}">{RECS_PATH}</a>. They vouch for a role, not for a claim.</p>',
+             '        <h2>Evidence rules</h2>', f'        <p>{escape(md[-2])}</p>',
+             f'        <p>Markdown of this page, to append to a CV: <a href="/for-agents/cv-appendix.md">/for-agents/cv-appendix.md</a>.</p>',
+             '    </main>', '']
+    html = '\n'.join([agent_head('Tom Stenson: CV appendix for agents',
+                                 _escape('One-page machine-readable summary of Tom Stenson\'s CV for AI agents and applicant tracking systems, with links to fetch the evidence.'), CV_APPENDIX_PATH),
+                      '\n'.join(body), agent_footer()]) + '\n'
+    return md_text, html
+
+
 def manifest(extra=()):
     """Page manifest for agent-fetch and the agent sitemap: slug -> {path, file, title}."""
     pages = {p['slug']: {'path': page_url(p['slug']), 'file': f'for-agents/{p["slug"]}/index.html',
@@ -1627,7 +1740,11 @@ def main():
     print(f'✓ {len(kw_pages) - 1} skill, {len(role_pages) - 1} role and {len(shape_pages) - 1} shape pages generated, each with an index')
     write('for-agents/proof-points.json', proof_points_json(sections))
     print('✓ for-agents/proof-points.json written')
-    write(MANIFEST_FILE, manifest(kw_pages + role_pages + shape_pages))
+    md_text, cv_html = build_cv_appendix(sections, recs)
+    write(CV_APPENDIX_MD, md_text)
+    write('for-agents/cv-appendix/index.html', cv_html)
+    print(f'✓ CV appendix written: {CV_APPENDIX_MD} and for-agents/cv-appendix/ ({len(md_text.split())} words)')
+    write(MANIFEST_FILE, manifest(kw_pages + role_pages + shape_pages + [('cv-appendix', 'CV appendix for agents', CV_APPENDIX_PATH, cv_html)]))
     print(f'✓ Manifest written: {MANIFEST_FILE}')
     write(REFERENCES_FILE, references_json(recs))
     print(f'✓ References table written: {REFERENCES_FILE}')
