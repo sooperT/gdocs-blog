@@ -1704,6 +1704,34 @@ def manifest(extra=()):
     return json.dumps({'generated_by': 'generate_agent_page.py', 'pages': pages}, ensure_ascii=False, indent=2) + '\n'
 
 
+SECTION_YEARS_FILE = 'netlify/functions/lib/section_years.json'
+
+
+def section_years_json(sections):
+    """Section id -> year text, from the rows' year cells: a section gets the year of the
+    rows that cite it; a drill-down (NOVO.R2.GENAI) inherits its role section's (NOVO.R2).
+    Read by calibrate.js so a section match is not stuck at partial for lack of a year."""
+    years = {}
+    for row in PROOF_POINTS:
+        if not row.get('year'):
+            continue
+        y = row['year'][0]
+        for key in ('role', 'product', 'situation', 'task', 'action', 'result'):
+            if row.get(key):
+                years.setdefault(row[key][1], y)
+        years.setdefault(row['strength'], y)
+    for sid in list(sections):
+        if sid in years:
+            continue
+        parts = sid.split('.')
+        for n in range(len(parts) - 1, 0, -1):
+            parent = '.'.join(parts[:n])
+            if parent in years:
+                years[sid] = years[parent]
+                break
+    return json.dumps({'generated_by': 'generate_agent_page.py', 'years': dict(sorted(years.items()))}, ensure_ascii=False, indent=2) + '\n'
+
+
 def references_json(recs):
     periods = {}
     for key, label in PERIODS.items():
@@ -1748,6 +1776,8 @@ def main():
     print(f'✓ Manifest written: {MANIFEST_FILE}')
     write(REFERENCES_FILE, references_json(recs))
     print(f'✓ References table written: {REFERENCES_FILE}')
+    write(SECTION_YEARS_FILE, section_years_json(sections))
+    print(f'✓ Section years written: {SECTION_YEARS_FILE}')
 
 
 if __name__ == '__main__':

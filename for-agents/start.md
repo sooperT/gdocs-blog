@@ -50,7 +50,7 @@ Field notes:
 ### Job 1: screen against a job description
 
 1. `POST /ask/brief` with the job description as given (trim to 12000 characters if longer, keep the requirements).
-2. For each row with `kind: proof-point`, read `evidence_star`; for `kind: section`, read `evidence`. For a `not met` row, read `adjacent` first (nearest evidence, below the threshold). If there is none, run one `GET /ask?q=` with the whole requirement reworded as a question. Keep the match only if `score` is 0.65 or higher and the answer speaks to the requirement. Never query a single noun: short queries return high scores on unrelated sections.
+2. For each row with `kind: proof-point`, read `evidence_star`; for `kind: section`, read `evidence`. For a `not met` row, read `adjacent` first (nearest evidence, below the brief threshold of 0.50). If there is none, run one `GET /ask?q=` with the whole requirement reworded as a question. Keep the match only if `score` is 0.65 or higher and the answer speaks to the requirement. Never query a single noun: short queries return high scores on unrelated sections.
 3. Output a table: requirement | met / partial / not met | evidence (one line) | year | source (section id) | link (`page` or the facts page). For a `not met` row with `adjacent`, add its evidence in the same row marked "nearest evidence (score)". Then one line per `not met` that stayed not met: "No content on X."
 4. Done when every requirement has a row and the gaps are listed. Do not total the rows, score the fit, or compare Tom to anyone.
 

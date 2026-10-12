@@ -1,0 +1,30 @@
+{
+  "generated_by": "generate_agent_page.py",
+  "years": {
+    "EURODNS": "2013-2014",
+    "EURODNS.R1.STORY.REMOTE": "2013-2014",
+    "EURODNS.R1.TURNAROUND": "2013-2014",
+    "HOST": "Jan 2006 - Jun 2008",
+    "HOST.R1.REBRAND": "Jan 2006 - Jun 2008",
+    "HOST.R2.STORY.DOMAIN": "Feb 2004 - Aug 2005",
+    "HOST.R3.STORY.ALTSITE": "Jan 2006 - Jun 2008",
+    "LEO": "Nov 2018 - Jan 2020",
+    "LEO.R1": "Nov 2016 - Aug 2017",
+    "LEO.R1.STORY.FEELS": "Nov 2016 - Aug 2017",
+    "LEO.R1.TURNAROUND": "Nov 2016 - Aug 2017",
+    "LEO.R2": "Feb 2018 - Oct 2018",
+    "LEO.R3": "Nov 2018 - Jan 2020",
+    "LEO.STORY.MODEL": "Nov 2018 - Jan 2020",
+    "META.JOBS": "2010-2013",
+    "NOVO.R1": "Mar 2020 - Feb 2022",
+    "NOVO.R1.TRANSFORM": "Mar 2020 - Feb 2022",
+    "NOVO.R2": "Feb 2022 - Feb 2026",
+    "NOVO.R2.GENAI": "Feb 2022 - Feb 2026",
+    "NOVO.R2.WEGOVY": "Feb 2022 - Feb 2026",
+    "OPBEAT": "2014-2016",
+    "OPBEAT.R1.GROWTH": "2014-2016",
+    "T23": "2016",
+    "UK2": "Feb 2009 - Feb 2010",
+    "UK2.R1.USTURNAROUND": "Feb 2009 - Feb 2010"
+  }
+}

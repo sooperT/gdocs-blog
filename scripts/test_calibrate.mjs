@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { SENIORITY, FUNCTION, SECTOR } from '../netlify/functions/lib/role_shape.js';
 import {
   splitBriefHeuristic, splitBriefLLM, parseRequirementArray, buildRow, createCalibrateHandler as createCalibrateHandlerRaw,
-  SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS, pickMatch, PP_MARGIN, nearestBelowThreshold, buildAdjacent, ADJACENT_MIN, ADJACENT_NOTE, evidenceQueries, parseEvidenceQueries, mergeMatches, EVIDENCE_SYSTEM_PROMPT,
+  SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS, pickMatch, PP_MARGIN, nearestBelowThreshold, buildAdjacent, ADJACENT_MIN, ADJACENT_NOTE, BRIEF_THRESHOLD, sectionYear, evidenceQueries, parseEvidenceQueries, mergeMatches, EVIDENCE_SYSTEM_PROMPT,
 } from '../netlify/functions/calibrate.js';
 import { createHandler as createAskHandlerRaw } from '../netlify/functions/ask.js';
 import { retrieve as realRetrieve } from '../netlify/functions/lib/retrieval.js';
@@ -190,7 +190,7 @@ await test('POST JSON body: response shape, heuristic splitter without a key', w
   assert.deepEqual(Object.keys(b), ['brief', 'rows', 'withheld', 'flags', 'injection_lines', 'human_version', 'note']);
   assert.equal(b.withheld, 0); assert.deepEqual(b.flags, []); assert.equal(b.injection_lines, 0);
   assertTrustContract(b);
-  assert.deepEqual(b.brief, { requirements: 3, splitter: 'heuristic' });
+  assert.deepEqual(b.brief, { requirements: 3, splitter: 'heuristic', evidence_queries: 0, threshold: 0.5 });
   assert.deepEqual(b.rows.map(r => [r.requirement, r.met]), [['Fluent in Danish', 'not met'], ['Shipped consumer health apps', 'met'], ['Hands-on with discovery', 'partial']]);
   assert.equal(b.human_version, 'https://takenbyninjas.com/projects/tombot/');
   assert.equal(b.note, "Evidence only. 'not met' means TomBot content has nothing on it, not that Tom lacks it.");
@@ -205,7 +205,7 @@ await test('LLM splitter used when ANTHROPIC_API_KEY is set', async () => {
   const h = createCalibrateHandler({ retrieve: stubRetrieve, env: { ANTHROPIC_API_KEY: 'stub' },
     createMessage: async () => ({ content: [{ type: 'text', text: '["Fluent in Danish"]' }] }) });
   const b = await body(await h(req('/ask/brief?brief=' + encodeURIComponent(JD2))));
-  assert.deepEqual(b.brief, { requirements: 1, splitter: 'llm' });
+  assert.deepEqual(b.brief, { requirements: 1, splitter: 'llm', evidence_queries: 0, threshold: 0.5 });
 });
 await test('GET /ask?brief= via ask.js; q and brief together -> brief wins, note says so', async () => {
   const ask = createAskHandler({ retrieve: stubRetrieve, calibrate: handler });
@@ -431,24 +431,41 @@ await test('item 32: handler retrieves the requirement and its queries; a query 
 // --- adjacent evidence (Tom, 2026-10-12) ---
 await test('adjacent: nearest topMatch in [0.45, 0.55) is reported on a not-met row; above or below is not', withLogs(async () => {
   const near = { title: 'NOVO.R1', similarity: 0.5, content: 'Senior Product Manager at Novo Nordisk (Mar 2020 - Feb 2022). Achieved 10% penetration.', follow_ups: [] };
-  assert.equal(nearestBelowThreshold([{ topMatch: near, matches: [] }]).title, 'NOVO.R1');
-  assert.equal(nearestBelowThreshold([{ topMatch: { ...near, similarity: 0.56 }, matches: [] }]), null);
-  assert.equal(nearestBelowThreshold([{ topMatch: { ...near, similarity: 0.44 }, matches: [] }]), null);
+  assert.equal(nearestBelowThreshold([{ topMatch: { ...near, similarity: 0.47 }, matches: [] }]).title, 'NOVO.R1');
+  assert.equal(nearestBelowThreshold([{ topMatch: { ...near, similarity: 0.51 }, matches: [] }]), null, 'above the brief threshold is a match, not adjacent');
+  assert.equal(nearestBelowThreshold([{ topMatch: { ...near, similarity: 0.41 }, matches: [] }]), null);
+  assert.equal(BRIEF_THRESHOLD, 0.5);
   assert.equal(nearestBelowThreshold([null, { topMatch: null }]), null);
   const adj = buildAdjacent(near);
   assert.deepEqual(Object.keys(adj), ['evidence', 'section', 'source', 'score', 'year', 'kind', 'product', 'page', 'note']);
   assert.equal(adj.note, ADJACENT_NOTE);
-  assert.equal(ADJACENT_MIN, 0.45);
-  const h = createCalibrateHandler({ retrieve: async () => ({ match: null, topMatch: near, matches: [] }), createMessage: noAnthropic, env: {} });
+  assert.equal(ADJACENT_MIN, 0.42);
+  const near47 = { ...near, similarity: 0.47 };
+  const h = createCalibrateHandler({ retrieve: async () => ({ match: null, topMatch: near47, matches: [] }), createMessage: noAnthropic, env: {} });
   const b = await body(await h(req('/ask/brief?brief=' + encodeURIComponent('Experience setting the quality bar and instrumenting it is required.'))));
   assert.equal(b.rows[0].met, 'not met');
   assert.equal(b.rows[0].evidence, null);
   assert.equal(b.rows[0].adjacent.section, 'NOVO.R1');
-  assert.equal(b.rows[0].adjacent.score, 0.5);
+  assert.equal(b.rows[0].adjacent.score, 0.47);
+  assert.equal(b.brief.threshold, 0.5);
+  assert.equal(b.brief.evidence_queries, 0);
   assertTrustContract(b);
   assert.ok(logs.some(l => /"adjacent":1/.test(l)));
-  const h2 = createCalibrateHandler({ retrieve: async () => ({ match: null, topMatch: { ...near, title: 'GHOST.X' }, matches: [] }), createMessage: noAnthropic, env: {} });
+  const h2 = createCalibrateHandler({ retrieve: async () => ({ match: null, topMatch: { ...near, title: 'GHOST.X', similarity: 0.47 }, matches: [] }), createMessage: noAnthropic, env: {} });
   const b2 = await body(await h2(req('/ask/brief?brief=' + encodeURIComponent('Experience setting the quality bar and instrumenting it is required.'))));
   assert.equal(b2.rows[0].adjacent, null, 'adjacent outside the map is dropped');
 }));
+await test('section years: a drill-down inherits its role year; a section with its own year keeps it; unknown null', async () => {
+  const table = { years: { 'NOVO.R2': 'Feb 2022 - Feb 2026', 'NOVO.R2.GENAI': 'Feb 2022 - Feb 2026' } };
+  assert.equal(sectionYear('NOVO.R2.GENAI', table), '2022-2026');
+  assert.equal(sectionYear('META.BOOKS', table), null);
+  assert.equal(sectionYear('toString', table), null);
+  assert.ok(sectionYear('NOVO.R2.GENAI'), 'real table carries the GenAI drill-down');
+  const genai = { title: 'NOVO.R2.GENAI', similarity: 0.6, content: 'I used an internal LLM sandbox to create a RAG model. The product teams loved it and release cycles got faster.', follow_ups: [] };
+  const row = buildRow('GenAI experience', genai);
+  assert.equal(row.year, '2022-2026');
+  assert.equal(row.met, 'partial', 'year present but no outcome verb or number');
+  const launched = { ...genai, content: 'Launched a RAG model for compliance reviews.' };
+  assert.equal(buildRow('GenAI experience', launched).met, 'met');
+});
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);

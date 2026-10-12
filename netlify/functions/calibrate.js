@@ -20,6 +20,7 @@ import {
 import { classifyBrief } from './lib/role_shape.js';
 import { cleanAnswer, deriveYear, deriveStrength, SELF_REPORTED, HUMAN_VERSION } from './ask.js';
 import { referencesFor } from './lib/references.js';
+import SECTION_YEARS from './lib/section_years.json' with { type: 'json' };
 
 export const MAX_BRIEF_CHARS = 12000;   // real JDs run to 8,500 (Sword Health, 2026-10-12)
 export const MAX_REQUIREMENTS = 16;   // 12 dropped half the Sword Health JD (run 3b, 2026-10-12)
@@ -183,10 +184,15 @@ export async function evidenceQueries(requirements, { createMessage = defaultCre
 // threshold may still have transferable evidence just below it. The row keeps
 // its mechanical met / partial / not met; `adjacent` carries the nearest
 // evidence when its score is in [ADJACENT_MIN, threshold), labelled as such.
-export const ADJACENT_MIN = 0.45;
+// The brief endpoint's own threshold (chat and /ask keep 0.55): job-description
+// prose scores 0.50 to 0.58 against routes, so 0.55 flipped rows between runs
+// on a hundredth of a point (Sword Health, 2026-10-12). Adjacent covers the
+// band just under it.
+export const BRIEF_THRESHOLD = 0.50;
+export const ADJACENT_MIN = 0.42;
 export const ADJACENT_NOTE = 'Nearest evidence, below the match threshold: transferable at most, not a match.';
 
-export function nearestBelowThreshold(results, { threshold = QUESTION_MATCH_THRESHOLD, min = ADJACENT_MIN } = {}) {
+export function nearestBelowThreshold(results, { threshold = BRIEF_THRESHOLD, min = ADJACENT_MIN } = {}) {
   let best = null;
   for (const r of results) {
     const t = r?.topMatch;
@@ -231,6 +237,13 @@ export function trimEvidence(answer, max = EVIDENCE_CHARS) {
 // Rule: below threshold -> "not met". Above threshold -> "met" when the
 // section states a year (deriveYear) AND a direct outcome (hasOutcome:
 // a quantified result or an outcome verb), otherwise "partial".
+export function sectionYear(title, table = SECTION_YEARS) {
+  const years = table && table.years;
+  if (typeof title !== 'string' || !years || !Object.prototype.hasOwnProperty.call(years, title)) return null;
+  const y = deriveYear(years[title]);
+  return y || years[title] || null;
+}
+
 const NO_STAR = { kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null };
 
 // A STAR row (PP.<n> chunk, item 31): evidence is the result cell, the section
@@ -284,7 +297,8 @@ export function buildRow(requirement, match) {
     return buildProofPointRow(requirement, match);
   }
   const answer = cleanAnswer(match.content);
-  const year = deriveYear(answer);
+  // A section's own year, else the year of the role it sits under (lib/section_years.json).
+  const year = deriveYear(answer) || sectionYear(match.title);
   return {
     requirement,
     met: year && hasOutcome(answer) ? 'met' : 'partial',
@@ -376,7 +390,7 @@ export function createCalibrateHandler({
         // the requirement and its evidence queries all retrieve; matches merge.
         const results = await Promise.all(batch.map(async (r, j) => {
           const texts = [r, ...(queries[i + j] || [])];
-          const rs = await Promise.all(texts.map(t => retrieve(t, { env: runEnv, kinds: 'all', topK: 5 })));
+          const rs = await Promise.all(texts.map(t => retrieve(t, { env: runEnv, kinds: 'all', topK: 5, threshold: BRIEF_THRESHOLD })));
           if (rs.some(x => x?.error)) return { error: 'embedding failed' };
           const matches = mergeMatches(rs);
           // A retrieve stub (or an old shape) may carry only `match`: keep it.
@@ -424,7 +438,7 @@ export function createCalibrateHandler({
       }));
 
       return json({
-        brief: { requirements: rows.length, splitter },
+        brief: { requirements: rows.length, splitter, evidence_queries: queries.reduce((n, q) => n + q.length, 0), threshold: BRIEF_THRESHOLD },
         rows,
         withheld,
         flags,
