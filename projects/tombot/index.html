@@ -242,19 +242,19 @@
             text-align: center;
         }
 
-        /* Copy-this-prompt block (P-1009-1, N1011-1): secondary to the chat above it */
-        .tb-paste { font-family: 'Courier New', Courier, monospace; font-size: 0.85em; color: #00ffff; opacity: 0.85; margin: 28px 0 0 0; }
-        .tb-paste p { margin: 0 0 10px 0; }
-        .tb-paste-row { display: flex; align-items: stretch; gap: 8px; }
-        .tb-paste-box { flex: 1; min-width: 0; display: block; padding: 10px 12px; border: 1px solid #00ffff; border-radius: 6px; color: #fff; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
-        .tb-paste-copy { font: inherit; display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; background: transparent; color: #00ffff; border: 1px solid #00ffff; border-radius: 6px; cursor: pointer; }
-        .tb-paste-copy:hover { color: #ffff00; border-color: #ffff00; }
-        .tb-paste-copy svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
+        /* Copy-this-prompt block, Variant D "notice": a yellow left rule, no box */
+        .tb-paste { font-family: 'Courier New', Courier, monospace; font-size: 0.85em; margin: 28px 0 0 0; padding: 2px 0 2px 14px; border-left: 3px solid var(--teletext-yellow); }
+        .tb-paste p { margin: 0 0 8px 0; }
+        .tb-paste p:last-child { margin: 0; }
+        .tb-paste-prompt { overflow-wrap: anywhere; }
+        .tb-paste-prompt kbd { font: inherit; color: var(--teletext-yellow); text-decoration: underline dotted; text-underline-offset: 3px; }
+        .tb-paste-prompt kbd a { border-bottom: 0; }
+        .tb-paste-copy { font: inherit; color: var(--teletext-yellow); background: none; border: 0; border-bottom: 1px solid currentColor; padding: 0; margin-left: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+        .tb-paste-copy:hover { background: rgba(255, 255, 0, 0.1); }
+        .tb-paste-copy svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; }
 
         /* Mobile adjustments */
         @media (max-width: 600px) {
-            .tb-paste-row { flex-direction: column; }
-
             #tombot .tb-header {
                 padding: 16px;
                 gap: 12px;
@@ -333,12 +333,10 @@
             </div>
         </div>
         <p class="tb-disclaimer">Disclaimer: This is a prototype AI - chats are logged for performance.<br />For ground truth responses please meet Tom in-person for coffee.</p>
-        <section class="tb-paste" aria-label="Copy this prompt into your LLM">
+        <aside class="tb-paste" aria-label="For your AI">
             <p>Don't want to type? Copy-paste this prompt into your favourite LLM and have your agent talk to my agent.</p>
-            <div class="tb-paste-row">
-                <code class="tb-paste-box" id="tb-paste-box">Fetch <a href="/for-agents/start.md">https://takenbyninjas.com/for-agents/start.md</a> and follow the steps.</code>
-            </div>
-        </section>
+            <p class="tb-paste-prompt"><kbd id="tb-paste-text">Fetch <a href="/for-agents/start.md">https://takenbyninjas.com/for-agents/start.md</a> and follow the steps.</kbd></p>
+        </aside>
     </main>
 
     <!-- FOOTER -->
@@ -610,20 +608,19 @@
     <script>
     // Copy-this-prompt block: the Copy control exists only when JS runs; the prompt is plain text without it
     (function() {
-        const box = document.getElementById('tb-paste-box');
-        if (!box || !navigator.clipboard) return;
+        const text = document.getElementById('tb-paste-text');
+        if (!text || !navigator.clipboard) return;
         const copy = document.createElement('button');
         copy.type = 'button';
         copy.className = 'tb-paste-copy';
         copy.setAttribute('aria-label', 'Copy the prompt');
-        const icon = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>';
-        copy.innerHTML = icon + '<span>Copy</span>';
-        box.parentNode.appendChild(copy);
+        copy.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span>';
+        text.after(copy);
         copy.addEventListener('click', () => {
-            navigator.clipboard.writeText(box.innerText.trim()).then(() => {
+            navigator.clipboard.writeText(text.innerText.trim()).then(() => {
                 copy.querySelector('span').textContent = 'Copied';
                 setTimeout(() => { copy.querySelector('span').textContent = 'Copy'; }, 2000);
-            }).catch(() => { window.getSelection().selectAllChildren(box); });
+            }).catch(() => { window.getSelection().selectAllChildren(text); });
         });
     })();
     </script>
