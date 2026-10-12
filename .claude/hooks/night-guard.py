@@ -54,7 +54,8 @@ SHARED_LEDGER_DIR = os.path.expanduser("~/.claude/projects/-Users-tom-Developer-
 # docs/ is gitignored in this repo, so night worktrees symlink it from the main checkout. Reports, the
 # backlog and drafts live there (private, never pushed) and may be written directly.
 DOCS_WORK = REPO + "/docs/agent-readable/"
-WRITE_OK = (WT_PREFIX, LEDGER_DIR + "/", SHARED_LEDGER_DIR + "/", DOCS_WORK, "/private/tmp/", "/tmp/", "/private/var/folders/", "/var/folders/")
+SHARED_LEDGER = SHARED_LEDGER_DIR + "/night-ledger.md"   # the one file in Kitten's memory folder this shift may write
+WRITE_OK = (WT_PREFIX, LEDGER_DIR + "/", SHARED_LEDGER, DOCS_WORK, "/private/tmp/", "/tmp/", "/private/var/folders/", "/var/folders/")
 DENIED_LOG = LEDGER_DIR + "/night-denied.log"   # written by this hook only; read by both skills
 
 APPROVAL = ("Nobody is awake to approve this. Do not retry it and do not work around it. "
@@ -67,9 +68,12 @@ NIGHT_PORT = 8199        # the night's own http.server. Stopped when the session
 
 # Commands allowed from outside a worktree: setup and read-only looks at the repo.
 SETUP_OK = re.compile(
-    r"^\s*(git\s+-C\s+" + re.escape(REPO) + r"\s+(worktree\s+(add|list)|branch\s+--list|log|rev-parse|status|show)\b"
+    r"^\s*(git\s+-C\s+" + re.escape(REPO) + r"\s+(worktree\s+(add|list)|branch\s+--(list|merged|no-merged|contains)|log|rev-parse|status|show)\b"
     r"|date\b|pwd\b|ls\b|cat\s+(" + re.escape(LEDGER_DIR) + "|" + re.escape(SHARED_LEDGER_DIR) + "|" + re.escape(DOCS_WORK) + r"))"
 )
+# A setup command is one command: nothing chained, piped, substituted or redirected after it (2026-10-10:
+# `date; cd <main> && ...` used to pass on the strength of its first word).
+SETUP_CHAINED = re.compile(r"[;&|`<>\n]|\$\(")
 # Never allowed in a night session, wherever it runs.
 CHAIN = r"(^|&&|\|\||;|\|)\s*"
 NEVER = [
@@ -149,6 +153,8 @@ def is_config_path(path):
     forms |= {os.path.realpath(f) for f in list(forms) if f.startswith("/")}
     ledger = os.path.realpath(LEDGER_DIR)
     if any(f == ledger or f.startswith(ledger + "/") or f.startswith(LEDGER_DIR + "/") for f in forms):
+        return False
+    if any(f in (SHARED_LEDGER, os.path.realpath(SHARED_LEDGER)) for f in forms):   # the shared usage ledger only
         return False
     if any(WT_ITSELF.match(f) for f in forms):
         return False
@@ -303,10 +309,13 @@ def main():
                 block_config(target)
             cwd = data.get("cwd") or ""
             starts_in_wt = re.match(r"^\s*cd\s+[\"']?" + re.escape(WT_PREFIX), cmd) is not None
-            if not (starts_in_wt or cwd.startswith(WT_PREFIX) or SETUP_OK.match(cmd)):
+            setup_ok = SETUP_OK.match(cmd) and not SETUP_CHAINED.search(cmd.strip())
+            if not (starts_in_wt or cwd.startswith(WT_PREFIX) or setup_ok):
                 block("shell commands must run inside tonight's worktree. Start the command with "
                       "`cd %s<date> && ...`. Create the worktree first if it does not exist "
-                      "(`git -C %s worktree add ...`)." % (WT_PREFIX, REPO))
+                      "(`git -C %s worktree add ...`). Setup commands outside it (date, ls, `git -C %s "
+                      "worktree add|list`, `branch --list`, log, status) run one at a time: no `;`, `&&`, "
+                      "pipes or redirects." % (WT_PREFIX, REPO, REPO))
             sys.exit(0)
 
         if tool in ("Agent", "Task"):

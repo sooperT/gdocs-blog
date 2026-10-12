@@ -37,6 +37,7 @@ The ledger is SHARED with Kitten PM: `~/.claude/projects/-Users-tom-Developer-ki
 2. Make your own worktree, never work in `/Users/tom/Developer/takenbyninjas`:
    `git -C /Users/tom/Developer/takenbyninjas worktree add .claude/worktrees/night-YYYY-MM-DD -b night/YYYY-MM-DD <base>`
    Reuse tonight's worktree if the branch exists and is unmerged; suffix (`-2`) if it is already merged. From then on every command starts with `cd` into the worktree, and every file path is absolute.
+   Until the worktree exists, each setup command (`date`, `ls`, `git -C … branch --list|--merged|--no-merged`, `log`, `status`, `worktree add|list`) runs on its own: no `;`, `&&`, pipes or redirects, or the guard blocks it.
 3. `docs/` is gitignored and so missing from the worktree. Link it: `cd <worktree> && ln -s /Users/tom/Developer/takenbyninjas/docs docs`. TomBot content, the PRD, the backlog, drafts and reports all live there, private and never pushed. Link packages too: `ln -s /Users/tom/Developer/takenbyninjas/node_modules node_modules`.
 4. Write the report skeleton first (`docs/agent-readable/reports/YYYY-MM-DD.md`, one line saying the night is in progress). Then the baseline before any change: `python3 generate_homepage.py && python3 generate_archive.py && python3 generate_sitemap.py && git status --short` must show no generated-file drift. If it drifts, the first job is to report that, and build nothing on top of it.
 5. Write file content with the Write and Edit tools, not shell heredocs or redirects.

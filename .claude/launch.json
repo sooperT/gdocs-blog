@@ -4,8 +4,37 @@
     {
       "name": "site",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8000"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8000"
+      ],
       "port": 8000
+    },
+    {
+      "name": "night",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8199",
+        "--directory",
+        ".claude/worktrees/night-2026-10-11"
+      ],
+      "port": 8199
+    },
+    {
+      "name": "tombot",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "-u",
+        "ANTHROPIC_API_KEY",
+        "netlify",
+        "dev",
+        "--port",
+        "8888"
+      ],
+      "port": 8888
     }
   ]
 }
