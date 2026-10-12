@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { SENIORITY, FUNCTION, SECTOR } from '../netlify/functions/lib/role_shape.js';
 import {
   splitBriefHeuristic, splitBriefLLM, parseRequirementArray, buildRow, createCalibrateHandler as createCalibrateHandlerRaw,
-  SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS,
+  SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS, pickMatch, PP_MARGIN,
 } from '../netlify/functions/calibrate.js';
 import { createHandler as createAskHandlerRaw } from '../netlify/functions/ask.js';
 import { retrieve as realRetrieve } from '../netlify/functions/lib/retrieval.js';
@@ -213,7 +213,7 @@ await test('GET /ask?brief= via ask.js; q and brief together -> brief wins, note
   assert.equal(b.brief.requirements, 3);
   assert.match(b.note, /brief was used and q was ignored/);
 });
-await test('brief over 8000 chars -> 413; empty -> 400; bad JSON -> 400; PUT -> 405', async () => {
+await test('brief over MAX_BRIEF_CHARS -> 413; empty -> 400; bad JSON -> 400; PUT -> 405', async () => {
   const big = 'x'.repeat(MAX_BRIEF_CHARS + 1);
   let res = await handler(req('/ask/brief', { method: 'POST', headers: { 'content-type': 'text/plain' }, body: big }));
   assert.equal(res.status, 413); headersOk(res); assert.ok((await body(res)).error);
@@ -317,7 +317,7 @@ await test('log line: one line, counts only, no brief text', withLogs(async () =
   const line = logs[0];
   origLog('     ' + line);
   const parsed = JSON.parse(line.replace(/^\[ask:brief\] /, ''));
-  assert.deepEqual(Object.keys(parsed), ['asker', 'requirements', 'met', 'partial', 'not_met', 'splitter', 'seniority', 'function', 'sector']);
+  assert.deepEqual(Object.keys(parsed), ['asker', 'requirements', 'met', 'partial', 'not_met', 'splitter', 'proof_point_rows', 'seniority', 'function', 'sector']);
   assert.equal(parsed.asker, 'hiring-manager');
   // Item 27: the three labels come from fixed lists, never from the brief.
   assert.ok(SENIORITY.includes(parsed.seniority) && FUNCTION.includes(parsed.function) && SECTOR.includes(parsed.sector));
@@ -368,5 +368,25 @@ await test('item 31: handler asks retrieval for all kinds, 5 deep; PP rows pass 
   assert.ok(b.rows.length >= 1);
   for (const r of b.rows) { assert.equal(r.kind, 'proof-point'); assert.equal(r.section, 'NOVO.R2.GENAI'); }
   assertTrustContract(b);
+}));
+await test('item 31: pickMatch prefers a STAR row within the margin, else the best match', async () => {
+  const sec = { title: 'LEO.R1', similarity: 0.78, content: 'x' };
+  const near = { ...PP, similarity: 0.60 };
+  const far = { ...PP, similarity: 0.50 };
+  assert.equal(pickMatch([sec, near]), near);
+  assert.equal(pickMatch([sec, far]), sec);
+  assert.equal(pickMatch([near, sec]), near);
+  assert.equal(pickMatch([sec, { ...near, row: null }]), sec, 'a PP chunk without its row is not preferred');
+  assert.equal(pickMatch([]), null);
+  assert.equal(pickMatch([sec, near], { margin: 0.1 }), sec);
+  assert.equal(PP_MARGIN, 0.2);
+});
+await test('item 31: handler uses pickMatch over the 5 matches (row beats a higher section within margin)', withLogs(async () => {
+  const sec = { title: 'NOVO.R1', similarity: 0.7, content: 'Senior Product Manager at Novo Nordisk (Mar 2020 - Feb 2022). Achieved 10% penetration.', follow_ups: [] };
+  const h = createCalibrateHandler({ retrieve: async () => ({ match: sec, topMatch: sec, matches: [sec, { ...PP, similarity: 0.6 }] }), env: {} });
+  const b = await body(await h(req('/ask/brief?brief=' + encodeURIComponent('Hands-on GenAI experience in pharma is required.'))));
+  assert.equal(b.rows[0].kind, 'proof-point');
+  assert.equal(b.rows[0].section, 'NOVO.R2.GENAI');
+  assert.ok(logs.some(l => /"proof_point_rows":1/.test(l)));
 }));
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);

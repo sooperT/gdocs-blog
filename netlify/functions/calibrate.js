@@ -21,12 +21,12 @@ import { classifyBrief } from './lib/role_shape.js';
 import { cleanAnswer, deriveYear, deriveStrength, SELF_REPORTED, HUMAN_VERSION } from './ask.js';
 import { referencesFor } from './lib/references.js';
 
-export const MAX_BRIEF_CHARS = 8000;
+export const MAX_BRIEF_CHARS = 12000;   // real JDs run to 8,500 (Sword Health, 2026-10-12)
 export const MAX_REQUIREMENTS = 12;
 export const EVIDENCE_CHARS = 400;
 const NOTE = "Evidence only. 'not met' means TomBot content has nothing on it, not that Tom lacks it.";
 const NOTE_Q_IGNORED = ' Both q and brief were given; brief was used and q was ignored.';
-const USAGE = 'Usage: GET /ask?brief=<job brief>, or POST /ask/brief with {"brief": "..."} (application/json) or the brief as text/plain. Optional asker=<recruiter-agent | hiring-manager | human>. Max 8000 characters.';
+const USAGE = 'Usage: GET /ask?brief=<job brief>, or POST /ask/brief with {"brief": "..."} (application/json) or the brief as text/plain. Optional asker=<recruiter-agent | hiring-manager | human>. Max 12000 characters.';
 
 // Same model and client pattern as chat.js. No temperature: claude-sonnet-5
 // rejects sampling parameters with a 400, so determinism comes from the
@@ -174,6 +174,18 @@ function buildProofPointRow(requirement, match) {
   };
 }
 
+// Item 31: a STAR row is the better evidence when it clears the threshold, even
+// if a chat section (dozens of hand-written routes) scores a little higher.
+// Pick the best row within PP_MARGIN of the best match; else the best match.
+export const PP_MARGIN = 0.2;
+export function pickMatch(matches, { margin = PP_MARGIN } = {}) {
+  if (!Array.isArray(matches) || !matches.length) return null;
+  const best = matches[0];
+  const row = matches.find(m => isProofPoint(m.title) && m.row && typeof m.row === 'object');
+  if (row && row !== best && Number(row.similarity) >= Number(best.similarity) - margin) return row;
+  return best;
+}
+
 export function buildRow(requirement, match) {
   if (!match) {
     // No evidence, so no tier and no references.
@@ -275,7 +287,7 @@ export function createCalibrateHandler({
           console.error('[ask:brief] retrieval error');
           return json({ error: 'Retrieval is unavailable right now. Please try again later.', human_version: HUMAN_VERSION }, 503);
         }
-        batch.forEach((r, j) => rows.push(buildRow(r, results[j].match)));
+        batch.forEach((r, j) => rows.push(buildRow(r, pickMatch(results[j].matches) || results[j].match)));
       }
 
       // Outgoing guard: sections outside the map, deny-list, schema.
@@ -295,6 +307,7 @@ export function createCalibrateHandler({
       const shape = classifyBrief(brief);
       console.log('[ask:brief]', JSON.stringify({
         asker, requirements: rows.length, met: count('met'), partial: count('partial'), not_met: count('not met'), splitter,
+        proof_point_rows: rows.filter(r => r.kind === 'proof-point').length,
         seniority: shape.seniority, function: shape.function, sector: shape.sector,
       }));
 
