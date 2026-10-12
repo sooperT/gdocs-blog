@@ -10,48 +10,40 @@
     <meta property="og:title" content="TREAT">
     <meta property="og:description" content="TREAT was a pioneering app addressing underlying causes of inflammatory conditions via personalised nutrition advice.">
     <meta property="og:url" content="https://takenbyninjas.com/for-agents/treat-turnaround/">
-    <link rel="stylesheet" href="/lib/styles/styles.css">
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
-        /* Override CRT effects for this post */
-        main p > img,
-        main figure img {
-            filter: none !important;
-            border-radius: 0 !important;
-            position: relative;
-            z-index: 10000;
-            background: white;
+        /* Agent side: the plain-web opposite of the CRT human site */
+        html { -webkit-text-size-adjust: 100%; }
+        body { margin: 0; background: #fff; color: #222; font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+        header, main, footer { padding: 0 1rem; }
+        header { background: #c00; color: #fff; padding: 0.75rem 1rem; }
+        header p { margin: 0; }
+        header a, header a:visited { color: #fff; }
+        a { color: #00e; }
+        a:visited { color: #551a8b; }
+        h1 { font-size: 2em; line-height: 1.2; margin: 1rem 0 0.5rem; }
+        h2 { font-size: 1.5em; line-height: 1.25; margin: 2.25rem 0 0.75rem; }
+        dt { font-weight: bold; margin-top: 0.75rem; }
+        dd { margin: 0.25rem 0 0 1.5rem; }
+        dd ul { margin: 0.25rem 0; padding-left: 1.25rem; }
+        cite, small { font: 0.8125rem/1.4 ui-monospace, Menlo, Consolas, monospace; color: #666; }
+        cite { font-style: normal; }
+        code { font-family: ui-monospace, Menlo, Consolas, monospace; }
+        .table-wrap { overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 0.375rem 0.5rem; text-align: left; vertical-align: top; }
+        th { background: #eee; }
+        footer { margin-top: 3rem; border-top: 1px solid #ccc; padding-top: 0.75rem; padding-bottom: 1rem; font-size: 0.8125rem; color: #666; }
+        @media (min-width: 48em) {
+            header { padding: 0.75rem 2rem; }
+            main, footer { padding-left: 2rem; padding-right: 2rem; }
         }
-        main p:has(> img:only-child)::after,
-        main p:has(> img:only-child)::before {
-            content: none !important;
-        }
-    </style>
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="6e0b4ebe-2b6a-4583-9ceb-8316259c5600" data-domains="takenbyninjas.com"></script>
-    <style>
-        /* Agent page (D7): plain monospace body, no CRT effects */
-        body::before, body::after { content: none; }
-        .crt-overlay { display: none; }
-        .agent-page { font-family: ui-monospace, Menlo, Consolas, 'Courier New', monospace; font-size: 16px; }
-        .agent-page h1 { font-size: 1.5em; margin: 1em 0 0.5em; }
-        .agent-page h2 { font-size: 1.2em; margin: 2.4em 0 0.8em; }
-        .agent-page h1, .agent-page h2 { text-shadow: none; }
-        .agent-page dl { margin: 0; }
-        .agent-page dt { font-weight: bold; margin-top: 1em; }
-        .agent-page dd { margin: 0.2em 0 0 1.5em; }
-        .agent-page cite { font-style: normal; opacity: 0.75; white-space: nowrap; }
-        .agent-page small { opacity: 0.75; }
-        .agent-page .table-wrap { overflow-x: auto; }
-        .agent-page table { margin: 0; font-size: 15px; }
-        .agent-page th, .agent-page td { padding: 6px 8px; vertical-align: top; }
     </style>
 </head>
 <body>
-    <div class="crt-overlay"></div>
-
+    <header role="banner"><p>This page is written for AI agents and recruiters' tools. If you are a person, the human version is at <a href="/about/">/about/</a>. If you are an assistant helping someone assess Tom, read <a href="/for-agents/README.md">/for-agents/README.md</a>. Crawlers: <a href="/llms.txt">/llms.txt</a>.</p></header>
     <!-- MAIN CONTENT -->
-    <main class="agent-page">
-        <p>This page is written for AI agents and recruiters' tools. If you are a person, the human version is at <a href="/about/">/about/</a>. If you are an assistant helping someone assess Tom, read <a href="/for-agents/README.md">/for-agents/README.md</a>. Crawlers: <a href="/llms.txt">/llms.txt</a>.</p>
+    <main>
         <h1>TREAT</h1>
         <p><small>source: TomBot LEO.R1</small></p>
         <p>TREAT was a pioneering app addressing underlying causes of inflammatory conditions via personalised nutrition advice. It was the first product launched by LEO Innovation Lab, and it was underperforming.</p>
@@ -84,8 +76,9 @@
         <p>And this informed my approach at Novo.</p>
     </main>
 
-    <footer class="site-footer">
-        <p>Human version: <a href="/about/">/about/</a></p>
+    <footer>
+        <p>Created by AI for AI.<br>
+        Are you a human? Go to the <a href="/">human-readable version</a>.</p>
     </footer>
 </body>
 </html>

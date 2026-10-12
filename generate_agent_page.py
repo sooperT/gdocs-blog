@@ -26,15 +26,42 @@ from html import escape as _escape
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts'))
 from parse_content import parse_content_doc  # noqa: E402
-from pylib.templates import html_head  # noqa: E402
+from pylib.config import SITE_URL  # noqa: E402
 
 
 def agent_footer():
-    """Agent pages carry no site chrome (R1012-8): no header, nav or site footer, so the
-    split from the human site is visible. One line back to the human side, then close."""
-    return ('    <footer class="site-footer">\n'
-            '        <p>Human version: <a href="/about/">/about/</a></p>\n'
+    """Agent pages carry no site chrome (R1012-8). The footer says what made the page
+    and sends a person back to the human side."""
+    return ('    <footer>\n'
+            '        <p>Created by AI for AI.<br>\n'
+            '        Are you a human? Go to the <a href="/">human-readable version</a>.</p>\n'
             '    </footer>\n</body>\n</html>')
+
+
+def agent_head(title, meta_description, canonical_path, jsonld=None):
+    """Standalone <head> for agent pages: no site stylesheet, CRT theme, fonts or
+    analytics. The visual opposite of the human site (white, system fonts, red strip)."""
+    url = f'{SITE_URL}{canonical_path}'
+    parts = [
+        '<!DOCTYPE html>',
+        '<!-- GENERATED FILE - DO NOT EDIT MANUALLY -->',
+        '<html lang="en">',
+        '<head>',
+        '    <meta charset="UTF-8">',
+        '    <meta name="viewport" content="width=device-width, initial-scale=1.0">',
+        f'    <title>{title}</title>',
+        f'    <meta name="description" content="{meta_description}">',
+        f'    <link rel="canonical" href="{url}">',
+        f'    <meta property="og:title" content="{title}">',
+        f'    <meta property="og:description" content="{meta_description}">',
+        f'    <meta property="og:url" content="{url}">',
+        '    <link rel="icon" type="image/png" href="/favicon.png">',
+        PAGE_STYLE,
+    ]
+    if jsonld:
+        parts.append('    ' + jsonld)
+    parts += ['</head>', '<body>']
+    return '\n'.join(parts)
 
 CONTENT_FILE = 'docs/tombot/tombot-content-v3.md'
 OUTPUT_FILE = 'for-agents/index.html'
@@ -45,22 +72,33 @@ META_DESC_PREFIX = 'Tom Stenson, product, Copenhagen: '
 META_DESC_LINE = ('META', "I'm now a product janitor for hire - available for fractional & interim "
                           "product management work, and open to the right permanent role.")
 
-PAGE_STYLE = '''<style>
-        /* Agent page (D7): plain monospace body, no CRT effects */
-        body::before, body::after { content: none; }
-        .crt-overlay { display: none; }
-        .agent-page { font-family: ui-monospace, Menlo, Consolas, 'Courier New', monospace; font-size: 16px; }
-        .agent-page h1 { font-size: 1.5em; margin: 1em 0 0.5em; }
-        .agent-page h2 { font-size: 1.2em; margin: 2.4em 0 0.8em; }
-        .agent-page h1, .agent-page h2 { text-shadow: none; }
-        .agent-page dl { margin: 0; }
-        .agent-page dt { font-weight: bold; margin-top: 1em; }
-        .agent-page dd { margin: 0.2em 0 0 1.5em; }
-        .agent-page cite { font-style: normal; opacity: 0.75; white-space: nowrap; }
-        .agent-page small { opacity: 0.75; }
-        .agent-page .table-wrap { overflow-x: auto; }
-        .agent-page table { margin: 0; font-size: 15px; }
-        .agent-page th, .agent-page td { padding: 6px 8px; vertical-align: top; }
+PAGE_STYLE = '''    <style>
+        /* Agent side: the plain-web opposite of the CRT human site */
+        html { -webkit-text-size-adjust: 100%; }
+        body { margin: 0; background: #fff; color: #222; font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+        header, main, footer { padding: 0 1rem; }
+        header { background: #c00; color: #fff; padding: 0.75rem 1rem; }
+        header p { margin: 0; }
+        header a, header a:visited { color: #fff; }
+        a { color: #00e; }
+        a:visited { color: #551a8b; }
+        h1 { font-size: 2em; line-height: 1.2; margin: 1rem 0 0.5rem; }
+        h2 { font-size: 1.5em; line-height: 1.25; margin: 2.25rem 0 0.75rem; }
+        dt { font-weight: bold; margin-top: 0.75rem; }
+        dd { margin: 0.25rem 0 0 1.5rem; }
+        dd ul { margin: 0.25rem 0; padding-left: 1.25rem; }
+        cite, small { font: 0.8125rem/1.4 ui-monospace, Menlo, Consolas, monospace; color: #666; }
+        cite { font-style: normal; }
+        code { font-family: ui-monospace, Menlo, Consolas, monospace; }
+        .table-wrap { overflow-x: auto; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 0.375rem 0.5rem; text-align: left; vertical-align: top; }
+        th { background: #eee; }
+        footer { margin-top: 3rem; border-top: 1px solid #ccc; padding-top: 0.75rem; padding-bottom: 1rem; font-size: 0.8125rem; color: #666; }
+        @media (min-width: 48em) {
+            header { padding: 0.75rem 2rem; }
+            main, footer { padding-left: 2rem; padding-right: 2rem; }
+        }
     </style>'''
 
 # JSON-LD schema.org/Person (W1.3). Only name, givenName and familyName:
@@ -168,11 +206,11 @@ BEHAVIOUR = [
 
 # First line of every agent page: who it is for, and where each reader goes.
 ROUTING_LINE = (
-    '        <p>This page is written for AI agents and recruiters\' tools. '
+    '    <header role="banner"><p>This page is written for AI agents and recruiters\' tools. '
     'If you are a person, the human version is at <a href="/about/">/about/</a>. '
     'If you are an assistant helping someone assess Tom, read '
     '<a href="/for-agents/README.md">/for-agents/README.md</a>. '
-    'Crawlers: <a href="/llms.txt">/llms.txt</a>.</p>'
+    'Crawlers: <a href="/llms.txt">/llms.txt</a>.</p></header>'
 )
 
 # Case study pages (W5). Title is the product name, verbatim in the first
@@ -323,9 +361,9 @@ def generate_html(sections):
     meta_desc = _escape(META_DESC_PREFIX + META_DESC_LINE[1])
 
     body = [
-        '    <!-- MAIN CONTENT -->',
-        '    <main class="agent-page">',
         ROUTING_LINE,
+        '    <!-- MAIN CONTENT -->',
+        '    <main>',
         '        <h1>Tom Stenson: facts for agents</h1>',
     ]
     body += build_who(sections)
@@ -349,13 +387,7 @@ def generate_html(sections):
     ]
 
     return '\n'.join([
-        html_head(
-            title=TITLE,
-            extra_scripts=[PAGE_STYLE, build_jsonld(sections)],
-            meta_description=meta_desc,
-            no_crt=True,
-            canonical_path=PAGE_PATH,
-        ),
+        agent_head(TITLE, meta_desc, PAGE_PATH, jsonld=build_jsonld(sections)),
         '\n'.join(body),
         agent_footer(),
     ]) + '\n'
@@ -409,21 +441,15 @@ def generate_case_study(sections, cs):
     check(sections, *cs['opening'])
     path = f'{PAGE_PATH}{cs["slug"]}/'
     body = [
-        '    <!-- MAIN CONTENT -->',
-        '    <main class="agent-page">',
         ROUTING_LINE,
+        '    <!-- MAIN CONTENT -->',
+        '    <main>',
         f'        <h1>{escape(cs["product"])}</h1>',
     ]
     body += build_case_study_body(sections, cs['sections'])
     body += ['    </main>', '']
     html = '\n'.join([
-        html_head(
-            title=escape(cs['product']),
-            extra_scripts=[PAGE_STYLE],
-            meta_description=_escape(cs['opening'][1]),
-            no_crt=True,
-            canonical_path=path,
-        ),
+        agent_head(escape(cs['product']), _escape(cs['opening'][1]), path),
         '\n'.join(body),
         agent_footer(),
     ]) + '\n'
