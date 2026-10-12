@@ -70,7 +70,7 @@
         },
         {
           "text": "remote roles across the EU",
-          "ask": "\\bremote\\b"
+          "ask": "\\bremote(ly)?\\b"
         }
       ],
       "value": "Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU",
@@ -78,13 +78,13 @@
       "per_send": true,
       "asks": [
         "^\\s*location\\b",
-        "\\bbased in\\b",
+        "\\bbased (in|within)\\b",
         "\\bon-?site\\b",
         "\\bhybrid\\b",
         "\\brelocat",
         "\\bfully remote\\b",
         "\\bremote (role|position|work|working|first)\\b",
-        "\\bdays? (a|per) week in (the )?office\\b"
+        "\\bdays? ((a|per) week )?in (the )?office\\b"
       ]
     },
     {
@@ -150,7 +150,7 @@
       "section": "META.LOOKING",
       "per_send": false,
       "asks": [
-        "\\bfull[- ]time\\b",
+        "full[- ]time\\b",
         "\\bpart[- ]time\\b",
         "\\bpermanent (position|role|contract)\\b",
         "\\bfixed[- ]term\\b",

@@ -510,6 +510,23 @@ await test('knockouts: typed by the question; experience lines and long lines ar
   }
   assert.equal(type('Lead discovery with markets in Copenhagen, based in the Hørsholm office, ' + 'working across functions '.repeat(8)), null, 'a long line is experience');
 });
+await test('knockouts: lines the job ads use (knockout audit, item 39)', async () => {
+  const type = (t) => classifyKnockout(t)?.type || null;
+  // Misses found in the saved ads, verbatim.
+  assert.equal(type('Based within European time zones, whether from our Copenhagen or London office or remotely.'), 'location');
+  assert.equal(type("4 days in the office. We're a team that builds together, thinks together, and moves together. Showing up is part of how we work."), 'location');
+  assert.equal(type('where we work at least 3 days in the office).'), 'location');
+  assert.equal(type('Job ScheduleFull time'), 'employment_type', 'a label glued to its value by the page extract');
+  // Answer what was asked: an office-or-remote line gets both qualifiers.
+  const gravy = 'Based within European time zones, whether from our Copenhagen or London office or remotely.';
+  assert.equal(answerFor(gravy, classifyKnockout(gravy)), 'Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU');
+  // Still not knockouts: no fact in the register settles them.
+  for (const exp of ["We're also scaling a self-served model built to travel fast, so it can reach a new", 'support in case of unfortunate events, travel insurance; IIIrd Pillar Pension Fund',
+    'Anywhere in France', '6+ years of product related experience, currently at Lead or Group PM', 'Every hire must demonstrate at least Level 1.',
+    'A decision based on evidence, not on taste', 'Office hours with the founders every week']) {
+    assert.equal(type(exp), null, exp);
+  }
+});
 await test('knockouts: a stated fact is a fact row; an unstated one is "not stated" with what to do; both pass the guard', withLogs(async () => {
   const h = createCalibrateHandler({ retrieve: stubRetrieve, createMessage: noAnthropic, env: {} });
   const b = await body(await h(req('/ask/brief', { method: 'POST', headers: { 'content-type': 'text/plain' },
