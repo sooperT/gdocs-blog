@@ -11,7 +11,7 @@
 // schema validation, deny-list on evidence, sections outside the map dropped.
 import Anthropic from '@anthropic-ai/sdk';
 import { envForRequest } from './lib/db_env.js';
-import { retrieve as defaultRetrieve, listSections as defaultListSections, isProofPoint } from './lib/retrieval.js';
+import { retrieve as defaultRetrieve, listSections as defaultListSections, isProofPoint, QUESTION_MATCH_THRESHOLD } from './lib/retrieval.js';
 import { isDbEnvError } from './lib/db_env.js';
 import {
   agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap, readTextBody,
@@ -179,6 +179,33 @@ export async function evidenceQueries(requirements, { createMessage = defaultCre
   return empty;
 }
 
+// Adjacent evidence (Tom, 2026-10-12): a requirement with no match above the
+// threshold may still have transferable evidence just below it. The row keeps
+// its mechanical met / partial / not met; `adjacent` carries the nearest
+// evidence when its score is in [ADJACENT_MIN, threshold), labelled as such.
+export const ADJACENT_MIN = 0.45;
+export const ADJACENT_NOTE = 'Nearest evidence, below the match threshold: transferable at most, not a match.';
+
+export function nearestBelowThreshold(results, { threshold = QUESTION_MATCH_THRESHOLD, min = ADJACENT_MIN } = {}) {
+  let best = null;
+  for (const r of results) {
+    const t = r?.topMatch;
+    if (!t || typeof t.similarity !== 'number') continue;
+    if (t.similarity >= threshold || t.similarity < min) continue;
+    if (!best || t.similarity > best.similarity) best = t;
+  }
+  return best;
+}
+
+export function buildAdjacent(match) {
+  if (!match) return null;
+  const row = buildRow('', match);
+  return {
+    evidence: row.evidence, section: row.section, source: row.source, score: row.score, year: row.year,
+    kind: row.kind, product: row.product, page: row.page, note: ADJACENT_NOTE,
+  };
+}
+
 // Merge the matches of a requirement and its queries: best similarity per title.
 export function mergeMatches(results) {
   const byTitle = new Map();
@@ -204,7 +231,7 @@ export function trimEvidence(answer, max = EVIDENCE_CHARS) {
 // Rule: below threshold -> "not met". Above threshold -> "met" when the
 // section states a year (deriveYear) AND a direct outcome (hasOutcome:
 // a quantified result or an outcome verb), otherwise "partial".
-const NO_STAR = { kind: null, evidence_star: null, role: null, product: null, page: null, skills: null };
+const NO_STAR = { kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null };
 
 // A STAR row (PP.<n> chunk, item 31): evidence is the result cell, the section
 // is the result's section id (always in the map), evidence_star carries the
@@ -232,6 +259,7 @@ function buildProofPointRow(requirement, match) {
     product: cell('product'),
     page: r.page || null,
     skills: Array.isArray(r.skills) ? r.skills : [],
+    adjacent: null,
   };
 }
 
@@ -352,13 +380,17 @@ export function createCalibrateHandler({
           if (rs.some(x => x?.error)) return { error: 'embedding failed' };
           const matches = mergeMatches(rs);
           // A retrieve stub (or an old shape) may carry only `match`: keep it.
-          return { matches, match: matches[0] || rs[0]?.match || null };
+          return { matches, match: matches[0] || rs[0]?.match || null, nearest: nearestBelowThreshold(rs) };
         }));
         if (results.some(r => r?.error)) {
           console.error('[ask:brief] retrieval error');
           return json({ error: 'Retrieval is unavailable right now. Please try again later.', human_version: HUMAN_VERSION }, 503);
         }
-        batch.forEach((r, j) => rows.push(buildRow(r, pickMatch(results[j].matches) || results[j].match)));
+        batch.forEach((r, j) => {
+          const row = buildRow(r, pickMatch(results[j].matches) || results[j].match);
+          if (row.met === 'not met' && results[j].nearest) row.adjacent = buildAdjacent(results[j].nearest);
+          rows.push(row);
+        });
       }
 
       // Outgoing guard: sections outside the map, deny-list, schema.
@@ -368,7 +400,14 @@ export function createCalibrateHandler({
       rows = rows.map(r => {
         const d = applyDenyList(r.evidence);
         withheld += d.withheld;
-        return d.withheld ? { ...r, evidence: d.text } : r;
+        let out = d.withheld ? { ...r, evidence: d.text } : r;
+        if (out.adjacent && out.adjacent.evidence) {
+          const a = applyDenyList(out.adjacent.evidence);
+          withheld += a.withheld;
+          if (a.withheld) out = { ...out, adjacent: { ...out.adjacent, evidence: a.text } };
+          if (!ids.has(out.adjacent.section)) out = { ...out, adjacent: null };
+        }
+        return out;
       });
       rows = validateRows(rows, { tag: '[ask:brief]' }).rows;
 
@@ -380,6 +419,7 @@ export function createCalibrateHandler({
         asker, requirements: rows.length, met: count('met'), partial: count('partial'), not_met: count('not met'), splitter,
         proof_point_rows: rows.filter(r => r.kind === 'proof-point').length,
         evidence_queries: queries.reduce((n, q) => n + q.length, 0),
+        adjacent: rows.filter(r => r.adjacent).length,
         seniority: shape.seniority, function: shape.function, sector: shape.sector,
       }));
 

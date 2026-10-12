@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { SENIORITY, FUNCTION, SECTOR } from '../netlify/functions/lib/role_shape.js';
 import {
   splitBriefHeuristic, splitBriefLLM, parseRequirementArray, buildRow, createCalibrateHandler as createCalibrateHandlerRaw,
-  SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS, pickMatch, PP_MARGIN, evidenceQueries, parseEvidenceQueries, mergeMatches, EVIDENCE_SYSTEM_PROMPT,
+  SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS, pickMatch, PP_MARGIN, nearestBelowThreshold, buildAdjacent, ADJACENT_MIN, ADJACENT_NOTE, evidenceQueries, parseEvidenceQueries, mergeMatches, EVIDENCE_SYSTEM_PROMPT,
 } from '../netlify/functions/calibrate.js';
 import { createHandler as createAskHandlerRaw } from '../netlify/functions/ask.js';
 import { retrieve as realRetrieve } from '../netlify/functions/lib/retrieval.js';
@@ -143,7 +143,7 @@ await test('system prompt: no facts about Tom, no ranking language', async () =>
 // --- rows ---
 await test('row above threshold with year + outcome: met, evidence trimmed to 400', async () => {
   const row = buildRow('5+ years of product management experience', NOVO);
-  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'references', 'kind', 'evidence_star', 'role', 'product', 'page', 'skills']);
+  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'references', 'kind', 'evidence_star', 'role', 'product', 'page', 'skills', 'adjacent']);
   assert.equal(row.kind, 'section');
   assert.equal(row.tier, 'self-reported');
   assert.equal(row.references.count > 0, true);
@@ -170,7 +170,7 @@ await test('row above threshold with no year: partial, short evidence not cut', 
 });
 await test('row below threshold: not met, null evidence and source', async () => {
   assert.deepEqual(buildRow('Danish is a plus', null),
-    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null, kind: null, evidence_star: null, role: null, product: null, page: null, skills: null });
+    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null, kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null });
 });
 await test('row on a section with no period: references null, tier self-reported', async () => {
   const row = buildRow('Hands-on with discovery', NOYEAR);
@@ -317,7 +317,7 @@ await test('log line: one line, counts only, no brief text', withLogs(async () =
   const line = logs[0];
   origLog('     ' + line);
   const parsed = JSON.parse(line.replace(/^\[ask:brief\] /, ''));
-  assert.deepEqual(Object.keys(parsed), ['asker', 'requirements', 'met', 'partial', 'not_met', 'splitter', 'proof_point_rows', 'evidence_queries', 'seniority', 'function', 'sector']);
+  assert.deepEqual(Object.keys(parsed), ['asker', 'requirements', 'met', 'partial', 'not_met', 'splitter', 'proof_point_rows', 'evidence_queries', 'adjacent', 'seniority', 'function', 'sector']);
   assert.equal(parsed.asker, 'hiring-manager');
   // Item 27: the three labels come from fixed lists, never from the brief.
   assert.ok(SENIORITY.includes(parsed.seniority) && FUNCTION.includes(parsed.function) && SECTOR.includes(parsed.sector));
@@ -427,5 +427,28 @@ await test('item 32: handler retrieves the requirement and its queries; a query 
   const h2 = createCalibrateHandler({ retrieve: async (q) => { seen2.push(q); return { match: sec, topMatch: sec, matches: [sec] }; }, createMessage: async () => { throw new Error('no key, never called'); }, env: {} });
   await h2(req('/ask/brief?brief=' + encodeURIComponent('Hands-on GenAI experience in pharma is required.')));
   assert.deepEqual(seen2, ['Hands-on GenAI experience in pharma is required.']);
+}));
+// --- adjacent evidence (Tom, 2026-10-12) ---
+await test('adjacent: nearest topMatch in [0.45, 0.55) is reported on a not-met row; above or below is not', withLogs(async () => {
+  const near = { title: 'NOVO.R1', similarity: 0.5, content: 'Senior Product Manager at Novo Nordisk (Mar 2020 - Feb 2022). Achieved 10% penetration.', follow_ups: [] };
+  assert.equal(nearestBelowThreshold([{ topMatch: near, matches: [] }]).title, 'NOVO.R1');
+  assert.equal(nearestBelowThreshold([{ topMatch: { ...near, similarity: 0.56 }, matches: [] }]), null);
+  assert.equal(nearestBelowThreshold([{ topMatch: { ...near, similarity: 0.44 }, matches: [] }]), null);
+  assert.equal(nearestBelowThreshold([null, { topMatch: null }]), null);
+  const adj = buildAdjacent(near);
+  assert.deepEqual(Object.keys(adj), ['evidence', 'section', 'source', 'score', 'year', 'kind', 'product', 'page', 'note']);
+  assert.equal(adj.note, ADJACENT_NOTE);
+  assert.equal(ADJACENT_MIN, 0.45);
+  const h = createCalibrateHandler({ retrieve: async () => ({ match: null, topMatch: near, matches: [] }), createMessage: noAnthropic, env: {} });
+  const b = await body(await h(req('/ask/brief?brief=' + encodeURIComponent('Experience setting the quality bar and instrumenting it is required.'))));
+  assert.equal(b.rows[0].met, 'not met');
+  assert.equal(b.rows[0].evidence, null);
+  assert.equal(b.rows[0].adjacent.section, 'NOVO.R1');
+  assert.equal(b.rows[0].adjacent.score, 0.5);
+  assertTrustContract(b);
+  assert.ok(logs.some(l => /"adjacent":1/.test(l)));
+  const h2 = createCalibrateHandler({ retrieve: async () => ({ match: null, topMatch: { ...near, title: 'GHOST.X' }, matches: [] }), createMessage: noAnthropic, env: {} });
+  const b2 = await body(await h2(req('/ask/brief?brief=' + encodeURIComponent('Experience setting the quality bar and instrumenting it is required.'))));
+  assert.equal(b2.rows[0].adjacent, null, 'adjacent outside the map is dropped');
 }));
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);

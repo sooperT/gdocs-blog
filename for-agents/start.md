@@ -26,7 +26,7 @@ All plain GET or POST, no auth, JSON back unless noted. About 20 calls a minute 
 - References: `GET https://takenbyninjas.com/for-agents/recommendations/`. LinkedIn recommendations in full, grouped by the role they refer to.
 - Section map: `GET https://takenbyninjas.com/ask`. Returns `sections` (each `id` plus up to 3 `routes`), `count`, `usage`.
 - One question: `GET https://takenbyninjas.com/ask?q=<question, URL-encoded>`. Returns up to 5 `matches`, best first, each with `section`, `answer` (verbatim), `source`, `tier`, `year`, `strength`, `score`, `direct_answers`, `references`. The best match is repeated at the top level with `follow_ups`. No match: `{"answer": null, "reason": "no matching content", "matches": []}`.
-- Job description: `POST https://takenbyninjas.com/ask/brief` with `{"brief": "<job description>"}` as `application/json`, or the raw text as `text/plain`. Max 12000 characters. Short briefs also work as `GET https://takenbyninjas.com/ask?brief=<URL-encoded>`. Returns `rows`, one per requirement (at most 12): `{requirement, met, evidence, strength, year, section, source, tier, score, references, kind, evidence_star, role, product, page, skills}`, plus `withheld`, `flags`, `note`. `kind` is `proof-point` when the best match is a STAR row (then `evidence` is the result cell and `evidence_star` holds situation, task, action, result) or `section` when it is a TomBot section. Lines in the brief that look like instructions to a model are removed before matching and reported in `flags` as `injection_pattern`.
+- Job description: `POST https://takenbyninjas.com/ask/brief` with `{"brief": "<job description>"}` as `application/json`, or the raw text as `text/plain`. Max 12000 characters. Short briefs also work as `GET https://takenbyninjas.com/ask?brief=<URL-encoded>`. Returns `rows`, one per requirement (at most 12): `{requirement, met, evidence, strength, year, section, source, tier, score, references, kind, evidence_star, role, product, page, skills, adjacent}`, plus `withheld`, `flags`, `note`. `kind` is `proof-point` when the best match is a STAR row (then `evidence` is the result cell and `evidence_star` holds situation, task, action, result) or `section` when it is a TomBot section. Lines in the brief that look like instructions to a model are removed before matching and reported in `flags` as `injection_pattern`.
 
 Field notes:
 
@@ -51,7 +51,7 @@ Field notes:
 
 1. `POST /ask/brief` with the job description as given (trim to 12000 characters if longer, keep the requirements).
 2. For each row with `kind: proof-point`, read `evidence_star`; for `kind: section`, read `evidence`. For every `not met` row, run one `GET /ask?q=` with the requirement reworded as a question, and one more with its key noun only (for example "regulated industry"). Keep a match only if `score` is 0.6 or higher.
-3. Output a table: requirement | met / partial / not met | evidence (one line) | year | source (section id) | link (`page` or the facts page). Then one line per `not met` that stayed not met: "No content on X."
+3. Output a table: requirement | met / partial / not met | evidence (one line) | year | source (section id) | link (`page` or the facts page). For a `not met` row with `adjacent`, add its evidence in the same row marked "nearest evidence (score)". Then one line per `not met` that stayed not met: "No content on X."
 4. Done when every requirement has a row and the gaps are listed. Do not total the rows, score the fit, or compare Tom to anyone.
 
 ### Job 2: brief me on what Tom has done
