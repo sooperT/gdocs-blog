@@ -17,16 +17,32 @@ export class DbEnvError extends Error {
 
 export const isDbEnvError = (e) => Boolean(e) && (e instanceof DbEnvError || e.code === 'DB_ENV');
 
-// TOMBOT_ENV wins (set per context in netlify.toml). Fallback: Netlify's
-// CONTEXT. Neither set: production, so local `netlify dev` against .env
-// keeps working as before.
-export function resolveTombotEnv(env = process.env) {
+// Which environment is this request in? TOMBOT_ENV wins when a real runtime
+// variable sets it. Otherwise the deploy context Netlify hands every function
+// at runtime (context.deploy.context: production, branch-deploy,
+// deploy-preview, dev). netlify.toml [context.*.environment] values and CONTEXT
+// exist at build time only, so they are not trusted here (2026-10-12: the first
+// staging deploy answered 503 because the function saw neither). Nothing known:
+// production, so local `netlify dev` against .env keeps working as before.
+export function tombotEnvForContext(deployContext) {
+  const c = String(deployContext || '').trim().toLowerCase();
+  if (c === 'production') return 'production';
+  if (['branch-deploy', 'deploy-preview', 'dev'].includes(c)) return 'staging';
+  return null;
+}
+
+export function resolveTombotEnv(env = process.env, deployContext) {
   const explicit = String(env.TOMBOT_ENV || '').trim().toLowerCase();
   if (explicit) return explicit;
-  const context = String(env.CONTEXT || '').trim().toLowerCase();
-  if (context === 'production') return 'production';
-  if (['branch-deploy', 'deploy-preview', 'dev'].includes(context)) return 'staging';
-  return 'production';
+  return tombotEnvForContext(deployContext) || tombotEnvForContext(env.CONTEXT) || 'production';
+}
+
+// The env a request runs with: TOMBOT_ENV pinned from the function's runtime
+// deploy context, so every later resolveDbUrl(env) call agrees with it.
+export function envForRequest(env = process.env, context) {
+  const fromContext = tombotEnvForContext(context && context.deploy && context.deploy.context);
+  if (env.TOMBOT_ENV || !fromContext) return env;
+  return { ...env, TOMBOT_ENV: fromContext };
 }
 
 // Database name from a postgres URL: the path after the host, without the

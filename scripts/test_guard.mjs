@@ -4,6 +4,7 @@
 // test_calibrate.mjs.
 // Run: node scripts/test_guard.mjs
 import assert from 'node:assert/strict';
+import { envForRequest, tombotEnvForContext } from '../netlify/functions/lib/db_env.js';
 import {
   agentSideEnabled, AGENT_OFF_ERROR, clientIp, createRateLimiter, RATE_LIMIT,
   readTextBody, MAX_BODY_BYTES, checkRequirementCount, MAX_REQUIREMENTS_PER_BRIEF,
@@ -198,3 +199,18 @@ await test('map: cached per instance for 10 minutes, failures not cached', async
 });
 
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);
+
+// Runtime deploy context (the first staging deploy answered 503 without this).
+{
+  const base = { NILEDB_URL: 'postgres://u:p@h/tombot_staging' };
+  const bd = envForRequest(base, { deploy: { context: 'branch-deploy' } });
+  assert.equal(bd.TOMBOT_ENV, 'staging');
+  assert.equal(resolveDbUrl(bd), base.NILEDB_URL);
+  const prod = envForRequest({ NILEDB_URL: 'postgres://u:p@h/niledb' }, { deploy: { context: 'production' } });
+  assert.equal(prod.TOMBOT_ENV, 'production');
+  assert.throws(() => resolveDbUrl(envForRequest(base, { deploy: { context: 'production' } })), /niledb/);
+  assert.equal(envForRequest({ TOMBOT_ENV: 'staging', NILEDB_URL: base.NILEDB_URL }, { deploy: { context: 'production' } }).TOMBOT_ENV, 'staging', 'explicit TOMBOT_ENV wins');
+  assert.equal(tombotEnvForContext(undefined), null);
+  assert.equal(envForRequest(base, undefined), base, 'no context: env untouched');
+  console.log('ok   deploy context: envForRequest pins TOMBOT_ENV from context.deploy.context');
+}

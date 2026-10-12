@@ -9,6 +9,7 @@
 // POST briefs go to /ask/brief.
 // Guardrails (switch-off, rate limit, deny-list, schema, map) live in
 // lib/guard.js; the database/environment rule lives in lib/db_env.js.
+import { envForRequest } from './lib/db_env.js';
 import { retrieve as defaultRetrieve, listSections as defaultListSections } from './lib/retrieval.js';
 import { isDbEnvError } from './lib/db_env.js';
 import {
@@ -137,10 +138,12 @@ export function createHandler({
   limiter = createRateLimiter(),
   sectionMap,
 } = {}) {
-  const map = sectionMap || createSectionMap({ listSections: listSections || (() => defaultListSections({ env })) });
+  let runEnv = env;   // pinned per request from the runtime deploy context (db_env.envForRequest)
+  const map = sectionMap || createSectionMap({ listSections: listSections || (() => defaultListSections({ env: runEnv })) });
   let calibrateHandler = calibrate || null;
-  return async (request) => {
-    if (!agentSideEnabled(env)) return json({ error: AGENT_OFF_ERROR }, 503);
+  return async (request, context) => {
+    runEnv = envForRequest(env, context);
+    if (!agentSideEnabled(runEnv)) return json({ error: AGENT_OFF_ERROR }, 503);
     if (request.method !== 'GET') {
       return json({ error: 'Method not allowed. ' + USAGE }, 405, { 'Allow': 'GET' });
     }
@@ -154,7 +157,7 @@ export function createHandler({
       // Created lazily: calibrate.js imports helpers from this module.
       // Rate limit already counted here, so the delegate does not count again.
       calibrateHandler = calibrateHandler || createCalibrateHandler({ retrieve, env, limiter: null, sectionMap: map });
-      return calibrateHandler(request);
+      return calibrateHandler(request, context);
     }
     const q = (url.searchParams.get('q') || '').trim();
     const asker = url.searchParams.get('asker') || null;
@@ -176,7 +179,7 @@ export function createHandler({
 
     let result, ids;
     try {
-      result = await retrieve(q, { topK: AGENT_TOP_K, env });
+      result = await retrieve(q, { topK: AGENT_TOP_K, env: runEnv });
       if (result?.error) return unavailable(result.error, '[ask]');
       ({ ids } = await map.get());
     } catch (error) {

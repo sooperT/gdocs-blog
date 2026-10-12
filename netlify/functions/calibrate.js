@@ -10,6 +10,7 @@
 // bodies only, 25 requirements max, injection lines stripped and flagged,
 // schema validation, deny-list on evidence, sections outside the map dropped.
 import Anthropic from '@anthropic-ai/sdk';
+import { envForRequest } from './lib/db_env.js';
 import { retrieve as defaultRetrieve, listSections as defaultListSections } from './lib/retrieval.js';
 import { isDbEnvError } from './lib/db_env.js';
 import {
@@ -185,9 +186,11 @@ export function createCalibrateHandler({
   limiter = createRateLimiter(),
   sectionMap,
 } = {}) {
-  const map = sectionMap || createSectionMap({ listSections: listSections || (() => defaultListSections({ env })) });
-  return async (request) => {
-    if (!agentSideEnabled(env)) return json({ error: AGENT_OFF_ERROR }, 503);
+  let runEnv = env;   // pinned per request from the runtime deploy context (db_env.envForRequest)
+  const map = sectionMap || createSectionMap({ listSections: listSections || (() => defaultListSections({ env: runEnv })) });
+  return async (request, context) => {
+    runEnv = envForRequest(env, context);
+    if (!agentSideEnabled(runEnv)) return json({ error: AGENT_OFF_ERROR }, 503);
     if (request.method !== 'GET' && request.method !== 'POST') {
       return json({ error: 'Method not allowed. ' + USAGE }, 405, { 'Allow': 'GET, POST' });
     }
@@ -213,7 +216,7 @@ export function createCalibrateHandler({
     const qIgnored = Boolean((url.searchParams.get('q') || '').trim());
 
     try {
-      const split = env.ANTHROPIC_API_KEY
+      const split = runEnv.ANTHROPIC_API_KEY
         ? await splitBriefLLM(brief, { createMessage, max: Infinity })
         : { requirements: splitBriefHeuristic(brief, { max: Infinity }), splitter: 'heuristic' };
       const tooMany = checkRequirementCount(split.requirements.length);
@@ -225,7 +228,7 @@ export function createCalibrateHandler({
       let rows = [];
       for (let i = 0; i < requirements.length; i += 4) {
         const batch = requirements.slice(i, i + 4);
-        const results = await Promise.all(batch.map(r => retrieve(r)));
+        const results = await Promise.all(batch.map(r => retrieve(r, { env: runEnv })));
         if (results.some(r => r?.error)) {
           console.error('[ask:brief] retrieval error');
           return json({ error: 'Retrieval is unavailable right now. Please try again later.', human_version: HUMAN_VERSION }, 503);

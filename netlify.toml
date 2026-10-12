@@ -11,16 +11,26 @@
 
 # Staging (PRD v3 section 8, R1012-3). Branch deploys and deploy previews run
 # against the staging database; the NILEDB_URL for those contexts is set per
-# context in Netlify (never in this file). TOMBOT_ENV tells the functions which
-# rule to enforce: netlify/functions/lib/db_env.js refuses to connect when the
-# database name does not match the environment (staging must contain "staging",
-# production must be "niledb"). No operator confirmation anywhere.
+# context in Netlify (never in this file). At runtime the functions read their
+# deploy context (context.deploy.context) and netlify/functions/lib/db_env.js
+# refuses to connect when the database name does not match it (staging must
+# contain "staging", production must be "niledb"). No operator confirmation
+# anywhere. The [context.*.environment] values below are build-time only and
+# are kept for scripts; they never reach a running function.
+#
+# Non-production deploys are never indexed: the build appends a site-wide
+# X-Robots-Tag to _headers (production has no build command, so it keeps the
+# committed _headers as is).
 [context.production.environment]
   TOMBOT_ENV = "production"
 
+[context.branch-deploy]
+  command = "printf '\n# Staging: never indexed (netlify.toml)\n/*\n  X-Robots-Tag: noindex, nofollow\n' >> _headers"
 [context.branch-deploy.environment]
   TOMBOT_ENV = "staging"
 
+[context.deploy-preview]
+  command = "printf '\n# Preview: never indexed (netlify.toml)\n/*\n  X-Robots-Tag: noindex, nofollow\n' >> _headers"
 [context.deploy-preview.environment]
   TOMBOT_ENV = "staging"
 
