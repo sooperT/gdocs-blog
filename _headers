@@ -9,3 +9,7 @@
 # Agent entry file, test copy (2026-10-12): unlinked and never indexed until cut-over
 /for-agents/*
   X-Robots-Tag: noindex, nofollow
+
+# Served as plain text: ChatGPT's web reader rejects text/markdown (paste-test run 2, 2026-10-12)
+/for-agents/start.md
+  Content-Type: text/plain; charset=utf-8
