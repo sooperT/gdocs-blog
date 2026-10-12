@@ -385,8 +385,8 @@ def generate_html(sections):
         '    <main>',
         '        <h1>Tom Stenson: facts for agents</h1>',
     ]
+    body += build_proof_points(sections)   # the table first (Tom, 2026-10-12): it is what a tool reads
     body += build_who(sections)
-    body += build_proof_points(sections)
     body += build_behaviour(sections)
     body += [
         '        <h2 id="availability">Availability and compensation</h2>',

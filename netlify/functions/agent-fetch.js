@@ -150,6 +150,14 @@ export function createHandler({ getPool = getDefaultPool, readFile = defaultRead
     let status = 200;
     try {
       body = readFile(resource.file);
+      // Outside production the agent side must be self-contained: every
+      // absolute takenbyninjas.com link in a served file points at this
+      // deploy instead, so a paste test on staging never falls through to
+      // production URLs that do not exist yet (2026-10-12).
+      const deployContext = String(context && context.deploy && context.deploy.context || '').toLowerCase();
+      if (deployContext && deployContext !== 'production') {
+        body = body.split('https://takenbyninjas.com').join(new URL(request.url).origin);
+      }
     } catch (error) {
       console.error('[agent-fetch] read failed:', error?.message || error);
       status = 500;
