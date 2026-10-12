@@ -17,7 +17,7 @@ const quiet = (fn) => async (...a) => {
   try { return await fn(seen, ...a); } finally { console.warn = w; console.error = e; }
 };
 
-const FILES = { 'about/agent/index.html': '<!DOCTYPE html><title>facts</title>', 'llms.txt': '# takenbyninjas.com\n' };
+const FILES = { 'for-agents/index.html': '<!DOCTYPE html><title>facts</title>', 'llms.txt': '# takenbyninjas.com\n' };
 const readFile = (p) => { if (!(p in FILES)) throw new Error('no such file'); return FILES[p]; };
 function stubPool() {
   const calls = [];
@@ -34,7 +34,7 @@ function ctx(extra = {}) {
   return { pending, waitUntil: (p) => pending.push(p), ...extra };
 }
 
-await test('GET /about/agent/ -> 200 html, cache header, file body', async () => {
+await test('GET /for-agents/ -> 200 html, cache header, file body', async () => {
   const pool = stubPool(); const c = ctx();
   const res = await createHandler({ getPool: () => pool, readFile })(req('/page'), c);
   await Promise.all(c.pending);
@@ -42,7 +42,7 @@ await test('GET /about/agent/ -> 200 html, cache header, file body', async () =>
   assert.equal(res.headers.get('content-type'), 'text/html; charset=utf-8');
   assert.equal(res.headers.get('cache-control'), CACHE_CONTROL);
   assert.equal(CACHE_CONTROL, 'public, max-age=86400');
-  assert.equal(await res.text(), FILES['about/agent/index.html']);
+  assert.equal(await res.text(), FILES['for-agents/index.html']);
   assert.equal(pool.calls.length, 1);
 });
 
@@ -53,11 +53,11 @@ await test('GET /llms.txt -> 200 text/plain', async () => {
   assert.equal(await res.text(), FILES['llms.txt']);
 });
 
-await test('public paths also resolve (/about/agent/, /llms.txt)', async () => {
+await test('public paths also resolve (/for-agents/, /llms.txt)', async () => {
   const h = createHandler({ getPool: () => stubPool(), readFile });
-  const a = await h(new Request('https://takenbyninjas.com/about/agent/'), ctx());
+  const a = await h(new Request('https://takenbyninjas.com/for-agents/'), ctx());
   const b = await h(new Request('https://takenbyninjas.com/llms.txt'), ctx());
-  assert.equal(await a.text(), FILES['about/agent/index.html']);
+  assert.equal(await a.text(), FILES['for-agents/index.html']);
   assert.equal(await b.text(), FILES['llms.txt']);
 });
 
@@ -66,7 +66,7 @@ await test('throwing pool still returns 200 with the file (waitUntil path)', qui
   const res = await createHandler({ getPool: () => throwingPool, readFile })(req('/page'), c);
   await Promise.all(c.pending);
   assert.equal(res.status, 200);
-  assert.equal(await res.text(), FILES['about/agent/index.html']);
+  assert.equal(await res.text(), FILES['for-agents/index.html']);
   assert.ok(seen.some(m => m.includes('log failed')), 'warned on failure');
 }));
 
@@ -110,7 +110,7 @@ await test('logged row: path, UA, referer, country, status; no IP, no query stri
   await Promise.all(c.pending);
   const { text, params } = pool.calls[0];
   assert.match(text, /INSERT INTO agent_fetches \(path, user_agent, referer, country, status\)/);
-  assert.deepEqual(params, ['/about/agent/', UA, 'https://chatgpt.com/c/abc', 'DK', 200]);
+  assert.deepEqual(params, ['/for-agents/', UA, 'https://chatgpt.com/c/abc', 'DK', 200]);
   const flat = JSON.stringify(pool.calls);
   assert.ok(!flat.includes('203.0.113.7'), 'no IP');
   assert.ok(!flat.includes('secret') && !flat.includes('utm_') && !flat.includes('?'), 'no query string');
@@ -129,7 +129,7 @@ await test('unknown subpath -> 404', async () => {
 });
 
 await test('default reader finds the real repo files (bundle layout fallback)', async () => {
-  assert.match(defaultReadFile('about/agent/index.html'), /<!DOCTYPE html>/i);
+  assert.match(defaultReadFile('for-agents/index.html'), /<!DOCTYPE html>/i);
   assert.match(defaultReadFile('llms.txt'), /^# takenbyninjas\.com/);
 });
 

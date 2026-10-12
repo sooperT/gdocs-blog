@@ -3,6 +3,7 @@
 // dependency (fetch, DB client, env, sleep) is injectable so this can be
 // unit tested with stubs and no network.
 import pg from 'pg';
+import { resolveDbUrl } from './db_env.js';
 
 // Constants moved verbatim from chat.js — chat behaviour must not change.
 export const QUESTION_MATCH_THRESHOLD = 0.55;  // Testing: lowered from 0.60 to catch borderline matches like "wegovy" (0.591)
@@ -12,17 +13,22 @@ export const VOYAGE_MODEL = 'voyage-3';
 
 const defaultSleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-// Lazily created pool for callers that don't bring their own (ask.js).
-// pg.Pool does not connect until the first query.
-let defaultPool = null;
-export function getPool(env = process.env) {
-  if (!defaultPool) {
-    defaultPool = new pg.Pool({
-      connectionString: env.NILEDB_URL,
+// Lazily created pools for callers that don't bring their own (ask.js,
+// calibrate.js), one per connection string. The connection string is a
+// parameter defaulting to resolveDbUrl(env), which throws DbEnvError when the
+// database does not match TOMBOT_ENV (lib/db_env.js). chat.js always passes
+// its own pool, so it never reaches this path. pg.Pool does not connect until
+// the first query.
+const pools = new Map();
+export function getPool(env = process.env, connectionString) {
+  const url = connectionString || resolveDbUrl(env);
+  if (!pools.has(url)) {
+    pools.set(url, new pg.Pool({
+      connectionString: url,
       ssl: { rejectUnauthorized: false }
-    });
+    }));
   }
-  return defaultPool;
+  return pools.get(url);
 }
 
 // Normalize third-person references to first-person for better question matching
@@ -193,21 +199,45 @@ export async function matchSections(embedding, { topK = TOP_K, threshold, sql } 
   }
 }
 
-// Convenience: query -> prepareQuery -> embedding -> best section above threshold.
-// Returns { match, topMatch } where match is the chunk row or null, and
-// topMatch is the best row regardless of threshold (for logging), or null.
+// Convenience: query -> prepareQuery -> embedding -> best sections above threshold.
+// Returns { match, topMatch, matches } where match is the best chunk row
+// above threshold or null, topMatch is the best row regardless of threshold
+// (for logging), and matches is every row above threshold (up to topK).
+// The DB client comes from `sql`, else a pool on `connectionString`, else
+// resolveDbUrl(env); a database/environment mismatch throws DbEnvError to
+// the caller (it is not a "no match").
 export async function retrieve(query, {
-  fetchImpl, env, sql, sleep,
+  fetchImpl, env = process.env, sql, sleep, connectionString,
   topK = TOP_K,
   threshold = QUESTION_MATCH_THRESHOLD,
 } = {}) {
-  const db = sql || getPool(env);
+  const db = sql || getPool(env, connectionString);
   const prepared = await prepareQuery(query, { sql: db });
   const embedding = await embedQuery(prepared, { fetchImpl, env, sleep });
-  if (!embedding) return { match: null, topMatch: null, error: 'embedding failed' };
+  if (!embedding) return { match: null, topMatch: null, matches: [], error: 'embedding failed' };
 
   const rows = await matchSections(embedding, { topK, sql: db });
   const topMatch = rows[0] || null;
-  const match = topMatch && topMatch.similarity >= threshold ? topMatch : null;
-  return { match, topMatch };
+  const matches = rows.filter(r => r.similarity >= threshold);
+  const match = matches[0] || null;
+  return { match, topMatch, matches };
+}
+
+// The map for GET /ask: one row per section id with its question variations
+// (the rows that carry question_text), in load order (ids are SECTION_n,
+// so LENGTH then id sorts n numerically). Throws on DbEnvError
+// or a DB error; callers decide what to answer.
+export async function listSections({ env = process.env, sql, connectionString } = {}) {
+  const db = sql || getPool(env, connectionString);
+  const result = await db.query(`
+    SELECT title,
+           array_agg(question_text ORDER BY LENGTH(id), id) FILTER (WHERE question_text IS NOT NULL) AS questions
+    FROM chunks
+    GROUP BY title
+    ORDER BY title
+  `);
+  return result.rows.map(r => ({
+    id: r.title,
+    questions: Array.isArray(r.questions) ? r.questions.filter(q => typeof q === 'string' && q) : [],
+  }));
 }

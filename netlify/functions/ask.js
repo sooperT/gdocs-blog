@@ -1,14 +1,26 @@
-// GET /ask?q=...&asker=...  —  TomBot made fetchable (PRD W3, slice 1).
-// Retrieval only: returns the matched TomBot section verbatim, with its id
-// as provenance. No Claude call, no generated text, no guessing below the
-// match threshold. Routed from /ask by netlify.toml.
+// GET /ask?q=...&asker=...  —  TomBot made fetchable (PRD W3, slice 1),
+// agent retrieval profile (PRD section 5, backlog item 20).
+// Retrieval only: up to 5 matched TomBot sections verbatim, each with its id
+// as provenance and its score. No Claude call, no generated text, no guessing
+// below the shared match threshold. Routed from /ask by netlify.toml.
+// GET /ask with no q and no brief returns the map (every section id and the
+// questions that route to it).
 // GET /ask?brief=... is brief calibration (W4) and is handed to calibrate.js;
 // POST briefs go to /ask/brief.
-import { retrieve as defaultRetrieve } from './lib/retrieval.js';
+// Guardrails (switch-off, rate limit, deny-list, schema, map) live in
+// lib/guard.js; the database/environment rule lives in lib/db_env.js.
+import { retrieve as defaultRetrieve, listSections as defaultListSections } from './lib/retrieval.js';
+import { isDbEnvError } from './lib/db_env.js';
+import {
+  agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap,
+  applyDenyList, validateRows, dropUnknownSections,
+} from './lib/guard.js';
 import { createCalibrateHandler } from './calibrate.js';
 
-const HUMAN_VERSION = '/projects/tombot/';
-const USAGE = 'Usage: GET /ask?q=<your question>&asker=<optional: recruiter-agent | hiring-manager | human>. For a job brief: GET /ask?brief=<brief>, or POST it to /ask/brief.';
+export const HUMAN_VERSION = 'https://takenbyninjas.com/projects/tombot/';
+export const AGENT_TOP_K = 5;
+const MAP_ROUTES = 3;
+const USAGE = 'Usage: GET /ask for the map of sections. GET /ask?q=<your question>&asker=<optional: recruiter-agent | hiring-manager | human>. For a job brief: GET /ask?brief=<brief>, or POST it to /ask/brief.';
 
 function json(body, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(body, null, 2), {
@@ -21,15 +33,32 @@ function json(body, status = 200, extraHeaders = {}) {
   });
 }
 
+// `**Direct answers:**` block (PRD D2): the bold label followed by a
+// markdown list. Returns { rest, lines } with the block removed from rest;
+// lines is null when the content has no such block.
+const DIRECT_ANSWERS = /\*\*Direct answers:\*\*[ \t]*\n((?:[ \t]*[-*][^\n]*(?:\n|$))+)/;
+export function extractDirectAnswers(content) {
+  const text = String(content || '');
+  const m = text.match(DIRECT_ANSWERS);
+  if (!m) return { rest: text, lines: null };
+  const lines = m[1].split('\n')
+    .map(l => stripMarkers(l.replace(/^\s*[-*]\s*/, '')).trim())
+    .filter(Boolean);
+  return { rest: text.replace(m[0], '\n'), lines };
+}
+
+const stripMarkers = (t) => t.replace(/\[[A-Z][A-Z0-9_]*(?:\.[A-Z0-9_]+)*\]/g, '');
+
 // DB content is already parsed (no Questions / follow-ups blocks), but strip
-// them defensively, plus HTML comments and inline [SECTION.ID] routing markers.
+// them defensively, plus HTML comments, the Direct answers block (returned
+// separately) and inline [SECTION.ID] routing markers.
 // The prose itself is untouched.
 export function cleanAnswer(content) {
-  let text = String(content || '');
+  let text = extractDirectAnswers(content).rest;
   text = text.replace(/<!--[\s\S]*?-->/g, '');
   text = text.replace(/\*\*Questions that route here:\*\*[ \t]*\n(?:[ \t]*-[^\n]*\n?)*/g, '');
   text = text.replace(/\*\*Suggested follow-ups:\*\*[\s\S]*$/g, '');
-  text = text.replace(/\[[A-Z][A-Z0-9_]*(?:\.[A-Z0-9_]+)*\]/g, '');
+  text = stripMarkers(text);
   text = text.replace(/\n{3,}/g, '\n\n');
   return text.trim();
 }
@@ -68,51 +97,121 @@ export function followUpTexts(followUps) {
     .filter(t => typeof t === 'string' && t.length > 0);
 }
 
-export function createHandler({ retrieve = defaultRetrieve, calibrate } = {}) {
+const roundScore = (x) => Math.round(Number(x) * 100) / 100;
+
+// One retrieved chunk row -> one outgoing match (deny-list applied).
+// Returns { row, withheld }.
+export function buildMatch(match) {
+  const direct = extractDirectAnswers(match.content).lines;
+  const denied = applyDenyList(cleanAnswer(match.content));
+  let withheld = denied.withheld;
+  const directAnswers = direct ? direct.map(l => { const d = applyDenyList(l); withheld += d.withheld; return d.text; }) : null;
+  return {
+    withheld,
+    row: {
+      section: match.title,
+      answer: denied.text,
+      source: `TomBot ${match.title}`,
+      year: deriveYear(denied.text),
+      strength: deriveStrength(match),
+      score: roundScore(match.similarity),
+      direct_answers: directAnswers,
+    },
+  };
+}
+
+function unavailable(error, tag) {
+  if (isDbEnvError(error)) {
+    console.error(tag, error.message);
+    return json({ error: error.message, human_version: HUMAN_VERSION }, 503);
+  }
+  console.error(tag, 'retrieval error:', error?.name || error || 'error');
+  return json({ error: 'Retrieval is unavailable right now. Please try again later.', human_version: HUMAN_VERSION }, 503);
+}
+
+export function createHandler({
+  retrieve = defaultRetrieve,
+  listSections,
+  calibrate,
+  env = process.env,
+  limiter = createRateLimiter(),
+  sectionMap,
+} = {}) {
+  const map = sectionMap || createSectionMap({ listSections: listSections || (() => defaultListSections({ env })) });
   let calibrateHandler = calibrate || null;
   return async (request) => {
+    if (!agentSideEnabled(env)) return json({ error: AGENT_OFF_ERROR }, 503);
     if (request.method !== 'GET') {
       return json({ error: 'Method not allowed. ' + USAGE }, 405, { 'Allow': 'GET' });
+    }
+    if (limiter) {
+      const rl = limiter.check(request);
+      if (!rl.ok) return json({ error: 'Too many requests. Try again shortly.' }, 429, { 'Retry-After': String(rl.retryAfter) });
     }
 
     const url = new URL(request.url);
     if (url.searchParams.has('brief')) {
       // Created lazily: calibrate.js imports helpers from this module.
-      calibrateHandler = calibrateHandler || createCalibrateHandler({ retrieve });
+      // Rate limit already counted here, so the delegate does not count again.
+      calibrateHandler = calibrateHandler || createCalibrateHandler({ retrieve, env, limiter: null, sectionMap: map });
       return calibrateHandler(request);
     }
     const q = (url.searchParams.get('q') || '').trim();
     const asker = url.searchParams.get('asker') || null;
 
     if (!q) {
-      return json({ error: 'Missing required parameter q.', usage: USAGE }, 400);
+      // The map: every section id and the first questions that route to it.
+      try {
+        const { sections } = await map.get();
+        return json({
+          sections: sections.map(s => ({ id: s.id, routes: (s.questions || []).slice(0, MAP_ROUTES) })),
+          count: sections.length,
+          human_version: HUMAN_VERSION,
+          usage: USAGE,
+        });
+      } catch (error) {
+        return unavailable(error, '[ask:map]');
+      }
+    }
+
+    let result, ids;
+    try {
+      result = await retrieve(q, { topK: AGENT_TOP_K, env });
+      if (result?.error) return unavailable(result.error, '[ask]');
+      ({ ids } = await map.get());
+    } catch (error) {
+      return unavailable(error, '[ask]');
     }
 
     try {
-      const { match, error } = await retrieve(q);
-      if (error) {
-        console.error('[ask] retrieval error:', error);
-        return json({ error: 'Retrieval is unavailable right now. Please try again later.', human_version: HUMAN_VERSION }, 503);
-      }
-      console.log('[ask]', JSON.stringify({ asker, query_length: q.length, section: match?.title || null }));
+      const raw = Array.isArray(result.matches) ? result.matches : (result.match ? [result.match] : []);
+      let withheld = 0;
+      const built = raw.slice(0, AGENT_TOP_K).map(m => { const b = buildMatch(m); withheld += b.withheld; return { row: b.row, match: m }; });
+      const known = dropUnknownSections(built.map(b => b.row), ids).rows;
+      const { rows } = validateRows(known, { tag: '[ask]' });
+      console.log('[ask]', JSON.stringify({ asker, query_length: q.length, section: rows[0]?.section || null, matches: rows.length, withheld }));
 
-      if (!match) {
-        return json({ answer: null, reason: 'no matching content', human_version: HUMAN_VERSION });
+      if (!rows.length) {
+        return json({ answer: null, reason: 'no matching content', matches: [], human_version: HUMAN_VERSION });
       }
 
-      const answer = cleanAnswer(match.content);
+      const best = rows[0];
+      const bestMatch = built.find(b => b.row === best).match;
       return json({
-        answer,
-        section: match.title,
-        source: `TomBot ${match.title}`,
-        strength: deriveStrength(match),
-        year: deriveYear(answer),
-        follow_ups: followUpTexts(match.follow_ups),
+        answer: best.answer,
+        section: best.section,
+        source: best.source,
+        strength: best.strength,
+        year: best.year,
+        direct_answers: best.direct_answers,
+        follow_ups: followUpTexts(bestMatch.follow_ups),
+        score: best.score,
+        matches: rows,
+        withheld,
         human_version: HUMAN_VERSION,
-        score: Math.round(Number(match.similarity) * 100) / 100,
       });
     } catch (error) {
-      console.error('[ask] error:', error);
+      console.error('[ask] error:', error?.name || 'error');
       return json({ error: 'Retrieval failed. Please try again later.' }, 500);
     }
   };

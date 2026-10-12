@@ -5,8 +5,13 @@ import assert from 'node:assert/strict';
 import {
   embedQuery, matchSections, retrieve, QUESTION_MATCH_THRESHOLD, TOP_K, VOYAGE_MODEL,
   prepareQuery, prepareQuerySteps, normalizeQuery, expandContractions, expandAliases, expandSynonyms,
+  listSections,
 } from '../netlify/functions/lib/retrieval.js';
-import { createHandler, cleanAnswer, deriveYear } from '../netlify/functions/ask.js';
+import { createHandler as createHandlerRaw, cleanAnswer, deriveYear, extractDirectAnswers, AGENT_TOP_K, HUMAN_VERSION } from '../netlify/functions/ask.js';
+import { RANKING_PATTERNS } from '../netlify/functions/lib/guard.js';
+
+// Never let a test reach a real database: drop any NILEDB_URL from the shell.
+delete process.env.NILEDB_URL;
 
 // Hard stop on any real network use.
 globalThis.fetch = () => { throw new Error('real fetch called in test'); };
@@ -43,6 +48,39 @@ const NOVO = {
   similarity: 0.8234,
 };
 const LOW = { title: 'META.BOOKS', content: 'Books.', follow_ups: [], similarity: 0.41 };
+
+// The stubbed map: every section the stubs can return, nothing else.
+const MAP = [
+  { id: 'LEO.R1', questions: ['what did you do at LEO', 'tell me about LEO Pharma', 'LEO turnaround', 'TREAT'] },
+  { id: 'META.BOOKS', questions: ['what do you read'] },
+  { id: 'NOVO.R1', questions: ['what did you build at Novo Nordisk', 'tell me about Wegovycare'] },
+  { id: 'STYLE.DISCOVERY', questions: [] },
+];
+const stubListSections = async () => MAP.map(s => ({ ...s }));
+// Every handler in this file: stubbed map, no rate limit, empty env.
+const createHandler = (opts = {}) => createHandlerRaw({ listSections: stubListSections, limiter: null, env: {}, ...opts });
+
+// Trust-contract invariants (PRD section 4, backlog item 22).
+const RANK_WORDS = RANKING_PATTERNS;
+function allStrings(v, out = []) {
+  if (typeof v === 'string') out.push(v);
+  else if (Array.isArray(v)) v.forEach(x => allStrings(x, out));
+  else if (v && typeof v === 'object') Object.values(v).forEach(x => allStrings(x, out));
+  return out;
+}
+function assertTrustContract(b) {
+  for (const s of allStrings(b)) for (const p of RANK_WORDS) assert.doesNotMatch(s, p, 'ranking phrase in output');
+  assert.match(b.human_version, /^https:\/\//, 'human_version must be absolute');
+  if (b.answer === null) { assert.equal(typeof b.reason, 'string'); return; }
+  for (const row of b.matches) {
+    for (const k of ['section', 'source', 'year', 'score']) assert.ok(Object.hasOwn(row, k), `row missing ${k}`);
+    assert.equal(typeof row.section, 'string');
+    assert.equal(typeof row.source, 'string');
+    assert.ok(row.year === null || typeof row.year === 'string');
+    assert.equal(typeof row.score, 'number');
+    assert.ok(MAP.some(s => s.id === row.section), 'section outside the map');
+  }
+}
 
 console.log(`constants: threshold=${QUESTION_MATCH_THRESHOLD} top_k=${TOP_K} model=${VOYAGE_MODEL}`);
 
@@ -141,13 +179,18 @@ await test('ask: match shape', withLogs(async () => {
   const res = await h(req('/ask?q=what%20did%20you%20build%20at%20novo&asker=recruiter-agent'));
   assert.equal(res.status, 200); headersOk(res);
   const b = await body(res);
-  assert.deepEqual(Object.keys(b), ['answer', 'section', 'source', 'strength', 'year', 'follow_ups', 'human_version', 'score']);
+  assert.deepEqual(Object.keys(b), ['answer', 'section', 'source', 'strength', 'year', 'direct_answers', 'follow_ups', 'score', 'matches', 'withheld', 'human_version']);
+  assert.equal(b.direct_answers, null);
+  assert.equal(b.withheld, 0);
+  assert.equal(b.matches.length, 1);
+  assert.deepEqual(Object.keys(b.matches[0]), ['section', 'answer', 'source', 'year', 'strength', 'score', 'direct_answers']);
+  assertTrustContract(b);
   assert.equal(b.section, 'NOVO.R1');
   assert.equal(b.source, 'TomBot NOVO.R1');
   assert.equal(b.strength, null);
   assert.equal(b.year, '2020-2022');
   assert.deepEqual(b.follow_ups, ['how did you transform ways of working at Novo', 'tell me about Skincoach']);
-  assert.equal(b.human_version, '/projects/tombot/');
+  assert.equal(b.human_version, 'https://takenbyninjas.com/projects/tombot/');
   assert.equal(b.score, 0.82);
   assert.ok(!b.answer.includes('[NOVO.R1.TRANSFORM]') && b.answer.includes('stealth transformation project, with learnings from LEO.'));
   assert.ok(logs.some(l => l.includes('"asker":"recruiter-agent"') && l.includes('"section":"NOVO.R1"') && l.includes('"query_length":' + 'what did you build at novo'.length)));
@@ -158,17 +201,25 @@ await test('ask: no-match shape (200, no guess)', withLogs(async () => {
   const res = await h(req('/ask?q=favourite%20colour'));
   assert.equal(res.status, 200); headersOk(res);
   const b = await body(res);
-  assert.deepEqual(b, { answer: null, reason: 'no matching content', human_version: '/projects/tombot/' });
+  assert.deepEqual(b, { answer: null, reason: 'no matching content', matches: [], human_version: HUMAN_VERSION });
+  assertTrustContract(b);
   origLog('     ' + JSON.stringify(b));
 }));
-await test('ask: missing q -> 400 with usage', async () => {
+await test('ask: no q and no brief -> the map (every stubbed section, nothing else), no retrieval', async () => {
   let called = false;
   const h = createHandler({ retrieve: async () => { called = true; } });
   for (const p of ['/ask', '/ask?q=', '/ask?q=%20%20']) {
     const res = await h(req(p));
-    assert.equal(res.status, 400); headersOk(res);
+    assert.equal(res.status, 200); headersOk(res);
     const b = await body(res);
-    assert.ok(b.error && b.usage.startsWith('Usage: GET /ask?q='));
+    assert.deepEqual(Object.keys(b), ['sections', 'count', 'human_version', 'usage']);
+    assert.deepEqual(b.sections.map(s => s.id), MAP.map(s => s.id));
+    assert.equal(b.count, MAP.length);
+    assert.deepEqual(b.sections[0], { id: 'LEO.R1', routes: ['what did you do at LEO', 'tell me about LEO Pharma', 'LEO turnaround'] });
+    assert.deepEqual(b.sections[3].routes, []);
+    assert.equal(b.human_version, 'https://takenbyninjas.com/projects/tombot/');
+    assert.ok(b.usage.startsWith('Usage: GET /ask'));
+    if (p === '/ask') origLog('     ' + JSON.stringify(b).slice(0, 200) + '…');
   }
   assert.equal(called, false);
 });
@@ -185,9 +236,151 @@ await test('ask: embedding failure -> 503, not a fake no-match', quiet(async () 
 }));
 await test('ask: end to end on real retrieve with stubbed fetch + sql', async () => {
   const { retrieve: r } = await import('../netlify/functions/lib/retrieval.js');
-  const h = createHandler({ retrieve: (q) => r(q, { fetchImpl: fetchOk, env: {}, sql: stubSql([NOVO, LOW]) }) });
+  const h = createHandler({ retrieve: (q, o) => r(q, { ...o, fetchImpl: fetchOk, env: {}, sql: stubSql([NOVO, LOW]) }) });
   const b = await body(await h(req('/ask?q=novo')));
   assert.equal(b.section, 'NOVO.R1');
+  assert.deepEqual(b.matches.map(m => m.section), ['NOVO.R1']);  // LOW is below 0.55
+  assertTrustContract(b);
+});
+
+// --- agent retrieval profile (item 20) ---
+const mk = (title, similarity, content = `Section ${title} text.`) => ({ title, content, follow_ups: [], similarity });
+await test('profile: ask requests topK 5, chat constants unchanged (TOP_K 1, threshold 0.55)', async () => {
+  assert.equal(AGENT_TOP_K, 5);
+  assert.equal(TOP_K, 1);
+  assert.equal(QUESTION_MATCH_THRESHOLD, 0.55);
+  let opts;
+  const h = createHandler({ retrieve: async (q, o) => { opts = o; return { match: NOVO, topMatch: NOVO, matches: [NOVO] }; } });
+  await h(req('/ask?q=novo'));
+  assert.equal(opts.topK, 5);
+  assert.equal(opts.threshold, undefined);  // shared default, never overridden
+});
+await test('profile: up to 5 matches above 0.55, best first, scores per hit; best mirrored top-level', async () => {
+  const rows = [mk('LEO.R1', 0.71), NOVO, mk('META.BOOKS', 0.60), mk('STYLE.DISCOVERY', 0.56), LOW, mk('LEO.R1', 0.54)];
+  const { retrieve: r } = await import('../netlify/functions/lib/retrieval.js');
+  const h = createHandler({ retrieve: (q, o) => r(q, { ...o, fetchImpl: fetchOk, env: {}, sql: stubSql(rows) }) });
+  const b = await body(await h(req('/ask?q=what%20have%20you%20done')));
+  assert.deepEqual(b.matches.map(m => [m.section, m.score]), [['NOVO.R1', 0.82], ['LEO.R1', 0.71], ['META.BOOKS', 0.6], ['STYLE.DISCOVERY', 0.56]]);
+  assert.equal(b.section, 'NOVO.R1');
+  assert.equal(b.answer, b.matches[0].answer);
+  assert.equal(b.source, 'TomBot NOVO.R1');
+  assertTrustContract(b);
+});
+await test('profile: never more than 5 matches even if retrieve returns more', async () => {
+  const many = ['LEO.R1', 'META.BOOKS', 'NOVO.R1', 'STYLE.DISCOVERY', 'LEO.R1', 'NOVO.R1', 'META.BOOKS'].map((t, i) => mk(t, 0.9 - i * 0.01));
+  const h = createHandler({ retrieve: async () => ({ match: many[0], topMatch: many[0], matches: many }) });
+  const b = await body(await h(req('/ask?q=x')));
+  assert.equal(b.matches.length, 5);
+});
+await test('retrieve returns matches (all above threshold, up to topK)', async () => {
+  const rows = [mk('A', 0.9), mk('B', 0.7), mk('C', 0.56), mk('D', 0.5)];
+  const res = await retrieve('q', { fetchImpl: fetchOk, env: {}, sql: stubSql(rows), topK: 5 });
+  assert.deepEqual(res.matches.map(m => m.title), ['A', 'B', 'C']);
+  assert.equal(res.match.title, 'A');
+  const one = await retrieve('q', { fetchImpl: fetchOk, env: {}, sql: stubSql(rows) });
+  assert.deepEqual(one.matches.map(m => m.title), ['A']);  // default topK 1, as chat
+});
+await test('direct_answers: block returned as lines and stripped from answer; null when absent', async () => {
+  const content = 'Senior PM at Novo Nordisk (2020-2022).\n\n**Direct answers:**\n- Led: Wegovycare launch, 2021 [NOVO.R1]\n- Danish: not met\n\nMore prose here.';
+  const { rest, lines } = extractDirectAnswers(content);
+  assert.deepEqual(lines, ['Led: Wegovycare launch, 2021', 'Danish: not met']);
+  assert.ok(!rest.includes('Direct answers'));
+  assert.equal(extractDirectAnswers('No block.').lines, null);
+  const h = createHandler({ retrieve: async () => ({ match: { ...NOVO, content }, matches: [{ ...NOVO, content }] }) });
+  const b = await body(await h(req('/ask?q=novo')));
+  assert.deepEqual(b.direct_answers, ['Led: Wegovycare launch, 2021', 'Danish: not met']);
+  assert.deepEqual(b.matches[0].direct_answers, b.direct_answers);
+  assert.equal(b.answer, 'Senior PM at Novo Nordisk (2020-2022).\n\nMore prose here.');
+  assertTrustContract(b);
+});
+await test('no Claude call anywhere in ?q= (no anthropic import in ask.js)', async () => {
+  const { readFileSync } = await import('node:fs');
+  const src = readFileSync(new URL('../netlify/functions/ask.js', import.meta.url), 'utf8');
+  assert.doesNotMatch(src, /anthropic/i);
+});
+await test('listSections: one grouped query over chunks, question rows only', async () => {
+  const sql = stubSql([{ title: 'NOVO.R1', questions: ['a', 'b', null] }, { title: 'META', questions: null }]);
+  const out = await listSections({ sql });
+  assert.deepEqual(out, [{ id: 'NOVO.R1', questions: ['a', 'b'] }, { id: 'META', questions: [] }]);
+  assert.equal(sql.calls.length, 1);
+  assert.match(sql.calls[0].text, /FROM chunks/);
+  assert.match(sql.calls[0].text, /GROUP BY title/);
+  assert.match(sql.calls[0].text, /question_text IS NOT NULL/);
+});
+await test('map is cached per instance (one listSections call for several requests)', async () => {
+  let n = 0;
+  const h = createHandler({ listSections: async () => { n++; return MAP; }, retrieve: async () => ({ match: NOVO, matches: [NOVO] }) });
+  await h(req('/ask')); await h(req('/ask?q=a')); await h(req('/ask'));
+  assert.equal(n, 1);
+});
+
+// --- isolation (item 17) ---
+await test('db mismatch: retrieve without sql throws DbEnvError (no URL in message)', async () => {
+  const env = { TOMBOT_ENV: 'staging', NILEDB_URL: 'postgres://u:secret@db.example:5432/niledb' };
+  await assert.rejects(() => retrieve('q', { env, fetchImpl: fetchOk }), (e) => e.code === 'DB_ENV' && !e.message.includes('secret') && !e.message.includes('example'));
+});
+await test('db mismatch: ask turns it into 503 with the one-line reason, no stack, no URL', quiet(async () => {
+  const env = { TOMBOT_ENV: 'staging', NILEDB_URL: 'postgres://u:secret@db.example:5432/niledb' };
+  const { retrieve: r, listSections: ls } = await import('../netlify/functions/lib/retrieval.js');
+  const h = createHandlerRaw({ env, limiter: null, retrieve: (q, o) => r(q, { ...o, fetchImpl: fetchOk }), listSections: () => ls({ env }) });
+  for (const p of ['/ask?q=novo', '/ask']) {
+    const res = await h(req(p));
+    assert.equal(res.status, 503); headersOk(res);
+    const text = await res.text();
+    const b = JSON.parse(text);
+    assert.match(b.error, /^database refused: staging must use a database whose name contains "staging"$/);
+    assert.ok(!/secret|example|postgres:|\bat \w+ \(/.test(text));
+  }
+}));
+await test('chat path unaffected: retrieve/prepare with an explicit pool never resolve the env', async () => {
+  const env = { TOMBOT_ENV: 'staging', NILEDB_URL: 'postgres://u:p@h/niledb' };  // would be refused
+  const { match } = await retrieve('novo', { env, fetchImpl: fetchOk, sql: stubSql([NOVO]) });
+  assert.equal(match.title, 'NOVO.R1');
+  assert.equal(await prepareQuery('tom', { sql: stubSql([]) }), 'you');
+});
+await test('AGENT_SIDE_ENABLED=false/0 -> 503 before anything runs', async () => {
+  for (const v of ['false', '0', 'FALSE']) {
+    let called = false;
+    const h = createHandler({ env: { AGENT_SIDE_ENABLED: v }, retrieve: async () => { called = true; }, listSections: async () => { called = true; } });
+    for (const p of ['/ask?q=hi', '/ask', '/ask?brief=x']) {
+      const res = await h(req(p));
+      assert.equal(res.status, 503);
+      assert.deepEqual(await body(res), { error: 'agent side is switched off in this environment' });
+    }
+    assert.equal(called, false);
+  }
+  const on = createHandler({ env: { AGENT_SIDE_ENABLED: 'true' }, retrieve: async () => ({ match: NOVO, matches: [NOVO] }) });
+  assert.equal((await on(req('/ask?q=x'))).status, 200);
+});
+
+// --- guard on /ask ---
+await test('guard: deny-list on answers counts withheld; ranking text never leaves', async () => {
+  const content = 'I led growth at Novo Nordisk (2020-2022).\nThe ideal candidate for any PM role.\nDay rate: 9.000 DKK.';
+  const m = { ...NOVO, content };
+  const h = createHandler({ retrieve: async () => ({ match: m, matches: [m] }) });
+  const b = await body(await h(req('/ask?q=x')));
+  assert.equal(b.answer, 'I led growth at Novo Nordisk (2020-2022).\n[withheld]\n[withheld]');
+  assert.equal(b.withheld, 2);
+  assertTrustContract(b);
+});
+await test('guard: section outside the map is dropped; only unknown -> null answer', async () => {
+  const ghost = mk('GHOST.SECTION', 0.95);
+  let h = createHandler({ retrieve: async () => ({ match: ghost, matches: [ghost, NOVO] }) });
+  let b = await body(await h(req('/ask?q=x')));
+  assert.deepEqual(b.matches.map(m => m.section), ['NOVO.R1']);
+  assert.equal(b.section, 'NOVO.R1');
+  h = createHandler({ retrieve: async () => ({ match: ghost, matches: [ghost] }) });
+  b = await body(await h(req('/ask?q=x')));
+  assert.equal(b.answer, null);
+  assert.equal(b.reason, 'no matching content');
+});
+await test('guard: rate limit 20/min per IP on /ask -> 429 with Retry-After', async () => {
+  const h = createHandlerRaw({ listSections: stubListSections, env: {}, retrieve: async () => ({ match: NOVO, matches: [NOVO] }) });
+  const r = () => new Request('http://localhost/ask', { headers: { 'x-nf-client-connection-ip': '203.0.113.9' } });
+  for (let i = 0; i < 20; i++) assert.equal((await h(r())).status, 200);
+  const res = await h(r());
+  assert.equal(res.status, 429);
+  assert.ok(Number(res.headers.get('retry-after')) >= 1);
 });
 
 // --- helpers ---

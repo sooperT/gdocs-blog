@@ -24,6 +24,19 @@
 [context.deploy-preview.environment]
   TOMBOT_ENV = "staging"
 
+# Local `netlify dev` is staging too: the agent side never develops against
+# production. Export NILEDB_URL from .env.staging before starting it (chat.js
+# keeps its own NILEDB_URL path and is unaffected).
+[context.dev.environment]
+  TOMBOT_ENV = "staging"
+
+# The public README for assistants is markdown; serve it as text so every
+# fetch tool reads it (scripts/check_staging.py asserts this).
+[[headers]]
+  for = "/for-agents/README.md"
+  [headers.values]
+    Content-Type = "text/markdown; charset=utf-8"
+
 # W4 brief calibration: GET or POST /ask/brief (netlify/functions/calibrate.js).
 # GET /ask?brief=... also works; ask.js hands it to the same handler.
 [[redirects]]

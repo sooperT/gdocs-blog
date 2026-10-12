@@ -6,15 +6,21 @@
 // Routes: GET /ask?brief=... (delegated from ask.js), and GET or POST
 // /ask/brief (netlify.toml). POST takes a JSON body {"brief": "...",
 // "asker": "..."} or the raw brief as text/plain.
+// Guardrails (lib/guard.js): switch-off, rate limit, 64 KB body cap, text
+// bodies only, 25 requirements max, injection lines stripped and flagged,
+// schema validation, deny-list on evidence, sections outside the map dropped.
 import Anthropic from '@anthropic-ai/sdk';
-import { retrieve as defaultRetrieve, QUESTION_MATCH_THRESHOLD } from './lib/retrieval.js';
-import { cleanAnswer, deriveYear, deriveStrength } from './ask.js';
+import { retrieve as defaultRetrieve, listSections as defaultListSections } from './lib/retrieval.js';
+import { isDbEnvError } from './lib/db_env.js';
+import {
+  agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap, readTextBody,
+  checkRequirementCount, stripInjection, applyDenyList, validateRows, dropUnknownSections,
+} from './lib/guard.js';
+import { cleanAnswer, deriveYear, deriveStrength, HUMAN_VERSION } from './ask.js';
 
 export const MAX_BRIEF_CHARS = 8000;
 export const MAX_REQUIREMENTS = 12;
 export const EVIDENCE_CHARS = 400;
-const MAX_BODY_BYTES = 64 * 1024;
-const HUMAN_VERSION = '/projects/tombot/';
 const NOTE = "Evidence only. 'not met' means TomBot content has nothing on it, not that Tom lacks it.";
 const NOTE_Q_IGNORED = ' Both q and brief were given; brief was used and q was ignored.';
 const USAGE = 'Usage: GET /ask?brief=<job brief>, or POST /ask/brief with {"brief": "..."} (application/json) or the brief as text/plain. Optional asker=<recruiter-agent | hiring-manager | human>. Max 8000 characters.';
@@ -45,7 +51,7 @@ function json(body, status = 200, extraHeaders = {}) {
 
 const normKey = (s) => s.toLowerCase().replace(/\s+/g, ' ').replace(/[\s.;:,!]+$/, '').trim();
 
-function dedupeCap(items) {
+function dedupeCap(items, max = MAX_REQUIREMENTS) {
   const seen = new Set();
   const out = [];
   for (const raw of items) {
@@ -55,7 +61,7 @@ function dedupeCap(items) {
     if (key.length < 3 || seen.has(key)) continue;
     seen.add(key);
     out.push(item);
-    if (out.length >= MAX_REQUIREMENTS) break;
+    if (out.length >= max) break;
   }
   return out;
 }
@@ -65,7 +71,8 @@ const KEYWORD = /\b(?:must|should|required|requires?|requirements?|experience[d]
 
 // (a) Heuristic: bullet and numbered lines as-is, plus any other sentence
 // containing must / should / required / experience / years / fluent.
-export function splitBriefHeuristic(text) {
+// `max` defaults to 12; the handler passes Infinity to count first (guard: 25).
+export function splitBriefHeuristic(text, { max = MAX_REQUIREMENTS } = {}) {
   const items = [];
   for (const line of String(text || '').split(/\r?\n/)) {
     const bullet = line.match(BULLET);
@@ -74,11 +81,11 @@ export function splitBriefHeuristic(text) {
       if (KEYWORD.test(sentence)) items.push(sentence);
     }
   }
-  return dedupeCap(items);
+  return dedupeCap(items, max);
 }
 
 // Pull a JSON array of strings out of a model reply. null if malformed.
-export function parseRequirementArray(reply) {
+export function parseRequirementArray(reply, { max = MAX_REQUIREMENTS } = {}) {
   let s = String(reply || '').trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
   const start = s.indexOf('[');
   const end = s.lastIndexOf(']');
@@ -86,7 +93,7 @@ export function parseRequirementArray(reply) {
   try {
     const arr = JSON.parse(s.slice(start, end + 1));
     if (!Array.isArray(arr) || !arr.every(x => typeof x === 'string')) return null;
-    const out = dedupeCap(arr);
+    const out = dedupeCap(arr, max);
     return out.length ? out : null;
   } catch {
     return null;
@@ -101,7 +108,7 @@ function defaultCreateMessage(params) {
 
 // (b) LLM: one Claude call. Returns { requirements, splitter }; falls back
 // to the heuristic (and says so) on an API error or a malformed reply.
-export async function splitBriefLLM(text, { createMessage = defaultCreateMessage } = {}) {
+export async function splitBriefLLM(text, { createMessage = defaultCreateMessage, max = MAX_REQUIREMENTS } = {}) {
   try {
     const msg = await createMessage({
       model: SPLITTER_MODEL,
@@ -111,13 +118,13 @@ export async function splitBriefLLM(text, { createMessage = defaultCreateMessage
       messages: [{ role: 'user', content: String(text) }],
     });
     const reply = (msg?.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
-    const parsed = parseRequirementArray(reply);
+    const parsed = parseRequirementArray(reply, { max });
     if (parsed) return { requirements: parsed, splitter: 'llm' };
     console.error('[ask:brief] splitter reply malformed, using heuristic');
   } catch (error) {
     console.error('[ask:brief] splitter call failed, using heuristic:', error?.status || error?.name || 'error');
   }
-  return { requirements: splitBriefHeuristic(text), splitter: 'heuristic' };
+  return { requirements: splitBriefHeuristic(text, { max }), splitter: 'heuristic' };
 }
 
 const OUTCOME = /\d+(?:[.,]\d+)?\s*(?:%|x\b|k\b|m\b|bn\b|million|billion|users|customers|patients|people|countries|markets|teams?)|\b(?:launched|shipped|grew|increased|reduced|cut|doubled|tripled|delivered|acquired|won|saved|raised|turned around)\b/i;
@@ -135,7 +142,7 @@ export function trimEvidence(answer, max = EVIDENCE_CHARS) {
 // a quantified result or an outcome verb), otherwise "partial".
 export function buildRow(requirement, match) {
   if (!match) {
-    return { requirement, met: 'not met', evidence: null, strength: null, year: null, source: null, score: null };
+    return { requirement, met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, score: null };
   }
   const answer = cleanAnswer(match.content);
   const year = deriveYear(answer);
@@ -145,56 +152,77 @@ export function buildRow(requirement, match) {
     evidence: trimEvidence(answer),
     strength: deriveStrength(match),
     year,
+    section: match.title,
     source: `TomBot ${match.title}`,
     score: Math.round(Number(match.similarity) * 100) / 100,
   };
 }
 
+// Returns { brief, asker } or { status, error }.
 async function readBrief(request, url) {
   if (request.method === 'GET') {
     return { brief: url.searchParams.get('brief') || '', asker: url.searchParams.get('asker') };
   }
-  const raw = await request.text();
-  if (raw.length > MAX_BODY_BYTES) return { tooLarge: true };
-  const type = (request.headers.get('content-type') || '').toLowerCase();
-  if (type.includes('application/json')) {
-    let body;
-    try { body = JSON.parse(raw || '{}'); } catch { return { badJson: true }; }
-    return {
-      brief: typeof body?.brief === 'string' ? body.brief : '',
-      asker: typeof body?.asker === 'string' ? body.asker : url.searchParams.get('asker'),
-    };
+  const body = await readTextBody(request);
+  if (body.status) return body;
+  if (body.kind === 'json') {
+    let parsed;
+    try { parsed = JSON.parse(body.raw || '{}'); } catch { return { status: 400, error: 'Body is not valid JSON.' }; }
+    const shapeOk = parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+      && (parsed.brief === undefined || typeof parsed.brief === 'string')
+      && (parsed.asker === undefined || parsed.asker === null || typeof parsed.asker === 'string');
+    if (!shapeOk) return { status: 415, error: 'JSON body must be {"brief": "<text>", "asker": "<optional text>"}.' };
+    return { brief: parsed.brief || '', asker: parsed.asker || url.searchParams.get('asker') };
   }
-  return { brief: raw, asker: url.searchParams.get('asker') };
+  return { brief: body.raw, asker: url.searchParams.get('asker') };
 }
 
 export function createCalibrateHandler({
   retrieve = defaultRetrieve,
   createMessage = defaultCreateMessage,
   env = process.env,
+  listSections,
+  limiter = createRateLimiter(),
+  sectionMap,
 } = {}) {
+  const map = sectionMap || createSectionMap({ listSections: listSections || (() => defaultListSections({ env })) });
   return async (request) => {
+    if (!agentSideEnabled(env)) return json({ error: AGENT_OFF_ERROR }, 503);
     if (request.method !== 'GET' && request.method !== 'POST') {
       return json({ error: 'Method not allowed. ' + USAGE }, 405, { 'Allow': 'GET, POST' });
     }
+    if (limiter) {
+      const rl = limiter.check(request);
+      if (!rl.ok) return json({ error: 'Too many requests. Try again shortly.' }, 429, { 'Retry-After': String(rl.retryAfter) });
+    }
     const url = new URL(request.url);
     const input = await readBrief(request, url);
-    if (input.badJson) return json({ error: 'Body is not valid JSON.', usage: USAGE }, 400);
-    if (input.tooLarge || input.brief.length > MAX_BRIEF_CHARS) {
+    if (input.status) return json({ error: input.error, usage: USAGE }, input.status);
+    if (input.brief.length > MAX_BRIEF_CHARS) {
       return json({ error: `Brief is longer than ${MAX_BRIEF_CHARS} characters.`, usage: USAGE }, 413);
     }
-    const brief = input.brief.trim();
-    if (!brief) return json({ error: 'Missing brief.', usage: USAGE }, 400);
+    if (!input.brief.trim()) return json({ error: 'Missing brief.', usage: USAGE }, 400);
+    // Instruction-like lines are removed before anything reads the brief.
+    const { text: stripped, lines: injectionLines } = stripInjection(input.brief);
+    const flags = injectionLines ? ['injection_pattern'] : [];
+    const brief = stripped.trim();
+    if (!brief) {
+      return json({ error: 'Brief has no requirements once instruction-like lines are removed.', flags, injection_lines: injectionLines, usage: USAGE }, 400);
+    }
     const asker = input.asker ? String(input.asker).slice(0, 40) : null;
     const qIgnored = Boolean((url.searchParams.get('q') || '').trim());
 
     try {
-      const { requirements, splitter } = env.ANTHROPIC_API_KEY
-        ? await splitBriefLLM(brief, { createMessage })
-        : { requirements: splitBriefHeuristic(brief), splitter: 'heuristic' };
+      const split = env.ANTHROPIC_API_KEY
+        ? await splitBriefLLM(brief, { createMessage, max: Infinity })
+        : { requirements: splitBriefHeuristic(brief, { max: Infinity }), splitter: 'heuristic' };
+      const tooMany = checkRequirementCount(split.requirements.length);
+      if (tooMany) return json({ error: tooMany.error, requirements: tooMany.requirements, usage: USAGE }, tooMany.status);
+      const requirements = split.requirements.slice(0, MAX_REQUIREMENTS);
+      const { splitter } = split;
 
       // Small batches so 12 requirements don't hit Voyage all at once.
-      const rows = [];
+      let rows = [];
       for (let i = 0; i < requirements.length; i += 4) {
         const batch = requirements.slice(i, i + 4);
         const results = await Promise.all(batch.map(r => retrieve(r)));
@@ -205,6 +233,17 @@ export function createCalibrateHandler({
         batch.forEach((r, j) => rows.push(buildRow(r, results[j].match)));
       }
 
+      // Outgoing guard: sections outside the map, deny-list, schema.
+      const { ids } = await map.get();
+      rows = dropUnknownSections(rows, ids).rows;
+      let withheld = 0;
+      rows = rows.map(r => {
+        const d = applyDenyList(r.evidence);
+        withheld += d.withheld;
+        return d.withheld ? { ...r, evidence: d.text } : r;
+      });
+      rows = validateRows(rows, { tag: '[ask:brief]' }).rows;
+
       const count = (m) => rows.filter(r => r.met === m).length;
       // Guardrail 8: counts only, never the brief or the requirements.
       console.log('[ask:brief]', JSON.stringify({
@@ -214,10 +253,17 @@ export function createCalibrateHandler({
       return json({
         brief: { requirements: rows.length, splitter },
         rows,
+        withheld,
+        flags,
+        injection_lines: injectionLines,
         human_version: HUMAN_VERSION,
         note: NOTE + (qIgnored ? NOTE_Q_IGNORED : ''),
       });
     } catch (error) {
+      if (isDbEnvError(error)) {
+        console.error('[ask:brief]', error.message);
+        return json({ error: error.message, human_version: HUMAN_VERSION }, 503);
+      }
       console.error('[ask:brief] error:', error?.name || 'error');
       return json({ error: 'Calibration failed. Please try again later.' }, 500);
     }
