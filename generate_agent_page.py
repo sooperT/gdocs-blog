@@ -209,7 +209,7 @@ ROUTING_LINE = (
     '    <header role="banner"><p>This page is written for AI agents and recruiters\' tools. '
     'If you are a person, the human version is at <a href="/about/">/about/</a>. '
     'If you are an assistant helping someone assess Tom, read '
-    '<a href="/for-agents/README.md">/for-agents/README.md</a>. '
+    '<a href="/for-agents/start.md">/for-agents/start.md</a>. '
     'Crawlers: <a href="/llms.txt">/llms.txt</a>.</p></header>'
 )
 

@@ -43,7 +43,7 @@
 # The public README for assistants is markdown; serve it as text so every
 # fetch tool reads it (scripts/check_staging.py asserts this).
 [[headers]]
-  for = "/for-agents/README.md"
+  for = "/for-agents/start.md"
   [headers.values]
     Content-Type = "text/markdown; charset=utf-8"
 

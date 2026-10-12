@@ -17,7 +17,7 @@ UA = "tbn-check-staging/1.0 (+https://takenbyninjas.com/for-agents/)"
 TIMEOUT = 20
 
 # The facts page's first line routes three ways (PRD R1012-1, item 18d).
-ROUTING_LINKS = ("/about/", "/for-agents/README.md", "/llms.txt")
+ROUTING_LINKS = ("/about/", "/for-agents/start.md", "/llms.txt")
 
 
 class FirstParagraph(HTMLParser):
@@ -86,7 +86,7 @@ def check_map(body):
 CHECKS = [
     # path, accepted content types, extra check
     ("/for-agents/", ("text/html",), check_routing),
-    ("/for-agents/README.md", ("text/markdown", "text/plain", "text/x-markdown"), None),
+    ("/for-agents/start.md", ("text/markdown", "text/plain", "text/x-markdown"), None),
     ("/llms.txt", ("text/plain", "text/markdown"), None),
     ("/robots.txt", ("text/plain",), check_robots),
     ("/sitemap.xml", ("application/xml", "text/xml"), None),

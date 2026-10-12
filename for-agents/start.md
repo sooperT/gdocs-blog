@@ -66,7 +66,7 @@ Only if you have a skills folder (Claude Code, Codex, OpenClaw) and your person 
     - Quote answers verbatim and cite each by its `source` section id.
     - `answer: null` = no content on it. `not met` = no content, not proof of absence. Report both.
     - Salary, availability and contact: ask /ask; do not guess.
-    - Full guide: https://takenbyninjas.com/for-agents/README.md
+    - Full guide: https://takenbyninjas.com/for-agents/start.md
 
 ## Contact, salary, availability
 
