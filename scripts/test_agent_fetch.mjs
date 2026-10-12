@@ -24,6 +24,7 @@ const FILES = {
   'for-agents/start.md': '# Start here\n',
   'for-agents/wegovycare/index.html': '<!DOCTYPE html><title>Wegovycare</title>',
   'for-agents/treat-turnaround/index.html': '<!DOCTYPE html><title>TREAT</title>',
+  'for-agents/recommendations/index.html': '<!DOCTYPE html><title>Recommendations</title>',
 };
 const readFile = (p) => { if (!(p in FILES)) throw new Error('no such file'); return FILES[p]; };
 function stubPool() {
@@ -140,6 +141,7 @@ const NEW = [
   { key: 'start', pub: '/for-agents/start.md', logged: '/for-agents/start.md', file: 'for-agents/start.md', type: 'text/markdown; charset=utf-8' },
   { key: 'wegovycare', pub: '/for-agents/wegovycare/', logged: '/for-agents/wegovycare/', file: 'for-agents/wegovycare/index.html', type: 'text/html; charset=utf-8' },
   { key: 'treat-turnaround', pub: '/for-agents/treat-turnaround/', logged: '/for-agents/treat-turnaround/', file: 'for-agents/treat-turnaround/index.html', type: 'text/html; charset=utf-8' },
+  { key: 'recommendations', pub: '/for-agents/recommendations/', logged: '/for-agents/recommendations/', file: 'for-agents/recommendations/index.html', type: 'text/html; charset=utf-8' },
 ];
 for (const r of NEW) {
   await test(`GET ${r.pub} -> 200 ${r.type.split(';')[0]}, cache header, logged as ${r.logged}`, async () => {

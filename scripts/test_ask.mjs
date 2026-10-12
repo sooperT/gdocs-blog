@@ -7,7 +7,7 @@ import {
   prepareQuery, prepareQuerySteps, normalizeQuery, expandContractions, expandAliases, expandSynonyms,
   listSections,
 } from '../netlify/functions/lib/retrieval.js';
-import { createHandler as createHandlerRaw, cleanAnswer, deriveYear, extractDirectAnswers, AGENT_TOP_K, HUMAN_VERSION } from '../netlify/functions/ask.js';
+import { createHandler as createHandlerRaw, cleanAnswer, deriveYear, extractDirectAnswers, buildAttested, AGENT_TOP_K, HUMAN_VERSION, LINKEDIN_RECORD } from '../netlify/functions/ask.js';
 import { RANKING_PATTERNS } from '../netlify/functions/lib/guard.js';
 import { strengthFor } from '../netlify/functions/lib/strength.js';
 
@@ -46,8 +46,26 @@ const NOVO = {
   title: 'NOVO.R1',
   content: 'Senior Product Manager at Novo Nordisk (Mar 2020 - Feb 2022), building Wegovycare.\n\nI led it end to end, a stealth transformation project[NOVO.R1.TRANSFORM], with learnings from LEO[LEO].',
   follow_ups: [{ text: 'how did you transform ways of working at Novo', target: 'NOVO.R1.TRANSFORM' }, { text: 'tell me about Skincoach', target: 'LEO.R2' }],
+  // As the loader stores it (parse_content.py `attested`), JSONB parsed by pg.
+  attested: [{ name: 'Erik Ejlskov Jensen', title: 'Principal Software Engineer', company: 'Context&', date: '2025-11-05',
+    excerpt: 'I admired Toms ability to get the entire development team engaged in complex algorithms and turning them into simple solutions for the benefit of the end user.' }],
+  direct_answers: [],
   similarity: 0.8234,
 };
+const mkRow = (title, similarity) => ({ title, content: `Section ${title} text.`, follow_ups: [], similarity });
+const ATTESTED_KEYS = ['name', 'title', 'title_label', 'company', 'date', 'excerpt', 'record', 'tier'];
+function assertAttested(list) {
+  assert.ok(Array.isArray(list), 'attested must be an array');
+  for (const a of list) {
+    assert.deepEqual(Object.keys(a), ATTESTED_KEYS);
+    assert.equal(a.tier, 'attested');
+    assert.equal(a.title_label, 'current title');
+    assert.equal(a.record, 'https://www.linkedin.com/in/tomstenson/details/recommendations/');
+    assert.match(a.date, /^\d{4}-\d{2}-\d{2}$/);
+    for (const k of ['name', 'title', 'company', 'excerpt']) assert.equal(typeof a[k], 'string');
+    assert.doesNotMatch(a.name, /Martin Baker|Paul Hugh Mollin/);
+  }
+}
 const LOW = { title: 'META.BOOKS', content: 'Books.', follow_ups: [], similarity: 0.41 };
 
 // The stubbed map: every section the stubs can return, nothing else.
@@ -180,11 +198,19 @@ await test('ask: match shape', withLogs(async () => {
   const res = await h(req('/ask?q=what%20did%20you%20build%20at%20novo&asker=recruiter-agent'));
   assert.equal(res.status, 200); headersOk(res);
   const b = await body(res);
-  assert.deepEqual(Object.keys(b), ['answer', 'section', 'source', 'strength', 'year', 'direct_answers', 'follow_ups', 'score', 'matches', 'withheld', 'human_version']);
+  assert.deepEqual(Object.keys(b), ['answer', 'section', 'source', 'tier', 'strength', 'year', 'direct_answers', 'attested', 'follow_ups', 'score', 'matches', 'withheld', 'human_version']);
   assert.equal(b.direct_answers, null);
   assert.equal(b.withheld, 0);
   assert.equal(b.matches.length, 1);
-  assert.deepEqual(Object.keys(b.matches[0]), ['section', 'answer', 'source', 'year', 'strength', 'score', 'direct_answers']);
+  assert.deepEqual(Object.keys(b.matches[0]), ['section', 'answer', 'source', 'tier', 'year', 'strength', 'score', 'direct_answers', 'attested']);
+  assert.equal(b.tier, 'self-reported');
+  assert.equal(b.matches[0].tier, 'self-reported');
+  assertAttested(b.attested);
+  assert.equal(b.attested.length, 1);
+  assert.deepEqual(b.attested, b.matches[0].attested);
+  assert.equal(b.attested[0].name, 'Erik Ejlskov Jensen');
+  assert.equal(b.attested[0].excerpt, NOVO.attested[0].excerpt);
+  assert.ok(!b.answer.includes('admired'), 'attested excerpt must not leak into answer');
   assertTrustContract(b);
   assert.equal(b.section, 'NOVO.R1');
   assert.equal(b.source, 'TomBot NOVO.R1');
@@ -295,6 +321,60 @@ await test('direct_answers: block returned as lines and stripped from answer; nu
   assert.equal(b.answer, 'Senior PM at Novo Nordisk (2020-2022).\n\nMore prose here.');
   assertTrustContract(b);
 });
+await test('direct_answers: column is read when filled, text parser is the fallback', async () => {
+  const content = 'Senior PM (2020-2022).\n\n**Direct answers:**\n- From the text\n';
+  const h = createHandler({ retrieve: async () => ({ matches: [{ ...NOVO, content, direct_answers: ['From the column [NOVO.R1]'] }] }) });
+  assert.deepEqual((await body(await h(req('/ask?q=novo')))).direct_answers, ['From the column']);
+  const h2 = createHandler({ retrieve: async () => ({ matches: [{ ...NOVO, content, direct_answers: [] }] }) });
+  assert.deepEqual((await body(await h2(req('/ask?q=novo')))).direct_answers, ['From the text']);
+  const h3 = createHandler({ retrieve: async () => ({ matches: [{ ...NOVO, content, direct_answers: '["As a JSON string"]' }] }) });
+  assert.deepEqual((await body(await h3(req('/ask?q=novo')))).direct_answers, ['As a JSON string']);
+});
+await test('attested: [] when the column is null, missing, empty or malformed; tiers on every row', async () => {
+  const rows = [
+    { ...NOVO, title: 'NOVO.R1', attested: null },
+    { ...mkRow('LEO.R1', 0.7), attested: undefined },
+    { ...mkRow('STYLE.DISCOVERY', 0.65), attested: 'not json' },
+    { ...mkRow('META.BOOKS', 0.6), attested: [{ name: 'No excerpt' }, 42] },
+  ];
+  const h = createHandler({ retrieve: async () => ({ matches: rows }) });
+  const b = await body(await h(req('/ask?q=x')));
+  assert.equal(b.matches.length, 4);
+  for (const m of b.matches) { assert.deepEqual(m.attested, []); assert.equal(m.tier, 'self-reported'); }
+  assert.deepEqual(b.attested, []);
+  assertTrustContract(b);
+});
+await test('attested: JSON-string column parsed; deny-list runs on excerpts', async () => {
+  const json = JSON.stringify([
+    { name: 'A Person', title: 'Director, Innovation (Contract)', company: 'Acme & Co', date: '2026-03-16', excerpt: 'Plain praise.' },
+    { name: 'B Person', title: 'CEO', company: 'B', date: '2016-04-12', excerpt: 'His salary was 900,000 DKK.' },
+  ]);
+  const { entries, withheld } = buildAttested(json);
+  assertAttested(entries);
+  assert.equal(entries[0].title, 'Director, Innovation (Contract)');
+  assert.equal(entries[0].record, LINKEDIN_RECORD);
+  assert.equal(entries[1].excerpt, '[withheld]');
+  assert.equal(withheld, 1);
+});
+await test('matchSections selects attested and direct_answers; falls back on an old table (42703)', quiet(async () => {
+  const sql = stubSql([{ ...NOVO }]);
+  const rows = await matchSections(EMB, { sql });
+  assert.match(sql.calls[0].text, /attested, direct_answers/);
+  assert.deepEqual(rows[0].attested, NOVO.attested);
+  const texts = [];
+  const old = { query: async (text) => {
+    texts.push(text);
+    if (/attested/.test(text)) { const e = new Error('column "attested" does not exist'); e.code = '42703'; throw e; }
+    return { rows: [{ title: 'NOVO.R1', content: 'x', similarity: 0.9 }] };
+  } };
+  const legacy = await matchSections(EMB, { sql: old });
+  assert.equal(texts.length, 2);
+  assert.doesNotMatch(texts[1], /attested/);
+  assert.equal(legacy[0].attested, null);
+  assert.equal(legacy[0].direct_answers, null);
+  const other = { query: async () => { const e = new Error('boom'); e.code = '57P01'; throw e; } };
+  assert.deepEqual(await matchSections(EMB, { sql: other }), []);
+}));
 await test('no Claude call anywhere in ?q= (no anthropic import in ask.js)', async () => {
   const { readFileSync } = await import('node:fs');
   const src = readFileSync(new URL('../netlify/functions/ask.js', import.meta.url), 'utf8');

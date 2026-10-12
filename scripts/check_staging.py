@@ -91,6 +91,7 @@ CHECKS = [
     ("/for-agents/README.md", ("text/markdown", "text/plain", "text/x-markdown"), None),
     ("/for-agents/wegovycare/", ("text/html",), check_routing),
     ("/for-agents/treat-turnaround/", ("text/html",), check_routing),
+    ("/for-agents/recommendations/", ("text/html",), check_routing),
     ("/llms.txt", ("text/plain", "text/markdown"), None),
     ("/robots.txt", ("text/plain",), check_robots),
     ("/sitemap.xml", ("application/xml", "text/xml"), None),

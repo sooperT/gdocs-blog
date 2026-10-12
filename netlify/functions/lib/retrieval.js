@@ -176,18 +176,38 @@ export async function embedQuery(text, {
 // `sql` is anything with pg's `query(text, params)` shape.
 // `threshold` is optional: omitted = return top N regardless of score
 // (chat.js filters itself so it can log the below-threshold top match).
-export async function matchSections(embedding, { topK = TOP_K, threshold, sql } = {}) {
-  try {
-    const db = sql || getPool();
-    const vectorStr = `[${embedding.join(',')}]`;
-    const result = await db.query(`
+// The agent-side columns (attested, direct_answers; PRD W1b, D2) are added
+// by load_content_v3.py. A database loaded before that has no such columns:
+// the query then falls back to the old column list and every row carries
+// attested/direct_answers = null, so TomBot chat keeps working either way.
+const AGENT_COLUMNS = 'attested, direct_answers,';
+const UNDEFINED_COLUMN = '42703';
+function matchQuery(agentColumns) {
+  return `
       SELECT DISTINCT ON (title)
-             id, title, content, chunk_type, question_text, follow_ups,
+             id, title, content, chunk_type, question_text, follow_ups,${agentColumns ? `\n             ${AGENT_COLUMNS}` : ''}
              1 - (question_embedding <=> $1::vector) as similarity
       FROM chunks
       WHERE question_embedding IS NOT NULL
       ORDER BY title, question_embedding <=> $1::vector
-    `, [vectorStr]);
+    `;
+}
+
+export async function matchSections(embedding, { topK = TOP_K, threshold, sql } = {}) {
+  try {
+    const db = sql || getPool();
+    const vectorStr = `[${embedding.join(',')}]`;
+    let result;
+    try {
+      result = await db.query(matchQuery(true), [vectorStr]);
+    } catch (error) {
+      if (error?.code !== UNDEFINED_COLUMN) throw error;
+      result = await db.query(matchQuery(false), [vectorStr]);
+    }
+    for (const row of result.rows) {
+      row.attested = row.attested ?? null;
+      row.direct_answers = row.direct_answers ?? null;
+    }
 
     // Re-sort by similarity after DISTINCT and take top N
     const sorted = result.rows.sort((a, b) => b.similarity - a.similarity);

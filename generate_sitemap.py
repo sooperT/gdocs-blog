@@ -10,6 +10,7 @@ sitemap.xml reads posts-metadata.json and lists the human pages only
 - Static pages (/about/)
 
 sitemap-agent.xml lists the agent side: /for-agents/, its case study pages,
+the recommendations page,
 /for-agents/start.md and /llms.txt. robots.txt lists both.
 
 lastmod is the file's last git commit date (N1010-1), so running the
@@ -36,6 +37,7 @@ AGENT_PAGES = [
     ("/for-agents/", "for-agents/index.html"),
     ("/for-agents/wegovycare/", "for-agents/wegovycare/index.html"),
     ("/for-agents/treat-turnaround/", "for-agents/treat-turnaround/index.html"),
+    ("/for-agents/recommendations/", "for-agents/recommendations/index.html"),
     ("/for-agents/start.md", "for-agents/start.md"),
     ("/llms.txt", "llms.txt"),
 ]

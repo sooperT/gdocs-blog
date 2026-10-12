@@ -97,6 +97,15 @@ def load_content():
     cur.execute("""
         ALTER TABLE chunks ADD COLUMN IF NOT EXISTS follow_ups JSONB
     """)
+    # Agent-side blocks (PRD W1b, D2): read by /ask and /ask/brief only.
+    # parse_content.py has already stripped them from `content`, so TomBot
+    # chat never sees them.
+    cur.execute("""
+        ALTER TABLE chunks ADD COLUMN IF NOT EXISTS attested JSONB
+    """)
+    cur.execute("""
+        ALTER TABLE chunks ADD COLUMN IF NOT EXISTS direct_answers JSONB
+    """)
     conn.commit()
 
     # Collect all texts to embed
@@ -144,18 +153,20 @@ def load_content():
             # Generate unique ID: section_id + question hash
             row_id = f"{section['id']}_{q_idx}"
 
-            # Convert follow_ups to JSON string for JSONB column
+            # Convert follow_ups / attested / direct_answers to JSON strings for JSONB columns
             follow_ups_json = json.dumps(section.get("follow_ups", []))
+            attested_json = json.dumps(section.get("attested", []), ensure_ascii=False)
+            direct_answers_json = json.dumps(section.get("direct_answers", []), ensure_ascii=False)
 
             cur.execute("""
                 INSERT INTO chunks (
                     id, chunk_type, title, content,
                     embedding, question_text, question_embedding,
-                    tags, source_file, follow_ups
+                    tags, source_file, follow_ups, attested, direct_answers
                 ) VALUES (
                     %s, %s, %s, %s,
                     %s, %s, %s,
-                    %s, %s, %s
+                    %s, %s, %s, %s, %s
                 )
             """, (
                 row_id,
@@ -167,7 +178,9 @@ def load_content():
                 question_embedding,
                 section.get("drill_downs", []),
                 "tombot-content-v3.md",
-                follow_ups_json
+                follow_ups_json,
+                attested_json,
+                direct_answers_json
             ))
             inserted += 1
 
@@ -179,11 +192,11 @@ def load_content():
             INSERT INTO chunks (
                 id, chunk_type, title, content,
                 embedding, question_text, question_embedding,
-                tags, source_file, follow_ups
+                tags, source_file, follow_ups, attested, direct_answers
             ) VALUES (
                 %s, %s, %s, %s,
                 %s, %s, %s,
-                %s, %s, %s
+                %s, %s, %s, %s, %s
             )
         """, (
             section["id"],  # Main section ID
@@ -195,7 +208,9 @@ def load_content():
             None,  # No question embedding
             section.get("drill_downs", []),
             "tombot-content-v3.md",
-            follow_ups_json
+            follow_ups_json,
+            attested_json,
+            direct_answers_json
         ))
         inserted += 1
 
@@ -291,6 +306,16 @@ def load_content():
     sample = cur.fetchone()
     if sample:
         print(f"Sample follow-ups for {sample[0]}: {len(sample[1])} suggestions")
+
+    # 7. Attested rows (agent side only)
+    cur.execute("SELECT COUNT(DISTINCT title) FROM chunks WHERE attested IS NOT NULL AND attested != '[]'::jsonb")
+    attested_db = cur.fetchone()[0]
+    attested_expected = sum(1 for s in sections if s.get("attested"))
+    if attested_db != attested_expected:
+        print(f"FAIL: {attested_db} sections with attested in DB, expected {attested_expected}")
+        validation_passed = False
+    else:
+        print(f"OK: {attested_db} sections carry attested entries")
 
     # Final verdict
     print("\n" + "=" * 60)

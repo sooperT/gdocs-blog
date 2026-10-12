@@ -89,6 +89,59 @@ export function deriveStrength(match) {
   return strengthFor(match?.title);
 }
 
+// Evidence tiers (PRD W1b). Every row's own answer/evidence is TomBot content,
+// Tom's own account: self-reported. Attested entries are LinkedIn
+// recommendations (D8, N1010-6 a), parsed from the section's `**Attested:**`
+// block by parse_content.py into the `attested` column; never shown in chat.
+export const SELF_REPORTED = 'self-reported';
+export const ATTESTED = 'attested';
+export const LINKEDIN_RECORD = 'https://www.linkedin.com/in/tomstenson/details/recommendations/';
+// LinkedIn's export carries each recommender's title today, not at the time (N1010-7 a).
+export const ATTESTED_TITLE_LABEL = 'current title';
+
+const parseJsonList = (v) => {
+  let list = v;
+  if (typeof list === 'string') {
+    try { list = JSON.parse(list); } catch { list = null; }
+  }
+  return Array.isArray(list) ? list : null;
+};
+
+// attested column -> [{name, title, title_label, company, date, excerpt, record, tier}].
+// Null, missing or malformed -> []. The deny-list runs on each excerpt like
+// on any outgoing text; returns { entries, withheld }.
+export function buildAttested(raw) {
+  const list = parseJsonList(raw) || [];
+  let withheld = 0;
+  const entries = [];
+  for (const a of list) {
+    if (!a || typeof a !== 'object' || typeof a.name !== 'string' || typeof a.excerpt !== 'string') continue;
+    const d = applyDenyList(a.excerpt);
+    withheld += d.withheld;
+    entries.push({
+      name: a.name,
+      title: typeof a.title === 'string' ? a.title : null,
+      title_label: ATTESTED_TITLE_LABEL,
+      company: typeof a.company === 'string' ? a.company : null,
+      date: typeof a.date === 'string' ? a.date : null,
+      excerpt: d.text,
+      record: LINKEDIN_RECORD,
+      tier: ATTESTED,
+    });
+  }
+  return { entries, withheld };
+}
+
+// direct_answers: the column when the loader filled it, else the
+// `**Direct answers:**` block parsed out of the text (older loads), else null.
+function directAnswerLines(match) {
+  const column = parseJsonList(match.direct_answers);
+  if (column && column.length) {
+    return column.filter(l => typeof l === 'string').map(l => stripMarkers(l).trim()).filter(Boolean);
+  }
+  return extractDirectAnswers(match.content).lines;
+}
+
 export function followUpTexts(followUps) {
   let list = followUps;
   if (typeof list === 'string') {
@@ -105,20 +158,24 @@ const roundScore = (x) => Math.round(Number(x) * 100) / 100;
 // One retrieved chunk row -> one outgoing match (deny-list applied).
 // Returns { row, withheld }.
 export function buildMatch(match) {
-  const direct = extractDirectAnswers(match.content).lines;
+  const direct = directAnswerLines(match);
   const denied = applyDenyList(cleanAnswer(match.content));
   let withheld = denied.withheld;
   const directAnswers = direct ? direct.map(l => { const d = applyDenyList(l); withheld += d.withheld; return d.text; }) : null;
+  const attested = buildAttested(match.attested);
+  withheld += attested.withheld;
   return {
     withheld,
     row: {
       section: match.title,
       answer: denied.text,
       source: `TomBot ${match.title}`,
+      tier: SELF_REPORTED,
       year: deriveYear(denied.text),
       strength: deriveStrength(match),
       score: roundScore(match.similarity),
       direct_answers: directAnswers,
+      attested: attested.entries,
     },
   };
 }
@@ -206,9 +263,11 @@ export function createHandler({
         answer: best.answer,
         section: best.section,
         source: best.source,
+        tier: best.tier,
         strength: best.strength,
         year: best.year,
         direct_answers: best.direct_answers,
+        attested: best.attested,
         follow_ups: followUpTexts(bestMatch.follow_ups),
         score: best.score,
         matches: rows,

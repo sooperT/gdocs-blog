@@ -71,6 +71,7 @@
     "for-agents/start.md",
     "for-agents/wegovycare/index.html",
     "for-agents/treat-turnaround/index.html",
+    "for-agents/recommendations/index.html",
     "llms.txt"
   ]
 
@@ -109,5 +110,11 @@
 [[redirects]]
   from = "/for-agents/treat-turnaround/"
   to = "/.netlify/functions/agent-fetch/treat-turnaround"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/for-agents/recommendations/"
+  to = "/.netlify/functions/agent-fetch/recommendations"
   status = 200
   force = true

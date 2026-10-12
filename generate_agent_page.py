@@ -10,6 +10,12 @@ Reads TomBot content (docs/tombot/tombot-content-v3.md) and writes:
   Title is the product name, body is the verbatim text of the listed
   sections with a "source: TomBot <SECTION.ID>" line per section. Not posts:
   nothing in posts-metadata.json, /words/ or the homepage.
+- for-agents/recommendations/index.html: the attested tier (W1b, D8). Every
+  visible LinkedIn recommendation in full, read straight from the LinkedIn
+  data export (HIDDEN rows skipped), with the TomBot sections whose
+  `**Attested:**` block quotes it. Each block entry is checked against the
+  export: an excerpt that is no longer verbatim, or a name, title, company
+  or date that differs, fails the build.
 
 The generator fails if a configured line is no longer in its section, so
 content drift breaks the build instead of the page.
@@ -18,10 +24,13 @@ Usage:
     python3 generate_agent_page.py
 """
 
+import csv
 import json
 import os
 import re
 import sys
+import unicodedata
+from datetime import datetime
 from html import escape as _escape
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts'))
@@ -240,6 +249,14 @@ CASE_STUDIES = [
 # Proof point product -> its case study page
 CASE_STUDY_LINKS = {cs['product']: f'{PAGE_PATH}{cs["slug"]}/' for cs in CASE_STUDIES}
 
+# Attested tier (W1b, D8, N1010-6 a, N1010-7 a): LinkedIn recommendations.
+RECS_CSV = 'docs/agent-readable/sources/linkedin-2026-10-09/Recommendations_Received.csv'
+RECS_EXPORT_DATE = '2026-10-09'
+RECS_PATH = f'{PAGE_PATH}recommendations/'
+RECS_FILE = 'for-agents/recommendations/index.html'
+LINKEDIN_RECORD = 'https://www.linkedin.com/in/tomstenson/details/recommendations/'
+RECS_LINKS = {'LinkedIn recommendations, full text': RECS_PATH}
+
 
 def escape(text):
     """Escape body text, leaving quotes and apostrophes readable in the raw HTML."""
@@ -252,6 +269,66 @@ def load_sections():
     for s in parse_content_doc(CONTENT_FILE):
         sections[s['id']] = re.sub(r' ?\[[A-Z][A-Z0-9_.]+\]', '', s['content'])
     return sections
+
+
+def load_attested():
+    """Section id -> its `**Attested:**` entries (parse_content.py), in content order."""
+    return {s['id']: s['attested'] for s in parse_content_doc(CONTENT_FILE) if s.get('attested')}
+
+
+def recommender_name(first, last):
+    """First and last name from the export, trimmed, without a leading emoji ("🌱 Michael")."""
+    return re.sub(r'^[^\w]+', '', f'{first.strip()} {last.strip()}').strip()
+
+
+def rec_anchor(name):
+    folded = unicodedata.normalize('NFKD', name.replace('ø', 'o').replace('Ø', 'O').replace('æ', 'ae'))
+    slug = re.sub(r'[^a-z0-9]+', '-', folded.encode('ascii', 'ignore').decode().lower()).strip('-')
+    return f'rec-{slug}'
+
+
+def section_anchor(section_id):
+    return 'attested-' + re.sub(r'[^a-z0-9]+', '-', section_id.lower()).strip('-')
+
+
+def load_recommendations():
+    """Visible recommendations from the export, newest first. HIDDEN rows are skipped."""
+    recs = []
+    with open(RECS_CSV, encoding='utf-8-sig', newline='') as f:
+        for row in csv.DictReader(f):
+            if row['Status'].strip() != 'VISIBLE':
+                continue
+            created = datetime.strptime(row['Creation Date'].strip(), '%m/%d/%y, %I:%M %p')
+            name = recommender_name(row['First Name'], row['Last Name'])
+            recs.append({
+                'name': name,
+                'title': row['Job Title'].strip(),
+                'company': row['Company'].strip(),
+                'created': created,
+                'date': created.date().isoformat(),
+                'text': row['Text'].strip(),
+                'anchor': rec_anchor(name),
+                'sections': [],
+            })
+    recs.sort(key=lambda r: r['created'], reverse=True)
+    return recs
+
+
+def attach_attested(recs, attested):
+    """Record which sections quote each recommendation; fail on any drift from the export."""
+    by_name = {r['name']: r for r in recs}
+    for sid, entries in attested.items():
+        for a in entries:
+            rec = by_name.get(a['name'])
+            if rec is None:
+                sys.exit(f'✗ {sid}: Attested name {a["name"]!r} is not a visible recommendation in {RECS_CSV}')
+            for key in ('title', 'company', 'date'):
+                if a[key] != rec[key]:
+                    sys.exit(f'✗ {sid}: Attested {key} for {a["name"]} is {a[key]!r}, export has {rec[key]!r}')
+            if a['excerpt'] not in rec['text']:
+                sys.exit(f'✗ {sid}: Attested excerpt for {a["name"]} is not verbatim in the export: {a["excerpt"]!r}')
+            if sid not in rec['sections']:
+                rec['sections'].append(sid)
 
 
 def check(sections, section_id, text):
@@ -297,14 +374,24 @@ def load_strengths(sections):
     return strengths
 
 
-def build_proof_points(sections):
+def attested_cell(used, attested):
+    """'<n> attested' for the row's sections that carry an Attested block, linked to the
+    first such section on the recommendations page; 'none' otherwise."""
+    with_block = [sid for sid in dict.fromkeys(used) if sid in attested]
+    names = {a['name'] for sid in with_block for a in attested[sid]}
+    if not names:
+        return '<td>none</td>'
+    return f'<td><a href="{RECS_PATH}#{section_anchor(with_block[0])}">{len(names)} attested</a></td>'
+
+
+def build_proof_points(sections, attested):
     strengths = load_strengths(sections)
     lines = [
         '        <h2 id="proof-points">Proof points</h2>',
         '        <div class="table-wrap">',
         '        <table>',
         '            <thead><tr><th>Product</th><th>Role</th><th>Outcome</th>'
-        '<th>Year</th><th>Strength</th><th>Source</th></tr></thead>',
+        '<th>Year</th><th>Strength</th><th>Attested</th><th>Source</th></tr></thead>',
         '            <tbody>',
     ]
     for row in PROOF_POINTS:
@@ -323,6 +410,7 @@ def build_proof_points(sections):
             sys.exit(f'✗ No strength label for {sid} in {STRENGTH_FILE}')
         used.append(sid)
         cells.append(f'<td>{escape(strengths[sid]["strength"])}</td>')
+        cells.append(attested_cell(used, attested))
         ids = ', '.join(dict.fromkeys(used))
         cells.append(f'<td data-source="{_escape(ids)}">source: TomBot</td>')
         lines.append('                <tr>' + ''.join(cells) + '</tr>')
@@ -375,7 +463,7 @@ def build_jsonld(sections):
     return f'<script type="application/ld+json">\n    {body}\n    </script>'
 
 
-def generate_html(sections):
+def generate_html(sections, attested):
     check(sections, *META_DESC_LINE)
     meta_desc = _escape(META_DESC_PREFIX + META_DESC_LINE[1])
 
@@ -385,7 +473,7 @@ def generate_html(sections):
         '    <main>',
         '        <h1>Tom Stenson: facts for agents</h1>',
     ]
-    body += build_proof_points(sections)   # the table first (Tom, 2026-10-12): it is what a tool reads
+    body += build_proof_points(sections, attested)   # the table first (Tom, 2026-10-12): it is what a tool reads
     body += build_who(sections)
     body += build_behaviour(sections)
     body += [
@@ -400,6 +488,8 @@ def generate_html(sections):
         '        <p>Every claim on this page is a verbatim line from TomBot content, marked "source: TomBot" '
         'with its section id in the data-source attribute. Case studies: '
         + ', '.join(f'<a href="{url}">{escape(name)}</a>' for name, url in CASE_STUDY_LINKS.items())
+        + '. Recommendations (evidence tier: attested): '
+        + ', '.join(f'<a href="{url}">{escape(name)}</a>' for name, url in RECS_LINKS.items())
         + '. The content source is the TomBot at <a href="/projects/tombot/">/projects/tombot/</a>.</p>',
         '    </main>',
         '',
@@ -475,6 +565,61 @@ def generate_case_study(sections, cs):
     return os.path.join(path.strip('/'), 'index.html'), html
 
 
+def generate_recommendations(recs, attested):
+    """for-agents/recommendations/: every visible recommendation, full text, newest first."""
+    n = len(recs)
+    title = 'Tom Stenson: LinkedIn recommendations, full text'
+    meta_desc = (f'{n} LinkedIn recommendations of Tom Stenson, product, Copenhagen: full text, '
+                 'recommender, current title, date, linked to the LinkedIn record.')
+    body = [
+        ROUTING_LINE,
+        '    <!-- MAIN CONTENT -->',
+        '    <main>',
+        f'        <h1>{escape(title)}</h1>',
+        f'        <p>Every recommendation visible on Tom Stenson\'s LinkedIn profile: {n}, newest first, '
+        'each text verbatim. Evidence tier: attested. '
+        f'Source: LinkedIn data export, {RECS_EXPORT_DATE}. '
+        'Titles and companies are each recommender\'s current title on LinkedIn at export, '
+        'not their title at the time of writing. '
+        f'Record of truth: <a href="{LINKEDIN_RECORD}">LinkedIn recommendations</a>. '
+        'Sections are the TomBot section ids whose answer the recommendation is quoted against '
+        '(<code>attested</code> in <a href="https://takenbyninjas.com/ask">/ask</a> and '
+        '<a href="https://takenbyninjas.com/ask/brief">/ask/brief</a>). '
+        f'Facts page: <a href="{PAGE_PATH}">{PAGE_PATH}</a>.</p>',
+    ]
+    for r in recs:
+        sections_dd = ', '.join(f'<code>{escape(sid)}</code>' for sid in r['sections']) or 'none'
+        body += [
+            f'        <article id="{r["anchor"]}">',
+            f'            <h2>{escape(r["name"])}</h2>',
+            '            <dl>',
+            '                <dt>Title and company (current title)</dt>',
+            f'                <dd>{escape(r["title"])}, {escape(r["company"])}</dd>',
+            '                <dt>Date</dt>',
+            f'                <dd><time datetime="{r["date"]}">{r["date"]}</time></dd>',
+            '                <dt>Sections</dt>',
+            f'                <dd>{sections_dd}</dd>',
+            '                <dt>Source</dt>',
+            f'                <dd><a href="{LINKEDIN_RECORD}">LinkedIn record</a></dd>',
+            '            </dl>',
+            f'            <blockquote><p>{escape(r["text"])}</p></blockquote>',
+            '        </article>',
+        ]
+    # Section id -> the recommendations its Attested block quotes (anchors for the facts page).
+    body += ['        <h2 id="by-section">By section</h2>', '        <dl>']
+    anchors = {r['name']: r['anchor'] for r in recs}
+    for sid, entries in attested.items():
+        names = ', '.join(f'<a href="#{anchors[a["name"]]}">{escape(a["name"])}</a>' for a in entries)
+        body += [f'            <dt id="{section_anchor(sid)}"><code>{escape(sid)}</code></dt>',
+                 f'            <dd>{names}</dd>']
+    body += ['        </dl>', '    </main>', '']
+    return '\n'.join([
+        agent_head(escape(title), _escape(meta_desc), RECS_PATH),
+        '\n'.join(body),
+        agent_footer(),
+    ]) + '\n'
+
+
 def write(path, html):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w', encoding='utf-8') as f:
@@ -483,8 +628,16 @@ def write(path, html):
 
 def main():
     sections = load_sections()
-    write(OUTPUT_FILE, generate_html(sections))
+    attested = load_attested()
+    for sid in attested:
+        if sid not in sections:
+            sys.exit(f'✗ Attested section {sid} not found in {CONTENT_FILE}')
+    recs = load_recommendations()
+    attach_attested(recs, attested)
+    write(OUTPUT_FILE, generate_html(sections, attested))
     print(f'✓ Agent facts page generated: {OUTPUT_FILE}')
+    write(RECS_FILE, generate_recommendations(recs, attested))
+    print(f'✓ Recommendations page generated: {RECS_FILE} ({len(recs)} recommendations)')
     for cs in CASE_STUDIES:
         out, html = generate_case_study(sections, cs)
         write(out, html)

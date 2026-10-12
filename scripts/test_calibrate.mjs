@@ -71,6 +71,8 @@ const NOVO = {
   title: 'NOVO.R1',
   content: 'Senior Product Manager at Novo Nordisk (Mar 2020 - Feb 2022), building Wegovycare.\n\nI launched it in 5 markets, a stealth transformation project[NOVO.R1.TRANSFORM]. ' + 'More detail about the work. '.repeat(30),
   follow_ups: [],
+  attested: [{ name: 'Michael Haase', title: 'AI Adoption Advisor', company: 'Lovable', date: '2025-11-05',
+    excerpt: "I made him Head of Product Ops, and he nailed it." }],
   similarity: 0.8234,
 };
 const NOYEAR = { title: 'STYLE.DISCOVERY', content: 'I run discovery with interviews and prototypes.', follow_ups: [], similarity: 0.66 };
@@ -140,7 +142,15 @@ await test('system prompt: no facts about Tom, no ranking language', async () =>
 // --- rows ---
 await test('row above threshold with year + outcome: met, evidence trimmed to 400', async () => {
   const row = buildRow('5+ years of product management experience', NOVO);
-  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'score']);
+  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'attested']);
+  assert.equal(row.tier, 'self-reported');
+  assert.equal(row.attested.length, 1);
+  assert.deepEqual(Object.keys(row.attested[0]), ['name', 'title', 'title_label', 'company', 'date', 'excerpt', 'record', 'tier']);
+  assert.equal(row.attested[0].tier, 'attested');
+  assert.equal(row.attested[0].title_label, 'current title');
+  assert.equal(row.attested[0].record, 'https://www.linkedin.com/in/tomstenson/details/recommendations/');
+  assert.equal(row.attested[0].excerpt, NOVO.attested[0].excerpt);
+  assert.ok(!row.evidence.includes('nailed'), 'attested excerpt must not leak into evidence');
   assert.equal(row.section, 'NOVO.R1');
   assert.equal(row.met, 'met');
   assert.equal(row.evidence.length, 403);
@@ -160,7 +170,12 @@ await test('row above threshold with no year: partial, short evidence not cut', 
 });
 await test('row below threshold: not met, null evidence and source', async () => {
   assert.deepEqual(buildRow('Danish is a plus', null),
-    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, score: null });
+    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, attested: [] });
+});
+await test('row with no attested column (old table): attested [], tier self-reported', async () => {
+  const row = buildRow('Hands-on with discovery', NOYEAR);
+  assert.deepEqual(row.attested, []);
+  assert.equal(row.tier, 'self-reported');
 });
 
 // --- handler ---

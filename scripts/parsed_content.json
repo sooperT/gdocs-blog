@@ -38,7 +38,10 @@
         "text": "tell me more about what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.JANITOR",
@@ -66,7 +69,10 @@
         "text": "what are your key skills",
         "target": "META.COMPETENCIES"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.GREETING",
@@ -97,7 +103,10 @@
         "text": "what is on your reading list",
         "target": "META.BOOKS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.COMPASS",
@@ -134,7 +143,10 @@
         "text": "what are your key skills",
         "target": "META.COMPETENCIES"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.LOOKING",
@@ -182,7 +194,10 @@
         "text": "what are your key skills",
         "target": "META.COMPETENCIES"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.SERVICES",
@@ -213,7 +228,10 @@
         "text": "what are you looking for",
         "target": "META.LOOKING"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.CONTACT",
@@ -241,7 +259,10 @@
         "text": "tell me about your career journey",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.COFFEE",
@@ -272,7 +293,10 @@
         "text": "what are you looking for",
         "target": "META.LOOKING"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.MENTORING",
@@ -303,7 +327,10 @@
         "text": "what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.EDUCATION",
@@ -333,7 +360,10 @@
         "text": "what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.COMPETENCIES",
@@ -369,7 +399,10 @@
         "text": "what turnarounds have you led",
         "target": "THEME.TURNAROUND"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.COLLEAGUE",
@@ -398,7 +431,32 @@
         "text": "what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Christian Theil Lundgaard",
+        "title": "Director",
+        "company": "Novo Nordisk",
+        "date": "2026-03-16",
+        "excerpt": "Besides that he is a really nice person, that is a strong contribution to your team's culture."
+      },
+      {
+        "name": "Lasse Hylleberg Mølleskov",
+        "title": "Associate Director, Innovation Process and Portfolio",
+        "company": "Novo Nordisk",
+        "date": "2026-03-03",
+        "excerpt": "Tom is a great source of sparring, mentoring and product knowledge. I’ve always walked away from an interaction, inspired and encouraged."
+      },
+      {
+        "name": "Tine Thygesen",
+        "title": "Board Member",
+        "company": "JungleFonden",
+        "date": "2013-08-08",
+        "excerpt": "In addition to providing valuable results, Tom was also a very popular colleague who fitted impressively well into the team because of his friendly and social manner."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.TOOLS",
@@ -427,7 +485,10 @@
         "text": "what are your key skills",
         "target": "META.COMPETENCIES"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.HOBBIES",
@@ -458,7 +519,10 @@
         "text": "what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.FAMILY",
@@ -490,7 +554,10 @@
         "text": "what are you reading",
         "target": "META.BOOKS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.LOCATION",
@@ -522,7 +589,10 @@
         "text": "what are you looking for",
         "target": "META.LOOKING"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.BOOKS",
@@ -552,7 +622,10 @@
         "text": "tell me about yourself",
         "target": "META"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.SUGGESTIONS",
@@ -599,7 +672,10 @@
         "text": "tell me about a time you failed",
         "target": "TQ.FAILURE"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.ARC",
@@ -648,7 +724,10 @@
         "text": "what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.JOBS",
@@ -697,7 +776,10 @@
         "text": "tell me about LEO Innovation Lab",
         "target": "LEO"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "NOVO",
@@ -730,7 +812,18 @@
         "text": "tell me about the Associate Product Director role",
         "target": "NOVO.R2"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Christian Theil Lundgaard",
+        "title": "Director",
+        "company": "Novo Nordisk",
+        "date": "2026-03-16",
+        "excerpt": "Tom has an unparalleled innovation and product mindset. That means that you can throw him into almost any problem, and he will identify ways of solving the challenge, that no-one had thought of before."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "NOVO.R1",
@@ -764,7 +857,18 @@
         "text": "tell me about the time you optimised the wrong thing",
         "target": "LEO.R1.STORY.FEELS"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Erik Ejlskov Jensen",
+        "title": "Principal Software Engineer",
+        "company": "Context&",
+        "date": "2025-11-05",
+        "excerpt": "I admired Toms ability to get the entire development team engaged in complex algorithms and turning them into simple solutions for the benefit of the end user."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "NOVO.R1.TRANSFORM",
@@ -795,7 +899,25 @@
         "text": "tell me about your motivation",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Lasse Hylleberg Mølleskov",
+        "title": "Associate Director, Innovation Process and Portfolio",
+        "company": "Novo Nordisk",
+        "date": "2026-03-03",
+        "excerpt": "No matter the challenge, Tom has a talent for turning it into an opportunity for transformation, improvement or new value propositions."
+      },
+      {
+        "name": "Eva Vangkilde",
+        "title": "Senior People Development Consultant",
+        "company": "VELUX",
+        "date": "2025-10-27",
+        "excerpt": "He excels in driving innovation and bringing agile principles to life."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "NOVO.R2",
@@ -829,7 +951,32 @@
         "text": "why are you leaving Novo",
         "target": "TQ.LEAVING"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Lasse Hylleberg Mølleskov",
+        "title": "Associate Director, Innovation Process and Portfolio",
+        "company": "Novo Nordisk",
+        "date": "2026-03-03",
+        "excerpt": "I have been lucky enough to work directly with Tom and see him in action while challenging senior leaders and peers to rethink how they understand challenges and see opportunities that might not be immediately apparent."
+      },
+      {
+        "name": "Michael Haase",
+        "title": "AI Adoption Advisor",
+        "company": "Lovable",
+        "date": "2025-11-05",
+        "excerpt": "I made him Head of Product Ops, and he nailed it. He is a structured mind with deep systems thinking and an unselfish way of focusing on what's best for the business, rather than even himself."
+      },
+      {
+        "name": "Eva Vangkilde",
+        "title": "Senior People Development Consultant",
+        "company": "VELUX",
+        "date": "2025-10-27",
+        "excerpt": "If you ever need someone to run a high attention level, strategically and commercially important innovation project…. Tom’s your guy."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "NOVO.R2.WEGOVY",
@@ -856,7 +1003,10 @@
         "text": "what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "NOVO.R2.GENAI",
@@ -882,7 +1032,10 @@
         "text": "what tools do you use",
         "target": "META.TOOLS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "LEO",
@@ -925,7 +1078,32 @@
         "text": "do you have machine learning experience",
         "target": "LEO.R3"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Kristian Schrøder Hart-Hansen",
+        "title": "Member of The Board of directors",
+        "company": "Skovdyrkerne",
+        "date": "2019-11-12",
+        "excerpt": "Tom is probably the best product lead we’ve ever had at iLAB, and brings a wealth of tech experience to bear on the problem at hand."
+      },
+      {
+        "name": "Sergio M. Vela",
+        "title": "Growth",
+        "company": "tamigo",
+        "date": "2019-10-29",
+        "excerpt": "TLDR; Tom would be without doubt a valuable asset to any organisation that needs a solid, senior product manager."
+      },
+      {
+        "name": "Jacob Mortensen",
+        "title": "Lead Engineer",
+        "company": "ZeroNorth",
+        "date": "2019-10-26",
+        "excerpt": "Both times Tom established a goal and process setup that helped focus the team on delivering value."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "LEO.R1",
@@ -955,7 +1133,10 @@
         "text": "tell me about the time you optimised the wrong thing",
         "target": "LEO.R1.STORY.FEELS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "LEO.R1.TURNAROUND",
@@ -984,7 +1165,10 @@
         "text": "are you a people manager",
         "target": "TQ.MGMT"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "LEO.R1.STORY.FEELS",
@@ -1012,7 +1196,10 @@
         "text": "tell me about a time you failed",
         "target": "TQ.FAILURE"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "LEO.R2",
@@ -1039,7 +1226,18 @@
         "text": "tell me about LEO",
         "target": "LEO"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Mira Hermitage",
+        "title": "Pathway Optimization Lead",
+        "company": "AstraZeneca",
+        "date": "2019-11-27",
+        "excerpt": "I particularly valued Tom's pragmatic approach to problem solving within a complex pharma environment and talent to convert patient insights into tangible tech solutions."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "LEO.R3",
@@ -1070,7 +1268,10 @@
         "text": "tell me about LEO",
         "target": "LEO"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "LEO.STORY.MODEL",
@@ -1099,7 +1300,10 @@
         "text": "tell me about a time you failed",
         "target": "TQ.FAILURE"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "T23",
@@ -1128,7 +1332,10 @@
         "text": "do you prefer IC or management roles",
         "target": "TQ.MGMT"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "OPBEAT",
@@ -1163,7 +1370,25 @@
         "text": "tell me about T23",
         "target": "T23"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Ron Cohen",
+        "title": "Building in private markets",
+        "company": "Stealth",
+        "date": "2016-03-08",
+        "excerpt": "Tom worked with us to crystalize our marketing material to bring out the core product propositions which made a huge impact on the perception of our offering."
+      },
+      {
+        "name": "Rasmus Makwarth",
+        "title": "Co-founder/CEO",
+        "company": "Reflag",
+        "date": "2016-01-22",
+        "excerpt": "Tom is a very talented marketeer, and it's been a pleasure working with him at Opbeat, where he led the marketing team. Tom is driven, hard-working, creative - and a great guy."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "OPBEAT.R1.GROWTH",
@@ -1189,7 +1414,18 @@
         "text": "tell me about Opbeat",
         "target": "OPBEAT"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Ron Cohen",
+        "title": "Building in private markets",
+        "company": "Stealth",
+        "date": "2016-03-08",
+        "excerpt": "He also introduced some much needed structure and process in our daily work with regards to marketing and was instrumental in getting us closer to the programming communities we're targeting."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "EURODNS",
@@ -1220,7 +1456,10 @@
         "text": "tell me about other turnarounds",
         "target": "THEME.TURNAROUND"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "EURODNS.R1.TURNAROUND",
@@ -1246,7 +1485,18 @@
         "text": "how did you grow Opbeat",
         "target": "OPBEAT.R1.GROWTH"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Lutz Berneke",
+        "title": "Chief Executive Officer",
+        "company": "Namespace Group",
+        "date": "2016-04-12",
+        "excerpt": "He impressed me by thoroughly analyzing our positioning in the market place and then recommending something very different of what was already in the pipeline and 90% done."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "EURODNS.R1.STORY.REMOTE",
@@ -1273,7 +1523,10 @@
         "text": "how did you reverse the traffic decline",
         "target": "EURODNS.R1.TURNAROUND"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "UK2",
@@ -1304,7 +1557,10 @@
         "text": "have you worked internationally",
         "target": "THEME.INTERNATIONAL"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "UK2.R1.USTURNAROUND",
@@ -1328,7 +1584,10 @@
         "text": "tell me about UK2",
         "target": "UK2"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "HOST",
@@ -1365,7 +1624,32 @@
         "text": "whats your biggest learning from Host Europe",
         "target": "TQ.FAILURE.LEARNING"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Karol Kowalski",
+        "title": "Technical Co-founder",
+        "company": "The Poker Timer",
+        "date": "2011-06-27",
+        "excerpt": "I was hired by Tom and reported to him when we worked at Webfusion."
+      },
+      {
+        "name": "John McGarvey",
+        "title": "Content Designer",
+        "company": "Wise",
+        "date": "2010-08-13",
+        "excerpt": "Tom was my boss at Pipex for about 18 months."
+      },
+      {
+        "name": "Tristan Slessor",
+        "title": "Global Digital Delivery & Technology Consultant (Contract)",
+        "company": "Diageo",
+        "date": "2008-08-15",
+        "excerpt": "Tom is a highly motivated, knowledgeable and productive individual who innately makes a great Web designer-developer and team manager."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "HOST.R1.REBRAND",
@@ -1388,7 +1672,10 @@
         "text": "tell me about your career journey",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "HOST.R2.STORY.DOMAIN",
@@ -1418,7 +1705,10 @@
         "text": "what are your key skills",
         "target": "META.COMPETENCIES"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "HOST.R3.STORY.ALTSITE",
@@ -1446,7 +1736,10 @@
         "text": "where did you start your career",
         "target": "HOST"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "THEME.AI",
@@ -1481,7 +1774,10 @@
         "text": "how technical are you",
         "target": "TQ.TECHNICAL"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "THEME.GROWTH",
@@ -1527,7 +1823,18 @@
         "text": "how did you turn around TREAT",
         "target": "LEO.R1.TURNAROUND"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Tine Thygesen",
+        "title": "Board Member",
+        "company": "JungleFonden",
+        "date": "2013-08-08",
+        "excerpt": "His working knowledge about SEO, analytics, conversions, marketing and online advertising is vast, and he has the skill and personality to test and implement the right solutions."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "THEME.TURNAROUND",
@@ -1560,7 +1867,25 @@
         "text": "what did you do at TwentyThree",
         "target": "T23"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Kristian Schrøder Hart-Hansen",
+        "title": "Member of The Board of directors",
+        "company": "Skovdyrkerne",
+        "date": "2019-11-12",
+        "excerpt": "With a unique talent for troubleshooting and the ability to take on the most complex of problems, Tom always steps up to the challenge with a positive and humble approach."
+      },
+      {
+        "name": "Lutz Berneke",
+        "title": "Chief Executive Officer",
+        "company": "Namespace Group",
+        "date": "2016-04-12",
+        "excerpt": "I am really happy I did because we now see very tangible results in ranking, traffic and conversion."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "THEME.MGMT",
@@ -1597,7 +1922,39 @@
         "text": "do you prefer being an IC or a manager",
         "target": "TQ.MGMT"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Sergio M. Vela",
+        "title": "Growth",
+        "company": "tamigo",
+        "date": "2019-10-29",
+        "excerpt": "He is a great team leader and team player, and someone who can manage products to meet and exceed expectations while keeping everyone aligned and happy."
+      },
+      {
+        "name": "Jacob Mortensen",
+        "title": "Lead Engineer",
+        "company": "ZeroNorth",
+        "date": "2019-10-26",
+        "excerpt": "Tom is great at executing and pushing the team and product forward - at times being very specific in what he wants and at other times leaving room for team members themselves to figure out how to get to the goal."
+      },
+      {
+        "name": "Karol Kowalski",
+        "title": "Technical Co-founder",
+        "company": "The Poker Timer",
+        "date": "2011-06-27",
+        "excerpt": "I was hired by Tom and reported to him when we worked at Webfusion. Tom was a very inspirational manager, who always had time for the team as well as managed a pile of projects given to him because of his ability to get things done."
+      },
+      {
+        "name": "John McGarvey",
+        "title": "Content Designer",
+        "company": "Wise",
+        "date": "2010-08-13",
+        "excerpt": "He did a good job as my manager, helping me prioritise conflicting tasks in a very busy company, and offering constructive feedback on my work. I'd definitely work with him again."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "THEME.BUILD",
@@ -1632,7 +1989,10 @@
         "text": "tell me about LEO Innovation Lab",
         "target": "LEO"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "THEME.INTERNATIONAL",
@@ -1663,7 +2023,10 @@
         "text": "what is your ideal work setup",
         "target": "TQ.SETUP"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.LEAVING",
@@ -1698,7 +2061,10 @@
         "text": "tell me about your career journey",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.GAP",
@@ -1721,7 +2087,10 @@
         "text": "tell me more about this chatbot",
         "target": "META.BOT"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.HOPPER",
@@ -1748,7 +2117,10 @@
         "text": "tell me more about your motivation",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.PHARMA",
@@ -1775,7 +2147,10 @@
         "text": "what's the red thread",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.WHYPHARMA",
@@ -1801,7 +2176,10 @@
         "text": "what's the red thread",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.5YEARS",
@@ -1827,7 +2205,10 @@
         "text": "tell me about your career journey",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.TECHNICAL",
@@ -1856,7 +2237,10 @@
         "text": "do you have machine learning experience",
         "target": "LEO.R3"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.MGMT",
@@ -1886,7 +2270,10 @@
         "text": "have you built teams from scratch",
         "target": "THEME.BUILD"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.WEAKNESS",
@@ -1917,7 +2304,10 @@
         "text": "what are you like to work with",
         "target": "META.COLLEAGUE"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.SETUP",
@@ -1944,7 +2334,10 @@
         "text": "what are you looking for",
         "target": "META.LOOKING"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.SALARY",
@@ -1970,7 +2363,10 @@
         "text": "tell me about yourself",
         "target": "META"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.START",
@@ -1996,7 +2392,10 @@
         "text": "tell me about yourself",
         "target": "META"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.HIRE",
@@ -2023,7 +2422,10 @@
         "text": "what kind of roles are you looking for",
         "target": "META.LOOKING"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.FAILURE",
@@ -2057,7 +2459,10 @@
         "text": "tell me more about prioritising ideas over learnings",
         "target": "TQ.FAILURE.LEARNING"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.FAILURE.SHIP",
@@ -2087,7 +2492,10 @@
         "text": "how do you approach problems",
         "target": "TQ.APPROACH"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.FAILURE.LEARNING",
@@ -2118,7 +2526,10 @@
         "text": "tell me about other times you have failed",
         "target": "TQ.FAILURE"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.APPROACH",
@@ -2147,7 +2558,10 @@
         "text": "tell me about a time you failed",
         "target": "TQ.FAILURE"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.HELMET",
@@ -2174,7 +2588,10 @@
         "text": "what are your hobbies",
         "target": "META.HOBBIES"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.PINEAPPLE",
@@ -2202,7 +2619,10 @@
         "text": "tell me about yourself",
         "target": "META"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.WEBSITE",
@@ -2230,7 +2650,10 @@
         "text": "tell me about yourself",
         "target": "META"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.BOT",
@@ -2261,7 +2684,10 @@
         "text": "how technical are you",
         "target": "TQ.TECHNICAL"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.DEFLECT",
@@ -2283,6 +2709,9 @@
         "text": "tell me about your career journey",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   }
 ]

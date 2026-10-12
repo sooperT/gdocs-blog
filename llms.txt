@@ -8,6 +8,7 @@
 - [Start here for agents](https://takenbyninjas.com/for-agents/start.md): for an assistant helping someone assess Tom: what to fetch and call, and how to cite
 - [Wegovycare](https://takenbyninjas.com/for-agents/wegovycare/): case study, verbatim TomBot sections NOVO.R1 and NOVO.R1.TRANSFORM
 - [TREAT](https://takenbyninjas.com/for-agents/treat-turnaround/): case study, verbatim TomBot sections LEO.R1, LEO.R1.TURNAROUND, LEO.R1.STORY.FEELS and LEO.STORY.MODEL
+- [LinkedIn recommendations, full text](https://takenbyninjas.com/for-agents/recommendations/): attested tier, every recommendation visible on Tom's LinkedIn profile, verbatim, with each recommender's current title, date and the TomBot sections it is quoted against
 
 ## Ask TomBot
 

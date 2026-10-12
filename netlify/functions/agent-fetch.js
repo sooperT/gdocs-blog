@@ -1,5 +1,5 @@
 // Serves the agent side (/for-agents/ facts page, /for-agents/start.md, the
-// case studies) and /llms.txt through a function so fetches are counted
+// case studies, the recommendations page) and /llms.txt through a function so fetches are counted
 // (PRD W2.5, decision D5, backlog item 26). Umami is JavaScript and never sees bots.
 //
 // Routed by netlify.toml rewrites (force = true) to
@@ -41,6 +41,8 @@ export const RESOURCES = {
     public: ['/for-agents/wegovycare', '/for-agents/wegovycare/index.html'] },
   'treat-turnaround': { path: '/for-agents/treat-turnaround/', file: 'for-agents/treat-turnaround/index.html', type: HTML,
     public: ['/for-agents/treat-turnaround', '/for-agents/treat-turnaround/index.html'] },
+  recommendations: { path: '/for-agents/recommendations/', file: 'for-agents/recommendations/index.html', type: HTML,
+    public: ['/for-agents/recommendations', '/for-agents/recommendations/index.html'] },
 };
 
 // Accepts both the rewritten form (/.netlify/functions/agent-fetch/llms)
