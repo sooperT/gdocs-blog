@@ -156,7 +156,7 @@ PROOF_POINTS = [
         'role': ('Associate Product Director at Novo Nordisk', 'NOVO.R2'),
         'outcome': ('the proof of concept showed a clear path to dramatically faster release cycles',
                     'NOVO.R2.GENAI'),
-        'year': ('Feb 2022 - 2026', 'NOVO.R2'),
+        'year': ('Feb 2022 - Mar 2026', 'NOVO.R2'),
         'strength': 'NOVO.R2',
     },
     {
@@ -355,6 +355,7 @@ def build_jsonld(sections):
         'name': 'Tom Stenson',
         'givenName': 'Tom',
         'familyName': 'Stenson',
+        'alternateName': ['Thomas Stenson'],   # legal first name; N1010-2: the only other public form
         'jobTitle': JOB_TITLE[1],
         'address': {
             '@type': 'PostalAddress',
