@@ -202,41 +202,30 @@ def end(text):
     return text if text[-1:] in '.!?' else text + '.'
 
 
-STORY_FIELDS = ['id', 'role', 'product', 'situation', 'task', 'action', 'result', 'years', 'link']
-FIT_FIELDS = ['n', 'requirement', 'fit', 'stories', 'note']
-
-
-def fit_compact(rows, section_pages):
-    """The appendix form (Tom, 2026-10-12: a table is a construct for people; this
-    page is for machines). Each story once, as an array with the fields declared
-    once; each requirement an array pointing at its stories by id. A story that
-    answers three requirements is written once, not three times."""
-    ids, stories, fit = {}, [], []
-
-    def sid(r):
-        key = (cell(r, 'product'), cell(r, 'result'))
-        if key not in ids:
-            ids[key] = f'S{len(ids) + 1}'
-            stories.append([ids[key], cell(r, 'role'), cell(r, 'product'), cell(r, 'situation'), cell(r, 'task'), cell(r, 'action'),
-                            cell(r, 'result'), year_span([cell(r, 'year')]), r.get('page')])
-        return ids[key]
-
+def fit_plain(rows, section_pages):
+    """The appendix form. The foundation reader is the standard ATS (Tom,
+    2026-10-12): it extracts text and matches words, nothing more. So: plain
+    sentences, no tables, no arrays, no ids to resolve; each requirement in the
+    job description's full words, its evidence beside it, every line complete on
+    its own. Arrays and JSON are for agents, and live behind the link."""
+    md = []
     for r in rows:
-        mine = [sid(x) for x in ([r['local']] if r.get('local') else []) + list(r.get('also') or [])]
-        note = None
-        if not mine:
-            link = r['link'] or section_pages.get(r['section']) or f'{SITE}/for-agents/'
-            if r['pointer']:
-                note = f'on record, no summarised story yet: {link}'
-            elif r.get('near'):
-                note = f"nearest, not a match: {sid(r['near'])}"
-            else:
-                note = 'not on record'
-        fit.append([r['n'], r['requirement'], r['fit'], mine] + ([note] if note else []))
-    dump = lambda a: json.dumps(a, ensure_ascii=False)
-    md = [f'Requirements: {dump(FIT_FIELDS)}. met = a story with an outcome and a date; partial = on record without both; not met = not on record.', '']
-    md += [dump(a) for a in fit] + ['']
-    md += [f'Stories: {dump(STORY_FIELDS)}. null = not yet stated.', ''] + [dump(a) for a in stories] + ['']
+        link = r['link'] or section_pages.get(r['section'])
+        stories = ([r['local']] if r.get('local') else []) + list(r.get('also') or [])
+        if stories:
+            first = stories[0]
+            # A story already told above is restated short (result, who, when): no "see 1".
+            cells = ('result',) if r['same_as'] else ('result', 'action')
+            said = ' '.join(end(cell(first, k)) for k in cells if cell(first, k)) + f' {who_of(first)}.'
+            said += ''.join(f" Also: {end(cell(x, 'result'))} {who_of(x)}." for x in stories[1:])
+            said += f" {first.get('page') or link or ''}".rstrip()
+        elif r['pointer']:
+            said = f"On record, no summarised story yet. {link or SITE + '/for-agents/'}"
+        elif r.get('near'):
+            said = f"Nearest, not a match: {end(cell(r['near'], 'result'))} {who_of(r['near'])}. {r['near'].get('page') or ''}".rstrip()
+        else:
+            said = 'Not on record.'
+        md += [f"{r['n']}. {end(r['requirement'])}", f"Evidence ({r['fit']}): {said}", '']
     return md
 
 
@@ -317,7 +306,8 @@ def build(resp, rows_json, jd_name, tag=None, applying=None, answers=None):
     if resp is not None:
         exp = experience_rows(rows)
         md += [f'### Fit: {jd_name} ({len(exp)} experience requirements, in the job description\'s words)', '']
-        md += fit_compact(exp, load_section_pages())
+        md += ['met = a story with an outcome and a date; partial = on record without both; not met = not on record.', '']
+        md += fit_plain(exp, load_section_pages())
         if gaps:
             md += ['Not on record, ask Tom: ' + '; '.join(one_line(g, 80).rstrip('.') for g in gaps) + '.']
         md += ['']
