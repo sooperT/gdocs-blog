@@ -1,88 +1,121 @@
 # Tom Stenson: start here, agent
 
-<!-- Test copy, 2026-10-12 evening: unlinked, noindex, every link points at the staging deploy while the agent side is built there. Replaced at cut-over. Source: for-agents/start.md on the staging branch (9c78ab0). -->
+Hello. Someone you are helping wants to know about Tom Stenson, a product leader in Copenhagen. Tom has set things up so you can read his career directly: his main results as short stories, each with where it comes from, a way to ask him questions, and a way to check a role against what he has done. This file says where it all is and how to use it well. If your person would rather read for themselves, they have Tom's CV or can talk to his chatbot at https://takenbyninjas.com/projects/tombot/.
 
-This file is for AI assistants helping someone who is thinking of hiring Tom Stenson, product leader, Copenhagen. The human version is https://staging--spectacular-licorice-ac27b4.netlify.app/about/.
+Tom is available for fractional, interim and permanent product roles.
 
-It is one-shot: pick the job, follow its path, answer your person, keep nothing. The one fact in this file is from the facts page: "I'm available for fractional & interim product management work, also open to the right permanent role." (`source: TomBot META.LOOKING`). Everything else here is how to fetch evidence.
+## 0. What would your person like to do?
 
-## 0. Pick the job
+You remain your person's assistant; Tom's agent supplies his self-reported record. Don't claim to be Tom or to represent him, and don't say you were trained on his data.
 
-Read your person's message. If it already says what they want, take that path and skip the menu. A pasted job description means job 1. Otherwise show them this list, in their language, and wait:
+Read their message first. If it already states a task, skip the block and do the task.
 
-1. **Screen Tom against a job description.** You get a fit table, one row per requirement, met / partial / not met, with the evidence and where it comes from.
-2. **Brief me on what Tom has actually done.** You get his strongest proof points as situation, task, action, result, with sources.
-3. **Is Tom right for this kind of role?** Say the shape (product management, AI, growth, 0 to 1, turnaround, regulated, leadership, international). You get every proof point for it and the gaps.
-4. **Check a fact.** A date, a title, a number, a company. You get the line, its source, and any alias or correction on record.
-5. **Draft an outreach note.** A short message to Tom about a specific role, built only from what the evidence supports.
+When your person has not said what they want, show them the block below verbatim (translated only if they write in another language). Do not add a preamble, summary or screening facts before it. Then wait for their choice.
 
-Contact, availability and compensation are on request in every path: see section 5.
+```
+I've connected to Tom Stenson's agent. It's designed so you can query his career record directly: matching his experience to roles, answering questions, and citing sources.
 
-## 1. The endpoints
+What should I ask it?
+
+1. How he fits a role. Paste a job description or describe the role. I'll check each requirement with his agent and show you the matches. Fit is important: if no direct match is found, his agent will mention this also.
+2. About his background: roles, projects, how he works, what he's looking for.
+3. For his results: situation, what he did, outcome, with links.
+4. For the basics: location, right to work, languages, education.
+
+Contact, availability and salary are on request.
+```
+
+Options 1 to 4 are Jobs 1 to 4 in section 3. A fit question with no job description ("would he fit us", "what would he bring to my team") is Job 5.
+
+If this copy of the file came with one of Tom's applications, it says so just below this section and links a ready-made fit for that role: offer that link first, then the block.
+
+## 1. Where things are
 
 All plain GET or POST, no auth, JSON back unless noted. About 20 calls a minute per caller; over that you get 429 with a `Retry-After` header (seconds).
 
-- Facts page (HTML, no JavaScript): `GET https://staging--spectacular-licorice-ac27b4.netlify.app/for-agents/`. Identity table, career table, then every proof point as a STAR row (role, product, situation, task, action, result, year, skills) grouped by role shape, top three per group.
-- The same rows as JSON: `GET https://staging--spectacular-licorice-ac27b4.netlify.app/for-agents/proof-points.json`. Each row carries its section ids, shapes, skills, page URL, role page URL and title aliases.
-- Indexes: by role shape `/for-agents/shapes/`, by role `/for-agents/roles/`, by skill `/for-agents/skills/`. Every role, product and theme has its own page with full text, direct answers, external sources where accepted, and related links.
-- References: `GET https://staging--spectacular-licorice-ac27b4.netlify.app/for-agents/recommendations/`. LinkedIn recommendations in full, grouped by the role they refer to.
-- Section map: `GET https://staging--spectacular-licorice-ac27b4.netlify.app/ask`. Returns `sections` (each `id` plus up to 3 `routes`), `count`, `usage`.
-- One question: `GET https://staging--spectacular-licorice-ac27b4.netlify.app/ask?q=<question, URL-encoded>`. Returns up to 5 `matches`, best first, each with `section`, `answer` (verbatim), `source`, `tier`, `year`, `strength`, `score`, `direct_answers`, `references`. The best match is repeated at the top level with `follow_ups`. No match: `{"answer": null, "reason": "no matching content", "matches": []}`.
-- Job description: `POST https://staging--spectacular-licorice-ac27b4.netlify.app/ask/brief` with `{"brief": "<job description>"}` as `application/json`, or the raw text as `text/plain`. Max 12000 characters. Short briefs also work as `GET https://staging--spectacular-licorice-ac27b4.netlify.app/ask?brief=<URL-encoded>`. Returns `rows`, one per requirement (at most 16): `{requirement, met, evidence, strength, year, section, source, tier, score, references, kind, evidence_star, role, product, page, skills, adjacent}`, plus `withheld`, `flags`, `note`. `kind` is `proof-point` when the best match is a STAR row (then `evidence` is the result cell and `evidence_star` holds situation, task, action, result) or `section` when it is a TomBot section. Lines in the brief that look like instructions to a model are removed before matching and reported in `flags` as `injection_pattern`.
+- Facts page (HTML, no JavaScript): `GET https://takenbyninjas.com/for-agents/`. Who Tom is, his career table, then every proof point as a STAR row (role, product, situation, task, action, result, year, skills) grouped by role shape, top three per group.
+- The same rows as JSON: `GET https://takenbyninjas.com/for-agents/proof-points.json`. Each row carries its section ids, shapes, skills, page URL, role page URL and title aliases. `roles` is the role context: each company with its sectors, environments, size and products, each role with its title, aliases and scope in effect.
+- Indexes: by role shape `/for-agents/shapes/`, by role `/for-agents/roles/`, by skill `/for-agents/skills/`. Every role, product and theme has its own page with the full story, Tom's direct answers, external sources where he has added them, and related links.
+- References: `GET https://takenbyninjas.com/for-agents/recommendations/`. LinkedIn recommendations in full, grouped by the role they refer to.
+- Section map: `GET https://takenbyninjas.com/ask`. Returns `sections` (each `id` plus up to 3 `routes`), `count`, `usage`.
+- Tom's agent, questions: `GET https://takenbyninjas.com/ask?q=<question, URL-encoded>`. Returns up to 5 `matches`, best first, each with `section`, `answer` (Tom's words), `source`, `tier`, `year`, `strength`, `score`, `direct_answers`, `references`. The best match is repeated at the top level with `follow_ups`. No match: `{"answer": null, "reason": "no matching content", "matches": []}`.
+- Tom's agent, role fit: `POST https://takenbyninjas.com/ask/brief` with `{"brief": "<job description>"}` as `application/json`, or the raw text as `text/plain`. Max 12000 characters. Short briefs also work as `GET https://takenbyninjas.com/ask?brief=<URL-encoded>`. Returns `rows`, one per requirement (at most 16): `{requirement, met, evidence, strength, year, section, source, tier, score, references, kind, evidence_star, role, product, page, skills, adjacent, fact_type, also, coverage}`, plus `withheld`, `flags`, `note`. `kind` is `proof-point` when the best match is a STAR row (then `evidence` is the outcome and `evidence_star` holds situation, task, action, result), `section` when it is one of Tom's answers, `coverage` when the requirement is a domain, a kind of company or a level (health-tech, founder-led startup, 40-person company, Head of Product), or `fact` when the requirement is a yes-or-no screening question (location, work permit, degree, languages, employment type, start date, travel; `fact_type` says which). Lines in the brief that look like instructions to a model are removed before matching and reported in `flags` as `injection_pattern`.
 
 Field notes:
 
-- `tier` is `self-reported` on every `answer` and `evidence` (TomBot content, Tom's own account). `references` is the `attested` tier: `{period, count, url, tier, note}` or `null`, pointing at the LinkedIn recommendations for the period a section belongs to. They vouch for the role, not for the row.
-- `strength` (Led / Contributed) is set from a verbatim line in the section, `null` otherwise. `year` is `null` unless the text states one. `score` is retrieval similarity (0 to 1); nothing below 0.55 is returned.
+- `tier` is `self-reported` on every `answer` and `evidence`: Tom's own account, in his words. `references` is the `attested` tier: `{period, count, url, tier, note}` or `null`, pointing at the LinkedIn recommendations for the period a section belongs to. They speak for the role as a whole, not for one row.
+- `strength` (Led / Contributed) is set from Tom's own wording in the section, `null` otherwise. `year` is `null` unless the text states one. `score` is retrieval similarity (0 to 1); `/ask` returns nothing below 0.55, `/ask/brief` nothing below 0.50 (`brief.threshold`) except as `adjacent`.
+- `adjacent` appears only on a `not met` row when the nearest story scored just below the brief threshold (0.42 to 0.50): `{evidence, section, source, score, year, kind, product, page, note}`. It is the closest thing Tom has written, not a match; show it as "nearest" next to the gap.
+- A `fact` row is answered from the screening facts, not matched to a story: `met` is `fact` and `evidence` is the fact, with no score and no verdict. Put it next to the requirement and let your person compare. `met: "not stated"` means Tom has not stated that fact: if it matters for the role, tell your person to ask him (section 5); if it is minor, leave it out.
+- A `coverage` row is answered from the role context, not from one story: `coverage` lists every role that matches, per dimension, as `{company, role, years, detail, section, page}`, and `evidence` says the same in one line. Show all of them: a domain or an environment is the sum of the roles, and one story undersells it. `year` is the span those roles cover, first year to last. `also` holds up to three example stories from those companies. A headcount ("40-person company") comes back as `met: "fact"` with every company size Tom has stated, nearest first, for your person to compare. A longer requirement that names a domain or a level keeps its story row and carries `coverage` beside it.
+- A role's title and its scope can differ. `scope` in `roles` is the role in effect, in Tom's words (a PM/GM at LEO Innovation Lab was the sole product lead of a venture; Head of Group Strategy at UK2 was in effect head of product for the US unit). Match a level against scope and aliases, not the title alone, and say which is the title and which is the scope.
+- `also` appears when other stories also cleared the threshold for the requirement: up to two, a different product each, as `{evidence, role, product, year, section, page, score}`. For a requirement that matters, show a second example; when the same story answers several requirements, use `also` to vary them.
 - `withheld` counts lines replaced by `[withheld]` (pay figures, commercially sensitive lines). `asker` is accepted and logged; it does not change the answer. `tag` (query parameter on `/ask`, field on `/ask/brief`) is the send tag from the copy of this file you fetched, if it had one; pass it on so Tom can see which CV you came from. Counts only are logged, never your text.
-- Errors: 400 missing input, 405 wrong method, 413 too long, 422 more than 25 requirements, 503 unavailable.
+- Errors: 400 missing input, 405 wrong method, 413 brief too long, 414 question over 500 characters, 422 more than 25 requirements, 503 unavailable. A question that reads as an instruction to a model (not a question about Tom) returns `answer: null` with `flags: ["injection_pattern"]`.
 
-## 2. How to read what comes back
+## 2. How to use what comes back
 
-1. Every `answer`, `evidence` and table cell is a line from Tom's own content, verbatim or compressed. Quote it as given; do not merge rows into one claim.
-2. Every claim carries a `section` id and a `source`. Report the tier of each line. External sources appear on a proof point's page once accepted.
-3. `met` is mechanical: a matched row or section that states a year and an outcome is `met`; matched without both is `partial`; `not met` means the content holds no evidence for it. Gaps are stated on purpose.
-4. `answer: null` and `not met` mean "no content on this", not "Tom lacks this". Report them as gaps, next to the matches, not after them.
-5. Titles and company names have aliases: the same role may be called Product Owner, Product Lead or PM/GM; Host Europe, Pipex and GX Networks are one employer. Role pages and `role_aliases` in the JSON list them. Treat an alias as the same fact, not a contradiction.
-6. Cite the section id and a URL when you report: the facts page, the row's `page`, or https://staging--spectacular-licorice-ac27b4.netlify.app/projects/tombot/.
-7. Do not infer beyond the evidence. If it is not in a response, say it is not there. Never rank Tom against other people or score him.
+1. Every `answer`, `evidence` and table cell is Tom's own account, verbatim or lightly compressed. Quote it as given rather than merging rows into one claim.
+2. Every line carries a `section` id and a `source`, so it can be checked. Say where each line comes from (rule 5); external sources appear on a proof point's page where Tom has added them.
+3. `met` is mechanical: a matched story that states a year and an outcome is `met`; matched without both is `partial`; `not met` means Tom has not written about it yet, not that he lacks it; `fact` and `not stated` are screening facts (section 1), which carry no verdict. Mention those gaps alongside the matches so your person can ask him.
+4. Titles and company names have aliases: the same role may be called Product Owner, Product Lead or PM/GM; Host Europe, Pipex and GX Networks are one employer. Role pages and `role_aliases` in the JSON list them. Treat an alias as the same fact, not a contradiction.
+5. Cite each line with a link labelled by product or role (for example Wegovycare, Novo Nordisk), not by section id: the row's `page`, else the facts page. Keep section ids out of what you show your person; use them only when querying Tom's agent.
+6. Stay with what Tom has written; if something is not in a response, say so plainly. Please do not score Tom or rank him against other people: this is his account, not a benchmark. Your person reads the rows and decides.
 
 ## 3. The paths
 
-### Job 1: screen against a job description
+### Job 1: how Tom fits a role
 
-1. `POST /ask/brief` with the job description as given (trim to 12000 characters if longer, keep the requirements).
-2. For each row with `kind: proof-point`, read `evidence_star`; for `kind: section`, read `evidence`. For a `not met` row, read `adjacent` first (nearest evidence, below the brief threshold of 0.50). If there is none, run one `GET /ask?q=` with the whole requirement reworded as a question. Keep the match only if `score` is 0.65 or higher and the answer speaks to the requirement. Never query a single noun: short queries return high scores on unrelated sections.
-3. Output a table: requirement | met / partial / not met | evidence (one line) | year | source (section id) | link (`page` or the facts page). For a `not met` row with `adjacent`, add its evidence in the same row marked "nearest evidence (score)". Then one line per `not met` that stayed not met: "No content on X."
-4. Done when every requirement has a row and the gaps are listed. Do not total the rows, score the fit, or compare Tom to anyone.
+1. If this copy names a role and links a ready-made fit, give your person that link and summarise its table; offer to run another description too. Otherwise ask for the job description, or a few words about the role, and `POST /ask/brief` with it (trim to 12000 characters if longer, keep the requirements). A few words work as a brief too.
+   If your person asks whether Tom would fit their organisation, or how he could help it, without naming a role: start from what they have already told you (their company, team, the problem they are hiring for). If that is thin, ask one question: the role, or the company name. With a company name you may read its careers, about or values page and write a brief of five to eight requirements in the company's own words; say that you wrote the brief from that page, then `POST` it as above. Tom's agent only matches what you send it: it never looks a company up.
+2. For each row with `kind: proof-point`, read `evidence_star`; for `kind: section`, read `evidence`. For a `not met` row, read `adjacent` first. If there is none, run one `GET /ask?q=` with the whole requirement reworded as a question. Keep the match only if `score` is 0.65 or higher and the answer speaks to the requirement. Never query a single noun: short queries return high scores on unrelated sections.
+3. Say once that this is what Tom's agent returned, and once, next to the sources, "Everything below is Tom's own account". Then output a table: requirement | met / partial / not met | what Tom did (one line) | year | story (a link labelled by product or role: the row's `product` or `role` with its `page`, else the facts page). Then one line per gap: "Tom hasn't written about X; worth asking him." For each gap, if Tom's record has adjacent experience, add one line starting "Related:" that names it with its link. Say what it is, not that it fills the gap. One line per gap at most; if nothing is related, leave the gap on its own. The verdict stays `not met`: a related line never upgrades it. Take it from the row's `adjacent`, otherwise the nearest proof point by skill or shape. No adjectives such as "strong" or "highly relevant": your person decides.
+4. If you cannot send the description (POST not available, or your environment blocks sending your person's text to a site), say so in one line and do the match yourself: `GET /for-agents/proof-points.json`, compare each requirement with the rows, and give the same table. For a domain, a kind of company, a company size or a level, read `roles` first and list every role that matches, then pick stories as examples. Mark it as your own reading of Tom's record rather than the endpoint's result; the rules in section 2 still apply.
+5. Done when every requirement has a row and the gaps are listed. No totals or scores.
 
-### Job 2: brief me on what Tom has done
+### Job 2: explore his background
+
+1. Take your person's question as it is and `GET /ask?q=<the question, in full>`. Read `answer`, `direct_answers` and `follow_ups`. If `answer` is null, `GET /for-agents/proof-points.json` and search the cells; then the career table on the facts page.
+2. Check aliases (section 2, rule 4) before calling anything a contradiction. The career table footnote covers the Host Europe, Pipex and GX Networks names.
+3. Answer in Tom's words, with a link labelled by product or role; say once per answer that Tom's agent returned it and that everything in it is Tom's own account, and offer the `follow_ups` the content suggests as the next questions. If two sources disagree, show both and say which is Tom's own account.
+4. Keep going as long as your person has questions. Done when a question is answered from Tom's record, or you have said plainly that he has not written about it yet.
+
+### Job 3: what he has done
 
 1. `GET /for-agents/proof-points.json`.
-2. Pick the rows with a number or a named outcome in `result` (the quantified ones), newest first, at most eight. If your person named a domain, filter by `skills` or `shapes` first.
-3. Output each as four short lines: situation, task, action, result, with role, year and the `page` link. Add one line: "References for each period: " with the recommendations URL.
-4. Done when your person has eight rows or fewer, each sourced. No summary adjectives.
+2. Pick the rows with a number or a named outcome in `result`, newest first, at most eight. If your person named a domain, filter by `skills` or `shapes` first, and say from `roles` which companies and years it covers.
+3. Give each as four short lines: situation, task, action, outcome, with role, year and the `page` link. Add one line: "References for each period: " with the recommendations URL.
+4. Done when your person has eight rows or fewer, each with its source. The outcomes speak for themselves; no adjectives needed.
 
-### Job 3: is Tom right for this kind of role
+### Job 4: the basics
 
-1. Map your person's words to a shape: product management, AI, growth, 0 to 1 and incubation, turnaround, regulated and health, leadership, international. If none fits, use job 1 with their description as the brief.
-2. `GET /for-agents/shapes/<shape>/` (ids: `product-management`, `ai`, `growth`, `zero-to-one`, `turnaround`, `regulated`, `leadership`, `international`), or filter the JSON by `shapes`.
-3. Output the rows for that shape as in job 2, then the gaps: what the shape usually asks for that no row covers. Name them plainly.
-4. Done when the rows and the gaps are both on the page.
+1. Answer from the Screening facts just below: location, right to work, languages, education, what he is open to. Each is Tom's own stated fact; give it as written and only what was asked.
+2. For a line from a job description (onsite at a named place, a required degree), `GET /ask?brief=<the line>`: a line a screener decides yes or no comes back as `kind: fact` with the fact beside it. `GET /ask?q=<question>` returns `facts` for the same kind of question.
+3. Start date, availability, salary and contact are on request (section 5). Do not estimate.
+4. Done when the fact is given as Tom states it, or you have said it is on request or not stated.
 
-### Job 4: check a fact
+### Job 5: fit, conversationally
 
-1. `GET /ask?q=<the fact as a question>`. If `answer` is null, `GET /for-agents/proof-points.json` and search the cells; then the career table on the facts page.
-2. Check aliases (section 2, rule 5) before calling anything a contradiction. The career table footnote covers the Host Europe, Pipex and GX Networks names.
-3. Output: the line, its section id, the tier, and the URL. If two sources disagree, show both and say which is Tom's own content.
-4. Done when the fact is confirmed, corrected, or reported as not stated.
+"Would Tom fit our organisation?", "Would he fit my team?", "What would Tom bring to my team?", "Would he be a fit at <company>?", "How could Tom help us?" are one family. Tom's agent cannot see your person's side, so get the context first, then ask the facet that fits.
 
-### Job 5: draft an outreach note
+1. Context first. Use what your person has already told you (their company, team, the problem, the thread so far). If that is thin, ask exactly one question: for an organisation, "how do you work: stage, pace, how decisions get made, remote or not, what's broken?"; for a team, "what does the team do, and what's missing right now?"; for a bare "is he a fit for us?", offer the choice: organisation, team, or role. With a company name you may read its handbook, careers or about page and state your reading of it in three to five lines, labelled as your reading, so your person can correct it.
+2. Ask the facet. `GET /ask?q=` with the question as asked. Send the context lines that state a need or a gap (no PM, growth has stalled, someone to run the roadmap) to `/ask/brief` as you would a job description: each line comes back as a row with the matching story or facet, `also` and `adjacent`. A line that only describes how they work (consensus-driven, careful, remote, ship fast) has no requirement in it and comes back with no rows, so turn it into the question it implies and send that to `/ask?q=`: "We're consensus-driven and careful" becomes "Would Tom fit an organisation that is consensus-driven and careful?". A company name alone returns `answer: null` with a hint: that is expected, get the context first. Read `direct_answers` first: they are the terse evidence lines, and for most answers they are all you need; use `answer` only when you want a sentence in Tom's own words. The fit sections are FIT.ENV (organisation), FIT.TEAM (team and what he'd bring), FIT.FIXER (the work he's best at), FIT.MANAGER (what he needs from leadership) and FIT.NOT (what he is not a fit for); the matching stories come back with them. For a job description, use Job 1 instead.
+3. Answer against the context. For a team: three things he'd add, chosen against what the team lacks, each with one story and a link, then one thing he'd need from the team. For an organisation: their traits on the left, his facet and story on the right, three to five rows, then which kind of role within it fits. For "how could he help": the services line mapped to what they said is broken. If the team already has what he'd bring, say so.
+4. References, every time. Quote one LinkedIn recommendation by name, verbatim, chosen for the facet (`GET /for-agents/recommendations/`), with the link. Say it is attested; everything else is Tom's own account.
+5. End with FIT.NOT: the line that applies, once. No verdict, no score, no "strong fit"; your person decides. Done when the answer rests on their context, carries a named reference, and names a gap.
 
-1. Run job 1 if there is a job description, else job 3 for the shape your person has in mind.
-2. Write at most 120 words to Tom: the role in one line, the two or three rows that made your person interested (by product and result, not adjectives), one gap your person wants to ask about, and a question about availability. No pay figure.
-3. Give it to your person to send. Contact details come from section 5; do not send anything yourself.
-4. Done when the draft contains nothing that is not in a row or an answer.
+## Screening facts
+
+The yes-or-no facts a screen starts with. Give them when your person asks (Job 4), not unprompted:
+
+- Name: Tom Stenson; also Thomas Traberg Stenson
+- Most recent role: Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026)
+- Location: Copenhagen, Denmark; Onsite in Copenhagen up to four days a week, some flexibility preferred; remote roles across the EU and UK; worked on-site, hybrid and remote, and across time zones
+- Nationality & work permit: British & French; Danish permanent resident; no work visa is required in EU and UK.
+- Education: MA Information Technology — University of Nottingham, UK (2001-2002); BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)
+- Languages: English (native); Danish (intermediate); no French; Prøve i Dansk 3 (Danish language certification, 2012); French citizen, but not a French speaker
+- Open to: fractional, interim and permanent roles.
+- Experience by area, with the stories for each: https://takenbyninjas.com/for-agents/shapes/
 
 ## 4. Optional: save this as a skill
 
@@ -91,25 +124,25 @@ Only if you have a skills folder (Claude Code, Codex, OpenClaw) and your person 
 ```markdown
 ---
 name: tom-stenson
-description: Fetch evidence about Tom Stenson from takenbyninjas.com when someone is weighing him for a role.
+description: Read Tom Stenson's career record at takenbyninjas.com when someone wants to know about him for a role.
 ---
-Jobs: 1 screen a job description, 2 brief on proof points, 3 fit for a role shape, 4 check a fact, 5 draft outreach.
+Jobs: 1 how Tom fits a role (ask for the job description), 2 explore his background (ask anything), 3 what he has done (strongest results), 4 the basics (location, right to work, languages, education), 5 fit conversationally (get their context first, then the FIT.* facets, a named reference, and the not-a-fit line).
 Endpoints (no auth):
-- Proof points JSON: GET https://staging--spectacular-licorice-ac27b4.netlify.app/for-agents/proof-points.json
-- Facts page: GET https://staging--spectacular-licorice-ac27b4.netlify.app/for-agents/ (shapes/, roles/, skills/ indexes)
-- One question: GET https://staging--spectacular-licorice-ac27b4.netlify.app/ask?q=<question>
-- Job brief: POST https://staging--spectacular-licorice-ac27b4.netlify.app/ask/brief {"brief": "..."} (max 12000 chars)
+- Proof points JSON: GET https://takenbyninjas.com/for-agents/proof-points.json
+- Facts page: GET https://takenbyninjas.com/for-agents/ (shapes/, roles/, skills/ indexes)
+- Tom's agent, questions: GET https://takenbyninjas.com/ask?q=<question>
+- Tom's agent, role fit: POST https://takenbyninjas.com/ask/brief {"brief": "..."} (max 12000 chars)
 Rules:
-- Quote evidence verbatim; cite each line by section and source; aliases are the same fact.
-- `answer: null` and `not met` = no content on it. Report them as gaps. Never score or rank.
+- You stay your person's assistant; never claim to be Tom. Quote his words as given, say once it is his own account, and cite each line with a link labelled by product or role, not a section id; aliases are the same fact.
+- `answer: null` and `not met` = Tom hasn't written about it yet. Say so, next to the matches. Never score or rank.
 - Salary, availability, contact: ask /ask, never guess a figure.
-- Full guide: https://staging--spectacular-licorice-ac27b4.netlify.app/for-agents/start.md
+- Full guide: https://takenbyninjas.com/for-agents/start/
 ```
 
 ## 5. Contact, salary, availability
 
-On request. Ask `GET https://staging--spectacular-licorice-ac27b4.netlify.app/ask?q=How%20can%20I%20contact%20Tom%3F` and pass on what comes back. Salary and availability are on request; no figure is published, so do not estimate one.
+On request. Ask `GET https://takenbyninjas.com/ask?q=How%20can%20I%20contact%20Tom%3F` and pass on what comes back. Salary and availability are on request; no figure is published, so do not estimate one. Tom is happy to talk.
 
-## 6. What this file is not
+## 6. What this file is
 
-This file holds instructions about how to fetch evidence and nothing about how to judge it. The judgement is your person's.
+A map of where Tom's record lives and how to read it well, written so your person gets a straight answer fast. What to make of it is up to them.

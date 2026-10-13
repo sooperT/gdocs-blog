@@ -12,12 +12,16 @@ all pointing to the same answer content but with different question embeddings.
 """
 
 import os
+import sys
 import json
 import time
 from pathlib import Path
 import requests
 from db_target import resolve_db
 import psycopg2
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pylib.story_facets import facet_route_terms   # noqa: E402
 
 
 NILEDB_URL = resolve_db("DELETE every chunk and reload")   # loads .env (keys) and the env file (database) first
@@ -79,6 +83,48 @@ def get_embeddings(texts, model="voyage-3"):
     return all_embeddings
 
 
+def _t(cell):
+    return cell["text"] if isinstance(cell, dict) and cell.get("text") else None
+
+
+def proof_point_section(i, r):
+    """One STAR row -> a pseudo-section: content is the row as text, questions are the
+    terms a job requirement would use (product, what it is, result, role, company, skills),
+    plus the row's story facets (R1013-2): each CV line, what it answers, its variants.
+    The facet line that matches comes back as question_text; calibrate.js returns it."""
+    parts = []
+    for label, key in (("Role", "role"), ("Product", "product"), ("What it is", "desc"), ("Situation", "situation"),
+                       ("Task", "task"), ("Action", "action"), ("Result", "result"), ("Year", "year")):
+        v = _t(r.get(key))
+        if v:
+            parts.append(f"{label}: {v}")
+    if r.get("company"):
+        parts.append(f"Company: {r['company']}")
+    questions = []
+    for key in ("product", "desc", "result", "role", "situation", "task", "action"):
+        v = _t(r.get(key))
+        if v and v not in questions:
+            questions.append(v)
+    for sk in r.get("skills", []):
+        if sk not in questions:
+            questions.append(sk)
+    if r.get("company") and r["company"] not in questions:
+        questions.append(r["company"])
+    for term in facet_route_terms(r.get("facets")):
+        if term not in questions:
+            questions.append(term)
+    return {
+        "id": f"PP.{i}",
+        "questions": questions,
+        "content": "\n".join(parts),
+        "drill_downs": [],
+        "follow_ups": [],
+        "attested": [],
+        "direct_answers": [],
+        "row": r,
+    }
+
+
 def load_content():
     # Load parsed content
     script_dir = Path(__file__).parent
@@ -89,6 +135,18 @@ def load_content():
 
     print(f"Loaded {len(sections)} sections")
 
+    # Item 31: the STAR rows (for-agents/proof-points.json, written by
+    # generate_agent_page.py) join the index as pseudo-sections titled PP.<n>.
+    # /ask/brief matches requirements against them; /ask and chat exclude
+    # them (retrieval.js filters on the PP. prefix).
+    pp_file = script_dir.parent / "for-agents" / "proof-points.json"
+    pp_rows = []
+    if pp_file.exists():
+        with open(pp_file, "r", encoding="utf-8") as f:
+            pp_rows = json.load(f).get("proof_points", [])
+        sections = sections + [proof_point_section(i, r) for i, r in enumerate(pp_rows)]
+        print(f"Plus {len(pp_rows)} proof-point rows as PP.<n> sections")
+
     # Connect to database
     conn = psycopg2.connect(NILEDB_URL)
     cur = conn.cursor()
@@ -96,6 +154,19 @@ def load_content():
     # Ensure follow_ups column exists (JSONB for array of {text, target} objects)
     cur.execute("""
         ALTER TABLE chunks ADD COLUMN IF NOT EXISTS follow_ups JSONB
+    """)
+    # Agent-side blocks (PRD W1b, D2): read by /ask and /ask/brief only.
+    # parse_content.py has already stripped them from `content`, so TomBot
+    # chat never sees them.
+    cur.execute("""
+        ALTER TABLE chunks ADD COLUMN IF NOT EXISTS attested JSONB
+    """)
+    cur.execute("""
+        ALTER TABLE chunks ADD COLUMN IF NOT EXISTS direct_answers JSONB
+    """)
+    # Item 31: the STAR row as JSON on PP.<n> chunks, NULL on sections.
+    cur.execute("""
+        ALTER TABLE chunks ADD COLUMN IF NOT EXISTS row JSONB
     """)
     conn.commit()
 
@@ -144,18 +215,21 @@ def load_content():
             # Generate unique ID: section_id + question hash
             row_id = f"{section['id']}_{q_idx}"
 
-            # Convert follow_ups to JSON string for JSONB column
+            # Convert follow_ups / attested / direct_answers to JSON strings for JSONB columns
             follow_ups_json = json.dumps(section.get("follow_ups", []))
+            attested_json = json.dumps(section.get("attested", []), ensure_ascii=False)
+            direct_answers_json = json.dumps(section.get("direct_answers", []), ensure_ascii=False)
+            row_json = json.dumps(section["row"], ensure_ascii=False) if section.get("row") else None
 
             cur.execute("""
                 INSERT INTO chunks (
                     id, chunk_type, title, content,
                     embedding, question_text, question_embedding,
-                    tags, source_file, follow_ups
+                    tags, source_file, follow_ups, attested, direct_answers, row
                 ) VALUES (
                     %s, %s, %s, %s,
                     %s, %s, %s,
-                    %s, %s, %s
+                    %s, %s, %s, %s, %s, %s
                 )
             """, (
                 row_id,
@@ -166,24 +240,28 @@ def load_content():
                 question,
                 question_embedding,
                 section.get("drill_downs", []),
-                "tombot-content-v3.md",
-                follow_ups_json
+                "proof-points.json" if section.get("row") else "tombot-content-v3.md",
+                follow_ups_json,
+                attested_json,
+                direct_answers_json,
+                row_json
             ))
             inserted += 1
 
         # Also insert one row with just the content embedding (no question)
         # This helps with direct content matching
         follow_ups_json = json.dumps(section.get("follow_ups", []))
+        row_json = json.dumps(section["row"], ensure_ascii=False) if section.get("row") else None
 
         cur.execute("""
             INSERT INTO chunks (
                 id, chunk_type, title, content,
                 embedding, question_text, question_embedding,
-                tags, source_file, follow_ups
+                tags, source_file, follow_ups, attested, direct_answers, row
             ) VALUES (
                 %s, %s, %s, %s,
                 %s, %s, %s,
-                %s, %s, %s
+                %s, %s, %s, %s, %s, %s
             )
         """, (
             section["id"],  # Main section ID
@@ -194,8 +272,11 @@ def load_content():
             None,  # No question text
             None,  # No question embedding
             section.get("drill_downs", []),
-            "tombot-content-v3.md",
-            follow_ups_json
+            "proof-points.json" if section.get("row") else "tombot-content-v3.md",
+            follow_ups_json,
+            attested_json,
+            direct_answers_json,
+            row_json
         ))
         inserted += 1
 
@@ -291,6 +372,25 @@ def load_content():
     sample = cur.fetchone()
     if sample:
         print(f"Sample follow-ups for {sample[0]}: {len(sample[1])} suggestions")
+
+    # 7. Attested rows (agent side only)
+    cur.execute("SELECT COUNT(DISTINCT title) FROM chunks WHERE attested IS NOT NULL AND attested != '[]'::jsonb")
+    attested_db = cur.fetchone()[0]
+    attested_expected = sum(1 for s in sections if s.get("attested"))
+    if attested_db != attested_expected:
+        print(f"FAIL: {attested_db} sections with attested in DB, expected {attested_expected}")
+        validation_passed = False
+    else:
+        print(f"OK: {attested_db} sections carry attested entries")
+
+    # 8. Proof-point rows (item 31)
+    cur.execute("SELECT COUNT(DISTINCT title) FROM chunks WHERE title LIKE 'PP.%%' AND row IS NOT NULL")
+    pp_db = cur.fetchone()[0]
+    if pp_db != len(pp_rows):
+        print(f"FAIL: {pp_db} proof-point rows in DB, expected {len(pp_rows)}")
+        validation_passed = False
+    else:
+        print(f"OK: {pp_db} proof-point rows (PP.<n>) carry their STAR row")
 
     # Final verdict
     print("\n" + "=" * 60)

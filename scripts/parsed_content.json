@@ -38,7 +38,10 @@
         "text": "tell me more about what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.JANITOR",
@@ -66,7 +69,10 @@
         "text": "what are your key skills",
         "target": "META.COMPETENCIES"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.GREETING",
@@ -97,7 +103,10 @@
         "text": "what is on your reading list",
         "target": "META.BOOKS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.COMPASS",
@@ -117,7 +126,9 @@
       "values",
       "what drives you",
       "your values",
-      "compass"
+      "compass",
+      "How does Tom choose between two roles?",
+      "What decides it for Tom?"
     ],
     "content": "My compass is simple: impact, learning, and fun.\n\nImpact: If what you do doesn't make a difference, then what's the point?\n\nDriving outcomes is how you make impact. Yes, it's the big stuff, hitting the big numbers, improving lives, driving impact through others, but it often starts in the small things.\n\nSmall sparks that create outsized change: a microcopy nudge, a well-timed notification, a product loop that compounds, a well placed thought-bomb at the coffee machine, an unspoken truth spoken in a user test. I look forward to finding sparks.\n\nLearning: I have 20+ years experience and a solid product sense, but I've learnt the hard way it's not *my* ideas that matter. The real power of product management lies in creating space for learning.\n\nCuriosity invites new mental models, fresh viewpoints, unexpected opportunities, and the complexity of life. I look forward to learning something new.\n\nFun: This is foundational. When you work on a compelling challenge with good, smart people that you respect and can laugh with, everything flows smoother. Great things can happen.\n\nYou could ask what I'm looking for next, or about my career arc.",
     "drill_downs": [],
@@ -134,11 +145,20 @@
         "text": "what are your key skills",
         "target": "META.COMPETENCIES"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Impact, learning, fun; fun is the tiebreaker."
+    ],
+    "external": []
   },
   {
     "id": "META.LOOKING",
     "questions": [
+      "Would Tom work in fintech?",
+      "Is Tom open to fintech?",
+      "Which industries is Tom open to?",
+      "Would Tom move into a new industry?",
       "What are you looking for?",
       "What kind of role are you after?",
       "What is your ideal next role?",
@@ -182,7 +202,14 @@
         "text": "what are your key skills",
         "target": "META.COMPETENCIES"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Open to fractional, interim and permanent roles.",
+      "Target industries: B2B, B2C, SaaS, health-tech, pharma, fintech, developer tooling, ecommerce, regulated industries.",
+      "Company size: Startup, Scaleup, Enterprise."
+    ],
+    "external": []
   },
   {
     "id": "META.SERVICES",
@@ -191,6 +218,8 @@
       "What can you help with?",
       "How can you help me?",
       "How can you help my company?",
+      "How could Tom help my organisation?",
+      "How could Tom help my team?",
       "What do you offer?",
       "How do we work together?",
       "What kind of work do you take on?",
@@ -213,7 +242,10 @@
         "text": "what are you looking for",
         "target": "META.LOOKING"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.CONTACT",
@@ -241,7 +273,10 @@
         "text": "tell me about your career journey",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.COFFEE",
@@ -272,7 +307,10 @@
         "text": "what are you looking for",
         "target": "META.LOOKING"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.MENTORING",
@@ -286,7 +324,12 @@
       "mentoring",
       "mentor",
       "mentorship",
-      "coaching"
+      "coaching",
+      "Has Tom coached or mentored product managers?",
+      "Does Tom have coaching, mentoring or training experience?",
+      "Has Tom raised the bar on craft in a team of PMs?",
+      "What did Tom's mentees go on to do?",
+      "Has Tom trained teams in product practice?"
     ],
     "content": "I mentor early-career PM's pro-bono, so if you'd like a safe-space to chat or nerd out about product - I'd be happy to talk.\n\nEmail me at tomstenson@gmail.com and we'll find a time.",
     "drill_downs": [],
@@ -303,11 +346,19 @@
         "text": "what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Coaching with dates: Novo Nordisk 2022-2026, four years as Associate Product Director coaching PMs; mentored PMs to move from delivery-led outputs to commercial outcomes[NOVO.R2]; coached incubation PMs and wrote the playbook for discovery-led products; former mentees hold the first NN co-creation workshop with patients, and address challenges with the core value proposition (2023); coached a product team around a reverse-LEAN model to define north star, leading & lagging indicators (2024). Consulting 2010-2013: remotely managed teams (UK & Romania) & coached individuals[META.JOBS]. Early-career PMs pro bono, 2026."
+    ],
+    "external": []
   },
   {
     "id": "META.EDUCATION",
     "questions": [
+      "Does Tom speak French?",
+      "What is Tom's level of Danish?",
+      "Which languages does Tom speak?",
       "What is your education?",
       "Where did you study?",
       "What did you study at university?",
@@ -316,9 +367,12 @@
       "Any certifications?",
       "Do you speak Danish?",
       "What languages do you speak?",
-      "What is your academic background?"
+      "What is your academic background?",
+      "Can Tom work in Danish?",
+      "Can Tom interview users in Danish?",
+      "Can Tom read Danish regulatory material?"
     ],
-    "content": "**Education:**\n- MA Information Technology — University of Nottingham, UK (2001-2002). Masters dissertation: Built a multi-threaded client-server application using Java & XML.\n- BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)\n\n**Certificates:**\n- IDEO U Human-Centred Systems Thinking / Leading Complex Projects (2024)\n- Certified Scrum Product Owner (CSPO)\n- Prøve i Dansk 3 (Danish language certification, 2012)\n\n**Languages:**\n- English (native)\n- Danish (conversational)",
+    "content": "**Education:**\n- MA Information Technology — University of Nottingham, UK (2001-2002). Masters dissertation: Built a multi-threaded client-server application using Java & XML.\n- BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)\n\n**Certificates:**\n- IDEO U Human-Centred Systems Thinking / Leading Complex Projects (2024)\n- Certified Scrum Product Owner (CSPO)\n- Prøve i Dansk 3 (Danish language certification, 2012)\n\n**Languages:**\n- English (native)\n- Danish (intermediate)",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -333,11 +387,26 @@
         "text": "what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "IDEO U: Designing for Change (2024). Scrum Alliance: Certified Scrum Product Owner (2021-2027). Mind the Product: AI for Product Management (in progress, 2026).",
+      "Anthropic: AI Fluency Framework & Foundations (Feb 2026), Claude Code in Action (Feb 2026). Pendo.io: AI for Product Management (Feb 2026). (LinkedIn)",
+      "Languages: English (native); Danish (intermediate, Prøve i Dansk 3 passed, 2012). French citizen, but not a French speaker.",
+      "Danish: intermediate (Prøve i Dansk 3, 2012), working in an English-language company; not full professional, so a hard requirement to read Danish regulatory material or interview users in Danish is not met."
+    ],
+    "external": []
   },
   {
     "id": "META.COMPETENCIES",
     "questions": [
+      "Has Tom spoken at conferences?",
+      "Does Tom do public speaking?",
+      "Has Tom presented at external events?",
+      "public speaking",
+      "conference speaker",
+      "Does Tom thrive in ambiguity?",
+      "Can Tom create clarity from ambiguity?",
       "What are your strengths?",
       "What are you good at?",
       "What are your core competencies?",
@@ -369,7 +438,12 @@
         "text": "what turnarounds have you led",
         "target": "THEME.TURNAROUND"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Public speaking outside his own company: none to date. Internal: first product lead to present learnings and mistakes at the LEO all-hands[LEO.R1.STORY.FEELS]."
+    ],
+    "external": []
   },
   {
     "id": "META.COLLEAGUE",
@@ -398,7 +472,32 @@
         "text": "what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Christian Theil Lundgaard",
+        "title": "Director",
+        "company": "Novo Nordisk",
+        "date": "2026-03-16",
+        "excerpt": "Besides that he is a really nice person, that is a strong contribution to your team's culture."
+      },
+      {
+        "name": "Lasse Hylleberg Mølleskov",
+        "title": "Associate Director, Innovation Process and Portfolio",
+        "company": "Novo Nordisk",
+        "date": "2026-03-03",
+        "excerpt": "Tom is a great source of sparring, mentoring and product knowledge. I’ve always walked away from an interaction, inspired and encouraged."
+      },
+      {
+        "name": "Tine Thygesen",
+        "title": "Board Member",
+        "company": "JungleFonden",
+        "date": "2013-08-08",
+        "excerpt": "In addition to providing valuable results, Tom was also a very popular colleague who fitted impressively well into the team because of his friendly and social manner."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.TOOLS",
@@ -427,7 +526,10 @@
         "text": "what are your key skills",
         "target": "META.COMPETENCIES"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.HOBBIES",
@@ -458,7 +560,10 @@
         "text": "what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.FAMILY",
@@ -490,11 +595,19 @@
         "text": "what are you reading",
         "target": "META.BOOKS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.LOCATION",
     "questions": [
+      "Is Tom open to hybrid work?",
+      "Does Tom work on-site or remote?",
+      "Has Tom worked remotely?",
+      "Has Tom worked across time zones?",
+      "What is Tom's preferred working pattern?",
       "Where are you from?",
       "Where do you live?",
       "Are you Danish?",
@@ -505,9 +618,12 @@
       "work visa",
       "nationality",
       "location",
-      "based"
+      "based",
+      "Would Tom relocate?",
+      "Is Tom open to relocation?",
+      "Relocation required"
     ],
-    "content": "British, living in Copenhagen since 2010. I have Danish permanent residency, so no work visa is required.",
+    "content": "British and French, living in Copenhagen since 2010. I have Danish permanent residency, so no work visa is required.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -522,7 +638,15 @@
         "text": "what are you looking for",
         "target": "META.LOOKING"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Copenhagen, Denmark. Onsite in Copenhagen up to four days a week, some flexibility preferred; remote roles across the EU and UK.",
+      "British & French; Danish permanent resident; no work visa is required in EU and UK.",
+      "Working pattern: it depends on the role and the location, but I'm flexible: worked on-site, hybrid and remote, and across time zones. Examples: EuroDNS across Luxembourg and Copenhagen[EURODNS.R1.STORY.REMOTE], the UK2 US turnaround from London[UK2.R1.USTURNAROUND].",
+      "Relocation: no. Remote across the EU and UK, or Copenhagen."
+    ],
+    "external": []
   },
   {
     "id": "META.BOOKS",
@@ -552,7 +676,10 @@
         "text": "tell me about yourself",
         "target": "META"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.SUGGESTIONS",
@@ -599,7 +726,10 @@
         "text": "tell me about a time you failed",
         "target": "TQ.FAILURE"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.ARC",
@@ -627,7 +757,7 @@
       "how did you start",
       "how did you get here"
     ],
-    "content": "**Late 80s:** First computer. Dad spent a month's salary on a home computer. Typing out BASIC from a magazine, syntax errors. Stayed hobby level for a while.\n\n**Late 90s:** Studying biology at university. The Internet happened - dot.com boom. Before that, the coolest thing was an under-construction GIF or a hit counter. Now there was disruption - competition between search engines, online shopping, travel reservations. Kids in bedrooms and garages were reshaping entire bricks and mortar industries. I had to get involved.\n\nStarted learning to make websites, design and code. Completed my degree, took a one-year Masters in IT.\n\n**2001-2004:** Graduated just as the dot.com bubble popped. No jobs. Freelance web design. Co-founded TextualHealing.com - mobile barcode tickets via MMS. Good idea, too early, never launched. [TQ.FAILURE.SHIP]\n\n**2003:** Eventually got a foot in the door answering phones at a web hosting company. Good at it (won the annual sales competition), but not my passion.\n\nAttracted by reach and impact - I wanted to do web. They had a website, but I thought I could do better. In evenings and weekends I made an alternative website, convinced a manager to try it out (1m visits), sales went up. Next week I was in the web design team. [HOST.R3.STORY.ALTSITE]\n\n**2004-2005:** 6 months later, I was leading the web design team. Reinvented the domain search process - first use of AJAX - revenue up 20% overnight. Became industry standard. [HOST.R2.STORY.DOMAIN]\n\n**2005-2006:** Via acquisitions, became part of Pipex - the UK's 4th largest broadband provider. Group Design Manager across multiple offices.\n\n**2006-2008:** Head of New Media at Host Europe Group. Managed all online channels across all brands. Member of Senior Management Team. Still in my 20s. 123-reg.co.uk became first company to register 1 million .uk domains. [HOST]\n\n**2008-2010:** Wanted to try something new. Switched to UK2 Group - another hosting company, but with an interesting Danish CEO with a disruptive mindset (JustEat, Zetland etc). By now doing a mix of web, marketing and product - wherever the opportunity was. Troubleshooter to CEO across UK, US, Ukraine offices. [UK2]\n\n**2010:** Met a girl on a ski slope and moved to Denmark. Went to school to learn Danish (Prøve i Dansk 3) and got involved in the Danish startup scene. Independent consulting - mix of web, ecommerce, marketing, growth. Lots of fun.\n\n**2013-2014:** EuroDNS - Marketing Director. Turnaround project. Reversed 4-year decline, doubled organic traffic, halved bounce rate. Hybrid remote setup that worked really well. [EURODNS]\n\n**2014-2016:** Opbeat - Head of Marketing. SaaS startup backed by cofounders of Facebook and Instagram. Built brand and channels from scratch. Trebled traffic and sign-ups. Later acquired by Elastic. [OPBEAT]\n\n**2016:** TwentyThree - rescued global launch on 6-week deadline. Contract role. [T23]\n\n**2016-2020:** Targeted health-tech as the last place to be disrupted by web.\n\nLEO Innovation Lab - a super interesting place. Arms-length product incubator, with the goal of disrupting LEO before someone else does. Brought in experts from across industries, time was the only limited factor. Move fast. Accelerated learning. Formative career moment, learnt so much. [LEO]\n\nInnovation Lab model ultimately not sustainable. Lab was super innovative, but parent company was unchanged. Need to disrupt from within. [LEO.STORY.MODEL]\n\n**2020-2022:** Product role at Novo Nordisk, convinced the business (in my final round job interview) to set aside their solution-first brief and start with the problem instead. Used this as a mandate to completely reinvent their ways of working. [NOVO.R1.TRANSFORM] Created a meaningful product that's still live today. Built a weight-loss prediction algorithm - later spun out into API product.\n\nAsked to scale this way of working across the organisation. Promoted to Associate Director [NOVO.R2], and helped move the business to the product operating model.\n\n**2026:** AI changes everything. Same feeling as the 90s.\n\nWant to know more? Ask me about any of the roles or companies mentioned above.",
+    "content": "**Late 80s:** First computer. Dad spent a month's salary on a home computer. Typing out BASIC from a magazine, syntax errors. Stayed hobby level for a while.\n\n**Late 90s:** Studying biology at university. The Internet happened - dot.com boom. Before that, the coolest thing was an under-construction GIF or a hit counter. Now there was disruption - competition between search engines, online shopping, travel reservations. Kids in bedrooms and garages were reshaping entire bricks and mortar industries. I had to get involved.\n\nStarted learning to make websites, design and code. Completed my degree, took a one-year Masters in IT.\n\n**2001-2004:** Graduated just as the dot.com bubble popped. No jobs. Freelance web design. Co-founded TextualHealing.com - mobile barcode tickets via MMS. Good idea, too early, never launched. [TQ.FAILURE.SHIP]\n\n**2003:** Eventually got a foot in the door answering phones at a web hosting company. Good at it (won the annual sales competition), but not my passion.\n\nAttracted by reach and impact - I wanted to do web. They had a website, but I thought I could do better. In evenings and weekends I made an alternative website, convinced a manager to try it out (1m visits), sales went up. Next week I was in the web design team. [HOST.R3.STORY.ALTSITE]\n\n**2004-2005:** 6 months later, I was leading the web design team. Reinvented the domain search process - first use of AJAX - revenue up 20% overnight. Became industry standard. [HOST.R2.STORY.DOMAIN]\n\n**2005-2006:** Via acquisitions, became part of Pipex - the UK's 4th largest broadband provider. Group Design Manager across multiple offices.\n\n**2006-2008:** Head of New Media at Host Europe Group. Managed all online channels across all brands. Member of Senior Management Team. Still in my 20s. 123-reg.co.uk became first company to register 1 million .uk domains. [HOST]\n\n**2008-2010:** Wanted to try something new. Switched to UK2 Group - another hosting company, but with an interesting Danish CEO with a disruptive mindset (JustEat, Zetland etc). By now doing a mix of web, marketing and product - wherever the opportunity was. Troubleshooter to CEO across UK, US, Ukraine offices. [UK2]\n\n**2010:** Met a girl on a ski slope and moved to Denmark. Went to school to learn Danish (Prøve i Dansk 3) and got involved in the Danish startup scene. Independent consulting - mix of web, ecommerce, marketing, growth. Lots of fun.\n\n**2013-2014:** EuroDNS - Marketing Director. Turnaround project. Reversed 4-year decline, doubled organic traffic, halved bounce rate. Hybrid remote setup that worked really well. [EURODNS]\n\n**2014-2016:** Opbeat - Head of Marketing. SaaS startup backed by cofounders of Facebook and Instagram. Built brand and channels from scratch. Trebled traffic and sign-ups. Later acquired by Elastic. [OPBEAT]\n\n**2016:** TwentyThree - rescued global launch on 6-week deadline. Contract role. [T23]\n\n**2016-2020:** Targeted health-tech as the last place to be disrupted by web.\n\nLEO Innovation Lab - a super interesting place. Arms-length product incubator, with the goal of disrupting LEO before someone else does. Brought in experts from across industries, time was the only limited factor. Move fast. Accelerated learning. Formative career moment, learnt so much. [LEO]\n\nInnovation Lab model ultimately not sustainable. Lab was super innovative, but parent company was unchanged. Need to disrupt from within. [LEO.STORY.MODEL]\n\n**2020-2022:** Product role at Novo Nordisk, convinced the business (in my final round job interview) to set aside their solution-first brief and start with the problem instead. Used this as a mandate to completely reinvent their ways of working. [NOVO.R1.TRANSFORM] Created a meaningful product that's still live today. Built a weight-loss prediction algorithm - later spun out into API product.\n\nAsked to scale this way of working across the organisation. Promoted to Associate Product Director [NOVO.R2], and helped move the business to the product operating model.\n\n**2026:** AI changes everything. Same feeling as the 90s.\n\nWant to know more? Ask me about any of the roles or companies mentioned above.",
     "drill_downs": [
       "HOST",
       "OPBEAT",
@@ -648,7 +778,10 @@
         "text": "what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.JOBS",
@@ -667,9 +800,12 @@
       "job history",
       "work history",
       "previous employers",
-      "companies worked for"
+      "companies worked for",
+      "What is Tom doing now?",
+      "Is Tom currently employed?",
+      "What is Tom's current title?"
     ],
-    "content": "| Years | Role | Company | Location |\n|-------|------|---------|----------|\n| 2022-2026 | Associate Product Director | Novo Nordisk | Copenhagen |\n| 2020-2022 | Product Manager (Wegovycare) | Novo Nordisk | Copenhagen |\n| 2018-2020 | PM/GM - Diagnosis App | LEO Innovation Lab | Copenhagen |\n| 2018 | PM/GM - Skincoach | LEO Innovation Lab | Copenhagen |\n| 2016-2017 | PM/GM - TREAT | LEO Innovation Lab | Copenhagen |\n| 2016 | Head of Marketing (contract) | TwentyThree | Copenhagen |\n| 2014-2016 | Head of Marketing | Opbeat | Copenhagen |\n| 2013-2014 | Marketing Director | EuroDNS | Luxembourg/Copenhagen |\n| 2010-2013 | Independent Consultant | Various | Copenhagen |\n| 2008-2010 | Head of Group Strategy | UK2 Group | London |\n| 2006-2008 | Head of New Media | Host Europe Group | London |\n| 2005-2006 | Group Design Manager | Pipex Internet | UK |\n| 2004-2005 | Web Designer | Host Europe / Pipex | UK |\n| 2003-2004 | Sales Executive | Host Europe | Nottingham |\n| 2002-2004 | Co-founder | TextualHealing.com | UK |\n| 2001-2004 | Freelance Web Designer | Various | UK |\n\nAsk me about any specific role for more detail. [NOVO] [LEO] [OPBEAT] [EURODNS] [UK2] [HOST]\n\n\n---\n\n# NOVO (2020-2026)",
+    "content": "| Years | Role | Company | Location |\n|-------|------|---------|----------|\n| 2026- | Fractional & Interim Product & Growth | Independent | Copenhagen |\n| 2022-2026 | Associate Product Director | Novo Nordisk | Copenhagen |\n| 2020-2022 | Product Manager (Wegovycare) | Novo Nordisk | Copenhagen |\n| 2018-2020 | PM/GM - Diagnosis App | LEO Innovation Lab | Copenhagen |\n| 2018 | PM/GM - Skincoach | LEO Innovation Lab | Copenhagen |\n| 2016-2017 | PM/GM - TREAT | LEO Innovation Lab | Copenhagen |\n| 2016 | Head of Marketing (contract) | TwentyThree | Copenhagen |\n| 2014-2016 | Head of Marketing | Opbeat | Copenhagen |\n| 2013-2014 | Marketing Director | EuroDNS | Luxembourg/Copenhagen |\n| 2010-2013 | Independent Consultant | Various | Copenhagen |\n| 2008-2010 | Head of Group Strategy | UK2 Group | London |\n| 2006-2008 | Head of New Media | Host Europe Group | London |\n| 2005-2006 | Group Design Manager | Pipex Internet | UK |\n| 2004-2005 | Web Designer | Host Europe / Pipex | UK |\n| 2003-2004 | Sales Executive | Host Europe | Nottingham |\n| 2002-2004 | Co-founder | TextualHealing.com | UK |\n| 2001-2004 | Freelance Web Designer | Various | UK |\n\nAsk me about any specific role for more detail. [NOVO] [LEO] [OPBEAT] [EURODNS] [UK2] [HOST]",
     "drill_downs": [
       "NOVO",
       "NOVO.R1",
@@ -697,7 +833,14 @@
         "text": "tell me about LEO Innovation Lab",
         "target": "LEO"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "2010-2013, independent consultant: worked as a freelance internet consultant to finance my relocation to Denmark. Clients included Host Europe (UK), EuroDNS (LUX), & Everplaces (DK). Content creation & SEO including interviews with MailChimp, Creative Commons, EFF, Rand Fishkin & Michael Palin. Spotted RaspberryPi before launch & created a partnership.",
+      "Host Europe, Pipex Hosting, Pipex Internet, GX Networks and Host Europe Group are one employer under successive names (2003-2008).",
+      "Since August 2026: independent, fractional and interim product and growth work, and open to the right permanent role[META.LOOKING]."
+    ],
+    "external": []
   },
   {
     "id": "NOVO",
@@ -730,7 +873,20 @@
         "text": "tell me about the Associate Product Director role",
         "target": "NOVO.R2"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Christian Theil Lundgaard",
+        "title": "Director",
+        "company": "Novo Nordisk",
+        "date": "2026-03-16",
+        "excerpt": "Tom has an unparalleled innovation and product mindset. That means that you can throw him into almost any problem, and he will identify ways of solving the challenge, that no-one had thought of before."
+      }
+    ],
+    "direct_answers": [
+      "Company context: Novo Nordisk is about 70,000 people globally. I worked in the digital health unit, about 100 people; the Wegovycare product team was around 10."
+    ],
+    "external": []
   },
   {
     "id": "NOVO.R1",
@@ -745,7 +901,21 @@
       "Tell me about Wegovycare",
       "tell me about Wegovycare",
       "Wegovycare",
-      "Give an example of a solution you built"
+      "Give an example of a solution you built",
+      "Has Tom driven adoption of a new technology across an organisation?",
+      "Has Tom got a product adopted by multiple markets?",
+      "Has Tom stayed with a product after launch until adoption landed?",
+      "Has Tom overcome resistance to a new way of working?",
+      "Has Tom driven technology adoption at scale?",
+      "Has Tom scaled a product to a significant user base?",
+      "How many users or patients used Tom's products?",
+      "Has Tom changed something structural in a consumer app people use daily?",
+      "Has Tom launched 0-to-1 and taken it one-to-100?",
+      "Has Tom built consumer products at scale?",
+      "Has Tom built software under medical-device rules?",
+      "Has Tom worked with SaMD or non-SaMD classification?",
+      "Has Tom shipped a clinical algorithm?",
+      "Has Tom worked within a drug label?"
     ],
     "content": "Senior Product Manager at Novo Nordisk (Mar 2020 - Feb 2022), building Wegovycare - a retention-focused digital service to increase repeat prescriptions for Wegovy.\n\nI led the full product lifecycle end to end, but it was really a stealth transformation project[NOVO.R1.TRANSFORM], where I could bring my learnings from LEO[LEO] but this time to in-house transformation.\n\nKey achievements:\n- Led the full product life-cycle, introducing discovery, rapid prototyping, iterative development, and automated documentation to the organisation.\n- Automated documentation and shifted release cycles from yearly to bi-monthly in high-regulation environment, enabling iterative learning.\n- Built a weight-loss prediction algorithm from concept to prototype (later spun out into a new API product)\n- Achieved 10% penetration in our first national market\n\nI was asked to scale these learnings across the product organisation and was promoted to Associate Product Director.[NOVO.R2]",
     "drill_downs": [
@@ -764,7 +934,30 @@
         "text": "tell me about the time you optimised the wrong thing",
         "target": "LEO.R1.STORY.FEELS"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Erik Ejlskov Jensen",
+        "title": "Principal Software Engineer",
+        "company": "Context&",
+        "date": "2025-11-05",
+        "excerpt": "I admired Toms ability to get the entire development team engaged in complex algorithms and turning them into simple solutions for the benefit of the end user."
+      }
+    ],
+    "direct_answers": [
+      "Patient interviews surfaced two insights: every patient's journey is different, but everyone wants to know the same things - how much weight will I lose, is this normal, am I on track. Those three questions became the core loop, and the weight-loss prediction model answered the first.",
+      "The brief I was given in my final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients.",
+      "Through research identified every user-journey is different. Built risk-profiling engine combining clinical data, usage signals, & PROMs to identify drop-off risks.",
+      "Applied consumer marketing playbook to act on risks, personalising experience for each patient. Built profiling and customisation engine to create an interactive magazine.",
+      "Digital patient platform for obesity medicine, built to scale. Designed for scaling: modular architecture, feature flags, integrated CMS & translation pipeline, and systematised cocreation with markets.",
+      "First digital Novo product to successfully scale. Made Novo's first digital health product adopted by multiple markets.",
+      "Led cross-functional team of 10. Set vision, implemented OKRs & used qual-quant signals to steer priorities and shape the roadmap.",
+      "Identified a key growth lever. Created a weight-loss prediction model in Excel, now spun-out to a Bayesian API service.",
+      "Title: Senior Product Manager; the internal title was Product Owner. Same role.",
+      "Adoption, Wegovycare: involved affiliates early to generate learnings & create buy-in; systematised cocreation with markets; 10% penetration in our first national market; biggest adoption of any digital patient solution at Novo; the resistance was a \"you're not working if you're not coding\" culture, and it took persuasion and a leap of faith from our stakeholders[NOVO.R1.TRANSFORM]. At LEO, made rapid prototyping and direct user interviews standard practice across all product teams[LEO].",
+      "Wegovycare was built as non-SaMD and bound by the drug label: it could only recommend the standard titration. The weight-loss prediction model started as an Excel spreadsheet, was spun out as a Bayesian API service, and the team later extended it to HbA1c[NOVO.R1]."
+    ],
+    "external": []
   },
   {
     "id": "NOVO.R1.TRANSFORM",
@@ -788,14 +981,34 @@
         "target": "LEO.STORY.MODEL"
       },
       {
-        "text": "tell me about your promotion to Associate Director",
+        "text": "tell me about your promotion to Associate Product Director",
         "target": "NOVO.R2"
       },
       {
         "text": "tell me about your motivation",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Lasse Hylleberg Mølleskov",
+        "title": "Associate Director, Innovation Process and Portfolio",
+        "company": "Novo Nordisk",
+        "date": "2026-03-03",
+        "excerpt": "No matter the challenge, Tom has a talent for turning it into an opportunity for transformation, improvement or new value propositions."
+      },
+      {
+        "name": "Eva Vangkilde",
+        "title": "Senior People Development Consultant",
+        "company": "VELUX",
+        "date": "2025-10-27",
+        "excerpt": "He excels in driving innovation and bringing agile principles to life."
+      }
+    ],
+    "direct_answers": [
+      "Borrowed an anthropologist from another division & proved the value. It later became the Insights team."
+    ],
+    "external": []
   },
   {
     "id": "NOVO.R2",
@@ -809,9 +1022,15 @@
       "Tell me about your current job",
       "What did you do most recently?",
       "What was your scope as Associate Product Director?",
-      "Tell me about your leadership role at Novo"
+      "Tell me about your leadership role at Novo",
+      "Has Tom won a decision at executive or board level?",
+      "Has Tom presented to executive audiences and influenced the outcome?",
+      "Has Tom secured funding from senior management?",
+      "Is Tom someone the C-suite trusts with a programme?",
+      "Has Tom led programmes together with senior stakeholders?",
+      "Has Tom built a function without a mandate?"
     ],
-    "content": "Associate Product Director at Novo Nordisk (Feb 2022 - 2026). Senior IC product role working across silos on complex, high-impact initiatives.\n\nWork includes:\n- Consumer lead for the Wegovy Pill launch, driving prescription growth [NOVO.R2.WEGOVY]\n- Pitched and built a GenAI proof of concept for automating compliance reviews [NOVO.R2.GENAI]\n- Led a six-month discovery programme for the company's top drug asset, securing funding for a portfolio of digital initiatives\n- Introduced a digital incubation model that shifted the organisation from output to outcomes\n- Head of product operations. Helped product teams connect work to commercial outcomes.",
+    "content": "Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026). Senior IC product role working across silos on complex, high-impact initiatives.\n\nWork includes:\n- Consumer lead for the Wegovy Pill launch, driving prescription growth [NOVO.R2.WEGOVY]\n- Pitched and built a GenAI proof of concept for automating compliance reviews [NOVO.R2.GENAI]\n- Led a six-month discovery programme for the company's top drug asset, securing funding for a portfolio of digital initiatives\n- Introduced a digital incubation model that shifted the organisation from output to outcomes\n- Head of product operations. Helped product teams connect work to commercial outcomes.",
     "drill_downs": [
       "NOVO.R2.WEGOVY",
       "NOVO.R2.GENAI"
@@ -829,7 +1048,54 @@
         "text": "why are you leaving Novo",
         "target": "TQ.LEAVING"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Lasse Hylleberg Mølleskov",
+        "title": "Associate Director, Innovation Process and Portfolio",
+        "company": "Novo Nordisk",
+        "date": "2026-03-03",
+        "excerpt": "I have been lucky enough to work directly with Tom and see him in action while challenging senior leaders and peers to rethink how they understand challenges and see opportunities that might not be immediately apparent."
+      },
+      {
+        "name": "Michael Haase",
+        "title": "AI Adoption Advisor",
+        "company": "Lovable",
+        "date": "2025-11-05",
+        "excerpt": "I made him Head of Product Ops, and he nailed it. He is a structured mind with deep systems thinking and an unselfish way of focusing on what's best for the business, rather than even himself."
+      },
+      {
+        "name": "Eva Vangkilde",
+        "title": "Senior People Development Consultant",
+        "company": "VELUX",
+        "date": "2025-10-27",
+        "excerpt": "If you ever need someone to run a high attention level, strategically and commercially important innovation project…. Tom’s your guy."
+      }
+    ],
+    "direct_answers": [
+      "CagriSema was the first drug to span two therapy areas, diabetes and obesity, that had never collaborated. Nobody had authority over both, so the discovery programme ran on influence.",
+      "The discovery funnel: 128 candidate ideas, a shortlist of 5, assumption-tested, 4 recommended and funded, each with a funding-gated rollout.",
+      "The organisational reflex was solution-first and siloed: output and theatre over outcomes. The incubation model was built to break that pattern.",
+      "Product Operations: standards, artefacts, ways of working. I know what good looks like because I've done it.",
+      "Digital Incubation: I established and led a digital product incubation unit, evaluating build, buy and partner solutions. It moved the business from solution-first to problem-first; CagriSema was its hardest test.",
+      "Head of Patient Products: led 6 experienced PMs building consumer engagement products. Management by outcomes.",
+      "Overcame resistance to establish weekly demos and experiment sharing. Broke product silos and encouraged learning loops.",
+      "Given a wider remit to work across the product pipeline and complete the transition to a product operating model.",
+      "Established metrics across a diverse portfolio (12 products).",
+      "Built first cross-portfolio view of product team costs and capacity, started conversation around ROI.",
+      "Established product artefacts & quality standards across the product org, eg: gate model & deliverables, product-ops metrics, portfolio reports, business case templates, problem/north-star statements.",
+      "Mentored PMs to move from delivery-led outputs to commercial outcomes.",
+      "Secured funding, managed resourcing and cross-charges for incubation teams.",
+      "Designed portfolio model and gated incubation pipeline for branded digital engagement.",
+      "Shifted cross-functional VPs from product sceptics to advocates.",
+      "Chaired project steercos. Flipped the format from status updates to interactive co-creation, shifting cross-functional VPs from product sceptics to advocates.",
+      "Thought partner to Product VP.",
+      "Pitched 'Rybelsus Beyond The Pill' to Senior Management, an ambitious cross-functional pipeline for generating learnings & extending staytime. A small pilot is underway.",
+      "I lobbied Novo to switch sales data to a cohort retention model and failed.",
+      "Decisions won at executive level: the CagriSema discovery funnel, 4 recommended and funded, each with a funding-gated rollout, done without mandate[NOVO.R2]; 'Rybelsus Beyond The Pill' pitched to Senior Management, a small pilot is underway[NOVO.R2]; the final round job interview at Novo, where the business set aside its solution-first brief[NOVO.R1.TRANSFORM]; the TREAT recommendation to the board, which wound down the business[LEO.R1]; the GX Networks rename of a Plc, including the stock market ticker, in 5 weeks[HOST.R1.REBRAND].",
+      "The incubation unit was built through influence, with no formal mandate, and its discovery playbook was his[NOVO.R2]."
+    ],
+    "external": []
   },
   {
     "id": "NOVO.R2.WEGOVY",
@@ -839,7 +1105,11 @@
       "What did you do for the Wegovy launch?",
       "Tell me about consumer lead work at Novo",
       "What is the Wegovy Pill project?",
-      "Tell me about Novo Pill launch"
+      "Tell me about Novo Pill launch",
+      "Has Tom worked on a large product launch?",
+      "Has Tom been part of go-to-market planning at scale?",
+      "Did Tom own the commercial plan for a launch?",
+      "Has Tom handed a programme over to another market?"
     ],
     "content": "I worked on the Wegovy Pill launch team as Consumer Lead. One of my roles was to challenge assumptions and inject product thinking into a company-critical initiative.\n\nI can't go into detail on the specific strategy as it's still commercially sensitive, but it was a real privilege and massive learning.",
     "drill_downs": [],
@@ -856,7 +1126,20 @@
         "text": "what motivates you",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "I rethought the user journey and created a simple structural fix to drive prescription growth.",
+      "I worked closely with the US affiliate for the Wegovy Pill launch.",
+      "Invited into company-critical Wegovy pill launch to challenge assumptions on digital, packaging, and direct distribution.",
+      "Used subscription-model thinking to link packaging to digital fulfilment for biggest ever pharma launch.",
+      "Aligned silos to create unified physical-to-digital experience.",
+      "Designed unified physical-to-digital experience to increase prescriptions for company-critical launch.",
+      "Selected for one-year placement on the company's most critical drug launch, representing the consumer voice in a science-first organisation.",
+      "Brought new commercial thinking by reframing adherence through a SaaS retention lens.",
+      "Wegovy Pill launch, 2025: global consumer lead on the launch team in strategic marketing; led the consumer workstream (digital, packaging, direct distribution) and took part in commercial launch planning (budget, strategy, packaging); the launch reached 1M patients in 16 weeks, with volumes owned by others; led the workstream, then handed it over to the US[NOVO.R2.WEGOVY]. Did not lead commercial planning."
+    ],
+    "external": []
   },
   {
     "id": "NOVO.R2.GENAI",
@@ -869,9 +1152,17 @@
       "What GenAI work have you done?",
       "Have you built anything with LLMs?",
       "Novo Nordisk AI",
-      "AI at Novo"
+      "AI at Novo",
+      "Has Tom rolled out AI tools to other teams?",
+      "Has Tom led adoption of AI across the software development lifecycle?",
+      "Has Tom got product teams to use an AI tool?",
+      "Has Tom driven internal adoption of a shared AI stack?",
+      "Has Tom run an AI enablement or training plan?",
+      "When did Tom build with LLMs?",
+      "How recent is Tom's GenAI work?",
+      "Has Tom shipped an agentic prototype in the last two years?"
     ],
-    "content": "When developing health software, every release needs extensive review by medical, legal and regulatory experts (MLR). The process was designed for simple marketing materials, not sophisticated software - but it hadn't evolved.\n\nIn practice, every screen had to be captured in PDF format and reviewed individually. The result: significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off.\n\nI used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations. Now we could automatically document and review each submission with a full audit trail - the review team only had to rubber-stamp the release.\n\nI also built a prototype agent that plugged into Figma, so designers could query the guidelines before investing too much effort. This allowed product teams to shift left - fail in design, not at review.\n\nThe product teams loved it. Organisational priorities later shifted and the project was handed to another team, but the proof of concept showed a clear path to dramatically faster release cycles.\n\n\n---\n\n# LEO INNOVATION LAB (2016-2020)",
+    "content": "When developing health software, every release needs extensive regulatory review by medical, legal and regulatory experts (pharma calls it MLR). The process was designed for simple marketing materials, not sophisticated software - but it hadn't evolved.\n\nIn practice, every screen had to be captured in PDF format and reviewed individually. The result: significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off.\n\nI used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations. Now we could automatically document and review each submission with a full audit trail - the review team only had to rubber-stamp the release.\n\nI also built a prototype agent that plugged into Figma, so designers could query the guidelines before investing too much effort. This allowed product teams to shift left - fail in design, not at review.\n\nThe product teams loved it. Organisational priorities later shifted and the project was handed to another team, but the proof of concept showed a clear path to dramatically faster release cycles.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -882,7 +1173,14 @@
         "text": "what tools do you use",
         "target": "META.TOOLS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Why it stopped at POC: it was built to test value, not to harden. Product teams used the Figma plugin on real designs and liked it, but a reorg and a vendor contract that covered the compliance-assistant use case meant it never got the second test or a path to production, and I moved on to the Wegovy Pill launch[NOVO.R2.WEGOVY]. Two tests were set; the first was run.",
+      "Rollout: the compliance RAG and the Figma agent were built for every product team's release review; the product teams loved it, and designers could query the guidelines in Figma, so teams could shift left; built the mandate to pitch for Generative AI regulatory reviews as a product and pitched senior leadership; execs weren't ready, and the project was handed to another team. Ways of working rolled out across organisations: design sprints, user testing and direct user interviews at LEO[LEO]; discovery, rapid prototyping and automated documentation at Novo, then a discovery playbook[NOVO.R1].",
+      "Dated: the agentic RAG compliance proof of concept was built in January 2025, inside the Associate Product Director role; two acceptance tests were set up front and the first was run with product teams on real designs[NOVO.R2.GENAI]."
+    ],
+    "external": []
   },
   {
     "id": "LEO",
@@ -925,7 +1223,38 @@
         "text": "do you have machine learning experience",
         "target": "LEO.R3"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Kristian Schrøder Hart-Hansen",
+        "title": "Member of The Board of directors",
+        "company": "Skovdyrkerne",
+        "date": "2019-11-12",
+        "excerpt": "Tom is probably the best product lead we’ve ever had at iLAB, and brings a wealth of tech experience to bear on the problem at hand."
+      },
+      {
+        "name": "Sergio M. Vela",
+        "title": "Growth",
+        "company": "tamigo",
+        "date": "2019-10-29",
+        "excerpt": "TLDR; Tom would be without doubt a valuable asset to any organisation that needs a solid, senior product manager."
+      },
+      {
+        "name": "Jacob Mortensen",
+        "title": "Lead Engineer",
+        "company": "ZeroNorth",
+        "date": "2019-10-26",
+        "excerpt": "Both times Tom established a goal and process setup that helped focus the team on delivering value."
+      }
+    ],
+    "direct_answers": [
+      "BetterVisitBot: a pre-briefing chatbot for doctor consultations. Worked with GPs to prototype it. I hid a dermatologist in an adjacent room to simulate a consultation chatbot. Right idea, too early. Now it isn't.",
+      "Title: PM/GM, also written Product Owner, Product Lead or Product Lead / GM on different CVs. Same role: product leads were mini-CEOs for each venture.",
+      "Company context: the Lab was a startup incubator at arm's length from LEO Pharma, a 12,000-person pharma company. So it was innovation, startup, pharma, health-tech, enterprise and AI at once.",
+      "Size: I joined when the Lab was 30 people and it was 130 when I left. Multiple startup teams of around 3 to 15 people each.",
+      "Scope: each team had one product owner, who was in effect a mini-CEO and head of product. I was the sole product lead on mine."
+    ],
+    "external": []
   },
   {
     "id": "LEO.R1",
@@ -934,7 +1263,16 @@
       "What was the TREAT product?",
       "Tell me about an underperforming product you turned around",
       "What happened with the LEO flagship product?",
-      "What was your first role at LEO?"
+      "What was your first role at LEO?",
+      "Has Tom made a recommendation to a board?",
+      "Is experimentation how Tom works?",
+      "Has Tom run A/B tests and split tests?",
+      "Can Tom challenge a data team and catch a bad read?",
+      "Has Tom built an experimentation culture in a team?",
+      "Has Tom run an experiment programme with a cadence?",
+      "What is behind Tom's halved acquisition cost?",
+      "Can Tom back his growth numbers?",
+      "What was the CAC measured per?"
     ],
     "content": "TREAT was a pioneering app addressing underlying causes of inflammatory conditions via personalised nutrition advice. It was the first product launched by LEO Innovation Lab, and it was underperforming.\n\nI was PM/GM (Nov 2016 - Aug 2017). I was parachuted in with a 6-month mandate to stabilise and assess viability. [THEME.TURNAROUND]\n\nKey achievements:\n- Brought the team onside and established a clear focus and experiment-led work rhythm [LEO.R1.TURNAROUND]\n- Halved customer acquisition costs, increased customer activation by 7x [THEME.GROWTH]\n- Defined product value proposition and integrated KPIs into daily workflow\n- Recommended business be closed, preventing further sunk investment",
     "drill_downs": [
@@ -955,7 +1293,15 @@
         "text": "tell me about the time you optimised the wrong thing",
         "target": "LEO.R1.STORY.FEELS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "A struggling psoriasis chatbot app with everything on fire. Worked with nutritionists to fix a struggling diet coaching app: rebuilt from the ground-up, established metrics. 7x activation. Then closed product.",
+      "Analysed business fundamentals, and following recommendation to the board successfully wound down the business. Reporting to the C-level team. (2017)",
+      "Experiment programme at TREAT, Nov 2016 to Aug 2017: established formal process for experiments; integrated KPIs into daily workflow; an experiment-led work rhythm; increased activation 7x through structured experimentation. One bad read caught: the notification opt-in split test, high conversion rate × tiny audience = marginal impact[LEO.R1.STORY.FEELS]. At Novo, weekly demos and experiment sharing across product teams[NOVO.R2].",
+      "The TREAT numbers: 7x activation is the one Tom is surest of; the halved acquisition cost was per signup, fairly sure, but it was a while back[LEO.R1]."
+    ],
+    "external": []
   },
   {
     "id": "LEO.R1.TURNAROUND",
@@ -969,7 +1315,7 @@
       "How do you handle taking over a struggling product?",
       "Tell me about building trust with an inherited team"
     ],
-    "content": "I was brought in to troubleshoot the flagship product \"TREAT\".\n\nIt was the first product to launch, and had a lot of attention. But behind the scenes it was in trouble: massive tech debt, no prioritisation, flaky metrics, no roadmap, unclear reporting structure, massive churn, no pathway to profitability.\n\nThe product had an existing team of about 15 people, including a product lead and product manager. They were passionate but in over their heads. We needed to be delicate - keep their passion and expertise while helping them out.\n\nI started as a consultant for the first month. After that, it was proposed I become the lead with them reporting to me. This required trust and humility from everyone. I gave them the option to veto - but we went ahead.\n\nWhat followed was intense. Fires, chaos, blurred reporting lines, people problems. We paused the service to refactor faster. Team morale hit rock bottom.\n\nBut we kept the faith. New cadences, new ways of working. We came out the other side not only intact but better and stronger - with real trust.",
+    "content": "I was brought in to troubleshoot the flagship product \"TREAT\".\n\nIt was the first product to launch, and had a lot of attention. But behind the scenes it was in trouble: massive tech debt, no prioritisation, flaky metrics, no roadmap, unclear reporting structure, massive churn, no pathway to profitability.\n\nThe product had an existing team of 15 people, including a product lead and product manager. They were passionate but in over their heads. We needed to be delicate - keep their passion and expertise while helping them out.\n\nI started as a consultant for the first month. After that, it was proposed I become the lead with them reporting to me. This required trust and humility from everyone. I gave them the option to veto - but we went ahead.\n\nWhat followed was intense. Fires, chaos, blurred reporting lines, people problems. We paused the service to refactor faster. Team morale hit rock bottom.\n\nBut we kept the faith. New cadences, new ways of working. We came out the other side not only intact but better and stronger - with real trust.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -984,7 +1330,10 @@
         "text": "are you a people manager",
         "target": "TQ.MGMT"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "LEO.R1.STORY.FEELS",
@@ -1012,7 +1361,10 @@
         "text": "tell me about a time you failed",
         "target": "TQ.FAILURE"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "LEO.R2",
@@ -1024,7 +1376,16 @@
       "Tell me about emotionally demanding product work",
       "Describe a patient support app",
       "What is the project you're most proud of?",
-      "Tell me about working with terminally ill patients"
+      "Tell me about working with terminally ill patients",
+      "Has Tom owned a client relationship end to end, with accountability for outcomes?",
+      "Has Tom managed a partnership with a large company?",
+      "Has Tom built a lasting relationship with a key external stakeholder?",
+      "Has Tom grown an account or partnership beyond the first engagement?",
+      "Has Tom delivered for a client under tight deadlines?",
+      "Has Tom designed products for B2B2C distribution?",
+      "Has Tom reached end users through partners, affiliates or resellers?",
+      "Has Tom built for both direct consumer and enterprise distribution?",
+      "Who was the customer and who was the user in Tom's products?"
     ],
     "content": "PM/GM at LEO Innovation Lab (Feb 2018 - Oct 2018), building a patient-support app for terminally ill cancer patients in partnership with Amgen.\n\nThis was some of the most meaningful work I've done. The app was designed to help patients manage side effects from their treatment.\n\nIt was a really difficult project, intense and emotionally demanding. I remember sitting at my desk, headphones on, listening to patient interviews and crying. It made me think about product work completely differently - every decision had to be intentional and judged with sensitivity.\n\nKey achievements:\n- Built a patient-support app under strict regulatory and ethical constraints\n- Completed the full product lifecycle in 8 months, on time and on budget\n- Managed stakeholders and negotiated a novel partnership model (later adopted by Amgen core business as an exemplar for innovation partnerships)\n- Live pilot launched in Spain and France",
     "drill_downs": [
@@ -1039,7 +1400,24 @@
         "text": "tell me about LEO",
         "target": "LEO"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Mira Hermitage",
+        "title": "Pathway Optimization Lead",
+        "company": "AstraZeneca",
+        "date": "2019-11-27",
+        "excerpt": "I particularly valued Tom's pragmatic approach to problem solving within a complex pharma environment and talent to convert patient insights into tangible tech solutions."
+      }
+    ],
+    "direct_answers": [
+      "Worked with oncologists to reimagine patient care between appointments. Interviewed terminally ill patients.",
+      "Dynamically spliced video to simulate personalised dermatology consultations for terminally ill cancer patients, designed for simplicity and trust.",
+      "Led in-market discovery with patients, affiliates and HCPs, a new approach later adopted across their wider org. Negotiated a novel outcome-based partnership with Amgen.",
+      "The Amgen relationship, Feb 2018 to Oct 2018 and after: a partnership project with the Amgen Commercial Business Unit; negotiated a novel outcome-based partnership; led in-market discovery & delivery; contract model & ways of working adopted as best practice across their org; Skincoach live & collecting user feedback as part of a closed pilot in Spain & France (Nov 2019). Thought partner to Product VP at Novo, 2022-2026[NOVO.R2]; troubleshooter for the CEO at UK2, 2008-2010[UK2].",
+      "Distribution: Skincoach reached patients through Amgen, a partnership project with the Amgen Commercial Business Unit, with a live pilot in Spain and France; Wegovycare reached patients through Novo's market affiliates, co-created with markets and adopted by multiple markets[NOVO.R1]; the Wegovy Pill work was with the US affiliate on direct distribution[NOVO.R2.WEGOVY]; at UK2 a domain registration, management and reseller platform served B2B and B2C growth[UK2]; EuroDNS operated in both the B2B & B2C sectors[EURODNS]."
+    ],
+    "external": []
   },
   {
     "id": "LEO.R3",
@@ -1051,9 +1429,13 @@
       "Do you have machine learning experience",
       "What machine learning experience do you have?",
       "Describe the skin diagnosis project",
-      "Have you worked with computer vision?"
+      "Have you worked with computer vision?",
+      "How did Tom define ground truth for an ML model?",
+      "Has Tom built an evaluation set for AI?",
+      "What guardrails has Tom put on an AI health product?",
+      "Has Tom kept an AI product outside medical-device scope?"
     ],
-    "content": "PM/GM at LEO Innovation Lab (Nov 2018 - Jan 2020), leading a 10-person team building a prototype diagnosis app using machine learning. This was my first deep experience with ML teams.[THEME.AI]\n\nKey achievements:\n- Led machine learning and computer vision specialists\n- Achieved >80% accuracy across 3 skin conditions, doubled labelling throughput\n- Evaluated go-to-market for a moonshot ML prototype; identified seven paths to market",
+    "content": "PM/GM at LEO Innovation Lab (Nov 2018 - Jan 2020), leading a 12-person team building a prototype diagnosis app using machine learning. This was my first deep experience with ML teams.[THEME.AI]\n\nKey achievements:\n- Led machine learning and computer vision specialists\n- Achieved >80% accuracy across 3 skin conditions, doubled labelling throughput\n- Evaluated go-to-market for a moonshot ML prototype; identified seven paths to market",
     "drill_downs": [
       "LEO.R3.ML"
     ],
@@ -1070,7 +1452,14 @@
         "text": "tell me about LEO",
         "target": "LEO"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Led a team of AI engineers all wired for logic and certainty through the deep uncertainty of product discovery, to rethink how a smartphone camera could diagnose skin conditions.",
+      "Worked with derms to redesign closed-loop diagnosis and ML training platform. Bootstrapped ML engine with clinical decision trees. Safe to launch with a path to full automation. Doubled dermatologist throughput.",
+      "Evaluation on the Diagnosis App: a golden image set built from dermatologist consensus; the model was a hybrid of deep learning and the diagnostic manual (clinical decision trees); guardrails were not-a-diagnosis disclaimers; non-SaMD by design, with a path to full automation; >80% accuracy across 3 skin conditions and labelling throughput doubled[LEO.R3]."
+    ],
+    "external": []
   },
   {
     "id": "LEO.STORY.MODEL",
@@ -1084,7 +1473,7 @@
       "How do you think about disruption from within vs outside?",
       "Why didn't it work at LEO?"
     ],
-    "content": "LEO Pharma could see digital disruption coming to healthcare. Their response was to create an arm's-length innovation lab - better we disrupt ourselves than let a competitor do it.\n\nThe logic for keeping it separate made sense: to be truly innovative, you need different thinking, different ways of working. If you stay too close to the mothership, you just replicate what already exists. So they brought in experts from all sorts of fields. A true melting pot.\n\nAnd it worked - in isolation. LEO Innovation Lab was incredibly agile, with rapid learning cycles and brilliant peers.\n\nBut the parent ship continued sailing unchanged. We were too remote. The innovations we created struggled to find a home back in the core business. You can't outsource disruption to a separate unit and graft it back on later. The parent organisation has to change too.\n\nAnd this informed my approach at Novo.[NOVO.R1.TRANSFORM]\n\n\n---\n\n# TWENTYTHREE (2016)",
+    "content": "LEO Pharma could see digital disruption coming to healthcare. Their response was to create an arm's-length innovation lab - better we disrupt ourselves than let a competitor do it.\n\nThe logic for keeping it separate made sense: to be truly innovative, you need different thinking, different ways of working. If you stay too close to the mothership, you just replicate what already exists. So they brought in experts from all sorts of fields. A true melting pot.\n\nAnd it worked - in isolation. LEO Innovation Lab was incredibly agile, with rapid learning cycles and brilliant peers.\n\nBut the parent ship continued sailing unchanged. We were too remote. The innovations we created struggled to find a home back in the core business. You can't outsource disruption to a separate unit and graft it back on later. The parent organisation has to change too.\n\nAnd this informed my approach at Novo.[NOVO.R1.TRANSFORM]",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1099,7 +1488,10 @@
         "text": "tell me about a time you failed",
         "target": "TQ.FAILURE"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "T23",
@@ -1111,7 +1503,7 @@
       "What was the global launch you rescued?",
       "Describe your contract role at TwentyThree"
     ],
-    "content": "TwentyThree was an integrated video marketing platform built for digital marketers. I joined on a 6-month contract as Head of Marketing to rescue a global launch.\n\nKey achievements:\n- Rescued global launch on a 6-week deadline\n- Stabilised a 10-12 person marketing team\n- Introduced lightweight reporting and planning structure\n\n\n---\n\n# OPBEAT (2014-2016)",
+    "content": "TwentyThree was an integrated video marketing platform built for digital marketers. I joined as Head of Marketing on a short-term contract, initially six weeks and extended to the end of the year, to rescue a global launch.\n\nKey achievements:\n- Rescued global launch on a 6-week deadline\n- Stabilised a 10-12 person marketing team\n- Introduced lightweight reporting and planning structure",
     "drill_downs": [
       "T23.R1.RESCUE"
     ],
@@ -1128,7 +1520,13 @@
         "text": "do you prefer IC or management roles",
         "target": "TQ.MGMT"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "A trouble-shooting assignment: short-term contract to provide structure to a team of 10 reports. Implemented OKRs, produced video content, crystalised USPs, introduced reporting structure.",
+      "Company context: a founder-led startup. About 30 people."
+    ],
+    "external": []
   },
   {
     "id": "OPBEAT",
@@ -1144,9 +1542,11 @@
       "Describe your startup experience",
       "Have you worked at a VC-backed startup?",
       "Tell me about building a brand from scratch",
-      "Give an example of a marketing role"
+      "Give an example of a marketing role",
+      "Has Tom owned pricing or a free tier?",
+      "Has Tom changed a pricing model to lift conversion?"
     ],
-    "content": "Opbeat was a developer tools SaaS startup providing application performance monitoring. Backed by the cofounders of Facebook, Spotify, and Instagram. Later acquired by Elastic.\n\nI joined as Head of Marketing and built the brand, marketing strategy, team and channels from scratch.\n\nKey achievements:\n- Defined the product proposition and developer narrative\n- Trebled traffic and sign-ups in 12 months [OPBEAT.R1.GROWTH] [THEME.GROWTH]",
+    "content": "Opbeat was a developer tools SaaS startup providing application performance monitoring. Backed by the cofounders of Facebook and Instagram. Later acquired by Elastic.\n\nI joined as Head of Marketing and built the brand, marketing strategy, team and channels from scratch.\n\nKey achievements:\n- Defined the product proposition and developer narrative\n- Trebled traffic and sign-ups in 12 months [OPBEAT.R1.GROWTH] [THEME.GROWTH]",
     "drill_downs": [
       "OPBEAT.R1.GROWTH"
     ],
@@ -1163,7 +1563,32 @@
         "text": "tell me about T23",
         "target": "T23"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Ron Cohen",
+        "title": "Building in private markets",
+        "company": "Stealth",
+        "date": "2016-03-08",
+        "excerpt": "Tom worked with us to crystalize our marketing material to bring out the core product propositions which made a huge impact on the perception of our offering."
+      },
+      {
+        "name": "Rasmus Makwarth",
+        "title": "Co-founder/CEO",
+        "company": "Reflag",
+        "date": "2016-01-22",
+        "excerpt": "Tom is a very talented marketeer, and it's been a pleasure working with him at Opbeat, where he led the marketing team. Tom is driven, hard-working, creative - and a great guy."
+      }
+    ],
+    "direct_answers": [
+      "The founders had a good product and famous backers, and believed that if they built it, customers would come. They launched into silence.",
+      "Our customers were in the US, so most of the marketing was international.",
+      "B2B devops startup backed by Balderton Capital and the cofounders of Facebook & Instagram.",
+      "Company context: a founder-led startup. 12 people in the company, 4 in marketing including design.",
+      "Introduced KPIs, reporting & budgeting. Grew grassroots meetups and created video engine to connect with developers, creating the traction that enabled a $2M bridge-funding round.",
+      "Opbeat: restructured pricing, emphasised the free tier and removed the upgrade barriers that were killing conversions, alongside the growth engine that trebled sign-ups[OPBEAT.R1.GROWTH]."
+    ],
+    "external": []
   },
   {
     "id": "OPBEAT.R1.GROWTH",
@@ -1174,7 +1599,7 @@
       "What was your growth strategy at Opbeat?",
       "How did you build a developer brand?"
     ],
-    "content": "Used data-driven marketing principles to treble traffic and sign-ups in 12 months. Blended experimentation, growth hacks and activation tactics.\n\nThe key here was understanding the developer audience - which I did by talking to the engineers in the team. This approach built loyalty that converted to sign-ups, and the brand became well known in the Python, Django and Node.js communities.\n\n\n---\n\n# EURODNS (2013-2014)",
+    "content": "Used data-driven marketing principles to treble traffic and sign-ups in 12 months. Blended experimentation, growth hacks and activation tactics.\n\nThe key here was understanding the developer audience - which I did by talking to the engineers in the team. This approach built loyalty that converted to sign-ups, and the brand became well known in the Python, Django and Node.js communities.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1189,7 +1614,18 @@
         "text": "tell me about Opbeat",
         "target": "OPBEAT"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Ron Cohen",
+        "title": "Building in private markets",
+        "company": "Stealth",
+        "date": "2016-03-08",
+        "excerpt": "He also introduced some much needed structure and process in our daily work with regards to marketing and was instrumental in getting us closer to the programming communities we're targeting."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "EURODNS",
@@ -1200,7 +1636,10 @@
       "Describe the turnaround at EuroDNS",
       "What was the Luxembourg role?",
       "Tell me about a marketing role?",
-      "EuroDNS"
+      "EuroDNS",
+      "Has Tom led engineers from a marketing seat?",
+      "Has Tom owned a customer portal or self-service panel?",
+      "Has Tom owned a B2B control panel?"
     ],
     "content": "EuroDNS is an ICANN-accredited international domain registrar, specialising in excellent service and unusual domain extensions. Customers included MailChimp, Lotus F1, and Time Warner. A turnaround project. [THEME.TURNAROUND]\n\nI joined as Marketing Director with a remote-hybrid setup - mostly managing the team from Copenhagen.[EURODNS.R1.STORY.REMOTE]\n\nKey achievements:\n- Reversed a 4-year decline in traffic and online sales [EURODNS.R1.TURNAROUND]\n- Doubled organic traffic in 12 months, and halved bounce-rate (~60% to ~30%) [THEME.GROWTH]\n- Launched over 500 new domain extensions",
     "drill_downs": [
@@ -1220,7 +1659,14 @@
         "text": "tell me about other turnarounds",
         "target": "THEME.TURNAROUND"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Marketing Director by title; the product work was mine: discount ladders, management panels, bundling features, product strategy. EuroDNS's product managers managed the TLDs with the registries.",
+      "Company context: founder-led. Probably about 50 people.",
+      "At EuroDNS the product team was his: led the tech team building the customer control panel, alongside discount ladders, bundling and product strategy; reversed the sales decline and grew domain search revenue[EURODNS]."
+    ],
+    "external": []
   },
   {
     "id": "EURODNS.R1.TURNAROUND",
@@ -1246,7 +1692,20 @@
         "text": "how did you grow Opbeat",
         "target": "OPBEAT.R1.GROWTH"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Lutz Berneke",
+        "title": "Chief Executive Officer",
+        "company": "Namespace Group",
+        "date": "2016-04-12",
+        "excerpt": "He impressed me by thoroughly analyzing our positioning in the market place and then recommending something very different of what was already in the pipeline and 90% done."
+      }
+    ],
+    "direct_answers": [
+      "Repositioned dry domains with curated photography, created content marketing & rebooted newsletter. Introduced OKRs and implemented tracking."
+    ],
+    "external": []
   },
   {
     "id": "EURODNS.R1.STORY.REMOTE",
@@ -1258,7 +1717,7 @@
       "How did the Luxembourg remote setup work?",
       "What is your experience managing distributed teams?"
     ],
-    "content": "I was Marketing Director at EuroDNS, but based in Copenhagen while the team was in Luxembourg. I travelled there every two weeks for three days.\n\nLike any long-distance relationship, you need to trust each other.\n\nI created a natural cadence: fortnightly face-to-face meetings and plenum discussions when I was in the office, then space to focus and get on with it in-between. I was available for ad-hoc calls but wasn't hovering.\n\nIt worked really well. The rhythm gave structure without micromanagement. The team had clarity on direction and autonomy on execution.\n\nThis setup taught me about managing by outcomes, not prescriptive tasks. When you're not in the room every day, you have to delegate properly.\n\n\n---\n\n# UK2 GROUP (2008-2010)",
+    "content": "I was Marketing Director at EuroDNS, but based in Copenhagen while the team was in Luxembourg. I travelled there every two weeks for three days.\n\nLike any long-distance relationship, you need to trust each other.\n\nI created a natural cadence: fortnightly face-to-face meetings and plenum discussions when I was in the office, then space to focus and get on with it in-between. I was available for ad-hoc calls but wasn't hovering.\n\nIt worked really well. The rhythm gave structure without micromanagement. The team had clarity on direction and autonomy on execution.\n\nThis setup taught me about managing by outcomes, not prescriptive tasks. When you're not in the room every day, you have to delegate properly.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1273,7 +1732,10 @@
         "text": "how did you reverse the traffic decline",
         "target": "EURODNS.R1.TURNAROUND"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "UK2",
@@ -1285,7 +1747,10 @@
       "What was the Head of Group Strategy role?",
       "Describe your troubleshooter role",
       "UK2",
-      "UK2 Group"
+      "UK2 Group",
+      "Has Tom run product for a US business unit from Europe?",
+      "Has Tom owned pricing?",
+      "Has Tom owned more than one product team at once?"
     ],
     "content": "UK2 Group is an international web hosting company with offices in UK, US and Ukraine.\n\nI joined as Head of Group Strategy - working across all brands and markets troubleshooting for the CEO.\n\nKey work included:\n- Linked people, products and projects across UK, US, and Ukraine offices\n- Acting Marketing Manager US: rebuilt underperforming US marketing department [UK2.R1.USTURNAROUND] [THEME.TURNAROUND]\n- Business unit turnaround: reversed downward revenue trend in 6 months\n- Managed development of new domain platform (500,000+ customer domains)",
     "drill_downs": [
@@ -1304,7 +1769,18 @@
         "text": "have you worked internationally",
         "target": "THEME.INTERNATIONAL"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "The domain platform: we had 6 brands using 3 different providers, and in some cases going direct to the registry, each with different APIs, rules and management fees. One platform replaced them.",
+      "For the domain platform I owned the business case, budget, specifications, contracts and migration strategy.",
+      "Troubleshooter for the CEO across London, Chicago & Utah offices. Owned strategy across pricing, product and marketing. Diagnosed underperforming brand, created product & ecommerce strategy.",
+      "Product work at UK2, formally, under the title Head of Group Strategy.",
+      "Company context: UK2 grew from about 100 to about 200 people while I was there.",
+      "Scope: in effect head of product for the US parts of the business I worked on.",
+      "Two product teams at UK2: the group domain platform (business case, budget, specifications, contracts, migration) and product for the US unit, led remotely from London, with pricing in scope[UK2]."
+    ],
+    "external": []
   },
   {
     "id": "UK2.R1.USTURNAROUND",
@@ -1313,7 +1789,7 @@
       "How did you turn around the US marketing",
       "Tell me about the US turnaround"
     ],
-    "content": "Rebuilt the underperforming US Marketing department before recruiting a US-based successor (Feb 2009 - Feb 2010).\n\nCreated marketing strategy, implemented reporting structure, set and met budget targets. Managed all online and marketing activity across 5 web properties.\n\nAlso ran a business unit turnaround in parallel: reduced bounce rate by ~15%, nearly doubled sales conversion, created product roadmap and launched 8 products in 10 months.\n\nThe challenge was doing this remotely from the UK, with a team I'd never met in person. Required building trust fast and being very clear about expectations.\n\n\n---\n\n# HOST EUROPE (2003-2008)",
+    "content": "Rebuilt the underperforming US Marketing department before recruiting a US-based successor (Feb 2009 - Feb 2010).\n\nCreated marketing strategy, implemented reporting structure, set and met budget targets. Managed all online and marketing activity across 5 web properties.\n\nAlso ran a business unit turnaround in parallel: reduced bounce rate by ~15%, nearly doubled sales conversion, created product roadmap and launched 8 products in 10 months.\n\nThe challenge was doing this remotely from the UK, with a team I'd never met in person. Required building trust fast and being very clear about expectations.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1328,7 +1804,10 @@
         "text": "tell me about UK2",
         "target": "UK2"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "HOST",
@@ -1343,9 +1822,13 @@
       "Tell me about your career progression at Host Europe",
       "Host Europe",
       "Host Europe Group",
-      "Pipex"
+      "Pipex",
+      "Has Tom owned the information architecture of a product?",
+      "Has Tom decided how a site or app is organised and how people move through it?",
+      "Has Tom redesigned navigation or a key journey so products get discovered?",
+      "Has Tom restructured an order process or checkout?"
     ],
-    "content": "Host Europe Group was Europe's largest privately-owned web hosting provider. In 2017 it was acquired by GoDaddy for $1.82 billion.\n\nThis is where I started, and where I learnt the trade - five years spanning sales, web, and leadership. It's also where I learnt *the hard way* about technical debt, waterfall, and PRINCE2.\n\nCareer progression:\n- Sales Executive (Mar 2003 - Feb 2004): Won annual sales competition, made an alternative website in my free time [HOST.R3.STORY.ALTSITE]\n- Web Designer (Feb 2004 - Aug 2005): Reinvented domain search, increasing revenue 20% overnight [HOST.R2.STORY.DOMAIN] [THEME.GROWTH]\n- Group Design Manager (Aug 2005 - Jan 2006): Led web design across multiple brands\n- Head of New Media (Jan 2006 - Jun 2008): Created department from scratch, member of Senior Management Team",
+    "content": "Host Europe Group was Europe's largest privately-owned web hosting provider. In 2017 it was acquired by GoDaddy for $1.82 billion.\n\nThis is where I started, and where I learnt the trade - five years spanning sales, web, and leadership. It's also where I learnt *the hard way* about technical debt, waterfall, and PRINCE2.\n\nCareer progression:\n- Sales Executive (Mar 2003 - Feb 2004): Won annual sales competition, made an alternative website in my free time [HOST.R3.STORY.ALTSITE]\n- Web Designer (Feb 2004 - Aug 2005): Reinvented domain search, now the industry standard [HOST.R2.STORY.DOMAIN]\n- Group Design Manager (Aug 2005 - Jan 2006): Led web design across multiple brands\n- Head of New Media (Jan 2006 - Jun 2008): Created department from scratch, member of Senior Management Team. Restructured the online order process, increasing new revenue by 20% [THEME.GROWTH]",
     "drill_downs": [
       "HOST.R1",
       "HOST.R2",
@@ -1364,6 +1847,36 @@
       {
         "text": "whats your biggest learning from Host Europe",
         "target": "TQ.FAILURE.LEARNING"
+      }
+    ],
+    "attested": [
+      {
+        "name": "Karol Kowalski",
+        "title": "Technical Co-founder",
+        "company": "The Poker Timer",
+        "date": "2011-06-27",
+        "excerpt": "I was hired by Tom and reported to him when we worked at Webfusion."
+      },
+      {
+        "name": "John McGarvey",
+        "title": "Content Designer",
+        "company": "Wise",
+        "date": "2010-08-13",
+        "excerpt": "Tom was my boss at Pipex for about 18 months."
+      }
+    ],
+    "direct_answers": [
+      "New Media: responsible for all online touchpoints, ecommerce, digital campaigns, email marketing and SaaS dashboards.",
+      "One employer under several names: Pipex Communications acquired Host Europe in April 2004; the company reverted to the GX Networks name in 2008 after selling Pipex, was renamed Host Europe Group in 2009, and was acquired by GoDaddy in 2017.",
+      "Managed all online channels (2M+ monthly visits): introduced self-service support, pioneered site-building tools, optimised support centre, led ecommerce, dominated SEO rankings.",
+      "Product work at Host Europe before it was called product management.",
+      "Company context: a founder-led startup at the beginning. About 150 people when I started, about 500 later, and 2,000 as part of Pipex broadband.",
+      "Information architecture: the alternative site replaced one that was busy and cluttered, and lacked focus and a core funnel[HOST.R3.STORY.ALTSITE]; restructured the online order process UI, increasing new revenue by 20% (2006-2008); introduced web standards improving accessibility, SEO & site performance (2004-2005); at EuroDNS, analysed user flow and redesigned website and ecommerce funnels[EURODNS.R1.TURNAROUND]; Skincoach was organised around a simple spoke and wheel pattern with 4 giant buttons, because elderly testers use the home button to find their anchor and start again[LEO.R2]."
+    ],
+    "external": [
+      {
+        "url": "https://en.wikipedia.org/wiki/Host_Europe_Group",
+        "label": "Host Europe Group, Wikipedia"
       }
     ]
   },
@@ -1388,7 +1901,12 @@
         "text": "tell me about your career journey",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "The company was renamed GX Networks. Host Europe Group had been acquired by Pipex in 2004; the 2008 rename to GX Networks was the project."
+    ],
+    "external": []
   },
   {
     "id": "HOST.R2.STORY.DOMAIN",
@@ -1403,7 +1921,7 @@
       "biggest win",
       "proudest achievement"
     ],
-    "content": "20 years ago, I worked for a domain registrar (now part of GoDaddy). The industry standard for domain search was clunky: enter the name in a text field, pick the domain ending from a dropdown, hit search. This was because we had to make a separate API call to each domain registry.\n\nUsers could only search for one domain at a time and kept running into domains that were already taken. Frustrating experience, poor conversion.\n\nI reinvented the process: a simple text field that interpreted whatever the user entered and searched all endings asynchronously. First use of AJAX in our stack.\n\nNew revenue increased by 20% overnight. The approach became the industry standard - if you search for a domain anywhere today, this is how it works.",
+    "content": "20 years ago, I worked for a domain registrar (now part of GoDaddy). The industry standard for domain search was clunky: enter the name in a text field, pick the domain ending from a dropdown, hit search. This was because we had to make a separate API call to each domain registry.\n\nUsers could only search for one domain at a time and kept running into domains that were already taken. Frustrating experience, poor conversion.\n\nI reinvented the process: a simple text field that interpreted whatever the user entered and searched all endings asynchronously. First use of AJAX in our stack.\n\nThe approach became the industry standard - if you search for a domain anywhere today, this is how it works.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1418,7 +1936,12 @@
         "text": "what are your key skills",
         "target": "META.COMPETENCIES"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Nobody asked for it. I thought it was a poor experience at the top of the sales funnel, the shop window of the business, and worth fixing."
+    ],
+    "external": []
   },
   {
     "id": "HOST.R3.STORY.ALTSITE",
@@ -1431,7 +1954,7 @@
       "How did you transition from sales to web?",
       "How did you get into web design?"
     ],
-    "content": "I'd got my foot in the door answering phones at a web hosting company. I was good at it - won the annual sales competition - but it wasn't my passion. I wanted to do web.\n\nThe existing website was dated. The marketing material did a poor job of explaining the \"why\" of the product, it was busy and cluttered, and it lacked focus and a core funnel.\n\nI thought I could do better.\n\nIn evenings and weekends, I built an alternative version. Then I reached out to the brand manager and booked a meeting. I made my pitch and showed her what I'd made and why.\n\nHer response: \"Well, let's try it out then.\"\n\nSales went up. Next week I was in the web design team. Six months later, I was leading it.\n\nI really appreciate the break she gave me. The website had a million visitors a month - it was a risk on her part. But she backed someone who'd shown initiative and done the work upfront.\n\nYou can create your own path.\n\n\n---\n\n# THEMES (Cross-cutting)",
+    "content": "I'd got my foot in the door answering phones at a web hosting company. I was good at it - won the annual sales competition - but it wasn't my passion. I wanted to do web.\n\nThe existing website was dated. The marketing material did a poor job of explaining the \"why\" of the product, it was busy and cluttered, and it lacked focus and a core funnel.\n\nI thought I could do better.\n\nIn evenings and weekends, I built an alternative version. Then I reached out to the brand manager and booked a meeting. I made my pitch and showed her what I'd made and why.\n\nHer response: \"Well, let's try it out then.\"\n\nSales went up. Next week I was in the web design team. Six months later, I was leading it.\n\nI really appreciate the break she gave me. The website had a million visitors a month - it was a risk on her part. But she backed someone who'd shown initiative and done the work upfront.\n\nYou can create your own path.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1446,7 +1969,10 @@
         "text": "where did you start your career",
         "target": "HOST"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "THEME.AI",
@@ -1481,7 +2007,13 @@
         "text": "how technical are you",
         "target": "TQ.TECHNICAL"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Solo projects, 2026: kittenpm.com, a product training SIM inspired by Lemmings, built with React, TypeScript & Phaser, using Claude as my engineering team; deathspiralorgoldenage.org, a public poll, live sentiment tracker and open economic model with CC0 data, researched & built with AI.",
+      "We used to build tools to help people get an outcome; AI lets us deliver the outcome directly. Don't build drills, build holes! The temptation is to use AI to help us do the same work but faster, when really we can change the workflow entirely."
+    ],
+    "external": []
   },
   {
     "id": "THEME.GROWTH",
@@ -1503,7 +2035,7 @@
       "What marketing have you done?",
       "marketing"
     ],
-    "content": "I have a track record of driving growth. Improving funnels, reducing bounce rates, increasing activation and conversion. I have done this both from marketing and product seats.\n\n- Host Europe: Reinvented domain search, increasing new revenue 20% overnight - inadvertently creating an industry standard. [HOST.R2.STORY.DOMAIN]\n- Opbeat: Trebled traffic and sign-ups in 12 months. Created a grass-roots video growth engine. [OPBEAT.R1.GROWTH]\n- EuroDNS: Reversed a 4-year decline, doubled organic traffic, halved bounce rate (60% → 30%) [EURODNS.R1.TURNAROUND]\n- LEO TREAT: Halved acquisition costs, increased activation 7x with an experiment-led work rhythm [LEO.R1]",
+    "content": "I have a track record of driving growth. Improving funnels, reducing bounce rates, increasing activation and conversion. I have done this both from marketing and product seats.\n\n- Host Europe: Restructured the online order process, increasing new revenue by 20%; reinvented domain search, inadvertently creating an industry standard. [HOST.R2.STORY.DOMAIN]\n- Opbeat: Trebled traffic and sign-ups in 12 months. Created a grass-roots video growth engine. [OPBEAT.R1.GROWTH]\n- EuroDNS: Reversed a 4-year decline, doubled organic traffic, halved bounce rate (60% → 30%) [EURODNS.R1.TURNAROUND]\n- LEO TREAT: Halved acquisition costs, increased activation 7x with an experiment-led work rhythm [LEO.R1]",
     "drill_downs": [
       "HOST.R2.STORY.DOMAIN",
       "EURODNS.R1.TURNAROUND",
@@ -1527,7 +2059,18 @@
         "text": "how did you turn around TREAT",
         "target": "LEO.R1.TURNAROUND"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Tine Thygesen",
+        "title": "Board Member",
+        "company": "JungleFonden",
+        "date": "2013-08-08",
+        "excerpt": "His working knowledge about SEO, analytics, conversions, marketing and online advertising is vast, and he has the skill and personality to test and implement the right solutions."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "THEME.TURNAROUND",
@@ -1560,7 +2103,25 @@
         "text": "what did you do at TwentyThree",
         "target": "T23"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Kristian Schrøder Hart-Hansen",
+        "title": "Member of The Board of directors",
+        "company": "Skovdyrkerne",
+        "date": "2019-11-12",
+        "excerpt": "With a unique talent for troubleshooting and the ability to take on the most complex of problems, Tom always steps up to the challenge with a positive and humble approach."
+      },
+      {
+        "name": "Lutz Berneke",
+        "title": "Chief Executive Officer",
+        "company": "Namespace Group",
+        "date": "2016-04-12",
+        "excerpt": "I am really happy I did because we now see very tangible results in ranking, traffic and conversion."
+      }
+    ],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "THEME.MGMT",
@@ -1575,9 +2136,17 @@
       "Tell me about leading teams",
       "Tell me about management",
       "management experience",
-      "management"
+      "management",
+      "Has Tom managed product managers directly?",
+      "Has Tom hired, coached and given hard feedback to PMs?",
+      "How many PMs has Tom managed, and where?",
+      "Has Tom run a team that owns its outcomes?",
+      "Has Tom built, coached and led cross-functional teams?",
+      "How many product teams has Tom owned?",
+      "How many products has Tom led end to end?",
+      "How broad is Tom's product experience?"
     ],
-    "content": "I've led teams of 5-12 across multiple roles:\n\n- LEO Diagnosis App: 10-person ML/CV team [LEO.R3]\n- Host Europe: Created New Media department, 5-6 direct reports [HOST]\n- EuroDNS: 4 direct reports, remote/hybrid setup [EURODNS.R1.STORY.REMOTE]\n- LEO TREAT: Inherited 15-person team in turnaround situation [LEO.R1.TURNAROUND]\n\nManaging people is something I can do and enjoy, but it's not my primary motivation. I'm motivated by creating impact - sometimes that means being a people manager, other times it works best through informal leadership or hands-on building. [TQ.MGMT]",
+    "content": "I've led teams of 5-15 across multiple roles:\n\n- LEO Diagnosis App: 12-person ML/CV team [LEO.R3]\n- Host Europe: Created New Media department, 5-6 direct reports [HOST]\n- EuroDNS: 4 direct reports, remote/hybrid setup [EURODNS.R1.STORY.REMOTE]\n- LEO TREAT: Inherited 15-person team in turnaround situation [LEO.R1.TURNAROUND]\n\nManaging people is something I can do and enjoy, but it's not my primary motivation. I'm motivated by creating impact - sometimes that means being a people manager, other times it works best through informal leadership or hands-on building. [TQ.MGMT]",
     "drill_downs": [
       "LEO.R3",
       "HOST.R1",
@@ -1597,7 +2166,42 @@
         "text": "do you prefer being an IC or a manager",
         "target": "TQ.MGMT"
       }
-    ]
+    ],
+    "attested": [
+      {
+        "name": "Sergio M. Vela",
+        "title": "Growth",
+        "company": "tamigo",
+        "date": "2019-10-29",
+        "excerpt": "He is a great team leader and team player, and someone who can manage products to meet and exceed expectations while keeping everyone aligned and happy."
+      },
+      {
+        "name": "Jacob Mortensen",
+        "title": "Lead Engineer",
+        "company": "ZeroNorth",
+        "date": "2019-10-26",
+        "excerpt": "Tom is great at executing and pushing the team and product forward - at times being very specific in what he wants and at other times leaving room for team members themselves to figure out how to get to the goal."
+      },
+      {
+        "name": "Karol Kowalski",
+        "title": "Technical Co-founder",
+        "company": "The Poker Timer",
+        "date": "2011-06-27",
+        "excerpt": "I was hired by Tom and reported to him when we worked at Webfusion. Tom was a very inspirational manager, who always had time for the team as well as managed a pile of projects given to him because of his ability to get things done."
+      },
+      {
+        "name": "John McGarvey",
+        "title": "Content Designer",
+        "company": "Wise",
+        "date": "2010-08-13",
+        "excerpt": "He did a good job as my manager, helping me prioritise conflicting tasks in a very busy company, and offering constructive feedback on my work. I'd definitely work with him again."
+      }
+    ],
+    "direct_answers": [
+      "Novo Nordisk, Head of Patient Products: led 6 experienced PMs building consumer engagement products, management by outcomes; overcame resistance to establish weekly demos and experiment sharing, broke product silos and encouraged learning loops[NOVO.R2]. Hiring: hired and managed the New Media team at Host Europe, 5-6 direct reports[HOST]; rebuilt the US marketing department before recruiting a US-based successor[UK2.R1.USTURNAROUND]; built the marketing team from scratch at Opbeat[OPBEAT]. Direct reports by role: Novo 6 PMs; Wegovycare team of 10[NOVO.R1]; Diagnosis App 12[LEO.R3]; TREAT 15 inherited[LEO.R1.TURNAROUND]; TwentyThree 10-12[T23]; EuroDNS 4[EURODNS]; Host Europe 5-6.",
+      "Product teams owned: eight across five companies, LEO 3[LEO], Novo 1 plus six PMs led[NOVO.R2], UK2 2[UK2], Host Europe 1[HOST], EuroDNS 1[EURODNS]; five of the eight were domains, hosting or client software."
+    ],
+    "external": []
   },
   {
     "id": "THEME.BUILD",
@@ -1632,7 +2236,12 @@
         "text": "tell me about LEO Innovation Lab",
         "target": "LEO"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "B2B products throughout: Host Europe, UK2, EuroDNS, Opbeat and TwentyThree were all B2B; the product work was mine even where the title said marketing or strategy."
+    ],
+    "external": []
   },
   {
     "id": "THEME.INTERNATIONAL",
@@ -1645,7 +2254,7 @@
       "Are you EU-eligible to work?",
       "What is your experience with distributed teams?"
     ],
-    "content": "I've worked across multiple countries and managed remote and distributed teams throughout my career:\n\n- **UK (2001-2010):** Host Europe, UK2 Group — London, Nottingham\n- **Luxembourg (2013-2014):** EuroDNS — hybrid, mostly Copenhagen with Luxembourg every two weeks [EURODNS.R1.STORY.REMOTE]\n- **Denmark (2010-2026):** LEO, Novo Nordisk, Opbeat, TwentyThree, independent consulting\n- **Remote teams:** Managed teams across UK, US, Ukraine, Romania [UK2.R1.USTURNAROUND]\n\nI'm a British citizen with Danish permanent residency (no work visa required for Denmark). I've lived in Copenhagen since 2010.\n\n\n---\n\n# TRICKY QUESTIONS",
+    "content": "I've worked across multiple countries and managed remote and distributed teams throughout my career:\n\n- **UK (2001-2010):** Host Europe, UK2 Group — London, Nottingham\n- **Luxembourg (2013-2014):** EuroDNS — hybrid, mostly Copenhagen with Luxembourg every two weeks [EURODNS.R1.STORY.REMOTE]\n- **Denmark (2010-2026):** LEO, Novo Nordisk, Opbeat, TwentyThree, independent consulting\n- **Remote teams:** Managed teams across UK, US and Ukraine [UK2.R1.USTURNAROUND], and a Romanian SEO team as a consultant (2010-2013)\n\nI'm a British and French citizen with Danish permanent residency (no work visa required for Denmark). I've lived in Copenhagen since 2010.",
     "drill_downs": [
       "EURODNS.R1.STORY.REMOTE",
       "UK2.R1.USTURNAROUND"
@@ -1663,7 +2272,10 @@
         "text": "what is your ideal work setup",
         "target": "TQ.SETUP"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.LEAVING",
@@ -1698,7 +2310,10 @@
         "text": "tell me about your career journey",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.GAP",
@@ -1721,7 +2336,10 @@
         "text": "tell me more about this chatbot",
         "target": "META.BOT"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.HOPPER",
@@ -1733,7 +2351,7 @@
       "Why the frequent moves?",
       "Do you get bored easily?"
     ],
-    "content": "I don't think so. I worked at Novo for 6 years [NOVO], and before that LEO Innovation Lab for ~3.5 years. [LEO]\n\nI have worked in lots of product-adjacent roles, but this is about following the impact: I started answering phones in sales, but realised I could drive more scale through ecommerce. So I made an alternative company website in my free time, persuaded a manager to launch it, sales went up, and the next week I'm in the web team. [HOST.R3.STORY.ALTSITE]\n\nLater, I realised the bottleneck was reach, not conversion - so I moved into marketing. Then I saw customers signing up but not activating - so I moved into product. And so on.\n\nI'm motivated by creating impact, not job titles.",
+    "content": "I don't think so. I worked at Novo for almost 6 years [NOVO], and before that LEO Innovation Lab for ~3.5 years. [LEO]\n\nI have worked in lots of product-adjacent roles, but this is about following the impact: I started answering phones in sales, but realised I could drive more scale through ecommerce. So I made an alternative company website in my free time, persuaded a manager to launch it, sales went up, and the next week I'm in the web team. [HOST.R3.STORY.ALTSITE]\n\nLater, I realised the bottleneck was reach, not conversion - so I moved into marketing. Then I saw customers signing up but not activating - so I moved into product. And so on.\n\nI'm motivated by creating impact, not job titles.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1748,17 +2366,35 @@
         "text": "tell me more about your motivation",
         "target": "META.COMPASS"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.PHARMA",
     "questions": [
+      "Has Tom worked in the food industry?",
+      "Does Tom have FMCG experience?",
+      "food industry experience",
+      "Has Tom worked in financial services?",
+      "Has Tom worked in fintech or banking?",
+      "Does Tom have payments or insurance experience?",
+      "Has Tom worked at a bank?",
+      "fintech experience",
+      "financial services experience",
       "Aren't you a pharma PM now?",
       "Can you work outside of pharma?",
       "Isn't your experience too pharma-specific?",
       "Why should a tech company hire a pharma PM?",
       "How transferable are your skills from pharma?",
-      "Why pharma to tech?"
+      "Why pharma to tech?",
+      "Has Tom worked in a regulated industry?",
+      "Has Tom shipped products under regulatory constraints?",
+      "Has Tom partnered with clinical, regulatory and compliance teams?",
+      "Has Tom worked in banking or another regulated business?",
+      "Can Tom keep innovation velocity in a regulated environment?",
+      "regulated environment"
     ],
     "content": "Ironically, my value at Novo was precisely that I wasn't a typical pharma PM. I was brought in to bring non-pharma thinking - digital, product, startup ways of working - to a very traditional industry. That's how I got involved with high-stakes projects like the Wegovy Pill launch. [NOVO.R2.WEGOVY]\n\nI've deliberately moved across industries my whole career - ecommerce [HOST], SaaS [OPBEAT], health-tech [LEO] - because I pick up new domains quickly and love learning. The skills and underlying principles are largely the same. The fun bit is finding the exceptions and applying learnings from one industry to another.",
     "drill_downs": [],
@@ -1775,7 +2411,14 @@
         "text": "what's the red thread",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Regulated environments shipped in: Novo Nordisk, where every release needs extensive regulatory review by medical, legal and regulatory experts, and release cycles went from yearly to bi-monthly[NOVO.R1]; LEO and Amgen, a patient-support app under strict regulatory and ethical constraints[LEO.R2]; UK2, ICANN liaison & compliance for over 500,000 customer domain names[UK2]; Host Europe, a Plc rename that included changing the stock market ticker[HOST.R1.REBRAND]. Health-tech: 10 years leading regulated products.",
+      "Financial services: no. Not worked in banking, payments, insurance or fintech, nor sold into them. Regulated-industry experience is pharma[NOVO.R1]; commercial and pricing experience is from hosting and SaaS: UK2 pricing[UK2], the Opbeat free tier and pricing[OPBEAT], the EuroDNS sales recovery[EURODNS.R1.TURNAROUND].",
+      "Food, nutrition, FMCG: TREAT, a personalised-nutrition app, is the only one[LEO.R1.TURNAROUND]. The Wegovy Pill packaging and direct-distribution work is consumer health, not FMCG[NOVO.R2.WEGOVY]."
+    ],
+    "external": []
   },
   {
     "id": "TQ.WHYPHARMA",
@@ -1801,7 +2444,10 @@
         "text": "what's the red thread",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.5YEARS",
@@ -1827,7 +2473,10 @@
         "text": "tell me about your career journey",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.TECHNICAL",
@@ -1856,7 +2505,10 @@
         "text": "do you have machine learning experience",
         "target": "LEO.R3"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.MGMT",
@@ -1886,7 +2538,10 @@
         "text": "have you built teams from scratch",
         "target": "THEME.BUILD"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.WEAKNESS",
@@ -1917,7 +2572,10 @@
         "text": "what are you like to work with",
         "target": "META.COLLEAGUE"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.SETUP",
@@ -1944,7 +2602,10 @@
         "text": "what are you looking for",
         "target": "META.LOOKING"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.SALARY",
@@ -1970,7 +2631,10 @@
         "text": "tell me about yourself",
         "target": "META"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.START",
@@ -1996,7 +2660,10 @@
         "text": "tell me about yourself",
         "target": "META"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.HIRE",
@@ -2023,7 +2690,10 @@
         "text": "what kind of roles are you looking for",
         "target": "META.LOOKING"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.FAILURE",
@@ -2057,7 +2727,10 @@
         "text": "tell me more about prioritising ideas over learnings",
         "target": "TQ.FAILURE.LEARNING"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.FAILURE.SHIP",
@@ -2087,7 +2760,10 @@
         "text": "how do you approach problems",
         "target": "TQ.APPROACH"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.FAILURE.LEARNING",
@@ -2118,11 +2794,22 @@
         "text": "tell me about other times you have failed",
         "target": "TQ.FAILURE"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "TQ.APPROACH",
     "questions": [
+      "Can Tom create structure in an ambiguous situation?",
+      "Has Tom worked without a plan or a playbook?",
+      "Can Tom bring structure to a fast-moving, ambiguous problem?",
+      "Has Tom started something from a blank page?",
+      "How does Tom handle ambiguity?",
+      "structure in ambiguity",
+      "no playbook",
+      "blank page",
       "How do you approach building software?",
       "What is your product process?",
       "How do you start a new project?",
@@ -2147,7 +2834,270 @@
         "text": "tell me about a time you failed",
         "target": "TQ.FAILURE"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Structure in ambiguity, the cases: Skincoach[LEO.R2], the Diagnosis App[LEO.R3], TREAT[LEO.R1.TURNAROUND], TwentyThree[T23], the UK2 US turnaround[UK2.R1.USTURNAROUND], the incubation playbook at Novo[NOVO.R2], Wegovycare (there was a plan, but the wrong one)[NOVO.R1], the CagriSema discovery[NOVO.R2]."
+    ],
+    "external": []
+  },
+  {
+    "id": "FIT.FIXER",
+    "questions": [
+      "Mature product, we need someone to run the roadmap",
+      "Own and run the roadmap for an established product",
+      "Keep a mature product running and growing",
+      "Would Tom run a mature product?",
+      "Someone to maintain the product and ship the backlog",
+      "Steady-state product owner",
+      "Could Tom help with a product that has lost its way?",
+      "Could Tom get a stuck initiative moving?",
+      "Would Tom take on a mess?",
+      "What kind of work is Tom best at?",
+      "Where does Tom do his best work?",
+      "What kind of problems does Tom take on?",
+      "Is Tom a builder or a maintainer?",
+      "Would Tom stay in a steady-state role?",
+      "Does Tom get bored?",
+      "What would Tom bring to a team?",
+      "fixer",
+      "best at",
+      "What kind of fixing does Tom do?",
+      "Is Tom a turnaround person or a builder?",
+      "What does Tom mean by fixer?"
+    ],
+    "content": "I'm a fixer. I work on the really difficult stuff, the problems that are too hard or too messy for most people to get moving, and I like to solve them and move on. Once something is solved and running, I pass it to someone who's good at the routine work, and I go and find the next hard thing.\n\nThat pattern runs through my whole career: the domain search at Host Europe[HOST.R2.STORY.DOMAIN], the TREAT turnaround and closure[LEO.R1.TURNAROUND], the Wegovycare discovery phase nobody wanted[NOVO.R1.TRANSFORM], the CagriSema funnel across two therapy areas that had never collaborated[NOVO.R2].\n\nSo if you have something stuck, broken, or blank-page, that's where I'm useful. If you need someone to run a mature product in steady state for years, it deserves someone who loves that, and it isn't me.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "what turnarounds have you led",
+        "target": "THEME.TURNAROUND"
+      },
+      {
+        "text": "what are you not a fit for",
+        "target": "FIT.NOT"
+      },
+      {
+        "text": "what would you bring to my team",
+        "target": "FIT.TEAM"
+      }
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Best at: problems too hard or messy for most people to get moving; solves them, hands over, moves on.",
+      "Proof: domain search, Host Europe, +20% revenue overnight [HOST.R2.STORY.DOMAIN]; TREAT turnaround and closure, LEO [LEO.R1.TURNAROUND]; Wegovycare discovery phase, Novo [NOVO.R1.TRANSFORM]; CagriSema funnel, four funded solutions [NOVO.R2].",
+      "Not for: running a mature product in steady state for years.",
+      "Three kinds of fixing, not one: noticing what nobody asked for, the domain search[HOST.R2.STORY.DOMAIN]; holding nerve and rebuilding a team, then optimising and having the guts to close it, TREAT[LEO.R1.TURNAROUND]; changing the institution's model from inside, the product operating model at Novo[NOVO.R1.TRANSFORM].",
+      "Breadth is the asset: eight product teams across five companies[THEME.MGMT].",
+      "AI is a qualifier, not the headline: a frontier product specialist who builds with AI, not an AI specialist."
+    ],
+    "external": []
+  },
+  {
+    "id": "FIT.ENV",
+    "questions": [
+      "Would Tom fit a 30-person startup?",
+      "Would Tom fit a small remote startup?",
+      "Would Tom fit a remote startup in an industry he hasn't worked in?",
+      "Would Tom fit a remote company of 30 people?",
+      "Would Tom fit a consensus-driven organisation?",
+      "Would Tom fit a careful, risk-averse culture?",
+      "We're consensus-driven and careful",
+      "We make decisions by consensus",
+      "Would Tom do well where things move slowly?",
+      "Would Tom fit a remote-first company?",
+      "Would Tom fit a startup?",
+      "Would Tom fit a scale-up?",
+      "Would Tom fit a big corporate?",
+      "Would Tom fit a consultancy?",
+      "Would Tom fit a developer tools company?",
+      "Would Tom fit a company like ours?",
+      "Would Tom be a good fit for my organisation?",
+      "Would Tom fit our company?",
+      "Is Tom a fit for us?",
+      "Is Tom a good fit for our organisation?",
+      "What kind of organisation does Tom do well in?",
+      "What kind of company suits Tom?",
+      "Where does Tom thrive?",
+      "Does Tom work well in a startup?",
+      "Does Tom work well in a large company?",
+      "Can Tom work in a corporate?",
+      "Is Tom a culture fit?",
+      "culture fit",
+      "good fit for our organisation",
+      "Does Tom work well with founders?",
+      "Would Tom fit a founder-led company?"
+    ],
+    "content": "I've worked in a 12-person startup (Opbeat, sharing an office with the founders)[OPBEAT], a scale-up through two acquisitions (Host Europe, Pipex)[HOST], an innovation lab inside a pharma company (LEO)[LEO], a 70,000-person corporate (Novo Nordisk)[NOVO] and on my own as a consultant. Size doesn't decide it.\n\nWhat does: new things ship regularly, direct communication is welcome, you can rock the boat without fear of retribution, decisions get made on outcomes and evidence rather than on whose idea it was, and the organisation is leaning in to AI. Give me that and the freedom to act, and I'll do well.\n\nTo check this against your organisation, tell my agent how you work: stage, pace, how decisions get made, remote or not, what's broken. Five lines is enough.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "what are you not a fit for",
+        "target": "FIT.NOT"
+      },
+      {
+        "text": "what would you bring to my team",
+        "target": "FIT.TEAM"
+      },
+      {
+        "text": "what are you looking for",
+        "target": "META.LOOKING"
+      }
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Has worked in: 12-person startup (Opbeat), scale-up through two acquisitions (Host Europe, Pipex), innovation lab (LEO), 70,000-person corporate (Novo Nordisk), solo consulting.",
+      "Does well where: new things ship regularly; direct communication; can rock the boat without retribution; decisions on outcomes and evidence; leaning in to AI; freedom to act.",
+      "Size does not decide it.",
+      "To check against your organisation, send five lines: stage, pace, how decisions get made, remote or not, what's broken.",
+      "Comfortable in founder-led companies: Opbeat (sharing an office with the founders)[OPBEAT], TwentyThree[T23] and Host Europe at the beginning[HOST] were founder-led startups."
+    ],
+    "external": []
+  },
+  {
+    "id": "FIT.TEAM",
+    "questions": [
+      "Team of 4 PMs, output over outcomes",
+      "What would Tom add to a team of PMs that ships output, not outcomes?",
+      "How would Tom move a PM team from output to outcomes?",
+      "Our PMs deliver features but not results",
+      "Our team has no product manager, what would Tom add?",
+      "What would Tom add to an engineering-led team?",
+      "What would Tom add to a team of PMs?",
+      "How would Tom work with our engineers?",
+      "Would Tom be a fit in my team?",
+      "Would he fit our team?",
+      "What would Tom bring to my team?",
+      "What would Tom add to our team?",
+      "What would we get if we hired Tom?",
+      "Would Tom work well with engineers?",
+      "Would Tom work well with designers?",
+      "What does Tom need from the people around him?",
+      "Who should Tom be paired with?",
+      "team fit",
+      "bring to my team",
+      "How does Tom structure his week?",
+      "Can Tom do fractional days?"
+    ],
+    "content": "Ask the people I've worked with: kind, caring and fun; approachable; a structured mind; someone people come to when they want to spar on something messy[META.COLLEAGUE]. I bring energy and pace, I'm direct, and I work across silos without needing authority over them[NOVO.R2]. I'm technical enough to lead ML teams and build with Claude Code, but my value is bridging disciplines, not writing production code[TQ.TECHNICAL], so I work with engineers best when they're close to the problem and the user, not handed tickets.\n\nWhat I need around me: someone who loves the details and will bring up the overlooked fact, because I move fast and start more than I finish; a team that's prepared and to the point; and people who'll hold me to a completion date.\n\nI've led teams of 5 to 15 and been the senior IC on others[THEME.MGMT]; both work. What I'd add depends on what your team already has, so tell my agent what the team does and what's missing, and ask again.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "what are you like to work with",
+        "target": "META.COLLEAGUE"
+      },
+      {
+        "text": "what is your management experience",
+        "target": "THEME.MGMT"
+      },
+      {
+        "text": "what do you need from a manager",
+        "target": "FIT.MANAGER"
+      }
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Colleagues say: kind, caring and fun; approachable; structured mind; the person people spar with on messy problems (LinkedIn recommendations, attested).",
+      "Brings: energy and pace; works across silos without authority over them; bridges disciplines; technical enough to lead ML teams, not a production coder.",
+      "Works with engineers best when they are close to the problem and the user, not handed tickets.",
+      "Needs around him: someone who loves the details and raises the overlooked fact; a prepared, to-the-point team; a completion date he is held to.",
+      "Has led teams of 5 to 15; has been senior IC on others.",
+      "What he adds depends on what the team lacks: send what the team does and what's missing.",
+      "Works in half-day blocks; scattered short hours do not suit him. 'I tend to work smart, rather than hard. I value time off, to ensure good decisions.'"
+    ],
+    "external": []
+  },
+  {
+    "id": "FIT.MANAGER",
+    "questions": [
+      "How does Tom work with a cautious leadership team?",
+      "Would Tom work well with a consensus-driven leadership?",
+      "How does Tom handle a slow decision process?",
+      "Would Tom's pace grate on a careful team?",
+      "What does Tom need from a manager?",
+      "How should Tom be managed?",
+      "How does Tom work with founders?",
+      "What does Tom need from leadership?",
+      "Does Tom need a lot of direction?",
+      "How does Tom like to be led?",
+      "How does Tom work with a hands-on founder?",
+      "Would Tom work for an owner-manager?"
+    ],
+    "content": "Freedom on the what and the how, clarity on the outcome and the date. Tell me where the prospects and opportunities lie and let me call a spade a spade.\n\nGive me room to run discovery before building: if \"you're not working if you're not coding\" is the culture, we'll clash for a few months before it pays off, as it did at Novo[NOVO.R1.TRANSFORM]. Trust early, because I'll use it to tell you things you may not want to hear, like recommending we close the flagship product[LEO.R1.TURNAROUND]. And tell me when my pace is wearing people out; I don't always notice.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "what motivates you",
+        "target": "META.COMPASS"
+      },
+      {
+        "text": "what are you not a fit for",
+        "target": "FIT.NOT"
+      }
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Needs: freedom on the what and the how; clarity on the outcome and the date; to know where the prospects lie; to be allowed to call a spade a spade.",
+      "Needs room for discovery before building; clashed for months at Novo before it paid off [NOVO.R1.TRANSFORM].",
+      "Give trust early; he uses it to say hard things, e.g. recommended closing the flagship product at LEO [LEO.R1.TURNAROUND].",
+      "Tell him when his pace is wearing people out.",
+      "Not for micromanaging founders or owners; freedom on the what and the how is the condition."
+    ],
+    "external": []
+  },
+  {
+    "id": "FIT.NOT",
+    "questions": [
+      "Would a steady-state role suit Tom?",
+      "Is Tom a fit for running a mature product?",
+      "Run the roadmap for a mature product",
+      "Is Tom a fit for a mostly line-management role?",
+      "Would Tom take a role that needs a decade in our domain?",
+      "Where would Tom not be a good fit?",
+      "What is Tom not a fit for?",
+      "What roles should Tom avoid?",
+      "What is Tom not good at?",
+      "What is Tom not suited to?",
+      "not a fit",
+      "Five days a week in the office",
+      "Fully onsite role",
+      "Fluent Danish required",
+      "Quota-carrying",
+      "Country manager",
+      "Head of Sales",
+      "Hands-on with SQL and Python",
+      "ML engineer",
+      "iGaming",
+      "Crypto",
+      "Defence sector"
+    ],
+    "content": "Not a specialist engineer or a designer by trade any more: those are chapters, not the job. Marketing, growth and go-to-market are in scope when they sit inside a product or commercial role; a marketing-only seat is not the fit. Not a role that is mostly line management and levels; I can manage people and enjoy it, but it's not what gets me out of bed[TQ.MGMT]. Not a mature product in steady state; I'm a fixer, and once it's running it deserves someone who loves running it[FIT.FIXER]. And not a role that needs a decade in your exact domain: I move across industries on purpose and pick them up fast[META.LOOKING].",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "what kind of work are you best at",
+        "target": "FIT.FIXER"
+      },
+      {
+        "text": "what are you looking for",
+        "target": "META.LOOKING"
+      }
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Not a specialist engineer or designer by trade. Marketing, growth and go-to-market in scope inside a product or commercial role; not a marketing-only seat.",
+      "Not a role that is mostly line management and levels.",
+      "Not a mature product in steady state.",
+      "Not a role that needs a decade in one exact domain; moves across industries on purpose.",
+      "Not five days a week onsite: up to four in Copenhagen with some flexibility, or remote across the EU and UK; no relocation[META.LOCATION].",
+      "Not a hard Danish-language requirement: cannot read Danish regulatory material or interview users in Danish[META.EDUCATION].",
+      "Not quota-carrying sales, country-head or sales-leadership seats; commercial ownership inside a product role is in.",
+      "Not hands-on ML engineering (SQL, Python, model architecture): AI fluency is strategic and applied, not engineering[TQ.TECHNICAL].",
+      "Industries declined: gambling, crypto, adult, tobacco. Defence only with honest framing.",
+      "Preference, not a gate: roles that narrow optionality, the COO-office shape with no artefact and no number.",
+      "IC or manager is not the filter; impact and interesting work are."
+    ],
+    "external": []
   },
   {
     "id": "META.HELMET",
@@ -2174,7 +3124,10 @@
         "text": "what are your hobbies",
         "target": "META.HOBBIES"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.PINEAPPLE",
@@ -2202,7 +3155,10 @@
         "text": "tell me about yourself",
         "target": "META"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   },
   {
     "id": "META.WEBSITE",
@@ -2230,7 +3186,52 @@
         "text": "tell me about yourself",
         "target": "META"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
+  },
+  {
+    "id": "SOLO",
+    "questions": [
+      "What have you built yourself with AI?",
+      "Tell me about your solo projects",
+      "Tell me about your side projects",
+      "What have you shipped in 2026?",
+      "Have you shipped your own AI products?",
+      "Do you build with Claude Code?",
+      "What is Kitten PM?",
+      "What is kittenpm.com?",
+      "What is Death Spiral or Golden Age?",
+      "What is deathspiralorgoldenage.org?",
+      "Does Tom use AI tools in his own product work?",
+      "Has Tom used coding assistants or generative AI to speed up product development?",
+      "Does Tom build prototypes himself with AI?",
+      "How is Tom using AI day to day right now?",
+      "Has Tom used AI for research and synthesis before committing a team?",
+      "Does Tom use AI across the software development lifecycle?"
+    ],
+    "content": "Solo projects, building with AI (2026).\n\nI learn by doing, and I love building. So I shipped three products with AI to find out first-hand what it can and can't do.\n\nThe task I set myself: build something real with AI and ship it.\n\n- TomBot: a prototype AI trained on my CV. Built with Claude API, RAG vector store, eval suite & guard-rails. Live January 2026 at takenbyninjas.com/projects/tombot/\n- kittenpm.com: a product training SIM inspired by Lemmings. Practice balancing product trade-offs in real time. Built with React, TypeScript & Phaser. Used Claude as my engineering team. Live July 2026.\n- deathspiralorgoldenage.org: Will AI cut jobs or create new work? A public poll, live sentiment tracker, and open economic model with CC0 data. Researched & built with AI. Live September 2026.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "how does TomBot work",
+        "target": "META.BOT"
+      },
+      {
+        "text": "what is your AI experience",
+        "target": "THEME.AI"
+      },
+      {
+        "text": "have you built anything with GenAI",
+        "target": "NOVO.R2.GENAI"
+      }
+    ],
+    "attested": [],
+    "direct_answers": [
+      "I use AI in different ways for different tasks. Automation: at Novo I created an agentic RAG thing that took the waiting out of compliance reviews for product teams[NOVO.R2.GENAI]; I've also used N8N and Claude cowork for automating admin tasks, like grabbing and processing logs. Divergent thinking: research, sparring, following what-if scenarios, and shaping ideas. Making stuff / prototyping: Claude Code as my engineering team; TomBot live January 2026, kittenpm.com live July 2026, deathspiralorgoldenage.org live September 2026[SOLO]. (Ghost application, Aug 2026)"
+    ],
+    "external": []
   },
   {
     "id": "META.BOT",
@@ -2244,7 +3245,12 @@
       "How did you build this?",
       "tombot",
       "this bot",
-      "this chatbot"
+      "this chatbot",
+      "Has Tom built evaluation frameworks for AI?",
+      "How does Tom measure AI accuracy and safety?",
+      "Has Tom designed agentic experiences?",
+      "Has Tom put guard-rails on an LLM product?",
+      "Does Tom have evals experience?"
     ],
     "content": "I made this bot as I thought it could be fun, both for me to make, and for any recruiters who are bored of conventional CVs.\n\nIt works via the Claude API, has a very simple prompt and a chunked RAG vector store.\n\nA key criteria was accuracy of recall, so the bot uses question-to-question matching — it compares what you ask against a bank of pre-mapped questions rather than searching the raw content directly. This limits the true chatbot nature of an LLM, but helps to maintain quality. Also, the helmet helps combat the hallaucinations.\n\nI built the system together with Claude code, but the core content and tone-of-voice is all my own.",
     "drill_downs": [],
@@ -2261,7 +3267,12 @@
         "text": "how technical are you",
         "target": "TQ.TECHNICAL"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Evaluation: TomBot has an eval suite & guard-rails, and uses question-to-question matching because accuracy of recall was the key criteria[SOLO]; the Diagnosis App was measured at >80% accuracy across 3 skin conditions, on a closed-loop diagnosis and ML training platform that doubled labelling throughput[LEO.R3]; the compliance RAG kept a full audit trail, and a prototype agent plugged into Figma[NOVO.R2.GENAI]. No agent in production: the Figma agent stayed a prototype."
+    ],
+    "external": []
   },
   {
     "id": "TQ.DEFLECT",
@@ -2283,6 +3294,9 @@
         "text": "tell me about your career journey",
         "target": "META.ARC"
       }
-    ]
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
   }
 ]

@@ -11,8 +11,29 @@ Output format for each section:
     "follow_ups": [
         {"text": "tell me about X", "target": "SECTION.ID"},
         ...
-    ]
+    ],
+    "attested": [
+        {"name": "First Last", "title": "current title", "company": "Company",
+         "date": "YYYY-MM-DD", "excerpt": "verbatim excerpt"},
+        ...
+    ],
+    "direct_answers": ["one direct answer", ...],
+    "external": [{"url": "https://...", "label": "label"}, ...]
 }
+
+Agent-side blocks (PRD W1b, D2; ruling N1010-6 a) are lifted out of
+`content`, the same way Questions and follow-ups are, so TomBot chat never
+sees them. They reach agent surfaces only (/ask, /for-agents/):
+
+    **Attested:**
+    - First Last (current title, Company; YYYY-MM-DD): "verbatim excerpt" [linkedin]
+
+    **Direct answers:**
+    - one direct answer
+      (indented continuation lines belong to the item above)
+
+    **External:**
+    - [label](https://url)
 """
 
 import re
@@ -47,6 +68,13 @@ def parse_content_doc(filepath: str):
             # Start new section
             current_section = match.group(1)
             current_lines = []
+        elif line.startswith('# '):
+            # A top-level company banner ("# EURODNS (2013-2014)") closes the
+            # section above it; it is not part of any answer.
+            if current_section:
+                sections.append({'id': current_section, 'raw': '\n'.join(current_lines)})
+            current_section = None
+            current_lines = []
         elif current_section:
             current_lines.append(line)
 
@@ -65,6 +93,69 @@ def parse_content_doc(filepath: str):
             parsed.append(parsed_section)
 
     return parsed
+
+
+# A labelled agent-side block: the bold label, then list items ("- ...") and
+# indented continuation lines, up to the first line that is neither.
+def _block_pattern(label):
+    return re.compile(
+        r'\*\*' + re.escape(label) + r':\*\*[ \t]*\n((?:[ \t]*- .*\n?|[ \t]+\S.*\n?)+)'
+    )
+
+
+ATTESTED_BLOCK = _block_pattern('Attested')
+DIRECT_ANSWERS_BLOCK = _block_pattern('Direct answers')
+EXTERNAL_BLOCK = _block_pattern('External')
+
+# - First Last (current title, Company; YYYY-MM-DD): "excerpt" [linkedin]
+# The title may hold commas and parentheses; the company is after the last ", ".
+ATTESTED_LINE = re.compile(
+    r'^- (?P<name>[^(]+?) \((?P<inner>.+); (?P<date>\d{4}-\d{2}-\d{2})\): '
+    r'"(?P<excerpt>.+)" \[linkedin\]$'
+)
+EXTERNAL_LINE = re.compile(r'^- \[(?P<label>[^\]]+)\]\((?P<url>https?://[^)\s]+)\)')
+
+
+def _block_items(block):
+    """Top-level '- ' items of a block, each with its indented continuation lines."""
+    items = []
+    for line in block.split('\n'):
+        if not line.strip():
+            continue
+        if line.startswith('- '):
+            items.append(line.rstrip())
+        elif items:
+            items[-1] += '\n' + line.strip()
+    return items
+
+
+def parse_attested(block, section_id):
+    entries = []
+    for item in _block_items(block):
+        m = ATTESTED_LINE.match(item)
+        if not m:
+            raise ValueError(f'{section_id}: Attested line not in the expected shape: {item!r}')
+        title, _, company = m.group('inner').rpartition(', ')
+        if not title:
+            raise ValueError(f'{section_id}: Attested line has no "title, company": {item!r}')
+        entries.append({
+            'name': m.group('name').strip(),
+            'title': title.strip(),
+            'company': company.strip(),
+            'date': m.group('date'),
+            'excerpt': m.group('excerpt'),
+        })
+    return entries
+
+
+def parse_external(block, section_id):
+    entries = []
+    for item in _block_items(block):
+        m = EXTERNAL_LINE.match(item)
+        if not m:
+            raise ValueError(f'{section_id}: External line not in the expected shape: {item!r}')
+        entries.append({'url': m.group('url'), 'label': m.group('label').strip()})
+    return entries
 
 
 def parse_section(section_id: str, raw: str):
@@ -120,6 +211,14 @@ def parse_section(section_id: str, raw: str):
                             'target': None
                         })
 
+    # Agent-side blocks: parsed into their own fields, stripped from content
+    attested_match = ATTESTED_BLOCK.search(raw)
+    attested = parse_attested(attested_match.group(1), section_id) if attested_match else []
+    direct_match = DIRECT_ANSWERS_BLOCK.search(raw)
+    direct_answers = [i[2:].strip() for i in _block_items(direct_match.group(1))] if direct_match else []
+    external_match = EXTERNAL_BLOCK.search(raw)
+    external = parse_external(external_match.group(1), section_id) if external_match else []
+
     # Extract content (everything after questions block and comments, before ---)
     # Remove the questions block and follow-ups block
     content = raw
@@ -129,6 +228,11 @@ def parse_section(section_id: str, raw: str):
         content = content.replace(followups_match.group(0), '')
         # Also remove the header line
         content = content.replace('**Suggested follow-ups:**', '')
+    # Each block goes with the blank line after it, so the prose around it is
+    # exactly what it was before the block was added.
+    for block_match in (attested_match, direct_match, external_match):
+        if block_match:
+            content = re.sub(re.escape(block_match.group(0)) + r'\n?', '', content, count=1)
 
     # Remove HTML comments
     content = re.sub(r'<!--[^>]*-->\n?', '', content)
@@ -147,7 +251,10 @@ def parse_section(section_id: str, raw: str):
         'questions': questions,
         'content': content,
         'drill_downs': drill_downs,
-        'follow_ups': follow_ups
+        'follow_ups': follow_ups,
+        'attested': attested,
+        'direct_answers': direct_answers,
+        'external': external,
     }
 
 
@@ -179,6 +286,9 @@ def main():
     )
     print(f"Total follow-ups: {total_followups} ({sections_with_followups} sections)")
     print(f"Follow-ups with targets: {followups_with_targets}")
+    for field in ('attested', 'direct_answers', 'external'):
+        n = sum(len(c[field]) for c in chunks)
+        print(f"{field}: {n} entries ({sum(1 for c in chunks if c[field])} sections)")
 
     # Show sample
     print("\n--- Sample (first 3 sections) ---\n")

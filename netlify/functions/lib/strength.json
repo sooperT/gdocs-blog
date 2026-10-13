@@ -1,0 +1,70 @@
+{
+  "NOVO.R1": {
+    "strength": "Led",
+    "phrase": "I led the full product lifecycle end to end"
+  },
+  "NOVO.R1.TRANSFORM": {
+    "strength": "Led",
+    "phrase": "use this as a mandate to completely reinvent their ways of working"
+  },
+  "NOVO.R2": {
+    "strength": "Led",
+    "phrase": "Pitched and built a GenAI proof of concept"
+  },
+  "NOVO.R2.GENAI": {
+    "strength": "Led",
+    "phrase": "I used an internal LLM sandbox to create a RAG model"
+  },
+  "NOVO.R2.WEGOVY": {
+    "strength": "Contributed",
+    "phrase": "I worked on the Wegovy Pill launch team as Consumer Lead"
+  },
+  "LEO.R1.TURNAROUND": {
+    "strength": "Led",
+    "phrase": "it was proposed I become the lead with them reporting to me"
+  },
+  "LEO.R2": {
+    "strength": "Led",
+    "phrase": "Built a patient-support app under strict regulatory and ethical constraints"
+  },
+  "LEO.R3": {
+    "strength": "Led",
+    "phrase": "leading a 12-person team"
+  },
+  "T23": {
+    "strength": "Led",
+    "phrase": "Rescued global launch on a 6-week deadline"
+  },
+  "OPBEAT": {
+    "strength": "Led",
+    "phrase": "I joined as Head of Marketing and built the brand, marketing strategy, team and channels"
+  },
+  "EURODNS.R1.TURNAROUND": {
+    "strength": "Led",
+    "phrase": "I restructured the marketing department"
+  },
+  "UK2": {
+    "strength": "Led",
+    "phrase": "Managed development of new domain platform"
+  },
+  "UK2.R1.USTURNAROUND": {
+    "strength": "Led",
+    "phrase": "Rebuilt the underperforming US Marketing department"
+  },
+  "HOST": {
+    "strength": "Led",
+    "phrase": "Created department from scratch"
+  },
+  "HOST.R1.REBRAND": {
+    "strength": "Led",
+    "phrase": "pushed the change through"
+  },
+  "HOST.R2.STORY.DOMAIN": {
+    "strength": "Led",
+    "phrase": "I reinvented the process"
+  },
+  "SOLO": {
+    "strength": "Led",
+    "phrase": "I shipped three products with AI"
+  }
+}

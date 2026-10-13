@@ -120,6 +120,7 @@ understand → plan → build → test locally → show work → WAIT FOR APPROV
 ### Rules
 - **Never push without explicit permission.** Every push = Netlify build = costs money.
 - **Never commit without asking first.** Show what will be committed.
+- **Never `git add -A` in a worktree.** Worktrees hold symlinks (`docs`, `node_modules`) into the main checkout; a tracked symlink overwrites the real private folder on merge (2026-10-13 incident, `docs/` lost and rebuilt). Stage paths explicitly, check `git status --short` for symlinks, and `git ls-files -s | grep ^120000` before merging into main.
 - **Never claim "should work" without proof.** Use preview tools or test output.
 - **Verify with preview tools** — don't ask the user to check manually.
 - **Batch changes** — iterate on localhost, push once when done.
@@ -136,8 +137,9 @@ understand → plan → build → test locally → show work → WAIT FOR APPROV
 - Don't add features beyond what was asked.
 - Clean semantic HTML, including file/directory naming.
 - Test desktop + mobile on localhost before claiming done.
+- **When you ask Tom to test something, repost the exact prompt or command in that message**, in a code block, even if it appeared earlier: he switches device to run it and should never have to scroll.
 - **Keep Tom busy while you crunch.** Before any long build or research step, give him one concrete thing to do that moves the project (a draft to tick, a line to write, a test to run, a decision with a default). Never leave him waiting with nothing.
-- Number all lists in proposals and multi-point responses, and keep numbers unique across the whole chat: a later list continues from the last number used, never restarts at 1, so "do 4" is unambiguous.
+- Number all lists in proposals and multi-point responses, and keep numbers unique across the whole chat: a later list continues from the last number used, never restarts at 1, so "do 4" is unambiguous. A number names one item for good: when you mention that item again, reuse its number, never issue a new one for the same thing.
 
 ### Design judgement
 - **Balance the whole page before showing it.** After any change, screenshot and judge the full page as a layout — spacing rhythm, gaps, grouping — not just the element you touched. Never present unbalanced work; Tom should not have to micromanage layout.
@@ -160,6 +162,7 @@ understand → plan → build → test locally → show work → WAIT FOR APPROV
 - `publish.py` sometimes asks an extra "HTML has structural errors. Continue anyway?" — its validator false-positives on unclosed tags mid-flow; the final output is balanced. `scripts/publish_local.py` answers it yes automatically.
 - Google OAuth token (`token.json`) can expire with `invalid_grant` — delete it and have Tom run `publish.py` in his own terminal to re-auth (opens browser consent).
 - Netlify serves URLs case-insensitively via 301 to lowercase.
+- `netlify dev` inside a git worktree bundles the **main checkout's** functions (it resolves the repo root through the worktree's `.git` file). Pass `--dir <worktree> --functions <worktree>/netlify/functions`; the `tombot-staging` launch config does this on port 8889 with `.env.staging`.
 - `sips` crop flag: use `--cropToHeightWidth`, not `-c`.
 - Image format detection uses magic bytes (PNGs were being saved as .jpg).
 - CRT CSS selectors need both `p > img` and `p > a > img` for linked images.

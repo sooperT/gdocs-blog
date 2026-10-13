@@ -1,0 +1,190 @@
+{
+  "generated_by": "generate_agent_page.py",
+  "max_ask_chars": 160,
+  "facts": [
+    {
+      "type": "name",
+      "label": "Name",
+      "base": "Tom Stenson; also Thomas Traberg Stenson",
+      "qualifiers": [],
+      "value": "Tom Stenson; also Thomas Traberg Stenson",
+      "section": null,
+      "per_send": false,
+      "on_request": false,
+      "asks": []
+    },
+    {
+      "type": "last_role",
+      "label": "Most recent role",
+      "base": "Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026)",
+      "qualifiers": [],
+      "value": "Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026)",
+      "section": "NOVO.R2",
+      "per_send": false,
+      "on_request": false,
+      "asks": []
+    },
+    {
+      "type": "compensation",
+      "label": "Compensation",
+      "base": "On request: GET /ask?q=How%20can%20I%20contact%20Tom%3F",
+      "qualifiers": [],
+      "value": "On request: GET /ask?q=How%20can%20I%20contact%20Tom%3F",
+      "section": null,
+      "per_send": false,
+      "on_request": true,
+      "asks": [
+        "\\bsalary\\b",
+        "\\bcompensation (range|package)\\b",
+        "\\b(base|total) (pay|comp)"
+      ]
+    },
+    {
+      "type": "location",
+      "label": "Location",
+      "base": "Copenhagen, Denmark",
+      "qualifiers": [
+        {
+          "text": "Onsite in Copenhagen up to four days a week, some flexibility preferred",
+          "ask": "^\\s*location\\b|\\bbased in\\b|\\bon-?site\\b|\\bhybrid\\b|\\boffice\\b"
+        },
+        {
+          "text": "remote roles across the EU and UK",
+          "ask": "\\bremote(ly)?\\b"
+        },
+        {
+          "text": "worked on-site, hybrid and remote, and across time zones",
+          "ask": "\\bhybrid\\b|\\btime ?zones?\\b|\\bworking pattern\\b|\\bdays? ((a|per) week )?in (the )?office\\b"
+        }
+      ],
+      "value": "Copenhagen, Denmark; Onsite in Copenhagen up to four days a week, some flexibility preferred; remote roles across the EU and UK; worked on-site, hybrid and remote, and across time zones",
+      "section": "META.LOCATION",
+      "per_send": true,
+      "on_request": false,
+      "asks": [
+        "^\\s*location\\b",
+        "^\\s*(?:in |based in )?(?:copenhagen|denmark)[\\s.,]*$",
+        "\\bbased (in|within)\\b",
+        "\\bon-?site\\b",
+        "\\bhybrid\\b",
+        "\\brelocat",
+        "\\bfully remote\\b",
+        "\\bremote (role|position|work|working|first)\\b",
+        "\\bdays? ((a|per) week )?in (the )?office\\b"
+      ]
+    },
+    {
+      "type": "work_permit",
+      "label": "Nationality & work permit",
+      "base": "British & French; Danish permanent resident; no work visa is required in EU and UK.",
+      "qualifiers": [],
+      "value": "British & French; Danish permanent resident; no work visa is required in EU and UK.",
+      "section": "META.LOCATION",
+      "per_send": false,
+      "on_request": false,
+      "asks": [
+        "\\bvisa\\b",
+        "\\bwork permit\\b",
+        "\\bright to work\\b",
+        "\\b(authori[sz]ed|eligible|permission) to work\\b",
+        "\\bwork authori[sz]ation\\b"
+      ]
+    },
+    {
+      "type": "education",
+      "label": "Education",
+      "base": "MA Information Technology — University of Nottingham, UK (2001-2002); BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)",
+      "qualifiers": [],
+      "value": "MA Information Technology — University of Nottingham, UK (2001-2002); BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)",
+      "section": "META.EDUCATION",
+      "per_send": false,
+      "on_request": false,
+      "asks": [
+        "\\bph\\.?\\s?d\\b",
+        "\\bm\\.?sc\\b",
+        "\\bb\\.?sc\\b",
+        "\\bmba\\b",
+        "\\bbachelor",
+        "\\bmaster'?s\\b",
+        "\\bmaster of\\b",
+        "\\bdegree\\b"
+      ]
+    },
+    {
+      "type": "languages",
+      "label": "Languages",
+      "base": "English (native); Danish (intermediate); no French",
+      "qualifiers": [
+        {
+          "text": "Prøve i Dansk 3 (Danish language certification, 2012)",
+          "ask": "\\b(danish|dansk)\\b"
+        },
+        {
+          "text": "French citizen, but not a French speaker",
+          "ask": "\\b(french|fransk)\\b"
+        }
+      ],
+      "value": "English (native); Danish (intermediate); no French; Prøve i Dansk 3 (Danish language certification, 2012); French citizen, but not a French speaker",
+      "section": "META.EDUCATION",
+      "per_send": false,
+      "on_request": false,
+      "asks": [
+        "\\b(english|danish|german|french|spanish|swedish|norwegian|dutch)\\b",
+        "\\b(spoken|written|foreign|second) languages?\\b",
+        "\\blanguage skills\\b",
+        "\\b(engelsk|dansk|tysk|fransk|spansk|svensk|norsk|hollandsk)\\b",
+        "\\bsprog(kundskaber|krav|kompetencer)?\\b",
+        "\\bflydende\\b"
+      ]
+    },
+    {
+      "type": "employment_type",
+      "label": "Open to",
+      "base": "fractional, interim and permanent roles.",
+      "qualifiers": [],
+      "value": "fractional, interim and permanent roles.",
+      "section": "META.LOOKING",
+      "per_send": false,
+      "on_request": false,
+      "asks": [
+        "full[- ]time\\b",
+        "\\bpart[- ]time\\b",
+        "\\bpermanent (position|role|contract)\\b",
+        "\\bfixed[- ]term\\b",
+        "\\btemporary (position|role|contract)\\b"
+      ]
+    },
+    {
+      "type": "start_date",
+      "label": "Start date",
+      "base": "On request: GET /ask?q=How%20can%20I%20contact%20Tom%3F",
+      "qualifiers": [],
+      "value": "On request: GET /ask?q=How%20can%20I%20contact%20Tom%3F",
+      "section": null,
+      "per_send": false,
+      "on_request": true,
+      "asks": [
+        "\\bnotice period\\b",
+        "\\bstart date\\b",
+        "\\bavailable to start\\b",
+        "\\bwhen (can|could|would) \\w+ start\\b",
+        "\\bavailab(le|ility)\\b"
+      ]
+    },
+    {
+      "type": "travel",
+      "label": "Travel",
+      "base": null,
+      "qualifiers": [],
+      "value": null,
+      "section": null,
+      "per_send": false,
+      "on_request": false,
+      "asks": [
+        "\\b(willing(ness)?|able|ability|required|expected) to travel\\b",
+        "\\btravel (days|up to|required)\\b",
+        "\\b\\d+ ?% travel\\b"
+      ]
+    }
+  ]
+}

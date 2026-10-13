@@ -3,6 +3,8 @@ import pg from 'pg';
 import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { embedQuery, matchSections, prepareQuerySteps, QUESTION_MATCH_THRESHOLD, TOP_K } from './lib/retrieval.js';
+import { track, cleanPosthogId, retrievalSpanEvent, generationEvent } from './lib/analytics.js';
 
 // Load .env in development
 const currentFilePath = fileURLToPath(import.meta.url);
@@ -22,156 +24,14 @@ if (existsSync(envPath)) {
 const SYSTEM_PROMPT = readFileSync(join(currentDirPath, 'system-prompt.md'), 'utf-8');
 
 const anthropic = new Anthropic();
+const CHAT_MODEL = 'claude-sonnet-5';
+const CHAT_MAX_TOKENS = 1024;
 
 // Database connection
 const pool = new pg.Pool({
   connectionString: process.env.NILEDB_URL,
   ssl: { rejectUnauthorized: false }
 });
-
-// Get embedding from Voyage AI with retry
-async function getEmbedding(text, retries = 2) {
-  for (let attempt = 0; attempt <= retries; attempt++) {
-    const response = await fetch('https://api.voyageai.com/v1/embeddings', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.VOYAGE_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        input: [text],
-        model: 'voyage-3'
-      })
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return data.data[0].embedding;
-    }
-
-    if (response.status === 429 && attempt < retries) {
-      await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
-      continue;
-    }
-
-    console.error('Voyage API error:', await response.text());
-    return null;
-  }
-  return null;
-}
-
-// Normalize third-person references to first-person for better question matching
-// "tell me about tom" -> "tell me about yourself"
-// "where has tom worked" -> "where have you worked"
-function normalizeQuery(query) {
-  let normalized = query;
-
-  // Replace "tom" with "you" (case-insensitive, word boundary)
-  normalized = normalized.replace(/\btom\b/gi, 'you');
-
-  // Fix verb conjugations after replacement
-  // "has you" -> "have you", "does you" -> "do you", "is you" -> "are you"
-  normalized = normalized.replace(/\bhas you\b/gi, 'have you');
-  normalized = normalized.replace(/\bdoes you\b/gi, 'do you');
-  normalized = normalized.replace(/\bis you\b/gi, 'are you');
-  normalized = normalized.replace(/\bwas you\b/gi, 'were you');
-
-  // "you's" -> "your" (possessive)
-  normalized = normalized.replace(/\byou's\b/gi, 'your');
-  normalized = normalized.replace(/\byou's\b/gi, 'your'); // handle curly apostrophe
-
-  // "about you" at end often sounds better as "about yourself"
-  normalized = normalized.replace(/\babout you\b(?=\s*[?.!]?\s*$)/gi, 'about yourself');
-
-  return normalized;
-}
-
-// Expand contractions for consistent matching with stored questions
-// "what's" -> "what is", "how's" -> "how is", etc.
-function expandContractions(query) {
-  return query
-    .replace(/\bwhat's\b/gi, 'what is')
-    .replace(/\bwhere's\b/gi, 'where is')
-    .replace(/\bhow's\b/gi, 'how is')
-    .replace(/\bwho's\b/gi, 'who is')
-    .replace(/\bthat's\b/gi, 'that is')
-    .replace(/\bit's\b/gi, 'it is')
-    .replace(/\bthere's\b/gi, 'there is')
-    .replace(/\bwhat're\b/gi, 'what are')
-    .replace(/\bwho're\b/gi, 'who are')
-    .replace(/\bthey're\b/gi, 'they are');
-}
-
-// Expand synonyms to boost matching for short/ambiguous queries (LSI-lite)
-// Appends related terms rather than replacing
-function expandSynonyms(query) {
-  const synonyms = {
-    'kids': 'children family',
-    'married': 'wife spouse family',
-    'wife': 'married spouse family',
-    'hobbies': 'interests outside work',
-    'pitch': 'elevator summary introduction',
-    'story': 'journey arc background career',
-    'janitor': 'product janitor fixer',
-    'compass': 'motivation values drives purpose'
-  };
-
-  let expanded = query;
-  for (const [term, expansion] of Object.entries(synonyms)) {
-    const regex = new RegExp(`\\b${term}\\b`, 'gi');
-    if (regex.test(query)) {
-      expanded += ` ${expansion}`;
-    }
-  }
-  return expanded;
-}
-
-// Expand aliases in query (e.g., "Novo" -> "Novo Nordisk")
-async function expandAliases(query) {
-  try {
-    // Sort by alias length descending to avoid partial replacements
-    const result = await pool.query('SELECT alias, canonical_name FROM aliases ORDER BY LENGTH(alias) DESC');
-    let expanded = query;
-    for (const row of result.rows) {
-      // Only replace if the canonical name isn't already present
-      if (!expanded.toLowerCase().includes(row.canonical_name.toLowerCase())) {
-        const regex = new RegExp(`\\b${row.alias}\\b`, 'gi');
-        expanded = expanded.replace(regex, row.canonical_name);
-      }
-    }
-    return expanded;
-  } catch (error) {
-    console.error('Alias expansion error:', error);
-    return query;
-  }
-}
-
-// Primary search: match user query against question embeddings
-// This finds the best matching pre-defined question variations
-async function searchByQuestionMatch(embedding, limit = 5) {
-  try {
-    const vectorStr = `[${embedding.join(',')}]`;
-    const result = await pool.query(`
-      SELECT DISTINCT ON (title)
-             id, title, content, chunk_type, question_text, follow_ups,
-             1 - (question_embedding <=> $1::vector) as similarity
-      FROM chunks
-      WHERE question_embedding IS NOT NULL
-      ORDER BY title, question_embedding <=> $1::vector
-    `, [vectorStr]);
-
-    // Re-sort by similarity after DISTINCT and take top N
-    const sorted = result.rows.sort((a, b) => b.similarity - a.similarity);
-    return sorted.slice(0, limit);
-  } catch (error) {
-    console.error('Question match search error:', error);
-    return [];
-  }
-}
-
-// Main retrieval function - question matching only (no content fallback)
-const QUESTION_MATCH_THRESHOLD = 0.55;  // Testing: lowered from 0.60 to catch borderline matches like "wegovy" (0.591)
-const TOP_K = 1;  // Single match only — prevents cross-section bleed and hallucination
 
 // Log deflection to dedicated table for review
 async function logDeflection(query, topMatch, topScore, sessionId) {
@@ -229,26 +89,23 @@ async function logError(sessionId, query, errorMessage) {
 
 // Exported for scripts/eval-routing.js — keeps the eval on the exact production path
 export async function retrieveContent(query) {
-  // Step 1: Normalize third-person to first-person
-  const normalizedQuery = normalizeQuery(query);
+  // Steps 1-4: shared query clean-up (lib/retrieval.js): normalize third-person
+  // to first-person, expand contractions, aliases, then synonyms (LSI-lite)
+  const steps = await prepareQuerySteps(query, { sql: pool });
+  const normalizedQuery = steps.normalized;
+  const contractionsExpanded = steps.contractions;
+  const aliasExpanded = steps.aliases;
+  const synonymExpanded = steps.synonyms;
+
   if (normalizedQuery !== query) {
     console.log('[RAG] Normalized:', query, '->', normalizedQuery);
   }
-
-  // Step 2: Expand contractions for consistent matching
-  const contractionsExpanded = expandContractions(normalizedQuery);
   if (contractionsExpanded !== normalizedQuery) {
     console.log('[RAG] Contractions expanded:', normalizedQuery, '->', contractionsExpanded);
   }
-
-  // Step 3: Expand aliases
-  const aliasExpanded = await expandAliases(contractionsExpanded);
   if (aliasExpanded !== contractionsExpanded) {
     console.log('[RAG] Aliases expanded:', contractionsExpanded, '->', aliasExpanded);
   }
-
-  // Step 4: Expand synonyms (LSI-lite) to boost short queries
-  const synonymExpanded = expandSynonyms(aliasExpanded);
   if (synonymExpanded !== aliasExpanded) {
     console.log('[RAG] Synonyms expanded:', aliasExpanded, '->', synonymExpanded);
   }
@@ -256,14 +113,14 @@ export async function retrieveContent(query) {
   console.log('[RAG] Final query:', synonymExpanded);
 
   // Step 5: Get embedding
-  const embedding = await getEmbedding(synonymExpanded);
+  const embedding = await embedQuery(synonymExpanded);
   if (!embedding) {
     console.log('[RAG] Failed to get embedding');
     return { chunks: [], method: 'none' };
   }
 
   // Step 3: Primary search - match against question embeddings
-  const questionMatches = await searchByQuestionMatch(embedding, TOP_K);
+  const questionMatches = await matchSections(embedding, { topK: TOP_K, sql: pool });
   console.log('[RAG] Question matches:', questionMatches.length);
   if (questionMatches.length > 0) {
     console.log('[RAG] Top question match:', questionMatches[0].title,
@@ -361,7 +218,7 @@ export default async (request, context) => {
   let lastUserQuery = null;
 
   try {
-    const { messages, sessionId } = await request.json();
+    const { messages, sessionId, phId, phSession } = await request.json();
 
     // Validate messages
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
@@ -373,6 +230,12 @@ export default async (request, context) => {
 
     // Generate session ID if not provided
     chatSessionId = sessionId || `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    // PostHog LLM analytics (lib/analytics.js): one trace per turn, grouped by
+    // the chat session; a no-op without POSTHOG_KEY.
+    const traceId = `${chatSessionId}_${Date.now()}`;
+    const phOpts = { request, context, distinctId: cleanPosthogId(phId) || chatSessionId };
+    const phIds = { traceId, sessionId: chatSessionId, webSessionId: phSession };
 
     // Cap conversation history to prevent token overflow
     const MAX_MESSAGES = 20;
@@ -386,7 +249,9 @@ export default async (request, context) => {
     let retrievalInfo = { method: 'none', matches: [] };
 
     if (lastUserMessage) {
+      const retrievalStart = Date.now();
       const { chunks, method, topMatch } = await retrieveContent(lastUserMessage.content);
+      const retrievalMs = Date.now() - retrievalStart;
 
       // No match found — return hardcoded deflect, skip Claude entirely
       if (method === 'none') {
@@ -403,6 +268,9 @@ export default async (request, context) => {
 
         // Also log to chat logs
         await logChatExchange(chatSessionId, lastUserMessage.content, deflectMessage, { method: 'none', matches: [] });
+        await track('$ai_span', { ...phOpts, properties: retrievalSpanEvent({
+          ...phIds, query: lastUserMessage.content, retrieval: { method, matches: [], topMatch }, latencyMs: retrievalMs,
+        }) });
 
         // Return deflect as streaming response (for consistent client handling)
         const deflectFollowUps = [
@@ -443,15 +311,20 @@ export default async (request, context) => {
           score: c.similarity?.toFixed(3),
         })),
       };
+      await track('$ai_span', { ...phOpts, properties: retrievalSpanEvent({
+        ...phIds, query: lastUserMessage.content, retrieval: retrievalInfo, latencyMs: retrievalMs,
+      }) });
     }
 
     // Combine system prompt with RAG context
     const enhancedSystemPrompt = SYSTEM_PROMPT + ragContext;
 
     // Create streaming response
+    const generationStart = Date.now();
+    let firstTokenMs = null;
     const stream = await anthropic.messages.stream({
-      model: 'claude-sonnet-5',
-      max_tokens: 1024,
+      model: CHAT_MODEL,
+      max_tokens: CHAT_MAX_TOKENS,
       thinking: { type: 'disabled' },
       system: enhancedSystemPrompt,
       messages: trimmedMessages,
@@ -459,6 +332,15 @@ export default async (request, context) => {
 
     // Collect full response for logging
     let fullResponse = '';
+    const trackGeneration = async (error) => {
+      let usage = null;
+      if (!error) { try { usage = (await stream.finalMessage()).usage; } catch { /* usage stays null */ } }
+      await track('$ai_generation', { ...phOpts, properties: generationEvent({
+        ...phIds, retrieval: retrievalInfo, model: CHAT_MODEL, maxTokens: CHAT_MAX_TOKENS,
+        system: enhancedSystemPrompt, messages: trimmedMessages, output: fullResponse, usage,
+        latencyMs: Date.now() - generationStart, firstTokenMs, error,
+      }) });
+    };
 
     // Set up streaming response
     const encoder = new TextEncoder();
@@ -467,6 +349,7 @@ export default async (request, context) => {
         try {
           for await (const event of stream) {
             if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
+              if (firstTokenMs === null) firstTokenMs = Date.now() - generationStart;
               fullResponse += event.delta.text;
               const data = JSON.stringify({ type: 'delta', text: event.delta.text });
               controller.enqueue(encoder.encode(`data: ${data}\n\n`));
@@ -481,10 +364,14 @@ export default async (request, context) => {
             controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'follow_ups', suggestions: followUps })}\n\n`));
           }
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'done', sessionId: chatSessionId })}\n\n`));
+          // After `done` so the visitor never waits on PostHog, before close
+          // because Netlify freezes the invocation once the response closes.
+          await trackGeneration(null);
           controller.close();
         } catch (error) {
           console.error('Streaming error:', error);
           logError(chatSessionId, lastUserMessage?.content || null, error.message);
+          await trackGeneration(error.message);
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'error', message: error.message })}\n\n`));
           controller.close();
         }

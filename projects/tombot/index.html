@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/lib/styles/styles.css">
     <link rel="icon" type="image/png" href="/favicon.png">
     <script defer src="https://cloud.umami.is/script.js" data-website-id="6e0b4ebe-2b6a-4583-9ceb-8316259c5600" data-domains="takenbyninjas.com"></script>
+    <script defer src="/lib/js/posthog.js"></script>
     <style>
         /* TomBot styles - scoped to #tombot */
         #tombot {
@@ -238,9 +239,20 @@
             color: var(--teletext-red, #FF0000);
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.85em;
-            margin: 12px 0 0 0;
+            margin: 36px 0 12px 0;
             text-align: center;
         }
+
+        /* Copy-this-prompt block, Variant D "notice": a yellow left rule, no box */
+        .tb-paste { font-family: 'Courier New', Courier, monospace; font-size: 0.85em; margin: 28px 0 0 0; padding: 2px 0 2px 14px; border-left: 3px solid var(--teletext-yellow); }
+        .tb-paste p { margin: 0 0 8px 0; }
+        .tb-paste p:last-child { margin: 0; }
+        .tb-paste-prompt { overflow-wrap: anywhere; }
+        .tb-paste-prompt kbd { font: inherit; color: var(--teletext-yellow); text-decoration: underline dotted; text-underline-offset: 3px; }
+        .tb-paste-prompt kbd a { border-bottom: 0; }
+        .tb-paste-copy { font: inherit; color: var(--teletext-yellow); background: none; border: 0; border-bottom: 1px solid currentColor; padding: 0; margin-left: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+        .tb-paste-copy:hover { background: rgba(255, 255, 0, 0.1); }
+        .tb-paste-copy svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; }
 
         /* Mobile adjustments */
         @media (max-width: 600px) {
@@ -321,12 +333,17 @@
                 <button class="tb-send" id="tb-send">Send</button>
             </div>
         </div>
+        <aside class="tb-paste" aria-label="For your AI">
+            <p>Don't want to type? Copy-paste this prompt into your favourite LLM and have your agent talk to my agent.</p>
+            <p class="tb-paste-prompt"><kbd id="tb-paste-text">Fetch <a href="/for-agents/start/">https://takenbyninjas.com/for-agents/start/</a> and follow the steps.</kbd></p>
+        </aside>
         <p class="tb-disclaimer">Disclaimer: This is a prototype AI - chats are logged for performance.<br />For ground truth responses please meet Tom in-person for coffee.</p>
     </main>
 
     <!-- FOOTER -->
     <footer class="site-footer">
         <p>Code created with AI — Words are my own</p>
+        <p>Are you an AI agent? Go to the <a href="/for-agents/">machine-readable version</a>.</p>
     </footer>
 
     <script>
@@ -487,7 +504,13 @@
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ messages: conversationHistory, sessionId })
+                    body: JSON.stringify({
+                        messages: conversationHistory,
+                        sessionId,
+                        // PostHog ids (undefined off production, where the snippet never starts)
+                        phId: window.posthog?.get_distinct_id?.(),
+                        phSession: window.posthog?.get_session_id?.()
+                    })
                 });
 
                 if (!response.ok) {
@@ -587,6 +610,25 @@
         // Show greeting on load
         showGreeting();
         input.focus();
+    })();
+    </script>
+    <script>
+    // Copy-this-prompt block: the Copy control exists only when JS runs; the prompt is plain text without it
+    (function() {
+        const text = document.getElementById('tb-paste-text');
+        if (!text || !navigator.clipboard) return;
+        const copy = document.createElement('button');
+        copy.type = 'button';
+        copy.className = 'tb-paste-copy';
+        copy.setAttribute('aria-label', 'Copy the prompt');
+        copy.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span>';
+        text.after(copy);
+        copy.addEventListener('click', () => {
+            navigator.clipboard.writeText(text.innerText.trim()).then(() => {
+                copy.querySelector('span').textContent = 'Copied';
+                setTimeout(() => { copy.querySelector('span').textContent = 'Copy'; }, 2000);
+            }).catch(() => { window.getSelection().selectAllChildren(text); });
+        });
     })();
     </script>
 </body>

@@ -74,6 +74,8 @@ def html_head(title, extra_scripts=None, meta_description=None, no_crt=False, ca
 
     # Add Umami analytics tracking
     parts.append('    <script defer src="https://cloud.umami.is/script.js" data-website-id="6e0b4ebe-2b6a-4583-9ceb-8316259c5600" data-domains="takenbyninjas.com"></script>')
+    # PostHog (cookieless, production host only: see lib/js/posthog.js)
+    parts.append('    <script defer src="/lib/js/posthog.js"></script>')
 
     # Add extra scripts if provided
     if extra_scripts:
@@ -129,6 +131,7 @@ def site_footer():
     return '''    <!-- FOOTER -->
     <footer class="site-footer">
         <p>Code created with AI — Words are my own</p>
+        <p>Are you an AI agent? Go to the <a href="/for-agents/">machine-readable version</a>.</p>
     </footer>
 </body>
 </html>'''

@@ -1,0 +1,4281 @@
+{
+  "generated": "2026-10-13",
+  "source": "Tom's own account (tier: self-reported); each row cites its TomBot section id",
+  "facets": "Each row's `facets` are lines from CVs Tom sent, verbatim (tier: self-reported; `source` names the CV). A brief returns the facet that matched a requirement as its evidence; the row's result cell stays the outcome.",
+  "roles_note": "Domain, company type, size and level are answered from `roles`, not from one story: each company with its sectors, environments, size and products, each role with its title, aliases and scope in effect. Count every role that matches.",
+  "human_version": "https://takenbyninjas.com/about/",
+  "facts_page": "https://takenbyninjas.com/for-agents/",
+  "references": "https://takenbyninjas.com/for-agents/recommendations/",
+  "shapes": [
+    {
+      "id": "product-management",
+      "label": "Product management"
+    },
+    {
+      "id": "ai",
+      "label": "AI"
+    },
+    {
+      "id": "growth",
+      "label": "Growth"
+    },
+    {
+      "id": "zero-to-one",
+      "label": "0 to 1, incubation and new ways of working"
+    },
+    {
+      "id": "turnaround",
+      "label": "Turnarounds"
+    },
+    {
+      "id": "regulated",
+      "label": "Regulated and health"
+    },
+    {
+      "id": "leadership",
+      "label": "Leadership and management"
+    },
+    {
+      "id": "international",
+      "label": "International and remote"
+    }
+  ],
+  "screening_facts": [
+    {
+      "type": "name",
+      "label": "Name",
+      "base": "Tom Stenson; also Thomas Traberg Stenson",
+      "qualifiers": [],
+      "value": "Tom Stenson; also Thomas Traberg Stenson",
+      "section": null,
+      "per_send": false,
+      "on_request": false,
+      "asks": []
+    },
+    {
+      "type": "last_role",
+      "label": "Most recent role",
+      "base": "Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026)",
+      "qualifiers": [],
+      "value": "Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026)",
+      "section": "NOVO.R2",
+      "per_send": false,
+      "on_request": false,
+      "asks": []
+    },
+    {
+      "type": "compensation",
+      "label": "Compensation",
+      "base": "On request: GET /ask?q=How%20can%20I%20contact%20Tom%3F",
+      "qualifiers": [],
+      "value": "On request: GET /ask?q=How%20can%20I%20contact%20Tom%3F",
+      "section": null,
+      "per_send": false,
+      "on_request": true,
+      "asks": [
+        "\\bsalary\\b",
+        "\\bcompensation (range|package)\\b",
+        "\\b(base|total) (pay|comp)"
+      ]
+    },
+    {
+      "type": "location",
+      "label": "Location",
+      "base": "Copenhagen, Denmark",
+      "qualifiers": [
+        {
+          "text": "Onsite in Copenhagen up to four days a week, some flexibility preferred",
+          "ask": "^\\s*location\\b|\\bbased in\\b|\\bon-?site\\b|\\bhybrid\\b|\\boffice\\b"
+        },
+        {
+          "text": "remote roles across the EU and UK",
+          "ask": "\\bremote(ly)?\\b"
+        },
+        {
+          "text": "worked on-site, hybrid and remote, and across time zones",
+          "ask": "\\bhybrid\\b|\\btime ?zones?\\b|\\bworking pattern\\b|\\bdays? ((a|per) week )?in (the )?office\\b"
+        }
+      ],
+      "value": "Copenhagen, Denmark; Onsite in Copenhagen up to four days a week, some flexibility preferred; remote roles across the EU and UK; worked on-site, hybrid and remote, and across time zones",
+      "section": "META.LOCATION",
+      "per_send": true,
+      "on_request": false,
+      "asks": [
+        "^\\s*location\\b",
+        "^\\s*(?:in |based in )?(?:copenhagen|denmark)[\\s.,]*$",
+        "\\bbased (in|within)\\b",
+        "\\bon-?site\\b",
+        "\\bhybrid\\b",
+        "\\brelocat",
+        "\\bfully remote\\b",
+        "\\bremote (role|position|work|working|first)\\b",
+        "\\bdays? ((a|per) week )?in (the )?office\\b"
+      ]
+    },
+    {
+      "type": "work_permit",
+      "label": "Nationality & work permit",
+      "base": "British & French; Danish permanent resident; no work visa is required in EU and UK.",
+      "qualifiers": [],
+      "value": "British & French; Danish permanent resident; no work visa is required in EU and UK.",
+      "section": "META.LOCATION",
+      "per_send": false,
+      "on_request": false,
+      "asks": [
+        "\\bvisa\\b",
+        "\\bwork permit\\b",
+        "\\bright to work\\b",
+        "\\b(authori[sz]ed|eligible|permission) to work\\b",
+        "\\bwork authori[sz]ation\\b"
+      ]
+    },
+    {
+      "type": "education",
+      "label": "Education",
+      "base": "MA Information Technology — University of Nottingham, UK (2001-2002); BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)",
+      "qualifiers": [],
+      "value": "MA Information Technology — University of Nottingham, UK (2001-2002); BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)",
+      "section": "META.EDUCATION",
+      "per_send": false,
+      "on_request": false,
+      "asks": [
+        "\\bph\\.?\\s?d\\b",
+        "\\bm\\.?sc\\b",
+        "\\bb\\.?sc\\b",
+        "\\bmba\\b",
+        "\\bbachelor",
+        "\\bmaster'?s\\b",
+        "\\bmaster of\\b",
+        "\\bdegree\\b"
+      ]
+    },
+    {
+      "type": "languages",
+      "label": "Languages",
+      "base": "English (native); Danish (intermediate); no French",
+      "qualifiers": [
+        {
+          "text": "Prøve i Dansk 3 (Danish language certification, 2012)",
+          "ask": "\\b(danish|dansk)\\b"
+        },
+        {
+          "text": "French citizen, but not a French speaker",
+          "ask": "\\b(french|fransk)\\b"
+        }
+      ],
+      "value": "English (native); Danish (intermediate); no French; Prøve i Dansk 3 (Danish language certification, 2012); French citizen, but not a French speaker",
+      "section": "META.EDUCATION",
+      "per_send": false,
+      "on_request": false,
+      "asks": [
+        "\\b(english|danish|german|french|spanish|swedish|norwegian|dutch)\\b",
+        "\\b(spoken|written|foreign|second) languages?\\b",
+        "\\blanguage skills\\b",
+        "\\b(engelsk|dansk|tysk|fransk|spansk|svensk|norsk|hollandsk)\\b",
+        "\\bsprog(kundskaber|krav|kompetencer)?\\b",
+        "\\bflydende\\b"
+      ]
+    },
+    {
+      "type": "employment_type",
+      "label": "Open to",
+      "base": "fractional, interim and permanent roles.",
+      "qualifiers": [],
+      "value": "fractional, interim and permanent roles.",
+      "section": "META.LOOKING",
+      "per_send": false,
+      "on_request": false,
+      "asks": [
+        "full[- ]time\\b",
+        "\\bpart[- ]time\\b",
+        "\\bpermanent (position|role|contract)\\b",
+        "\\bfixed[- ]term\\b",
+        "\\btemporary (position|role|contract)\\b"
+      ]
+    },
+    {
+      "type": "start_date",
+      "label": "Start date",
+      "base": "On request: GET /ask?q=How%20can%20I%20contact%20Tom%3F",
+      "qualifiers": [],
+      "value": "On request: GET /ask?q=How%20can%20I%20contact%20Tom%3F",
+      "section": null,
+      "per_send": false,
+      "on_request": true,
+      "asks": [
+        "\\bnotice period\\b",
+        "\\bstart date\\b",
+        "\\bavailable to start\\b",
+        "\\bwhen (can|could|would) \\w+ start\\b",
+        "\\bavailab(le|ility)\\b"
+      ]
+    },
+    {
+      "type": "travel",
+      "label": "Travel",
+      "base": null,
+      "qualifiers": [],
+      "value": null,
+      "section": null,
+      "per_send": false,
+      "on_request": false,
+      "asks": [
+        "\\b(willing(ness)?|able|ability|required|expected) to travel\\b",
+        "\\btravel (days|up to|required)\\b",
+        "\\b\\d+ ?% travel\\b"
+      ]
+    }
+  ],
+  "skill_pages": {
+    "AI": "https://takenbyninjas.com/for-agents/skills/ai/",
+    "GenAI": "https://takenbyninjas.com/for-agents/skills/genai/",
+    "machine learning": "https://takenbyninjas.com/for-agents/skills/machine-learning/",
+    "computer vision": "https://takenbyninjas.com/for-agents/skills/computer-vision/",
+    "algorithm": "https://takenbyninjas.com/for-agents/skills/algorithm/",
+    "API": "https://takenbyninjas.com/for-agents/skills/api/",
+    "regulated": "https://takenbyninjas.com/for-agents/skills/regulated/",
+    "compliance": "https://takenbyninjas.com/for-agents/skills/compliance/",
+    "pharma": "https://takenbyninjas.com/for-agents/skills/pharma/",
+    "healthcare": "https://takenbyninjas.com/for-agents/skills/healthcare/",
+    "patients": "https://takenbyninjas.com/for-agents/skills/patients/",
+    "discovery": "https://takenbyninjas.com/for-agents/skills/discovery/",
+    "prototyping": "https://takenbyninjas.com/for-agents/skills/prototyping/",
+    "incubation": "https://takenbyninjas.com/for-agents/skills/incubation/",
+    "ways of working": "https://takenbyninjas.com/for-agents/skills/ways-of-working/",
+    "turnaround": "https://takenbyninjas.com/for-agents/skills/turnaround/",
+    "growth": "https://takenbyninjas.com/for-agents/skills/growth/",
+    "conversion": "https://takenbyninjas.com/for-agents/skills/conversion/",
+    "activation": "https://takenbyninjas.com/for-agents/skills/activation/",
+    "retention": "https://takenbyninjas.com/for-agents/skills/retention/",
+    "SEO": "https://takenbyninjas.com/for-agents/skills/seo/",
+    "funnels": "https://takenbyninjas.com/for-agents/skills/funnels/",
+    "experimentation": "https://takenbyninjas.com/for-agents/skills/experimentation/",
+    "KPIs": "https://takenbyninjas.com/for-agents/skills/kpis/",
+    "roadmap": "https://takenbyninjas.com/for-agents/skills/roadmap/",
+    "launch": "https://takenbyninjas.com/for-agents/skills/launch/",
+    "0 to 1": "https://takenbyninjas.com/for-agents/skills/zero-to-one/",
+    "brand": "https://takenbyninjas.com/for-agents/skills/brand/",
+    "marketing": "https://takenbyninjas.com/for-agents/skills/marketing/",
+    "SaaS": "https://takenbyninjas.com/for-agents/skills/saas/",
+    "startup": "https://takenbyninjas.com/for-agents/skills/startup/",
+    "developer tools": "https://takenbyninjas.com/for-agents/skills/developer-tools/",
+    "ecommerce": "https://takenbyninjas.com/for-agents/skills/ecommerce/",
+    "domains": "https://takenbyninjas.com/for-agents/skills/domains/",
+    "web hosting": "https://takenbyninjas.com/for-agents/skills/web-hosting/",
+    "team leadership": "https://takenbyninjas.com/for-agents/skills/team-leadership/",
+    "remote": "https://takenbyninjas.com/for-agents/skills/remote/",
+    "international": "https://takenbyninjas.com/for-agents/skills/international/",
+    "stakeholders": "https://takenbyninjas.com/for-agents/skills/stakeholders/",
+    "consumer": "https://takenbyninjas.com/for-agents/skills/consumer/",
+    "partnerships": "https://takenbyninjas.com/for-agents/skills/partnerships/",
+    "budget": "https://takenbyninjas.com/for-agents/skills/budget/",
+    "deadline": "https://takenbyninjas.com/for-agents/skills/deadline/"
+  },
+  "roles": [
+    {
+      "company": "Novo Nordisk",
+      "section": "NOVO",
+      "period": "Mar 2020 - Feb 2026",
+      "years": "2020-2026",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/",
+      "sectors": [
+        "health",
+        "pharma"
+      ],
+      "environments": [
+        "corporate"
+      ],
+      "context": null,
+      "size": {
+        "text": "Novo Nordisk is about 70,000 people globally. I worked in the digital health unit, about 100 people; the Wegovycare product team was around 10.",
+        "section": "NOVO",
+        "people": [
+          70000,
+          100,
+          10
+        ]
+      },
+      "products": [
+        "Wegovycare",
+        "Wegovy Pill launch",
+        "CagriSema",
+        "GenAI proof of concept for automating compliance reviews",
+        "Digital Incubation",
+        "Product Operations"
+      ],
+      "roles": [
+        {
+          "role": "Associate Product Director at Novo Nordisk",
+          "aliases": [
+            "Incubation Lead",
+            "Digital Product Operations Lead",
+            "Head of Patient Products",
+            "Head of Product Ops"
+          ],
+          "levels": [
+            "head-of-product"
+          ],
+          "scope": {
+            "text": "Head of Patient Products: led 6 experienced PMs building consumer engagement products.",
+            "section": "NOVO.R2"
+          },
+          "years": "2022-2026",
+          "page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/"
+        },
+        {
+          "role": "Senior Product Manager at Novo Nordisk",
+          "aliases": [
+            "Product Owner",
+            "Product Manager (Wegovycare)"
+          ],
+          "levels": [],
+          "scope": {
+            "text": "Led cross-functional team of 10.",
+            "section": "NOVO.R1"
+          },
+          "years": "2020-2022",
+          "page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/"
+        }
+      ],
+      "tier": "self-reported"
+    },
+    {
+      "company": "LEO Innovation Lab",
+      "section": "LEO",
+      "period": "Nov 2016 - Jan 2020",
+      "years": "2016-2020",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/",
+      "sectors": [
+        "health",
+        "pharma"
+      ],
+      "environments": [
+        "startup",
+        "incubator",
+        "corporate"
+      ],
+      "context": {
+        "text": "the Lab was a startup incubator at arm's length from LEO Pharma, a 12,000-person pharma company.",
+        "section": "LEO"
+      },
+      "size": {
+        "text": "I joined when the Lab was 30 people and it was 130 when I left. Multiple startup teams of around 3 to 15 people each.",
+        "section": "LEO",
+        "people": [
+          30,
+          130,
+          15
+        ]
+      },
+      "products": [
+        "TREAT",
+        "Skincoach",
+        "Diagnosis App",
+        "BetterVisitBot"
+      ],
+      "roles": [
+        {
+          "role": "PM/GM at LEO Innovation Lab",
+          "aliases": [
+            "Product Owner",
+            "Product Lead",
+            "Product Lead / GM",
+            "Product Manager / GM"
+          ],
+          "levels": [
+            "head-of-product"
+          ],
+          "scope": {
+            "text": "each team had one product owner, who was in effect a mini-CEO and head of product. I was the sole product lead on mine.",
+            "section": "LEO"
+          },
+          "years": "2016-2020",
+          "page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/"
+        }
+      ],
+      "tier": "self-reported"
+    },
+    {
+      "company": "TwentyThree",
+      "section": "T23",
+      "period": "2016",
+      "years": "2016",
+      "page": "https://takenbyninjas.com/for-agents/twentythree/",
+      "sectors": [],
+      "environments": [
+        "founder-led",
+        "startup"
+      ],
+      "context": {
+        "text": "a founder-led startup.",
+        "section": "T23"
+      },
+      "size": {
+        "text": "About 30 people.",
+        "section": "T23",
+        "people": [
+          30
+        ]
+      },
+      "products": [],
+      "roles": [
+        {
+          "role": "Head of Marketing, TwentyThree",
+          "aliases": [],
+          "levels": [],
+          "scope": {
+            "text": "Stabilised a 10-12 person marketing team",
+            "section": "T23"
+          },
+          "years": "2016",
+          "page": "https://takenbyninjas.com/for-agents/roles/twentythree/head-of-marketing/"
+        }
+      ],
+      "tier": "self-reported"
+    },
+    {
+      "company": "Opbeat",
+      "section": "OPBEAT",
+      "period": "2014-2016",
+      "years": "2014-2016",
+      "page": "https://takenbyninjas.com/for-agents/opbeat/",
+      "sectors": [
+        "saas",
+        "developer-tools"
+      ],
+      "environments": [
+        "founder-led",
+        "startup"
+      ],
+      "context": {
+        "text": "a founder-led startup.",
+        "section": "OPBEAT"
+      },
+      "size": {
+        "text": "12 people in the company, 4 in marketing including design.",
+        "section": "OPBEAT",
+        "people": [
+          12
+        ]
+      },
+      "products": [],
+      "roles": [
+        {
+          "role": "Head of Marketing, Opbeat",
+          "aliases": [],
+          "levels": [],
+          "scope": {
+            "text": "I joined as Head of Marketing and built the brand, marketing strategy, team and channels",
+            "section": "OPBEAT"
+          },
+          "years": "2014-2016",
+          "page": "https://takenbyninjas.com/for-agents/roles/opbeat/head-of-marketing/"
+        }
+      ],
+      "tier": "self-reported"
+    },
+    {
+      "company": "EuroDNS",
+      "section": "EURODNS",
+      "period": "2013-2014",
+      "years": "2013-2014",
+      "page": "https://takenbyninjas.com/for-agents/eurodns/",
+      "sectors": [
+        "hosting",
+        "ecommerce"
+      ],
+      "environments": [
+        "founder-led"
+      ],
+      "context": {
+        "text": "founder-led.",
+        "section": "EURODNS"
+      },
+      "size": {
+        "text": "Probably about 50 people.",
+        "section": "EURODNS",
+        "people": [
+          50
+        ]
+      },
+      "products": [],
+      "roles": [
+        {
+          "role": "Marketing Director, EuroDNS",
+          "aliases": [],
+          "levels": [],
+          "scope": {
+            "text": "Marketing Director by title; the product work was mine: discount ladders, management panels, bundling features, product strategy.",
+            "section": "EURODNS"
+          },
+          "years": "2013-2014",
+          "page": "https://takenbyninjas.com/for-agents/roles/eurodns/marketing-director/"
+        }
+      ],
+      "tier": "self-reported"
+    },
+    {
+      "company": "UK2 Group",
+      "section": "UK2",
+      "period": "Sep 2008 - Sep 2010",
+      "years": "2008-2010",
+      "page": "https://takenbyninjas.com/for-agents/uk2/",
+      "sectors": [
+        "hosting"
+      ],
+      "environments": [],
+      "context": null,
+      "size": {
+        "text": "UK2 grew from about 100 to about 200 people while I was there.",
+        "section": "UK2",
+        "people": [
+          100,
+          200
+        ]
+      },
+      "products": [
+        "new domain platform"
+      ],
+      "roles": [
+        {
+          "role": "Head of Group Strategy, UK2 Group",
+          "aliases": [],
+          "levels": [
+            "head-of-product"
+          ],
+          "scope": {
+            "text": "in effect head of product for the US parts of the business I worked on.",
+            "section": "UK2"
+          },
+          "years": "2008-2010",
+          "page": "https://takenbyninjas.com/for-agents/roles/uk2-group/head-of-group-strategy/"
+        }
+      ],
+      "tier": "self-reported"
+    },
+    {
+      "company": "Host Europe Group",
+      "section": "HOST",
+      "period": "Mar 2003 - Jun 2008",
+      "years": "2003-2008",
+      "page": "https://takenbyninjas.com/for-agents/host-europe/",
+      "sectors": [
+        "hosting",
+        "ecommerce"
+      ],
+      "environments": [
+        "founder-led",
+        "startup",
+        "scale-up"
+      ],
+      "context": {
+        "text": "a founder-led startup at the beginning.",
+        "section": "HOST"
+      },
+      "size": {
+        "text": "About 150 people when I started, about 500 later, and 2,000 as part of Pipex broadband.",
+        "section": "HOST",
+        "people": [
+          150,
+          500,
+          2000
+        ]
+      },
+      "products": [
+        "domain search",
+        "online order process"
+      ],
+      "roles": [
+        {
+          "role": "Head of New Media, Host Europe Group",
+          "aliases": [
+            "Head of New Media, Pipex Hosting / GX Networks"
+          ],
+          "levels": [],
+          "scope": {
+            "text": "Created department from scratch, member of Senior Management Team.",
+            "section": "HOST"
+          },
+          "years": "2003-2008",
+          "page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/"
+        }
+      ],
+      "tier": "self-reported"
+    }
+  ],
+  "count": 33,
+  "proof_points": [
+    {
+      "role": {
+        "text": "Senior Product Manager at Novo Nordisk",
+        "section": "NOVO.R1"
+      },
+      "product": {
+        "text": "Wegovycare",
+        "section": "NOVO.R1"
+      },
+      "desc": {
+        "text": "a retention-focused digital service to increase repeat prescriptions for Wegovy",
+        "section": "NOVO.R1"
+      },
+      "situation": {
+        "text": "The brief was solution-first, a set of standalone features; nobody had spoken to patients.",
+        "section": "NOVO.R1",
+        "quote": "The brief I was given in my final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients."
+      },
+      "task": {
+        "text": "Identify the key growth lever.",
+        "section": "NOVO.R1",
+        "quote": "Identified a key growth lever."
+      },
+      "action": {
+        "text": "Created a weight-loss prediction model in Excel.",
+        "section": "NOVO.R1",
+        "quote": "Created a weight-loss prediction model in Excel"
+      },
+      "result": {
+        "text": "10% penetration in the first national market.",
+        "section": "NOVO.R1",
+        "quote": "Achieved 10% penetration in our first national market"
+      },
+      "year": {
+        "text": "Mar 2020 - Feb 2022",
+        "section": "NOVO.R1"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "zero-to-one",
+        "regulated"
+      ],
+      "skills": [
+        "algorithm",
+        "API",
+        "regulated",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "prototyping",
+        "ways of working",
+        "growth",
+        "retention",
+        "roadmap",
+        "0 to 1",
+        "marketing",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Manager (Wegovycare)"
+      ],
+      "facets": [
+        {
+          "id": "F01-1",
+          "label": "Penetration in the first market",
+          "text": "First digital Novo product to successfully scale - 10% penetration in the first national market.",
+          "source": "Tom's CV",
+          "answers": "adoption numbers, market launch",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F01-2",
+          "label": "Patient adoption",
+          "text": "Achieved 10% patient adoption in first national market.",
+          "source": "Tom's CV",
+          "answers": "user adoption",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F01-3",
+          "label": "Growth lever",
+          "text": "Identified a key growth lever; built a prediction algorithm from concept to prototype, later spun out as an API product.",
+          "source": "Tom's CV",
+          "answers": "growth levers, retention",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU2-1",
+          "label": "Biggest adoption at Novo",
+          "text": "Biggest adoption of any digital solution at Novo.",
+          "source": "Tom's CV",
+          "answers": "adoption at scale, proof a product landed",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Senior Product Manager at Novo Nordisk",
+        "section": "NOVO.R1"
+      },
+      "product": {
+        "text": "Wegovycare",
+        "section": "NOVO.R1"
+      },
+      "desc": {
+        "text": "a weight-loss prediction algorithm",
+        "section": "NOVO.R1"
+      },
+      "situation": {
+        "text": "Everyone asked the same three things: how much weight will I lose, is this normal, am I on track.",
+        "section": "NOVO.R1",
+        "quote": "everyone wants to know the same things - how much weight will I lose, is this normal, am I on track"
+      },
+      "task": {
+        "text": "Make those three questions the core loop; the prediction model answers the first.",
+        "section": "NOVO.R1",
+        "quote": "Those three questions became the core loop, and the weight-loss prediction model answered the first."
+      },
+      "action": {
+        "text": "Built a weight-loss prediction algorithm from concept to prototype.",
+        "section": "NOVO.R1",
+        "quote": "Built a weight-loss prediction algorithm from concept to prototype"
+      },
+      "result": {
+        "text": "Later spun out into a new API product.",
+        "section": "NOVO.R1",
+        "quote": "later spun out into a new API product"
+      },
+      "year": {
+        "text": "Mar 2020 - Feb 2022",
+        "section": "NOVO.R1"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "ai"
+      ],
+      "skills": [
+        "algorithm",
+        "API",
+        "regulated",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "prototyping",
+        "ways of working",
+        "growth",
+        "retention",
+        "roadmap",
+        "0 to 1",
+        "marketing",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Manager (Wegovycare)"
+      ],
+      "facets": [
+        {
+          "id": "F02-1",
+          "label": "Algorithm spun out as an API",
+          "text": "Designed weight-loss prediction algorithm, later spun out as an API product.",
+          "source": "Tom's CV",
+          "answers": "data products, algorithms, hands-on AI",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F02-2",
+          "label": "From Excel to a Bayesian API",
+          "text": "Built weight-loss prediction model in Excel, later spun out as a Bayesian API.",
+          "source": "Tom's CV",
+          "answers": "data science, modelling, scrappy start",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F02-3",
+          "label": "Personalisation",
+          "text": "Designed a profiling & weight loss prediction algorithm to personalise the experience.",
+          "source": "Tom's CV",
+          "answers": "personalisation, patient data",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Senior Product Manager at Novo Nordisk",
+        "section": "NOVO.R1"
+      },
+      "product": {
+        "text": "Wegovycare",
+        "section": "NOVO.R1"
+      },
+      "desc": {
+        "text": "a retention-focused digital service to increase repeat prescriptions for Wegovy",
+        "section": "NOVO.R1"
+      },
+      "situation": {
+        "text": "The brief was solution-first, a set of standalone features; nobody had spoken to patients.",
+        "section": "NOVO.R1",
+        "quote": "The brief I was given in my final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients."
+      },
+      "task": {
+        "text": "Use it as a mandate to reinvent their ways of working.",
+        "section": "NOVO.R1.TRANSFORM",
+        "quote": "use this as a mandate to completely reinvent their ways of working"
+      },
+      "action": {
+        "text": "First product team to interview patients, run discovery, prototype and co-create with markets.",
+        "section": "NOVO.R1.TRANSFORM",
+        "quote": "We were the first product team to interview patients, run discovery, make prototypes, co-create with markets and so on."
+      },
+      "result": {
+        "text": "Documentation automated; release cycles from yearly to bi-monthly in a high-regulation environment.",
+        "section": "NOVO.R1",
+        "quote": "Automated documentation and shifted release cycles from yearly to bi-monthly in high-regulation environment"
+      },
+      "year": {
+        "text": "Mar 2020 - Feb 2022",
+        "section": "NOVO.R1"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "zero-to-one",
+        "regulated",
+        "leadership"
+      ],
+      "skills": [
+        "regulated",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "prototyping",
+        "ways of working",
+        "retention",
+        "0 to 1",
+        "team leadership",
+        "stakeholders"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Manager (Wegovycare)"
+      ],
+      "facets": [
+        {
+          "id": "F03-1",
+          "label": "Persuaded senior stakeholders",
+          "text": "Persuaded senior stakeholders to bin their brief and talk to users instead.",
+          "source": "Tom's CV",
+          "answers": "senior stakeholder management, user research",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F03-2",
+          "label": "Changed the way of working",
+          "text": "Or maybe how I convinced a room of Novo executives to bin their product brief & completely change the way of working.",
+          "source": "Tom's CV",
+          "answers": "transformation, changing how an organisation works",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F03-3",
+          "label": "Release speed",
+          "text": "Automated release workflows, shifting release cycles from yearly to bi-monthly (fast for pharma!).",
+          "source": "Tom's CV",
+          "answers": "delivery speed in a regulated setting, automation",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F03-4",
+          "label": "Introduced discovery and scaled it",
+          "text": "Introduced discovery, prototyping and iterative development. Scaled ways of working across the org.",
+          "source": "Tom's CV",
+          "answers": "product practice, coaching an organisation",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F03-5",
+          "label": "Product operating model",
+          "text": "Persuaded senior stakeholders to bin their brief and adopt product operating model.",
+          "source": "Tom's CV",
+          "answers": "operating model change",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F03-6",
+          "label": "Regulatory readiness",
+          "text": "Automated release & localisation workflows, increasing regulatory readiness and shifting release cycles from yearly to bi-monthly.",
+          "source": "Tom's CV",
+          "answers": "regulated software, localisation",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F03-7",
+          "label": "Borrowed an anthropologist",
+          "text": "Borrowed an anthropologist from another division & proved the value - later became the Insights team.",
+          "source": "Tom's CV",
+          "answers": "insights, research capability, building a function from a pilot",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU2-2",
+          "label": "Largest uptake, asked to scale the way of working",
+          "text": "Largest uptake for any digital solution. Asked to scale ways of working across the org.",
+          "source": "Tom's CV",
+          "answers": "adoption, being asked to spread a method",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Associate Product Director at Novo Nordisk",
+        "section": "NOVO.R2"
+      },
+      "product": {
+        "text": "GenAI proof of concept for automating compliance reviews",
+        "section": "NOVO.R2"
+      },
+      "desc": {
+        "text": "a RAG model that captured the various guidelines and regulations",
+        "section": "NOVO.R2.GENAI"
+      },
+      "situation": {
+        "text": "Compliance reviews meant backlogs of months, heavy documentation, and full development before sign-off.",
+        "section": "NOVO.R2.GENAI",
+        "quote": "significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off"
+      },
+      "task": {
+        "text": "Automate compliance reviews.",
+        "section": "NOVO.R2",
+        "quote": "automating compliance reviews"
+      },
+      "action": {
+        "text": "Built a RAG model of the guidelines and regulations in an internal LLM sandbox.",
+        "section": "NOVO.R2.GENAI",
+        "quote": "I used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations"
+      },
+      "result": {
+        "text": "The proof of concept showed a clear path to faster release cycles.",
+        "section": "NOVO.R2.GENAI",
+        "quote": "the proof of concept showed a clear path to dramatically faster release cycles"
+      },
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "ai",
+        "regulated"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "pharma",
+        "healthcare",
+        "discovery",
+        "prototyping",
+        "ways of working",
+        "launch",
+        "marketing",
+        "team leadership",
+        "stakeholders"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "role_aliases": [
+        "Incubation Lead",
+        "Digital Product Operations Lead",
+        "Head of Patient Products",
+        "Head of Product Ops"
+      ],
+      "facets": [
+        {
+          "id": "F04-1",
+          "label": "Spotted the bottleneck",
+          "text": "How I spotted a regulatory bottleneck slowing every product team, and built an agentic-RAG prototype to address it.",
+          "source": "Tom's CV",
+          "answers": "finding where GenAI pays off, initiative",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F04-2",
+          "label": "Feedback inside Figma",
+          "text": "Built AI prototype to give compliance feedback inside Figma, not months later.",
+          "source": "Tom's CV",
+          "answers": "AI built into the tool people already use",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F04-3",
+          "label": "Reshuffled the workflow with LLMs",
+          "text": "Or maybe how I used LLMs to reshuffle compliance workflows and give regulatory feedback inside Figma, not months later.",
+          "source": "Tom's CV",
+          "answers": "workflow redesign with AI, change and adoption",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F04-4",
+          "label": "Made the right thing the easy thing",
+          "text": "Built agentic prototype to give compliance feedback inside Figma, not months later. Made the right thing, the easy thing.",
+          "source": "Tom's CV",
+          "answers": "influence without authority",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F04-5",
+          "label": "Shift-left for designers",
+          "text": "Perhaps how I built a RAG bot to automate compliance reviews, that allowed designers to shift-left and test their ideas in Figma.",
+          "source": "Tom's CV",
+          "answers": "AI in the development lifecycle",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F04-6",
+          "label": "Catching problems early",
+          "text": "Built agentic prototype to automate compliance workflow, enabling teams to catch review problems early.",
+          "source": "Tom's CV",
+          "answers": "process automation, risk and compliance",
+          "variants": [
+            {
+              "text": "Built an agentic RAG-based POC that replicated MLR review, letting product teams check compliance in design. Failing early, not at review.",
+              "source": "Tom's CV"
+            }
+          ],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F04-7",
+          "label": "Called a product, said to fix it",
+          "text": "Spotted regulatory bottleneck slowing every product team, and built agentic-RAG product to fix it.",
+          "source": "Tom's CV",
+          "answers": "shipped AI products",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F04-8",
+          "label": "Honest ending",
+          "text": "Used GenAI to automate lengthy compliance reviews. Product teams loved it. Execs weren’t ready.",
+          "source": "Tom's CV",
+          "answers": "candour about what did not land, organisational readiness for AI",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F04-9",
+          "label": "Real time in place of three months",
+          "text": "Or maybe how I built a RAG prototype to rethink compliance workflows, giving teams real-time feedback in Figma instead of 3 months later.",
+          "source": "Tom's CV",
+          "answers": "cycle time, speed",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F04-10",
+          "label": "Pitched it",
+          "text": "Pitched & built a GenAI proof of concept for automating compliance reviews.",
+          "source": "Tom's CV",
+          "answers": "selling an idea internally, then building it",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Consumer Lead",
+        "section": "NOVO.R2.WEGOVY"
+      },
+      "product": {
+        "text": "Wegovy Pill launch",
+        "section": "NOVO.R2.WEGOVY"
+      },
+      "desc": {
+        "text": "a company-critical initiative",
+        "section": "NOVO.R2.WEGOVY"
+      },
+      "situation": {
+        "text": "Invited into the company-critical Wegovy pill launch to challenge assumptions on digital, packaging and direct distribution.",
+        "section": "NOVO.R2.WEGOVY",
+        "quote": "Invited into company-critical Wegovy pill launch to challenge assumptions on digital, packaging, and direct distribution."
+      },
+      "task": {
+        "text": "Align silos into one physical-to-digital experience.",
+        "section": "NOVO.R2.WEGOVY",
+        "quote": "Aligned silos to create unified physical-to-digital experience."
+      },
+      "action": {
+        "text": "Used subscription-model thinking to link packaging to digital fulfilment for the biggest ever pharma launch.",
+        "section": "NOVO.R2.WEGOVY",
+        "quote": "Used subscription-model thinking to link packaging to digital fulfilment for biggest ever pharma launch."
+      },
+      "result": {
+        "text": "Drove prescription growth.",
+        "section": "NOVO.R2",
+        "quote": "driving prescription growth"
+      },
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Contributed",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "growth",
+        "regulated",
+        "international"
+      ],
+      "skills": [
+        "pharma",
+        "healthcare",
+        "patients",
+        "growth",
+        "retention",
+        "launch",
+        "marketing",
+        "SaaS",
+        "team leadership",
+        "international",
+        "consumer",
+        "budget"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2-wegovy",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/consumer-lead/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "F05-1",
+          "label": "Subscription and bundling for retention",
+          "text": "Or maybe how I created a subscription model & bundling strategy to drive retention on the biggest ever pharma launch. Serious scale!",
+          "source": "Tom's CV",
+          "answers": "retention, subscription business models, scale",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F05-2",
+          "label": "Connected packaging to fulfilment",
+          "text": "Connected packaging to fulfilment on biggest launch.",
+          "source": "Tom's CV",
+          "answers": "end-to-end customer journey, physical and digital",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F05-3",
+          "label": "Worked in the gaps",
+          "text": "Worked in the gaps to connect packaging and digital fulfilment on the biggest ever drug launch.",
+          "source": "Tom's CV",
+          "answers": "picking up problems nobody owns",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F05-4",
+          "label": "Without authority",
+          "text": "Reshuffled silos without authority. Connected packaging to digital fulfilment on the biggest ever drug launch.",
+          "source": "Tom's CV",
+          "answers": "change through other teams",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F05-5",
+          "label": "Aligned silos into one experience",
+          "text": "Invited into critical Wegovy Pill launch. Aligned silos to create unified physical-to-digital experience.",
+          "source": "Tom's CV",
+          "answers": "cross-silo alignment on a critical launch",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F05-6",
+          "label": "Led the consumer workstream",
+          "text": "Led consumer workstream on Wegovy Pill launch: digital, packaging & direct distribution.",
+          "source": "Tom's CV",
+          "answers": "workstream lead on a large programme",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F05-7",
+          "label": "Invited in to challenge",
+          "text": "Invited into company-critical Wegovy Pill launch to challenge assumptions & inject product thinking.",
+          "source": "Tom's CV",
+          "answers": "trusted adviser, bringing product thinking to another function",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F05-8",
+          "label": "A structural fix for prescription growth",
+          "text": "Consumer lead for Wegovy Pill, rethought the user journey and created a simple structural fix to drive prescription growth.",
+          "source": "Tom's CV",
+          "answers": "growth through journey design",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F05-9",
+          "label": "Pricing and revenue models",
+          "text": "Created subscription pricing and bundling strategy to support the largest pharma launch. Built revenue models to support the business case.",
+          "source": "Tom's CV",
+          "answers": "pricing, monetisation, revenue modelling",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Associate Product Director at Novo Nordisk",
+        "section": "NOVO.R2"
+      },
+      "product": {
+        "text": "CagriSema",
+        "section": "NOVO.R2"
+      },
+      "desc": {
+        "text": "a six-month discovery programme for the company's top drug asset",
+        "section": "NOVO.R2"
+      },
+      "situation": {
+        "text": "The first drug to span diabetes and obesity, two therapy areas that had never collaborated; nobody had authority over both.",
+        "section": "NOVO.R2",
+        "quote": "CagriSema was the first drug to span two therapy areas, diabetes and obesity, that had never collaborated. Nobody had authority over both, so the discovery programme ran on influence."
+      },
+      "task": {
+        "text": "Lead a six-month discovery programme for the company's top drug asset.",
+        "section": "NOVO.R2",
+        "quote": "Led a six-month discovery programme for the company's top drug asset"
+      },
+      "action": {
+        "text": "128 candidate ideas cut to a shortlist of 5 and assumption-tested; 4 recommended, each with a funding-gated rollout.",
+        "section": "NOVO.R2",
+        "quote": "128 candidate ideas, a shortlist of 5, assumption-tested, 4 recommended and funded, each with a funding-gated rollout"
+      },
+      "result": {
+        "text": "Funding secured for a portfolio of 4 digital initiatives.",
+        "section": "NOVO.R2",
+        "quote": "securing funding for a portfolio of digital initiatives"
+      },
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "zero-to-one",
+        "regulated"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "incubation",
+        "ways of working",
+        "growth",
+        "retention",
+        "funnels",
+        "experimentation",
+        "launch",
+        "brand",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "role_aliases": [
+        "Incubation Lead",
+        "Digital Product Operations Lead",
+        "Head of Patient Products",
+        "Head of Product Ops"
+      ],
+      "facets": [
+        {
+          "id": "F06-1",
+          "label": "Aligning two therapy areas",
+          "text": "Or even how I got two therapy areas that never collaborate, with competing priorities and budgets, to align on a digital strategy.",
+          "source": "Tom's CV",
+          "answers": "working across functions in a large organisation, senior stakeholders",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F06-2",
+          "label": "Aligning two business units (no pharma words)",
+          "text": "How I convinced two business units that never collaborate, with competing priorities and budgets, to align on a digital strategy.",
+          "source": "Tom's CV",
+          "answers": "stakeholder ownership, client-side alignment",
+          "variants": [
+            {
+              "text": "How I got two business units that never collaborate, each with competing priorities and budgets, to align on a shared digital strategy for Novo's top pipeline asset.",
+              "source": "Tom's CV"
+            }
+          ],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F06-3",
+          "label": "Ambiguity to structure, with the funnel numbers",
+          "text": "Led digital programme for top drug asset. Ambiguous problem to 128 raw ideas to 4 funded, de-risked products.",
+          "source": "Tom's CV",
+          "answers": "structuring an unclear problem, de-risking",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F06-4",
+          "label": "Blank page to funded portfolio",
+          "text": "Identified high-impact digital opportunities for company's top drug asset. Blank page to funded portfolio.",
+          "source": "Tom's CV",
+          "answers": "finding opportunities, taking a programme from nothing to funding",
+          "variants": [
+            {
+              "text": "Led digital product discovery for Cagrisema. From blank page to funded portfolio.",
+              "source": "Tom's CV"
+            }
+          ],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F06-5",
+          "label": "Business case, governance and gate model",
+          "text": "Led digital programme for top drug asset: de-risked an ambiguous problem, built the strategy, business case & budgets, and brought together two competing business units to secure portfolio funding through a roadmap-gate model.",
+          "source": "Tom's CV",
+          "answers": "project governance, business cases, roadmaps",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F06-6",
+          "label": "Commercial case",
+          "text": "Led digital discovery for the company's top drug asset. Translated user problems into P&L business cases, and secured funding for a digital portfolio.",
+          "source": "Tom's CV",
+          "answers": "commercial ownership, turning user needs into a business case",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F06-7",
+          "label": "Executives from sceptics to sponsors",
+          "text": "Led digital co-creation for the company’s top drug asset across two competing business units. Shifted executives from sceptics to sponsors.",
+          "source": "Tom's CV",
+          "answers": "change management, executive sponsorship",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F06-8",
+          "label": "Discovery method",
+          "text": "Ran digital discovery for company’s top drug asset. Journey mapping to validated opportunities.",
+          "source": "Tom's CV",
+          "answers": "discovery craft, validation",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F06-9",
+          "label": "Unifying fragmented teams",
+          "text": "Built digital strategy & roadmap for company's top drug asset, unifying fragmented teams & products.",
+          "source": "Tom's CV",
+          "answers": "strategy and roadmap ownership, joining up teams",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Associate Product Director at Novo Nordisk",
+        "section": "NOVO.R2"
+      },
+      "product": {
+        "text": "Digital Incubation",
+        "section": "NOVO.R2"
+      },
+      "desc": {
+        "text": "a digital product incubation unit, evaluating build, buy and partner solutions",
+        "section": "NOVO.R2"
+      },
+      "situation": {
+        "text": "The organisational reflex was solution-first and siloed: output over outcomes.",
+        "section": "NOVO.R2",
+        "quote": "The organisational reflex was solution-first and siloed: output and theatre over outcomes."
+      },
+      "task": {
+        "text": "Secure funding and manage resourcing and cross-charges for incubation teams.",
+        "section": "NOVO.R2",
+        "quote": "Secured funding, managed resourcing and cross-charges for incubation teams."
+      },
+      "action": {
+        "text": "Designed a portfolio model and a gated incubation pipeline for branded digital engagement.",
+        "section": "NOVO.R2",
+        "quote": "Designed portfolio model and gated incubation pipeline for branded digital engagement."
+      },
+      "result": {
+        "text": "Shifted the organisation from output to outcomes.",
+        "section": "NOVO.R2",
+        "quote": "shifted the organisation from output to outcomes"
+      },
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "zero-to-one",
+        "leadership"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "incubation",
+        "ways of working",
+        "growth",
+        "retention",
+        "funnels",
+        "experimentation",
+        "launch",
+        "brand",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "role_aliases": [
+        "Incubation Lead",
+        "Digital Product Operations Lead",
+        "Head of Patient Products",
+        "Head of Product Ops"
+      ],
+      "facets": [
+        {
+          "id": "F07-1",
+          "label": "Unit and playbook",
+          "text": "Created incubation unit. Wrote discovery playbook.",
+          "source": "Tom's CV",
+          "answers": "setting up an innovation function, documenting a method",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F07-2",
+          "label": "Influence, not mandate",
+          "text": "Or how I used influence, not mandate, to create an incubation unit and the Novo playbook for innovation.",
+          "source": "Tom's CV",
+          "answers": "informal leadership, innovation management",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F07-3",
+          "label": "Governance model",
+          "text": "Created incubation unit & governance model. Changed how Novo builds customer-focused innovation.",
+          "source": "Tom's CV",
+          "answers": "governance, stage gates, innovation process",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F07-4",
+          "label": "Next big bets",
+          "text": "Created digital incubation unit that identified & shaped the organisation’s next big bets.",
+          "source": "Tom's CV",
+          "answers": "spotting opportunities, strategy",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F07-5",
+          "label": "Shipped 0-1 products",
+          "text": "Interviewed patients & created incubation team that shipped 0-1 products.",
+          "source": "Tom's CV",
+          "answers": "zero-to-one, shipping",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F07-6",
+          "label": "Output to outcomes",
+          "text": "Created incubation model that shifted teams from output to outcomes",
+          "source": "Tom's CV",
+          "answers": "outcome focus, culture change",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F07-7",
+          "label": "Prioritise, scale or stop",
+          "text": "Established & led digital product incubation unit that identified & shaped the organisation’s next big bets, and created a framework for what to prioritise, scale or stop.",
+          "source": "Tom's CV",
+          "answers": "portfolio decisions, prioritisation frameworks",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F07-8",
+          "label": "Build, partner or buy; problem first",
+          "text": "Created & led digital incubation unit that shaped the organisation’s next big bets (build / partner / buy). Moved the organisation from solution-first to problem-first.",
+          "source": "Tom's CV",
+          "answers": "make-or-buy decisions, problem framing",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F07-9",
+          "label": "Funding and resourcing",
+          "text": "Secured funding, managed resourcing and cross-charges for incubation teams.",
+          "source": "Tom's CV",
+          "answers": "budgets, resourcing, internal funding",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Associate Product Director at Novo Nordisk",
+        "section": "NOVO.R2"
+      },
+      "product": {
+        "text": "Product Operations",
+        "section": "NOVO.R2"
+      },
+      "desc": {
+        "text": "standards, artefacts, ways of working",
+        "section": "NOVO.R2"
+      },
+      "situation": {
+        "text": "A wider remit across the product pipeline, to complete the move to a product operating model.",
+        "section": "NOVO.R2",
+        "quote": "Given a wider remit to work across the product pipeline and complete the transition to a product operating model."
+      },
+      "task": {
+        "text": "Establish metrics across a portfolio of 12 products.",
+        "section": "NOVO.R2",
+        "quote": "Established metrics across a diverse portfolio (12 products)."
+      },
+      "action": {
+        "text": "Set product artefacts and quality standards: gate model and deliverables, product-ops metrics, portfolio reports, business case templates, problem and north-star statements.",
+        "section": "NOVO.R2",
+        "quote": "Established product artefacts & quality standards across the product org, eg: gate model & deliverables, product-ops metrics, portfolio reports, business case templates, problem/north-star statements."
+      },
+      "result": {
+        "text": "Helped product teams connect work to commercial outcomes.",
+        "section": "NOVO.R2"
+      },
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "leadership"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "incubation",
+        "ways of working",
+        "growth",
+        "retention",
+        "funnels",
+        "experimentation",
+        "launch",
+        "brand",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "role_aliases": [
+        "Incubation Lead",
+        "Digital Product Operations Lead",
+        "Head of Patient Products",
+        "Head of Product Ops"
+      ],
+      "facets": [
+        {
+          "id": "F08-1",
+          "label": "Standards and artefacts",
+          "text": "Product operations: Established standards, artefacts and ways of working across the product org. Gate models, metrics, portfolio reports, business cases.",
+          "source": "Tom's CV",
+          "answers": "portfolio management, governance tooling",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F08-2",
+          "label": "Quality bar and coaching PMs",
+          "text": "Moved quality bar across product squads - establishing instrumentation, and coaching PMs to move from delivery-led outputs to commercial outcomes.",
+          "source": "Tom's CV",
+          "answers": "product quality across squads, coaching, instrumentation",
+          "variants": [
+            {
+              "text": "I’ve defined the quality bar & ways of working across product squads, repeatedly.",
+              "source": "Tom's CV"
+            }
+          ],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F08-3",
+          "label": "Metrics over 12 products",
+          "text": "Established metrics across a diverse portfolio (12 products). Mentored PMs to move from delivery-led outputs to commercial outcomes.",
+          "source": "Tom's CV",
+          "answers": "portfolio metrics, managing and developing PMs",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F08-4",
+          "label": "Cost and capacity view",
+          "text": "Built first cross-portfolio view of product team costs and capacity, started conversation around ROI.",
+          "source": "Tom's CV",
+          "answers": "resource planning, return on investment, reporting",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F08-5",
+          "label": "Made outcomes visible",
+          "text": "Connected product teams to commercial metrics. Made outcomes visible.",
+          "source": "Tom's CV",
+          "answers": "commercial focus, transparency",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Associate Product Director at Novo Nordisk",
+        "section": "NOVO.R2"
+      },
+      "product": {
+        "text": "Head of Patient Products",
+        "section": "NOVO.R2"
+      },
+      "desc": {
+        "text": "consumer engagement products",
+        "section": "NOVO.R2"
+      },
+      "situation": null,
+      "task": {
+        "text": "Lead 6 experienced PMs building consumer engagement products, managing by outcomes.",
+        "section": "NOVO.R2",
+        "quote": "led 6 experienced PMs building consumer engagement products. Management by outcomes."
+      },
+      "action": {
+        "text": "Broke product silos, established weekly demos and experiment sharing against resistance, encouraged learning loops.",
+        "section": "NOVO.R2",
+        "quote": "Broke product silos and encouraged learning loops."
+      },
+      "result": null,
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "leadership"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "incubation",
+        "ways of working",
+        "growth",
+        "retention",
+        "funnels",
+        "experimentation",
+        "launch",
+        "brand",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "role_aliases": [
+        "Incubation Lead",
+        "Digital Product Operations Lead",
+        "Head of Patient Products",
+        "Head of Product Ops"
+      ],
+      "facets": [
+        {
+          "id": "F09-1",
+          "label": "Led six PMs",
+          "text": "Led 6 PMs building consumer engagement products.",
+          "source": "Tom's CV",
+          "answers": "managing product managers",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F09-2",
+          "label": "Got independent PMs to open up",
+          "text": "How I convinced a team of fiercely independent product managers to open-up, break silos and learn from each other.",
+          "source": "Tom's CV",
+          "answers": "team culture, leading leaders",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F09-3",
+          "label": "Weekly demos against resistance",
+          "text": "Overcame resistance to establish weekly demos and experiment sharing. Broke product silos and encouraged learning loops.",
+          "source": "Tom's CV",
+          "answers": "rituals, experimentation culture",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F09-4",
+          "label": "Management by outcomes",
+          "text": "Led 6 experienced PMs building consumer engagement products. Management by outcomes.",
+          "source": "Tom's CV",
+          "answers": "management style, outcome goals",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Associate Product Director at Novo Nordisk",
+        "section": "NOVO.R2"
+      },
+      "product": {
+        "text": "project steercos",
+        "section": "NOVO.R2"
+      },
+      "desc": {
+        "text": "Thought partner to Product VP.",
+        "section": "NOVO.R2"
+      },
+      "situation": null,
+      "task": {
+        "text": "Chair project steercos.",
+        "section": "NOVO.R2",
+        "quote": "Chaired project steercos."
+      },
+      "action": {
+        "text": "Flipped the format from status updates to interactive co-creation.",
+        "section": "NOVO.R2",
+        "quote": "Flipped the format from status updates to interactive co-creation"
+      },
+      "result": {
+        "text": "Cross-functional VPs moved from product sceptics to advocates.",
+        "section": "NOVO.R2",
+        "quote": "shifting cross-functional VPs from product sceptics to advocates"
+      },
+      "year": {
+        "text": "Feb 2022 - Feb 2026",
+        "section": "NOVO.R2"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "leadership"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "incubation",
+        "ways of working",
+        "growth",
+        "retention",
+        "funnels",
+        "experimentation",
+        "launch",
+        "brand",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "role_aliases": [
+        "Incubation Lead",
+        "Digital Product Operations Lead",
+        "Head of Patient Products",
+        "Head of Product Ops"
+      ],
+      "facets": [
+        {
+          "id": "F10-1",
+          "label": "Co-creation, sceptics to advocates",
+          "text": "Facilitated co-creation with stakeholders, shifting cross-functional VPs from sceptics to advocates.",
+          "source": "Tom's CV",
+          "answers": "facilitation, winning over senior sceptics, adoption",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F10-2",
+          "label": "Chaired the steercos",
+          "text": "Chaired project steercos & facilitated co-creation with stakeholders, shifting cross-functional VPs from sceptics to advocates.",
+          "source": "Tom's CV",
+          "answers": "governance forums, chairing",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F10-3",
+          "label": "Thought partner to the VP",
+          "text": "Thought partner to Product VP. Shifted cross-functional VPs from product sceptics to advocates. Invited into company-critical Wegovy Pill launch to challenge assumptions and inject product thinking.",
+          "source": "Tom's CV",
+          "answers": "advising leadership, strategic partnership",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F10-4",
+          "label": "Championed best practice",
+          "text": "Championed product best practice. Moved stakeholders from product sceptics to advocates.",
+          "source": "Tom's CV",
+          "answers": "product advocacy inside an organisation",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Senior Product Manager at Novo Nordisk",
+        "section": "NOVO.R1"
+      },
+      "product": {
+        "text": "Wegovycare",
+        "section": "NOVO.R1"
+      },
+      "desc": {
+        "text": "risk-profiling engine combining clinical data, usage signals, & PROMs",
+        "section": "NOVO.R1"
+      },
+      "situation": {
+        "text": "Research showed every user journey is different.",
+        "section": "NOVO.R1",
+        "quote": "Through research identified every user-journey is different."
+      },
+      "task": {
+        "text": "Identify drop-off risks.",
+        "section": "NOVO.R1",
+        "quote": "identify drop-off risks"
+      },
+      "action": {
+        "text": "Built a profiling and customisation engine (an interactive magazine) and applied a consumer marketing playbook to personalise each patient's experience.",
+        "section": "NOVO.R1",
+        "quote": "Applied consumer marketing playbook to act on risks, personalising experience for each patient. Built profiling and customisation engine to create an interactive magazine."
+      },
+      "result": {
+        "text": "First digital Novo product to scale.",
+        "section": "NOVO.R1",
+        "quote": "First digital Novo product to successfully scale."
+      },
+      "year": {
+        "text": "Mar 2020 - Feb 2022",
+        "section": "NOVO.R1"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "ai",
+        "growth"
+      ],
+      "skills": [
+        "algorithm",
+        "API",
+        "regulated",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "prototyping",
+        "ways of working",
+        "growth",
+        "retention",
+        "roadmap",
+        "0 to 1",
+        "marketing",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Manager (Wegovycare)"
+      ],
+      "facets": [
+        {
+          "id": "F11-1",
+          "label": "Risk-profiling engine",
+          "text": "Built risk-profiling engine combining clinical data, usage signals, & PROMs to identify drop-off risks.",
+          "source": "Tom's CV",
+          "answers": "health data, retention risk, analytics",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F11-2",
+          "label": "Consumer marketing playbook",
+          "text": "Applied consumer marketing playbook to act on risks, personalising experience for each patient.",
+          "source": "Tom's CV",
+          "answers": "consumer thinking in health, lifecycle marketing",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F11-3",
+          "label": "Interactive magazine",
+          "text": "Digital engagement app for obesity brand. Through research identified every user-journey is different. Built profiling and customisation engine to create an interactive magazine.",
+          "source": "Tom's CV",
+          "answers": "consumer engagement, content products, research-led design",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F11-4",
+          "label": "Lead line: profiled patients, adopted by markets",
+          "text": "How, with Wegovycare, I showcased new ways of working, profiled patients for a personalised experience, and made Novo’s first digital health product adopted by multiple markets.",
+          "source": "Tom's CV",
+          "answers": "digital health products at scale, personalisation",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Senior Product Manager at Novo Nordisk",
+        "section": "NOVO.R1"
+      },
+      "product": {
+        "text": "Wegovycare",
+        "section": "NOVO.R1"
+      },
+      "desc": {
+        "text": "Digital patient platform for obesity medicine, built to scale.",
+        "section": "NOVO.R1"
+      },
+      "situation": null,
+      "task": {
+        "text": "Lead a cross-functional team of 10.",
+        "section": "NOVO.R1",
+        "quote": "Led cross-functional team of 10."
+      },
+      "action": {
+        "text": "Designed for scale: modular architecture, feature flags, integrated CMS and translation pipeline, systematised co-creation with markets.",
+        "section": "NOVO.R1",
+        "quote": "Designed for scaling: modular architecture, feature flags, integrated CMS & translation pipeline, and systematised cocreation with markets."
+      },
+      "result": {
+        "text": "Novo's first digital health product adopted by multiple markets.",
+        "section": "NOVO.R1",
+        "quote": "Made Novo's first digital health product adopted by multiple markets."
+      },
+      "year": {
+        "text": "Mar 2020 - Feb 2022",
+        "section": "NOVO.R1"
+      },
+      "company": "Novo Nordisk",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "zero-to-one",
+        "international",
+        "leadership"
+      ],
+      "skills": [
+        "algorithm",
+        "API",
+        "regulated",
+        "pharma",
+        "healthcare",
+        "patients",
+        "discovery",
+        "prototyping",
+        "ways of working",
+        "growth",
+        "retention",
+        "roadmap",
+        "0 to 1",
+        "marketing",
+        "team leadership",
+        "stakeholders",
+        "consumer"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Manager (Wegovycare)"
+      ],
+      "facets": [
+        {
+          "id": "F12-1",
+          "label": "Co-creation with markets, first to scale",
+          "text": "Systematised co-creation with markets. First digital Novo product to successfully scale.",
+          "source": "Tom's CV",
+          "answers": "scaling across markets, co-creation",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F12-2",
+          "label": "Project team, objectives and milestones",
+          "text": "Led cross-functional project team of 10. Negotiated and defined objectives, timelines & milestones.",
+          "source": "Tom's CV",
+          "answers": "project management, planning",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F12-3",
+          "label": "Architecture for scale",
+          "text": "Designed for scaling: modular architecture, feature flags, integrated CMS & translation pipeline, and systematised cocreation with markets. First digital Novo product to successfully scale.",
+          "source": "Tom's CV",
+          "answers": "platform thinking, technical product decisions",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F12-4",
+          "label": "OKRs and qual-quant signals",
+          "text": "Implemented OKRs & used qual-quant signals to steer priorities and shape the roadmap.",
+          "source": "Tom's CV",
+          "answers": "prioritisation, roadmap, data-informed decisions",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F12-5",
+          "label": "Vision and backlog owner",
+          "text": "Owned the product vision & backlog. Led & prioritized cross-functional team of 10.",
+          "source": "Tom's CV",
+          "answers": "product owner duties, backlog",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F12-6",
+          "label": "Squad of 8",
+          "text": "Digital patient solution for obesity medicine. Led full-stack squad of 8 colleagues. Transformation by doing.",
+          "source": "Tom's CV",
+          "answers": "squad leadership",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU2-3",
+          "label": "On budget and on schedule",
+          "text": "Delivered product on budget & on schedule, with largest uptake for any Novo digital solution. Scaled ways of working across the org.",
+          "source": "Tom's CV",
+          "answers": "project delivery against budget and plan",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "PM/GM at LEO Innovation Lab",
+        "section": "LEO.R3"
+      },
+      "product": {
+        "text": "Diagnosis App",
+        "section": "LEO"
+      },
+      "desc": {
+        "text": "a prototype diagnosis app using machine learning",
+        "section": "LEO.R3"
+      },
+      "situation": {
+        "text": "A team of AI engineers wired for logic and certainty, in the deep uncertainty of product discovery.",
+        "section": "LEO.R3",
+        "quote": "Led a team of AI engineers all wired for logic and certainty through the deep uncertainty of product discovery"
+      },
+      "task": {
+        "text": "Rethink how a smartphone camera could diagnose skin conditions.",
+        "section": "LEO.R3",
+        "quote": "to rethink how a smartphone camera could diagnose skin conditions"
+      },
+      "action": {
+        "text": "Redesigned closed-loop diagnosis and the ML training platform with dermatologists; bootstrapped the ML engine with clinical decision trees.",
+        "section": "LEO.R3",
+        "quote": "Worked with derms to redesign closed-loop diagnosis and ML training platform. Bootstrapped ML engine with clinical decision trees."
+      },
+      "result": {
+        "text": "Over 80% accuracy across 3 skin conditions; labelling throughput doubled.",
+        "section": "LEO.R3",
+        "quote": "Achieved >80% accuracy across 3 skin conditions, doubled labelling throughput"
+      },
+      "year": {
+        "text": "Nov 2018 - Jan 2020",
+        "section": "LEO.R3"
+      },
+      "company": "LEO Innovation Lab",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "ai",
+        "leadership"
+      ],
+      "skills": [
+        "AI",
+        "machine learning",
+        "computer vision",
+        "healthcare",
+        "discovery",
+        "prototyping",
+        "growth",
+        "launch",
+        "team leadership"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Lead",
+        "Product Lead / GM",
+        "Product Manager / GM"
+      ],
+      "facets": [
+        {
+          "id": "F13-1",
+          "label": "Leading experts through uncertainty",
+          "text": "Or perhaps how I led a team of AI engineers all wired for logic and certainty through the deep uncertainty of product discovery to create a diagnosis app.",
+          "source": "Tom's CV",
+          "answers": "leading technical teams, discovery under uncertainty, AI in a regulated field",
+          "variants": [
+            {
+              "text": "Or maybe how I led a too-large team of AI engineers, all wired for logic and certainty, through the deep uncertainty of product discovery to create a diagnosis app.",
+              "source": "Tom's CV"
+            }
+          ],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F13-2",
+          "label": "Learnt enough ML to help",
+          "text": "Or maybe how I learnt enough ML to help a team of AI experts work out how to make a smartphone diagnose skin conditions.",
+          "source": "Tom's CV",
+          "answers": "hands-on with AI, learning a new field fast, technical depth for a product person",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F13-3",
+          "label": "Team size and make-up",
+          "text": "Led a 12-person team of data scientists, ML & CV engineers building a skin-condition diagnosis app.",
+          "source": "Tom's CV",
+          "answers": "team leadership, working with data scientists and engineers",
+          "variants": [],
+          "tier": "self-reported",
+          "edited": "team size 12 (R1013-1)"
+        },
+        {
+          "id": "F13-4",
+          "label": "Accuracy and throughput numbers",
+          "text": "Led 12-person AI & computer-vision team building a prototype diagnosis app with >80% accuracy across 3 skin conditions, designed data pipeline & doubled labelling throughput.",
+          "source": "Tom's CV",
+          "answers": "measurable results from an AI product, data and metrics",
+          "variants": [],
+          "tier": "self-reported",
+          "edited": "team size 12 (R1013-1)"
+        },
+        {
+          "id": "F13-5",
+          "label": "Instrumentation and learning loop",
+          "text": "Designed & instrumented ML smartphone diagnosis app & learning loop.",
+          "source": "Tom's CV",
+          "answers": "instrumentation, measurement, feedback loops in a consumer app",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F13-6",
+          "label": "Working with clinicians on the training platform",
+          "text": "Worked with derms to redesign closed-loop diagnosis and ML training platform, doubling throughput.",
+          "source": "Tom's CV",
+          "answers": "clinical collaboration, ML operations, data labelling",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F13-7",
+          "label": "Building the app",
+          "text": "Steered 12 person squad of data scientists, ML & CV engineers to build a smartphone diagnosis app.",
+          "source": "Tom's CV",
+          "answers": "delivery, getting AI work out of the lab",
+          "variants": [],
+          "tier": "self-reported",
+          "edited": "team size 12 and \"build\" not \"ship\" (R1013-1)"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "PM/GM at LEO Innovation Lab",
+        "section": "LEO.R2"
+      },
+      "product": {
+        "text": "Skincoach",
+        "section": "LEO"
+      },
+      "desc": {
+        "text": "a patient-support app for terminally ill cancer patients in partnership with Amgen",
+        "section": "LEO.R2"
+      },
+      "situation": {
+        "text": "An app to help patients manage side effects from their treatment.",
+        "section": "LEO.R2",
+        "quote": "The app was designed to help patients manage side effects from their treatment."
+      },
+      "task": {
+        "text": "Reimagine patient care between appointments with oncologists; interviewed terminally ill patients.",
+        "section": "LEO.R2",
+        "quote": "Worked with oncologists to reimagine patient care between appointments. Interviewed terminally ill patients."
+      },
+      "action": {
+        "text": "Dynamically spliced video to simulate personalised dermatology consultations, designed for simplicity and trust.",
+        "section": "LEO.R2",
+        "quote": "Dynamically spliced video to simulate personalised dermatology consultations for terminally ill cancer patients, designed for simplicity and trust."
+      },
+      "result": {
+        "text": "Full product lifecycle in 8 months, on time and on budget.",
+        "section": "LEO.R2",
+        "quote": "Completed the full product lifecycle in 8 months, on time and on budget"
+      },
+      "year": {
+        "text": "Feb 2018 - Oct 2018",
+        "section": "LEO.R2"
+      },
+      "company": "LEO Innovation Lab",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "zero-to-one",
+        "regulated"
+      ],
+      "skills": [
+        "regulated",
+        "healthcare",
+        "patients",
+        "discovery",
+        "ways of working",
+        "growth",
+        "launch",
+        "domains",
+        "international",
+        "stakeholders",
+        "partnerships",
+        "budget"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Lead",
+        "Product Lead / GM",
+        "Product Manager / GM"
+      ],
+      "facets": [
+        {
+          "id": "F14-1",
+          "label": "Idea to live pilot, on time and on budget",
+          "text": "Or how, in partnership with Amgen, I took a patient-support app from idea to live pilot in Spain and France in 8 months. On time and on budget.",
+          "source": "Tom's CV",
+          "answers": "project delivery against scope, time and cost",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F14-2",
+          "label": "Patients first, quality of life",
+          "text": "Interviewed terminally ill patients and created an app that helped improve quality of life.",
+          "source": "Tom's CV",
+          "answers": "user research in hard settings, purpose",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F14-3",
+          "label": "Designed for simplicity and trust",
+          "text": "Dynamically spliced video to simulate personalised dermatology consultations for terminally ill cancer patients, designed for simplicity and trust.",
+          "source": "Tom's CV",
+          "answers": "patient experience design, personalisation",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F14-4",
+          "label": "With oncologists",
+          "text": "Worked with oncologists to reimagine patient care between appointments.",
+          "source": "Tom's CV",
+          "answers": "clinical collaboration, care pathways",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F14-5",
+          "label": "The four giant buttons",
+          "text": "This led us to organise the app around a simple spoke and wheel pattern with 4 giant buttons - our partners expected whizzy innovation and our product looked decidedly underwhelming. But it was exactly what our users needed.",
+          "source": "Tom's CV",
+          "answers": "a product you are proud of, design from user insight, saying no to partners",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F14-6",
+          "label": "Additional months with families",
+          "text": "This is heavy but I once made a product that improved quality of life for terminally ill cancer patients. In some cases it gave additional months to spend with families, settle affairs and say goodbye. It was an incredibly tough project to work on, but is something that has stayed with me.",
+          "source": "Tom's CV",
+          "answers": "impact, meaningful work",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU8-1",
+          "label": "Negotiated, model adopted as best practice",
+          "text": "Negotiated a partnership with Amgen, and led in-market discovery & delivery. Contract model & ways of working adopted as best practice across their org.",
+          "source": "Tom's CV",
+          "answers": "partnerships, contracts, client-side change that lasts",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU8-2",
+          "label": "External stakeholders, novel model",
+          "text": "Managed external stakeholders & negotiated a novel partnership model with Amgen.",
+          "source": "Tom's CV",
+          "answers": "external partner management, negotiation",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU8-3",
+          "label": "In-market discovery with patients, affiliates and HCPs",
+          "text": "Partnered with Amgen to build a patient solution. Led in-market discovery with patients, affiliates and HCPs, a new approach later adopted across their wider org.",
+          "source": "Tom's CV",
+          "answers": "field research with clinicians and affiliates, pharma partnering",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU8-4",
+          "label": "Lead line: a new innovation-partnership model",
+          "text": "Or maybe how I developed a new innovation-partnership model with Amgen - which they later adopted across the organisation.",
+          "source": "Tom's CV",
+          "answers": "partner growth, new commercial models",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "PM/GM at LEO Innovation Lab",
+        "section": "LEO.R3"
+      },
+      "product": {
+        "text": "TREAT",
+        "section": "LEO.R1"
+      },
+      "desc": {
+        "text": "a pioneering app addressing underlying causes of inflammatory conditions via personalised nutrition advice",
+        "section": "LEO.R1"
+      },
+      "situation": {
+        "text": "Tech debt and churn, no prioritisation or roadmap, flaky metrics, unclear reporting, no path to profitability.",
+        "section": "LEO.R1.TURNAROUND",
+        "quote": "massive tech debt, no prioritisation, flaky metrics, no roadmap, unclear reporting structure, massive churn, no pathway to profitability"
+      },
+      "task": {
+        "text": "A 6-month mandate to stabilise and assess viability.",
+        "section": "LEO.R1",
+        "quote": "I was parachuted in with a 6-month mandate to stabilise and assess viability."
+      },
+      "action": {
+        "text": "Rebuilt from the ground up and established metrics.",
+        "section": "LEO.R1",
+        "quote": "rebuilt from the ground-up, established metrics"
+      },
+      "result": {
+        "text": "Customer acquisition costs halved; customer activation up 7x.",
+        "section": "LEO.R1",
+        "quote": "Halved customer acquisition costs, increased customer activation by 7x"
+      },
+      "year": {
+        "text": "Nov 2016 - Aug 2017",
+        "section": "LEO.R1"
+      },
+      "company": "LEO Innovation Lab",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "turnaround",
+        "growth",
+        "regulated"
+      ],
+      "skills": [
+        "healthcare",
+        "ways of working",
+        "growth",
+        "activation",
+        "retention",
+        "roadmap",
+        "launch",
+        "0 to 1",
+        "team leadership"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/treat-turnaround/#leo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Lead",
+        "Product Lead / GM",
+        "Product Manager / GM"
+      ],
+      "facets": [
+        {
+          "id": "F15-1",
+          "label": "Growth numbers",
+          "text": "Parachuted into a struggling chatbot team. Halved acquisition costs, 7x'd activation.",
+          "source": "Tom's CV",
+          "answers": "growth, funnel metrics, acquisition and activation",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F15-2",
+          "label": "Trust and morale",
+          "text": "How I parachuted into a struggling chatbot team, earned their trust, rebuilt morale from rock bottom, and together halved acquisition costs & 7x’d activation.",
+          "source": "Tom's CV",
+          "answers": "people leadership, taking over a team, turning round morale",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F15-3",
+          "label": "Fixed onboarding",
+          "text": "How I parachuted into a struggling chatbot team, fixed onboarding & 7x’d activation.",
+          "source": "Tom's CV",
+          "answers": "onboarding, activation, owning a messy product",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F15-4",
+          "label": "Mobile app, key journey",
+          "text": "How I parachuted into a struggling mobile app team, fixed onboarding & 7x’d activation.",
+          "source": "Tom's CV",
+          "answers": "changing a core journey in a consumer app",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F15-5",
+          "label": "Line manager of a large team",
+          "text": "How I inherited a struggling chatbot product team of 15 reports. Earned their trust, rebuilt morale from rock bottom, and together 7x'd activation.",
+          "source": "Tom's CV",
+          "answers": "direct reports, leading a cross-functional team",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F15-6",
+          "label": "Mandate to stabilise and assess",
+          "text": "Parachuted into underperforming flagship product with a 6-month mandate to stabilise and assess viability. Halved acquisition costs & increased activation 7x.",
+          "source": "Tom's CV",
+          "answers": "troubleshooting, time-boxed mandates, viability reviews of a project",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F15-7",
+          "label": "Knowing when to stop",
+          "text": "Parachuted into struggling mobile app team of 15. Earned trust, halved acquisition costs & increased activation 7x. Then closed product.",
+          "source": "Tom's CV",
+          "answers": "hard calls, stopping work that will not pay back, commercial judgement",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F15-8",
+          "label": "Structured experimentation",
+          "text": "Parachuted into struggling product team of 15. Earned trust, halved acquisition costs & increased activation 7x through structured experimentation.",
+          "source": "Tom's CV",
+          "answers": "experimentation, growth method",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F15-9",
+          "label": "Clinical experts, diet coaching",
+          "text": "Worked with nutritionists to fix a struggling diet coaching app. Halved acquisition costs, 7x activation.",
+          "source": "Tom's CV",
+          "answers": "working with health professionals, consumer health",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F15-10",
+          "label": "Psoriasis chatbot",
+          "text": "Halved acquisition costs, 7x’d activation on struggling psoriasis chatbot app.",
+          "source": "Tom's CV",
+          "answers": "dermatology, disease-specific digital products, chatbots",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F15-11",
+          "label": "Rebuilt from the ground up",
+          "text": "How I parachuted into a struggling chatbot team with everything on fire - earned their trust, and rebuilt from the ground-up to 7x activation.",
+          "source": "Tom's CV",
+          "answers": "rebuilding a product, tech debt, crisis",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F15-12",
+          "label": "Consumer app turnaround",
+          "text": "Turned around struggling consumer app team. Earned trust, halved acquisition costs, 7x activation.",
+          "source": "Tom's CV",
+          "answers": "consumer products, turnarounds",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Head of Marketing",
+        "section": "T23"
+      },
+      "product": {
+        "text": "TwentyThree",
+        "section": "T23"
+      },
+      "desc": {
+        "text": "an integrated video marketing platform built for digital marketers",
+        "section": "T23"
+      },
+      "situation": {
+        "text": "Joined on a short-term contract, initially six weeks, extended to the end of the year.",
+        "section": "T23",
+        "quote": "I joined as Head of Marketing on a short-term contract, initially six weeks and extended to the end of the year, to rescue a global launch."
+      },
+      "task": {
+        "text": "Rescue a global launch.",
+        "section": "T23",
+        "quote": "to rescue a global launch"
+      },
+      "action": {
+        "text": "Implemented OKRs, produced video content, crystallised USPs, introduced a reporting structure.",
+        "section": "T23",
+        "quote": "Implemented OKRs, produced video content, crystalised USPs, introduced reporting structure."
+      },
+      "result": {
+        "text": "Global launch rescued on a 6-week deadline.",
+        "section": "T23",
+        "quote": "Rescued global launch on a 6-week deadline"
+      },
+      "year": {
+        "text": "2016",
+        "section": "META.JOBS"
+      },
+      "company": "TwentyThree",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "turnaround"
+      ],
+      "skills": [
+        "turnaround",
+        "launch",
+        "marketing",
+        "startup",
+        "team leadership",
+        "deadline"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/twentythree/#t23",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/twentythree/head-of-marketing/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "F16-1",
+          "label": "Stabilised the team, rescued the launch",
+          "text": "Stabilised a 10-person team. Rescued a global launch on a 6-week deadline.",
+          "source": "Tom's CV",
+          "answers": "troubleshooting, deadlines, team stabilisation",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F16-2",
+          "label": "Introduced OKRs",
+          "text": "B2B video platform. Stabilised a 10-person team, introduced OKRs, and rescued global launch on a 6-week deadline.",
+          "source": "Tom's CV",
+          "answers": "goal setting, OKRs",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F16-3",
+          "label": "Produced video content",
+          "text": "B2B video marketing platform. Stabilised a 10-person team, produced video content and rescued global launch on a 6-week deadline.",
+          "source": "Tom's CV",
+          "answers": "content, hands-on making",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F16-4",
+          "label": "Lightweight reporting",
+          "text": "B2B video platform. Introduced lightweight reporting & rescued global launch on a 6-week deadline.",
+          "source": "Tom's CV",
+          "answers": "reporting, structure",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F16-5",
+          "label": "Crystallised the USPs",
+          "text": "B2B video platform. Stabilised a 10-person team, crystalised USPs, and rescued global launch on a 6-week deadline.",
+          "source": "Tom's CV",
+          "answers": "positioning, storytelling",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Head of Marketing",
+        "section": "OPBEAT"
+      },
+      "product": {
+        "text": "Opbeat",
+        "section": "OPBEAT"
+      },
+      "desc": {
+        "text": "a developer tools SaaS startup providing application performance monitoring",
+        "section": "OPBEAT"
+      },
+      "situation": {
+        "text": "A good product and famous backers; the founders believed customers would come, and launched into silence.",
+        "section": "OPBEAT",
+        "quote": "The founders had a good product and famous backers, and believed that if they built it, customers would come. They launched into silence."
+      },
+      "task": {
+        "text": "Build the brand, marketing strategy, team and channels from scratch.",
+        "section": "OPBEAT",
+        "quote": "built the brand, marketing strategy, team and channels from scratch"
+      },
+      "action": {
+        "text": "Blended experimentation, growth hacks and activation tactics.",
+        "section": "OPBEAT.R1.GROWTH"
+      },
+      "result": {
+        "text": "Traffic and sign-ups trebled in 12 months.",
+        "section": "OPBEAT",
+        "quote": "Trebled traffic and sign-ups in 12 months"
+      },
+      "year": {
+        "text": "2014-2016",
+        "section": "META.JOBS"
+      },
+      "company": "Opbeat",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "growth",
+        "zero-to-one",
+        "international"
+      ],
+      "skills": [
+        "growth",
+        "conversion",
+        "activation",
+        "experimentation",
+        "KPIs",
+        "launch",
+        "0 to 1",
+        "brand",
+        "marketing",
+        "SaaS",
+        "startup",
+        "developer tools",
+        "team leadership",
+        "international",
+        "budget"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/opbeat/#opbeat",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/opbeat/head-of-marketing/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "F17-1",
+          "label": "The result",
+          "text": "Trebled sign-ups in 12 months.",
+          "source": "Tom's CV",
+          "answers": "growth results, acquisition",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F17-2",
+          "label": "Defined the proposition and told the story",
+          "text": "Defined the core proposition & told the story.",
+          "source": "Tom's CV",
+          "answers": "positioning, product marketing, narrative",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F17-3",
+          "label": "Growth experiments",
+          "text": "Ran growth experiments to treble traffic & sign-ups in 12 months.",
+          "source": "Tom's CV",
+          "answers": "experimentation, growth method",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F17-4",
+          "label": "Pricing and the free tier",
+          "text": "Restructured pricing: emphasised free tier & removed upgrade barriers that were killing conversions.",
+          "source": "Tom's CV",
+          "answers": "pricing, freemium, conversion",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F17-5",
+          "label": "Brand from scratch",
+          "text": "Defined & communicated the product proposition. Built brand from scratch.",
+          "source": "Tom's CV",
+          "answers": "brand building, zero to one in marketing",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F17-6",
+          "label": "Value proposition and a new website",
+          "text": "I once worked at a small developer ops startup. They had a brilliant product, but were terrible at communicating the value of it. I teased out the core value prop, and shipped a website with the new positioning.",
+          "source": "Tom's CV",
+          "answers": "a product you are proud of, communicating value",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Marketing Director",
+        "section": "EURODNS"
+      },
+      "product": {
+        "text": "EuroDNS",
+        "section": "EURODNS"
+      },
+      "desc": {
+        "text": "an ICANN-accredited international domain registrar",
+        "section": "EURODNS"
+      },
+      "situation": {
+        "text": "Four years of decline: traffic dropping, online sales down, a legacy website.",
+        "section": "EURODNS.R1.TURNAROUND",
+        "quote": "The business had been in decline for 4 years when I joined. Traffic was dropping, online sales were down, and the website was legacy."
+      },
+      "task": {
+        "text": "Turn it around.",
+        "section": "EURODNS",
+        "quote": "A turnaround project."
+      },
+      "action": {
+        "text": "Restructured the marketing department, implemented KPIs and rebooted every marketing channel including the website, in under 8 months.",
+        "section": "EURODNS.R1.TURNAROUND",
+        "quote": "I restructured the marketing department, implemented KPIs, and rebooted all marketing channels including the website - all in under 8 months."
+      },
+      "result": {
+        "text": "Decline reversed; organic traffic doubled; bounce rate halved.",
+        "section": "EURODNS.R1.TURNAROUND",
+        "quote": "reversed the decline, doubled organic traffic, halved bounce rate"
+      },
+      "year": {
+        "text": "2013-2014",
+        "section": "META.JOBS"
+      },
+      "company": "EuroDNS",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "turnaround",
+        "growth"
+      ],
+      "skills": [
+        "turnaround",
+        "growth",
+        "conversion",
+        "SEO",
+        "funnels",
+        "KPIs",
+        "marketing",
+        "ecommerce",
+        "domains",
+        "international"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/eurodns/#eurodns",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/eurodns/marketing-director/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "F18-1",
+          "label": "The result",
+          "text": "Reversed 4 years of sales decline, doubled traffic.",
+          "source": "Tom's CV",
+          "answers": "turnaround, growth results",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F18-2",
+          "label": "Restructured and rebooted",
+          "text": "Restructured marketing department, rebooted all channels. Reversed 4-years of sales decline, doubled organic traffic, halved bounce rate.",
+          "source": "Tom's CV",
+          "answers": "reorganising a team, channel management",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F18-3",
+          "label": "Repositioning with content",
+          "text": "Repositioned dry domains with curated photography, created content marketing & rebooted newsletter.",
+          "source": "Tom's CV",
+          "answers": "content marketing, publishing, brand",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F18-4",
+          "label": "A team that had never tracked a KPI",
+          "text": "Perhaps how at a domain marketplace, I took over a marketing team who’d never tracked a KPI and reversed four years of sales decline.",
+          "source": "Tom's CV",
+          "answers": "building a measurement culture, leading an inherited team",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F18-5",
+          "label": "Root causes and ecommerce",
+          "text": "Analysed performance, identified root causes, rebooted all channels & ecommerce.",
+          "source": "Tom's CV",
+          "answers": "diagnosis, ecommerce funnels",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F18-6",
+          "label": "Bounce rate with the numbers",
+          "text": "B2B domain registrar, a turnaround project. Rebooted all channels & ecommerce. Repositioned product & reversed four years of sales decline; doubled organic traffic, halved bounce rate (~60% to ~30%).",
+          "source": "Tom's CV",
+          "answers": "metrics with before and after",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Marketing Director",
+        "section": "EURODNS"
+      },
+      "product": {
+        "text": "EuroDNS",
+        "section": "EURODNS"
+      },
+      "desc": {
+        "text": "an ICANN-accredited international domain registrar",
+        "section": "EURODNS"
+      },
+      "situation": {
+        "text": "Based in Copenhagen; the team was in Luxembourg.",
+        "section": "EURODNS.R1.STORY.REMOTE",
+        "quote": "based in Copenhagen while the team was in Luxembourg"
+      },
+      "task": {
+        "text": "Manage the team mostly from Copenhagen.",
+        "section": "EURODNS",
+        "quote": "mostly managing the team from Copenhagen"
+      },
+      "action": {
+        "text": "Set a cadence: fortnightly face-to-face meetings and plenum discussions when in the office, space to focus in between.",
+        "section": "EURODNS.R1.STORY.REMOTE",
+        "quote": "I created a natural cadence: fortnightly face-to-face meetings and plenum discussions when I was in the office, then space to focus and get on with it in-between."
+      },
+      "result": {
+        "text": "Structure without micromanagement: clarity on direction, autonomy on execution.",
+        "section": "EURODNS.R1.STORY.REMOTE",
+        "quote": "The rhythm gave structure without micromanagement. The team had clarity on direction and autonomy on execution."
+      },
+      "year": {
+        "text": "2013-2014",
+        "section": "META.JOBS"
+      },
+      "company": "EuroDNS",
+      "strength": null,
+      "tier": "self-reported",
+      "shapes": [
+        "international",
+        "leadership"
+      ],
+      "skills": [
+        "ways of working",
+        "marketing",
+        "domains",
+        "team leadership",
+        "remote",
+        "international"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/eurodns/#eurodns",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/eurodns/marketing-director/",
+      "role_aliases": [],
+      "facets": []
+    },
+    {
+      "role": {
+        "text": "Acting Marketing Manager US",
+        "section": "UK2"
+      },
+      "product": {
+        "text": "US Marketing department",
+        "section": "UK2.R1.USTURNAROUND"
+      },
+      "desc": {
+        "text": "Managed all online and marketing activity across 5 web properties",
+        "section": "UK2.R1.USTURNAROUND"
+      },
+      "situation": {
+        "text": "Run remotely from the UK, with a team never met in person.",
+        "section": "UK2.R1.USTURNAROUND",
+        "quote": "The challenge was doing this remotely from the UK, with a team I'd never met in person."
+      },
+      "task": {
+        "text": "Rebuild the underperforming US Marketing department before recruiting a US-based successor.",
+        "section": "UK2.R1.USTURNAROUND",
+        "quote": "Rebuilt the underperforming US Marketing department before recruiting a US-based successor"
+      },
+      "action": {
+        "text": "Created the marketing strategy, implemented a reporting structure, set and met budget targets.",
+        "section": "UK2.R1.USTURNAROUND",
+        "quote": "Created marketing strategy, implemented reporting structure, set and met budget targets."
+      },
+      "result": {
+        "text": "Bounce rate down ~15%; sales conversion nearly doubled; product roadmap created and 8 products launched in 10 months.",
+        "section": "UK2.R1.USTURNAROUND",
+        "quote": "reduced bounce rate by ~15%, nearly doubled sales conversion, created product roadmap and launched 8 products in 10 months"
+      },
+      "year": {
+        "text": "Feb 2009 - Feb 2010",
+        "section": "UK2.R1.USTURNAROUND"
+      },
+      "company": "UK2 Group",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "turnaround",
+        "international"
+      ],
+      "skills": [
+        "turnaround",
+        "growth",
+        "conversion",
+        "roadmap",
+        "launch",
+        "marketing",
+        "team leadership",
+        "remote",
+        "international",
+        "budget"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/uk2/#uk2-r1-usturnaround",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/uk2-group/acting-marketing-manager-us/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "F20-1",
+          "label": "Turned the unit around",
+          "text": "Turned around underperforming US business unit.",
+          "source": "Tom's CV",
+          "answers": "turnarounds, business unit ownership",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F20-2",
+          "label": "Eight products, revenue trend reversed",
+          "text": "Launched 8 products in 10 months, reversed downward revenue trend.",
+          "source": "Tom's CV",
+          "answers": "delivery pace, product launches, revenue",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F20-3",
+          "label": "Pricing to lock in recurring revenue",
+          "text": "Diagnosed underperforming US business unit. Restructured pricing to lock in recurring revenue, reversed the decline. Launched 8 products in 10 months.",
+          "source": "Tom's CV",
+          "answers": "diagnosis, pricing, recurring revenue",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F20-4",
+          "label": "Lifecycle analysis and tiered pricing",
+          "text": "Undertook lifecycle analysis of underperforming US business unit (remote). Introduced tiered pricing with behavioural framing to increase CLV.",
+          "source": "Tom's CV",
+          "answers": "pricing design, customer lifetime value, analysis",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F20-5",
+          "label": "Rebuilt the US marketing department",
+          "text": "International web hosting company. Troubleshooter for the CEO across the UK & US. Launched 8 products in 10 months. Rebuilt US marketing department.",
+          "source": "Tom's CV",
+          "answers": "rebuilding a team, remote leadership",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F20-6",
+          "label": "Doubled sales",
+          "text": "International web hosting company. Troubleshooter for the CEO across UK & US business units. Rebuilt marketing function & doubled sales.",
+          "source": "Tom's CV",
+          "answers": "sales results",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU5-1",
+          "label": "Owned the strategy",
+          "text": "Owned strategy across pricing, product & marketing.",
+          "source": "Tom's CV",
+          "answers": "strategy ownership, commercial breadth",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU5-2",
+          "label": "Budget targets",
+          "text": "Owned strategy across pricing, product and marketing. Set and met budget targets.",
+          "source": "Tom's CV",
+          "answers": "budget ownership",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Head of Group Strategy",
+        "section": "UK2"
+      },
+      "product": {
+        "text": "new domain platform",
+        "section": "UK2"
+      },
+      "desc": {
+        "text": "One platform replaced them",
+        "section": "UK2"
+      },
+      "situation": {
+        "text": "6 brands on 3 different providers, some going direct to the registry, each with different APIs, rules and management fees.",
+        "section": "UK2",
+        "quote": "we had 6 brands using 3 different providers, and in some cases going direct to the registry, each with different APIs, rules and management fees"
+      },
+      "task": {
+        "text": "Manage development of a new domain platform.",
+        "section": "UK2",
+        "quote": "Managed development of new domain platform"
+      },
+      "action": {
+        "text": "Owned the business case, budget, specifications, contracts and migration strategy.",
+        "section": "UK2",
+        "quote": "I owned the business case, budget, specifications, contracts and migration strategy."
+      },
+      "result": {
+        "text": "One platform replaced them (500,000+ customer domains).",
+        "section": "UK2",
+        "quote": "(500,000+ customer domains)"
+      },
+      "year": {
+        "text": "2008-2010",
+        "section": "META.JOBS"
+      },
+      "company": "UK2 Group",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "zero-to-one"
+      ],
+      "skills": [
+        "turnaround",
+        "brand",
+        "marketing",
+        "ecommerce",
+        "domains",
+        "web hosting",
+        "team leadership",
+        "remote",
+        "international",
+        "budget"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/uk2/#uk2",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/uk2-group/head-of-group-strategy/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "F21-1",
+          "label": "Built the domain platform",
+          "text": "International web hosting company. Troubleshooter for the CEO across the UK & US. Launched 8 products in 10 months. Built domain platform supporting 500K domains.",
+          "source": "Tom's CV",
+          "answers": "platform work, consolidation",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Head of New Media",
+        "section": "HOST"
+      },
+      "product": {
+        "text": "GX Networks",
+        "section": "HOST.R1.REBRAND"
+      },
+      "desc": {
+        "text": "The company was renamed GX Networks",
+        "section": "HOST.R1.REBRAND"
+      },
+      "situation": {
+        "text": "A sale meant renaming the company in 5 weeks.",
+        "section": "HOST.R1.REBRAND",
+        "quote": "Due to a sale we needed to rename the company. We had 5 weeks."
+      },
+      "task": {
+        "text": "Rename the company.",
+        "section": "HOST.R1.REBRAND",
+        "quote": "rename the company"
+      },
+      "action": {
+        "text": "Covered brand identity, corporate website, campaigns, office signage, stationery, email signatures and lawyers, and pushed the change through.",
+        "section": "HOST.R1.REBRAND",
+        "quote": "brand identity, corporate website, campaigns, office signage, stationery, email signatures, lawyers, and pushed the change through"
+      },
+      "result": {
+        "text": "Done in 5 weeks; the company became GX Networks.",
+        "section": "HOST.R1.REBRAND",
+        "quote": "we got it done in 5 weeks"
+      },
+      "year": {
+        "text": "Jan 2006 - Jun 2008",
+        "section": "HOST"
+      },
+      "company": "Host Europe Group",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "leadership"
+      ],
+      "skills": [
+        "brand",
+        "domains",
+        "deadline"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/host-europe/#host-r1-rebrand",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/",
+      "role_aliases": [
+        "Head of New Media, Pipex Hosting / GX Networks"
+      ],
+      "facets": [
+        {
+          "id": "F22-1",
+          "label": "Renamed a PLC at speed",
+          "text": "Or if we want to go way back, how I discovered the PIPEX brand name had been sold to the phone company Orange, and renamed a PLC in two weeks.",
+          "source": "Tom's CV",
+          "answers": "crisis delivery, planning and decisions under a hard deadline",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Head of New Media",
+        "section": "HOST"
+      },
+      "product": {
+        "text": "New Media",
+        "section": "HOST"
+      },
+      "desc": {
+        "text": "responsible for all online touchpoints, ecommerce, digital campaigns, email marketing and SaaS dashboards",
+        "section": "HOST"
+      },
+      "situation": {
+        "text": "All online channels, 2M+ monthly visits.",
+        "section": "HOST",
+        "quote": "Managed all online channels (2M+ monthly visits)"
+      },
+      "task": {
+        "text": "Create the department from scratch.",
+        "section": "HOST",
+        "quote": "Created department from scratch"
+      },
+      "action": {
+        "text": "Introduced self-service support, pioneered site-building tools, optimised the support centre, led ecommerce, dominated SEO rankings.",
+        "section": "HOST",
+        "quote": "introduced self-service support, pioneered site-building tools, optimised support centre, led ecommerce, dominated SEO rankings"
+      },
+      "result": {
+        "text": "Member of the Senior Management Team.",
+        "section": "HOST",
+        "quote": "member of Senior Management Team"
+      },
+      "year": {
+        "text": "Jan 2006 - Jun 2008",
+        "section": "HOST"
+      },
+      "company": "Host Europe Group",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "zero-to-one",
+        "leadership"
+      ],
+      "skills": [
+        "turnaround",
+        "SEO",
+        "funnels",
+        "0 to 1",
+        "brand",
+        "marketing",
+        "SaaS",
+        "startup",
+        "ecommerce",
+        "domains",
+        "web hosting",
+        "team leadership",
+        "stakeholders"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/",
+      "role_aliases": [
+        "Head of New Media, Pipex Hosting / GX Networks"
+      ],
+      "facets": [
+        {
+          "id": "F23-1",
+          "label": "Scale of the channels",
+          "text": "Ran all online channels, 2M+ monthly visits.",
+          "source": "Tom's CV",
+          "answers": "scale, owning online channels",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F23-2",
+          "label": "Built the department, self-service support",
+          "text": "2006 - 2008 Head of New Media - built the department from scratch, introduced self-service support.",
+          "source": "Tom's CV",
+          "answers": "building a function, self-service, support cost",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F23-3",
+          "label": "Site-building tools",
+          "text": "2006 - 2008 Head of New Media - built the dept from scratch, pioneered site-building tools.",
+          "source": "Tom's CV",
+          "answers": "publishing tools, creator products",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F23-4",
+          "label": "First to one million .uk names",
+          "text": "2006 - 2008 Head of New Media - first company to register 1M .uk domain names.",
+          "source": "Tom's CV",
+          "answers": "market leadership, scale",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F23-5",
+          "label": "Ecommerce and SEO, shown under another job title",
+          "text": "2005 - 2006 Group Design Manager - led ecommerce, dominated SEO rankings.",
+          "source": "Tom's CV",
+          "answers": "ecommerce, SEO",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "PM/GM at LEO Innovation Lab",
+        "section": "LEO.R3"
+      },
+      "product": {
+        "text": "BetterVisitBot",
+        "section": "LEO"
+      },
+      "desc": {
+        "text": "a pre-briefing chatbot for doctor consultations",
+        "section": "LEO"
+      },
+      "situation": null,
+      "task": {
+        "text": "Prototype it with GPs.",
+        "section": "LEO",
+        "quote": "Worked with GPs to prototype it."
+      },
+      "action": {
+        "text": "Hid a dermatologist in an adjacent room to simulate a consultation chatbot.",
+        "section": "LEO",
+        "quote": "I hid a dermatologist in an adjacent room to simulate a consultation chatbot."
+      },
+      "result": {
+        "text": "Right idea, too early. Now it isn't.",
+        "section": "LEO"
+      },
+      "year": {
+        "text": "2016 to 2020",
+        "section": "LEO"
+      },
+      "company": "LEO Innovation Lab",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "ai",
+        "regulated"
+      ],
+      "skills": [
+        "AI",
+        "machine learning",
+        "computer vision",
+        "healthcare",
+        "discovery",
+        "prototyping",
+        "growth",
+        "launch",
+        "team leadership"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Lead",
+        "Product Lead / GM",
+        "Product Manager / GM"
+      ],
+      "facets": [
+        {
+          "id": "F24-1",
+          "label": "Scrappy fake prototype",
+          "text": "Or even how I hid a doctor in an adjacent room to fake a consultation chatbot.",
+          "source": "Tom's CV",
+          "answers": "prototyping by hand, testing an idea cheaply, putting AI in front of users",
+          "variants": [
+            {
+              "text": "Perhaps how I persuaded a doctor to hide in an adjacent room to fake a consultation chatbot. Great fun.",
+              "source": "Tom's CV"
+            }
+          ],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F24-2",
+          "label": "Right idea, too early",
+          "text": "Or maybe how I hid a doctor in an adjacent room to fake a consultation chatbot. Right idea, too early. Now it isn’t.",
+          "source": "Tom's CV",
+          "answers": "AI vision, timing, early work on conversational agents",
+          "variants": [
+            {
+              "text": "Or even how I hid a dermatologist in an adjacent room to simulate a consultation chatbot. Right idea, too early. Now it isn’t.",
+              "source": "Tom's CV"
+            }
+          ],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F24-3",
+          "label": "Named product, built with GPs",
+          "text": "Worked with GPs to prototype BetterVisitBot, a pre-briefing chatbot for doctor consultations.",
+          "source": "Tom's CV",
+          "answers": "working with clinicians, health-tech product experience, clinical workflow",
+          "variants": [
+            {
+              "text": "Prototyped BetterVisitbot, a pre-briefing chatbot for doctors’ consultations. Right idea but too early.",
+              "source": "Tom's CV"
+            }
+          ],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Head of Marketing",
+        "section": "OPBEAT"
+      },
+      "product": {
+        "text": "Opbeat",
+        "section": "OPBEAT"
+      },
+      "desc": {
+        "text": "B2B devops startup backed by Balderton Capital and the cofounders of Facebook & Instagram.",
+        "section": "OPBEAT"
+      },
+      "situation": null,
+      "task": {
+        "text": "Introduce KPIs, reporting and budgeting.",
+        "section": "OPBEAT",
+        "quote": "Introduced KPIs, reporting & budgeting."
+      },
+      "action": {
+        "text": "Grew grassroots meetups and built a video engine to reach developers.",
+        "section": "OPBEAT",
+        "quote": "Grew grassroots meetups and created video engine to connect with developers"
+      },
+      "result": {
+        "text": "Traction that enabled a $2M bridge-funding round.",
+        "section": "OPBEAT",
+        "quote": "creating the traction that enabled a $2M bridge-funding round"
+      },
+      "year": {
+        "text": "2014-2016",
+        "section": "META.JOBS"
+      },
+      "company": "Opbeat",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "growth",
+        "zero-to-one"
+      ],
+      "skills": [
+        "growth",
+        "conversion",
+        "KPIs",
+        "launch",
+        "0 to 1",
+        "brand",
+        "marketing",
+        "SaaS",
+        "startup",
+        "developer tools",
+        "team leadership",
+        "international",
+        "budget"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/opbeat/#opbeat",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/opbeat/head-of-marketing/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "F25-1",
+          "label": "Grassroots meetups",
+          "text": "Grew grassroots meetups and content channels to connect with software developers.",
+          "source": "Tom's CV",
+          "answers": "community building, developer audiences",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F25-2",
+          "label": "Video growth engine",
+          "text": "Built video growth engine from developer meetups, creating grassroots content marketing.",
+          "source": "Tom's CV",
+          "answers": "growth loops, content engines",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F25-3",
+          "label": "How the loop worked",
+          "text": "advertised for a video marketing intern to travel the world attending developer meetups (unpaid but we covered all expenses)",
+          "source": "Tom's CV",
+          "answers": "growth mechanics, creative acquisition on a small budget",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F25-4",
+          "label": "KPIs, reporting and budgeting",
+          "text": "SaaS startup backed by the cofounders of Facebook and Instagram. Introduced KPIs, reporting & budgeting. Tripled traffic and sign-ups in 12 months.",
+          "source": "Tom's CV",
+          "answers": "operational discipline in a startup",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Independent Consultant",
+        "section": "META.JOBS"
+      },
+      "product": {
+        "text": "independent consultant",
+        "section": "META.JOBS"
+      },
+      "desc": {
+        "text": "freelance internet consultant",
+        "section": "META.JOBS"
+      },
+      "situation": {
+        "text": "Freelance internet consultant, financing a relocation to Denmark.",
+        "section": "META.JOBS",
+        "quote": "worked as a freelance internet consultant to finance my relocation to Denmark"
+      },
+      "task": {
+        "text": "Clients: Host Europe (UK), EuroDNS (LUX), Everplaces (DK).",
+        "section": "META.JOBS",
+        "quote": "Clients included Host Europe (UK), EuroDNS (LUX), & Everplaces (DK)."
+      },
+      "action": {
+        "text": "Content creation and SEO, including interviews with MailChimp, Creative Commons, EFF, Rand Fishkin and Michael Palin.",
+        "section": "META.JOBS",
+        "quote": "Content creation & SEO including interviews with MailChimp, Creative Commons, EFF, Rand Fishkin & Michael Palin."
+      },
+      "result": {
+        "text": "Spotted Raspberry Pi before launch and created a partnership.",
+        "section": "META.JOBS",
+        "quote": "Spotted RaspberryPi before launch & created a partnership."
+      },
+      "year": {
+        "text": "2010-2013",
+        "section": "META.JOBS"
+      },
+      "company": "Independent consulting",
+      "strength": null,
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "growth",
+        "international"
+      ],
+      "skills": [
+        "pharma",
+        "growth",
+        "SEO",
+        "launch",
+        "marketing",
+        "web hosting",
+        "remote",
+        "international",
+        "partnerships"
+      ],
+      "page": null,
+      "role_page": "https://takenbyninjas.com/for-agents/roles/independent-consulting/independent-consultant/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "F26-1",
+          "label": "Raspberry Pi partnership",
+          "text": "Spotted RaspberryPi prelaunch & built partnership.",
+          "source": "Tom's CV",
+          "answers": "partnerships, spotting trends early",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F26-2",
+          "label": "Clients",
+          "text": "Product & strategy consultant. Clients included Host Europe (UK), EuroDNS (LUX), & Everplaces (DK).",
+          "source": "Tom's CV",
+          "answers": "consulting experience, client work, remote work",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F26-3",
+          "label": "Content and SEO, the interviews",
+          "text": "Content creation & SEO including interviews with MailChimp, Creative Commons & Michael Palin.",
+          "source": "Tom's CV",
+          "answers": "content, publishing, SEO",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F26-4",
+          "label": "Sponsorship deal",
+          "text": "Perhaps how I spotted Raspberry Pi before launch, got in touch and turned it into a sponsorship deal.",
+          "source": "Tom's CV",
+          "answers": "deal making, initiative",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU9-1",
+          "label": "Strategy to refactor a platform serving 3M domains",
+          "text": "Created strategy to refactor legacy control panel serving 3M domains.",
+          "source": "Tom's CV",
+          "answers": "legacy modernisation, platform strategy, consulting",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Head of New Media",
+        "section": "HOST"
+      },
+      "product": {
+        "text": "online order process",
+        "section": "HOST"
+      },
+      "desc": {
+        "text": "Restructured the online order process",
+        "section": "HOST"
+      },
+      "situation": null,
+      "task": null,
+      "action": {
+        "text": "Restructured the online order process.",
+        "section": "HOST",
+        "quote": "Restructured the online order process"
+      },
+      "result": {
+        "text": "New revenue up 20%.",
+        "section": "HOST",
+        "quote": "increasing new revenue by 20%"
+      },
+      "year": {
+        "text": "Jan 2006 - Jun 2008",
+        "section": "HOST"
+      },
+      "company": "Host Europe Group",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "growth"
+      ],
+      "skills": [
+        "turnaround",
+        "SEO",
+        "funnels",
+        "0 to 1",
+        "brand",
+        "marketing",
+        "SaaS",
+        "startup",
+        "ecommerce",
+        "domains",
+        "web hosting",
+        "team leadership",
+        "stakeholders"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/",
+      "role_aliases": [
+        "Head of New Media, Pipex Hosting / GX Networks"
+      ],
+      "facets": [
+        {
+          "id": "F27-1",
+          "label": "Order process, 20%",
+          "text": "2005 - 2006 Group Design Manager - optimised order process, increasing revenue by 20%.",
+          "source": "Tom's CV",
+          "answers": "conversion, checkout, ecommerce",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Web Designer",
+        "section": "HOST"
+      },
+      "product": {
+        "text": "domain search",
+        "section": "HOST.R2.STORY.DOMAIN"
+      },
+      "desc": {
+        "text": "a simple text field that interpreted whatever the user entered and searched all endings asynchronously",
+        "section": "HOST.R2.STORY.DOMAIN"
+      },
+      "situation": {
+        "text": "Users could search one domain at a time and kept hitting taken names: frustrating, poor conversion.",
+        "section": "HOST.R2.STORY.DOMAIN",
+        "quote": "Users could only search for one domain at a time and kept running into domains that were already taken. Frustrating experience, poor conversion."
+      },
+      "task": {
+        "text": "Unasked: fix a poor experience at the top of the sales funnel.",
+        "section": "HOST.R2.STORY.DOMAIN",
+        "quote": "Nobody asked for it. I thought it was a poor experience at the top of the sales funnel, the shop window of the business, and worth fixing."
+      },
+      "action": {
+        "text": "One text field that interpreted whatever the user entered and searched all endings asynchronously; the first use of AJAX in the stack.",
+        "section": "HOST.R2.STORY.DOMAIN",
+        "quote": "I reinvented the process: a simple text field that interpreted whatever the user entered and searched all endings asynchronously. First use of AJAX in our stack."
+      },
+      "result": {
+        "text": "The approach became the industry standard",
+        "section": "HOST.R2.STORY.DOMAIN"
+      },
+      "year": {
+        "text": "Feb 2004 - Aug 2005",
+        "section": "HOST"
+      },
+      "company": "Host Europe Group",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "growth"
+      ],
+      "skills": [
+        "API",
+        "growth",
+        "conversion",
+        "funnels",
+        "domains"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/host-europe/#host-r2-story-domain",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/web-designer/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "F28-1",
+          "label": "Rethought how people find and buy, revenue and standard",
+          "text": "Or if we want to go way back, how I rethought how people find & buy domain names, increasing new revenue 20% overnight and accidentally creating a new industry standard.",
+          "source": "Tom's CV",
+          "answers": "initiative, conversion, changing a key journey",
+          "variants": [
+            {
+              "text": "Or if we want to go way back, how I reinvented domain search, increasing new revenue 20% overnight and creating a new industry standard.",
+              "source": "Tom's CV"
+            }
+          ],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F28-2",
+          "label": "Structural fix that became standard (no number)",
+          "text": "I’ve changed structural stuff in solutions that people use every day & made the fix standard.",
+          "source": "Tom's CV",
+          "answers": "structural change in an everyday product",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F28-3",
+          "label": "The mechanism",
+          "text": "I reinvented the process with a simple text field that interpreted whatever the user entered, and searched all endings asynchronously. The first use of AJAX in our stack.",
+          "source": "Tom's CV",
+          "answers": "UX problem solving, technical firsts, design craft",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F28-4",
+          "label": "Top of the funnel, upsell",
+          "text": "In my first job, I worked for a domain registrar doing ecommerce. Searching for a domain name was the key entry point for upselling to web hosting, but the UX was really clunky.",
+          "source": "Tom's CV",
+          "answers": "growth, funnel thinking, ecommerce, revenue per customer",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F28-5",
+          "label": "Made the computer do the work",
+          "text": "Instead, I made the computer do the work - a single search box that interpreted the users query and asynchronously searched across all domain extensions simultaneously. It burnt through our API limits at the registries, but provided a much better experience. Revenue increased 20% and it became the industry standard.",
+          "source": "Tom's CV",
+          "answers": "a product you are proud of, user experience over internal constraints",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F28-6",
+          "label": "Used new web technology",
+          "text": "Or if we want to go way back, how I leveraged web 2.0 to reinvent domain search, increasing new revenue 20% overnight and creating a new industry standard.",
+          "source": "Tom's CV",
+          "answers": "applying new technology early",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F28-7",
+          "label": "CV one-liner",
+          "text": "2004 - 2005: Web Designer - rethought how domain search works, increasing revenue 20%.",
+          "source": "Tom's CV",
+          "answers": "career history line; early evidence of commercial impact",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Solo projects, building with AI",
+        "section": "SOLO"
+      },
+      "product": {
+        "text": "TomBot",
+        "section": "SOLO"
+      },
+      "desc": {
+        "text": "a prototype AI trained on my CV",
+        "section": "SOLO"
+      },
+      "situation": {
+        "text": "I learn by doing, and I love building. So I shipped three products with AI to find out first-hand what it can and can't do.",
+        "section": "SOLO"
+      },
+      "task": {
+        "text": "build something real with AI and ship it",
+        "section": "SOLO"
+      },
+      "action": {
+        "text": "Built with Claude API, RAG vector store, eval suite & guard-rails.",
+        "section": "SOLO"
+      },
+      "result": {
+        "text": "Live January 2026",
+        "section": "SOLO"
+      },
+      "year": {
+        "text": "2026",
+        "section": "SOLO"
+      },
+      "company": "Solo projects",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "ai",
+        "zero-to-one"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "prototyping"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/solo-projects/#solo",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/solo-projects/solo-projects-building-with-ai/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "FU3-2",
+          "label": "TomBot",
+          "text": "A prototype AI trained on my CV. Built with Claude API, RAG vector store, eval suite & guard-rails.",
+          "source": "Tom's CV",
+          "answers": "hands-on LLM building, evals, RAG",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Solo projects, building with AI",
+        "section": "SOLO"
+      },
+      "product": {
+        "text": "kittenpm.com",
+        "section": "SOLO"
+      },
+      "desc": {
+        "text": "a product training SIM inspired by Lemmings",
+        "section": "SOLO"
+      },
+      "situation": {
+        "text": "I learn by doing, and I love building. So I shipped three products with AI to find out first-hand what it can and can't do.",
+        "section": "SOLO"
+      },
+      "task": {
+        "text": "build something real with AI and ship it",
+        "section": "SOLO"
+      },
+      "action": {
+        "text": "Built with React, TypeScript & Phaser. Used Claude as my engineering team.",
+        "section": "SOLO"
+      },
+      "result": {
+        "text": "Live July 2026",
+        "section": "SOLO"
+      },
+      "year": {
+        "text": "2026",
+        "section": "SOLO"
+      },
+      "company": "Solo projects",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "ai",
+        "zero-to-one"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "prototyping"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/solo-projects/#solo",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/solo-projects/solo-projects-building-with-ai/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "FU3-1",
+          "label": "kittenpm.com",
+          "text": "A product training SIM inspired by Lemmings. Practice balancing product trade-offs in real time. Built with React, TypeScript & Phaser. Used Claude as my engineering team.",
+          "source": "Tom's CV",
+          "answers": "builds things himself, ships with AI tools, product teaching",
+          "variants": [
+            {
+              "text": "How I used kittens to teach product thinking, and make product trade-offs playable & discoverable.",
+              "source": "Tom's CV"
+            }
+          ],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU3-4",
+          "label": "The game as a growth loop",
+          "text": "Create an intriguing portfolio piece that isn’t a portfolio. Use kittens and intrigue to get views.",
+          "source": "Tom's CV",
+          "answers": "growth loops, distribution thinking",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Solo projects, building with AI",
+        "section": "SOLO"
+      },
+      "product": {
+        "text": "deathspiralorgoldenage.org",
+        "section": "SOLO"
+      },
+      "desc": {
+        "text": "A public poll, live sentiment tracker, and open economic model with CC0 data",
+        "section": "SOLO"
+      },
+      "situation": {
+        "text": "I learn by doing, and I love building. So I shipped three products with AI to find out first-hand what it can and can't do.",
+        "section": "SOLO"
+      },
+      "task": {
+        "text": "build something real with AI and ship it",
+        "section": "SOLO"
+      },
+      "action": {
+        "text": "Researched & built with AI.",
+        "section": "SOLO"
+      },
+      "result": {
+        "text": "Live September 2026",
+        "section": "SOLO"
+      },
+      "year": {
+        "text": "2026",
+        "section": "SOLO"
+      },
+      "company": "Solo projects",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "ai",
+        "zero-to-one"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "regulated",
+        "compliance",
+        "prototyping"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/solo-projects/#solo",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/solo-projects/solo-projects-building-with-ai/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "FU3-3",
+          "label": "deathspiralorgoldenage.org",
+          "text": "Will AI cut jobs or create new work? A public poll, live sentiment tracker, and open economic model with CC0 data. Researched & built with AI.",
+          "source": "Tom's CV",
+          "answers": "research, data, public-facing builds, AI and work",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Sales Executive",
+        "section": "HOST"
+      },
+      "product": {
+        "text": "alternative website",
+        "section": "HOST.R3.STORY.ALTSITE"
+      },
+      "desc": {
+        "text": "made an alternative website in my free time",
+        "section": "HOST"
+      },
+      "situation": {
+        "text": "The company website was dated and cluttered, explained the \"why\" poorly, and lacked focus and a core funnel.",
+        "section": "HOST.R3.STORY.ALTSITE",
+        "quote": "The existing website was dated. The marketing material did a poor job of explaining the \"why\" of the product, it was busy and cluttered, and it lacked focus and a core funnel."
+      },
+      "task": {
+        "text": "Unasked, as a sales executive: do better.",
+        "section": "HOST.R3.STORY.ALTSITE",
+        "quote": "I thought I could do better."
+      },
+      "action": {
+        "text": "Built an alternative version in evenings and weekends, booked a meeting with the brand manager and pitched it.",
+        "section": "HOST.R3.STORY.ALTSITE",
+        "quote": "In evenings and weekends, I built an alternative version. Then I reached out to the brand manager and booked a meeting. I made my pitch and showed her what I'd made and why."
+      },
+      "result": {
+        "text": "Sales went up; moved to the web design team the next week and led it six months later.",
+        "section": "HOST.R3.STORY.ALTSITE",
+        "quote": "Sales went up. Next week I was in the web design team. Six months later, I was leading it."
+      },
+      "year": {
+        "text": "Mar 2003 - Feb 2004",
+        "section": "HOST"
+      },
+      "company": "Host Europe Group",
+      "strength": null,
+      "tier": "self-reported",
+      "shapes": [
+        "growth"
+      ],
+      "skills": [
+        "funnels",
+        "brand",
+        "marketing",
+        "web hosting",
+        "team leadership"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/host-europe/#host-r3-story-altsite",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/sales-executive/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "FU1-1",
+          "label": "Made it in his own time, pitched it, sales went up",
+          "text": "2003: Dot.com bust. No jobs. Got a foot in the door answering phones & made a better website in my free time. Pitched it, sales went up, joined the web team.",
+          "source": "Tom's CV",
+          "answers": "initiative, self-starter, creating your own role",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU1-2",
+          "label": "CV one-liner",
+          "text": "2003 - 2004: Sales Exec - made an alternative website in my free time, sales went up.",
+          "source": "Tom's CV",
+          "answers": "career history line; commercial result from a side effort",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "PM/GM at LEO Innovation Lab",
+        "section": "LEO.R3"
+      },
+      "product": {
+        "text": "company all-hands",
+        "section": "LEO.R1.STORY.FEELS"
+      },
+      "desc": {
+        "text": "the monthly all-hands",
+        "section": "LEO.R1.STORY.FEELS"
+      },
+      "situation": {
+        "text": "Optimising the onboarding funnel at LEO Innovation Lab, on the hypothesis that more notification opt-ins would raise activation.",
+        "section": "LEO.R1.STORY.FEELS",
+        "quote": "At LEO Innovation Lab, we were optimising the onboarding funnel. We hypothesised that increasing notification opt-ins would increase activation."
+      },
+      "task": {
+        "text": "Test a contextually-triggered opt-in shown at exactly the right moment.",
+        "section": "LEO.R1.STORY.FEELS",
+        "quote": "We got clever: a contextually-triggered opt-in shown at exactly the right moment."
+      },
+      "action": {
+        "text": "The split test won on conversion but activation barely moved: the opt-in sat too late in the funnel. Rolled out a simpler opt-in early in the funnel, lifting net activation, and presented the mistake at the next company all-hands.",
+        "section": "LEO.R1.STORY.FEELS",
+        "quote": "We launched a split test, and the conversion rate was amazing... but activation barely moved. What happened? We'd placed the opt-in late in the funnel where very few users reached it. High conversion rate × tiny audience = marginal impact. We quickly rolled out a simpler opt-in early in the funnel. Lower conversion rate, but far more users saw it, so net activation was much higher. I presented this mistake at the next company all-hands."
+      },
+      "result": {
+        "text": "The monthly all-hands changed from presenting vanity metrics to mistakes made and lessons learnt.",
+        "section": "LEO.R1.STORY.FEELS",
+        "quote": "the monthly all-hands changed from presenting vanity metrics to mistakes-made and lessons-learnt"
+      },
+      "year": {
+        "text": "Nov 2016 - Aug 2017",
+        "section": "LEO.R1"
+      },
+      "company": "LEO Innovation Lab",
+      "strength": null,
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "leadership",
+        "growth"
+      ],
+      "skills": [
+        "healthcare",
+        "growth",
+        "conversion",
+        "activation",
+        "funnels",
+        "experimentation",
+        "launch"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/treat-turnaround/#leo-r1-story-feels",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Lead",
+        "Product Lead / GM",
+        "Product Manager / GM"
+      ],
+      "facets": [
+        {
+          "id": "FU7-1",
+          "label": "From vanity metrics to learning",
+          "text": "Changed company all-hands from vanity metrics to learning-focused retrospectives.",
+          "source": "Tom's CV",
+          "answers": "learning culture, honesty about results, AI literacy and change",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU7-2",
+          "label": "First to present his mistakes",
+          "text": "First product lead to present mistakes / learnings at company all-hands. Made rapid prototyping & direct user interviews standard practice across all teams.",
+          "source": "Tom's CV",
+          "answers": "low ego, leading by example",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    }
+  ]
+}
