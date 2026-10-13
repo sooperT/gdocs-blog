@@ -1326,12 +1326,18 @@ UNPLACED = [{'id': 'FU1-1',
   'variants': []}]
 
 
+PUBLIC_SOURCE = "Tom's CV"
+
+
 def facet_json(f):
     """The published shape of one facet: id, label, Tom's line, the CV it came from,
     the requirement kinds it answers, variants (other verbatim wordings, each with
     its CV), the tier, and the correction applied if any (R1013-1)."""
-    out = {'id': f['id'], 'label': f['label'], 'text': f['text'], 'source': f['source'],
-           'answers': f['answers'], 'variants': [{'text': v['text'], 'source': v['source']} for v in f['variants']],
+    # Outward, the source is "Tom's CV" and nothing more: the CV a facet came from
+    # names the company it was sent to, which must never reach another company's
+    # agent (Tom, 2026-10-13). The full provenance stays in FACETS, private.
+    out = {'id': f['id'], 'label': f['label'], 'text': f['text'], 'source': PUBLIC_SOURCE,
+           'answers': f['answers'], 'variants': [{'text': v['text'], 'source': PUBLIC_SOURCE} for v in f['variants']],
            'tier': 'self-reported'}
     if f.get('edited'):
         out['edited'] = f['edited']

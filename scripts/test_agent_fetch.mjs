@@ -28,8 +28,10 @@ const FILES = {
   'for-agents/treat-turnaround/index.html': '<!DOCTYPE html><title>TREAT</title>',
   'for-agents/recommendations/index.html': '<!DOCTYPE html><title>Recommendations</title>',
   'for-agents/opbeat/index.html': '<!DOCTYPE html><title>Opbeat</title>',
+  'for-agents/working-style/index.html': '<!DOCTYPE html><title>Working style</title>',
   'for-agents/pages.json': JSON.stringify({ pages: {
     opbeat: { path: '/for-agents/opbeat/', file: 'for-agents/opbeat/index.html', title: 'Opbeat' },
+    'working-style': { path: '/for-agents/working-style/', file: 'for-agents/working-style/index.html', title: 'Working style' },
     '../evil': { path: '/x', file: '../.env', title: 'bad slug' },
     wegovycare: { path: '/for-agents/wegovycare/', file: 'for-agents/wegovycare/index.html', title: 'dupe of RESOURCES' },
   } }),
@@ -219,6 +221,20 @@ await test('manifest page (pages.json): /for-agents/opbeat/ -> 200 html, logged;
   assert.equal(pool.calls[0].params[0], '/for-agents/opbeat/');
   assert.equal((await h(new Request('https://takenbyninjas.com/x'), c)).status, 404);
   assert.equal(await (await h(new Request('https://takenbyninjas.com/for-agents/wegovycare/'), c)).text(), FILES['for-agents/wegovycare/index.html']);
+});
+await test('working-style page (R1013-7) resolves through the manifest, counted and bundled by the for-agents/*/index.html glob', async () => {
+  const pool = stubPool(); const c = ctx({ deploy: { context: 'production' } });
+  const h = createHandler({ getPool: () => pool, readFile });
+  const res = await h(new Request('https://takenbyninjas.com/for-agents/working-style/'), c);
+  await Promise.all(c.pending);
+  assert.equal(res.status, 200);
+  assert.equal(res.headers.get('content-type'), 'text/html; charset=utf-8');
+  assert.equal(await res.text(), FILES['for-agents/working-style/index.html']);
+  assert.equal(pool.calls[0].params[0], '/for-agents/working-style/');
+  const { readFileSync } = await import('node:fs');
+  const toml = readFileSync(new URL('../netlify.toml', import.meta.url), 'utf-8');
+  assert.match(toml.match(/included_files = \[([\s\S]*?)\]/)[1], /"for-agents\/\*\/index\.html"/);
+  assert.match(defaultReadFile('for-agents/working-style/index.html'), /Insights Discovery/);
 });
 await test('manifest missing or malformed: RESOURCES still resolve, unknown slug 404', quiet(async () => {
   const noManifest = (p) => { if (p === 'for-agents/pages.json') throw new Error('no such file'); return readFile(p); };

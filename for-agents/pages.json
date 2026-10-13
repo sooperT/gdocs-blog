@@ -436,6 +436,11 @@
       "file": "for-agents/cv-appendix/index.html",
       "title": "CV appendix for agents"
     },
+    "working-style": {
+      "path": "/for-agents/working-style/",
+      "file": "for-agents/working-style/index.html",
+      "title": "Working style, Insights Discovery profiles 2019 and 2022"
+    },
     "fit/novonesis": {
       "path": "/for-agents/fit/novonesis/",
       "file": "for-agents/fit/novonesis/index.html",

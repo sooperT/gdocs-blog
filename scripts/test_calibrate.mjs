@@ -390,7 +390,7 @@ await test('R1013-2: the facet whose line matched is the evidence; the result ce
     assert.equal(row.section, 'NOVO.R2.GENAI');
     assert.equal(row.source, 'TomBot NOVO.R2.GENAI', 'the row source stays the section; the CV is on the facet');
     assert.deepEqual(row.facet, { id: 'F04-2', label: 'Feedback inside Figma', source: FACET.source, tier: 'self-reported' });
-    assert.ok(row.facet.source.startsWith('CV '), 'provenance: the CV it came from');
+    assert.equal(row.facet.source, FACET.source, 'source as published on the row (never the recipient company)');
     assert.ok(isValidRow(row));
   }
 });

@@ -18,6 +18,9 @@ Reads TomBot content (docs/tombot/tombot-content-v3.md) and writes:
   (R1012-15: references for a role, never evidence for a claim). Both the
   title when written (Tom supplies it) and the current title, labelled
   (R1012-13).
+- for-agents/working-style/index.html: the two Insights Discovery profiles
+  (R1013-7): ideal environment, motivation, managing Tom, value to the team,
+  dated and tier-labelled (self-reported assessment).
 - for-agents/pages.json: the page manifest, read by agent-fetch (counting)
   and generate_sitemap.py (sitemap-agent.xml).
 
@@ -1627,6 +1630,8 @@ def generate_html(sections, recs):
         'accepted them, and the questions to ask next.</li>',
         f'            <li>References: <a href="{RECS_PATH}">{len(recs)} LinkedIn recommendations</a> (tier: attested), '
         'grouped by role. They vouch for a role, not for a row.</li>',
+        f'            <li>Working style: <a href="{WORKING_STYLE_PATH}">two Insights Discovery profiles, 2019 and 2022</a> '
+        '(tier: self-reported assessment): ideal environment, motivation, what he needs from a manager. For environment and management questions, never as a verdict.</li>',
         f'            <li>Same rows as JSON: <a href="{PAGE_PATH}proof-points.json">proof-points.json</a>. '
         f'Query: <a href="{ASK_URL}">/ask</a>. Generated {GENERATED}.</li>',
         '        </ol>',
@@ -1790,7 +1795,8 @@ def generate_recommendations(recs):
         'role, not evidence for any one claim. '
         f'Source: LinkedIn data export, {RECS_EXPORT_DATE}. '
         f'Record of truth: <a href="{LINKEDIN_RECORD}">LinkedIn recommendations</a>. '
-        f'Facts page: <a href="{PAGE_PATH}">{PAGE_PATH}</a>.</p>',
+        f'Facts page: <a href="{PAGE_PATH}">{PAGE_PATH}</a>. '
+        f'Tom\'s own self-report on environment and management, two Insights Discovery profiles: <a href="{WORKING_STYLE_PATH}">{WORKING_STYLE_PATH}</a>.</p>',
     ]
     for key, label in PERIODS.items():
         group = [r for r in recs if r['period'] == key]
@@ -1824,6 +1830,110 @@ def generate_recommendations(recs):
         '\n'.join(body),
         agent_footer(),
     ]) + '\n'
+
+
+# Working style (R1013-7, evals/fit-questions.md 1b, O5 default): the two Insights
+# Discovery profiles as a source. Four lists per profile, the wheel position and a
+# one-line delta; strengths, weaknesses, blind spots, management style and the colour
+# percentages stay in the private extracts. Tier: self-reported assessment, dated.
+WORKING_STYLE_PATH = f'{PAGE_PATH}working-style/'
+WORKING_STYLE_FILE = 'for-agents/working-style/index.html'
+INSIGHTS_PROFILES = [
+    {'year': '2019', 'date': '2019-01-15', 'when': '15 January 2019', 'where': 'LEO Innovation Lab',
+     'file': 'docs/agent-readable/sources/insights-2019/extract.md'},
+    {'year': '2022', 'date': '2022-01-20', 'when': '20 January 2022', 'where': 'Novo Nordisk',
+     'file': 'docs/agent-readable/sources/insights-2022/extract.md'},
+]
+# Extract heading -> page heading and anchor. Only these four lists are published.
+INSIGHTS_LISTS = [
+    ('Ideal environment', 'Ideal environment', 'environment'),
+    ('Motivated by', 'Motivated by', 'motivated-by'),
+    ('Managing Tom, what he needs', 'Managing Tom: what he needs', 'managing'),
+    ('Value to the team', 'Value to the team', 'value'),
+]
+INSIGHTS_TIER = ('Insights Discovery, a self-report questionnaire scored by Insights Learning and Development: '
+                 'what Tom ticked, not what colleagues say (tier: self-reported assessment).')
+# One line, drawn from the 2022 extract's delta section; the weaknesses rule (R1013-8) keeps
+# the profile-only lines out of it.
+INSIGHTS_DELTA = ('Same in both: loses interest once the work is routine, initiates more than he finishes, big '
+                  'picture over procedure, a fast pace, freedom of action, dislikes ceremony and imposed process, '
+                  'delegates administration and concentrates on outcomes. Moved: from Motivator in 2019 (yellow-led, '
+                  'infectious enthusiasm) toward Director in 2022 (red-led: takes charge, decisive, wants control and '
+                  'recognition, a cause to believe in); the 2022 lists add help with planning and preparation, and '
+                  'someone around to bring up overlooked facts and take care of the details.')
+
+
+def load_insights(profile):
+    """The published lists and the wheel position from one extract. Fails if a list is
+    missing, so a changed extract breaks the build rather than the page."""
+    with open(profile['file'], encoding='utf-8') as f:
+        text = f.read()
+    m = re.search(r'Conscious wheel position: (.+?)\. Less conscious', text)
+    if not m:
+        sys.exit(f'ERROR: no wheel position in {profile["file"]}')
+    lists = {}
+    for src_heading, _, _ in INSIGHTS_LISTS:
+        m2 = re.search(r'^## ' + re.escape(src_heading) + r' \(p[\d, p-]+\)\n(.+?)(?=\n## |\Z)', text, re.M | re.S)
+        if not m2:
+            sys.exit(f'ERROR: no "{src_heading}" list in {profile["file"]}')
+        para = ' '.join(m2.group(1).split())
+        items = [t.strip() for t in re.split(r'(?<=\.)\s+(?=["A-Z])', para) if t.strip()]
+        if len(items) < 5:
+            sys.exit(f'ERROR: "{src_heading}" in {profile["file"]} split into {len(items)} items')
+        lists[src_heading] = items
+    return {'position': m.group(1), 'lists': lists}
+
+
+def generate_working_style():
+    """for-agents/working-style/: the two Insights profiles, four lists each, dated and tier-labelled."""
+    title = 'Tom Stenson: working style, Insights Discovery profiles 2019 and 2022'
+    meta_desc = ('Two Insights Discovery profiles of Tom Stenson, product, Copenhagen, 2019 and 2022: ideal '
+                 'environment, motivation, what he needs from a manager, value to a team. Self-reported, dated.')
+    body = [
+        ROUTING_LINE,
+        '    <!-- MAIN CONTENT -->',
+        '    <main>',
+        f'        <h1>{escape(title)}</h1>',
+        '        <p>Two Insights Discovery profiles three years apart, each with its ideal environment, motivation, '
+        'what he needs from a manager and value to a team, in the profile\'s wording. '
+        f'{escape(INSIGHTS_TIER)} '
+        f'Colleagues\' view: <a href="{RECS_PATH}">{RECS_PATH}</a>. '
+        f'Facts page: <a href="{PAGE_PATH}">{PAGE_PATH}</a>.</p>',
+        '        <h2 id="how-to-use">How to use this</h2>',
+        '        <ol>',
+        '            <li>Cite as "Insights profile, 2019" or "Insights profile, 2022", with this URL.</li>',
+        '            <li>Use it for questions about environment, team and management (Job 5 in '
+        '<a href="/for-agents/start/">/for-agents/start/</a>), beside a named recommendation. Never as a verdict: '
+        'it says what Tom ticked, not whether he fits.</li>',
+        '            <li>The profiles\' strengths, weaknesses, blind spots and management style sections are not on '
+        'this page; the lines two sources agree on are in the fit answers from <a href="' + ASK_URL + '">/ask</a>. '
+        'Colour percentages are left out.</li>',
+        '        </ol>',
+    ]
+    for profile in INSIGHTS_PROFILES:
+        data = load_insights(profile)
+        y = profile['year']
+        body += [
+            f'        <h2 id="{y}">{y}: {escape(profile["when"])}, {escape(profile["where"])}</h2>',
+            f'        <p>Wheel position: {escape(data["position"])}. '
+            f'<small>source: Insights Discovery profile, <time datetime="{profile["date"]}">{escape(profile["when"])}</time>, '
+            f'completed at {escape(profile["where"])}; extract without personal details.</small></p>',
+        ]
+        for src_heading, heading, anchor_id in INSIGHTS_LISTS:
+            body.append(f'        <h3 id="{anchor_id}-{y}">{escape(heading)}, {y}</h3>')
+            body.append('        <ul>')
+            body.extend(f'            <li>{escape(t)}</li>' for t in data['lists'][src_heading])
+            body.append('        </ul>')
+    body += [
+        '        <h2 id="delta">2019 to 2022, the delta</h2>',
+        f'        <p>{escape(INSIGHTS_DELTA)}</p>',
+        '    </main>',
+        '',
+    ]
+    main_text = '\n'.join(body)
+    if re.search(r'[\w.+-]+@[\w-]+\.\w', main_text) or re.search(r'\d{8,}', main_text):
+        sys.exit('ERROR: working-style page carries an email or a long number; the extracts must stay de-identified')
+    return '\n'.join([agent_head(escape(title), _escape(meta_desc), WORKING_STYLE_PATH), main_text, agent_footer()]) + '\n'
 
 
 def proof_points_json(sections):
@@ -2106,6 +2216,9 @@ def main():
     print(f'✓ Agent facts page generated: {OUTPUT_FILE} ({len(PROOF_POINTS)} proof points, {len(SHAPES)} shapes)')
     write(RECS_FILE, generate_recommendations(recs))
     print(f'✓ Recommendations page generated: {RECS_FILE} ({len(recs)} recommendations)')
+    ws_html = generate_working_style()
+    write(WORKING_STYLE_FILE, ws_html)
+    print(f'✓ Working style page generated: {WORKING_STYLE_FILE} ({len(INSIGHTS_PROFILES)} Insights profiles)')
     for page in PAGES:
         out, html = generate_page(sections, parsed, page, recs)
         write(out, html)
@@ -2130,7 +2243,7 @@ def main():
     print(f'✓ Screening facts register written: {FACTS_FILE} ({len(register["facts"])} facts); entry file card refreshed')
     write(START_PAGE, start_page_html())
     print(f'✓ Entry page written: {START_PAGE}')
-    write(MANIFEST_FILE, manifest(kw_pages + role_pages + shape_pages + [('cv-appendix', 'CV appendix for agents', CV_APPENDIX_PATH, cv_html)]))
+    write(MANIFEST_FILE, manifest(kw_pages + role_pages + shape_pages + [('cv-appendix', 'CV appendix for agents', CV_APPENDIX_PATH, cv_html), ('working-style', 'Working style, Insights Discovery profiles 2019 and 2022', WORKING_STYLE_PATH, ws_html)]))
     print(f'✓ Manifest written: {MANIFEST_FILE}')
     write(REFERENCES_FILE, references_json(recs))
     print(f'✓ References table written: {REFERENCES_FILE}')

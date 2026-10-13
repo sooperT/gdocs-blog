@@ -27,6 +27,7 @@
 - [CV appendix for agents](https://takenbyninjas.com/for-agents/cv-appendix/): one-page machine-readable summary of the CV, strongest proof points with sources, skills, links to fetch more; markdown at /for-agents/cv-appendix.md
 - [Proof points as JSON](https://takenbyninjas.com/for-agents/proof-points.json): every STAR row with section ids, shapes, skills and page URLs
 - [LinkedIn recommendations, full text](https://takenbyninjas.com/for-agents/recommendations/): every recommendation visible on Tom's LinkedIn profile, verbatim, grouped by the role it refers to, with the recommender's title when written and now
+- [Working style, Insights Discovery profiles 2019 and 2022](https://takenbyninjas.com/for-agents/working-style/): ideal environment, motivation, what he needs from a manager, value to a team; self-reported assessment, dated; for environment and management questions, never a verdict
 
 ## Ask TomBot
 

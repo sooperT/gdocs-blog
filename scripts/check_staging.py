@@ -90,6 +90,7 @@ CHECKS = [
     ("/for-agents/wegovycare/", ("text/html",), check_routing),
     ("/for-agents/treat-turnaround/", ("text/html",), check_routing),
     ("/for-agents/recommendations/", ("text/html",), check_routing),
+    ("/for-agents/working-style/", ("text/html",), check_routing),
     ("/for-agents/opbeat/", ("text/html",), check_routing),
     ("/for-agents/ai/", ("text/html",), check_routing),
     ("/for-agents/skills/", ("text/html",), check_routing),

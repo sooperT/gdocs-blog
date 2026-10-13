@@ -385,8 +385,11 @@ facets = [(r, f) for r in ROWS['proof_points'] for f in (r.get('facets') or [])]
 check('facets: every row carries a facets list', all(isinstance(r.get('facets'), list) for r in ROWS['proof_points']))
 check('facets: 161 facets on 30 rows', (len(facets), sum(1 for r in ROWS['proof_points'] if r.get('facets'))) == (161, 30),
       (len(facets), sum(1 for r in ROWS['proof_points'] if r.get('facets'))))
-check('facets: each names the CV it came from, tier self-reported, never attested',
-      all(f['source'].startswith('CV ') and f['tier'] == 'self-reported' and 'attested' not in json.dumps(f) for _, f in facets))
+check("facets: published source is \"Tom's CV\" (never the recipient company), tier self-reported, never attested",
+      all(f['source'] == "Tom's CV" and f['tier'] == 'self-reported' and 'attested' not in json.dumps(f) for _, f in facets)
+      and all(v['source'] == "Tom's CV" for _, f in facets for v in f.get('variants', [])))
+check('facets: no recipient company name leaks into proof-points.json',
+      not any(k in json.dumps(ROWS) for k in ('CV All Gravy', 'CV Neko', 'CV Novonesis', 'CV Danske', 'CV Heyra', 'CV SimCorp', 'CV Lunar', 'CV Sword', 'CV Phone Inc')))
 check('facets: each has an id, a label, a line and what it answers', all(f['id'] and f['label'] and f['text'] and f['answers'] for _, f in facets))
 check('facets: the file says what they are', ROWS.get('facets', '').startswith("Each row's `facets` are lines from CVs Tom sent"))
 diag = next(r for r in ROWS['proof_points'] if text_of(r, 'product') == 'Diagnosis App')
@@ -402,8 +405,8 @@ F = diag['facets'][0]
 facet_brief = {'rows': [dict(pp_row(REQ['pp'], diag), facet={'id': F['id'], 'label': F['label'], 'source': F['source'], 'tier': 'self-reported'})]}
 f_out, _ = c.build(facet_brief, ROWS, JD, tag='harbour-2', applying=JD)
 f_line = fit_pairs(f_out)[0][3]
-check('facets: the appendix names the CV the matched facet came from, before the link',
-      f" Source: {c.end(F['source'])} {diag['page']}" in f_line, f_line)
+check('facets: the appendix prints no facet source line (it is CV material itself; the origin CV stays private)',
+      'Source:' not in f_line and f_line.rstrip().endswith(diag['page']), f_line)
 check('facets: the facet line itself is not printed in the appendix (first person stays in the CV)', F['text'] not in f_out and not first_person(f_out), first_person(f_out))
 check('facets: a brief row with no facet prints as before', fit_pairs(c.build({'rows': [pp_row(REQ['pp'], diag)]}, ROWS, JD, tag='harbour-3', applying=JD)[0])[0][3]
       == f_line.replace(f" Source: {c.end(F['source'])}", ''))

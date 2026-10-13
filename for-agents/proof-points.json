@@ -341,7 +341,7 @@
           "id": "F01-1",
           "label": "Penetration in the first market",
           "text": "First digital Novo product to successfully scale - 10% penetration in the first national market.",
-          "source": "CV Light, Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "adoption numbers, market launch",
           "variants": [],
           "tier": "self-reported"
@@ -350,7 +350,7 @@
           "id": "F01-2",
           "label": "Patient adoption",
           "text": "Achieved 10% patient adoption in first national market.",
-          "source": "CV n8n, Head of Product Growth (earlier Doc CV)",
+          "source": "Tom's CV",
           "answers": "user adoption",
           "variants": [],
           "tier": "self-reported"
@@ -359,7 +359,7 @@
           "id": "F01-3",
           "label": "Growth lever",
           "text": "Identified a key growth lever; built a prediction algorithm from concept to prototype, later spun out as an API product.",
-          "source": "CV Lunar, Principal Product Manager Growth & Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "growth levers, retention",
           "variants": [],
           "tier": "self-reported"
@@ -368,7 +368,7 @@
           "id": "FU2-1",
           "label": "Biggest adoption at Novo",
           "text": "Biggest adoption of any digital solution at Novo.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "adoption at scale, proof a product landed",
           "variants": [],
           "tier": "self-reported"
@@ -448,7 +448,7 @@
           "id": "F02-1",
           "label": "Algorithm spun out as an API",
           "text": "Designed weight-loss prediction algorithm, later spun out as an API product.",
-          "source": "CV All Gravy, Senior Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "data products, algorithms, hands-on AI",
           "variants": [],
           "tier": "self-reported"
@@ -457,7 +457,7 @@
           "id": "F02-2",
           "label": "From Excel to a Bayesian API",
           "text": "Built weight-loss prediction model in Excel, later spun out as a Bayesian API.",
-          "source": "CV Halfspace / Accenture, AI Decision Science Team Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "data science, modelling, scrappy start",
           "variants": [],
           "tier": "self-reported"
@@ -466,7 +466,7 @@
           "id": "F02-3",
           "label": "Personalisation",
           "text": "Designed a profiling & weight loss prediction algorithm to personalise the experience.",
-          "source": "CV H1, Director Clinical Product Management (CV body)",
+          "source": "Tom's CV",
           "answers": "personalisation, patient data",
           "variants": [],
           "tier": "self-reported"
@@ -543,7 +543,7 @@
           "id": "F03-1",
           "label": "Persuaded senior stakeholders",
           "text": "Persuaded senior stakeholders to bin their brief and talk to users instead.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "senior stakeholder management, user research",
           "variants": [],
           "tier": "self-reported"
@@ -552,7 +552,7 @@
           "id": "F03-2",
           "label": "Changed the way of working",
           "text": "Or maybe how I convinced a room of Novo executives to bin their product brief & completely change the way of working.",
-          "source": "CV Danske Bank, GenAI Lead (coffee list)",
+          "source": "Tom's CV",
           "answers": "transformation, changing how an organisation works",
           "variants": [],
           "tier": "self-reported"
@@ -561,7 +561,7 @@
           "id": "F03-3",
           "label": "Release speed",
           "text": "Automated release workflows, shifting release cycles from yearly to bi-monthly (fast for pharma!).",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "delivery speed in a regulated setting, automation",
           "variants": [],
           "tier": "self-reported"
@@ -570,7 +570,7 @@
           "id": "F03-4",
           "label": "Introduced discovery and scaled it",
           "text": "Introduced discovery, prototyping and iterative development. Scaled ways of working across the org.",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "product practice, coaching an organisation",
           "variants": [],
           "tier": "self-reported"
@@ -579,7 +579,7 @@
           "id": "F03-5",
           "label": "Product operating model",
           "text": "Persuaded senior stakeholders to bin their brief and adopt product operating model.",
-          "source": "CV Novo Nordisk, Associate Director Digital Labs (CV body)",
+          "source": "Tom's CV",
           "answers": "operating model change",
           "variants": [],
           "tier": "self-reported"
@@ -588,7 +588,7 @@
           "id": "F03-6",
           "label": "Regulatory readiness",
           "text": "Automated release & localisation workflows, increasing regulatory readiness and shifting release cycles from yearly to bi-monthly.",
-          "source": "CV Neko Health, Principal Product Manager Medical OS (CV body)",
+          "source": "Tom's CV",
           "answers": "regulated software, localisation",
           "variants": [],
           "tier": "self-reported"
@@ -597,7 +597,7 @@
           "id": "F03-7",
           "label": "Borrowed an anthropologist",
           "text": "Borrowed an anthropologist from another division & proved the value - later became the Insights team.",
-          "source": "CV H1, Director Clinical Product Management (CV body)",
+          "source": "Tom's CV",
           "answers": "insights, research capability, building a function from a pilot",
           "variants": [],
           "tier": "self-reported"
@@ -606,7 +606,7 @@
           "id": "FU2-2",
           "label": "Largest uptake, asked to scale the way of working",
           "text": "Largest uptake for any digital solution. Asked to scale ways of working across the org.",
-          "source": "CV All Gravy, Senior Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "adoption, being asked to spread a method",
           "variants": [],
           "tier": "self-reported"
@@ -683,7 +683,7 @@
           "id": "F04-1",
           "label": "Spotted the bottleneck",
           "text": "How I spotted a regulatory bottleneck slowing every product team, and built an agentic-RAG prototype to address it.",
-          "source": "CV Danske Bank, GenAI Lead (coffee list)",
+          "source": "Tom's CV",
           "answers": "finding where GenAI pays off, initiative",
           "variants": [],
           "tier": "self-reported"
@@ -692,7 +692,7 @@
           "id": "F04-2",
           "label": "Feedback inside Figma",
           "text": "Built AI prototype to give compliance feedback inside Figma, not months later.",
-          "source": "CV All Gravy, Senior Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "AI built into the tool people already use",
           "variants": [],
           "tier": "self-reported"
@@ -701,7 +701,7 @@
           "id": "F04-3",
           "label": "Reshuffled the workflow with LLMs",
           "text": "Or maybe how I used LLMs to reshuffle compliance workflows and give regulatory feedback inside Figma, not months later.",
-          "source": "CV Heyra, Deployment Strategist (coffee list)",
+          "source": "Tom's CV",
           "answers": "workflow redesign with AI, change and adoption",
           "variants": [],
           "tier": "self-reported"
@@ -710,7 +710,7 @@
           "id": "F04-4",
           "label": "Made the right thing the easy thing",
           "text": "Built agentic prototype to give compliance feedback inside Figma, not months later. Made the right thing, the easy thing.",
-          "source": "CV Lunar, Senior PM Core Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "influence without authority",
           "variants": [],
           "tier": "self-reported"
@@ -719,7 +719,7 @@
           "id": "F04-5",
           "label": "Shift-left for designers",
           "text": "Perhaps how I built a RAG bot to automate compliance reviews, that allowed designers to shift-left and test their ideas in Figma.",
-          "source": "CV SimCorp, Principal Product Owner AI (coffee list)",
+          "source": "Tom's CV",
           "answers": "AI in the development lifecycle",
           "variants": [],
           "tier": "self-reported"
@@ -728,12 +728,12 @@
           "id": "F04-6",
           "label": "Catching problems early",
           "text": "Built agentic prototype to automate compliance workflow, enabling teams to catch review problems early.",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "process automation, risk and compliance",
           "variants": [
             {
               "text": "Built an agentic RAG-based POC that replicated MLR review, letting product teams check compliance in design. Failing early, not at review.",
-              "source": "CV Neko Health, Principal Product Manager AI/LLM (CV body)"
+              "source": "Tom's CV"
             }
           ],
           "tier": "self-reported"
@@ -742,7 +742,7 @@
           "id": "F04-7",
           "label": "Called a product, said to fix it",
           "text": "Spotted regulatory bottleneck slowing every product team, and built agentic-RAG product to fix it.",
-          "source": "CV Heyra, Deployment Strategist (CV body)",
+          "source": "Tom's CV",
           "answers": "shipped AI products",
           "variants": [],
           "tier": "self-reported"
@@ -751,7 +751,7 @@
           "id": "F04-8",
           "label": "Honest ending",
           "text": "Used GenAI to automate lengthy compliance reviews. Product teams loved it. Execs weren’t ready.",
-          "source": "CV Ghost, Product Manager Europe (CV body)",
+          "source": "Tom's CV",
           "answers": "candour about what did not land, organisational readiness for AI",
           "variants": [],
           "tier": "self-reported"
@@ -760,7 +760,7 @@
           "id": "F04-9",
           "label": "Real time in place of three months",
           "text": "Or maybe how I built a RAG prototype to rethink compliance workflows, giving teams real-time feedback in Figma instead of 3 months later.",
-          "source": "CV Light, Product Manager (coffee list)",
+          "source": "Tom's CV",
           "answers": "cycle time, speed",
           "variants": [],
           "tier": "self-reported"
@@ -769,7 +769,7 @@
           "id": "F04-10",
           "label": "Pitched it",
           "text": "Pitched & built a GenAI proof of concept for automating compliance reviews.",
-          "source": "CV Lunar, Principal Product Manager Growth & Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "selling an idea internally, then building it",
           "variants": [],
           "tier": "self-reported"
@@ -840,7 +840,7 @@
           "id": "F05-1",
           "label": "Subscription and bundling for retention",
           "text": "Or maybe how I created a subscription model & bundling strategy to drive retention on the biggest ever pharma launch. Serious scale!",
-          "source": "CV Alan, Product Lead Growth (coffee list)",
+          "source": "Tom's CV",
           "answers": "retention, subscription business models, scale",
           "variants": [],
           "tier": "self-reported"
@@ -849,7 +849,7 @@
           "id": "F05-2",
           "label": "Connected packaging to fulfilment",
           "text": "Connected packaging to fulfilment on biggest launch.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "end-to-end customer journey, physical and digital",
           "variants": [],
           "tier": "self-reported"
@@ -858,7 +858,7 @@
           "id": "F05-3",
           "label": "Worked in the gaps",
           "text": "Worked in the gaps to connect packaging and digital fulfilment on the biggest ever drug launch.",
-          "source": "CV All Gravy, Senior Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "picking up problems nobody owns",
           "variants": [],
           "tier": "self-reported"
@@ -867,7 +867,7 @@
           "id": "F05-4",
           "label": "Without authority",
           "text": "Reshuffled silos without authority. Connected packaging to digital fulfilment on the biggest ever drug launch.",
-          "source": "CV Lunar, Senior PM Core Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "change through other teams",
           "variants": [],
           "tier": "self-reported"
@@ -876,7 +876,7 @@
           "id": "F05-5",
           "label": "Aligned silos into one experience",
           "text": "Invited into critical Wegovy Pill launch. Aligned silos to create unified physical-to-digital experience.",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "cross-silo alignment on a critical launch",
           "variants": [],
           "tier": "self-reported"
@@ -885,7 +885,7 @@
           "id": "F05-6",
           "label": "Led the consumer workstream",
           "text": "Led consumer workstream on Wegovy Pill launch: digital, packaging & direct distribution.",
-          "source": "CV Novonesis, Senior Principal Innovation Project Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "workstream lead on a large programme",
           "variants": [],
           "tier": "self-reported"
@@ -894,7 +894,7 @@
           "id": "F05-7",
           "label": "Invited in to challenge",
           "text": "Invited into company-critical Wegovy Pill launch to challenge assumptions & inject product thinking.",
-          "source": "CV Danske Bank, GenAI Strategist (CV body)",
+          "source": "Tom's CV",
           "answers": "trusted adviser, bringing product thinking to another function",
           "variants": [],
           "tier": "self-reported"
@@ -903,7 +903,7 @@
           "id": "F05-8",
           "label": "A structural fix for prescription growth",
           "text": "Consumer lead for Wegovy Pill, rethought the user journey and created a simple structural fix to drive prescription growth.",
-          "source": "CV Lunar, Principal Product Manager Growth & Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "growth through journey design",
           "variants": [],
           "tier": "self-reported"
@@ -912,7 +912,7 @@
           "id": "F05-9",
           "label": "Pricing and revenue models",
           "text": "Created subscription pricing and bundling strategy to support the largest pharma launch. Built revenue models to support the business case.",
-          "source": "CV n8n, Head of Product Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "pricing, monetisation, revenue modelling",
           "variants": [],
           "tier": "self-reported"
@@ -998,7 +998,7 @@
           "id": "F06-1",
           "label": "Aligning two therapy areas",
           "text": "Or even how I got two therapy areas that never collaborate, with competing priorities and budgets, to align on a digital strategy.",
-          "source": "CV Danske Bank, GenAI Lead (coffee list)",
+          "source": "Tom's CV",
           "answers": "working across functions in a large organisation, senior stakeholders",
           "variants": [],
           "tier": "self-reported"
@@ -1007,12 +1007,12 @@
           "id": "F06-2",
           "label": "Aligning two business units (no pharma words)",
           "text": "How I convinced two business units that never collaborate, with competing priorities and budgets, to align on a digital strategy.",
-          "source": "CV Heyra, Deployment Strategist (coffee list)",
+          "source": "Tom's CV",
           "answers": "stakeholder ownership, client-side alignment",
           "variants": [
             {
               "text": "How I got two business units that never collaborate, each with competing priorities and budgets, to align on a shared digital strategy for Novo's top pipeline asset.",
-              "source": "CV Novonesis, Senior Principal Innovation Project Manager (coffee list)"
+              "source": "Tom's CV"
             }
           ],
           "tier": "self-reported"
@@ -1021,7 +1021,7 @@
           "id": "F06-3",
           "label": "Ambiguity to structure, with the funnel numbers",
           "text": "Led digital programme for top drug asset. Ambiguous problem to 128 raw ideas to 4 funded, de-risked products.",
-          "source": "CV Heyra, Deployment Strategist (CV body)",
+          "source": "Tom's CV",
           "answers": "structuring an unclear problem, de-risking",
           "variants": [],
           "tier": "self-reported"
@@ -1030,12 +1030,12 @@
           "id": "F06-4",
           "label": "Blank page to funded portfolio",
           "text": "Identified high-impact digital opportunities for company's top drug asset. Blank page to funded portfolio.",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "finding opportunities, taking a programme from nothing to funding",
           "variants": [
             {
               "text": "Led digital product discovery for Cagrisema. From blank page to funded portfolio.",
-              "source": "CV Novo Nordisk, Associate Product Operations Director (CV body)"
+              "source": "Tom's CV"
             }
           ],
           "tier": "self-reported"
@@ -1044,7 +1044,7 @@
           "id": "F06-5",
           "label": "Business case, governance and gate model",
           "text": "Led digital programme for top drug asset: de-risked an ambiguous problem, built the strategy, business case & budgets, and brought together two competing business units to secure portfolio funding through a roadmap-gate model.",
-          "source": "CV Novonesis, Senior Principal Innovation Project Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "project governance, business cases, roadmaps",
           "variants": [],
           "tier": "self-reported"
@@ -1053,7 +1053,7 @@
           "id": "F06-6",
           "label": "Commercial case",
           "text": "Led digital discovery for the company's top drug asset. Translated user problems into P&L business cases, and secured funding for a digital portfolio.",
-          "source": "CV Lunar, Principal Product Manager Growth & Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "commercial ownership, turning user needs into a business case",
           "variants": [],
           "tier": "self-reported"
@@ -1062,7 +1062,7 @@
           "id": "F06-7",
           "label": "Executives from sceptics to sponsors",
           "text": "Led digital co-creation for the company’s top drug asset across two competing business units. Shifted executives from sceptics to sponsors.",
-          "source": "CV Lundbeck, AI Organisation Transformation Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "change management, executive sponsorship",
           "variants": [],
           "tier": "self-reported"
@@ -1071,7 +1071,7 @@
           "id": "F06-8",
           "label": "Discovery method",
           "text": "Ran digital discovery for company’s top drug asset. Journey mapping to validated opportunities.",
-          "source": "CV SimCorp, Principal Product Owner Portfolio Management (CV body)",
+          "source": "Tom's CV",
           "answers": "discovery craft, validation",
           "variants": [],
           "tier": "self-reported"
@@ -1080,7 +1080,7 @@
           "id": "F06-9",
           "label": "Unifying fragmented teams",
           "text": "Built digital strategy & roadmap for company's top drug asset, unifying fragmented teams & products.",
-          "source": "CV Neko Health, Principal Product Manager Medical OS (CV body)",
+          "source": "Tom's CV",
           "answers": "strategy and roadmap ownership, joining up teams",
           "variants": [],
           "tier": "self-reported"
@@ -1166,7 +1166,7 @@
           "id": "F07-1",
           "label": "Unit and playbook",
           "text": "Created incubation unit. Wrote discovery playbook.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "setting up an innovation function, documenting a method",
           "variants": [],
           "tier": "self-reported"
@@ -1175,7 +1175,7 @@
           "id": "F07-2",
           "label": "Influence, not mandate",
           "text": "Or how I used influence, not mandate, to create an incubation unit and the Novo playbook for innovation.",
-          "source": "CV Novonesis, Senior Principal Innovation Project Manager (coffee list)",
+          "source": "Tom's CV",
           "answers": "informal leadership, innovation management",
           "variants": [],
           "tier": "self-reported"
@@ -1184,7 +1184,7 @@
           "id": "F07-3",
           "label": "Governance model",
           "text": "Created incubation unit & governance model. Changed how Novo builds customer-focused innovation.",
-          "source": "CV Novonesis, Senior Principal Innovation Project Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "governance, stage gates, innovation process",
           "variants": [],
           "tier": "self-reported"
@@ -1193,7 +1193,7 @@
           "id": "F07-4",
           "label": "Next big bets",
           "text": "Created digital incubation unit that identified & shaped the organisation’s next big bets.",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "spotting opportunities, strategy",
           "variants": [],
           "tier": "self-reported"
@@ -1202,7 +1202,7 @@
           "id": "F07-5",
           "label": "Shipped 0-1 products",
           "text": "Interviewed patients & created incubation team that shipped 0-1 products.",
-          "source": "CV All Gravy, Senior Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "zero-to-one, shipping",
           "variants": [],
           "tier": "self-reported"
@@ -1211,7 +1211,7 @@
           "id": "F07-6",
           "label": "Output to outcomes",
           "text": "Created incubation model that shifted teams from output to outcomes",
-          "source": "CV Lunar, Principal Product Manager Growth & Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "outcome focus, culture change",
           "variants": [],
           "tier": "self-reported"
@@ -1220,7 +1220,7 @@
           "id": "F07-7",
           "label": "Prioritise, scale or stop",
           "text": "Established & led digital product incubation unit that identified & shaped the organisation’s next big bets, and created a framework for what to prioritise, scale or stop.",
-          "source": "CV Danske Bank, GenAI Strategist (CV body)",
+          "source": "Tom's CV",
           "answers": "portfolio decisions, prioritisation frameworks",
           "variants": [],
           "tier": "self-reported"
@@ -1229,7 +1229,7 @@
           "id": "F07-8",
           "label": "Build, partner or buy; problem first",
           "text": "Created & led digital incubation unit that shaped the organisation’s next big bets (build / partner / buy). Moved the organisation from solution-first to problem-first.",
-          "source": "CV LEO Pharma, AI Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "make-or-buy decisions, problem framing",
           "variants": [],
           "tier": "self-reported"
@@ -1238,7 +1238,7 @@
           "id": "F07-9",
           "label": "Funding and resourcing",
           "text": "Secured funding, managed resourcing and cross-charges for incubation teams.",
-          "source": "CV Novo Nordisk, Associate Product Operations Director (CV body)",
+          "source": "Tom's CV",
           "answers": "budgets, resourcing, internal funding",
           "variants": [],
           "tier": "self-reported"
@@ -1322,7 +1322,7 @@
           "id": "F08-1",
           "label": "Standards and artefacts",
           "text": "Product operations: Established standards, artefacts and ways of working across the product org. Gate models, metrics, portfolio reports, business cases.",
-          "source": "CV Novonesis, Senior Principal Innovation Project Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "portfolio management, governance tooling",
           "variants": [],
           "tier": "self-reported"
@@ -1331,12 +1331,12 @@
           "id": "F08-2",
           "label": "Quality bar and coaching PMs",
           "text": "Moved quality bar across product squads - establishing instrumentation, and coaching PMs to move from delivery-led outputs to commercial outcomes.",
-          "source": "CV Lunar, Senior PM Core Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "product quality across squads, coaching, instrumentation",
           "variants": [
             {
               "text": "I’ve defined the quality bar & ways of working across product squads, repeatedly.",
-              "source": "CV Lunar, Senior PM Core Experience (intro)"
+              "source": "Tom's CV"
             }
           ],
           "tier": "self-reported"
@@ -1345,7 +1345,7 @@
           "id": "F08-3",
           "label": "Metrics over 12 products",
           "text": "Established metrics across a diverse portfolio (12 products). Mentored PMs to move from delivery-led outputs to commercial outcomes.",
-          "source": "CV LEGO, Product Director Digital Consumer Engagement (CV body)",
+          "source": "Tom's CV",
           "answers": "portfolio metrics, managing and developing PMs",
           "variants": [],
           "tier": "self-reported"
@@ -1354,7 +1354,7 @@
           "id": "F08-4",
           "label": "Cost and capacity view",
           "text": "Built first cross-portfolio view of product team costs and capacity, started conversation around ROI.",
-          "source": "CV Novo Nordisk, Associate Product Operations Director (CV body)",
+          "source": "Tom's CV",
           "answers": "resource planning, return on investment, reporting",
           "variants": [],
           "tier": "self-reported"
@@ -1363,7 +1363,7 @@
           "id": "F08-5",
           "label": "Made outcomes visible",
           "text": "Connected product teams to commercial metrics. Made outcomes visible.",
-          "source": "CV LEGO, Senior Digital Product Manager Model Production (CV body)",
+          "source": "Tom's CV",
           "answers": "commercial focus, transparency",
           "variants": [],
           "tier": "self-reported"
@@ -1440,7 +1440,7 @@
           "id": "F09-1",
           "label": "Led six PMs",
           "text": "Led 6 PMs building consumer engagement products.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "managing product managers",
           "variants": [],
           "tier": "self-reported"
@@ -1449,7 +1449,7 @@
           "id": "F09-2",
           "label": "Got independent PMs to open up",
           "text": "How I convinced a team of fiercely independent product managers to open-up, break silos and learn from each other.",
-          "source": "CV LEGO, Product Director Digital Consumer Engagement (coffee list)",
+          "source": "Tom's CV",
           "answers": "team culture, leading leaders",
           "variants": [],
           "tier": "self-reported"
@@ -1458,7 +1458,7 @@
           "id": "F09-3",
           "label": "Weekly demos against resistance",
           "text": "Overcame resistance to establish weekly demos and experiment sharing. Broke product silos and encouraged learning loops.",
-          "source": "CV LEGO, Product Director Digital Consumer Engagement (CV body)",
+          "source": "Tom's CV",
           "answers": "rituals, experimentation culture",
           "variants": [],
           "tier": "self-reported"
@@ -1467,7 +1467,7 @@
           "id": "F09-4",
           "label": "Management by outcomes",
           "text": "Led 6 experienced PMs building consumer engagement products. Management by outcomes.",
-          "source": "CV LEGO, Product Director Digital Consumer Engagement (CV body)",
+          "source": "Tom's CV",
           "answers": "management style, outcome goals",
           "variants": [],
           "tier": "self-reported"
@@ -1548,7 +1548,7 @@
           "id": "F10-1",
           "label": "Co-creation, sceptics to advocates",
           "text": "Facilitated co-creation with stakeholders, shifting cross-functional VPs from sceptics to advocates.",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "facilitation, winning over senior sceptics, adoption",
           "variants": [],
           "tier": "self-reported"
@@ -1557,7 +1557,7 @@
           "id": "F10-2",
           "label": "Chaired the steercos",
           "text": "Chaired project steercos & facilitated co-creation with stakeholders, shifting cross-functional VPs from sceptics to advocates.",
-          "source": "CV Danske Bank, GenAI Strategist (CV body)",
+          "source": "Tom's CV",
           "answers": "governance forums, chairing",
           "variants": [],
           "tier": "self-reported"
@@ -1566,7 +1566,7 @@
           "id": "F10-3",
           "label": "Thought partner to the VP",
           "text": "Thought partner to Product VP. Shifted cross-functional VPs from product sceptics to advocates. Invited into company-critical Wegovy Pill launch to challenge assumptions and inject product thinking.",
-          "source": "CV SimCorp, Head of Strategic Product Enablement (CV body)",
+          "source": "Tom's CV",
           "answers": "advising leadership, strategic partnership",
           "variants": [],
           "tier": "self-reported"
@@ -1575,7 +1575,7 @@
           "id": "F10-4",
           "label": "Championed best practice",
           "text": "Championed product best practice. Moved stakeholders from product sceptics to advocates.",
-          "source": "CV Novo Nordisk, Associate Product Operations Director (CV body)",
+          "source": "Tom's CV",
           "answers": "product advocacy inside an organisation",
           "variants": [],
           "tier": "self-reported"
@@ -1656,7 +1656,7 @@
           "id": "F11-1",
           "label": "Risk-profiling engine",
           "text": "Built risk-profiling engine combining clinical data, usage signals, & PROMs to identify drop-off risks.",
-          "source": "CV Neko Health, Principal Product Manager AI/LLM (CV body)",
+          "source": "Tom's CV",
           "answers": "health data, retention risk, analytics",
           "variants": [],
           "tier": "self-reported"
@@ -1665,7 +1665,7 @@
           "id": "F11-2",
           "label": "Consumer marketing playbook",
           "text": "Applied consumer marketing playbook to act on risks, personalising experience for each patient.",
-          "source": "CV Neko Health, Principal Product Manager AI/LLM (CV body)",
+          "source": "Tom's CV",
           "answers": "consumer thinking in health, lifecycle marketing",
           "variants": [],
           "tier": "self-reported"
@@ -1674,7 +1674,7 @@
           "id": "F11-3",
           "label": "Interactive magazine",
           "text": "Digital engagement app for obesity brand. Through research identified every user-journey is different. Built profiling and customisation engine to create an interactive magazine.",
-          "source": "CV LEGO, Product Director Digital Consumer Engagement (CV body)",
+          "source": "Tom's CV",
           "answers": "consumer engagement, content products, research-led design",
           "variants": [],
           "tier": "self-reported"
@@ -1683,7 +1683,7 @@
           "id": "F11-4",
           "label": "Lead line: profiled patients, adopted by markets",
           "text": "How, with Wegovycare, I showcased new ways of working, profiled patients for a personalised experience, and made Novo’s first digital health product adopted by multiple markets.",
-          "source": "CV H1, Director Clinical Product Management (coffee list)",
+          "source": "Tom's CV",
           "answers": "digital health products at scale, personalisation",
           "variants": [],
           "tier": "self-reported"
@@ -1761,7 +1761,7 @@
           "id": "F12-1",
           "label": "Co-creation with markets, first to scale",
           "text": "Systematised co-creation with markets. First digital Novo product to successfully scale.",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "scaling across markets, co-creation",
           "variants": [],
           "tier": "self-reported"
@@ -1770,7 +1770,7 @@
           "id": "F12-2",
           "label": "Project team, objectives and milestones",
           "text": "Led cross-functional project team of 10. Negotiated and defined objectives, timelines & milestones.",
-          "source": "CV Novonesis, Senior Principal Innovation Project Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "project management, planning",
           "variants": [],
           "tier": "self-reported"
@@ -1779,7 +1779,7 @@
           "id": "F12-3",
           "label": "Architecture for scale",
           "text": "Designed for scaling: modular architecture, feature flags, integrated CMS & translation pipeline, and systematised cocreation with markets. First digital Novo product to successfully scale.",
-          "source": "CV Lærdal, Product Manager Versatile Solutions (CV body)",
+          "source": "Tom's CV",
           "answers": "platform thinking, technical product decisions",
           "variants": [],
           "tier": "self-reported"
@@ -1788,7 +1788,7 @@
           "id": "F12-4",
           "label": "OKRs and qual-quant signals",
           "text": "Implemented OKRs & used qual-quant signals to steer priorities and shape the roadmap.",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "prioritisation, roadmap, data-informed decisions",
           "variants": [],
           "tier": "self-reported"
@@ -1797,7 +1797,7 @@
           "id": "F12-5",
           "label": "Vision and backlog owner",
           "text": "Owned the product vision & backlog. Led & prioritized cross-functional team of 10.",
-          "source": "CV SimCorp, Principal Product Owner Portfolio Management (CV body)",
+          "source": "Tom's CV",
           "answers": "product owner duties, backlog",
           "variants": [],
           "tier": "self-reported"
@@ -1806,7 +1806,7 @@
           "id": "F12-6",
           "label": "Squad of 8",
           "text": "Digital patient solution for obesity medicine. Led full-stack squad of 8 colleagues. Transformation by doing.",
-          "source": "CV Danske Bank, Product Owner GenAI Use Case Acceleration (CV body)",
+          "source": "Tom's CV",
           "answers": "squad leadership",
           "variants": [],
           "tier": "self-reported"
@@ -1815,7 +1815,7 @@
           "id": "FU2-3",
           "label": "On budget and on schedule",
           "text": "Delivered product on budget & on schedule, with largest uptake for any Novo digital solution. Scaled ways of working across the org.",
-          "source": "CV Novonesis, Senior Principal Innovation Project Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "project delivery against budget and plan",
           "variants": [],
           "tier": "self-reported"
@@ -1890,12 +1890,12 @@
           "id": "F13-1",
           "label": "Leading experts through uncertainty",
           "text": "Or perhaps how I led a team of AI engineers all wired for logic and certainty through the deep uncertainty of product discovery to create a diagnosis app.",
-          "source": "CV Danske Bank, GenAI Lead (coffee list)",
+          "source": "Tom's CV",
           "answers": "leading technical teams, discovery under uncertainty, AI in a regulated field",
           "variants": [
             {
               "text": "Or maybe how I led a too-large team of AI engineers, all wired for logic and certainty, through the deep uncertainty of product discovery to create a diagnosis app.",
-              "source": "CV SimCorp, Principal Product Owner AI (coffee list)"
+              "source": "Tom's CV"
             }
           ],
           "tier": "self-reported"
@@ -1904,7 +1904,7 @@
           "id": "F13-2",
           "label": "Learnt enough ML to help",
           "text": "Or maybe how I learnt enough ML to help a team of AI experts work out how to make a smartphone diagnose skin conditions.",
-          "source": "CV All Gravy, Senior Product Manager (coffee list)",
+          "source": "Tom's CV",
           "answers": "hands-on with AI, learning a new field fast, technical depth for a product person",
           "variants": [],
           "tier": "self-reported"
@@ -1913,7 +1913,7 @@
           "id": "F13-3",
           "label": "Team size and make-up",
           "text": "Led a 12-person team of data scientists, ML & CV engineers building a skin-condition diagnosis app.",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "team leadership, working with data scientists and engineers",
           "variants": [],
           "tier": "self-reported",
@@ -1923,7 +1923,7 @@
           "id": "F13-4",
           "label": "Accuracy and throughput numbers",
           "text": "Led 12-person AI & computer-vision team building a prototype diagnosis app with >80% accuracy across 3 skin conditions, designed data pipeline & doubled labelling throughput.",
-          "source": "CV Lunar, Principal Product Manager Growth & Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "measurable results from an AI product, data and metrics",
           "variants": [],
           "tier": "self-reported",
@@ -1933,7 +1933,7 @@
           "id": "F13-5",
           "label": "Instrumentation and learning loop",
           "text": "Designed & instrumented ML smartphone diagnosis app & learning loop.",
-          "source": "CV Lunar, Senior PM Core Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "instrumentation, measurement, feedback loops in a consumer app",
           "variants": [],
           "tier": "self-reported"
@@ -1942,7 +1942,7 @@
           "id": "F13-6",
           "label": "Working with clinicians on the training platform",
           "text": "Worked with derms to redesign closed-loop diagnosis and ML training platform, doubling throughput.",
-          "source": "CV LEO Pharma, AI Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "clinical collaboration, ML operations, data labelling",
           "variants": [],
           "tier": "self-reported"
@@ -1951,7 +1951,7 @@
           "id": "F13-7",
           "label": "Building the app",
           "text": "Steered 12 person squad of data scientists, ML & CV engineers to build a smartphone diagnosis app.",
-          "source": "CV Heyra, Deployment Strategist (CV body)",
+          "source": "Tom's CV",
           "answers": "delivery, getting AI work out of the lab",
           "variants": [],
           "tier": "self-reported",
@@ -2028,7 +2028,7 @@
           "id": "F14-1",
           "label": "Idea to live pilot, on time and on budget",
           "text": "Or how, in partnership with Amgen, I took a patient-support app from idea to live pilot in Spain and France in 8 months. On time and on budget.",
-          "source": "CV Novonesis, Senior Principal Innovation Project Manager (coffee list)",
+          "source": "Tom's CV",
           "answers": "project delivery against scope, time and cost",
           "variants": [],
           "tier": "self-reported"
@@ -2037,7 +2037,7 @@
           "id": "F14-2",
           "label": "Patients first, quality of life",
           "text": "Interviewed terminally ill patients and created an app that helped improve quality of life.",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "user research in hard settings, purpose",
           "variants": [],
           "tier": "self-reported"
@@ -2046,7 +2046,7 @@
           "id": "F14-3",
           "label": "Designed for simplicity and trust",
           "text": "Dynamically spliced video to simulate personalised dermatology consultations for terminally ill cancer patients, designed for simplicity and trust.",
-          "source": "CV Neko Health, Principal Product Manager AI/LLM (CV body)",
+          "source": "Tom's CV",
           "answers": "patient experience design, personalisation",
           "variants": [],
           "tier": "self-reported"
@@ -2055,7 +2055,7 @@
           "id": "F14-4",
           "label": "With oncologists",
           "text": "Worked with oncologists to reimagine patient care between appointments.",
-          "source": "CV Neko Health, Principal Product Manager Medical OS (CV body)",
+          "source": "Tom's CV",
           "answers": "clinical collaboration, care pathways",
           "variants": [],
           "tier": "self-reported"
@@ -2064,7 +2064,7 @@
           "id": "F14-5",
           "label": "The four giant buttons",
           "text": "This led us to organise the app around a simple spoke and wheel pattern with 4 giant buttons - our partners expected whizzy innovation and our product looked decidedly underwhelming. But it was exactly what our users needed.",
-          "source": "CV Ghost, Product Manager Europe (application form)",
+          "source": "Tom's CV",
           "answers": "a product you are proud of, design from user insight, saying no to partners",
           "variants": [],
           "tier": "self-reported"
@@ -2073,7 +2073,7 @@
           "id": "F14-6",
           "label": "Additional months with families",
           "text": "This is heavy but I once made a product that improved quality of life for terminally ill cancer patients. In some cases it gave additional months to spend with families, settle affairs and say goodbye. It was an incredibly tough project to work on, but is something that has stayed with me.",
-          "source": "CV Ghost, Product Manager Europe (application form)",
+          "source": "Tom's CV",
           "answers": "impact, meaningful work",
           "variants": [],
           "tier": "self-reported"
@@ -2082,7 +2082,7 @@
           "id": "FU8-1",
           "label": "Negotiated, model adopted as best practice",
           "text": "Negotiated a partnership with Amgen, and led in-market discovery & delivery. Contract model & ways of working adopted as best practice across their org.",
-          "source": "CV Heyra, Deployment Strategist (CV body)",
+          "source": "Tom's CV",
           "answers": "partnerships, contracts, client-side change that lasts",
           "variants": [],
           "tier": "self-reported"
@@ -2091,7 +2091,7 @@
           "id": "FU8-2",
           "label": "External stakeholders, novel model",
           "text": "Managed external stakeholders & negotiated a novel partnership model with Amgen.",
-          "source": "CV Novonesis, Senior Principal Innovation Project Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "external partner management, negotiation",
           "variants": [],
           "tier": "self-reported"
@@ -2100,7 +2100,7 @@
           "id": "FU8-3",
           "label": "In-market discovery with patients, affiliates and HCPs",
           "text": "Partnered with Amgen to build a patient solution. Led in-market discovery with patients, affiliates and HCPs, a new approach later adopted across their wider org.",
-          "source": "CV H1, Director Clinical Product Management (CV body)",
+          "source": "Tom's CV",
           "answers": "field research with clinicians and affiliates, pharma partnering",
           "variants": [],
           "tier": "self-reported"
@@ -2109,7 +2109,7 @@
           "id": "FU8-4",
           "label": "Lead line: a new innovation-partnership model",
           "text": "Or maybe how I developed a new innovation-partnership model with Amgen - which they later adopted across the organisation.",
-          "source": "CV Spotify, Senior Product Manager Partner Growth (coffee list)",
+          "source": "Tom's CV",
           "answers": "partner growth, new commercial models",
           "variants": [],
           "tier": "self-reported"
@@ -2185,7 +2185,7 @@
           "id": "F15-1",
           "label": "Growth numbers",
           "text": "Parachuted into a struggling chatbot team. Halved acquisition costs, 7x'd activation.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "growth, funnel metrics, acquisition and activation",
           "variants": [],
           "tier": "self-reported"
@@ -2194,7 +2194,7 @@
           "id": "F15-2",
           "label": "Trust and morale",
           "text": "How I parachuted into a struggling chatbot team, earned their trust, rebuilt morale from rock bottom, and together halved acquisition costs & 7x’d activation.",
-          "source": "CV Alan, Product Lead Growth (coffee list)",
+          "source": "Tom's CV",
           "answers": "people leadership, taking over a team, turning round morale",
           "variants": [],
           "tier": "self-reported"
@@ -2203,7 +2203,7 @@
           "id": "F15-3",
           "label": "Fixed onboarding",
           "text": "How I parachuted into a struggling chatbot team, fixed onboarding & 7x’d activation.",
-          "source": "CV All Gravy, Senior Product Manager (coffee list)",
+          "source": "Tom's CV",
           "answers": "onboarding, activation, owning a messy product",
           "variants": [],
           "tier": "self-reported"
@@ -2212,7 +2212,7 @@
           "id": "F15-4",
           "label": "Mobile app, key journey",
           "text": "How I parachuted into a struggling mobile app team, fixed onboarding & 7x’d activation.",
-          "source": "CV Lunar, Senior PM Core Experience (coffee list)",
+          "source": "Tom's CV",
           "answers": "changing a core journey in a consumer app",
           "variants": [],
           "tier": "self-reported"
@@ -2221,7 +2221,7 @@
           "id": "F15-5",
           "label": "Line manager of a large team",
           "text": "How I inherited a struggling chatbot product team of 15 reports. Earned their trust, rebuilt morale from rock bottom, and together 7x'd activation.",
-          "source": "CV SimCorp, Principal Product Owner AI (coffee list)",
+          "source": "Tom's CV",
           "answers": "direct reports, leading a cross-functional team",
           "variants": [],
           "tier": "self-reported"
@@ -2230,7 +2230,7 @@
           "id": "F15-6",
           "label": "Mandate to stabilise and assess",
           "text": "Parachuted into underperforming flagship product with a 6-month mandate to stabilise and assess viability. Halved acquisition costs & increased activation 7x.",
-          "source": "CV Novonesis, Senior Principal Innovation Project Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "troubleshooting, time-boxed mandates, viability reviews of a project",
           "variants": [],
           "tier": "self-reported"
@@ -2239,7 +2239,7 @@
           "id": "F15-7",
           "label": "Knowing when to stop",
           "text": "Parachuted into struggling mobile app team of 15. Earned trust, halved acquisition costs & increased activation 7x. Then closed product.",
-          "source": "CV Lunar, Senior PM Core Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "hard calls, stopping work that will not pay back, commercial judgement",
           "variants": [],
           "tier": "self-reported"
@@ -2248,7 +2248,7 @@
           "id": "F15-8",
           "label": "Structured experimentation",
           "text": "Parachuted into struggling product team of 15. Earned trust, halved acquisition costs & increased activation 7x through structured experimentation.",
-          "source": "CV n8n, Head of Product Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "experimentation, growth method",
           "variants": [],
           "tier": "self-reported"
@@ -2257,7 +2257,7 @@
           "id": "F15-9",
           "label": "Clinical experts, diet coaching",
           "text": "Worked with nutritionists to fix a struggling diet coaching app. Halved acquisition costs, 7x activation.",
-          "source": "CV Neko Health, Principal Product Manager Medical OS (CV body)",
+          "source": "Tom's CV",
           "answers": "working with health professionals, consumer health",
           "variants": [],
           "tier": "self-reported"
@@ -2266,7 +2266,7 @@
           "id": "F15-10",
           "label": "Psoriasis chatbot",
           "text": "Halved acquisition costs, 7x’d activation on struggling psoriasis chatbot app.",
-          "source": "CV LEO Pharma, AI Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "dermatology, disease-specific digital products, chatbots",
           "variants": [],
           "tier": "self-reported"
@@ -2275,7 +2275,7 @@
           "id": "F15-11",
           "label": "Rebuilt from the ground up",
           "text": "How I parachuted into a struggling chatbot team with everything on fire - earned their trust, and rebuilt from the ground-up to 7x activation.",
-          "source": "CV Light, Product Manager (coffee list)",
+          "source": "Tom's CV",
           "answers": "rebuilding a product, tech debt, crisis",
           "variants": [],
           "tier": "self-reported"
@@ -2284,7 +2284,7 @@
           "id": "F15-12",
           "label": "Consumer app turnaround",
           "text": "Turned around struggling consumer app team. Earned trust, halved acquisition costs, 7x activation.",
-          "source": "CV LEGO, Product Director Digital Consumer Engagement (CV body)",
+          "source": "Tom's CV",
           "answers": "consumer products, turnarounds",
           "variants": [],
           "tier": "self-reported"
@@ -2349,7 +2349,7 @@
           "id": "F16-1",
           "label": "Stabilised the team, rescued the launch",
           "text": "Stabilised a 10-person team. Rescued a global launch on a 6-week deadline.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "troubleshooting, deadlines, team stabilisation",
           "variants": [],
           "tier": "self-reported"
@@ -2358,7 +2358,7 @@
           "id": "F16-2",
           "label": "Introduced OKRs",
           "text": "B2B video platform. Stabilised a 10-person team, introduced OKRs, and rescued global launch on a 6-week deadline.",
-          "source": "CV SimCorp, Principal Product Owner AI (CV body)",
+          "source": "Tom's CV",
           "answers": "goal setting, OKRs",
           "variants": [],
           "tier": "self-reported"
@@ -2367,7 +2367,7 @@
           "id": "F16-3",
           "label": "Produced video content",
           "text": "B2B video marketing platform. Stabilised a 10-person team, produced video content and rescued global launch on a 6-week deadline.",
-          "source": "CV Ghost, Product Manager Europe (CV body)",
+          "source": "Tom's CV",
           "answers": "content, hands-on making",
           "variants": [],
           "tier": "self-reported"
@@ -2376,7 +2376,7 @@
           "id": "F16-4",
           "label": "Lightweight reporting",
           "text": "B2B video platform. Introduced lightweight reporting & rescued global launch on a 6-week deadline.",
-          "source": "CV H1, Director Clinical Product Management (CV body)",
+          "source": "Tom's CV",
           "answers": "reporting, structure",
           "variants": [],
           "tier": "self-reported"
@@ -2385,7 +2385,7 @@
           "id": "F16-5",
           "label": "Crystallised the USPs",
           "text": "B2B video platform. Stabilised a 10-person team, crystalised USPs, and rescued global launch on a 6-week deadline.",
-          "source": "CV Teton, Product Manager Storytelling & Execution (CV body)",
+          "source": "Tom's CV",
           "answers": "positioning, storytelling",
           "variants": [],
           "tier": "self-reported"
@@ -2460,7 +2460,7 @@
           "id": "F17-1",
           "label": "The result",
           "text": "Trebled sign-ups in 12 months.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "growth results, acquisition",
           "variants": [],
           "tier": "self-reported"
@@ -2469,7 +2469,7 @@
           "id": "F17-2",
           "label": "Defined the proposition and told the story",
           "text": "Defined the core proposition & told the story.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "positioning, product marketing, narrative",
           "variants": [],
           "tier": "self-reported"
@@ -2478,7 +2478,7 @@
           "id": "F17-3",
           "label": "Growth experiments",
           "text": "Ran growth experiments to treble traffic & sign-ups in 12 months.",
-          "source": "CV All Gravy, Senior Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "experimentation, growth method",
           "variants": [],
           "tier": "self-reported"
@@ -2487,7 +2487,7 @@
           "id": "F17-4",
           "label": "Pricing and the free tier",
           "text": "Restructured pricing: emphasised free tier & removed upgrade barriers that were killing conversions.",
-          "source": "CV All Gravy, Senior Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "pricing, freemium, conversion",
           "variants": [],
           "tier": "self-reported"
@@ -2496,7 +2496,7 @@
           "id": "F17-5",
           "label": "Brand from scratch",
           "text": "Defined & communicated the product proposition. Built brand from scratch.",
-          "source": "CV All Gravy, Senior Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "brand building, zero to one in marketing",
           "variants": [],
           "tier": "self-reported"
@@ -2505,7 +2505,7 @@
           "id": "F17-6",
           "label": "Value proposition and a new website",
           "text": "I once worked at a small developer ops startup. They had a brilliant product, but were terrible at communicating the value of it. I teased out the core value prop, and shipped a website with the new positioning.",
-          "source": "CV Ghost, Product Manager Europe (application form)",
+          "source": "Tom's CV",
           "answers": "a product you are proud of, communicating value",
           "variants": [],
           "tier": "self-reported"
@@ -2576,7 +2576,7 @@
           "id": "F18-1",
           "label": "The result",
           "text": "Reversed 4 years of sales decline, doubled traffic.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "turnaround, growth results",
           "variants": [],
           "tier": "self-reported"
@@ -2585,7 +2585,7 @@
           "id": "F18-2",
           "label": "Restructured and rebooted",
           "text": "Restructured marketing department, rebooted all channels. Reversed 4-years of sales decline, doubled organic traffic, halved bounce rate.",
-          "source": "CV All Gravy, Senior Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "reorganising a team, channel management",
           "variants": [],
           "tier": "self-reported"
@@ -2594,7 +2594,7 @@
           "id": "F18-3",
           "label": "Repositioning with content",
           "text": "Repositioned dry domains with curated photography, created content marketing & rebooted newsletter.",
-          "source": "CV Ghost, Product Manager Europe (CV body)",
+          "source": "Tom's CV",
           "answers": "content marketing, publishing, brand",
           "variants": [],
           "tier": "self-reported"
@@ -2603,7 +2603,7 @@
           "id": "F18-4",
           "label": "A team that had never tracked a KPI",
           "text": "Perhaps how at a domain marketplace, I took over a marketing team who’d never tracked a KPI and reversed four years of sales decline.",
-          "source": "CV LEGO, Product Director Digital Consumer Engagement (coffee list)",
+          "source": "Tom's CV",
           "answers": "building a measurement culture, leading an inherited team",
           "variants": [],
           "tier": "self-reported"
@@ -2612,7 +2612,7 @@
           "id": "F18-5",
           "label": "Root causes and ecommerce",
           "text": "Analysed performance, identified root causes, rebooted all channels & ecommerce.",
-          "source": "CV n8n, Head of Product Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "diagnosis, ecommerce funnels",
           "variants": [],
           "tier": "self-reported"
@@ -2621,7 +2621,7 @@
           "id": "F18-6",
           "label": "Bounce rate with the numbers",
           "text": "B2B domain registrar, a turnaround project. Rebooted all channels & ecommerce. Repositioned product & reversed four years of sales decline; doubled organic traffic, halved bounce rate (~60% to ~30%).",
-          "source": "CV Elastic, Senior Product Manager Self service cloud (CV body)",
+          "source": "Tom's CV",
           "answers": "metrics with before and after",
           "variants": [],
           "tier": "self-reported"
@@ -2749,7 +2749,7 @@
           "id": "F20-1",
           "label": "Turned the unit around",
           "text": "Turned around underperforming US business unit.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "turnarounds, business unit ownership",
           "variants": [],
           "tier": "self-reported"
@@ -2758,7 +2758,7 @@
           "id": "F20-2",
           "label": "Eight products, revenue trend reversed",
           "text": "Launched 8 products in 10 months, reversed downward revenue trend.",
-          "source": "CV Novonesis, Senior Principal Innovation Project Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "delivery pace, product launches, revenue",
           "variants": [],
           "tier": "self-reported"
@@ -2767,7 +2767,7 @@
           "id": "F20-3",
           "label": "Pricing to lock in recurring revenue",
           "text": "Diagnosed underperforming US business unit. Restructured pricing to lock in recurring revenue, reversed the decline. Launched 8 products in 10 months.",
-          "source": "CV Heyra, Deployment Strategist (CV body)",
+          "source": "Tom's CV",
           "answers": "diagnosis, pricing, recurring revenue",
           "variants": [],
           "tier": "self-reported"
@@ -2776,7 +2776,7 @@
           "id": "F20-4",
           "label": "Lifecycle analysis and tiered pricing",
           "text": "Undertook lifecycle analysis of underperforming US business unit (remote). Introduced tiered pricing with behavioural framing to increase CLV.",
-          "source": "CV n8n, Head of Product Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "pricing design, customer lifetime value, analysis",
           "variants": [],
           "tier": "self-reported"
@@ -2785,7 +2785,7 @@
           "id": "F20-5",
           "label": "Rebuilt the US marketing department",
           "text": "International web hosting company. Troubleshooter for the CEO across the UK & US. Launched 8 products in 10 months. Rebuilt US marketing department.",
-          "source": "CV Ghost, Product Manager Europe (CV body)",
+          "source": "Tom's CV",
           "answers": "rebuilding a team, remote leadership",
           "variants": [],
           "tier": "self-reported"
@@ -2794,7 +2794,7 @@
           "id": "F20-6",
           "label": "Doubled sales",
           "text": "International web hosting company. Troubleshooter for the CEO across UK & US business units. Rebuilt marketing function & doubled sales.",
-          "source": "CV H1, Director Clinical Product Management (CV body)",
+          "source": "Tom's CV",
           "answers": "sales results",
           "variants": [],
           "tier": "self-reported"
@@ -2803,7 +2803,7 @@
           "id": "FU5-1",
           "label": "Owned the strategy",
           "text": "Owned strategy across pricing, product & marketing.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "strategy ownership, commercial breadth",
           "variants": [],
           "tier": "self-reported"
@@ -2812,7 +2812,7 @@
           "id": "FU5-2",
           "label": "Budget targets",
           "text": "Owned strategy across pricing, product and marketing. Set and met budget targets.",
-          "source": "CV Elastic, Senior Product Manager Self service cloud (CV body)",
+          "source": "Tom's CV",
           "answers": "budget ownership",
           "variants": [],
           "tier": "self-reported"
@@ -2880,7 +2880,7 @@
           "id": "F21-1",
           "label": "Built the domain platform",
           "text": "International web hosting company. Troubleshooter for the CEO across the UK & US. Launched 8 products in 10 months. Built domain platform supporting 500K domains.",
-          "source": "CV Lærdal, Product Manager Versatile Solutions (CV body)",
+          "source": "Tom's CV",
           "answers": "platform work, consolidation",
           "variants": [],
           "tier": "self-reported"
@@ -2945,7 +2945,7 @@
           "id": "F22-1",
           "label": "Renamed a PLC at speed",
           "text": "Or if we want to go way back, how I discovered the PIPEX brand name had been sold to the phone company Orange, and renamed a PLC in two weeks.",
-          "source": "CV Novonesis, Senior Principal Innovation Project Manager (coffee list)",
+          "source": "Tom's CV",
           "answers": "crisis delivery, planning and decisions under a hard deadline",
           "variants": [],
           "tier": "self-reported"
@@ -3018,7 +3018,7 @@
           "id": "F23-1",
           "label": "Scale of the channels",
           "text": "Ran all online channels, 2M+ monthly visits.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "scale, owning online channels",
           "variants": [],
           "tier": "self-reported"
@@ -3027,7 +3027,7 @@
           "id": "F23-2",
           "label": "Built the department, self-service support",
           "text": "2006 - 2008 Head of New Media - built the department from scratch, introduced self-service support.",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "building a function, self-service, support cost",
           "variants": [],
           "tier": "self-reported"
@@ -3036,7 +3036,7 @@
           "id": "F23-3",
           "label": "Site-building tools",
           "text": "2006 - 2008 Head of New Media - built the dept from scratch, pioneered site-building tools.",
-          "source": "CV Ghost, Product Manager Europe (CV body)",
+          "source": "Tom's CV",
           "answers": "publishing tools, creator products",
           "variants": [],
           "tier": "self-reported"
@@ -3045,7 +3045,7 @@
           "id": "F23-4",
           "label": "First to one million .uk names",
           "text": "2006 - 2008 Head of New Media - first company to register 1M .uk domain names.",
-          "source": "CV Lunar, Principal Product Manager Growth & Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "market leadership, scale",
           "variants": [],
           "tier": "self-reported"
@@ -3054,7 +3054,7 @@
           "id": "F23-5",
           "label": "Ecommerce and SEO, shown under another job title",
           "text": "2005 - 2006 Group Design Manager - led ecommerce, dominated SEO rankings.",
-          "source": "CV Danske Bank, GenAI Lead (CV body)",
+          "source": "Tom's CV",
           "answers": "ecommerce, SEO",
           "variants": [],
           "tier": "self-reported"
@@ -3124,12 +3124,12 @@
           "id": "F24-1",
           "label": "Scrappy fake prototype",
           "text": "Or even how I hid a doctor in an adjacent room to fake a consultation chatbot.",
-          "source": "CV All Gravy, Senior Product Manager (coffee list)",
+          "source": "Tom's CV",
           "answers": "prototyping by hand, testing an idea cheaply, putting AI in front of users",
           "variants": [
             {
               "text": "Perhaps how I persuaded a doctor to hide in an adjacent room to fake a consultation chatbot. Great fun.",
-              "source": "CV Lærdal, Product Manager Versatile Solutions (coffee list)"
+              "source": "Tom's CV"
             }
           ],
           "tier": "self-reported"
@@ -3138,12 +3138,12 @@
           "id": "F24-2",
           "label": "Right idea, too early",
           "text": "Or maybe how I hid a doctor in an adjacent room to fake a consultation chatbot. Right idea, too early. Now it isn’t.",
-          "source": "CV SimCorp, Principal Product Owner AI (coffee list)",
+          "source": "Tom's CV",
           "answers": "AI vision, timing, early work on conversational agents",
           "variants": [
             {
               "text": "Or even how I hid a dermatologist in an adjacent room to simulate a consultation chatbot. Right idea, too early. Now it isn’t.",
-              "source": "CV LEO Pharma, AI Product Manager (coffee list)"
+              "source": "Tom's CV"
             }
           ],
           "tier": "self-reported"
@@ -3152,12 +3152,12 @@
           "id": "F24-3",
           "label": "Named product, built with GPs",
           "text": "Worked with GPs to prototype BetterVisitBot, a pre-briefing chatbot for doctor consultations.",
-          "source": "CV Neko Health, Principal Product Manager Medical OS (CV body)",
+          "source": "Tom's CV",
           "answers": "working with clinicians, health-tech product experience, clinical workflow",
           "variants": [
             {
               "text": "Prototyped BetterVisitbot, a pre-briefing chatbot for doctors’ consultations. Right idea but too early.",
-              "source": "CV SimCorp, Principal Product Owner AI (CV body)"
+              "source": "Tom's CV"
             }
           ],
           "tier": "self-reported"
@@ -3226,7 +3226,7 @@
           "id": "F25-1",
           "label": "Grassroots meetups",
           "text": "Grew grassroots meetups and content channels to connect with software developers.",
-          "source": "CV Ghost, Product Manager Europe (CV body)",
+          "source": "Tom's CV",
           "answers": "community building, developer audiences",
           "variants": [],
           "tier": "self-reported"
@@ -3235,7 +3235,7 @@
           "id": "F25-2",
           "label": "Video growth engine",
           "text": "Built video growth engine from developer meetups, creating grassroots content marketing.",
-          "source": "CV Elastic, Senior Product Manager Self service cloud (CV body)",
+          "source": "Tom's CV",
           "answers": "growth loops, content engines",
           "variants": [],
           "tier": "self-reported"
@@ -3244,7 +3244,7 @@
           "id": "F25-3",
           "label": "How the loop worked",
           "text": "advertised for a video marketing intern to travel the world attending developer meetups (unpaid but we covered all expenses)",
-          "source": "CV Phone Inc, Head of Growth (outreach note to the CEO)",
+          "source": "Tom's CV",
           "answers": "growth mechanics, creative acquisition on a small budget",
           "variants": [],
           "tier": "self-reported"
@@ -3253,7 +3253,7 @@
           "id": "F25-4",
           "label": "KPIs, reporting and budgeting",
           "text": "SaaS startup backed by the cofounders of Facebook and Instagram. Introduced KPIs, reporting & budgeting. Tripled traffic and sign-ups in 12 months.",
-          "source": "CV LEGO, Senior Digital Product Manager Model Production (CV body)",
+          "source": "Tom's CV",
           "answers": "operational discipline in a startup",
           "variants": [],
           "tier": "self-reported"
@@ -3323,7 +3323,7 @@
           "id": "F26-1",
           "label": "Raspberry Pi partnership",
           "text": "Spotted RaspberryPi prelaunch & built partnership.",
-          "source": "CV Alan, Product Lead Growth (CV body)",
+          "source": "Tom's CV",
           "answers": "partnerships, spotting trends early",
           "variants": [],
           "tier": "self-reported"
@@ -3332,7 +3332,7 @@
           "id": "F26-2",
           "label": "Clients",
           "text": "Product & strategy consultant. Clients included Host Europe (UK), EuroDNS (LUX), & Everplaces (DK).",
-          "source": "CV Heyra, Deployment Strategist (CV body)",
+          "source": "Tom's CV",
           "answers": "consulting experience, client work, remote work",
           "variants": [],
           "tier": "self-reported"
@@ -3341,7 +3341,7 @@
           "id": "F26-3",
           "label": "Content and SEO, the interviews",
           "text": "Content creation & SEO including interviews with MailChimp, Creative Commons & Michael Palin.",
-          "source": "CV Ghost, Product Manager Europe (CV body)",
+          "source": "Tom's CV",
           "answers": "content, publishing, SEO",
           "variants": [],
           "tier": "self-reported"
@@ -3350,7 +3350,7 @@
           "id": "F26-4",
           "label": "Sponsorship deal",
           "text": "Perhaps how I spotted Raspberry Pi before launch, got in touch and turned it into a sponsorship deal.",
-          "source": "CV Usercentrics (coffee list)",
+          "source": "Tom's CV",
           "answers": "deal making, initiative",
           "variants": [],
           "tier": "self-reported"
@@ -3359,7 +3359,7 @@
           "id": "FU9-1",
           "label": "Strategy to refactor a platform serving 3M domains",
           "text": "Created strategy to refactor legacy control panel serving 3M domains.",
-          "source": "CV Heyra, Deployment Strategist (CV body)",
+          "source": "Tom's CV",
           "answers": "legacy modernisation, platform strategy, consulting",
           "variants": [],
           "tier": "self-reported"
@@ -3423,7 +3423,7 @@
           "id": "F27-1",
           "label": "Order process, 20%",
           "text": "2005 - 2006 Group Design Manager - optimised order process, increasing revenue by 20%.",
-          "source": "CV Lunar, Principal Product Manager Growth & Experience (CV body)",
+          "source": "Tom's CV",
           "answers": "conversion, checkout, ecommerce",
           "variants": [],
           "tier": "self-reported"
@@ -3487,12 +3487,12 @@
           "id": "F28-1",
           "label": "Rethought how people find and buy, revenue and standard",
           "text": "Or if we want to go way back, how I rethought how people find & buy domain names, increasing new revenue 20% overnight and accidentally creating a new industry standard.",
-          "source": "CV All Gravy, Senior Product Manager (coffee list)",
+          "source": "Tom's CV",
           "answers": "initiative, conversion, changing a key journey",
           "variants": [
             {
               "text": "Or if we want to go way back, how I reinvented domain search, increasing new revenue 20% overnight and creating a new industry standard.",
-              "source": "CV Alan, Product Lead Growth (coffee list)"
+              "source": "Tom's CV"
             }
           ],
           "tier": "self-reported"
@@ -3501,7 +3501,7 @@
           "id": "F28-2",
           "label": "Structural fix that became standard (no number)",
           "text": "I’ve changed structural stuff in solutions that people use every day & made the fix standard.",
-          "source": "CV Lunar, Senior PM Core Experience (intro)",
+          "source": "Tom's CV",
           "answers": "structural change in an everyday product",
           "variants": [],
           "tier": "self-reported"
@@ -3510,7 +3510,7 @@
           "id": "F28-3",
           "label": "The mechanism",
           "text": "I reinvented the process with a simple text field that interpreted whatever the user entered, and searched all endings asynchronously. The first use of AJAX in our stack.",
-          "source": "CV Phone Inc, Head of Growth (outreach note to the CEO)",
+          "source": "Tom's CV",
           "answers": "UX problem solving, technical firsts, design craft",
           "variants": [],
           "tier": "self-reported"
@@ -3519,7 +3519,7 @@
           "id": "F28-4",
           "label": "Top of the funnel, upsell",
           "text": "In my first job, I worked for a domain registrar doing ecommerce. Searching for a domain name was the key entry point for upselling to web hosting, but the UX was really clunky.",
-          "source": "CV Phone Inc, Head of Growth (outreach note to the CEO)",
+          "source": "Tom's CV",
           "answers": "growth, funnel thinking, ecommerce, revenue per customer",
           "variants": [],
           "tier": "self-reported"
@@ -3528,7 +3528,7 @@
           "id": "F28-5",
           "label": "Made the computer do the work",
           "text": "Instead, I made the computer do the work - a single search box that interpreted the users query and asynchronously searched across all domain extensions simultaneously. It burnt through our API limits at the registries, but provided a much better experience. Revenue increased 20% and it became the industry standard.",
-          "source": "CV Ghost, Product Manager Europe (application form)",
+          "source": "Tom's CV",
           "answers": "a product you are proud of, user experience over internal constraints",
           "variants": [],
           "tier": "self-reported"
@@ -3537,7 +3537,7 @@
           "id": "F28-6",
           "label": "Used new web technology",
           "text": "Or if we want to go way back, how I leveraged web 2.0 to reinvent domain search, increasing new revenue 20% overnight and creating a new industry standard.",
-          "source": "CV H1, Director Clinical Product Management (coffee list)",
+          "source": "Tom's CV",
           "answers": "applying new technology early",
           "variants": [],
           "tier": "self-reported"
@@ -3546,7 +3546,7 @@
           "id": "F28-7",
           "label": "CV one-liner",
           "text": "2004 - 2005: Web Designer - rethought how domain search works, increasing revenue 20%.",
-          "source": "CV All Gravy, Senior Product Manager (CV body)",
+          "source": "Tom's CV",
           "answers": "career history line; early evidence of commercial impact",
           "variants": [],
           "tier": "self-reported"
@@ -3606,7 +3606,7 @@
           "id": "FU3-2",
           "label": "TomBot",
           "text": "A prototype AI trained on my CV. Built with Claude API, RAG vector store, eval suite & guard-rails.",
-          "source": "CV All Gravy, Senior Product Manager (solo projects)",
+          "source": "Tom's CV",
           "answers": "hands-on LLM building, evals, RAG",
           "variants": [],
           "tier": "self-reported"
@@ -3666,12 +3666,12 @@
           "id": "FU3-1",
           "label": "kittenpm.com",
           "text": "A product training SIM inspired by Lemmings. Practice balancing product trade-offs in real time. Built with React, TypeScript & Phaser. Used Claude as my engineering team.",
-          "source": "CV All Gravy, Senior Product Manager (solo projects)",
+          "source": "Tom's CV",
           "answers": "builds things himself, ships with AI tools, product teaching",
           "variants": [
             {
               "text": "How I used kittens to teach product thinking, and make product trade-offs playable & discoverable.",
-              "source": "CV Synthesia, Product Manager New Product Bet (coffee list)"
+              "source": "Tom's CV"
             }
           ],
           "tier": "self-reported"
@@ -3680,7 +3680,7 @@
           "id": "FU3-4",
           "label": "The game as a growth loop",
           "text": "Create an intriguing portfolio piece that isn’t a portfolio. Use kittens and intrigue to get views.",
-          "source": "CV Phone Inc, Head of Growth (outreach note to the CEO)",
+          "source": "Tom's CV",
           "answers": "growth loops, distribution thinking",
           "variants": [],
           "tier": "self-reported"
@@ -3740,7 +3740,7 @@
           "id": "FU3-3",
           "label": "deathspiralorgoldenage.org",
           "text": "Will AI cut jobs or create new work? A public poll, live sentiment tracker, and open economic model with CC0 data. Researched & built with AI.",
-          "source": "CV All Gravy, Senior Product Manager (solo projects)",
+          "source": "Tom's CV",
           "answers": "research, data, public-facing builds, AI and work",
           "variants": [],
           "tier": "self-reported"
