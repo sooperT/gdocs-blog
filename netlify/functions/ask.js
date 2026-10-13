@@ -98,6 +98,7 @@ export function deriveStrength(match) {
 // for the period a section belongs to (R1012-15), never quoted against a
 // claim: `references` on a row is {period, count, url, tier, note} or null.
 export const SELF_REPORTED = 'self-reported';
+export const OWN_ACCOUNT = "Tom's own account";   // every visible source string; section ids stay in `section`
 export const ATTESTED = 'attested';
 export const LINKEDIN_RECORD = 'https://www.linkedin.com/in/tomstenson/details/recommendations/';
 
@@ -145,7 +146,7 @@ export function buildMatch(match) {
     row: {
       section: match.title,
       answer: denied.text,
-      source: `TomBot ${match.title}`,
+      source: OWN_ACCOUNT,   // the section id is the `section` field, never in the visible source (Tom, 2026-10-13)
       tier: SELF_REPORTED,
       year: deriveYear(denied.text),
       strength: deriveStrength(match),

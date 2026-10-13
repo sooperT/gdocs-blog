@@ -43,7 +43,7 @@ function assertTrustContract(b) {
       assert.equal(row.section, null); assert.equal(row.source, null); assert.equal(row.score, null);
     } else {
       assert.ok(MAP.some(s => s.id === row.section), 'section outside the map');
-      assert.equal(row.source, `TomBot ${row.section}`);
+      assert.equal(row.source, "Tom's own account");
       assert.equal(typeof row.score, 'number');
     }
   }
@@ -162,7 +162,7 @@ await test('row above threshold with year + outcome: met, evidence trimmed to 40
   assert.ok(row.evidence.endsWith('...'));
   assert.ok(!row.evidence.includes('[NOVO.R1.TRANSFORM]'));
   assert.equal(row.year, '2020-2022');
-  assert.equal(row.source, 'TomBot NOVO.R1');
+  assert.equal(row.source, "Tom's own account");
   assert.equal(row.strength, 'Led');
   assert.equal(row.score, 0.82);
 });
@@ -354,7 +354,7 @@ await test('item 31: a PP row match -> kind proof-point, evidence = result cell,
   const row = buildRow('Experience with GenAI in a regulated environment', PP);
   assert.equal(row.kind, 'proof-point');
   assert.equal(row.section, 'NOVO.R2.GENAI');
-  assert.equal(row.source, 'TomBot NOVO.R2.GENAI');
+  assert.equal(row.source, "Tom's own account");
   assert.equal(row.evidence, PP.row.result.text);
   assert.deepEqual(row.evidence_star, { situation: 'significant delays', task: 'automating compliance reviews', action: 'I used an internal LLM sandbox', result: PP.row.result.text });
   assert.equal(row.met, 'met');
@@ -388,7 +388,7 @@ await test('R1013-2: the facet whose line matched is the evidence; the result ce
     assert.equal(row.evidence_star.result, PP.row.result.text, 'the result cell is untouched');
     assert.equal(row.met, 'met', 'met still comes from result and year');
     assert.equal(row.section, 'NOVO.R2.GENAI');
-    assert.equal(row.source, 'TomBot NOVO.R2.GENAI', 'the row source stays the section; the CV is on the facet');
+    assert.equal(row.source, "Tom's own account", 'the visible source never names a section; the id is the section field');
     assert.deepEqual(row.facet, { id: 'F04-2', label: 'Feedback inside Figma', source: FACET.source, tier: 'self-reported' });
     assert.equal(row.facet.source, FACET.source, 'source as published on the row (never the recipient company)');
     assert.ok(isValidRow(row));

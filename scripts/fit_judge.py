@@ -406,7 +406,8 @@ def score(case, transcript, judge, ranking):
         note = f"C5 mechanical: {', '.join(repr(h) for h in hits)}. " + note
     if not c2_mech:
         note = f"C2 mechanical: expected {', '.join(case['expected'])}, saw {', '.join(seen) or 'nothing'}. " + note
-    return {'id': case['id'], 'type': case['type'], 'checks': checks, 'total': total, 'result': 'pass' if passed else 'fail',
+    return {'id': case['id'], 'type': case['type'], 'message': case.get('message', ''), 'checks': checks, 'total': total,
+            'result': 'pass' if passed else 'fail',
             'note': note, 'judge': judge, 'c2_mechanical': c2_mech, 'c5_hits': hits, 'sections_seen': seen,
             'final_answer': transcript['final_answer']}
 
@@ -444,10 +445,10 @@ def render(date, base, mode, guard_src, results, skipped, calls, usage):
          f'- rule: a case passes at {PASS_AT} of 6 with C4 and C5 mandatory; C2 and C5 are mechanical, the judge is recorded beside them']
     if skipped:
         L.append(f"- skipped (no stub): {', '.join(skipped)}")
-    L += ['', '## Cases', '', '| id | type | C1 | C2 | C3 | C4 | C5 | C6 | result | note |', '|---|---|---|---|---|---|---|---|---|---|']
+    L += ['', '## Cases', '', '| id | type | message | C1 | C2 | C3 | C4 | C5 | C6 | result | note |', '|---|---|---|---|---|---|---|---|---|---|---|']
     for r in run:
         c = r['checks']
-        L.append(f"| {r['id']} | {r['type']} | {c['C1']} | {c['C2']} | {c['C3']} | {c['C4']} | {c['C5']} | {c['C6']} | {r['result']} | {ah._cell(r['note'])} |")
+        L.append(f"| {r['id']} | {r['type']} | {ah._cell(r['message'])} | {c['C1']} | {c['C2']} | {c['C3']} | {c['C4']} | {c['C5']} | {c['C6']} | {r['result']} | {ah._cell(r['note'])} |")
     L += ['', '## Judge beside the mechanical checks', '', '| id | judge C2 | mechanical C2 | sections seen | judge C5 | mechanical C5 |', '|---|---|---|---|---|---|']
     for r in run:
         L.append(f"| {r['id']} | {r['judge']['C2']} | {1 if r['c2_mechanical'] else 0} | {ah._cell(', '.join(r['sections_seen']) or 'none')} | "

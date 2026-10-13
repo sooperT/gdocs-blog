@@ -66,7 +66,7 @@ def ok(label):
 # --- stub builder -------------------------------------------------------------
 
 def _match(section, answer='stub answer'):
-    return {'section': section, 'answer': answer, 'source': f'TomBot {section}', 'tier': 'self-reported',
+    return {'section': section, 'answer': answer, 'source': "Tom's own account", 'tier': 'self-reported',
             'year': None, 'strength': None, 'score': 0.8, 'direct_answers': None, 'references': None}
 
 
@@ -84,7 +84,7 @@ def brief_row(requirement, met='not met', section=None, fact_type=None, new_shap
     has = met in ('met', 'partial', 'fact')
     row = {'requirement': requirement, 'met': met, 'evidence': 'stub evidence' if has else None, 'strength': None,
            'year': '2020-2022' if met == 'met' else None, 'section': section if has else None,
-           'source': f'TomBot {section}' if has and section else None, 'tier': 'self-reported' if has else None,
+           'source': "Tom's own account" if has and section else None, 'tier': 'self-reported' if has else None,
            'score': 0.6 if met in ('met', 'partial') else None, 'references': None}
     if new_shape:
         row.update({'kind': 'fact' if met in ('fact', 'not stated') else ('proof-point' if met == 'met' else ('section' if has else None)),

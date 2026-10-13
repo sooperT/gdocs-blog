@@ -18,7 +18,7 @@ import {
   checkRequirementCount, stripInjection, isInjectionLine, applyDenyList, validateRows, dropUnknownSections, AGENT_HIDDEN_SECTIONS,
 } from './lib/guard.js';
 import { classifyBrief } from './lib/role_shape.js';
-import { cleanAnswer, deriveYear, deriveStrength, SELF_REPORTED, HUMAN_VERSION } from './ask.js';
+import { cleanAnswer, deriveYear, deriveStrength, SELF_REPORTED, OWN_ACCOUNT, HUMAN_VERSION } from './ask.js';
 import { referencesFor } from './lib/references.js';
 import { classifyKnockouts, answerFor, FACT_NOTE, NOT_STATED_NOTE } from './lib/facts.js';
 import SECTION_YEARS from './lib/section_years.json' with { type: 'json' };
@@ -300,7 +300,7 @@ export function buildFactRow(requirement, facts) {
     strength: null,
     year: null,
     section: stated ? fact.section : null,
-    source: stated && fact.section ? `TomBot ${fact.section}` : null,
+    source: stated && fact.section ? OWN_ACCOUNT : null,
     tier: stated ? SELF_REPORTED : null,
     score: null,
     references: null,
@@ -344,7 +344,7 @@ function buildProofPointRow(requirement, match, { facets = true } = {}) {
     strength: r.strength || null,
     year,
     section,
-    source: `TomBot ${section}`,
+    source: OWN_ACCOUNT,
     tier: SELF_REPORTED,
     score: Math.round(Number(match.similarity) * 100) / 100,
     references: referencesFor(section),
@@ -395,7 +395,7 @@ export function buildRow(requirement, match) {
     strength: deriveStrength(match),
     year,
     section: match.title,
-    source: `TomBot ${match.title}`,
+    source: OWN_ACCOUNT,
     tier: SELF_REPORTED,
     score: Math.round(Number(match.similarity) * 100) / 100,
     references: referencesFor(match.title),

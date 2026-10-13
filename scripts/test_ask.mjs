@@ -211,7 +211,7 @@ await test('ask: match shape', withLogs(async () => {
   assert.ok(!JSON.stringify(b).includes('Erik'), 'no recommender quoted against a claim');
   assertTrustContract(b);
   assert.equal(b.section, 'NOVO.R1');
-  assert.equal(b.source, 'TomBot NOVO.R1');
+  assert.equal(b.source, "Tom's own account");
   assert.equal(b.strength, 'Led');
   assert.equal(b.matches[0].strength, 'Led');
   assert.equal(b.year, '2020-2022');
@@ -289,7 +289,7 @@ await test('profile: up to 5 matches above 0.55, best first, scores per hit; bes
   assert.deepEqual(b.matches.map(m => [m.section, m.score]), [['NOVO.R1', 0.82], ['LEO.R1', 0.71], ['META.BOOKS', 0.6], ['STYLE.DISCOVERY', 0.56]]);
   assert.equal(b.section, 'NOVO.R1');
   assert.equal(b.answer, b.matches[0].answer);
-  assert.equal(b.source, 'TomBot NOVO.R1');
+  assert.equal(b.source, "Tom's own account");
   assertTrustContract(b);
 });
 await test('profile: never more than 5 matches even if retrieve returns more', async () => {

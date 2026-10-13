@@ -1201,7 +1201,8 @@ def check_anywhere(text):
 
 def cite(*section_ids):
     ids = ', '.join(dict.fromkeys(section_ids))
-    return f'<cite data-source="{_escape(ids)}">source: TomBot {escape(ids)}</cite>'
+    # Section ids are data, never shown (Tom, 2026-10-13): they ride in data-source only.
+    return f'<cite data-source="{_escape(ids)}">source: Tom\'s own account</cite>'
 
 
 def build_who(sections):
@@ -1689,7 +1690,7 @@ def build_section(sections, parsed, sid, where):
     heading = p['questions'][0] if p['questions'] else sid
     lines = [
         f'        <h2 id="{section_anchor(sid)}">{escape(heading)}</h2>',
-        f'        <p><small>source: TomBot {escape(sid)}</small></p>',
+        f'        <p><small data-source="{_escape(sid)}">source: Tom\'s own account</small></p>',
     ]
     for kind, value in section_blocks(section_body(parsed, sid)):
         for t in (value if kind == 'ul' else [value]):
@@ -1704,7 +1705,7 @@ def build_section(sections, parsed, sid, where):
         lines.append('        <h3>Direct answers</h3>')
         lines.append('        <ul>')
         lines.extend(f'            <li>{escape(d)}</li>' for d in p['direct_answers'])
-        lines.append(f'        </ul>\n        <p><small>source: TomBot {escape(sid)}, Direct answers</small></p>')
+        lines.append(f'        </ul>\n        <p><small data-source="{_escape(sid)}">source: Tom\'s own account, direct answers</small></p>')
     if p.get('external'):
         lines.append('        <h3>External sources</h3>')
         lines.append('        <ul>')
@@ -2050,7 +2051,7 @@ def build_cv_appendix(sections, recs):
     md += ['', '### Career', '', '| Years | Role | Company | Location |', '|---|---|---|---|']
     md += [f'| {y} | {r} | {c} | {l} |' for y, r, c, l in career]
     md += ['', f'### Proof points, strongest {len(rows)} of {len(PROOF_POINTS)} (situation; task; action; result)', '']
-    md += [f'{i}. {cv_line(row)} source: TomBot {row["result"][1]}; more: {base}{page_url(*(section_pages().get(row["product"][1]) or section_pages().get(row["strength"]) or (None, None))) if (section_pages().get(row["product"][1]) or section_pages().get(row["strength"])) else PAGE_PATH}'
+    md += [f'{i}. {cv_line(row)} source: Tom\'s own account; more: {base}{page_url(*(section_pages().get(row["product"][1]) or section_pages().get(row["strength"]) or (None, None))) if (section_pages().get(row["product"][1]) or section_pages().get(row["strength"])) else PAGE_PATH}'
            for i, row in enumerate(rows, 1)]
     md += ['', '### Skills (each tagged from the proof points that carry it)', '', ', '.join(skills) + '.',
            '', '### References', '',
@@ -2072,7 +2073,7 @@ def build_cv_appendix(sections, recs):
     for row in rows:
         slug_anchor = section_pages().get(row['product'][1]) or section_pages().get(row['strength'])
         href = page_url(*slug_anchor) if slug_anchor else PAGE_PATH
-        body.append(f'            <li>{escape(cv_line(row))} <small>source: TomBot {escape(row["result"][1])}</small> <a href="{href}">more</a></li>')
+        body.append(f'            <li>{escape(cv_line(row))} <small data-source="{_escape(row["result"][1])}">source: Tom\'s own account</small> <a href="{href}">more</a></li>')
     body += ['        </ol>', '        <h2>Skills</h2>', f'        <p>{escape(", ".join(skills))}.</p>',
              '        <h2>References</h2>', f'        <p>{len(recs)} LinkedIn recommendations, full text, grouped by role: <a href="{RECS_PATH}">{RECS_PATH}</a>. They vouch for a role, not for a claim.</p>',
              '        <h2>How this was put together</h2>', f'        <p>{escape(md[-2])}</p>',
