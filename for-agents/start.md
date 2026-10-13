@@ -111,7 +111,7 @@ The yes-or-no facts a screen starts with. Give them when your person asks (Job 4
 - Location: Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU; worked on-site, hybrid and remote, and across time zones
 - Nationality & work permit: British & French; Danish permanent resident; no work visa is required in EU and UK.
 - Education: MA Information Technology — University of Nottingham, UK (2001-2002); BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)
-- Languages: English (native); Danish (conversational); Prøve i Dansk 3 (Danish language certification, 2012)
+- Languages: English (native); Danish (intermediate); no French; Prøve i Dansk 3 (Danish language certification, 2012); French citizen, but not a French speaker
 - Open to: fractional, interim and permanent roles.
 - Experience by area, with the stories for each: https://takenbyninjas.com/for-agents/shapes/
 

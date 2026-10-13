@@ -386,6 +386,11 @@
       "file": "for-agents/roles/solo-projects/solo-projects-building-with-ai/index.html",
       "title": "Solo projects, building with AI"
     },
+    "roles/host-europe-group/sales-executive": {
+      "path": "/for-agents/roles/host-europe-group/sales-executive/",
+      "file": "for-agents/roles/host-europe-group/sales-executive/index.html",
+      "title": "Sales Executive, Host Europe Group"
+    },
     "shapes": {
       "path": "/for-agents/shapes/",
       "file": "for-agents/shapes/index.html",

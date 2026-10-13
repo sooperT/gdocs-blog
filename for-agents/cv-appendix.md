@@ -9,7 +9,7 @@ This page is a machine-readable summary of the CV above, generated from the same
 - Location: Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU; worked on-site, hybrid and remote, and across time zones
 - Nationality & work permit: British & French; Danish permanent resident; no work visa is required in EU and UK.
 - Education: MA Information Technology — University of Nottingham, UK (2001-2002); BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)
-- Languages: English (native); Danish (conversational); Prøve i Dansk 3 (Danish language certification, 2012)
+- Languages: English (native); Danish (intermediate); no French; Prøve i Dansk 3 (Danish language certification, 2012); French citizen, but not a French speaker
 - Open to: fractional, interim and permanent roles.
 - Target industries: B2B, B2C, SaaS, health-tech, pharma, fintech, developer tooling, ecommerce, regulated industries
 - Company size: Startup, Scaleup, Enterprise.
@@ -36,7 +36,7 @@ This page is a machine-readable summary of the CV above, generated from the same
 | 2002-2004 | Co-founder | TextualHealing.com | Nottingham, GB |
 | 2001-2004 | Freelance Web Designer | Various | Nottingham, GB |
 
-### Proof points, strongest 8 of 31 (situation; task; action; result)
+### Proof points, strongest 8 of 33 (situation; task; action; result)
 
 1. Senior Product Manager at Novo Nordisk, Wegovycare (a retention-focused digital service to increase repeat prescriptions for Wegovy): The brief was solution-first, a set of standalone features; nobody had spoken to patients.; Identify the key growth lever.; Created a weight-loss prediction model in Excel.. Result: 10% penetration in the first national market. (Mar 2020 - Feb 2022). source: Tom's own account; more: https://takenbyninjas.com/for-agents/wegovycare/#novo-r1
 2. Associate Product Director at Novo Nordisk, CagriSema (a six-month discovery programme for the company's top drug asset): The first drug to span diabetes and obesity, two therapy areas that had never collaborated; nobody had authority over both.; Lead a six-month discovery programme for the company's top drug asset.; 128 candidate ideas cut to a shortlist of 5 and assumption-tested; 4 recommended, each with a funding-gated rollout.. Result: Funding secured for a portfolio of 4 digital initiatives. (Feb 2022 - Feb 2026). source: Tom's own account; more: https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2
@@ -49,7 +49,7 @@ This page is a machine-readable summary of the CV above, generated from the same
 
 ### Skills (each tagged from the proof points that carry it)
 
-algorithm, API, regulated, pharma, healthcare, patients, discovery, prototyping, ways of working, growth, retention, roadmap, 0 to 1, marketing, team leadership, consumer, stakeholders, AI, GenAI, compliance, launch, SaaS, international, incubation, funnels, experimentation, brand, machine learning, computer vision, partnerships, budget, activation, turnaround, deadline, KPIs, startup, developer tools, conversion, SEO, ecommerce, domains, remote, web hosting.
+algorithm, API, regulated, pharma, healthcare, patients, discovery, prototyping, ways of working, growth, retention, roadmap, 0 to 1, marketing, team leadership, stakeholders, consumer, AI, GenAI, compliance, launch, SaaS, international, incubation, funnels, experimentation, brand, machine learning, computer vision, domains, partnerships, budget, activation, turnaround, deadline, KPIs, startup, developer tools, conversion, SEO, ecommerce, remote, web hosting.
 
 ### References
 

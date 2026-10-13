@@ -217,8 +217,9 @@ FACTS = [
                ('BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)', 'META.EDUCATION')],
      'asks': [r'\bph\.?\s?d\b', r'\bm\.?sc\b', r'\bb\.?sc\b', r'\bmba\b', r'\bbachelor', r"\bmaster'?s\b", r'\bmaster of\b', r'\bdegree\b']},
     {'type': 'languages', 'label': 'Languages',
-     'parts': [('English (native)', 'META.EDUCATION'), ('Danish (conversational)', 'META.EDUCATION')],
-     'when': [('Prøve i Dansk 3 (Danish language certification, 2012)', 'META.EDUCATION', r'\b(danish|dansk)\b')],
+     'parts': [('English (native)', 'META.EDUCATION'), ('Danish (intermediate)', 'META.EDUCATION'), ('no French', 'META.EDUCATION')],
+     'when': [('Prøve i Dansk 3 (Danish language certification, 2012)', 'META.EDUCATION', r'\b(danish|dansk)\b'),
+              ('French citizen, but not a French speaker', 'META.EDUCATION', r'\b(french|fransk)\b')],
      'asks': [r'\b(english|danish|german|french|spanish|swedish|norwegian|dutch)\b', r'\b(spoken|written|foreign|second) languages?\b', r'\blanguage skills\b',
               # Danish forms (health case A25: "Flydende dansk i skrift og tale")
               r'\b(engelsk|dansk|tysk|fransk|spansk|svensk|norsk|hollandsk)\b', r'\bsprog(kundskaber|krav|kompetencer)?\b', r'\bflydende\b']},
@@ -768,6 +769,34 @@ PROOF_POINTS = [
         'shapes': ['ai', 'zero-to-one'],
         'not_skills': ['team-leadership'],
     },
+    # Rows for the unplaced story facets (item 47, K22): appended so PP.1 to PP.31 keep their numbers.
+    # R32 the alternative website (U1, facets FU1-1 and FU1-2): every cell from HOST.R3.STORY.ALTSITE and HOST.
+    {
+        'role': ('Sales Executive', 'HOST'),
+        'product': ('alternative website', 'HOST.R3.STORY.ALTSITE'),
+        'desc': ('made an alternative website in my free time', 'HOST'),
+        'situation': ('The existing website was dated. The marketing material did a poor job of explaining the "why" of the product, it was busy and cluttered, and it lacked focus and a core funnel.', 'HOST.R3.STORY.ALTSITE'),
+        'task': ('I thought I could do better.', 'HOST.R3.STORY.ALTSITE'),
+        'action': ("In evenings and weekends, I built an alternative version. Then I reached out to the brand manager and booked a meeting. I made my pitch and showed her what I'd made and why.", 'HOST.R3.STORY.ALTSITE'),
+        'result': ('Sales went up. Next week I was in the web design team. Six months later, I was leading it.', 'HOST.R3.STORY.ALTSITE'),
+        'year': ('Mar 2003 - Feb 2004', 'HOST'),
+        'strength': 'HOST.R3.STORY.ALTSITE',
+        'shapes': ['growth'],
+    },
+    # R33 the all-hands changed (U7, facets FU7-1 and FU7-2): every cell from LEO.R1.STORY.FEELS; the
+    # section sits under LEO.R1, so the row takes the TREAT dates (section_years.json agrees).
+    {
+        'role': ('PM/GM at LEO Innovation Lab', 'LEO.R3'),
+        'product': ('company all-hands', 'LEO.R1.STORY.FEELS'),
+        'desc': ('the monthly all-hands', 'LEO.R1.STORY.FEELS'),
+        'situation': ('At LEO Innovation Lab, we were optimising the onboarding funnel. We hypothesised that increasing notification opt-ins would increase activation.', 'LEO.R1.STORY.FEELS'),
+        'task': ('We got clever: a contextually-triggered opt-in shown at exactly the right moment.', 'LEO.R1.STORY.FEELS'),
+        'action': ("We launched a split test, and the conversion rate was amazing... but activation barely moved. What happened? We'd placed the opt-in late in the funnel where very few users reached it. High conversion rate × tiny audience = marginal impact. We quickly rolled out a simpler opt-in early in the funnel. Lower conversion rate, but far more users saw it, so net activation was much higher. I presented this mistake at the next company all-hands.", 'LEO.R1.STORY.FEELS'),
+        'result': ('the monthly all-hands changed from presenting vanity metrics to mistakes-made and lessons-learnt', 'LEO.R1.STORY.FEELS'),
+        'year': ('Nov 2016 - Aug 2017', 'LEO.R1'),
+        'strength': 'LEO.R1.STORY.FEELS',
+        'shapes': ['leadership', 'growth'],
+    },
 ]
 
 # Skills (Tom, 2026-10-12; "keywords" renamed to recruiter speak): an index an agent can walk from its job
@@ -1155,6 +1184,14 @@ TIGHT = {
     28: {'situation': 'Users could search one domain at a time and kept hitting taken names: frustrating, poor conversion.',
          'task': 'Unasked: fix a poor experience at the top of the sales funnel.',
          'action': 'One text field that interpreted whatever the user entered and searched all endings asynchronously; the first use of AJAX in the stack.'},
+    32: {'situation': 'The company website was dated and cluttered, explained the "why" poorly, and lacked focus and a core funnel.',
+         'task': 'Unasked, as a sales executive: do better.',
+         'action': 'Built an alternative version in evenings and weekends, booked a meeting with the brand manager and pitched it.',
+         'result': 'Sales went up; moved to the web design team the next week and led it six months later.'},
+    33: {'situation': 'Optimising the onboarding funnel at LEO Innovation Lab, on the hypothesis that more notification opt-ins would raise activation.',
+         'task': 'Test a contextually-triggered opt-in shown at exactly the right moment.',
+         'action': 'The split test won on conversion but activation barely moved: the opt-in sat too late in the funnel. Rolled out a simpler opt-in early in the funnel, lifting net activation, and presented the mistake at the next company all-hands.',
+         'result': 'The monthly all-hands changed from presenting vanity metrics to mistakes made and lessons learnt.'},
 }
 TIGHTENED = set()   # (section id, tightened text): exempt from the verbatim check, their sources were checked in apply_tight
 STAR_KEYS = ('situation', 'task', 'action', 'result')

@@ -9,9 +9,13 @@ attested: the source is the CV, not the content file.
 
 Built from docs/agent-readable/drafts/story-facets.md (accepted in bulk, R1013-2)
 with the three corrections of R1013-1 applied (`edited` says which). Keys are the
-draft's row ids, R01 to R31, in the order of PROOF_POINTS; ROW_PRODUCTS is the
+draft's row ids, R01 to R33, in the order of PROOF_POINTS (R32 the alternative website
+and R33 the all-hands were added by item 47); ROW_PRODUCTS is the
 product name each row must carry, checked at generation. The domain search and the
 order process stay two rows and one story (R1013-1): their facets are not split.
+UNPLACED holds the accepted facets whose story still has no row (U4 LEO practice, U6
+Group Design Manager): the content states no situation, task or result for them, see
+docs/agent-readable/drafts/rows-for-unplaced-facets.md.
 """
 
 ROW_PRODUCTS = {'R01': 'Wegovycare',
@@ -44,7 +48,9 @@ ROW_PRODUCTS = {'R01': 'Wegovycare',
  'R28': 'domain search',
  'R29': 'TomBot',
  'R30': 'kittenpm.com',
- 'R31': 'deathspiralorgoldenage.org'}
+ 'R31': 'deathspiralorgoldenage.org',
+ 'R32': 'alternative website',
+ 'R33': 'company all-hands'}
 
 FACETS = {'R24': [{'id': 'F24-1',
           'label': 'Scrappy fake prototype',
@@ -1263,25 +1269,40 @@ FACETS = {'R24': [{'id': 'F24-1',
           'source': 'CV All Gravy, Senior Product Manager (solo projects)',
           'file': 'drive/all-gravy/cv.txt',
           'answers': 'research, data, public-facing builds, AI and work',
+          'variants': []}],
+ 'R32': [{'id': 'FU1-1',
+          'label': 'Made it in his own time, pitched it, sales went up',
+          'text': '2003: Dot.com bust. No jobs. Got a foot in the door answering phones & made a better website in my free time. Pitched it, sales '
+                  'went up, joined the web team.',
+          'source': 'CV Alan, Product Lead Growth ("My story")',
+          'file': 'jds/alan-application.txt',
+          'answers': 'initiative, self-starter, creating your own role',
+          'variants': []},
+         {'id': 'FU1-2',
+          'label': 'CV one-liner',
+          'text': '2003 - 2004: Sales Exec - made an alternative website in my free time, sales went up.',
+          'source': 'CV All Gravy, Senior Product Manager (CV body)',
+          'file': 'jds/gravy-application.txt',
+          'answers': 'career history line; commercial result from a side effort',
+          'variants': []}],
+ 'R33': [{'id': 'FU7-1',
+          'label': 'From vanity metrics to learning',
+          'text': 'Changed company all-hands from vanity metrics to learning-focused retrospectives.',
+          'source': 'CV Danske Bank, GenAI Lead (CV body)',
+          'file': 'jds/danske-application.txt',
+          'answers': 'learning culture, honesty about results, AI literacy and change',
+          'variants': []},
+         {'id': 'FU7-2',
+          'label': 'First to present his mistakes',
+          'text': 'First product lead to present mistakes / learnings at company all-hands. Made rapid prototyping & direct user interviews '
+                  'standard practice across all teams.',
+          'source': 'CV All Gravy, Senior Product Manager (CV body)',
+          'file': 'jds/gravy-application.txt',
+          'answers': 'low ego, leading by example',
           'variants': []}]}
 
-# Facets on stories that have no row yet (K22): kept for the record, not published.
-UNPLACED = [{'id': 'FU1-1',
-  'label': 'Made it in his own time, pitched it, sales went up',
-  'text': '2003: Dot.com bust. No jobs. Got a foot in the door answering phones & made a better website in my free time. Pitched it, sales '
-          'went up, joined the web team.',
-  'source': 'CV Alan, Product Lead Growth ("My story")',
-  'file': 'jds/alan-application.txt',
-  'answers': 'initiative, self-starter, creating your own role',
-  'variants': []},
- {'id': 'FU1-2',
-  'label': 'CV one-liner',
-  'text': '2003 - 2004: Sales Exec - made an alternative website in my free time, sales went up.',
-  'source': 'CV All Gravy, Senior Product Manager (CV body)',
-  'file': 'jds/gravy-application.txt',
-  'answers': 'career history line; commercial result from a side effort',
-  'variants': []},
- {'id': 'FU4-1',
+# Facets on stories that have no row yet (K22; item 47 placed FU1 and FU7): kept for the record, not published.
+UNPLACED = [{'id': 'FU4-1',
   'label': 'Standard practice across teams',
   'text': 'Made rapid prototyping and direct user interviews standard practice across all product teams.',
   'source': 'CV Danske Bank, GenAI Lead (CV body)',
@@ -1308,21 +1329,6 @@ UNPLACED = [{'id': 'FU1-1',
   'source': 'CV Ghost, Product Manager Europe (CV body)',
   'file': 'jds/ghost-application.txt',
   'answers': 'ecommerce, content marketing, SEO',
-  'variants': []},
- {'id': 'FU7-1',
-  'label': 'From vanity metrics to learning',
-  'text': 'Changed company all-hands from vanity metrics to learning-focused retrospectives.',
-  'source': 'CV Danske Bank, GenAI Lead (CV body)',
-  'file': 'jds/danske-application.txt',
-  'answers': 'learning culture, honesty about results, AI literacy and change',
-  'variants': []},
- {'id': 'FU7-2',
-  'label': 'First to present his mistakes',
-  'text': 'First product lead to present mistakes / learnings at company all-hands. Made rapid prototyping & direct user interviews '
-          'standard practice across all teams.',
-  'source': 'CV All Gravy, Senior Product Manager (CV body)',
-  'file': 'jds/gravy-application.txt',
-  'answers': 'low ego, leading by example',
   'variants': []}]
 
 

@@ -150,14 +150,18 @@
     {
       "type": "languages",
       "label": "Languages",
-      "base": "English (native); Danish (conversational)",
+      "base": "English (native); Danish (intermediate); no French",
       "qualifiers": [
         {
           "text": "Prøve i Dansk 3 (Danish language certification, 2012)",
           "ask": "\\b(danish|dansk)\\b"
+        },
+        {
+          "text": "French citizen, but not a French speaker",
+          "ask": "\\b(french|fransk)\\b"
         }
       ],
-      "value": "English (native); Danish (conversational); Prøve i Dansk 3 (Danish language certification, 2012)",
+      "value": "English (native); Danish (intermediate); no French; Prøve i Dansk 3 (Danish language certification, 2012); French citizen, but not a French speaker",
       "section": "META.EDUCATION",
       "per_send": false,
       "on_request": false,
@@ -265,7 +269,7 @@
     "budget": "https://takenbyninjas.com/for-agents/skills/budget/",
     "deadline": "https://takenbyninjas.com/for-agents/skills/deadline/"
   },
-  "count": 31,
+  "count": 33,
   "proof_points": [
     {
       "role": {
@@ -328,6 +332,7 @@
         "0 to 1",
         "marketing",
         "team leadership",
+        "stakeholders",
         "consumer"
       ],
       "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
@@ -435,6 +440,7 @@
         "0 to 1",
         "marketing",
         "team leadership",
+        "stakeholders",
         "consumer"
       ],
       "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
@@ -665,10 +671,13 @@
         "compliance",
         "pharma",
         "healthcare",
+        "discovery",
         "prototyping",
         "ways of working",
+        "launch",
         "marketing",
-        "team leadership"
+        "team leadership",
+        "stakeholders"
       ],
       "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
       "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
@@ -1643,6 +1652,7 @@
         "0 to 1",
         "marketing",
         "team leadership",
+        "stakeholders",
         "consumer"
       ],
       "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
@@ -1748,6 +1758,7 @@
         "0 to 1",
         "marketing",
         "team leadership",
+        "stakeholders",
         "consumer"
       ],
       "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
@@ -2009,7 +2020,10 @@
         "healthcare",
         "patients",
         "discovery",
+        "ways of working",
+        "growth",
         "launch",
+        "domains",
         "international",
         "stakeholders",
         "partnerships",
@@ -2997,7 +3011,9 @@
         "leadership"
       ],
       "skills": [
+        "turnaround",
         "SEO",
+        "funnels",
         "0 to 1",
         "brand",
         "marketing",
@@ -3402,7 +3418,9 @@
         "growth"
       ],
       "skills": [
+        "turnaround",
         "SEO",
+        "funnels",
         "0 to 1",
         "brand",
         "marketing",
@@ -3596,6 +3614,8 @@
       "skills": [
         "AI",
         "GenAI",
+        "regulated",
+        "compliance",
         "prototyping"
       ],
       "page": "https://takenbyninjas.com/for-agents/solo-projects/#solo",
@@ -3656,6 +3676,8 @@
       "skills": [
         "AI",
         "GenAI",
+        "regulated",
+        "compliance",
         "prototyping"
       ],
       "page": "https://takenbyninjas.com/for-agents/solo-projects/#solo",
@@ -3730,6 +3752,8 @@
       "skills": [
         "AI",
         "GenAI",
+        "regulated",
+        "compliance",
         "prototyping"
       ],
       "page": "https://takenbyninjas.com/for-agents/solo-projects/#solo",
@@ -3742,6 +3766,162 @@
           "text": "Will AI cut jobs or create new work? A public poll, live sentiment tracker, and open economic model with CC0 data. Researched & built with AI.",
           "source": "Tom's CV",
           "answers": "research, data, public-facing builds, AI and work",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "Sales Executive",
+        "section": "HOST"
+      },
+      "product": {
+        "text": "alternative website",
+        "section": "HOST.R3.STORY.ALTSITE"
+      },
+      "desc": {
+        "text": "made an alternative website in my free time",
+        "section": "HOST"
+      },
+      "situation": {
+        "text": "The company website was dated and cluttered, explained the \"why\" poorly, and lacked focus and a core funnel.",
+        "section": "HOST.R3.STORY.ALTSITE",
+        "quote": "The existing website was dated. The marketing material did a poor job of explaining the \"why\" of the product, it was busy and cluttered, and it lacked focus and a core funnel."
+      },
+      "task": {
+        "text": "Unasked, as a sales executive: do better.",
+        "section": "HOST.R3.STORY.ALTSITE",
+        "quote": "I thought I could do better."
+      },
+      "action": {
+        "text": "Built an alternative version in evenings and weekends, booked a meeting with the brand manager and pitched it.",
+        "section": "HOST.R3.STORY.ALTSITE",
+        "quote": "In evenings and weekends, I built an alternative version. Then I reached out to the brand manager and booked a meeting. I made my pitch and showed her what I'd made and why."
+      },
+      "result": {
+        "text": "Sales went up; moved to the web design team the next week and led it six months later.",
+        "section": "HOST.R3.STORY.ALTSITE",
+        "quote": "Sales went up. Next week I was in the web design team. Six months later, I was leading it."
+      },
+      "year": {
+        "text": "Mar 2003 - Feb 2004",
+        "section": "HOST"
+      },
+      "company": "Host Europe Group",
+      "strength": null,
+      "tier": "self-reported",
+      "shapes": [
+        "growth"
+      ],
+      "skills": [
+        "funnels",
+        "brand",
+        "marketing",
+        "web hosting",
+        "team leadership"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/host-europe/#host-r3-story-altsite",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/sales-executive/",
+      "role_aliases": [],
+      "facets": [
+        {
+          "id": "FU1-1",
+          "label": "Made it in his own time, pitched it, sales went up",
+          "text": "2003: Dot.com bust. No jobs. Got a foot in the door answering phones & made a better website in my free time. Pitched it, sales went up, joined the web team.",
+          "source": "Tom's CV",
+          "answers": "initiative, self-starter, creating your own role",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU1-2",
+          "label": "CV one-liner",
+          "text": "2003 - 2004: Sales Exec - made an alternative website in my free time, sales went up.",
+          "source": "Tom's CV",
+          "answers": "career history line; commercial result from a side effort",
+          "variants": [],
+          "tier": "self-reported"
+        }
+      ]
+    },
+    {
+      "role": {
+        "text": "PM/GM at LEO Innovation Lab",
+        "section": "LEO.R3"
+      },
+      "product": {
+        "text": "company all-hands",
+        "section": "LEO.R1.STORY.FEELS"
+      },
+      "desc": {
+        "text": "the monthly all-hands",
+        "section": "LEO.R1.STORY.FEELS"
+      },
+      "situation": {
+        "text": "Optimising the onboarding funnel at LEO Innovation Lab, on the hypothesis that more notification opt-ins would raise activation.",
+        "section": "LEO.R1.STORY.FEELS",
+        "quote": "At LEO Innovation Lab, we were optimising the onboarding funnel. We hypothesised that increasing notification opt-ins would increase activation."
+      },
+      "task": {
+        "text": "Test a contextually-triggered opt-in shown at exactly the right moment.",
+        "section": "LEO.R1.STORY.FEELS",
+        "quote": "We got clever: a contextually-triggered opt-in shown at exactly the right moment."
+      },
+      "action": {
+        "text": "The split test won on conversion but activation barely moved: the opt-in sat too late in the funnel. Rolled out a simpler opt-in early in the funnel, lifting net activation, and presented the mistake at the next company all-hands.",
+        "section": "LEO.R1.STORY.FEELS",
+        "quote": "We launched a split test, and the conversion rate was amazing... but activation barely moved. What happened? We'd placed the opt-in late in the funnel where very few users reached it. High conversion rate × tiny audience = marginal impact. We quickly rolled out a simpler opt-in early in the funnel. Lower conversion rate, but far more users saw it, so net activation was much higher. I presented this mistake at the next company all-hands."
+      },
+      "result": {
+        "text": "The monthly all-hands changed from presenting vanity metrics to mistakes made and lessons learnt.",
+        "section": "LEO.R1.STORY.FEELS",
+        "quote": "the monthly all-hands changed from presenting vanity metrics to mistakes-made and lessons-learnt"
+      },
+      "year": {
+        "text": "Nov 2016 - Aug 2017",
+        "section": "LEO.R1"
+      },
+      "company": "LEO Innovation Lab",
+      "strength": null,
+      "tier": "self-reported",
+      "shapes": [
+        "product-management",
+        "leadership",
+        "growth"
+      ],
+      "skills": [
+        "growth",
+        "conversion",
+        "activation",
+        "funnels",
+        "experimentation",
+        "launch"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/treat-turnaround/#leo-r1-story-feels",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_aliases": [
+        "Product Owner",
+        "Product Lead",
+        "Product Lead / GM",
+        "Product Manager / GM"
+      ],
+      "facets": [
+        {
+          "id": "FU7-1",
+          "label": "From vanity metrics to learning",
+          "text": "Changed company all-hands from vanity metrics to learning-focused retrospectives.",
+          "source": "Tom's CV",
+          "answers": "learning culture, honesty about results, AI literacy and change",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "FU7-2",
+          "label": "First to present his mistakes",
+          "text": "First product lead to present mistakes / learnings at company all-hands. Made rapid prototyping & direct user interviews standard practice across all teams.",
+          "source": "Tom's CV",
+          "answers": "low ego, leading by example",
           "variants": [],
           "tier": "self-reported"
         }

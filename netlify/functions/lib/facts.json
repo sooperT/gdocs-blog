@@ -112,14 +112,18 @@
     {
       "type": "languages",
       "label": "Languages",
-      "base": "English (native); Danish (conversational)",
+      "base": "English (native); Danish (intermediate); no French",
       "qualifiers": [
         {
           "text": "Prøve i Dansk 3 (Danish language certification, 2012)",
           "ask": "\\b(danish|dansk)\\b"
+        },
+        {
+          "text": "French citizen, but not a French speaker",
+          "ask": "\\b(french|fransk)\\b"
         }
       ],
-      "value": "English (native); Danish (conversational); Prøve i Dansk 3 (Danish language certification, 2012)",
+      "value": "English (native); Danish (intermediate); no French; Prøve i Dansk 3 (Danish language certification, 2012); French citizen, but not a French speaker",
       "section": "META.EDUCATION",
       "per_send": false,
       "on_request": false,

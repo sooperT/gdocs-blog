@@ -100,7 +100,7 @@ check('facets: route terms are the line, what it answers and the variants, in or
 check('facets: no facets, no terms', facet_route_terms(None) == [] and facet_route_terms([]) == [])
 check('facets: every row key has a product to check against', all(k in ROW_PRODUCTS for k in FACETS))
 all_facets = [f for v in FACETS.values() for f in v]
-check('facets: 161 placed on 30 rows, 8 unplaced (the draft\'s 169)', (len(all_facets), len(FACETS), len(UNPLACED)) == (161, 30, 8))
+check('facets: 165 placed on 32 rows, 4 unplaced (the draft\'s 169; item 47 placed FU1 and FU7)', (len(all_facets), len(FACETS), len(UNPLACED)) == (165, 32, 4))
 check('facets: ids unique', len({f['id'] for f in all_facets + UNPLACED}) == len(all_facets) + len(UNPLACED))
 check('facets: every one has a line, a CV source and what it answers',
       all(f['text'] and f['source'].startswith('CV ') and f['answers'] for f in all_facets + UNPLACED))

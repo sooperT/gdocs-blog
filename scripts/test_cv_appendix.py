@@ -383,7 +383,7 @@ for path in saved:
 
 facets = [(r, f) for r in ROWS['proof_points'] for f in (r.get('facets') or [])]
 check('facets: every row carries a facets list', all(isinstance(r.get('facets'), list) for r in ROWS['proof_points']))
-check('facets: 161 facets on 30 rows', (len(facets), sum(1 for r in ROWS['proof_points'] if r.get('facets'))) == (161, 30),
+check('facets: 165 facets on 32 rows (item 47 added R32 and R33)', (len(facets), sum(1 for r in ROWS['proof_points'] if r.get('facets'))) == (165, 32),
       (len(facets), sum(1 for r in ROWS['proof_points'] if r.get('facets'))))
 check("facets: published source is \"Tom's CV\" (never the recipient company), tier self-reported, never attested",
       all(f['source'] == "Tom's CV" and f['tier'] == 'self-reported' and 'attested' not in json.dumps(f) for _, f in facets)
