@@ -120,6 +120,7 @@ understand → plan → build → test locally → show work → WAIT FOR APPROV
 ### Rules
 - **Never push without explicit permission.** Every push = Netlify build = costs money.
 - **Never commit without asking first.** Show what will be committed.
+- **Never `git add -A` in a worktree.** Worktrees hold symlinks (`docs`, `node_modules`) into the main checkout; a tracked symlink overwrites the real private folder on merge (2026-10-13 incident, `docs/` lost and rebuilt). Stage paths explicitly, check `git status --short` for symlinks, and `git ls-files -s | grep ^120000` before merging into main.
 - **Never claim "should work" without proof.** Use preview tools or test output.
 - **Verify with preview tools** — don't ask the user to check manually.
 - **Batch changes** — iterate on localhost, push once when done.
