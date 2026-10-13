@@ -114,6 +114,12 @@ await test('heuristic: sample JD -> 5..12 requirements, no duplicates, verbatim'
   assert.ok(!reqs.some(r => /pension|dog-friendly/.test(r)));
   for (const r of reqs) assert.ok(JD.includes(r), `not verbatim: ${r}`);
 });
+await test('heuristic splitter: a short brief with no bullets and no keyword becomes one requirement; long prose still yields nothing', async () => {
+  assert.deepEqual(splitBriefHeuristic('Our flagship app has lost its way, team of 15, nobody will call it'), ['Our flagship app has lost its way, team of 15, nobody will call it']);
+  assert.deepEqual(splitBriefHeuristic('Team of 4 PMs, output over outcomes'), ['Team of 4 PMs, output over outcomes']);
+  assert.deepEqual(splitBriefHeuristic('   '), []);
+  assert.deepEqual(splitBriefHeuristic('About us. '.repeat(40)), []);
+});
 await test('heuristic: dedupes repeats and caps at MAX_REQUIREMENTS (16)', async () => {
   const many = Array.from({ length: 20 }, (_, i) => `- Requirement number ${i}`).join('\n') + '\n- Requirement number 0';
   const reqs = splitBriefHeuristic(many);

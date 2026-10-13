@@ -88,6 +88,12 @@ export function splitBriefHeuristic(text, { max = MAX_REQUIREMENTS } = {}) {
       if (KEYWORD.test(sentence)) items.push(sentence);
     }
   }
+  // A short brief with no bullets and no requirement keyword is one requirement
+  // as written (a Job 5 context line such as "Our flagship app has lost its way,
+  // team of 15"): the LLM splitter is not always available on the deploy and an
+  // empty row set reads as "nothing matches", which is wrong (2026-10-13).
+  const whole = String(text || '').replace(/\s+/g, ' ').trim();
+  if (!items.length && whole && whole.length <= 300) items.push(whole);
   return dedupeCap(items, max);
 }
 
