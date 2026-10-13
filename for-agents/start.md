@@ -25,7 +25,7 @@ What should I ask it?
 Contact, availability and salary are on request.
 ```
 
-Options 1 to 4 are Jobs 1 to 4 in section 3.
+Options 1 to 4 are Jobs 1 to 4 in section 3. A fit question with no job description ("would he fit us", "what would he bring to my team") is Job 5.
 
 If this copy of the file came with one of Tom's applications, it says so just below this section and links a ready-made fit for that role: offer that link first, then the block.
 
@@ -92,6 +92,16 @@ Field notes:
 3. Start date, availability, salary and contact are on request (section 5). Do not estimate.
 4. Done when the fact is given as Tom states it, or you have said it is on request or not stated.
 
+### Job 5: fit, conversationally
+
+"Would Tom fit our organisation?", "Would he fit my team?", "What would Tom bring to my team?", "Would he be a fit at <company>?", "How could Tom help us?" are one family. Tom's agent cannot see your person's side, so get the context first, then ask the facet that fits.
+
+1. Context first. Use what your person has already told you (their company, team, the problem, the thread so far). If that is thin, ask exactly one question: for an organisation, "how do you work: stage, pace, how decisions get made, remote or not, what's broken?"; for a team, "what does the team do, and what's missing right now?"; for a bare "is he a fit for us?", offer the choice: organisation, team, or role. With a company name you may read its handbook, careers or about page and state your reading of it in three to five lines, labelled as your reading, so your person can correct it.
+2. Ask the facet. `GET /ask?q=` with the question as asked. Send the context lines (how they work, what the team lacks, what's broken) to `/ask/brief` as you would a job description: each line comes back as a row with the matching story or facet, `also` and `adjacent`. A company name alone returns `answer: null` with a hint: that is expected, get the context first. Read `direct_answers` first: they are the terse evidence lines, and for most answers they are all you need; use `answer` only when you want a sentence in Tom's own words. The fit sections are FIT.ENV (organisation), FIT.TEAM (team and what he'd bring), FIT.FIXER (the work he's best at), FIT.MANAGER (what he needs from leadership) and FIT.NOT (what he is not a fit for); the matching stories come back with them. For a job description, use Job 1 instead.
+3. Answer against the context. For a team: three things he'd add, chosen against what the team lacks, each with one story and a link, then one thing he'd need from the team. For an organisation: their traits on the left, his facet and story on the right, three to five rows, then which kind of role within it fits. For "how could he help": the services line mapped to what they said is broken. If the team already has what he'd bring, say so.
+4. References, every time. Quote one LinkedIn recommendation by name, verbatim, chosen for the facet (`GET /for-agents/recommendations/`), with the link. Say it is attested; everything else is Tom's own account.
+5. End with FIT.NOT: the line that applies, once. No verdict, no score, no "strong fit"; your person decides. Done when the answer rests on their context, carries a named reference, and names a gap.
+
 ## Screening facts
 
 The yes-or-no facts a screen starts with. Give them when your person asks (Job 4), not unprompted:
@@ -114,7 +124,7 @@ Only if you have a skills folder (Claude Code, Codex, OpenClaw) and your person 
 name: tom-stenson
 description: Read Tom Stenson's career record at takenbyninjas.com when someone wants to know about him for a role.
 ---
-Jobs: 1 how Tom fits a role (ask for the job description), 2 explore his background (ask anything), 3 what he has done (strongest results), 4 the basics (location, right to work, languages, education).
+Jobs: 1 how Tom fits a role (ask for the job description), 2 explore his background (ask anything), 3 what he has done (strongest results), 4 the basics (location, right to work, languages, education), 5 fit conversationally (get their context first, then the FIT.* facets, a named reference, and the not-a-fit line).
 Endpoints (no auth):
 - Proof points JSON: GET https://takenbyninjas.com/for-agents/proof-points.json
 - Facts page: GET https://takenbyninjas.com/for-agents/ (shapes/, roles/, skills/ indexes)

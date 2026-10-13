@@ -210,6 +210,8 @@
       "What can you help with?",
       "How can you help me?",
       "How can you help my company?",
+      "How could Tom help my organisation?",
+      "How could Tom help my team?",
       "What do you offer?",
       "How do we work together?",
       "What kind of work do you take on?",
@@ -1717,13 +1719,6 @@
         "company": "Wise",
         "date": "2010-08-13",
         "excerpt": "Tom was my boss at Pipex for about 18 months."
-      },
-      {
-        "name": "Tristan Slessor",
-        "title": "Global Digital Delivery & Technology Consultant (Contract)",
-        "company": "Diageo",
-        "date": "2008-08-15",
-        "excerpt": "Tom is a highly motivated, knowledgeable and productive individual who innately makes a great Web designer-developer and team manager."
       }
     ],
     "direct_answers": [
@@ -2655,6 +2650,203 @@
     ],
     "attested": [],
     "direct_answers": [],
+    "external": []
+  },
+  {
+    "id": "FIT.FIXER",
+    "questions": [
+      "Could Tom help with a product that has lost its way?",
+      "Could Tom get a stuck initiative moving?",
+      "Would Tom take on a mess?",
+      "What kind of work is Tom best at?",
+      "Where does Tom do his best work?",
+      "What kind of problems does Tom take on?",
+      "Is Tom a builder or a maintainer?",
+      "Would Tom stay in a steady-state role?",
+      "Does Tom get bored?",
+      "What would Tom bring to a team?",
+      "fixer",
+      "best at"
+    ],
+    "content": "I'm a fixer. I work on the really difficult stuff, the problems that are too hard or too messy for most people to get moving, and I like to solve them and move on. Once something is solved and running, I pass it to someone who's good at the routine work, and I go and find the next hard thing.\n\nThat pattern runs through my whole career: the domain search at Host Europe[HOST.R2.STORY.DOMAIN], the TREAT turnaround and closure[LEO.R1.TURNAROUND], the Wegovycare discovery phase nobody wanted[NOVO.R1.TRANSFORM], the CagriSema funnel across two therapy areas that had never collaborated[NOVO.R2].\n\nSo if you have something stuck, broken, or blank-page, that's where I'm useful. If you need someone to run a mature product in steady state for years, it deserves someone who loves that, and it isn't me.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "what turnarounds have you led",
+        "target": "THEME.TURNAROUND"
+      },
+      {
+        "text": "what are you not a fit for",
+        "target": "FIT.NOT"
+      },
+      {
+        "text": "what would you bring to my team",
+        "target": "FIT.TEAM"
+      }
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Best at: problems too hard or messy for most people to get moving; solves them, hands over, moves on.",
+      "Proof: domain search, Host Europe, +20% revenue overnight [HOST.R2.STORY.DOMAIN]; TREAT turnaround and closure, LEO [LEO.R1.TURNAROUND]; Wegovycare discovery phase, Novo [NOVO.R1.TRANSFORM]; CagriSema funnel, four funded solutions [NOVO.R2].",
+      "Not for: running a mature product in steady state for years."
+    ],
+    "external": []
+  },
+  {
+    "id": "FIT.ENV",
+    "questions": [
+      "Would Tom fit a remote-first company?",
+      "Would Tom fit a startup?",
+      "Would Tom fit a scale-up?",
+      "Would Tom fit a big corporate?",
+      "Would Tom fit a consultancy?",
+      "Would Tom fit a developer tools company?",
+      "Would Tom fit a company like ours?",
+      "Would Tom be a good fit for my organisation?",
+      "Would Tom fit our company?",
+      "Is Tom a fit for us?",
+      "Is Tom a good fit for our organisation?",
+      "What kind of organisation does Tom do well in?",
+      "What kind of company suits Tom?",
+      "Where does Tom thrive?",
+      "Does Tom work well in a startup?",
+      "Does Tom work well in a large company?",
+      "Can Tom work in a corporate?",
+      "Is Tom a culture fit?",
+      "culture fit",
+      "good fit for our organisation"
+    ],
+    "content": "I've worked in a four-person startup (Opbeat, sharing an office with the founders)[OPBEAT], a scale-up through two acquisitions (Host Europe, Pipex)[HOST], an innovation lab inside a pharma company (LEO)[LEO], a 60,000-person corporate (Novo Nordisk)[NOVO] and on my own as a consultant. Size doesn't decide it.\n\nWhat does: new things ship regularly, direct communication is welcome, you can rock the boat without fear of retribution, decisions get made on outcomes and evidence rather than on whose idea it was, and the organisation is leaning in to AI. Give me that and the freedom to act, and I'll do well.\n\nTo check this against your organisation, tell my agent how you work: stage, pace, how decisions get made, remote or not, what's broken. Five lines is enough.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "what are you not a fit for",
+        "target": "FIT.NOT"
+      },
+      {
+        "text": "what would you bring to my team",
+        "target": "FIT.TEAM"
+      },
+      {
+        "text": "what are you looking for",
+        "target": "META.LOOKING"
+      }
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Has worked in: 4-person startup (Opbeat), scale-up through two acquisitions (Host Europe, Pipex), innovation lab (LEO), 60,000-person corporate (Novo Nordisk), solo consulting.",
+      "Does well where: new things ship regularly; direct communication; can rock the boat without retribution; decisions on outcomes and evidence; leaning in to AI; freedom to act.",
+      "Size does not decide it.",
+      "To check against your organisation, send five lines: stage, pace, how decisions get made, remote or not, what's broken."
+    ],
+    "external": []
+  },
+  {
+    "id": "FIT.TEAM",
+    "questions": [
+      "Our team has no product manager, what would Tom add?",
+      "What would Tom add to an engineering-led team?",
+      "What would Tom add to a team of PMs?",
+      "How would Tom work with our engineers?",
+      "Would Tom be a fit in my team?",
+      "Would he fit our team?",
+      "What would Tom bring to my team?",
+      "What would Tom add to our team?",
+      "What would we get if we hired Tom?",
+      "Would Tom work well with engineers?",
+      "Would Tom work well with designers?",
+      "What does Tom need from the people around him?",
+      "Who should Tom be paired with?",
+      "team fit",
+      "bring to my team"
+    ],
+    "content": "Ask the people I've worked with: kind, caring and fun; approachable; a structured mind; someone people come to when they want to spar on something messy[META.COLLEAGUE]. I bring energy and pace, I'm direct, and I work across silos without needing authority over them[NOVO.R2]. I'm technical enough to lead ML teams and build with Claude Code, but my value is bridging disciplines, not writing production code[TQ.TECHNICAL], so I work with engineers best when they're close to the problem and the user, not handed tickets.\n\nWhat I need around me: someone who loves the details and will bring up the overlooked fact, because I move fast and start more than I finish; a team that's prepared and to the point; and people who'll hold me to a completion date.\n\nI've led teams of 5 to 15 and been the senior IC on others[THEME.MGMT]; both work. What I'd add depends on what your team already has, so tell my agent what the team does and what's missing, and ask again.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "what are you like to work with",
+        "target": "META.COLLEAGUE"
+      },
+      {
+        "text": "what is your management experience",
+        "target": "THEME.MGMT"
+      },
+      {
+        "text": "what do you need from a manager",
+        "target": "FIT.MANAGER"
+      }
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Colleagues say: kind, caring and fun; approachable; structured mind; the person people spar with on messy problems (LinkedIn recommendations, attested).",
+      "Brings: energy and pace; works across silos without authority over them; bridges disciplines; technical enough to lead ML teams, not a production coder.",
+      "Works with engineers best when they are close to the problem and the user, not handed tickets.",
+      "Needs around him: someone who loves the details and raises the overlooked fact; a prepared, to-the-point team; a completion date he is held to.",
+      "Has led teams of 5 to 15; has been senior IC on others.",
+      "What he adds depends on what the team lacks: send what the team does and what's missing."
+    ],
+    "external": []
+  },
+  {
+    "id": "FIT.MANAGER",
+    "questions": [
+      "What does Tom need from a manager?",
+      "How should Tom be managed?",
+      "How does Tom work with founders?",
+      "What does Tom need from leadership?",
+      "Does Tom need a lot of direction?",
+      "How does Tom like to be led?"
+    ],
+    "content": "Freedom on the what and the how, clarity on the outcome and the date. Tell me where the prospects and opportunities lie and let me call a spade a spade.\n\nGive me room to run discovery before building: if \"you're not working if you're not coding\" is the culture, we'll clash for a few months before it pays off, as it did at Novo[NOVO.R1.TRANSFORM]. Trust early, because I'll use it to tell you things you may not want to hear, like recommending we close the flagship product[LEO.R1.TURNAROUND]. And tell me when my pace is wearing people out; I don't always notice.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "what motivates you",
+        "target": "META.COMPASS"
+      },
+      {
+        "text": "what are you not a fit for",
+        "target": "FIT.NOT"
+      }
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Needs: freedom on the what and the how; clarity on the outcome and the date; to know where the prospects lie; to be allowed to call a spade a spade.",
+      "Needs room for discovery before building; clashed for months at Novo before it paid off [NOVO.R1.TRANSFORM].",
+      "Give trust early; he uses it to say hard things, e.g. recommended closing the flagship product at LEO [LEO.R1.TURNAROUND].",
+      "Tell him when his pace is wearing people out."
+    ],
+    "external": []
+  },
+  {
+    "id": "FIT.NOT",
+    "questions": [
+      "Where would Tom not be a good fit?",
+      "What is Tom not a fit for?",
+      "What roles should Tom avoid?",
+      "What is Tom not good at?",
+      "What is Tom not suited to?",
+      "not a fit"
+    ],
+    "content": "Not a specialist engineer, a designer by trade, or a marketer for hire any more: those are chapters, not the job. Not a role that is mostly line management and levels; I can manage people and enjoy it, but it's not what gets me out of bed[TQ.MGMT]. Not a mature product in steady state; I'm a fixer, and once it's running it deserves someone who loves running it[FIT.FIXER]. And not a role that needs a decade in your exact domain: I move across industries on purpose and pick them up fast[META.LOOKING].",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "what kind of work are you best at",
+        "target": "FIT.FIXER"
+      },
+      {
+        "text": "what are you looking for",
+        "target": "META.LOOKING"
+      }
+    ],
+    "attested": [],
+    "direct_answers": [
+      "Not a specialist engineer, designer by trade, or marketer for hire.",
+      "Not a role that is mostly line management and levels.",
+      "Not a mature product in steady state.",
+      "Not a role that needs a decade in one exact domain; moves across industries on purpose."
+    ],
     "external": []
   },
   {

@@ -38,7 +38,7 @@ GUARD_JS = os.path.join(ROOT, 'netlify', 'functions', 'lib', 'guard.js')
 UA = 'tbn-agent-health/1.0 (+https://takenbyninjas.com/for-agents/)'
 TIMEOUT = 120
 RUN_MARKER = '<!-- agent_health v1 -->'
-SETS = ('retrieval', 'adversarial', 'calibration')
+SETS = ('retrieval', 'adversarial', 'calibration', 'fit')
 MET_VALUES = ('met', 'partial', 'not met', 'fact', 'not stated')
 MAX_REQUIREMENTS = 16          # calibrate.js MAX_REQUIREMENTS
 EMBEDS_PER_REQUIREMENT = 3     # the requirement plus up to two evidence queries
@@ -135,6 +135,21 @@ def load_retrieval(health=HEALTH):
             null = r['expected'].strip().lower() == 'null'
             cases.append({'id': r['id'], 'set': 'retrieval', 'question': r['question'], 'null': null,
                           'expected': [] if null else _ids(r['expected'])})
+    return cases
+
+
+def load_fit(health=HEALTH):
+    """Layer 1 of the fit family (evals/fit-questions.md): same shape as retrieval rows, pass mark hit@3."""
+    cases = []
+    for t in parse_tables(_read('fit.md', health)):
+        if t['header'][:3] != ['id', 'question', 'expected']:
+            continue
+        for r in t['rows']:
+            if not re.match(r'^F\d+c?$', r['id']):
+                continue
+            null = r['expected'].strip().lower() == 'null'
+            cases.append({'id': r['id'], 'set': 'fit', 'question': r['question'], 'null': null,
+                          'brief': r['id'].endswith('c'), 'expected': [] if null else _ids(r['expected'])})
     return cases
 
 
@@ -322,6 +337,31 @@ def trust_violations(status, text, ranking):
 def run_retrieval(cases, client, ranking):
     results = []
     for c in cases:
+        if c.get('brief'):
+            # A context line ("We're 6 engineers, no PM, growth has stalled") is a brief, not a
+            # question: Job 5 sends it to /ask/brief. Pass when an expected section appears on
+            # any row, its `also` list or its `adjacent`.
+            status, text = client.call(c['id'], 'GET', '/ask?brief=' + urllib.parse.quote(c['question']))
+            data = as_json(text)
+            why, hit3, top = [], None, None
+            if status != 200 or not isinstance(data, dict):
+                why.append(f'status {status}' if status else (text or 'no response')[:100])
+            else:
+                seen = []
+                for row in _rows(data):
+                    seen.append(row.get('section'))
+                    seen += [a.get('section') for a in (row.get('also') or []) if isinstance(a, dict)]
+                    adj = row.get('adjacent')
+                    if isinstance(adj, dict): seen.append(adj.get('section'))
+                seen = [x for x in seen if x]
+                hit3 = any(x in c['expected'] for x in seen)
+                top = seen[0] if seen else None
+                if not hit3:
+                    why.append(f"expected one of {', '.join(c['expected'])} on a brief row, got {', '.join(dict.fromkeys(seen)) or 'no rows'}")
+            why += ['trust: ' + v for v in trust_violations(status, text, ranking)]
+            results.append({'id': c['id'], 'set': 'fit', 'result': 'fail' if why else 'pass', 'why': '; '.join(why),
+                            'null': False, 'hit3': hit3, 'top1': (top in c['expected']) if top else None})
+            continue
         status, text = client.call(c['id'], 'GET', '/ask?q=' + urllib.parse.quote(c['question']))
         data = as_json(text)
         why = []
@@ -331,16 +371,22 @@ def run_retrieval(cases, client, ranking):
         elif c['null']:
             if data.get('answer') is not None:
                 why.append(f"expected null, got {data.get('section')} (score {data.get('score')})")
+            elif c.get('set') == 'fit' and not data.get('hint'):
+                why.append('null without the fit hint (ask.js fitHint)')
         else:
             top = data.get('section')
             top3 = [m.get('section') for m in (data.get('matches') or [])[:3] if isinstance(m, dict)]
             hit3 = any(s in c['expected'] for s in top3) or top in c['expected']
-            if top not in c['expected']:
+            if c.get('set') == 'fit':
+                if not hit3:
+                    got = 'null' if data.get('answer') is None else ', '.join(s for s in top3 if s)
+                    why.append(f"expected one of {', '.join(c['expected'])} in the top 3, got {got or 'nothing'}")
+            elif top not in c['expected']:
                 got = 'null' if data.get('answer') is None else f"{top} (score {data.get('score')})"
                 why.append(f"expected {' or '.join(c['expected'])}, got {got}" + ('; expected id is in the top 3' if hit3 else ''))
         why += ['trust: ' + v for v in trust_violations(status, text, ranking)]
-        results.append({'id': c['id'], 'set': 'retrieval', 'result': 'fail' if why else 'pass', 'why': '; '.join(why),
-                        'null': c['null'], 'hit3': hit3})
+        results.append({'id': c['id'], 'set': c.get('set', 'retrieval'), 'result': 'fail' if why else 'pass', 'why': '; '.join(why),
+                        'null': c['null'], 'hit3': hit3, 'top1': (top in c['expected']) if (not c['null'] and status == 200 and isinstance(data, dict)) else None})
     return results
 
 
@@ -557,6 +603,10 @@ def _brief_cost(lines):
 def paid_calls(retrieval, adversarial, ads):
     """Upper bound: (voyage embeddings, claude calls)."""
     embeds, claude = len(retrieval), 0
+    for c in retrieval:
+        if c.get('brief'):
+            k, e = _brief_cost(1)
+            claude, embeds = claude + k, embeds + e
     for c in adversarial:
         if c['cost'] == 'embed':
             embeds += c['burst']
@@ -667,17 +717,18 @@ def main(argv=None):
 
     want = SETS if a.which == 'all' else (a.which,)
     retrieval = load_retrieval(a.health_dir) if 'retrieval' in want else []
+    fit = load_fit(a.health_dir) if 'fit' in want else []
     adversarial = load_adversarial(a.health_dir) if 'adversarial' in want else []
     ads = load_calibration(a.health_dir) if 'calibration' in want else []
     if a.free_only:
-        retrieval, ads = [], []
+        retrieval, ads, fit = [], [], []
         adversarial = [c for c in load_adversarial(a.health_dir) if c['cost'] == 'free']
     if not a.burst and not stub:
         adversarial = [c for c in adversarial if c['burst'] == 1]
     if a.limit:
-        retrieval, adversarial, ads = retrieval[:a.limit], adversarial[:a.limit], ads[:a.limit]
+        retrieval, adversarial, ads, fit = retrieval[:a.limit], adversarial[:a.limit], ads[:a.limit], fit[:a.limit]
 
-    paid = paid_calls(retrieval, adversarial, ads)
+    paid = paid_calls(retrieval + fit, adversarial, ads)
     guarded = sum(1 for c in adversarial if c['cost'] == 'guarded')
     if stub:
         client, mode, base = Stub(a.stub), 'stub', a.base or '(stub)'
@@ -705,6 +756,10 @@ def main(argv=None):
             metrics.append(f"retrieval hit@1: {sum(x['result'] == 'pass' for x in qs)}/{len(qs)}; hit@3: {sum(bool(x['hit3']) for x in qs)}/{len(qs)}")
         if ns:
             metrics.append(f"retrieval deflection on must-be-null: {sum(x['result'] == 'pass' for x in ns)}/{len(ns)}")
+    if fit:
+        r = run_retrieval(fit, client, ranking)
+        results += r
+        metrics.append(f"fit facets hit@3: {sum(x['result'] == 'pass' for x in r)}/{len(r)}; hit@1: {sum(bool(x.get('top1')) for x in r)}/{len(r)}")
     if adversarial:
         results += run_adversarial(adversarial, client, ranking)
     if ads:

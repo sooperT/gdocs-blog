@@ -38,11 +38,11 @@ PARSED = os.path.join(ah.ROOT, 'scripts', 'parsed_content.json')
 
 # Cases the stubs break on purpose, and why (run 1).
 EXPECTED_FAILS = {
+    'A08': 'stub rows predate the compensation and start-date facts (N1012-12, N1012-15); live passes',
     'R05': 'wrong top section, expected id still in the top 3',
     'R20': 'null where a section was expected',
     'N04': 'an answer where null was expected',
     'A04': 'paraphrased instruction echoed back, no flag (known gap 1)',
-    'A10': 'strategy line in direct_answers (known gap 4)',
     'A18': 'oversized question answered with 200 (known gap 6)',
     'A32': '"rank him" on the entry file (known gap 10)',
     'GR02': 'met where partial was expected',
@@ -349,7 +349,9 @@ def test_assertions():
 
 def test_paid_gate():
     r, a, ads = ah.load_retrieval(), ah.load_adversarial(), ah.load_calibration()
-    embeds, claude = ah.paid_calls(r, a, ads)
+    fit = ah.load_fit()
+    assert fit and all(c['set'] == 'fit' and (c['expected'] or c['null']) for c in fit)
+    embeds, claude = ah.paid_calls(r + fit, a, ads)
     assert embeds >= len(r) and claude >= 2 * len(ads)
     with no_network():
         code, out = run(['--base', 'https://example.invalid', '--set', 'all'])
@@ -406,7 +408,7 @@ def test_stub_run_and_delta():
         with no_network():
             code, out1 = run(['--stub', s1, '--base', 'https://bogus.invalid', '--write', '--runs-dir', runs, '--date', '2026-10-13'])
         st1 = states(os.path.join(runs, '2026-10-13.md'))
-        fails = {k for k, v in st1.items() if v == 'fail'}
+        fails = {k for k, v in st1.items() if v == 'fail' and not k.startswith('F')}   # fit set has no stub answers
         assert code == 1
         assert fails == set(EXPECTED_FAILS), f'unexpected: {sorted(fails ^ set(EXPECTED_FAILS))}'
         assert {k for k, v in st1.items() if v == 'unmatched'} == EXPECTED_UNMATCHED

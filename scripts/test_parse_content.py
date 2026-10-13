@@ -84,7 +84,7 @@ if os.path.exists(CONTENT_FILE):
               if any(x in c['content'] for x in ('**Attested:**', '**Direct answers:**', '**External:**', '[linkedin]'))]
     check('real content: no block in any content', not leaked)
     check('real content: attested sections exist', any(c['attested'] for c in chunks))
-    hidden = [c['id'] for c in chunks for a in c['attested'] if a['name'] in ('Martin Baker', 'Paul Hugh Mollin')]
+    hidden = [c['id'] for c in chunks for a in c['attested'] if a['name'] in ('Martin Baker', 'Paul Hugh Mollin', 'Tristan Slessor')]
     check('real content: no hidden recommender', not hidden)
 
 print(f'\n{passed} passed, {failed} failed')

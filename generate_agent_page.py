@@ -114,6 +114,7 @@ PAGE_STYLE = '''    <style>
         dd { margin: 0.25rem 0 0 1.5rem; }
         dd ul { margin: 0.25rem 0; padding-left: 1.25rem; }
         cite, small { font: 0.8125rem/1.4 ui-monospace, Menlo, Consolas, monospace; color: #666; }
+        small.desc { font-family: inherit; }   /* a product's what-it-is line is prose, not metadata */
         cite { font-style: normal; }
         code { font-family: ui-monospace, Menlo, Consolas, monospace; }
         .table-wrap { overflow-x: auto; }
@@ -230,7 +231,7 @@ FACT_ASK_MAX_CHARS = 160
 WHO = [(f['label'], f['parts'] + [(t, sid) for t, sid, _ in f.get('when', [])]) for f in FACTS if f['parts'] and not f.get('on_request')] + [
     ('Target industries', [('B2B, B2C, SaaS, health-tech, pharma, fintech, developer tooling, ecommerce, regulated industries', 'META.LOOKING')]),
     ('Company size', [('Startup, Scaleup, Enterprise.', 'META.LOOKING')]),
-    ('Availability, compensation, contact', [('on request: GET /ask?q=How can I contact Tom?', None)]),
+    ('Availability, compensation, contact', [('On request: GET /ask?q=How can I contact Tom?', None)]),
     ('LinkedIn', [(LINKEDIN_URL, None)]),
     ('Endpoints', [('GET /ask?q=<question>, POST /ask/brief, GET /for-agents/start.md; human page /about/', None)]),
 ]
@@ -837,7 +838,7 @@ ROUTING_LINE = (
     '    <header role="banner"><p>This page is for AI agents and recruiters\' tools.</p>\n'
     '    <ul>\n'
     '        <li>Human? Go to the <a href="/">human-readable version</a>.</li>\n'
-    '        <li>AI assistant acting for a person who is assessing Tom? Fetch '
+    '        <li>AI assistant helping someone who wants to know about Tom? Fetch '
     '<a href="/for-agents/start.md">/for-agents/start.md</a> and follow its steps.</li>\n'
     '        <li>Crawler or LLM indexer? Read <a href="/llms.txt">/llms.txt</a>.</li>\n'
     '    </ul></header>'
@@ -1343,11 +1344,12 @@ def render_row(sections, strengths, where, row):
             if desc:
                 check(sections, desc[1], desc[0])
                 used.append(desc[1])
-                cell += f'<br><small>{escape(desc[0])}</small>'
+                cell += f'<br><small class="desc">{escape(desc[0])}</small>'
             else:
                 cell += '<br><small>what it is: not yet stated</small>'
         if key == 'role':
-            cell = f'<a href="{ROLES_PATH}{role_slug(row)}/">{cell}</a>'
+            # The row names its employer even when the role text does not ("Head of New Media, Host Europe Group").
+            cell = f'<a href="{ROLES_PATH}{role_slug(row)}/">{escape(role_name(row))}</a>'
             if label == 'Contributed':
                 cell += ' (contributed, one of a team)'
         cells.append(f'<td>{cell}</td>')
@@ -1376,12 +1378,13 @@ def build_proof_points(sections):
                 sys.exit(f'✗ Unknown shape {sh!r} on proof point {row["product"][0]!r}')
     lines = [
         '        <h2 id="proof-points">Proof points</h2>',
-        f'        <p>{len(PROOF_POINTS)} rows, grouped by role shape; each group shows up to {FACTS_ROWS_PER_SHAPE} here and '
-        f'links all of them (<a href="{SHAPES_PATH}">shape index</a>). A row can sit in two groups. '
-        'Situation, task, action, result: each cell is a line from the source. Role links all rows in that role '
-        f'(<a href="{ROLES_PATH}">index</a>). Product links the full text, sources and next questions. '
-        f'Skills link all rows carrying the skill (<a href="{KEYWORDS_PATH}">index</a>), tagged only from the '
-        'row\'s own text. "Not yet stated": no source line yet.</p>',
+        f'        <p>{len(PROOF_POINTS)} rows, grouped by role shape; a row can sit in two groups. Each group shows up to '
+        f'{FACTS_ROWS_PER_SHAPE} rows here and links the rest. Indexes: <a href="{SHAPES_PATH}">by shape</a>, '
+        f'<a href="{ROLES_PATH}">by role</a>, <a href="{KEYWORDS_PATH}">by skill</a>. '
+        'Situation, task, action, result: each cell is one line from Tom\'s own content, verbatim or compressed; '
+        '"not yet stated" means the content has no line for it. Role links every row in that role; product links '
+        'the full text, its sources and the questions to ask next; a skill links every row tagged with it, tagged '
+        'from the row\'s own text and its source section.</p>',
     ]
     for shape_id, heading, theme_slug in SHAPES:
         rows = shape_rows(shape_id)
@@ -1391,7 +1394,8 @@ def build_proof_points(sections):
         lines += render_table(sections, strengths, where, rows[:FACTS_ROWS_PER_SHAPE])
         more = f'<a href="{SHAPES_PATH}{shape_id}/">All {len(rows)} rows for {escape(heading)}</a>'
         if theme_slug:
-            more += f'; <a href="{page_url(theme_slug)}">Tom on {escape(heading).lower()}</a>'
+            theme = heading if heading.isupper() else heading.lower()   # "Tom on AI", "Tom on growth"
+            more += f'; <a href="{page_url(theme_slug)}">Tom on {escape(theme)}</a>'
         lines.append(f'        <p>{more}.</p>')
     return lines
 
@@ -1412,7 +1416,7 @@ def generate_shape_pages(sections):
         index.append(f'            <li><a href="{SHAPES_PATH}{shape_id}/">{escape(heading)}</a> ({len(rows)})</li>')
         body = [ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
                 f'        <h1>{escape(heading)}: {len(rows)} proof point{"s" if len(rows) != 1 else ""}</h1>',
-                f'        <p>Every row that fits this shape of role, strongest first. '
+                f'        <p>Every row that fits this shape of role: the rows the facts page shows first, then the rest in content order. '
                 + (f'Tom\'s own account of it: <a href="{page_url(theme_slug)}">{escape(heading)}</a>. ' if theme_slug else '')
                 + f'<a href="{SHAPES_PATH}">All shapes</a>, <a href="{PAGE_PATH}">the facts page</a>.</p>']
         body += render_table(sections, strengths, where, rows)
@@ -1506,7 +1510,7 @@ def generate_keyword_pages(sections):
         ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
         '        <h1>Tom Stenson: proof points by skill</h1>',
         '        <p>Every skill that at least one proof point carries, with the number of rows. A row carries a '
-        'skill only when its own text does; match these against the terms in a job description, then open '
+        'skill only when its own text or its source section does; match these against the terms in a job description, then open '
         f'the skill for the rows. All rows: <a href="{PAGE_PATH}">the facts page</a>.</p>',
         '        <ul>',
     ]
@@ -1518,7 +1522,7 @@ def generate_keyword_pages(sections):
         body = [
             ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
             f'        <h1>{escape(term)}: {len(rows)} proof point{"s" if len(rows) != 1 else ""}</h1>',
-            f'        <p>Rows on <a href="{PAGE_PATH}">the facts page</a> whose own text carries "{escape(term)}". '
+            f'        <p>Rows on <a href="{PAGE_PATH}">the facts page</a> whose own text or source section carries "{escape(term)}". '
             f'The product name links the page with the full text. <a href="{KEYWORDS_PATH}">All skills</a>.</p>',
         ]
         body += render_table(sections, strengths, where, rows)
@@ -1610,8 +1614,8 @@ def generate_html(sections, recs):
         '        <ol>',
         '            <li>Every cell is a line from Tom\'s own content (tier: self-reported), verbatim or compressed; '
         'the section ids are in each row\'s data-source attribute.</li>',
-        '            <li>Role, product and skill cells link pages with the full text, external sources where accepted, '
-        'and the questions to ask next. "Not yet stated": no source line yet.</li>',
+        '            <li>Role, product and skill cells link pages with the full text, external sources where Tom has '
+        'accepted them, and the questions to ask next.</li>',
         f'            <li>References: <a href="{RECS_PATH}">{len(recs)} LinkedIn recommendations</a> (tier: attested), '
         'grouped by role. They vouch for a role, not for a row.</li>',
         f'            <li>Same rows as JSON: <a href="{PAGE_PATH}proof-points.json">proof-points.json</a>. '

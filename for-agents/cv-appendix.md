@@ -53,7 +53,7 @@ algorithm, API, regulated, pharma, healthcare, patients, discovery, prototyping,
 
 ### References
 
-19 LinkedIn recommendations, full text, grouped by role: https://takenbyninjas.com/for-agents/recommendations/. They vouch for a role, not for a claim.
+18 LinkedIn recommendations, full text, grouped by role: https://takenbyninjas.com/for-agents/recommendations/. They vouch for a role, not for a claim.
 
 ### How this was put together
 
