@@ -207,7 +207,7 @@ FACTS = [
               ('remote roles across the EU and UK', 'META.LOCATION', r'\bremote(ly)?\b'),
               ('worked on-site, hybrid and remote, and across time zones', 'META.LOCATION',
                r'\bhybrid\b|\btime ?zones?\b|\bworking pattern\b|\bdays? ((a|per) week )?in (the )?office\b')],
-     'asks': [r'^\s*location\b', r'\bbased (in|within)\b', r'\bon-?site\b', r'\bhybrid\b', r'\brelocat', r'\bfully remote\b',
+     'asks': [r'^\s*location\b', r'^\s*(?:in |based in )?(?:copenhagen|denmark)[\s.,]*$', r'\bbased (in|within)\b', r'\bon-?site\b', r'\bhybrid\b', r'\brelocat', r'\bfully remote\b',
               r'\bremote (role|position|work|working|first)\b', r'\bdays? ((a|per) week )?in (the )?office\b']},
     {'type': 'work_permit', 'label': 'Nationality & work permit',
      'parts': [('British & French; Danish permanent resident; no work visa is required in EU and UK.', 'META.LOCATION')],
@@ -863,7 +863,11 @@ def row_text(sections, row):
 def row_keywords(sections, row):
     text = row_text(sections, row)
     skip = row.get('not_skills', ())   # a row may rule a tag out: "Claude as my engineering team" is not team leadership
-    return [(term, slug) for term, slug, pats in KEYWORDS if slug not in skip and any(pat in text for pat in pats)]
+    # A row also carries its company's tags (role context): every LEO and Novo story is health-tech,
+    # whether or not its own text says "patient".
+    inherited = set(COMPANY_CONTEXT_BY_NAME.get(role_company(row), {}).get('skills', ()))
+    return [(term, slug) for term, slug, pats in KEYWORDS
+            if slug not in skip and (term in inherited or any(pat in text for pat in pats))]
 
 
 def row_facets(n):
@@ -2001,11 +2005,13 @@ def proof_points_json(sections):
     data = {'generated': GENERATED, 'source': 'Tom\'s own account (tier: self-reported); each row cites its TomBot section id',
             'facets': 'Each row\'s `facets` are lines from CVs Tom sent, verbatim (tier: self-reported; `source` names the CV). '
                       'A brief returns the facet that matched a requirement as its evidence; the row\'s result cell stays the outcome.',
+            'roles_note': 'Domain, company type, size and level are answered from `roles`, not from one story: each company with its sectors, '
+                          'environments, size and products, each role with its title, aliases and scope in effect. Count every role that matches.',
             'human_version': 'https://takenbyninjas.com/about/', 'facts_page': PAGE_URL,
             'references': f'https://takenbyninjas.com{RECS_PATH}', 'shapes': [{'id': i, 'label': l} for i, l, _ in SHAPES],
             'screening_facts': facts_register(sections)['facts'],
             'skill_pages': {term: f'https://takenbyninjas.com{KEYWORDS_PATH}{slug}/' for term, slug, _ in KEYWORDS},
-            'count': len(rows), 'proof_points': rows}
+            'roles': roles_register(sections)['companies'], 'count': len(rows), 'proof_points': rows}
     return json.dumps(data, ensure_ascii=False, indent=2) + '\n'
 
 
@@ -2229,6 +2235,138 @@ def section_years_json(sections):
     return json.dumps({'generated_by': 'generate_agent_page.py', 'years': dict(sorted(years.items()))}, ensure_ascii=False, indent=2) + '\n'
 
 
+# Role context (Tom, 2026-10-13: "startup and health tech not giving hits are just symptoms").
+# A domain, an environment or a level is a property of a role and its company, and it adds up
+# over a career: one story cannot answer "health-tech experience". Each company carries its
+# sectors, environments and size, each role its level and scope in effect, all in Tom's words
+# (text verbatim in the cited section). Written to lib/roles.json for /ask/brief (lib/coverage.js)
+# and to proof-points.json as `roles`. A company can sit in several at once (LEO: startup
+# incubator, pharma, health-tech and enterprise).
+ROLES_FILE = 'netlify/functions/lib/roles.json'
+ROLE_DIMENSIONS = {
+    'sector': [
+        ('health', 'Health-tech', [r'\bhealth[- ]?tech\b', r'\bdigital health\b', r'\bhealth ?care\b', r'\bmed[- ]?tech\b',
+                                   r'\bhealth (software|company|companies|sector|industry|domain|space|products?)\b', r'\bpatient[- ]facing\b']),
+        ('pharma', 'Pharma', [r'\bpharma(ceuticals?)?\b', r'\blife sciences?\b']),
+        ('saas', 'SaaS', [r'\bsaas\b']),
+        ('developer-tools', 'Developer tools', [r'\bdeveloper tool(s|ing)\b', r'\bdev ?tools\b']),
+        ('hosting', 'Web hosting and domains', [r'\b(web )?hosting\b', r'\bdomain (names?|industry|registrar)\b']),
+        ('ecommerce', 'Ecommerce', [r'\be-?commerce\b']),
+    ],
+    'environment': [
+        ('founder-led', 'Founder-led', [r'\bfounder[- ]led\b', r'\b(with|to|alongside) (the |a |our )?(co-?)?founders?\b']),
+        ('startup', 'Startup', [r'\bstart-?ups?\b', r'\bearly[- ]stage\b', r'\bseed\b', r'\bseries a\b', r'\bventure[- ]backed\b', r'\bvc[- ]backed\b']),
+        ('scale-up', 'Scale-up', [r'\bscale-?ups?\b', r'\bhigh[- ]growth\b', r'\bhyper-?growth\b', r'\bseries [b-e]\b']),
+        ('incubator', 'Innovation lab or incubator', [r'\bincubat', r'\binnovation (lab|unit|hub|team)\b', r'\bventure (studio|building)\b']),
+        ('corporate', 'Corporate', [r'\bcorporate\b', r'\blarge (organi[sz]ations?|compan(y|ies)|enterprises?)\b', r'\bmatrix(ed)?\b',
+                                    r'\bmultinational\b', r'\bglobal (organi[sz]ation|company|enterprise)\b']),
+    ],
+    'level': [
+        ('head-of-product', 'Head of product', [r'\bhead of product\b', r'\bvp,? (of )?product\b', r'\bvice president,? (of )?product\b',
+                                                r'\bchief product officer\b', r'\bcpo\b', r'\bproduct director\b', r'\bdirector of product\b',
+                                                r'\bproduct lead(er|ership)?\b', r'\b(sole|first|only) product (lead|leader|hire|person|manager)\b',
+                                                r'\b(lead|leading|led|own|owning|owned|run|running|ran) (the |a )?product (function|organi[sz]ation|team|department)\b']),
+    ],
+}
+# A headcount in a requirement ("40-person company") gets every company's size, nearest first.
+ROLE_SIZE_ASK = r'\b(\d{1,3}(?:,\d{3})+|\d+)\+?[- ]?(?:person|people|employees?|staff|fte)\b'
+COMPANY_CONTEXT = [
+    {'company': 'Novo Nordisk', 'section': 'NOVO', 'sectors': ['health', 'pharma'], 'environments': ['corporate'],
+     'size': ('Novo Nordisk is about 70,000 people globally. I worked in the digital health unit, about 100 people; the Wegovycare product team was around 10.', 'NOVO', [70000, 100, 10]),
+     'skills': ['healthcare'],
+     'products': ['Wegovycare', 'Wegovy Pill launch', 'CagriSema', 'GenAI proof of concept for automating compliance reviews', 'Digital Incubation', 'Product Operations'],
+     'roles': [{'role': 'Associate Product Director at Novo Nordisk', 'levels': ['head-of-product'],
+                'scope': ('Head of Patient Products: led 6 experienced PMs building consumer engagement products.', 'NOVO.R2')},
+               {'role': 'Senior Product Manager at Novo Nordisk', 'levels': [],
+                'scope': ('Led cross-functional team of 10.', 'NOVO.R1')}]},
+    {'company': 'LEO Innovation Lab', 'section': 'LEO', 'sectors': ['health', 'pharma'], 'environments': ['startup', 'incubator', 'corporate'],
+     'context': ("the Lab was a startup incubator at arm's length from LEO Pharma, a 12,000-person pharma company.", 'LEO'),
+     'size': ('I joined when the Lab was 30 people and it was 130 when I left. Multiple startup teams of around 3 to 15 people each.', 'LEO', [30, 130, 15]),
+     'skills': ['healthcare'],
+     'products': ['TREAT', 'Skincoach', 'Diagnosis App', 'BetterVisitBot'],
+     'roles': [{'role': 'PM/GM at LEO Innovation Lab', 'levels': ['head-of-product'],
+                'scope': ('each team had one product owner, who was in effect a mini-CEO and head of product. I was the sole product lead on mine.', 'LEO')}]},
+    {'company': 'TwentyThree', 'section': 'T23', 'sectors': [], 'environments': ['founder-led', 'startup'],
+     'context': ('a founder-led startup.', 'T23'), 'size': ('About 30 people.', 'T23', [30]), 'skills': ['startup'], 'products': [],
+     'roles': [{'role': 'Head of Marketing', 'levels': [], 'scope': ('Stabilised a 10-12 person marketing team', 'T23')}]},
+    {'company': 'Opbeat', 'section': 'OPBEAT', 'sectors': ['saas', 'developer-tools'], 'environments': ['founder-led', 'startup'],
+     'context': ('a founder-led startup.', 'OPBEAT'),
+     'size': ('12 people in the company, 4 in marketing including design.', 'OPBEAT', [12]), 'products': [],
+     'roles': [{'role': 'Head of Marketing', 'levels': [],
+                'scope': ('I joined as Head of Marketing and built the brand, marketing strategy, team and channels', 'OPBEAT')}]},
+    {'company': 'EuroDNS', 'section': 'EURODNS', 'sectors': ['hosting', 'ecommerce'], 'environments': ['founder-led'],
+     'context': ('founder-led.', 'EURODNS'), 'size': ('Probably about 50 people.', 'EURODNS', [50]), 'products': [],
+     'roles': [{'role': 'Marketing Director', 'levels': [],
+                'scope': ('Marketing Director by title; the product work was mine: discount ladders, management panels, bundling features, product strategy.', 'EURODNS')}]},
+    {'company': 'UK2 Group', 'section': 'UK2', 'sectors': ['hosting'], 'environments': [],
+     'size': ('UK2 grew from about 100 to about 200 people while I was there.', 'UK2', [100, 200]), 'products': ['new domain platform'],
+     'roles': [{'role': 'Head of Group Strategy', 'levels': ['head-of-product'],
+                'scope': ('in effect head of product for the US parts of the business I worked on.', 'UK2')}]},
+    {'company': 'Host Europe Group', 'section': 'HOST', 'sectors': ['hosting', 'ecommerce'], 'environments': ['founder-led', 'startup', 'scale-up'],
+     'context': ('a founder-led startup at the beginning.', 'HOST'),
+     'size': ('About 150 people when I started, about 500 later, and 2,000 as part of Pipex broadband.', 'HOST', [150, 500, 2000]),
+     'products': ['domain search', 'online order process'],
+     'roles': [{'role': 'Head of New Media', 'levels': [],
+                'scope': ('Created department from scratch, member of Senior Management Team.', 'HOST')}]},
+]
+COMPANY_CONTEXT_BY_NAME = {c['company']: c for c in COMPANY_CONTEXT}
+
+
+def short_years(text):
+    """'Nov 2016 - Jan 2020' -> '2016-2020'; '2016' stays."""
+    ys = re.findall(r'\b(?:19|20)\d{2}\b', text or '')
+    return text if not ys else (ys[0] if ys[0] == ys[-1] else f'{ys[0]}-{ys[-1]}')
+
+
+def roles_register(sections):
+    """Role context as data. Every quoted line must be verbatim in its section; every role and
+    product named must be a proof-point row, so each entry links to a page that exists."""
+    years = json.loads(section_years_json(sections))['years']
+    dim_ids = {d: {i for i, _, _ in entries} for d, entries in ROLE_DIMENSIONS.items()}
+
+    def quoted(pair, what):
+        text, sid = pair
+        if sid not in sections or text not in sections[sid]:
+            sys.exit(f'✗ Role context {what}: not verbatim in {sid}: {text!r}')
+        return {'text': text, 'section': sid}
+
+    companies = []
+    for c in COMPANY_CONTEXT:
+        name = c['company']
+        rows = [r for r in PROOF_POINTS if role_company(r) == name]
+        if not rows or c['section'] not in years:
+            sys.exit(f'✗ Role context: no rows or no years for {name!r}')
+        for key, dim in (('sectors', 'sector'), ('environments', 'environment')):
+            if set(c[key]) - dim_ids[dim]:
+                sys.exit(f'✗ Role context {name}: unknown {dim} in {c[key]!r}')
+        for prod in c['products']:
+            if prod not in {r['product'][0] for r in rows}:
+                sys.exit(f'✗ Role context {name}: product {prod!r} is not a proof-point row')
+        roles = []
+        for role in c['roles']:
+            row = next((r for r in rows if r['role'][0] == role['role']), None)
+            if row is None or set(role['levels']) - dim_ids['level']:
+                sys.exit(f'✗ Role context {name}: role {role["role"]!r} is not a proof-point row, or has an unknown level')
+            roles.append({'role': role_name(row), 'aliases': ROLE_ALIASES.get(role['role'], []), 'levels': role['levels'],
+                          'scope': quoted(role['scope'], f'{name} scope'),
+                          'years': short_years(years.get(role['scope'][1], years[c['section']])),
+                          'page': f'https://takenbyninjas.com{ROLES_PATH}{role_slug(row)}/'})
+        size = c.get('size')
+        slug = CAREER_COMPANY_PAGE[name]
+        companies.append({
+            'company': name, 'section': c['section'], 'period': years[c['section']], 'years': short_years(years[c['section']]),
+            'page': f'https://takenbyninjas.com{page_url(slug)}',
+            'sectors': c['sectors'], 'environments': c['environments'],
+            'context': quoted(c['context'], f'{name} context') if c.get('context') else None,
+            'size': dict(quoted(size[:2], f'{name} size'), people=size[2]) if size else None,
+            'products': c['products'], 'roles': roles, 'tier': 'self-reported'})
+    return {'generated_by': 'generate_agent_page.py',
+            'note': "Role context, Tom's own account (tier: self-reported): what kind of company each role sat in, how big it was, "
+                    'and the scope of the role in effect next to its title. A company can carry several sectors and environments at once.',
+            'dimensions': {d: [{'id': i, 'label': l, 'asks': a} for i, l, a in entries] for d, entries in ROLE_DIMENSIONS.items()},
+            'size_ask': ROLE_SIZE_ASK, 'companies': companies}
+
+
 def references_json(recs):
     periods = {}
     for key, label in PERIODS.items():
@@ -2286,6 +2424,8 @@ def main():
     write(REFERENCES_FILE, references_json(recs))
     print(f'✓ References table written: {REFERENCES_FILE}')
     write(SECTION_YEARS_FILE, section_years_json(sections))
+    write(ROLES_FILE, json.dumps(roles_register(sections), ensure_ascii=False, indent=2) + '\n')
+    print(f'✓ Role context written: {ROLES_FILE} ({len(COMPANY_CONTEXT)} companies)')
     print(f'✓ Section years written: {SECTION_YEARS_FILE}')
 
 

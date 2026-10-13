@@ -883,7 +883,9 @@
         "excerpt": "Tom has an unparalleled innovation and product mindset. That means that you can throw him into almost any problem, and he will identify ways of solving the challenge, that no-one had thought of before."
       }
     ],
-    "direct_answers": [],
+    "direct_answers": [
+      "Company context: Novo Nordisk is about 70,000 people globally. I worked in the digital health unit, about 100 people; the Wegovycare product team was around 10."
+    ],
     "external": []
   },
   {
@@ -1247,7 +1249,10 @@
     ],
     "direct_answers": [
       "BetterVisitBot: a pre-briefing chatbot for doctor consultations. Worked with GPs to prototype it. I hid a dermatologist in an adjacent room to simulate a consultation chatbot. Right idea, too early. Now it isn't.",
-      "Title: PM/GM, also written Product Owner, Product Lead or Product Lead / GM on different CVs. Same role: product leads were mini-CEOs for each venture."
+      "Title: PM/GM, also written Product Owner, Product Lead or Product Lead / GM on different CVs. Same role: product leads were mini-CEOs for each venture.",
+      "Company context: the Lab was a startup incubator at arm's length from LEO Pharma, a 12,000-person pharma company. So it was innovation, startup, pharma, health-tech, enterprise and AI at once.",
+      "Size: I joined when the Lab was 30 people and it was 130 when I left. Multiple startup teams of around 3 to 15 people each.",
+      "Scope: each team had one product owner, who was in effect a mini-CEO and head of product. I was the sole product lead on mine."
     ],
     "external": []
   },
@@ -1518,7 +1523,8 @@
     ],
     "attested": [],
     "direct_answers": [
-      "A trouble-shooting assignment: short-term contract to provide structure to a team of 10 reports. Implemented OKRs, produced video content, crystalised USPs, introduced reporting structure."
+      "A trouble-shooting assignment: short-term contract to provide structure to a team of 10 reports. Implemented OKRs, produced video content, crystalised USPs, introduced reporting structure.",
+      "Company context: a founder-led startup. About 30 people."
     ],
     "external": []
   },
@@ -1578,6 +1584,7 @@
       "The founders had a good product and famous backers, and believed that if they built it, customers would come. They launched into silence.",
       "Our customers were in the US, so most of the marketing was international.",
       "B2B devops startup backed by Balderton Capital and the cofounders of Facebook & Instagram.",
+      "Company context: a founder-led startup. 12 people in the company, 4 in marketing including design.",
       "Introduced KPIs, reporting & budgeting. Grew grassroots meetups and created video engine to connect with developers, creating the traction that enabled a $2M bridge-funding round.",
       "Opbeat: restructured pricing, emphasised the free tier and removed the upgrade barriers that were killing conversions, alongside the growth engine that trebled sign-ups[OPBEAT.R1.GROWTH]."
     ],
@@ -1656,6 +1663,7 @@
     "attested": [],
     "direct_answers": [
       "Marketing Director by title; the product work was mine: discount ladders, management panels, bundling features, product strategy. EuroDNS's product managers managed the TLDs with the registries.",
+      "Company context: founder-led. Probably about 50 people.",
       "At EuroDNS the product team was his: led the tech team building the customer control panel, alongside discount ladders, bundling and product strategy; reversed the sales decline and grew domain search revenue[EURODNS]."
     ],
     "external": []
@@ -1768,6 +1776,8 @@
       "For the domain platform I owned the business case, budget, specifications, contracts and migration strategy.",
       "Troubleshooter for the CEO across London, Chicago & Utah offices. Owned strategy across pricing, product and marketing. Diagnosed underperforming brand, created product & ecommerce strategy.",
       "Product work at UK2, formally, under the title Head of Group Strategy.",
+      "Company context: UK2 grew from about 100 to about 200 people while I was there.",
+      "Scope: in effect head of product for the US parts of the business I worked on.",
       "Two product teams at UK2: the group domain platform (business case, budget, specifications, contracts, migration) and product for the US unit, led remotely from London, with pricing in scope[UK2]."
     ],
     "external": []
@@ -1860,6 +1870,7 @@
       "One employer under several names: Pipex Communications acquired Host Europe in April 2004; the company reverted to the GX Networks name in 2008 after selling Pipex, was renamed Host Europe Group in 2009, and was acquired by GoDaddy in 2017.",
       "Managed all online channels (2M+ monthly visits): introduced self-service support, pioneered site-building tools, optimised support centre, led ecommerce, dominated SEO rankings.",
       "Product work at Host Europe before it was called product management.",
+      "Company context: a founder-led startup at the beginning. About 150 people when I started, about 500 later, and 2,000 as part of Pipex broadband.",
       "Information architecture: the alternative site replaced one that was busy and cluttered, and lacked focus and a core funnel[HOST.R3.STORY.ALTSITE]; restructured the online order process UI, increasing new revenue by 20% (2006-2008); introduced web standards improving accessibility, SEO & site performance (2004-2005); at EuroDNS, analysed user flow and redesigned website and ecommerce funnels[EURODNS.R1.TURNAROUND]; Skincoach was organised around a simple spoke and wheel pattern with 4 giant buttons, because elderly testers use the home button to find their anchor and start again[LEO.R2]."
     ],
     "external": [
@@ -2917,7 +2928,7 @@
       "Does Tom work well with founders?",
       "Would Tom fit a founder-led company?"
     ],
-    "content": "I've worked in a four-person startup (Opbeat, sharing an office with the founders)[OPBEAT], a scale-up through two acquisitions (Host Europe, Pipex)[HOST], an innovation lab inside a pharma company (LEO)[LEO], a 60,000-person corporate (Novo Nordisk)[NOVO] and on my own as a consultant. Size doesn't decide it.\n\nWhat does: new things ship regularly, direct communication is welcome, you can rock the boat without fear of retribution, decisions get made on outcomes and evidence rather than on whose idea it was, and the organisation is leaning in to AI. Give me that and the freedom to act, and I'll do well.\n\nTo check this against your organisation, tell my agent how you work: stage, pace, how decisions get made, remote or not, what's broken. Five lines is enough.",
+    "content": "I've worked in a 12-person startup (Opbeat, sharing an office with the founders)[OPBEAT], a scale-up through two acquisitions (Host Europe, Pipex)[HOST], an innovation lab inside a pharma company (LEO)[LEO], a 70,000-person corporate (Novo Nordisk)[NOVO] and on my own as a consultant. Size doesn't decide it.\n\nWhat does: new things ship regularly, direct communication is welcome, you can rock the boat without fear of retribution, decisions get made on outcomes and evidence rather than on whose idea it was, and the organisation is leaning in to AI. Give me that and the freedom to act, and I'll do well.\n\nTo check this against your organisation, tell my agent how you work: stage, pace, how decisions get made, remote or not, what's broken. Five lines is enough.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -2935,11 +2946,11 @@
     ],
     "attested": [],
     "direct_answers": [
-      "Has worked in: 4-person startup (Opbeat), scale-up through two acquisitions (Host Europe, Pipex), innovation lab (LEO), 60,000-person corporate (Novo Nordisk), solo consulting.",
+      "Has worked in: 12-person startup (Opbeat), scale-up through two acquisitions (Host Europe, Pipex), innovation lab (LEO), 70,000-person corporate (Novo Nordisk), solo consulting.",
       "Does well where: new things ship regularly; direct communication; can rock the boat without retribution; decisions on outcomes and evidence; leaning in to AI; freedom to act.",
       "Size does not decide it.",
       "To check against your organisation, send five lines: stage, pace, how decisions get made, remote or not, what's broken.",
-      "Comfortable in founder-led companies (Opbeat, sharing an office with the founders)[OPBEAT]."
+      "Comfortable in founder-led companies: Opbeat (sharing an office with the founders)[OPBEAT], TwentyThree[T23] and Host Europe at the beginning[HOST] were founder-led startups."
     ],
     "external": []
   },

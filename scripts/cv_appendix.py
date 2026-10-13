@@ -160,6 +160,13 @@ def fit_rows(resp, rows_json):
                 gaps.append(r['requirement'])
             out.append(row)
             continue
+        if r.get('kind') == 'coverage':
+            # Role coverage (2026-10-13): every role that matches a domain, an environment
+            # or a level, in Tom's words, then the example stories the brief gave.
+            row.update(coverage=r['evidence'], link=None,
+                       also=[x for x in (by_result.get(_norm(o.get('evidence'))) for o in (r.get('also') or [])) if x])
+            out.append(row)
+            continue
         local = None
         if r.get('kind') == 'proof-point' and r.get('evidence_star'):
             local = by_result.get(_norm(r['evidence_star'].get('result')))
@@ -216,7 +223,9 @@ def fit_plain(rows, section_pages):
     for r in rows:
         link = r['link'] or section_pages.get(r['section'])
         stories = ([r['local']] if r.get('local') else []) + list(r.get('also') or [])
-        if stories:
+        if r.get('coverage'):
+            said = end(r['coverage']) + ''.join(f" Example: {end(cell(x, 'result'))} {who_of(x)}." for x in stories)
+        elif stories:
             first = stories[0]
             # A story already told above is restated short (result, who, when): no "see 1".
             cells = ('result',) if r['same_as'] else ('result', 'action')
@@ -367,6 +376,8 @@ def write_fit_page(tag, role, company, resp, jd_name, answers=None):
         elif r['fact']:
             f = by_type.get(r['fact'], {})
             story = f'<td colspan="4">{e(f.get("label", "Fact"))}: {e(f.get("value") or "not stated")}' + (f'. For this role: {e(answers[r["fact"]])}' if answers.get(r['fact']) else '') + '</td>'
+        elif r.get('coverage'):
+            story = f'<td colspan="4">{e(r["coverage"])}</td>'
         elif r['pointer']:
             story = '<td colspan="4">On record, no summarised story yet: follow the link, or ask /ask with the requirement as a question.</td>'
         elif r['nearest']:

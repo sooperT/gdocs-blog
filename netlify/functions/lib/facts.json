@@ -63,6 +63,7 @@
       "on_request": false,
       "asks": [
         "^\\s*location\\b",
+        "^\\s*(?:in |based in )?(?:copenhagen|denmark)[\\s.,]*$",
         "\\bbased (in|within)\\b",
         "\\bon-?site\\b",
         "\\bhybrid\\b",

@@ -34,7 +34,9 @@ function assertTrustContract(b) {
   for (const row of b.rows) {
     for (const k of ['section', 'source', 'year', 'score']) assert.ok(Object.hasOwn(row, k), `row missing ${k}`);
     assert.ok(row.year === null || typeof row.year === 'string');
-    if (row.kind === 'fact') {          // a screening fact is not retrieved: no score, no verdict
+    if (row.kind === 'coverage') {      // role coverage is read from the register: no score
+      assert.equal(row.score, null); assert.equal(row.source, "Tom's own account"); assert.ok(row.coverage.length);
+    } else if (row.kind === 'fact') {          // a screening fact is not retrieved: no score, no verdict
       assert.ok(['fact', 'not stated'].includes(row.met));
       assert.equal(row.score, null);
       assert.equal(row.evidence === null, row.met === 'not stated');
@@ -154,7 +156,7 @@ await test('system prompt: no facts about Tom, no ranking language', async () =>
 // --- rows ---
 await test('row above threshold with year + outcome: met, evidence trimmed to 400', async () => {
   const row = buildRow('5+ years of product management experience', NOVO);
-  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'references', 'kind', 'evidence_star', 'role', 'product', 'page', 'skills', 'adjacent', 'fact_type', 'fact_types', 'also', 'facet']);
+  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'references', 'kind', 'evidence_star', 'role', 'product', 'page', 'skills', 'adjacent', 'fact_type', 'fact_types', 'also', 'facet', 'coverage']);
   assert.equal(row.kind, 'section');
   assert.equal(row.tier, 'self-reported');
   assert.equal(row.references.count > 0, true);
@@ -181,7 +183,7 @@ await test('row above threshold with no year: partial, short evidence not cut', 
 });
 await test('row below threshold: not met, null evidence and source', async () => {
   assert.deepEqual(buildRow('Danish is a plus', null),
-    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null, kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, fact_types: null, also: null, facet: null });
+    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null, kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, fact_types: null, also: null, facet: null, coverage: null });
 });
 await test('row on a section with no period: references null, tier self-reported', async () => {
   const row = buildRow('Hands-on with discovery', NOYEAR);
@@ -336,7 +338,7 @@ await test('log line: one line, counts only, no brief text', withLogs(async () =
   const line = logs[0];
   origLog('     ' + line);
   const parsed = JSON.parse(line.replace(/^\[ask:brief\] /, ''));
-  assert.deepEqual(Object.keys(parsed), ['asker', 'tag', 'requirements', 'met', 'partial', 'not_met', 'splitter', 'proof_point_rows', 'evidence_queries', 'adjacent', 'facts', 'facts_not_stated', 'seniority', 'function', 'sector']);
+  assert.deepEqual(Object.keys(parsed), ['asker', 'tag', 'requirements', 'met', 'partial', 'not_met', 'splitter', 'proof_point_rows', 'coverage_rows', 'evidence_queries', 'adjacent', 'facts', 'facts_not_stated', 'seniority', 'function', 'sector']);
   assert.equal(parsed.asker, 'hiring-manager');
   // Item 27: the three labels come from fixed lists, never from the brief.
   assert.ok(SENIORITY.includes(parsed.seniority) && FUNCTION.includes(parsed.function) && SECTOR.includes(parsed.sector));
@@ -683,5 +685,60 @@ await test('a match with no printable evidence (a table-only section) is "not me
   const TABLE = { title: 'META.JOBS', content: '| 2010-2013 | Independent Consultant | Various |\n| 2008-2010 | Head of Group Strategy | UK2 Group |', follow_ups: [], similarity: 0.54 };
   const row = buildRow('Experience working within food industries.', TABLE);
   assert.deepEqual([row.met, row.evidence, row.section, row.score], ['not met', null, null, null]);
+});
+
+// --- role coverage (Tom, 2026-10-13) ---
+await test('coverage: a domain, an environment and a level are classified; a story requirement is not', async () => {
+  const { classifyCoverage, coverageFor } = await import('../netlify/functions/lib/coverage.js');
+  const ids = (t) => classifyCoverage(t).map(c => c.id);
+  assert.deepEqual(ids('Health-tech experience'), ['health']);
+  assert.deepEqual(ids('Experience in a founder-led startup'), ['founder-led', 'startup']);
+  assert.deepEqual(ids('Head of Product'), ['head-of-product']);
+  assert.deepEqual(ids('40-person company'), ['size']);
+  assert.deepEqual(ids('Hands-on with discovery: interviews, prototypes, experiments'), []);
+  const { isCoverageRequirement } = await import('../netlify/functions/lib/coverage.js');
+  for (const t of ['Health-tech experience', 'Experience in a founder-led startup', 'Head of Product', '5+ years of product leadership experience in B2B SaaS']) assert.ok(isCoverageRequirement(t), t);
+  for (const t of ['Hands-on GenAI experience in pharma is required.', 'Shipped a mobile app in a startup']) assert.ok(!isCoverageRequirement(t), t);
+  assert.equal(coverageFor('Fintech experience'), null);   // no role in the record: falls through to retrieval
+  const health = coverageFor('Health-tech experience');
+  assert.deepEqual(health.groups[0].roles.map(r => r.company), ['Novo Nordisk', 'LEO Innovation Lab']);
+  assert.equal(health.year, '2016-2026');
+  assert.match(health.evidence, /LEO Innovation Lab \(2016-2020\): TREAT, Skincoach, Diagnosis App, BetterVisitBot/);
+  // LEO is a startup incubator inside a corporate: it sits in both.
+  for (const t of ['Startup experience', 'Experience in a large corporate']) {
+    assert.ok(coverageFor(t).groups[0].roles.some(r => r.company === 'LEO Innovation Lab'), t);
+  }
+  assert.deepEqual(coverageFor('Experience in a founder-led startup').groups[0].roles.map(r => r.company), ['TwentyThree', 'Opbeat', 'EuroDNS', 'Host Europe Group']);
+  const level = coverageFor('Head of Product').groups[0].roles;
+  assert.deepEqual(level.map(r => r.company), ['Novo Nordisk', 'LEO Innovation Lab', 'UK2 Group']);
+  assert.match(level[1].detail, /in effect a mini-CEO and head of product/);
+  // A headcount: every stated size, the nearest first.
+  assert.deepEqual(coverageFor('40-person company').groups[0].roles.map(r => r.company)[0], 'EuroDNS');
+});
+await test('coverage row: every matching role, no score, example stories only from those companies; schema-valid', withLogs(async () => {
+  const pp = (n, company, product, sim) => ({ title: `PP.${n}`, content: '', follow_ups: [], similarity: sim,
+    row: { company, product: { text: product, section: 'NOVO.R1' }, result: { text: `${product} result.`, section: 'NOVO.R1' }, year: { text: '2020-2022', section: 'NOVO.R1' }, role: { text: 'PM', section: 'NOVO.R1' } } });
+  const matches = [pp(1, 'TwentyThree', 'TwentyThree', 0.64), pp(2, 'Novo Nordisk', 'Wegovycare', 0.6), pp(3, 'LEO Innovation Lab', 'Skincoach', 0.55)];
+  const h = createCalibrateHandlerRaw({ limiter: null, createMessage: noAnthropic, env: {},
+    listSections: async () => ['NOVO', 'NOVO.R1', 'NOVO.R2', 'LEO', 'UK2', 'OPBEAT', 'T23', 'EURODNS', 'HOST', 'META.LOCATION'].map(id => ({ id, questions: [] })),
+    retrieve: async () => ({ match: matches[0], topMatch: matches[0], matches }) });
+  const res = await h(req('/ask/brief', { method: 'POST', headers: { 'content-type': 'text/plain' }, body: '- Head of Product\n- 40-person company\n- Copenhagen\n- Health-tech' }));
+  const b = await body(res);
+  assert.deepEqual(b.rows.map(r => [r.requirement, r.kind, r.met]), [['Head of Product', 'coverage', 'met'], ['40-person company', 'coverage', 'fact'], ['Copenhagen', 'fact', 'fact'], ['Health-tech', 'coverage', 'met']]);
+  for (const r of b.rows) assert.ok(isValidRow(r), r.requirement);
+  const [level, size, , health] = b.rows;
+  assert.equal(level.score, null); assert.equal(level.source, "Tom's own account");
+  assert.deepEqual(level.also.map(a => a.product), ['Wegovycare', 'Skincoach']);   // never the TwentyThree marketing launch
+  assert.equal(size.also, null); assert.match(size.evidence, /I joined when the Lab was 30 people/);
+  assert.equal(health.year, '2016-2026'); assert.equal(health.coverage[0].roles.length, 2);
+  assert.match(b.rows[2].evidence, /^Copenhagen, Denmark/);
+  assert.ok(logs.some(l => /"coverage_rows":3/.test(l)));
+}));
+await test('coverage: a long requirement keeps its story row and carries the roles beside it', async () => {
+  const h = createCalibrateHandler({ retrieve: stubRetrieve, createMessage: noAnthropic, env: {} });
+  const long = 'You have shipped consumer products in health-tech and can show how patient research changed what the team built next';
+  const b = await body(await h(req('/ask/brief', { method: 'POST', headers: { 'content-type': 'text/plain' }, body: `- ${long}` })));
+  assert.equal(b.rows[0].kind, 'section'); assert.equal(typeof b.rows[0].score, 'number');
+  assert.equal(b.rows[0].coverage[0].id, 'health');
 });
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);

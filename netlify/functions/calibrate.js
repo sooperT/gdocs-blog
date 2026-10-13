@@ -21,6 +21,7 @@ import { classifyBrief } from './lib/role_shape.js';
 import { cleanAnswer, deriveYear, deriveStrength, SELF_REPORTED, OWN_ACCOUNT, HUMAN_VERSION } from './ask.js';
 import { referencesFor } from './lib/references.js';
 import { classifyKnockouts, answerFor, FACT_NOTE, NOT_STATED_NOTE } from './lib/facts.js';
+import { coverageFor, isCoverageRequirement, COVERAGE_NOTE, SIZE_NOTE } from './lib/coverage.js';
 import SECTION_YEARS from './lib/section_years.json' with { type: 'json' };
 import { logUsage, getUsagePool, cleanTag } from './lib/usage.js';
 import { track, askerBucket } from './lib/analytics.js';
@@ -266,7 +267,7 @@ export function sectionYear(title, table = SECTION_YEARS) {
   return y || years[title] || null;
 }
 
-const NO_STAR = { kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, fact_types: null, also: null, facet: null };
+const NO_STAR = { kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, fact_types: null, also: null, facet: null, coverage: null };
 
 // More than one example (Tom, 2026-10-12): the other STAR rows that cleared
 // the threshold for this requirement, a different product each, best first.
@@ -365,7 +366,35 @@ function buildProofPointRow(requirement, match, { facets = true } = {}) {
     fact_type: null,
     fact_types: null,
     also: null,
+    coverage: null,
     facet: facet ? { id: facet.id || null, label: facet.label || null, source: facet.source || null, tier: facet.tier || SELF_REPORTED } : null,
+  };
+}
+
+// Role context (Tom, 2026-10-13): a domain, an environment or a level is
+// answered with every role that matches (lib/coverage.js), not the one story
+// that scored best. `coverage` holds the roles per dimension; `also` up to
+// three example stories from those companies. Not retrieved, so no score; a
+// headcount is a fact the reader compares.
+export const MAX_COVERAGE_EXAMPLES = 3;
+export function buildCoverageRow(requirement, cov, matches) {
+  const fromThese = (matches || []).filter(m => m.row && cov.companies.has(m.row.company));
+  return {
+    requirement,
+    met: cov.sizeOnly ? 'fact' : 'met',
+    evidence: cov.evidence,
+    strength: null,
+    year: cov.year,
+    section: cov.section,
+    source: OWN_ACCOUNT,
+    tier: SELF_REPORTED,
+    score: null,
+    references: null,
+    ...NO_STAR,
+    kind: 'coverage',
+    coverage: cov.groups,
+    also: alsoRows(fromThese, null, { max: MAX_COVERAGE_EXAMPLES }),
+    note: cov.sizeOnly ? SIZE_NOTE : COVERAGE_NOTE,
   };
 }
 
@@ -525,10 +554,13 @@ export function createCalibrateHandler({
           return json({ error: 'Retrieval is unavailable right now. Please try again later.', human_version: HUMAN_VERSION }, 503);
         }
         batch.forEach((r, j) => {
+          const cov = coverageFor(r);
+          if (cov && isCoverageRequirement(r)) { rows.push(buildCoverageRow(r, cov, results[j].matches)); return; }
           const chosen = pickMatch(results[j].matches) || results[j].match;
           const row = buildRow(r, chosen);
           if (row.met === 'not met' && results[j].nearest) row.adjacent = buildAdjacent(results[j].nearest);
           if (row.met !== 'not met') row.also = alsoRows(results[j].matches, chosen);
+          if (cov) row.coverage = cov.groups;   // a long requirement keeps its story; the roles ride beside it
           rows.push(row);
         });
       }
@@ -579,6 +611,7 @@ export function createCalibrateHandler({
       const usage = {
         asker, tag, requirements: rows.length, met: count('met'), partial: count('partial'), not_met: count('not met'), splitter,
         proof_point_rows: rows.filter(r => r.kind === 'proof-point').length,
+        coverage_rows: rows.filter(r => r.kind === 'coverage').length,
         evidence_queries: queries.reduce((n, q) => n + q.length, 0),
         adjacent: rows.filter(r => r.adjacent).length,
         // Fixed-list labels only: which knockout types the brief asked, and which had no fact.

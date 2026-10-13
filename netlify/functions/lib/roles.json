@@ -1,0 +1,461 @@
+{
+  "generated_by": "generate_agent_page.py",
+  "note": "Role context, Tom's own account (tier: self-reported): what kind of company each role sat in, how big it was, and the scope of the role in effect next to its title. A company can carry several sectors and environments at once.",
+  "dimensions": {
+    "sector": [
+      {
+        "id": "health",
+        "label": "Health-tech",
+        "asks": [
+          "\\bhealth[- ]?tech\\b",
+          "\\bdigital health\\b",
+          "\\bhealth ?care\\b",
+          "\\bmed[- ]?tech\\b",
+          "\\bhealth (software|company|companies|sector|industry|domain|space|products?)\\b",
+          "\\bpatient[- ]facing\\b"
+        ]
+      },
+      {
+        "id": "pharma",
+        "label": "Pharma",
+        "asks": [
+          "\\bpharma(ceuticals?)?\\b",
+          "\\blife sciences?\\b"
+        ]
+      },
+      {
+        "id": "saas",
+        "label": "SaaS",
+        "asks": [
+          "\\bsaas\\b"
+        ]
+      },
+      {
+        "id": "developer-tools",
+        "label": "Developer tools",
+        "asks": [
+          "\\bdeveloper tool(s|ing)\\b",
+          "\\bdev ?tools\\b"
+        ]
+      },
+      {
+        "id": "hosting",
+        "label": "Web hosting and domains",
+        "asks": [
+          "\\b(web )?hosting\\b",
+          "\\bdomain (names?|industry|registrar)\\b"
+        ]
+      },
+      {
+        "id": "ecommerce",
+        "label": "Ecommerce",
+        "asks": [
+          "\\be-?commerce\\b"
+        ]
+      }
+    ],
+    "environment": [
+      {
+        "id": "founder-led",
+        "label": "Founder-led",
+        "asks": [
+          "\\bfounder[- ]led\\b",
+          "\\b(with|to|alongside) (the |a |our )?(co-?)?founders?\\b"
+        ]
+      },
+      {
+        "id": "startup",
+        "label": "Startup",
+        "asks": [
+          "\\bstart-?ups?\\b",
+          "\\bearly[- ]stage\\b",
+          "\\bseed\\b",
+          "\\bseries a\\b",
+          "\\bventure[- ]backed\\b",
+          "\\bvc[- ]backed\\b"
+        ]
+      },
+      {
+        "id": "scale-up",
+        "label": "Scale-up",
+        "asks": [
+          "\\bscale-?ups?\\b",
+          "\\bhigh[- ]growth\\b",
+          "\\bhyper-?growth\\b",
+          "\\bseries [b-e]\\b"
+        ]
+      },
+      {
+        "id": "incubator",
+        "label": "Innovation lab or incubator",
+        "asks": [
+          "\\bincubat",
+          "\\binnovation (lab|unit|hub|team)\\b",
+          "\\bventure (studio|building)\\b"
+        ]
+      },
+      {
+        "id": "corporate",
+        "label": "Corporate",
+        "asks": [
+          "\\bcorporate\\b",
+          "\\blarge (organi[sz]ations?|compan(y|ies)|enterprises?)\\b",
+          "\\bmatrix(ed)?\\b",
+          "\\bmultinational\\b",
+          "\\bglobal (organi[sz]ation|company|enterprise)\\b"
+        ]
+      }
+    ],
+    "level": [
+      {
+        "id": "head-of-product",
+        "label": "Head of product",
+        "asks": [
+          "\\bhead of product\\b",
+          "\\bvp,? (of )?product\\b",
+          "\\bvice president,? (of )?product\\b",
+          "\\bchief product officer\\b",
+          "\\bcpo\\b",
+          "\\bproduct director\\b",
+          "\\bdirector of product\\b",
+          "\\bproduct lead(er|ership)?\\b",
+          "\\b(sole|first|only) product (lead|leader|hire|person|manager)\\b",
+          "\\b(lead|leading|led|own|owning|owned|run|running|ran) (the |a )?product (function|organi[sz]ation|team|department)\\b"
+        ]
+      }
+    ]
+  },
+  "size_ask": "\\b(\\d{1,3}(?:,\\d{3})+|\\d+)\\+?[- ]?(?:person|people|employees?|staff|fte)\\b",
+  "companies": [
+    {
+      "company": "Novo Nordisk",
+      "section": "NOVO",
+      "period": "Mar 2020 - Feb 2026",
+      "years": "2020-2026",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/",
+      "sectors": [
+        "health",
+        "pharma"
+      ],
+      "environments": [
+        "corporate"
+      ],
+      "context": null,
+      "size": {
+        "text": "Novo Nordisk is about 70,000 people globally. I worked in the digital health unit, about 100 people; the Wegovycare product team was around 10.",
+        "section": "NOVO",
+        "people": [
+          70000,
+          100,
+          10
+        ]
+      },
+      "products": [
+        "Wegovycare",
+        "Wegovy Pill launch",
+        "CagriSema",
+        "GenAI proof of concept for automating compliance reviews",
+        "Digital Incubation",
+        "Product Operations"
+      ],
+      "roles": [
+        {
+          "role": "Associate Product Director at Novo Nordisk",
+          "aliases": [
+            "Incubation Lead",
+            "Digital Product Operations Lead",
+            "Head of Patient Products",
+            "Head of Product Ops"
+          ],
+          "levels": [
+            "head-of-product"
+          ],
+          "scope": {
+            "text": "Head of Patient Products: led 6 experienced PMs building consumer engagement products.",
+            "section": "NOVO.R2"
+          },
+          "years": "2022-2026",
+          "page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/"
+        },
+        {
+          "role": "Senior Product Manager at Novo Nordisk",
+          "aliases": [
+            "Product Owner",
+            "Product Manager (Wegovycare)"
+          ],
+          "levels": [],
+          "scope": {
+            "text": "Led cross-functional team of 10.",
+            "section": "NOVO.R1"
+          },
+          "years": "2020-2022",
+          "page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/"
+        }
+      ],
+      "tier": "self-reported"
+    },
+    {
+      "company": "LEO Innovation Lab",
+      "section": "LEO",
+      "period": "Nov 2016 - Jan 2020",
+      "years": "2016-2020",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/",
+      "sectors": [
+        "health",
+        "pharma"
+      ],
+      "environments": [
+        "startup",
+        "incubator",
+        "corporate"
+      ],
+      "context": {
+        "text": "the Lab was a startup incubator at arm's length from LEO Pharma, a 12,000-person pharma company.",
+        "section": "LEO"
+      },
+      "size": {
+        "text": "I joined when the Lab was 30 people and it was 130 when I left. Multiple startup teams of around 3 to 15 people each.",
+        "section": "LEO",
+        "people": [
+          30,
+          130,
+          15
+        ]
+      },
+      "products": [
+        "TREAT",
+        "Skincoach",
+        "Diagnosis App",
+        "BetterVisitBot"
+      ],
+      "roles": [
+        {
+          "role": "PM/GM at LEO Innovation Lab",
+          "aliases": [
+            "Product Owner",
+            "Product Lead",
+            "Product Lead / GM",
+            "Product Manager / GM"
+          ],
+          "levels": [
+            "head-of-product"
+          ],
+          "scope": {
+            "text": "each team had one product owner, who was in effect a mini-CEO and head of product. I was the sole product lead on mine.",
+            "section": "LEO"
+          },
+          "years": "2016-2020",
+          "page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/"
+        }
+      ],
+      "tier": "self-reported"
+    },
+    {
+      "company": "TwentyThree",
+      "section": "T23",
+      "period": "2016",
+      "years": "2016",
+      "page": "https://takenbyninjas.com/for-agents/twentythree/",
+      "sectors": [],
+      "environments": [
+        "founder-led",
+        "startup"
+      ],
+      "context": {
+        "text": "a founder-led startup.",
+        "section": "T23"
+      },
+      "size": {
+        "text": "About 30 people.",
+        "section": "T23",
+        "people": [
+          30
+        ]
+      },
+      "products": [],
+      "roles": [
+        {
+          "role": "Head of Marketing, TwentyThree",
+          "aliases": [],
+          "levels": [],
+          "scope": {
+            "text": "Stabilised a 10-12 person marketing team",
+            "section": "T23"
+          },
+          "years": "2016",
+          "page": "https://takenbyninjas.com/for-agents/roles/twentythree/head-of-marketing/"
+        }
+      ],
+      "tier": "self-reported"
+    },
+    {
+      "company": "Opbeat",
+      "section": "OPBEAT",
+      "period": "2014-2016",
+      "years": "2014-2016",
+      "page": "https://takenbyninjas.com/for-agents/opbeat/",
+      "sectors": [
+        "saas",
+        "developer-tools"
+      ],
+      "environments": [
+        "founder-led",
+        "startup"
+      ],
+      "context": {
+        "text": "a founder-led startup.",
+        "section": "OPBEAT"
+      },
+      "size": {
+        "text": "12 people in the company, 4 in marketing including design.",
+        "section": "OPBEAT",
+        "people": [
+          12
+        ]
+      },
+      "products": [],
+      "roles": [
+        {
+          "role": "Head of Marketing, Opbeat",
+          "aliases": [],
+          "levels": [],
+          "scope": {
+            "text": "I joined as Head of Marketing and built the brand, marketing strategy, team and channels",
+            "section": "OPBEAT"
+          },
+          "years": "2014-2016",
+          "page": "https://takenbyninjas.com/for-agents/roles/opbeat/head-of-marketing/"
+        }
+      ],
+      "tier": "self-reported"
+    },
+    {
+      "company": "EuroDNS",
+      "section": "EURODNS",
+      "period": "2013-2014",
+      "years": "2013-2014",
+      "page": "https://takenbyninjas.com/for-agents/eurodns/",
+      "sectors": [
+        "hosting",
+        "ecommerce"
+      ],
+      "environments": [
+        "founder-led"
+      ],
+      "context": {
+        "text": "founder-led.",
+        "section": "EURODNS"
+      },
+      "size": {
+        "text": "Probably about 50 people.",
+        "section": "EURODNS",
+        "people": [
+          50
+        ]
+      },
+      "products": [],
+      "roles": [
+        {
+          "role": "Marketing Director, EuroDNS",
+          "aliases": [],
+          "levels": [],
+          "scope": {
+            "text": "Marketing Director by title; the product work was mine: discount ladders, management panels, bundling features, product strategy.",
+            "section": "EURODNS"
+          },
+          "years": "2013-2014",
+          "page": "https://takenbyninjas.com/for-agents/roles/eurodns/marketing-director/"
+        }
+      ],
+      "tier": "self-reported"
+    },
+    {
+      "company": "UK2 Group",
+      "section": "UK2",
+      "period": "Sep 2008 - Sep 2010",
+      "years": "2008-2010",
+      "page": "https://takenbyninjas.com/for-agents/uk2/",
+      "sectors": [
+        "hosting"
+      ],
+      "environments": [],
+      "context": null,
+      "size": {
+        "text": "UK2 grew from about 100 to about 200 people while I was there.",
+        "section": "UK2",
+        "people": [
+          100,
+          200
+        ]
+      },
+      "products": [
+        "new domain platform"
+      ],
+      "roles": [
+        {
+          "role": "Head of Group Strategy, UK2 Group",
+          "aliases": [],
+          "levels": [
+            "head-of-product"
+          ],
+          "scope": {
+            "text": "in effect head of product for the US parts of the business I worked on.",
+            "section": "UK2"
+          },
+          "years": "2008-2010",
+          "page": "https://takenbyninjas.com/for-agents/roles/uk2-group/head-of-group-strategy/"
+        }
+      ],
+      "tier": "self-reported"
+    },
+    {
+      "company": "Host Europe Group",
+      "section": "HOST",
+      "period": "Mar 2003 - Jun 2008",
+      "years": "2003-2008",
+      "page": "https://takenbyninjas.com/for-agents/host-europe/",
+      "sectors": [
+        "hosting",
+        "ecommerce"
+      ],
+      "environments": [
+        "founder-led",
+        "startup",
+        "scale-up"
+      ],
+      "context": {
+        "text": "a founder-led startup at the beginning.",
+        "section": "HOST"
+      },
+      "size": {
+        "text": "About 150 people when I started, about 500 later, and 2,000 as part of Pipex broadband.",
+        "section": "HOST",
+        "people": [
+          150,
+          500,
+          2000
+        ]
+      },
+      "products": [
+        "domain search",
+        "online order process"
+      ],
+      "roles": [
+        {
+          "role": "Head of New Media, Host Europe Group",
+          "aliases": [
+            "Head of New Media, Pipex Hosting / GX Networks"
+          ],
+          "levels": [],
+          "scope": {
+            "text": "Created department from scratch, member of Senior Management Team.",
+            "section": "HOST"
+          },
+          "years": "2003-2008",
+          "page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/"
+        }
+      ],
+      "tier": "self-reported"
+    }
+  ]
+}

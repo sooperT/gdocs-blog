@@ -50,7 +50,7 @@ This page is a machine-readable summary of the CV above, generated from the same
 
 ### Skills (each tagged from the proof points that carry it)
 
-algorithm, API, regulated, pharma, healthcare, patients, discovery, prototyping, ways of working, growth, retention, roadmap, 0 to 1, marketing, team leadership, stakeholders, consumer, AI, GenAI, compliance, launch, SaaS, international, budget, incubation, funnels, experimentation, brand, machine learning, computer vision, domains, partnerships, activation, turnaround, deadline, conversion, KPIs, startup, developer tools, SEO, ecommerce, remote, web hosting.
+algorithm, API, regulated, pharma, healthcare, patients, discovery, prototyping, ways of working, growth, retention, roadmap, 0 to 1, marketing, team leadership, stakeholders, consumer, AI, GenAI, compliance, launch, SaaS, international, budget, incubation, funnels, experimentation, brand, machine learning, computer vision, domains, partnerships, activation, turnaround, startup, deadline, conversion, KPIs, developer tools, SEO, ecommerce, remote, web hosting.
 
 ### References
 

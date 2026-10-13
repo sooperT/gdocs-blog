@@ -204,6 +204,14 @@ export function isValidRow(row) {
     return row.met === 'fact' && typeof content === 'string'
       && (row.section === null ? row.source === null : typeof row.section === 'string' && typeof row.source === 'string');
   }
+  // Role coverage (lib/coverage.js) is read from the roles register, not
+  // retrieved: no score, but always evidence, a section and a source.
+  if (row.kind === 'coverage') {
+    return row.score === null && typeof content === 'string' && content.length > 0
+      && typeof row.section === 'string' && row.section.length > 0
+      && typeof row.source === 'string' && row.source.length > 0
+      && ['met', 'fact'].includes(row.met) && Array.isArray(row.coverage) && row.coverage.length > 0;
+  }
   if (content !== null) {
     return typeof content === 'string'
       && typeof row.section === 'string' && row.section.length > 0
