@@ -27,7 +27,7 @@ os.chdir(ROOT)   # build() reads the generator's page list from the working dire
 sys.path.insert(0, os.path.join(ROOT, 'scripts'))
 import cv_appendix as c  # noqa: E402
 
-BRIEFS = os.path.join(ROOT, 'docs', 'agent-readable', 'evals', 'health', 'briefs-2026-10-12')
+BRIEFS = os.path.join(ROOT, 'docs', 'agent-readable', 'evals', 'health', 'briefs-2026-10-13')   # regenerated after the 2026-10-13 docs loss
 with open(os.path.join(ROOT, c.ROWS_FILE), encoding='utf-8') as f:
     ROWS = json.load(f)
 
