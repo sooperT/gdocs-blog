@@ -28,3 +28,6 @@ docs/
 
 # Night shift worktrees (one per night, created by the /nightshift skill)
 .claude/worktrees/
+
+# docs is private: never track it, whether a directory or a symlink (2026-10-13 incident)
+docs
