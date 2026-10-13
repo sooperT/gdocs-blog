@@ -137,7 +137,7 @@
         </ul>
         <h2 id="novo-r2-genai">Tell me about a GenAI project</h2>
         <p><small data-source="NOVO.R2.GENAI">source: Tom's own account</small></p>
-        <p>When developing health software, every release needs extensive review by medical, legal and regulatory experts (MLR). The process was designed for simple marketing materials, not sophisticated software - but it hadn't evolved.</p>
+        <p>When developing health software, every release needs extensive regulatory review by medical, legal and regulatory experts (pharma calls it MLR). The process was designed for simple marketing materials, not sophisticated software - but it hadn't evolved.</p>
         <p>In practice, every screen had to be captured in PDF format and reviewed individually. The result: significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off.</p>
         <p>I used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations. Now we could automatically document and review each submission with a full audit trail - the review team only had to rubber-stamp the release.</p>
         <p>I also built a prototype agent that plugged into Figma, so designers could query the guidelines before investing too much effort. This allowed product teams to shift left - fail in design, not at review.</p>
@@ -145,7 +145,7 @@
         <h3>Direct answers</h3>
         <ul>
             <li>Why it stopped at POC: it was built to test value, not to harden. Product teams used the Figma plugin on real designs and liked it, but a reorg and a vendor contract that covered the compliance-assistant use case meant it never got the second test or a path to production, and I moved on to the Wegovy Pill launch[NOVO.R2.WEGOVY]. Two tests were set; the first was run.</li>
-            <li>Rollout: the compliance RAG and the Figma agent were built for every product team's release review; the product teams loved it, and designers could query the guidelines in Figma, so teams could shift left; built the mandate to pitch for Generative AI MLR reviews as a product and pitched senior leadership; execs weren't ready, and the project was handed to another team. Ways of working rolled out across organisations: design sprints, user testing and direct user interviews at LEO[LEO]; discovery, rapid prototyping and automated documentation at Novo, then a discovery playbook[NOVO.R1].</li>
+            <li>Rollout: the compliance RAG and the Figma agent were built for every product team's release review; the product teams loved it, and designers could query the guidelines in Figma, so teams could shift left; built the mandate to pitch for Generative AI regulatory reviews as a product and pitched senior leadership; execs weren't ready, and the project was handed to another team. Ways of working rolled out across organisations: design sprints, user testing and direct user interviews at LEO[LEO]; discovery, rapid prototyping and automated documentation at Novo, then a discovery playbook[NOVO.R1].</li>
             <li>Dated: the agentic RAG compliance proof of concept was built in January 2025, inside the Associate Product Director role; two acceptance tests were set up front and the first was run with product teams on real designs[NOVO.R2.GENAI].</li>
         </ul>
         <p><small data-source="NOVO.R2.GENAI">source: Tom's own account, direct answers</small></p>

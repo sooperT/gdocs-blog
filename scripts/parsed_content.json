@@ -641,7 +641,7 @@
     ],
     "attested": [],
     "direct_answers": [
-      "Copenhagen, Denmark. Open to onsite roles in Copenhagen, and remote roles across the EU and UK.",
+      "Copenhagen, Denmark. Onsite in Copenhagen up to four days a week, some flexibility preferred; remote roles across the EU and UK.",
       "British & French; Danish permanent resident; no work visa is required in EU and UK.",
       "Working pattern: it depends on the role and the location, but I'm flexible: worked on-site, hybrid and remote, and across time zones. Examples: EuroDNS across Luxembourg and Copenhagen[EURODNS.R1.STORY.REMOTE], the UK2 US turnaround from London[UK2.R1.USTURNAROUND].",
       "Relocation: no. Remote across the EU and UK, or Copenhagen."
@@ -1160,7 +1160,7 @@
       "How recent is Tom's GenAI work?",
       "Has Tom shipped an agentic prototype in the last two years?"
     ],
-    "content": "When developing health software, every release needs extensive review by medical, legal and regulatory experts (MLR). The process was designed for simple marketing materials, not sophisticated software - but it hadn't evolved.\n\nIn practice, every screen had to be captured in PDF format and reviewed individually. The result: significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off.\n\nI used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations. Now we could automatically document and review each submission with a full audit trail - the review team only had to rubber-stamp the release.\n\nI also built a prototype agent that plugged into Figma, so designers could query the guidelines before investing too much effort. This allowed product teams to shift left - fail in design, not at review.\n\nThe product teams loved it. Organisational priorities later shifted and the project was handed to another team, but the proof of concept showed a clear path to dramatically faster release cycles.",
+    "content": "When developing health software, every release needs extensive regulatory review by medical, legal and regulatory experts (pharma calls it MLR). The process was designed for simple marketing materials, not sophisticated software - but it hadn't evolved.\n\nIn practice, every screen had to be captured in PDF format and reviewed individually. The result: significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off.\n\nI used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations. Now we could automatically document and review each submission with a full audit trail - the review team only had to rubber-stamp the release.\n\nI also built a prototype agent that plugged into Figma, so designers could query the guidelines before investing too much effort. This allowed product teams to shift left - fail in design, not at review.\n\nThe product teams loved it. Organisational priorities later shifted and the project was handed to another team, but the proof of concept showed a clear path to dramatically faster release cycles.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -1175,7 +1175,7 @@
     "attested": [],
     "direct_answers": [
       "Why it stopped at POC: it was built to test value, not to harden. Product teams used the Figma plugin on real designs and liked it, but a reorg and a vendor contract that covered the compliance-assistant use case meant it never got the second test or a path to production, and I moved on to the Wegovy Pill launch[NOVO.R2.WEGOVY]. Two tests were set; the first was run.",
-      "Rollout: the compliance RAG and the Figma agent were built for every product team's release review; the product teams loved it, and designers could query the guidelines in Figma, so teams could shift left; built the mandate to pitch for Generative AI MLR reviews as a product and pitched senior leadership; execs weren't ready, and the project was handed to another team. Ways of working rolled out across organisations: design sprints, user testing and direct user interviews at LEO[LEO]; discovery, rapid prototyping and automated documentation at Novo, then a discovery playbook[NOVO.R1].",
+      "Rollout: the compliance RAG and the Figma agent were built for every product team's release review; the product teams loved it, and designers could query the guidelines in Figma, so teams could shift left; built the mandate to pitch for Generative AI regulatory reviews as a product and pitched senior leadership; execs weren't ready, and the project was handed to another team. Ways of working rolled out across organisations: design sprints, user testing and direct user interviews at LEO[LEO]; discovery, rapid prototyping and automated documentation at Novo, then a discovery playbook[NOVO.R1].",
       "Dated: the agentic RAG compliance proof of concept was built in January 2025, inside the Associate Product Director role; two acceptance tests were set up front and the first was run with product teams on real designs[NOVO.R2.GENAI]."
     ],
     "external": []
@@ -2403,7 +2403,7 @@
     ],
     "attested": [],
     "direct_answers": [
-      "Regulated environments shipped in: Novo Nordisk, where every release needs extensive review by medical, legal and regulatory experts (MLR), and release cycles went from yearly to bi-monthly[NOVO.R1]; LEO and Amgen, a patient-support app under strict regulatory and ethical constraints[LEO.R2]; UK2, ICANN liaison & compliance for over 500,000 customer domain names[UK2]; Host Europe, a Plc rename that included changing the stock market ticker[HOST.R1.REBRAND]. Health-tech: 10 years leading regulated products.",
+      "Regulated environments shipped in: Novo Nordisk, where every release needs extensive regulatory review by medical, legal and regulatory experts, and release cycles went from yearly to bi-monthly[NOVO.R1]; LEO and Amgen, a patient-support app under strict regulatory and ethical constraints[LEO.R2]; UK2, ICANN liaison & compliance for over 500,000 customer domain names[UK2]; Host Europe, a Plc rename that included changing the stock market ticker[HOST.R1.REBRAND]. Health-tech: 10 years leading regulated products.",
       "Financial services: no. Not worked in banking, payments, insurance or fintech, nor sold into them. Regulated-industry experience is pharma[NOVO.R1]; commercial and pricing experience is from hosting and SaaS: UK2 pricing[UK2], the Opbeat free tier and pricing[OPBEAT], the EuroDNS sales recovery[EURODNS.R1.TURNAROUND].",
       "Food, nutrition, FMCG: TREAT, a personalised-nutrition app, is the only one[LEO.R1.TURNAROUND]. The Wegovy Pill packaging and direct-distribution work is consumer health, not FMCG[NOVO.R2.WEGOVY]."
     ],
@@ -3060,7 +3060,7 @@
       "Crypto",
       "Defence sector"
     ],
-    "content": "Not a specialist engineer, a designer by trade, or a marketer for hire any more: those are chapters, not the job. Not a role that is mostly line management and levels; I can manage people and enjoy it, but it's not what gets me out of bed[TQ.MGMT]. Not a mature product in steady state; I'm a fixer, and once it's running it deserves someone who loves running it[FIT.FIXER]. And not a role that needs a decade in your exact domain: I move across industries on purpose and pick them up fast[META.LOOKING].",
+    "content": "Not a specialist engineer or a designer by trade any more: those are chapters, not the job. Marketing, growth and go-to-market are in scope when they sit inside a product or commercial role; a marketing-only seat is not the fit. Not a role that is mostly line management and levels; I can manage people and enjoy it, but it's not what gets me out of bed[TQ.MGMT]. Not a mature product in steady state; I'm a fixer, and once it's running it deserves someone who loves running it[FIT.FIXER]. And not a role that needs a decade in your exact domain: I move across industries on purpose and pick them up fast[META.LOOKING].",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -3074,11 +3074,11 @@
     ],
     "attested": [],
     "direct_answers": [
-      "Not a specialist engineer, designer by trade, or marketer for hire.",
+      "Not a specialist engineer or designer by trade. Marketing, growth and go-to-market in scope inside a product or commercial role; not a marketing-only seat.",
       "Not a role that is mostly line management and levels.",
       "Not a mature product in steady state.",
       "Not a role that needs a decade in one exact domain; moves across industries on purpose.",
-      "Not five days onsite without an operational reason; hybrid Copenhagen or remote EU and UK; no relocation[META.LOCATION].",
+      "Not five days a week onsite: up to four in Copenhagen with some flexibility, or remote across the EU and UK; no relocation[META.LOCATION].",
       "Not a hard Danish-language requirement: cannot read Danish regulatory material or interview users in Danish[META.EDUCATION].",
       "Not quota-carrying sales, country-head or sales-leadership seats; commercial ownership inside a product role is in.",
       "Not hands-on ML engineering (SQL, Python, model architecture): AI fluency is strategic and applied, not engineering[TQ.TECHNICAL].",

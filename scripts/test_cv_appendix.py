@@ -224,8 +224,8 @@ SYNTH = copy.deepcopy(ROWS)
 SYNTH['screening_facts'] = [
     {'type': 'name', 'label': 'Name', 'base': 'Tom Stenson', 'qualifiers': [], 'value': 'Tom Stenson', 'per_send': False, 'asks': []},
     {'type': 'location', 'label': 'Location', 'base': 'Copenhagen, Denmark', 'per_send': True, 'asks': [],
-     'qualifiers': [{'text': 'Open to onsite roles in Copenhagen', 'ask': r'\boffice\b|\bon-?site\b'}, {'text': 'remote roles across the EU', 'ask': r'\bremote\b'}],
-     'value': 'Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU'},
+     'qualifiers': [{'text': 'Onsite in Copenhagen up to four days a week, some flexibility preferred', 'ask': r'\boffice\b|\bon-?site\b'}, {'text': 'remote roles across the EU', 'ask': r'\bremote\b'}],
+     'value': 'Copenhagen, Denmark; Onsite in Copenhagen up to four days a week, some flexibility preferred; remote roles across the EU'},
     {'type': 'start_date', 'label': 'Start date', 'base': None, 'qualifiers': [], 'value': None, 'per_send': False, 'asks': []},
 ]
 RECORD = SYNTH['screening_facts'][1]['value']
@@ -240,7 +240,7 @@ ASK_OFFICE, ASK_REMOTE, ASK_NEITHER = 'Three days a week in the Lisbon office', 
 for applying in (JD, None):   # with or without --role and --company
     how = 'on a send' if applying else 'JD without role/company'
     text, q = facts_for(ASK_OFFICE, applying=applying)
-    check(f'5 {how}: core plus the qualifier the ask mentions', fact_line(text, 'Location') == '- Location: Copenhagen, Denmark; Open to onsite roles in Copenhagen',
+    check(f'5 {how}: core plus the qualifier the ask mentions', fact_line(text, 'Location') == '- Location: Copenhagen, Denmark; Onsite in Copenhagen up to four days a week, some flexibility preferred',
           fact_line(text, 'Location'))
     check(f'5 {how}: the ask is not echoed', 'Lisbon' not in text and 'Three days' not in text)
     check(f'7 {how}: a per-send question is open until Tom answers', q == [{'type': 'location', 'asked': ASK_OFFICE, 'record': RECORD}], q)
