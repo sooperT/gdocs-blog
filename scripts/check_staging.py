@@ -18,7 +18,7 @@ TIMEOUT = 20
 
 # The page header routes three ways (PRD R1012-1, item 18d): people to the
 # human site, assistants to the entry file, crawlers to llms.txt.
-ROUTING_LINKS = ("/", "/for-agents/start.md", "/llms.txt")
+ROUTING_LINKS = ("/", "/for-agents/start/", "/llms.txt")   # the strip points at the HTML entry page (N1012-16); start.md stays served
 
 
 class HeaderLinks(HTMLParser):

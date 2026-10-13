@@ -226,7 +226,7 @@ await test('properties never carry the IP, the query string, the question or the
   assert.equal(body.distinct_id, 'novonesis-2026');
   assert.deepEqual(body.properties, {
     asker: 'other', query_length: QUESTION.length, section: 'LEO.R3', matches: 1, null: false, withheld: 0, flags: [], hint: false,
-    env: 'production', path: '/ask', bot_family: 'OpenAI', ua_product: 'Mozilla', referer_host: 'chatgpt.com', tag: 'novonesis-2026',
+    env: 'production', site: 'takenbyninjas', path: '/ask', bot_family: 'OpenAI', ua_product: 'Mozilla', referer_host: 'chatgpt.com', tag: 'novonesis-2026',
   });
 });
 
@@ -268,7 +268,7 @@ await test('agent-fetch: agent_fetch event with resource, status, tagged; no eve
     const { body } = f.calls[0];
     assert.equal(body.event, 'agent_fetch');
     assert.match(body.distinct_id, /^[0-9a-f]{16}$/);
-    assert.deepEqual(body.properties, { resource: 'llms', status: 200, tagged: false, env: 'production', path: '/llms.txt', bot_family: 'OpenAI', ua_product: 'Mozilla', referer_host: 'claude.ai', tag: null });
+    assert.deepEqual(body.properties, { resource: 'llms', status: 200, tagged: false, env: 'production', site: 'takenbyninjas', path: '/llms.txt', bot_family: 'OpenAI', ua_product: 'Mozilla', referer_host: 'claude.ai', tag: null });
 
     const tagged = await h(req('https://takenbyninjas.com/for-agents/start/novonesis-2026.md'), prodCtx);
     assert.equal(tagged.status, 200);
@@ -311,7 +311,7 @@ await test('ask: agent_ask event on the injection path (null, flagged), question
     assert.equal(body.distinct_id, 'novonesis-2026');
     assert.deepEqual(body.properties, {
       asker: 'recruiter-agent', query_length: question.length, section: null, matches: 0, null: true, withheld: 0, flags: ['injection_pattern'], hint: false,
-      env: 'production', path: '/ask', bot_family: 'OpenAI', ua_product: 'Mozilla', referer_host: null, tag: 'novonesis-2026',
+      env: 'production', site: 'takenbyninjas', path: '/ask', bot_family: 'OpenAI', ua_product: 'Mozilla', referer_host: null, tag: 'novonesis-2026',
     });
     assert.ok(!JSON.stringify(body).includes('system prompt'));
   } finally { globalThis.fetch = thrower; }
