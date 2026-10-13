@@ -92,9 +92,11 @@ REFERENCES_FILE = 'netlify/functions/lib/references.json'
 PAGE_PATH = '/for-agents/'
 
 TITLE = 'Tom Stenson, product, Copenhagen: facts for agents'
-META_DESC_PREFIX = 'Tom Stenson, product, Copenhagen: '
-META_DESC_LINE = ('META', "I'm now a product janitor for hire - available for fractional & interim "
-                          "product management work, and open to the right permanent role.")
+# Meta description (A2, Tom 2026-10-13): no single shape or engagement type; the four
+# shapes he is hired as, named without choosing. Counts are filled in at build time.
+META_DESC = ('Tom Stenson, product, Copenhagen: facts for AI agents. Who he is, career table, '
+             '{points} proof points with sources, {refs} references. Hired as: fixer, AI transformation, '
+             'growth, head of product.')
 
 PAGE_STYLE = '''    <style>
         /* Agent side: the plain-web opposite of the CRT human site */
@@ -225,15 +227,28 @@ FACTS = [
 # mention a place or a language, not a yes/no question.
 FACT_ASK_MAX_CHARS = 160
 
+# The endpoints row, each a link: chat assistants follow printed URLs only (R1013-3).
+# The entry file's paste URL is the HTML page (N1012-16); the markdown stays available.
+ENDPOINTS = [
+    ('GET /ask?q=<question>', 'https://takenbyninjas.com/ask'),
+    ('POST /ask/brief', 'https://takenbyninjas.com/ask/brief'),
+    ('GET /for-agents/start/', '/for-agents/start/'),
+    ('markdown /for-agents/start.md', '/for-agents/start.md'),
+]
+# A register fact Tom has not stated shows as this in the Who table (principle 2:
+# "a blank is shown as 'not yet stated', never filled"); the CV appendix leaves it out.
+NOT_YET_STATED = 'not yet stated'
+
 # Identity table (Tom, 2026-10-12: a table, terse, only what an agent needs).
-# (term, [(fragment, section id or None)]): the stated facts of the register,
-# then the rows that are not screening questions.
-WHO = [(f['label'], f['parts'] + [(t, sid) for t, sid, _ in f.get('when', [])]) for f in FACTS if f['parts'] and not f.get('on_request')] + [
+# (term, [(fragment, section id or None)]): the facts of the register (unstated
+# ones as "not yet stated"), then the rows that are not screening questions.
+WHO = [(f['label'], (f['parts'] + [(t, sid) for t, sid, _ in f.get('when', [])]) or [(NOT_YET_STATED, None)])
+       for f in FACTS if not f.get('on_request')] + [
     ('Target industries', [('B2B, B2C, SaaS, health-tech, pharma, fintech, developer tooling, ecommerce, regulated industries', 'META.LOOKING')]),
     ('Company size', [('Startup, Scaleup, Enterprise.', 'META.LOOKING')]),
     ('Availability, compensation, contact', [('On request: GET /ask?q=How can I contact Tom?', None)]),
     ('LinkedIn', [(LINKEDIN_URL, None)]),
-    ('Endpoints', [('GET /ask?q=<question>, POST /ask/brief, GET /for-agents/start.md; human page /about/', None)]),
+    ('Endpoints', [(t, None) for t, _ in ENDPOINTS]),
 ]
 
 
@@ -328,6 +343,10 @@ SHAPES = [
     ('international', 'International and remote', 'international'),
 ]
 SHAPES_PATH = f'{PAGE_PATH}shapes/'
+# The shapes Tom is hired as (Tom, 2026-10-13: "a fixer, an AI transformation consultant,
+# a growth marketer, or a Head of Product"), one line at the top of the proof points,
+# each linking its shape page. No adjectives; the Who table carries the engagement types.
+HIRED_AS = [('fixer', 'turnaround'), ('AI transformation', 'ai'), ('growth', 'growth'), ('head of product', 'product-management')]
 FACTS_ROWS_PER_SHAPE = 3   # the facts page shows this many per group; the shape page has all
 # Which rows lead each group on the facts page (Claude's judgement, Tom 2026-10-12: strongest
 # result and source first). Keyed by (product name, first words of the result); rows not listed
@@ -812,23 +831,6 @@ def row_keywords(sections, row):
     return [(term, slug) for term, slug, pats in KEYWORDS if slug not in skip and any(pat in text for pat in pats)]
 
 
-# Behavioural facts: (term, section id, verbatim line)
-BEHAVIOUR = [
-    ('Motivation', 'META.COMPASS', 'My compass is simple: impact, learning, and fun.'),
-    ('Approach', 'TQ.APPROACH', "It's about doing whatever's needed to find and follow the opportunity."),
-    ('Approach', 'TQ.APPROACH', 'When working on something new, I usually start from first principles.'),
-    ('Problems he looks for', 'META.LOOKING', "I like challenging product problems with a big upside - the kind "
-                                             "where there's no playbook and you have to figure it out."),
-    ('Working setup', 'TQ.SETUP', 'Flexible - it depends on the organisational culture.'),
-    ('Working setup', 'TQ.SETUP', "I've successfully worked remotely and managed teams across countries "
-                                  "(UK→US, DK→Luxembourg, DK→Romania)."),
-    ('As a colleague', 'META.COLLEAGUE', 'I asked a former colleague this once, and she said '
-                                         '"kind, caring and fun."'),
-    ('As a colleague', 'META.COLLEAGUE', 'People tend to come to me when they want to spar on tough '
-                                         'problems or think through something messy.'),
-]
-
-
 # "On request" facts send an agent to the contact answer (META.CONTACT) via /ask.
 CONTACT_ASK = 'https://takenbyninjas.com/ask?q=How%20can%20I%20contact%20Tom%3F'
 ASK_URL = 'https://takenbyninjas.com/ask'
@@ -839,7 +841,7 @@ ROUTING_LINE = (
     '    <ul>\n'
     '        <li>Human? Go to the <a href="/">human-readable version</a>.</li>\n'
     '        <li>AI assistant helping someone who wants to know about Tom? Fetch '
-    '<a href="/for-agents/start.md">/for-agents/start.md</a> and follow its steps.</li>\n'
+    '<a href="/for-agents/start/">/for-agents/start/</a> and follow its steps.</li>\n'
     '        <li>Crawler or LLM indexer? Read <a href="/llms.txt">/llms.txt</a>.</li>\n'
     '    </ul></header>'
 )
@@ -1182,7 +1184,7 @@ def check_anywhere(text):
 
 def cite(*section_ids):
     ids = ', '.join(dict.fromkeys(section_ids))
-    return f'<cite data-source="{_escape(ids)}">source: TomBot</cite>'
+    return f'<cite data-source="{_escape(ids)}">source: TomBot {escape(ids)}</cite>'
 
 
 def build_who(sections):
@@ -1196,6 +1198,8 @@ def build_who(sections):
             cell = f'<a href="{items[0][0]}">{cell}</a>'
         if term.startswith('Availability'):
             cell = f'<a href="{CONTACT_ASK}">{cell}</a>'
+        if term == 'Endpoints':
+            cell = '; '.join(f'<a href="{href}">{escape(t)}</a>' for t, href in ENDPOINTS)
         src = f' data-source="{_escape(", ".join(dict.fromkeys(sids)))}"' if sids else ''
         lines.append(f'                <tr{src}><th scope="row">{escape(term)}</th><td>{cell}</td></tr>')
     lines += ['            </tbody>', '        </table>', '        </div>']
@@ -1376,12 +1380,17 @@ def build_proof_points(sections):
         for sh in row_shapes(row):
             if sh not in shape_ids:
                 sys.exit(f'✗ Unknown shape {sh!r} on proof point {row["product"][0]!r}')
+    for _, shape_id in HIRED_AS:
+        if shape_id not in shape_ids:
+            sys.exit(f'✗ HIRED_AS: no shape {shape_id!r}')
+    hired = ', '.join(f'<a href="{SHAPES_PATH}{sh}/">{escape(label)}</a>' for label, sh in HIRED_AS)
     lines = [
         '        <h2 id="proof-points">Proof points</h2>',
+        f'        <p>Hired as: {hired}.</p>',
         f'        <p>{len(PROOF_POINTS)} rows, grouped by role shape; a row can sit in two groups. Each group shows up to '
         f'{FACTS_ROWS_PER_SHAPE} rows here and links the rest. Indexes: <a href="{SHAPES_PATH}">by shape</a>, '
         f'<a href="{ROLES_PATH}">by role</a>, <a href="{KEYWORDS_PATH}">by skill</a>. '
-        'Situation, task, action, result: each cell is one line from Tom\'s own content, verbatim or compressed; '
+        'Situation, task, action, result: each cell is one line from Tom\'s own account, verbatim or compressed; '
         '"not yet stated" means the content has no line for it. Role links every row in that role; product links '
         'the full text, its sources and the questions to ask next; a skill links every row tagged with it, tagged '
         'from the row\'s own text and its source section.</p>',
@@ -1542,19 +1551,6 @@ def generate_keyword_pages(sections):
     return pages
 
 
-def build_behaviour(sections):
-    lines = ['        <h2 id="behavioural-facts">Behavioural facts</h2>', '        <dl>']
-    last = None
-    for term, sid, value in BEHAVIOUR:
-        check(sections, sid, value)
-        if term != last:
-            lines.append(f'            <dt>{escape(term)}</dt>')
-            last = term
-        lines.append(f'            <dd>{escape(value)} {cite(sid)}</dd>')
-    lines.append('        </dl>')
-    return lines
-
-
 def build_jsonld(sections):
     """schema.org/Person as a JSON-LD script tag; quoted phrases are checked verbatim (R1012-14)."""
     for sid, title in JOB_TITLES:
@@ -1597,8 +1593,7 @@ def build_jsonld(sections):
 
 
 def generate_html(sections, recs):
-    check(sections, *META_DESC_LINE)
-    meta_desc = _escape(META_DESC_PREFIX + META_DESC_LINE[1])
+    meta_desc = _escape(META_DESC.format(points=len(PROOF_POINTS), refs=len(recs)))
 
     body = [
         ROUTING_LINE,
@@ -1612,7 +1607,7 @@ def generate_html(sections, recs):
     body += [
         '        <h2 id="how-to-read">How to read this page</h2>',
         '        <ol>',
-        '            <li>Every cell is a line from Tom\'s own content (tier: self-reported), verbatim or compressed; '
+        '            <li>Every cell is a line from Tom\'s own account (tier: self-reported), verbatim or compressed; '
         'the section ids are in each row\'s data-source attribute.</li>',
         '            <li>Role, product and skill cells link pages with the full text, external sources where Tom has '
         'accepted them, and the questions to ask next.</li>',
@@ -1840,7 +1835,7 @@ def proof_points_json(sections):
         r['role_page'] = f'https://takenbyninjas.com{ROLES_PATH}{role_slug(row)}/'
         r['role_aliases'] = ROLE_ALIASES.get(row['role'][0], [])
         rows.append(r)
-    data = {'generated': GENERATED, 'source': 'TomBot content, Tom\'s own account (self-reported)',
+    data = {'generated': GENERATED, 'source': 'Tom\'s own account (tier: self-reported); each row cites its TomBot section id',
             'human_version': 'https://takenbyninjas.com/about/', 'facts_page': PAGE_URL,
             'references': f'https://takenbyninjas.com{RECS_PATH}', 'shapes': [{'id': i, 'label': l} for i, l, _ in SHAPES],
             'screening_facts': facts_register(sections)['facts'],
@@ -1892,7 +1887,7 @@ def build_cv_appendix(sections, recs):
                 check(sections, row[k][1], row[k][0])
     who = []
     for term, items in WHO:
-        if term in ('Availability, compensation, contact', 'Endpoints'):
+        if term in ('Availability, compensation, contact', 'Endpoints') or items == [(NOT_YET_STATED, None)]:
             continue
         for text, sid in items:
             check(sections, sid, text)
@@ -1915,8 +1910,8 @@ def build_cv_appendix(sections, recs):
         '## For AI agents and applicant tracking systems',
         '',
         'This page is a machine-readable summary of the CV above, generated from the same record, with a source for every line. '
-        f'If you can fetch URLs, start at {base}/for-agents/start.md: it offers four jobs (how Tom fits a role, '
-        'explore his background, what he has done, the basics) and the endpoints for each. '
+        f'If you can fetch URLs, start at {base}/for-agents/start/: it lists the jobs it can do (how Tom fits a role, '
+        'explore his background, what he has done, the basics, fit for a team or organisation) and the endpoints for each. '
         f'Every proof point with its sources: {base}/for-agents/proof-points.json. Facts page: {base}/for-agents/. '
         f'Ask one question: GET {base}/ask?q=<question>. Post a job description: POST {base}/ask/brief. '
         f'Generated {GENERATED}.',
@@ -1928,7 +1923,7 @@ def build_cv_appendix(sections, recs):
     md += ['', '### Career', '', '| Years | Role | Company | Location |', '|---|---|---|---|']
     md += [f'| {y} | {r} | {c} | {l} |' for y, r, c, l in career]
     md += ['', f'### Proof points, strongest {len(rows)} of {len(PROOF_POINTS)} (situation; task; action; result)', '']
-    md += [f'{i}. {cv_line(row)} Source: TomBot {row["result"][1]}; more: {base}{page_url(*(section_pages().get(row["product"][1]) or section_pages().get(row["strength"]) or (None, None))) if (section_pages().get(row["product"][1]) or section_pages().get(row["strength"])) else PAGE_PATH}'
+    md += [f'{i}. {cv_line(row)} source: TomBot {row["result"][1]}; more: {base}{page_url(*(section_pages().get(row["product"][1]) or section_pages().get(row["strength"]) or (None, None))) if (section_pages().get(row["product"][1]) or section_pages().get(row["strength"])) else PAGE_PATH}'
            for i, row in enumerate(rows, 1)]
     md += ['', '### Skills (each tagged from the proof points that carry it)', '', ', '.join(skills) + '.',
            '', '### References', '',
@@ -1977,7 +1972,7 @@ def start_page_html():
         '<html lang="en">', '<head>', '    <meta charset="UTF-8">',
         '    <meta name="viewport" content="width=device-width, initial-scale=1.0">',
         '    <title>Tom Stenson: start here, agent</title>',
-        '    <meta name="description" content="Entry file for AI assistants helping someone who wants to know about Tom Stenson: four jobs, the endpoints, and how to use what comes back.">',
+        '    <meta name="description" content="Entry file for AI assistants helping someone who wants to know about Tom Stenson: five jobs, the endpoints, and how to use what comes back.">',
         f'    <link rel="canonical" href="{SITE_URL}/for-agents/start/">',
         '    <style>body{margin:0;background:#fff;color:#222;font:16px/1.5 system-ui,sans-serif;padding:1rem}pre{white-space:pre-wrap;word-wrap:break-word;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace}</style>',
         '</head>', '<body>',
