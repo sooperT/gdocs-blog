@@ -35,6 +35,15 @@
         "8888"
       ],
       "port": 8888
+    },
+    {
+      "name": "tombot-staging",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "cd /Users/tom/Developer/takenbyninjas/.claude/worktrees/staging && set -a && . ./.env.staging && set +a && exec env -u ANTHROPIC_API_KEY netlify dev --port 8889 --dir /Users/tom/Developer/takenbyninjas/.claude/worktrees/staging --functions /Users/tom/Developer/takenbyninjas/.claude/worktrees/staging/netlify/functions"
+      ],
+      "port": 8889
     }
   ]
 }

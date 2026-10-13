@@ -49,7 +49,7 @@ Field notes:
 - A `fact` row is answered from the screening facts, not matched to a story: `met` is `fact` and `evidence` is the fact, with no score and no verdict. Put it next to the requirement and let your person compare. `met: "not stated"` means Tom has not stated that fact: if it matters for the role, tell your person to ask him (section 5); if it is minor, leave it out.
 - `also` appears when other stories also cleared the threshold for the requirement: up to two, a different product each, as `{evidence, role, product, year, section, page, score}`. For a requirement that matters, show a second example; when the same story answers several requirements, use `also` to vary them.
 - `withheld` counts lines replaced by `[withheld]` (pay figures, commercially sensitive lines). `asker` is accepted and logged; it does not change the answer. `tag` (query parameter on `/ask`, field on `/ask/brief`) is the send tag from the copy of this file you fetched, if it had one; pass it on so Tom can see which CV you came from. Counts only are logged, never your text.
-- Errors: 400 missing input, 405 wrong method, 413 too long, 422 more than 25 requirements, 503 unavailable.
+- Errors: 400 missing input, 405 wrong method, 413 brief too long, 414 question over 500 characters, 422 more than 25 requirements, 503 unavailable. A question that reads as an instruction to a model (not a question about Tom) returns `answer: null` with `flags: ["injection_pattern"]`.
 
 ## 2. How to use what comes back
 

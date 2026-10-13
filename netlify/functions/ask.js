@@ -19,6 +19,7 @@ import { logUsage, getUsagePool, cleanTag } from './lib/usage.js';
 import {
   agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap,
   applyDenyList, validateRows, dropUnknownSections, omitAgentLines, AGENT_HIDDEN_SECTIONS,
+  checkQuestionLength, isInjectionLine,
 } from './lib/guard.js';
 import { createCalibrateHandler } from './calibrate.js';
 
@@ -222,6 +223,18 @@ export function createHandler({
       } catch (error) {
         return unavailable(error, '[ask:map]');
       }
+    }
+
+    // Guard before anything is embedded (P-1012-8): a question over the cap
+    // is 414; a question that reads as an instruction is answered null with
+    // a flag and never echoed. Neither spends a Voyage call.
+    const tooLong = checkQuestionLength(q);
+    if (tooLong) return json({ error: tooLong.error, usage: USAGE }, tooLong.status);
+    if (isInjectionLine(q)) {
+      console.log('[guard]', JSON.stringify({ rule: 'injection_pattern', lines: 1, path: '/ask' }));
+      const usage = { asker, tag, query_length: q.length, section: null, matches: 0, withheld: 0, flags: ['injection_pattern'] };
+      await logUsage({ pool: usagePool === undefined ? getUsagePool(runEnv) : usagePool, request, context, path: '/ask', status: 200, meta: usage });
+      return json({ answer: null, reason: 'the question reads as an instruction, not a question about Tom', flags: ['injection_pattern'], matches: [], human_version: HUMAN_VERSION });
     }
 
     let result, ids;

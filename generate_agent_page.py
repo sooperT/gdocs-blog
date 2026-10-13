@@ -209,8 +209,10 @@ FACTS = [
      'asks': [r'\bph\.?\s?d\b', r'\bm\.?sc\b', r'\bb\.?sc\b', r'\bmba\b', r'\bbachelor', r"\bmaster'?s\b", r'\bmaster of\b', r'\bdegree\b']},
     {'type': 'languages', 'label': 'Languages',
      'parts': [('English (native)', 'META.EDUCATION'), ('Danish (conversational)', 'META.EDUCATION')],
-     'when': [('Prøve i Dansk 3 (Danish language certification, 2012)', 'META.EDUCATION', r'\bdanish\b')],
-     'asks': [r'\b(english|danish|german|french|spanish|swedish|norwegian|dutch)\b', r'\b(spoken|written|foreign|second) languages?\b', r'\blanguage skills\b']},
+     'when': [('Prøve i Dansk 3 (Danish language certification, 2012)', 'META.EDUCATION', r'\b(danish|dansk)\b')],
+     'asks': [r'\b(english|danish|german|french|spanish|swedish|norwegian|dutch)\b', r'\b(spoken|written|foreign|second) languages?\b', r'\blanguage skills\b',
+              # Danish forms (health case A25: "Flydende dansk i skrift og tale")
+              r'\b(engelsk|dansk|tysk|fransk|spansk|svensk|norsk|hollandsk)\b', r'\bsprog(kundskaber|krav|kompetencer)?\b', r'\bflydende\b']},
     {'type': 'employment_type', 'label': 'Open to',
      'parts': [('fractional, interim and permanent roles.', 'META.LOOKING')],
      'asks': [r'full[- ]time\b', r'\bpart[- ]time\b', r'\bpermanent (position|role|contract)\b', r'\bfixed[- ]term\b', r'\btemporary (position|role|contract)\b']},

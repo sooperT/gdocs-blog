@@ -95,7 +95,7 @@ export function checkRequirementCount(n) {
   };
 }
 
-// --- injection patterns (brief text) ----------------------------------------
+// --- injection patterns (brief lines and /ask questions) ----------------------------------------
 
 export const INJECTION_PATTERNS = [
   /\b(?:ignore|disregard|forget)\s+(?:all\s+|any\s+|the\s+)?(?:previous\s+|prior\s+|above\s+|earlier\s+)?(?:instructions|prompts?|rules)\b/i,
@@ -110,7 +110,29 @@ export const INJECTION_PATTERNS = [
   /\[\/?(?:INST|SYSTEM)\]/i,
   /\bpretend (?:to be|you are)\b/i,
   /\brole-?play\b/i,
+  // Danish forms (PRD W10.1, health case A05)
+  /\b(?:ignorer|ignorér|glem|se bort fra)\s+(?:alle\s+|de\s+|dine\s+)?(?:tidligere\s+|foregående\s+|ovenstående\s+)?(?:instruktioner|instrukser|regler|prompts?)\b/i,
+  /\bdu er nu\b/i,
+  /\bsystem-?prompt(?:en)?\b/i,
+  /\bnye instruktioner\b/i,
+  /\b(?:bedøm|vurder)\s+(?:denne\s+|den\s+)?kandidat(?:en)?\b/i,
+  /\blad som om\b/i,
+  /\brollespil\b/i,
 ];
+
+// --- question length (GET /ask?q=) -----------------------------------------
+
+// A question longer than this is refused before it is embedded (health case
+// A18: a 4,000-character question used to cost a Voyage call). 414, the URI
+// status, because the question travels in the query string.
+export const MAX_QUESTION_CHARS = 500;
+
+// null when fine, else { status: 414, error }.
+export function checkQuestionLength(q) {
+  const n = String(q || '').length;
+  if (n <= MAX_QUESTION_CHARS) return null;
+  return { status: 414, error: `Question is ${n} characters; the limit is ${MAX_QUESTION_CHARS}. Ask one thing at a time.` };
+}
 
 export const isInjectionLine = (line) => INJECTION_PATTERNS.some(p => p.test(line));
 

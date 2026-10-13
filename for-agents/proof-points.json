@@ -149,7 +149,7 @@
       "qualifiers": [
         {
           "text": "Prøve i Dansk 3 (Danish language certification, 2012)",
-          "ask": "\\bdanish\\b"
+          "ask": "\\b(danish|dansk)\\b"
         }
       ],
       "value": "English (native); Danish (conversational); Prøve i Dansk 3 (Danish language certification, 2012)",
@@ -159,7 +159,10 @@
       "asks": [
         "\\b(english|danish|german|french|spanish|swedish|norwegian|dutch)\\b",
         "\\b(spoken|written|foreign|second) languages?\\b",
-        "\\blanguage skills\\b"
+        "\\blanguage skills\\b",
+        "\\b(engelsk|dansk|tysk|fransk|spansk|svensk|norsk|hollandsk)\\b",
+        "\\bsprog(kundskaber|krav|kompetencer)?\\b",
+        "\\bflydende\\b"
       ]
     },
     {

@@ -41,7 +41,24 @@ FETCH_COLUMNS = ["id", "path", "status", "content type", "result", "detail"]
 SITE_HOSTS = ("takenbyninjas.com", "www.takenbyninjas.com")
 # Paths that cost money (Voyage embeddings, Claude calls). fetch does free calls only.
 PAID_MARKERS = ("?q=", "&q=", "brief=", "/ask/brief")
-EXPECTED_SECTIONS = 73
+# The /ask map lists every parsed section minus the ones the agent side hides
+# (AGENT_HIDDEN_SECTIONS in lib/guard.js, N1012-21). Read from the files, so a
+# content change or a new hidden section never leaves a stale number here.
+def expected_sections():
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    try:
+        with open(os.path.join(root, "scripts", "parsed_content.json"), encoding="utf-8") as fh:
+            parsed = json.load(fh)
+        sections = parsed if isinstance(parsed, list) else parsed.get("sections", [])
+        with open(os.path.join(root, "netlify", "functions", "lib", "guard.js"), encoding="utf-8") as fh:
+            guard = fh.read()
+        block = re.search(r"AGENT_HIDDEN_SECTIONS = new Set\(\[(.*?)\]\)", guard, re.S)
+        hidden = set(re.findall(r"'([A-Z0-9_.]+)'", block.group(1))) if block else set()
+        ids = {s.get("id") or s.get("title") for s in sections}
+        return len(ids - hidden)
+    except (OSError, ValueError, AttributeError):
+        return 73
+EXPECTED_SECTIONS = expected_sections()
 MAX_LINKED_URLS = 120  # per list (sitemap-agent.xml, llms.txt); about 90 and 35 today
 PAUSE_SECONDS = 0.2    # between requests, to be polite to the host
 
