@@ -161,3 +161,85 @@ export async function track(event, opts = {}) {
   if (typeof opts.context?.waitUntil === 'function') opts.context.waitUntil(p);
   else await p;
 }
+
+// ---------------------------------------------------------------------------
+// TomBot chat (the human side): PostHog LLM analytics events for chat.js.
+// One trace per turn, grouped by the chat session: a `$ai_span` for the
+// retrieval step (always) and a `$ai_generation` for the Claude call (not on
+// a deflection, which never reaches the model).
+//
+// Unlike the agent side above, the chat text IS sent (question, system
+// prompt with the retrieved section, answer): the page tells visitors chats
+// are logged, and the text is what makes the trace views worth having.
+// POSTHOG_CHAT_TEXT=off withholds it and sends lengths only.
+//
+// distinct_id: the page's own PostHog id when the browser sent one (so a chat
+// lines up with that visit), else the chat session id. Never a person
+// profile: the site runs cookieless, every visitor stays anonymous.
+const PH_ID_RE = /^[A-Za-z0-9_.:-]{8,80}$/;
+export function cleanPosthogId(value) {
+  return typeof value === 'string' && PH_ID_RE.test(value) ? value : null;
+}
+
+export function chatTextAllowed(env = process.env) {
+  return String(env.POSTHOG_CHAT_TEXT || '').trim().toLowerCase() !== 'off';
+}
+
+function chatBase({ traceId, sessionId, webSessionId, retrieval = {} }) {
+  const top = retrieval.matches?.[0] || null;
+  return {
+    $ai_trace_id: traceId,
+    $ai_session_id: sessionId,
+    ...(cleanPosthogId(webSessionId) ? { $session_id: webSessionId } : {}),
+    $process_person_profile: false,
+    surface: 'tombot',
+    deflected: retrieval.method === 'none',
+    section: top?.section ?? retrieval.topMatch?.title ?? null,
+    score: Number(top?.score ?? retrieval.topMatch?.score ?? NaN) || null,
+  };
+}
+
+// The retrieval step: query in, matched section (or the near miss) out.
+export function retrievalSpanEvent({ traceId, sessionId, webSessionId, query, retrieval, latencyMs, env = process.env }) {
+  const text = chatTextAllowed(env);
+  return {
+    ...chatBase({ traceId, sessionId, webSessionId, retrieval }),
+    $ai_span_name: 'retrieval',
+    $ai_span_id: `${traceId}-retrieval`,
+    $ai_parent_id: traceId,
+    $ai_latency: latencyMs / 1000,
+    $ai_input_state: text ? { query } : { query_length: String(query || '').length },
+    $ai_output_state: { method: retrieval?.method || 'none', matches: retrieval?.matches || [], top_match: retrieval?.topMatch || null },
+  };
+}
+
+// The Claude call. `usage` is the SDK's final message usage; PostHog prices
+// the call from $ai_model and the token counts.
+export function generationEvent({ traceId, sessionId, webSessionId, retrieval, model, maxTokens, system, messages, output, usage, latencyMs, firstTokenMs, error, env = process.env }) {
+  const text = chatTextAllowed(env);
+  return {
+    ...chatBase({ traceId, sessionId, webSessionId, retrieval }),
+    $ai_span_name: 'tombot answer',
+    $ai_span_id: `${traceId}-generation`,
+    $ai_parent_id: traceId,
+    $ai_provider: 'anthropic',
+    $ai_model: model,
+    $ai_model_parameters: { max_tokens: maxTokens },
+    $ai_stream: true,
+    $ai_base_url: 'https://api.anthropic.com',
+    $ai_latency: latencyMs / 1000,
+    ...(firstTokenMs != null ? { $ai_time_to_first_token: firstTokenMs / 1000 } : {}),
+    $ai_input_tokens: usage?.input_tokens ?? null,
+    $ai_output_tokens: usage?.output_tokens ?? null,
+    $ai_cache_read_input_tokens: usage?.cache_read_input_tokens ?? 0,
+    $ai_cache_creation_input_tokens: usage?.cache_creation_input_tokens ?? 0,
+    $ai_is_error: Boolean(error),
+    ...(error ? { $ai_error: String(error).slice(0, 500) } : {}),
+    turns: messages.filter(m => m.role === 'user').length,
+    output_length: String(output || '').length,
+    ...(text ? {
+      $ai_input: [{ role: 'system', content: system }, ...messages.map(m => ({ role: m.role, content: m.content }))],
+      $ai_output_choices: [{ role: 'assistant', content: output }],
+    } : {}),
+  };
+}

@@ -49,7 +49,7 @@
           "ask": "^\\s*location\\b|\\bbased in\\b|\\bon-?site\\b|\\bhybrid\\b|\\boffice\\b"
         },
         {
-          "text": "remote roles across the EU",
+          "text": "remote roles across the EU and UK",
           "ask": "\\bremote(ly)?\\b"
         },
         {
@@ -57,7 +57,7 @@
           "ask": "\\bhybrid\\b|\\btime ?zones?\\b|\\bworking pattern\\b|\\bdays? ((a|per) week )?in (the )?office\\b"
         }
       ],
-      "value": "Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU; worked on-site, hybrid and remote, and across time zones",
+      "value": "Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU and UK; worked on-site, hybrid and remote, and across time zones",
       "section": "META.LOCATION",
       "per_send": true,
       "on_request": false,

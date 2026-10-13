@@ -204,7 +204,7 @@ FACTS = [
     {'type': 'location', 'label': 'Location', 'per_send': True,
      'parts': [('Copenhagen, Denmark', 'META.LOCATION')],
      'when': [('Open to onsite roles in Copenhagen', 'META.LOCATION', r'^\s*location\b|\bbased in\b|\bon-?site\b|\bhybrid\b|\boffice\b'),
-              ('remote roles across the EU', 'META.LOCATION', r'\bremote(ly)?\b'),
+              ('remote roles across the EU and UK', 'META.LOCATION', r'\bremote(ly)?\b'),
               ('worked on-site, hybrid and remote, and across time zones', 'META.LOCATION',
                r'\bhybrid\b|\btime ?zones?\b|\bworking pattern\b|\bdays? ((a|per) week )?in (the )?office\b')],
      'asks': [r'^\s*location\b', r'\bbased (in|within)\b', r'\bon-?site\b', r'\bhybrid\b', r'\brelocat', r'\bfully remote\b',

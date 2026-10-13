@@ -4,6 +4,7 @@ import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { embedQuery, matchSections, prepareQuerySteps, QUESTION_MATCH_THRESHOLD, TOP_K } from './lib/retrieval.js';
+import { track, cleanPosthogId, retrievalSpanEvent, generationEvent } from './lib/analytics.js';
 
 // Load .env in development
 const currentFilePath = fileURLToPath(import.meta.url);
@@ -23,6 +24,8 @@ if (existsSync(envPath)) {
 const SYSTEM_PROMPT = readFileSync(join(currentDirPath, 'system-prompt.md'), 'utf-8');
 
 const anthropic = new Anthropic();
+const CHAT_MODEL = 'claude-sonnet-5';
+const CHAT_MAX_TOKENS = 1024;
 
 // Database connection
 const pool = new pg.Pool({
@@ -188,7 +191,7 @@ export default async (request, context) => {
   let lastUserQuery = null;
 
   try {
-    const { messages, sessionId } = await request.json();
+    const { messages, sessionId, phId, phSession } = await request.json();
 
     // Validate messages
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
@@ -200,6 +203,12 @@ export default async (request, context) => {
 
     // Generate session ID if not provided
     chatSessionId = sessionId || `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    // PostHog LLM analytics (lib/analytics.js): one trace per turn, grouped by
+    // the chat session; a no-op without POSTHOG_KEY.
+    const traceId = `${chatSessionId}_${Date.now()}`;
+    const phOpts = { request, context, distinctId: cleanPosthogId(phId) || chatSessionId };
+    const phIds = { traceId, sessionId: chatSessionId, webSessionId: phSession };
 
     // Cap conversation history to prevent token overflow
     const MAX_MESSAGES = 20;
@@ -213,7 +222,9 @@ export default async (request, context) => {
     let retrievalInfo = { method: 'none', matches: [] };
 
     if (lastUserMessage) {
+      const retrievalStart = Date.now();
       const { chunks, method, topMatch } = await retrieveContent(lastUserMessage.content);
+      const retrievalMs = Date.now() - retrievalStart;
 
       // No match found — return hardcoded deflect, skip Claude entirely
       if (method === 'none') {
@@ -230,6 +241,9 @@ export default async (request, context) => {
 
         // Also log to chat logs
         await logChatExchange(chatSessionId, lastUserMessage.content, deflectMessage, { method: 'none', matches: [] });
+        await track('$ai_span', { ...phOpts, properties: retrievalSpanEvent({
+          ...phIds, query: lastUserMessage.content, retrieval: { method, matches: [], topMatch }, latencyMs: retrievalMs,
+        }) });
 
         // Return deflect as streaming response (for consistent client handling)
         const deflectFollowUps = [
@@ -270,15 +284,20 @@ export default async (request, context) => {
           score: c.similarity?.toFixed(3),
         })),
       };
+      await track('$ai_span', { ...phOpts, properties: retrievalSpanEvent({
+        ...phIds, query: lastUserMessage.content, retrieval: retrievalInfo, latencyMs: retrievalMs,
+      }) });
     }
 
     // Combine system prompt with RAG context
     const enhancedSystemPrompt = SYSTEM_PROMPT + ragContext;
 
     // Create streaming response
+    const generationStart = Date.now();
+    let firstTokenMs = null;
     const stream = await anthropic.messages.stream({
-      model: 'claude-sonnet-5',
-      max_tokens: 1024,
+      model: CHAT_MODEL,
+      max_tokens: CHAT_MAX_TOKENS,
       thinking: { type: 'disabled' },
       system: enhancedSystemPrompt,
       messages: trimmedMessages,
@@ -286,6 +305,15 @@ export default async (request, context) => {
 
     // Collect full response for logging
     let fullResponse = '';
+    const trackGeneration = async (error) => {
+      let usage = null;
+      if (!error) { try { usage = (await stream.finalMessage()).usage; } catch { /* usage stays null */ } }
+      await track('$ai_generation', { ...phOpts, properties: generationEvent({
+        ...phIds, retrieval: retrievalInfo, model: CHAT_MODEL, maxTokens: CHAT_MAX_TOKENS,
+        system: enhancedSystemPrompt, messages: trimmedMessages, output: fullResponse, usage,
+        latencyMs: Date.now() - generationStart, firstTokenMs, error,
+      }) });
+    };
 
     // Set up streaming response
     const encoder = new TextEncoder();
@@ -294,6 +322,7 @@ export default async (request, context) => {
         try {
           for await (const event of stream) {
             if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
+              if (firstTokenMs === null) firstTokenMs = Date.now() - generationStart;
               fullResponse += event.delta.text;
               const data = JSON.stringify({ type: 'delta', text: event.delta.text });
               controller.enqueue(encoder.encode(`data: ${data}\n\n`));
@@ -303,6 +332,7 @@ export default async (request, context) => {
           if (lastUserMessage) {
             await logChatExchange(chatSessionId, lastUserMessage.content, fullResponse, retrievalInfo);
           }
+          await trackGeneration(null);
           // Send follow-up suggestions as structured data for clickable chips
           if (followUps.length > 0) {
             controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'follow_ups', suggestions: followUps })}\n\n`));
@@ -312,6 +342,7 @@ export default async (request, context) => {
         } catch (error) {
           console.error('Streaming error:', error);
           logError(chatSessionId, lastUserMessage?.content || null, error.message);
+          await trackGeneration(error.message);
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'error', message: error.message })}\n\n`));
           controller.close();
         }

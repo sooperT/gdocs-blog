@@ -87,7 +87,7 @@
           "ask": "^\\s*location\\b|\\bbased in\\b|\\bon-?site\\b|\\bhybrid\\b|\\boffice\\b"
         },
         {
-          "text": "remote roles across the EU",
+          "text": "remote roles across the EU and UK",
           "ask": "\\bremote(ly)?\\b"
         },
         {
@@ -95,7 +95,7 @@
           "ask": "\\bhybrid\\b|\\btime ?zones?\\b|\\bworking pattern\\b|\\bdays? ((a|per) week )?in (the )?office\\b"
         }
       ],
-      "value": "Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU; worked on-site, hybrid and remote, and across time zones",
+      "value": "Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU and UK; worked on-site, hybrid and remote, and across time zones",
       "section": "META.LOCATION",
       "per_send": true,
       "on_request": false,
@@ -833,13 +833,17 @@
       ],
       "skills": [
         "pharma",
+        "healthcare",
+        "patients",
         "growth",
         "retention",
         "launch",
+        "marketing",
         "SaaS",
         "team leadership",
         "international",
-        "consumer"
+        "consumer",
+        "budget"
       ],
       "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2-wegovy",
       "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/consumer-lead/",
@@ -2452,6 +2456,7 @@
       ],
       "skills": [
         "growth",
+        "conversion",
         "activation",
         "experimentation",
         "KPIs",
@@ -2883,6 +2888,8 @@
         "ecommerce",
         "domains",
         "web hosting",
+        "team leadership",
+        "remote",
         "international",
         "budget"
       ],
@@ -3222,6 +3229,7 @@
       ],
       "skills": [
         "growth",
+        "conversion",
         "KPIs",
         "launch",
         "0 to 1",
@@ -3323,6 +3331,7 @@
       ],
       "skills": [
         "pharma",
+        "growth",
         "SEO",
         "launch",
         "marketing",

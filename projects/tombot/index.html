@@ -503,7 +503,13 @@
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ messages: conversationHistory, sessionId })
+                    body: JSON.stringify({
+                        messages: conversationHistory,
+                        sessionId,
+                        // PostHog ids (undefined off production, where the snippet never starts)
+                        phId: window.posthog?.get_distinct_id?.(),
+                        phSession: window.posthog?.get_session_id?.()
+                    })
                 });
 
                 if (!response.ok) {

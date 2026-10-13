@@ -577,7 +577,7 @@ await test('knockouts: lines the job ads use (knockout audit, item 39)', async (
   assert.equal(type('Job ScheduleFull time'), 'employment_type', 'a label glued to its value by the page extract');
   // Answer what was asked: an office-or-remote line across time zones gets all three qualifiers.
   const gravy = 'Based within European time zones, whether from our Copenhagen or London office or remotely.';
-  assert.equal(answerFor(gravy, classifyKnockout(gravy)), 'Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU; worked on-site, hybrid and remote, and across time zones');
+  assert.equal(answerFor(gravy, classifyKnockout(gravy)), 'Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU and UK; worked on-site, hybrid and remote, and across time zones');
   // Still not knockouts: no fact in the register settles them.
   for (const exp of ["We're also scaling a self-served model built to travel fast, so it can reach a new", 'support in case of unfortunate events, travel insurance; IIIrd Pillar Pension Fund',
     'Anywhere in France', '6+ years of product related experience, currently at Lead or Group PM', 'Every hire must demonstrate at least Level 1.',
@@ -592,7 +592,7 @@ await test('knockouts: a stated fact is a fact row; an unstated one is "not stat
   assert.deepEqual(b.rows.map(r => [r.met, r.kind, r.fact_type]), [['fact', 'fact', 'location'], ['met', 'section', null], ['not stated', 'fact', 'travel']]);
   // Answer what was asked: an office location gets the onsite line, not the remote one.
   assert.equal(b.rows[0].evidence, 'Copenhagen, Denmark; Open to onsite roles in Copenhagen');
-  assert.equal(answerFor('Fully remote role', classifyKnockout('Fully remote role')), 'Copenhagen, Denmark; remote roles across the EU');
+  assert.equal(answerFor('Fully remote role', classifyKnockout('Fully remote role')), 'Copenhagen, Denmark; remote roles across the EU and UK');
   assert.equal(answerFor('Fluent English', classifyKnockout('Fluent English')), 'English (native); Danish (intermediate); no French');
   assert.match(answerFor('Fluent in Danish', classifyKnockout('Fluent in Danish')), /Prøve i Dansk 3/);
   assert.deepEqual([b.rows[2].evidence, b.rows[2].section, b.rows[2].source, b.rows[2].score], [null, null, null, null]);

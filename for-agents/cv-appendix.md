@@ -6,7 +6,7 @@ This page is a machine-readable summary of the CV above, generated from the same
 
 - Name: Tom Stenson; also Thomas Traberg Stenson
 - Most recent role: Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026)
-- Location: Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU; worked on-site, hybrid and remote, and across time zones
+- Location: Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU and UK; worked on-site, hybrid and remote, and across time zones
 - Nationality & work permit: British & French; Danish permanent resident; no work visa is required in EU and UK.
 - Education: MA Information Technology — University of Nottingham, UK (2001-2002); BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)
 - Languages: English (native); Danish (intermediate); no French; Prøve i Dansk 3 (Danish language certification, 2012); French citizen, but not a French speaker
@@ -19,6 +19,7 @@ This page is a machine-readable summary of the CV above, generated from the same
 
 | Years | Role | Company | Location |
 |---|---|---|---|
+| 2026- | Fractional & Interim Product & Growth | Independent | Copenhagen, DK |
 | 2022-2026 | Associate Product Director | Novo Nordisk | Copenhagen, DK |
 | 2020-2022 | Product Manager (Wegovycare) | Novo Nordisk | Copenhagen, DK |
 | 2018-2020 | PM/GM - Diagnosis App | LEO Innovation Lab | Copenhagen, DK |
@@ -49,7 +50,7 @@ This page is a machine-readable summary of the CV above, generated from the same
 
 ### Skills (each tagged from the proof points that carry it)
 
-algorithm, API, regulated, pharma, healthcare, patients, discovery, prototyping, ways of working, growth, retention, roadmap, 0 to 1, marketing, team leadership, stakeholders, consumer, AI, GenAI, compliance, launch, SaaS, international, incubation, funnels, experimentation, brand, machine learning, computer vision, domains, partnerships, budget, activation, turnaround, deadline, KPIs, startup, developer tools, conversion, SEO, ecommerce, remote, web hosting.
+algorithm, API, regulated, pharma, healthcare, patients, discovery, prototyping, ways of working, growth, retention, roadmap, 0 to 1, marketing, team leadership, stakeholders, consumer, AI, GenAI, compliance, launch, SaaS, international, budget, incubation, funnels, experimentation, brand, machine learning, computer vision, domains, partnerships, activation, turnaround, deadline, conversion, KPIs, startup, developer tools, SEO, ecommerce, remote, web hosting.
 
 ### References
 

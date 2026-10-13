@@ -126,7 +126,9 @@
       "values",
       "what drives you",
       "your values",
-      "compass"
+      "compass",
+      "How does Tom choose between two roles?",
+      "What decides it for Tom?"
     ],
     "content": "My compass is simple: impact, learning, and fun.\n\nImpact: If what you do doesn't make a difference, then what's the point?\n\nDriving outcomes is how you make impact. Yes, it's the big stuff, hitting the big numbers, improving lives, driving impact through others, but it often starts in the small things.\n\nSmall sparks that create outsized change: a microcopy nudge, a well-timed notification, a product loop that compounds, a well placed thought-bomb at the coffee machine, an unspoken truth spoken in a user test. I look forward to finding sparks.\n\nLearning: I have 20+ years experience and a solid product sense, but I've learnt the hard way it's not *my* ideas that matter. The real power of product management lies in creating space for learning.\n\nCuriosity invites new mental models, fresh viewpoints, unexpected opportunities, and the complexity of life. I look forward to learning something new.\n\nFun: This is foundational. When you work on a compelling challenge with good, smart people that you respect and can laugh with, everything flows smoother. Great things can happen.\n\nYou could ask what I'm looking for next, or about my career arc.",
     "drill_downs": [],
@@ -145,7 +147,9 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "Impact, learning, fun; fun is the tiebreaker."
+    ],
     "external": []
   },
   {
@@ -363,7 +367,10 @@
       "Any certifications?",
       "Do you speak Danish?",
       "What languages do you speak?",
-      "What is your academic background?"
+      "What is your academic background?",
+      "Can Tom work in Danish?",
+      "Can Tom interview users in Danish?",
+      "Can Tom read Danish regulatory material?"
     ],
     "content": "**Education:**\n- MA Information Technology — University of Nottingham, UK (2001-2002). Masters dissertation: Built a multi-threaded client-server application using Java & XML.\n- BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)\n\n**Certificates:**\n- IDEO U Human-Centred Systems Thinking / Leading Complex Projects (2024)\n- Certified Scrum Product Owner (CSPO)\n- Prøve i Dansk 3 (Danish language certification, 2012)\n\n**Languages:**\n- English (native)\n- Danish (intermediate)",
     "drill_downs": [],
@@ -383,9 +390,10 @@
     ],
     "attested": [],
     "direct_answers": [
-      "IDEO U: Designing for Change (2024). Scrum Alliance: Certified Scrum Product Owner (2021-2023). Mind the Product: AI for Product Management (in progress, 2026).",
+      "IDEO U: Designing for Change (2024). Scrum Alliance: Certified Scrum Product Owner (2021-2027). Mind the Product: AI for Product Management (in progress, 2026).",
       "Anthropic: AI Fluency Framework & Foundations (Feb 2026), Claude Code in Action (Feb 2026). Pendo.io: AI for Product Management (Feb 2026). (LinkedIn)",
-      "Languages: English (native); Danish (intermediate, Prøve i Dansk 3 passed, 2012). French citizen, but not a French speaker."
+      "Languages: English (native); Danish (intermediate, Prøve i Dansk 3 passed, 2012). French citizen, but not a French speaker.",
+      "Danish: intermediate (Prøve i Dansk 3, 2012), working in an English-language company; not full professional, so a hard requirement to read Danish regulatory material or interview users in Danish is not met."
     ],
     "external": []
   },
@@ -610,9 +618,12 @@
       "work visa",
       "nationality",
       "location",
-      "based"
+      "based",
+      "Would Tom relocate?",
+      "Is Tom open to relocation?",
+      "Relocation required"
     ],
-    "content": "British, living in Copenhagen since 2010. I have Danish permanent residency, so no work visa is required.",
+    "content": "British and French, living in Copenhagen since 2010. I have Danish permanent residency, so no work visa is required.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -630,9 +641,10 @@
     ],
     "attested": [],
     "direct_answers": [
-      "Copenhagen, Denmark. Open to onsite roles in Copenhagen, and remote roles across the EU.",
+      "Copenhagen, Denmark. Open to onsite roles in Copenhagen, and remote roles across the EU and UK.",
       "British & French; Danish permanent resident; no work visa is required in EU and UK.",
-      "Working pattern: it depends on the role and the location, but I'm flexible: worked on-site, hybrid and remote, and across time zones. Examples: EuroDNS across Luxembourg and Copenhagen[EURODNS.R1.STORY.REMOTE], the UK2 US turnaround from London[UK2.R1.USTURNAROUND]."
+      "Working pattern: it depends on the role and the location, but I'm flexible: worked on-site, hybrid and remote, and across time zones. Examples: EuroDNS across Luxembourg and Copenhagen[EURODNS.R1.STORY.REMOTE], the UK2 US turnaround from London[UK2.R1.USTURNAROUND].",
+      "Relocation: no. Remote across the EU and UK, or Copenhagen."
     ],
     "external": []
   },
@@ -788,9 +800,12 @@
       "job history",
       "work history",
       "previous employers",
-      "companies worked for"
+      "companies worked for",
+      "What is Tom doing now?",
+      "Is Tom currently employed?",
+      "What is Tom's current title?"
     ],
-    "content": "| Years | Role | Company | Location |\n|-------|------|---------|----------|\n| 2022-2026 | Associate Product Director | Novo Nordisk | Copenhagen |\n| 2020-2022 | Product Manager (Wegovycare) | Novo Nordisk | Copenhagen |\n| 2018-2020 | PM/GM - Diagnosis App | LEO Innovation Lab | Copenhagen |\n| 2018 | PM/GM - Skincoach | LEO Innovation Lab | Copenhagen |\n| 2016-2017 | PM/GM - TREAT | LEO Innovation Lab | Copenhagen |\n| 2016 | Head of Marketing (contract) | TwentyThree | Copenhagen |\n| 2014-2016 | Head of Marketing | Opbeat | Copenhagen |\n| 2013-2014 | Marketing Director | EuroDNS | Luxembourg/Copenhagen |\n| 2010-2013 | Independent Consultant | Various | Copenhagen |\n| 2008-2010 | Head of Group Strategy | UK2 Group | London |\n| 2006-2008 | Head of New Media | Host Europe Group | London |\n| 2005-2006 | Group Design Manager | Pipex Internet | UK |\n| 2004-2005 | Web Designer | Host Europe / Pipex | UK |\n| 2003-2004 | Sales Executive | Host Europe | Nottingham |\n| 2002-2004 | Co-founder | TextualHealing.com | UK |\n| 2001-2004 | Freelance Web Designer | Various | UK |\n\nAsk me about any specific role for more detail. [NOVO] [LEO] [OPBEAT] [EURODNS] [UK2] [HOST]",
+    "content": "| Years | Role | Company | Location |\n|-------|------|---------|----------|\n| 2026- | Fractional & Interim Product & Growth | Independent | Copenhagen |\n| 2022-2026 | Associate Product Director | Novo Nordisk | Copenhagen |\n| 2020-2022 | Product Manager (Wegovycare) | Novo Nordisk | Copenhagen |\n| 2018-2020 | PM/GM - Diagnosis App | LEO Innovation Lab | Copenhagen |\n| 2018 | PM/GM - Skincoach | LEO Innovation Lab | Copenhagen |\n| 2016-2017 | PM/GM - TREAT | LEO Innovation Lab | Copenhagen |\n| 2016 | Head of Marketing (contract) | TwentyThree | Copenhagen |\n| 2014-2016 | Head of Marketing | Opbeat | Copenhagen |\n| 2013-2014 | Marketing Director | EuroDNS | Luxembourg/Copenhagen |\n| 2010-2013 | Independent Consultant | Various | Copenhagen |\n| 2008-2010 | Head of Group Strategy | UK2 Group | London |\n| 2006-2008 | Head of New Media | Host Europe Group | London |\n| 2005-2006 | Group Design Manager | Pipex Internet | UK |\n| 2004-2005 | Web Designer | Host Europe / Pipex | UK |\n| 2003-2004 | Sales Executive | Host Europe | Nottingham |\n| 2002-2004 | Co-founder | TextualHealing.com | UK |\n| 2001-2004 | Freelance Web Designer | Various | UK |\n\nAsk me about any specific role for more detail. [NOVO] [LEO] [OPBEAT] [EURODNS] [UK2] [HOST]",
     "drill_downs": [
       "NOVO",
       "NOVO.R1",
@@ -822,7 +837,8 @@
     "attested": [],
     "direct_answers": [
       "2010-2013, independent consultant: worked as a freelance internet consultant to finance my relocation to Denmark. Clients included Host Europe (UK), EuroDNS (LUX), & Everplaces (DK). Content creation & SEO including interviews with MailChimp, Creative Commons, EFF, Rand Fishkin & Michael Palin. Spotted RaspberryPi before launch & created a partnership.",
-      "Host Europe, Pipex Hosting, Pipex Internet, GX Networks and Host Europe Group are one employer under successive names (2003-2008)."
+      "Host Europe, Pipex Hosting, Pipex Internet, GX Networks and Host Europe Group are one employer under successive names (2003-2008).",
+      "Since August 2026: independent, fractional and interim product and growth work, and open to the right permanent role[META.LOOKING]."
     ],
     "external": []
   },
@@ -893,7 +909,11 @@
       "How many users or patients used Tom's products?",
       "Has Tom changed something structural in a consumer app people use daily?",
       "Has Tom launched 0-to-1 and taken it one-to-100?",
-      "Has Tom built consumer products at scale?"
+      "Has Tom built consumer products at scale?",
+      "Has Tom built software under medical-device rules?",
+      "Has Tom worked with SaMD or non-SaMD classification?",
+      "Has Tom shipped a clinical algorithm?",
+      "Has Tom worked within a drug label?"
     ],
     "content": "Senior Product Manager at Novo Nordisk (Mar 2020 - Feb 2022), building Wegovycare - a retention-focused digital service to increase repeat prescriptions for Wegovy.\n\nI led the full product lifecycle end to end, but it was really a stealth transformation project[NOVO.R1.TRANSFORM], where I could bring my learnings from LEO[LEO] but this time to in-house transformation.\n\nKey achievements:\n- Led the full product life-cycle, introducing discovery, rapid prototyping, iterative development, and automated documentation to the organisation.\n- Automated documentation and shifted release cycles from yearly to bi-monthly in high-regulation environment, enabling iterative learning.\n- Built a weight-loss prediction algorithm from concept to prototype (later spun out into a new API product)\n- Achieved 10% penetration in our first national market\n\nI was asked to scale these learnings across the product organisation and was promoted to Associate Product Director.[NOVO.R2]",
     "drill_downs": [
@@ -932,7 +952,8 @@
       "Led cross-functional team of 10. Set vision, implemented OKRs & used qual-quant signals to steer priorities and shape the roadmap.",
       "Identified a key growth lever. Created a weight-loss prediction model in Excel, now spun-out to a Bayesian API service.",
       "Title: Senior Product Manager; the internal title was Product Owner. Same role.",
-      "Adoption, Wegovycare: involved affiliates early to generate learnings & create buy-in; systematised cocreation with markets; 10% penetration in our first national market; biggest adoption of any digital patient solution at Novo; the resistance was a \"you're not working if you're not coding\" culture, and it took persuasion and a leap of faith from our stakeholders[NOVO.R1.TRANSFORM]. At LEO, made rapid prototyping and direct user interviews standard practice across all product teams[LEO]."
+      "Adoption, Wegovycare: involved affiliates early to generate learnings & create buy-in; systematised cocreation with markets; 10% penetration in our first national market; biggest adoption of any digital patient solution at Novo; the resistance was a \"you're not working if you're not coding\" culture, and it took persuasion and a leap of faith from our stakeholders[NOVO.R1.TRANSFORM]. At LEO, made rapid prototyping and direct user interviews standard practice across all product teams[LEO].",
+      "Wegovycare was built as non-SaMD and bound by the drug label: it could only recommend the standard titration. The weight-loss prediction model started as an Excel spreadsheet, was spun out as a Bayesian API service, and the team later extended it to HbA1c[NOVO.R1]."
     ],
     "external": []
   },
@@ -1004,7 +1025,8 @@
       "Has Tom presented to executive audiences and influenced the outcome?",
       "Has Tom secured funding from senior management?",
       "Is Tom someone the C-suite trusts with a programme?",
-      "Has Tom led programmes together with senior stakeholders?"
+      "Has Tom led programmes together with senior stakeholders?",
+      "Has Tom built a function without a mandate?"
     ],
     "content": "Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026). Senior IC product role working across silos on complex, high-impact initiatives.\n\nWork includes:\n- Consumer lead for the Wegovy Pill launch, driving prescription growth [NOVO.R2.WEGOVY]\n- Pitched and built a GenAI proof of concept for automating compliance reviews [NOVO.R2.GENAI]\n- Led a six-month discovery programme for the company's top drug asset, securing funding for a portfolio of digital initiatives\n- Introduced a digital incubation model that shifted the organisation from output to outcomes\n- Head of product operations. Helped product teams connect work to commercial outcomes.",
     "drill_downs": [
@@ -1068,7 +1090,8 @@
       "Thought partner to Product VP.",
       "Pitched 'Rybelsus Beyond The Pill' to Senior Management, an ambitious cross-functional pipeline for generating learnings & extending staytime. A small pilot is underway.",
       "I lobbied Novo to switch sales data to a cohort retention model and failed.",
-      "Decisions won at executive level: the CagriSema discovery funnel, 4 recommended and funded, each with a funding-gated rollout, done without mandate[NOVO.R2]; 'Rybelsus Beyond The Pill' pitched to Senior Management, a small pilot is underway[NOVO.R2]; the final round job interview at Novo, where the business set aside its solution-first brief[NOVO.R1.TRANSFORM]; the TREAT recommendation to the board, which wound down the business[LEO.R1]; the GX Networks rename of a Plc, including the stock market ticker, in 5 weeks[HOST.R1.REBRAND]."
+      "Decisions won at executive level: the CagriSema discovery funnel, 4 recommended and funded, each with a funding-gated rollout, done without mandate[NOVO.R2]; 'Rybelsus Beyond The Pill' pitched to Senior Management, a small pilot is underway[NOVO.R2]; the final round job interview at Novo, where the business set aside its solution-first brief[NOVO.R1.TRANSFORM]; the TREAT recommendation to the board, which wound down the business[LEO.R1]; the GX Networks rename of a Plc, including the stock market ticker, in 5 weeks[HOST.R1.REBRAND].",
+      "The incubation unit was built through influence, with no formal mandate, and its discovery playbook was his[NOVO.R2]."
     ],
     "external": []
   },
@@ -1080,7 +1103,11 @@
       "What did you do for the Wegovy launch?",
       "Tell me about consumer lead work at Novo",
       "What is the Wegovy Pill project?",
-      "Tell me about Novo Pill launch"
+      "Tell me about Novo Pill launch",
+      "Has Tom worked on a large product launch?",
+      "Has Tom been part of go-to-market planning at scale?",
+      "Did Tom own the commercial plan for a launch?",
+      "Has Tom handed a programme over to another market?"
     ],
     "content": "I worked on the Wegovy Pill launch team as Consumer Lead. One of my roles was to challenge assumptions and inject product thinking into a company-critical initiative.\n\nI can't go into detail on the specific strategy as it's still commercially sensitive, but it was a real privilege and massive learning.",
     "drill_downs": [],
@@ -1107,7 +1134,8 @@
       "Aligned silos to create unified physical-to-digital experience.",
       "Designed unified physical-to-digital experience to increase prescriptions for company-critical launch.",
       "Selected for one-year placement on the company's most critical drug launch, representing the consumer voice in a science-first organisation.",
-      "Brought new commercial thinking by reframing adherence through a SaaS retention lens."
+      "Brought new commercial thinking by reframing adherence through a SaaS retention lens.",
+      "Wegovy Pill launch, 2025: global consumer lead on the launch team in strategic marketing; led the consumer workstream (digital, packaging, direct distribution) and took part in commercial launch planning (budget, strategy, packaging); the launch reached 1M patients in 16 weeks, with volumes owned by others; led the workstream, then handed it over to the US[NOVO.R2.WEGOVY]. Did not lead commercial planning."
     ],
     "external": []
   },
@@ -1127,7 +1155,10 @@
       "Has Tom led adoption of AI across the software development lifecycle?",
       "Has Tom got product teams to use an AI tool?",
       "Has Tom driven internal adoption of a shared AI stack?",
-      "Has Tom run an AI enablement or training plan?"
+      "Has Tom run an AI enablement or training plan?",
+      "When did Tom build with LLMs?",
+      "How recent is Tom's GenAI work?",
+      "Has Tom shipped an agentic prototype in the last two years?"
     ],
     "content": "When developing health software, every release needs extensive review by medical, legal and regulatory experts (MLR). The process was designed for simple marketing materials, not sophisticated software - but it hadn't evolved.\n\nIn practice, every screen had to be captured in PDF format and reviewed individually. The result: significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off.\n\nI used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations. Now we could automatically document and review each submission with a full audit trail - the review team only had to rubber-stamp the release.\n\nI also built a prototype agent that plugged into Figma, so designers could query the guidelines before investing too much effort. This allowed product teams to shift left - fail in design, not at review.\n\nThe product teams loved it. Organisational priorities later shifted and the project was handed to another team, but the proof of concept showed a clear path to dramatically faster release cycles.",
     "drill_downs": [],
@@ -1144,7 +1175,8 @@
     "attested": [],
     "direct_answers": [
       "Why it stopped at POC: it was built to test value, not to harden. Product teams used the Figma plugin on real designs and liked it, but a reorg and a vendor contract that covered the compliance-assistant use case meant it never got the second test or a path to production, and I moved on to the Wegovy Pill launch[NOVO.R2.WEGOVY]. Two tests were set; the first was run.",
-      "Rollout: the compliance RAG and the Figma agent were built for every product team's release review; the product teams loved it, and designers could query the guidelines in Figma, so teams could shift left; built the mandate to pitch for Generative AI MLR reviews as a product and pitched senior leadership; execs weren't ready, and the project was handed to another team. Ways of working rolled out across organisations: design sprints, user testing and direct user interviews at LEO[LEO]; discovery, rapid prototyping and automated documentation at Novo, then a discovery playbook[NOVO.R1]."
+      "Rollout: the compliance RAG and the Figma agent were built for every product team's release review; the product teams loved it, and designers could query the guidelines in Figma, so teams could shift left; built the mandate to pitch for Generative AI MLR reviews as a product and pitched senior leadership; execs weren't ready, and the project was handed to another team. Ways of working rolled out across organisations: design sprints, user testing and direct user interviews at LEO[LEO]; discovery, rapid prototyping and automated documentation at Novo, then a discovery playbook[NOVO.R1].",
+      "Dated: the agentic RAG compliance proof of concept was built in January 2025, inside the Associate Product Director role; two acceptance tests were set up front and the first was run with product teams on real designs[NOVO.R2.GENAI]."
     ],
     "external": []
   },
@@ -1232,7 +1264,10 @@
       "Has Tom run A/B tests and split tests?",
       "Can Tom challenge a data team and catch a bad read?",
       "Has Tom built an experimentation culture in a team?",
-      "Has Tom run an experiment programme with a cadence?"
+      "Has Tom run an experiment programme with a cadence?",
+      "What is behind Tom's halved acquisition cost?",
+      "Can Tom back his growth numbers?",
+      "What was the CAC measured per?"
     ],
     "content": "TREAT was a pioneering app addressing underlying causes of inflammatory conditions via personalised nutrition advice. It was the first product launched by LEO Innovation Lab, and it was underperforming.\n\nI was PM/GM (Nov 2016 - Aug 2017). I was parachuted in with a 6-month mandate to stabilise and assess viability. [THEME.TURNAROUND]\n\nKey achievements:\n- Brought the team onside and established a clear focus and experiment-led work rhythm [LEO.R1.TURNAROUND]\n- Halved customer acquisition costs, increased customer activation by 7x [THEME.GROWTH]\n- Defined product value proposition and integrated KPIs into daily workflow\n- Recommended business be closed, preventing further sunk investment",
     "drill_downs": [
@@ -1258,7 +1293,8 @@
     "direct_answers": [
       "A struggling psoriasis chatbot app with everything on fire. Worked with nutritionists to fix a struggling diet coaching app: rebuilt from the ground-up, established metrics. 7x activation. Then closed product.",
       "Analysed business fundamentals, and following recommendation to the board successfully wound down the business. Reporting to the C-level team. (2017)",
-      "Experiment programme at TREAT, Nov 2016 to Aug 2017: established formal process for experiments; integrated KPIs into daily workflow; an experiment-led work rhythm; increased activation 7x through structured experimentation. One bad read caught: the notification opt-in split test, high conversion rate × tiny audience = marginal impact[LEO.R1.STORY.FEELS]. At Novo, weekly demos and experiment sharing across product teams[NOVO.R2]."
+      "Experiment programme at TREAT, Nov 2016 to Aug 2017: established formal process for experiments; integrated KPIs into daily workflow; an experiment-led work rhythm; increased activation 7x through structured experimentation. One bad read caught: the notification opt-in split test, high conversion rate × tiny audience = marginal impact[LEO.R1.STORY.FEELS]. At Novo, weekly demos and experiment sharing across product teams[NOVO.R2].",
+      "The TREAT numbers: 7x activation is the one Tom is surest of; the halved acquisition cost was per signup, fairly sure, but it was a while back[LEO.R1]."
     ],
     "external": []
   },
@@ -1388,7 +1424,11 @@
       "Do you have machine learning experience",
       "What machine learning experience do you have?",
       "Describe the skin diagnosis project",
-      "Have you worked with computer vision?"
+      "Have you worked with computer vision?",
+      "How did Tom define ground truth for an ML model?",
+      "Has Tom built an evaluation set for AI?",
+      "What guardrails has Tom put on an AI health product?",
+      "Has Tom kept an AI product outside medical-device scope?"
     ],
     "content": "PM/GM at LEO Innovation Lab (Nov 2018 - Jan 2020), leading a 12-person team building a prototype diagnosis app using machine learning. This was my first deep experience with ML teams.[THEME.AI]\n\nKey achievements:\n- Led machine learning and computer vision specialists\n- Achieved >80% accuracy across 3 skin conditions, doubled labelling throughput\n- Evaluated go-to-market for a moonshot ML prototype; identified seven paths to market",
     "drill_downs": [
@@ -1411,7 +1451,8 @@
     "attested": [],
     "direct_answers": [
       "Led a team of AI engineers all wired for logic and certainty through the deep uncertainty of product discovery, to rethink how a smartphone camera could diagnose skin conditions.",
-      "Worked with derms to redesign closed-loop diagnosis and ML training platform. Bootstrapped ML engine with clinical decision trees. Safe to launch with a path to full automation. Doubled dermatologist throughput."
+      "Worked with derms to redesign closed-loop diagnosis and ML training platform. Bootstrapped ML engine with clinical decision trees. Safe to launch with a path to full automation. Doubled dermatologist throughput.",
+      "Evaluation on the Diagnosis App: a golden image set built from dermatologist consensus; the model was a hybrid of deep learning and the diagnostic manual (clinical decision trees); guardrails were not-a-diagnosis disclaimers; non-SaMD by design, with a path to full automation; >80% accuracy across 3 skin conditions and labelling throughput doubled[LEO.R3]."
     ],
     "external": []
   },
@@ -1495,9 +1536,11 @@
       "Describe your startup experience",
       "Have you worked at a VC-backed startup?",
       "Tell me about building a brand from scratch",
-      "Give an example of a marketing role"
+      "Give an example of a marketing role",
+      "Has Tom owned pricing or a free tier?",
+      "Has Tom changed a pricing model to lift conversion?"
     ],
-    "content": "Opbeat was a developer tools SaaS startup providing application performance monitoring. Backed by the cofounders of Facebook, Spotify, and Instagram. Later acquired by Elastic.\n\nI joined as Head of Marketing and built the brand, marketing strategy, team and channels from scratch.\n\nKey achievements:\n- Defined the product proposition and developer narrative\n- Trebled traffic and sign-ups in 12 months [OPBEAT.R1.GROWTH] [THEME.GROWTH]",
+    "content": "Opbeat was a developer tools SaaS startup providing application performance monitoring. Backed by the cofounders of Facebook and Instagram. Later acquired by Elastic.\n\nI joined as Head of Marketing and built the brand, marketing strategy, team and channels from scratch.\n\nKey achievements:\n- Defined the product proposition and developer narrative\n- Trebled traffic and sign-ups in 12 months [OPBEAT.R1.GROWTH] [THEME.GROWTH]",
     "drill_downs": [
       "OPBEAT.R1.GROWTH"
     ],
@@ -1535,7 +1578,8 @@
       "The founders had a good product and famous backers, and believed that if they built it, customers would come. They launched into silence.",
       "Our customers were in the US, so most of the marketing was international.",
       "B2B devops startup backed by Balderton Capital and the cofounders of Facebook & Instagram.",
-      "Introduced KPIs, reporting & budgeting. Grew grassroots meetups and created video engine to connect with developers, creating the traction that enabled a $2M bridge-funding round."
+      "Introduced KPIs, reporting & budgeting. Grew grassroots meetups and created video engine to connect with developers, creating the traction that enabled a $2M bridge-funding round.",
+      "Opbeat: restructured pricing, emphasised the free tier and removed the upgrade barriers that were killing conversions, alongside the growth engine that trebled sign-ups[OPBEAT.R1.GROWTH]."
     ],
     "external": []
   },
@@ -1585,7 +1629,10 @@
       "Describe the turnaround at EuroDNS",
       "What was the Luxembourg role?",
       "Tell me about a marketing role?",
-      "EuroDNS"
+      "EuroDNS",
+      "Has Tom led engineers from a marketing seat?",
+      "Has Tom owned a customer portal or self-service panel?",
+      "Has Tom owned a B2B control panel?"
     ],
     "content": "EuroDNS is an ICANN-accredited international domain registrar, specialising in excellent service and unusual domain extensions. Customers included MailChimp, Lotus F1, and Time Warner. A turnaround project. [THEME.TURNAROUND]\n\nI joined as Marketing Director with a remote-hybrid setup - mostly managing the team from Copenhagen.[EURODNS.R1.STORY.REMOTE]\n\nKey achievements:\n- Reversed a 4-year decline in traffic and online sales [EURODNS.R1.TURNAROUND]\n- Doubled organic traffic in 12 months, and halved bounce-rate (~60% to ~30%) [THEME.GROWTH]\n- Launched over 500 new domain extensions",
     "drill_downs": [
@@ -1608,7 +1655,8 @@
     ],
     "attested": [],
     "direct_answers": [
-      "Marketing Director by title; the product work was mine: discount ladders, management panels, bundling features, product strategy. EuroDNS's product managers managed the TLDs with the registries."
+      "Marketing Director by title; the product work was mine: discount ladders, management panels, bundling features, product strategy. EuroDNS's product managers managed the TLDs with the registries.",
+      "At EuroDNS the product team was his: led the tech team building the customer control panel, alongside discount ladders, bundling and product strategy; reversed the sales decline and grew domain search revenue[EURODNS]."
     ],
     "external": []
   },
@@ -1691,7 +1739,10 @@
       "What was the Head of Group Strategy role?",
       "Describe your troubleshooter role",
       "UK2",
-      "UK2 Group"
+      "UK2 Group",
+      "Has Tom run product for a US business unit from Europe?",
+      "Has Tom owned pricing?",
+      "Has Tom owned more than one product team at once?"
     ],
     "content": "UK2 Group is an international web hosting company with offices in UK, US and Ukraine.\n\nI joined as Head of Group Strategy - working across all brands and markets troubleshooting for the CEO.\n\nKey work included:\n- Linked people, products and projects across UK, US, and Ukraine offices\n- Acting Marketing Manager US: rebuilt underperforming US marketing department [UK2.R1.USTURNAROUND] [THEME.TURNAROUND]\n- Business unit turnaround: reversed downward revenue trend in 6 months\n- Managed development of new domain platform (500,000+ customer domains)",
     "drill_downs": [
@@ -1716,7 +1767,8 @@
       "The domain platform: we had 6 brands using 3 different providers, and in some cases going direct to the registry, each with different APIs, rules and management fees. One platform replaced them.",
       "For the domain platform I owned the business case, budget, specifications, contracts and migration strategy.",
       "Troubleshooter for the CEO across London, Chicago & Utah offices. Owned strategy across pricing, product and marketing. Diagnosed underperforming brand, created product & ecommerce strategy.",
-      "Product work at UK2, formally, under the title Head of Group Strategy."
+      "Product work at UK2, formally, under the title Head of Group Strategy.",
+      "Two product teams at UK2: the group domain platform (business case, budget, specifications, contracts, migration) and product for the US unit, led remotely from London, with pricing in scope[UK2]."
     ],
     "external": []
   },
@@ -2078,7 +2130,10 @@
       "Has Tom hired, coached and given hard feedback to PMs?",
       "How many PMs has Tom managed, and where?",
       "Has Tom run a team that owns its outcomes?",
-      "Has Tom built, coached and led cross-functional teams?"
+      "Has Tom built, coached and led cross-functional teams?",
+      "How many product teams has Tom owned?",
+      "How many products has Tom led end to end?",
+      "How broad is Tom's product experience?"
     ],
     "content": "I've led teams of 5-15 across multiple roles:\n\n- LEO Diagnosis App: 12-person ML/CV team [LEO.R3]\n- Host Europe: Created New Media department, 5-6 direct reports [HOST]\n- EuroDNS: 4 direct reports, remote/hybrid setup [EURODNS.R1.STORY.REMOTE]\n- LEO TREAT: Inherited 15-person team in turnaround situation [LEO.R1.TURNAROUND]\n\nManaging people is something I can do and enjoy, but it's not my primary motivation. I'm motivated by creating impact - sometimes that means being a people manager, other times it works best through informal leadership or hands-on building. [TQ.MGMT]",
     "drill_downs": [
@@ -2132,7 +2187,8 @@
       }
     ],
     "direct_answers": [
-      "Novo Nordisk, Head of Patient Products: led 6 experienced PMs building consumer engagement products, management by outcomes; overcame resistance to establish weekly demos and experiment sharing, broke product silos and encouraged learning loops[NOVO.R2]. Hiring: hired and managed the New Media team at Host Europe, 5-6 direct reports[HOST]; rebuilt the US marketing department before recruiting a US-based successor[UK2.R1.USTURNAROUND]; built the marketing team from scratch at Opbeat[OPBEAT]. Direct reports by role: Novo 6 PMs; Wegovycare team of 10[NOVO.R1]; Diagnosis App 12[LEO.R3]; TREAT 15 inherited[LEO.R1.TURNAROUND]; TwentyThree 10-12[T23]; EuroDNS 4[EURODNS]; Host Europe 5-6."
+      "Novo Nordisk, Head of Patient Products: led 6 experienced PMs building consumer engagement products, management by outcomes; overcame resistance to establish weekly demos and experiment sharing, broke product silos and encouraged learning loops[NOVO.R2]. Hiring: hired and managed the New Media team at Host Europe, 5-6 direct reports[HOST]; rebuilt the US marketing department before recruiting a US-based successor[UK2.R1.USTURNAROUND]; built the marketing team from scratch at Opbeat[OPBEAT]. Direct reports by role: Novo 6 PMs; Wegovycare team of 10[NOVO.R1]; Diagnosis App 12[LEO.R3]; TREAT 15 inherited[LEO.R1.TURNAROUND]; TwentyThree 10-12[T23]; EuroDNS 4[EURODNS]; Host Europe 5-6.",
+      "Product teams owned: eight across five companies, LEO 3[LEO], Novo 1 plus six PMs led[NOVO.R2], UK2 2[UK2], Host Europe 1[HOST], EuroDNS 1[EURODNS]; five of the eight were domains, hosting or client software."
     ],
     "external": []
   },
@@ -2187,7 +2243,7 @@
       "Are you EU-eligible to work?",
       "What is your experience with distributed teams?"
     ],
-    "content": "I've worked across multiple countries and managed remote and distributed teams throughout my career:\n\n- **UK (2001-2010):** Host Europe, UK2 Group — London, Nottingham\n- **Luxembourg (2013-2014):** EuroDNS — hybrid, mostly Copenhagen with Luxembourg every two weeks [EURODNS.R1.STORY.REMOTE]\n- **Denmark (2010-2026):** LEO, Novo Nordisk, Opbeat, TwentyThree, independent consulting\n- **Remote teams:** Managed teams across UK, US and Ukraine [UK2.R1.USTURNAROUND], and a Romanian SEO team as a consultant (2010-2013)\n\nI'm a British citizen with Danish permanent residency (no work visa required for Denmark). I've lived in Copenhagen since 2010.",
+    "content": "I've worked across multiple countries and managed remote and distributed teams throughout my career:\n\n- **UK (2001-2010):** Host Europe, UK2 Group — London, Nottingham\n- **Luxembourg (2013-2014):** EuroDNS — hybrid, mostly Copenhagen with Luxembourg every two weeks [EURODNS.R1.STORY.REMOTE]\n- **Denmark (2010-2026):** LEO, Novo Nordisk, Opbeat, TwentyThree, independent consulting\n- **Remote teams:** Managed teams across UK, US and Ukraine [UK2.R1.USTURNAROUND], and a Romanian SEO team as a consultant (2010-2013)\n\nI'm a British and French citizen with Danish permanent residency (no work visa required for Denmark). I've lived in Copenhagen since 2010.",
     "drill_downs": [
       "EURODNS.R1.STORY.REMOTE",
       "UK2.R1.USTURNAROUND"
@@ -2284,7 +2340,7 @@
       "Why the frequent moves?",
       "Do you get bored easily?"
     ],
-    "content": "I don't think so. I worked at Novo for 6 years [NOVO], and before that LEO Innovation Lab for ~3.5 years. [LEO]\n\nI have worked in lots of product-adjacent roles, but this is about following the impact: I started answering phones in sales, but realised I could drive more scale through ecommerce. So I made an alternative company website in my free time, persuaded a manager to launch it, sales went up, and the next week I'm in the web team. [HOST.R3.STORY.ALTSITE]\n\nLater, I realised the bottleneck was reach, not conversion - so I moved into marketing. Then I saw customers signing up but not activating - so I moved into product. And so on.\n\nI'm motivated by creating impact, not job titles.",
+    "content": "I don't think so. I worked at Novo for almost 6 years [NOVO], and before that LEO Innovation Lab for ~3.5 years. [LEO]\n\nI have worked in lots of product-adjacent roles, but this is about following the impact: I started answering phones in sales, but realised I could drive more scale through ecommerce. So I made an alternative company website in my free time, persuaded a manager to launch it, sales went up, and the next week I'm in the web team. [HOST.R3.STORY.ALTSITE]\n\nLater, I realised the bottleneck was reach, not conversion - so I moved into marketing. Then I saw customers signing up but not activating - so I moved into product. And so on.\n\nI'm motivated by creating impact, not job titles.",
     "drill_downs": [],
     "follow_ups": [
       {
@@ -2794,7 +2850,10 @@
       "Does Tom get bored?",
       "What would Tom bring to a team?",
       "fixer",
-      "best at"
+      "best at",
+      "What kind of fixing does Tom do?",
+      "Is Tom a turnaround person or a builder?",
+      "What does Tom mean by fixer?"
     ],
     "content": "I'm a fixer. I work on the really difficult stuff, the problems that are too hard or too messy for most people to get moving, and I like to solve them and move on. Once something is solved and running, I pass it to someone who's good at the routine work, and I go and find the next hard thing.\n\nThat pattern runs through my whole career: the domain search at Host Europe[HOST.R2.STORY.DOMAIN], the TREAT turnaround and closure[LEO.R1.TURNAROUND], the Wegovycare discovery phase nobody wanted[NOVO.R1.TRANSFORM], the CagriSema funnel across two therapy areas that had never collaborated[NOVO.R2].\n\nSo if you have something stuck, broken, or blank-page, that's where I'm useful. If you need someone to run a mature product in steady state for years, it deserves someone who loves that, and it isn't me.",
     "drill_downs": [],
@@ -2816,7 +2875,10 @@
     "direct_answers": [
       "Best at: problems too hard or messy for most people to get moving; solves them, hands over, moves on.",
       "Proof: domain search, Host Europe, +20% revenue overnight [HOST.R2.STORY.DOMAIN]; TREAT turnaround and closure, LEO [LEO.R1.TURNAROUND]; Wegovycare discovery phase, Novo [NOVO.R1.TRANSFORM]; CagriSema funnel, four funded solutions [NOVO.R2].",
-      "Not for: running a mature product in steady state for years."
+      "Not for: running a mature product in steady state for years.",
+      "Three kinds of fixing, not one: noticing what nobody asked for, the domain search[HOST.R2.STORY.DOMAIN]; holding nerve and rebuilding a team, then optimising and having the guts to close it, TREAT[LEO.R1.TURNAROUND]; changing the institution's model from inside, the product operating model at Novo[NOVO.R1.TRANSFORM].",
+      "Breadth is the asset: eight product teams across five companies[THEME.MGMT].",
+      "AI is a qualifier, not the headline: a frontier product specialist who builds with AI, not an AI specialist."
     ],
     "external": []
   },
@@ -2851,7 +2913,9 @@
       "Can Tom work in a corporate?",
       "Is Tom a culture fit?",
       "culture fit",
-      "good fit for our organisation"
+      "good fit for our organisation",
+      "Does Tom work well with founders?",
+      "Would Tom fit a founder-led company?"
     ],
     "content": "I've worked in a four-person startup (Opbeat, sharing an office with the founders)[OPBEAT], a scale-up through two acquisitions (Host Europe, Pipex)[HOST], an innovation lab inside a pharma company (LEO)[LEO], a 60,000-person corporate (Novo Nordisk)[NOVO] and on my own as a consultant. Size doesn't decide it.\n\nWhat does: new things ship regularly, direct communication is welcome, you can rock the boat without fear of retribution, decisions get made on outcomes and evidence rather than on whose idea it was, and the organisation is leaning in to AI. Give me that and the freedom to act, and I'll do well.\n\nTo check this against your organisation, tell my agent how you work: stage, pace, how decisions get made, remote or not, what's broken. Five lines is enough.",
     "drill_downs": [],
@@ -2874,7 +2938,8 @@
       "Has worked in: 4-person startup (Opbeat), scale-up through two acquisitions (Host Europe, Pipex), innovation lab (LEO), 60,000-person corporate (Novo Nordisk), solo consulting.",
       "Does well where: new things ship regularly; direct communication; can rock the boat without retribution; decisions on outcomes and evidence; leaning in to AI; freedom to act.",
       "Size does not decide it.",
-      "To check against your organisation, send five lines: stage, pace, how decisions get made, remote or not, what's broken."
+      "To check against your organisation, send five lines: stage, pace, how decisions get made, remote or not, what's broken.",
+      "Comfortable in founder-led companies (Opbeat, sharing an office with the founders)[OPBEAT]."
     ],
     "external": []
   },
@@ -2899,7 +2964,9 @@
       "What does Tom need from the people around him?",
       "Who should Tom be paired with?",
       "team fit",
-      "bring to my team"
+      "bring to my team",
+      "How does Tom structure his week?",
+      "Can Tom do fractional days?"
     ],
     "content": "Ask the people I've worked with: kind, caring and fun; approachable; a structured mind; someone people come to when they want to spar on something messy[META.COLLEAGUE]. I bring energy and pace, I'm direct, and I work across silos without needing authority over them[NOVO.R2]. I'm technical enough to lead ML teams and build with Claude Code, but my value is bridging disciplines, not writing production code[TQ.TECHNICAL], so I work with engineers best when they're close to the problem and the user, not handed tickets.\n\nWhat I need around me: someone who loves the details and will bring up the overlooked fact, because I move fast and start more than I finish; a team that's prepared and to the point; and people who'll hold me to a completion date.\n\nI've led teams of 5 to 15 and been the senior IC on others[THEME.MGMT]; both work. What I'd add depends on what your team already has, so tell my agent what the team does and what's missing, and ask again.",
     "drill_downs": [],
@@ -2924,7 +2991,8 @@
       "Works with engineers best when they are close to the problem and the user, not handed tickets.",
       "Needs around him: someone who loves the details and raises the overlooked fact; a prepared, to-the-point team; a completion date he is held to.",
       "Has led teams of 5 to 15; has been senior IC on others.",
-      "What he adds depends on what the team lacks: send what the team does and what's missing."
+      "What he adds depends on what the team lacks: send what the team does and what's missing.",
+      "Works in half-day blocks; scattered short hours do not suit him. 'I tend to work smart, rather than hard. I value time off, to ensure good decisions.'"
     ],
     "external": []
   },
@@ -2940,7 +3008,9 @@
       "How does Tom work with founders?",
       "What does Tom need from leadership?",
       "Does Tom need a lot of direction?",
-      "How does Tom like to be led?"
+      "How does Tom like to be led?",
+      "How does Tom work with a hands-on founder?",
+      "Would Tom work for an owner-manager?"
     ],
     "content": "Freedom on the what and the how, clarity on the outcome and the date. Tell me where the prospects and opportunities lie and let me call a spade a spade.\n\nGive me room to run discovery before building: if \"you're not working if you're not coding\" is the culture, we'll clash for a few months before it pays off, as it did at Novo[NOVO.R1.TRANSFORM]. Trust early, because I'll use it to tell you things you may not want to hear, like recommending we close the flagship product[LEO.R1.TURNAROUND]. And tell me when my pace is wearing people out; I don't always notice.",
     "drill_downs": [],
@@ -2959,7 +3029,8 @@
       "Needs: freedom on the what and the how; clarity on the outcome and the date; to know where the prospects lie; to be allowed to call a spade a spade.",
       "Needs room for discovery before building; clashed for months at Novo before it paid off [NOVO.R1.TRANSFORM].",
       "Give trust early; he uses it to say hard things, e.g. recommended closing the flagship product at LEO [LEO.R1.TURNAROUND].",
-      "Tell him when his pace is wearing people out."
+      "Tell him when his pace is wearing people out.",
+      "Not for micromanaging founders or owners; freedom on the what and the how is the condition."
     ],
     "external": []
   },
@@ -2976,7 +3047,18 @@
       "What roles should Tom avoid?",
       "What is Tom not good at?",
       "What is Tom not suited to?",
-      "not a fit"
+      "not a fit",
+      "Five days a week in the office",
+      "Fully onsite role",
+      "Fluent Danish required",
+      "Quota-carrying",
+      "Country manager",
+      "Head of Sales",
+      "Hands-on with SQL and Python",
+      "ML engineer",
+      "iGaming",
+      "Crypto",
+      "Defence sector"
     ],
     "content": "Not a specialist engineer, a designer by trade, or a marketer for hire any more: those are chapters, not the job. Not a role that is mostly line management and levels; I can manage people and enjoy it, but it's not what gets me out of bed[TQ.MGMT]. Not a mature product in steady state; I'm a fixer, and once it's running it deserves someone who loves running it[FIT.FIXER]. And not a role that needs a decade in your exact domain: I move across industries on purpose and pick them up fast[META.LOOKING].",
     "drill_downs": [],
@@ -2995,7 +3077,14 @@
       "Not a specialist engineer, designer by trade, or marketer for hire.",
       "Not a role that is mostly line management and levels.",
       "Not a mature product in steady state.",
-      "Not a role that needs a decade in one exact domain; moves across industries on purpose."
+      "Not a role that needs a decade in one exact domain; moves across industries on purpose.",
+      "Not five days onsite without an operational reason; hybrid Copenhagen or remote EU and UK; no relocation[META.LOCATION].",
+      "Not a hard Danish-language requirement: cannot read Danish regulatory material or interview users in Danish[META.EDUCATION].",
+      "Not quota-carrying sales, country-head or sales-leadership seats; commercial ownership inside a product role is in.",
+      "Not hands-on ML engineering (SQL, Python, model architecture): AI fluency is strategic and applied, not engineering[TQ.TECHNICAL].",
+      "Industries declined: gambling, crypto, adult, tobacco. Defence only with honest framing.",
+      "Preference, not a gate: roles that narrow optionality, the COO-office shape with no artefact and no number.",
+      "IC or manager is not the filter; impact and interesting work are."
     ],
     "external": []
   },
