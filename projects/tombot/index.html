@@ -244,15 +244,7 @@
         }
 
         /* Copy-this-prompt block, Variant D "notice": a yellow left rule, no box */
-        .tb-paste { font-family: 'Courier New', Courier, monospace; font-size: 0.85em; margin: 28px 0 0 0; padding: 2px 0 2px 14px; border-left: 3px solid var(--teletext-yellow); }
-        .tb-paste p { margin: 0 0 8px 0; }
-        .tb-paste p:last-child { margin: 0; }
-        .tb-paste-prompt { overflow-wrap: anywhere; }
-        .tb-paste-prompt kbd { font: inherit; color: var(--teletext-yellow); text-decoration: underline dotted; text-underline-offset: 3px; }
-        .tb-paste-prompt kbd a { border-bottom: 0; }
-        .tb-paste-copy { font: inherit; color: var(--teletext-yellow); background: none; border: 0; border-bottom: 1px solid currentColor; padding: 0; margin-left: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
-        .tb-paste-copy:hover { background: rgba(255, 255, 0, 0.1); }
-        .tb-paste-copy svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; }
+        /* .tb-paste rules live in lib/styles/styles.css (shared with /about/) */
 
         /* Mobile adjustments */
         @media (max-width: 600px) {
@@ -335,7 +327,7 @@
         </div>
         <aside class="tb-paste" aria-label="For your AI">
             <p>Don't want to type? Copy-paste this prompt into your favourite LLM and have your agent talk to my agent.</p>
-            <p class="tb-paste-prompt"><kbd id="tb-paste-text">Fetch <a href="/for-agents/start/">https://takenbyninjas.com/for-agents/start/</a> and follow the steps.</kbd></p>
+            <p class="tb-paste-prompt"><kbd id="tb-paste-text">Fetch <a href="/for-agents/start/">https://takenbyninjas.com/for-agents/start/</a> and follow the steps. It is Tom Stenson's AI career agent, designed to let you query his career record directly.</kbd></p>
         </aside>
         <p class="tb-disclaimer">Disclaimer: This is a prototype AI - chats are logged for performance.<br />For ground truth responses please meet Tom in-person for coffee.</p>
     </main>

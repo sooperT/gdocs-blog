@@ -1112,3 +1112,14 @@ main > h2 a:hover {
         gap: 1em;
     }
 }
+
+/* Copy-this-prompt block (TomBot page and About): the paste line for a visitor's own AI */
+.tb-paste { font-family: 'Courier New', Courier, monospace; font-size: 0.85em; margin: 28px 0 0 0; padding: 2px 0 2px 14px; border-left: 3px solid var(--teletext-yellow); }
+.tb-paste p { margin: 0 0 8px 0; }
+.tb-paste p:last-child { margin: 0; }
+.tb-paste-prompt { overflow-wrap: anywhere; }
+.tb-paste-prompt kbd { font: inherit; color: var(--teletext-yellow); text-decoration: underline dotted; text-underline-offset: 3px; }
+.tb-paste-prompt kbd a { border-bottom: 0; }
+.tb-paste-copy { font: inherit; color: var(--teletext-yellow); background: none; border: 0; border-bottom: 1px solid currentColor; padding: 0; margin-left: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.tb-paste-copy:hover { background: rgba(255, 255, 0, 0.1); }
+.tb-paste-copy svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; }

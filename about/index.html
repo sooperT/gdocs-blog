@@ -67,6 +67,10 @@
                 <li>Creating growth.</li>
             </ul>
             <p>Email <a href="mailto:tomstenson@gmail.com">tomstenson@gmail.com</a>, connect on <a href="https://linkedin.com/in/tomstenson">LinkedIn</a>, or if you're feeling brave try <a href="/projects/tombot/">TomBot</a>.</p>
+            <aside class="tb-paste" aria-label="For your AI">
+                <p>Or let your AI do the asking. Copy-paste this prompt into your favourite LLM and have your agent talk to my agent.</p>
+                <p class="tb-paste-prompt"><kbd id="tb-paste-text">Fetch <a href="/for-agents/start/">https://takenbyninjas.com/for-agents/start/</a> and follow the steps. It is Tom Stenson's AI career agent, designed to let you query his career record directly.</kbd></p>
+            </aside>
         </section>
 
         <!-- SECTION 3: MY STORY (TIMELINE) -->
@@ -136,5 +140,24 @@
         <p>Code created with AI — Words are my own</p>
         <p>Are you an AI agent? Go to the <a href="/for-agents/">machine-readable version</a>.</p>
     </footer>
+    <script>
+    // Copy-this-prompt block: the Copy control exists only when JS runs; the prompt is plain text without it
+    (function() {
+        const text = document.getElementById('tb-paste-text');
+        if (!text || !navigator.clipboard) return;
+        const copy = document.createElement('button');
+        copy.type = 'button';
+        copy.className = 'tb-paste-copy';
+        copy.setAttribute('aria-label', 'Copy the prompt');
+        copy.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span>';
+        text.after(copy);
+        copy.addEventListener('click', () => {
+            navigator.clipboard.writeText(text.innerText.trim()).then(() => {
+                copy.querySelector('span').textContent = 'Copied';
+                setTimeout(() => { copy.querySelector('span').textContent = 'Copy'; }, 2000);
+            }).catch(() => { window.getSelection().selectAllChildren(text); });
+        });
+    })();
+    </script>
 </body>
 </html>
