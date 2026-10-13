@@ -575,9 +575,9 @@ await test('knockouts: lines the job ads use (knockout audit, item 39)', async (
   assert.equal(type("4 days in the office. We're a team that builds together, thinks together, and moves together. Showing up is part of how we work."), 'location');
   assert.equal(type('where we work at least 3 days in the office).'), 'location');
   assert.equal(type('Job ScheduleFull time'), 'employment_type', 'a label glued to its value by the page extract');
-  // Answer what was asked: an office-or-remote line gets both qualifiers.
+  // Answer what was asked: an office-or-remote line across time zones gets all three qualifiers.
   const gravy = 'Based within European time zones, whether from our Copenhagen or London office or remotely.';
-  assert.equal(answerFor(gravy, classifyKnockout(gravy)), 'Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU');
+  assert.equal(answerFor(gravy, classifyKnockout(gravy)), 'Copenhagen, Denmark; Open to onsite roles in Copenhagen; remote roles across the EU; worked on-site, hybrid and remote, and across time zones');
   // Still not knockouts: no fact in the register settles them.
   for (const exp of ["We're also scaling a self-served model built to travel fast, so it can reach a new", 'support in case of unfortunate events, travel insurance; IIIrd Pillar Pension Fund',
     'Anywhere in France', '6+ years of product related experience, currently at Lead or Group PM', 'Every hire must demonstrate at least Level 1.',

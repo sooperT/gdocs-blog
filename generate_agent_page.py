@@ -201,7 +201,9 @@ FACTS = [
     {'type': 'location', 'label': 'Location', 'per_send': True,
      'parts': [('Copenhagen, Denmark', 'META.LOCATION')],
      'when': [('Open to onsite roles in Copenhagen', 'META.LOCATION', r'^\s*location\b|\bbased in\b|\bon-?site\b|\bhybrid\b|\boffice\b'),
-              ('remote roles across the EU', 'META.LOCATION', r'\bremote(ly)?\b')],
+              ('remote roles across the EU', 'META.LOCATION', r'\bremote(ly)?\b'),
+              ('worked on-site, hybrid and remote, and across time zones', 'META.LOCATION',
+               r'\bhybrid\b|\btime ?zones?\b|\bworking pattern\b|\bdays? ((a|per) week )?in (the )?office\b')],
      'asks': [r'^\s*location\b', r'\bbased (in|within)\b', r'\bon-?site\b', r'\bhybrid\b', r'\brelocat', r'\bfully remote\b',
               r'\bremote (role|position|work|working|first)\b', r'\bdays? ((a|per) week )?in (the )?office\b']},
     {'type': 'work_permit', 'label': 'Nationality & work permit',
@@ -1178,13 +1180,13 @@ def apply_tight(sections):
 
 
 def check(sections, section_id, text):
-    """Fail loudly if a quoted line is no longer verbatim in its section."""
-    if section_id is None or (section_id, text) in TIGHTENED:
+    """The section a line cites must exist. The line itself may be a summary
+    of that section, not a quote (R1013-10, Tom: "it's a bot summary, not my
+    words, for the agent solution"); the section id is what makes it checkable."""
+    if section_id is None:
         return
     if section_id not in sections:
         sys.exit(f'✗ Section {section_id} not found in {CONTENT_FILE}')
-    if text not in sections[section_id]:
-        sys.exit(f'✗ Not verbatim in {section_id}: {text!r}')
 
 
 def check_anywhere(text):

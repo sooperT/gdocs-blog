@@ -572,6 +572,11 @@
   {
     "id": "META.LOCATION",
     "questions": [
+      "Is Tom open to hybrid work?",
+      "Does Tom work on-site or remote?",
+      "Has Tom worked remotely?",
+      "Has Tom worked across time zones?",
+      "What is Tom's preferred working pattern?",
       "Where are you from?",
       "Where do you live?",
       "Are you Danish?",
@@ -603,7 +608,8 @@
     "attested": [],
     "direct_answers": [
       "Copenhagen, Denmark. Open to onsite roles in Copenhagen, and remote roles across the EU.",
-      "British & French; Danish permanent resident; no work visa is required in EU and UK."
+      "British & French; Danish permanent resident; no work visa is required in EU and UK.",
+      "Working pattern: it depends on the role and the location, but I'm flexible: worked on-site, hybrid and remote, and across time zones. Examples: EuroDNS across Luxembourg and Copenhagen[EURODNS.R1.STORY.REMOTE], the UK2 US turnaround from London[UK2.R1.USTURNAROUND]."
     ],
     "external": []
   },
