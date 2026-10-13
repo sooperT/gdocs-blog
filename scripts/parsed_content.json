@@ -151,6 +151,10 @@
   {
     "id": "META.LOOKING",
     "questions": [
+      "Would Tom work in fintech?",
+      "Is Tom open to fintech?",
+      "Which industries is Tom open to?",
+      "Would Tom move into a new industry?",
       "What are you looking for?",
       "What kind of role are you after?",
       "What is your ideal next role?",
@@ -2773,6 +2777,12 @@
   {
     "id": "FIT.FIXER",
     "questions": [
+      "Mature product, we need someone to run the roadmap",
+      "Own and run the roadmap for an established product",
+      "Keep a mature product running and growing",
+      "Would Tom run a mature product?",
+      "Someone to maintain the product and ship the backlog",
+      "Steady-state product owner",
       "Could Tom help with a product that has lost its way?",
       "Could Tom get a stuck initiative moving?",
       "Would Tom take on a mess?",
@@ -2813,6 +2823,15 @@
   {
     "id": "FIT.ENV",
     "questions": [
+      "Would Tom fit a 30-person startup?",
+      "Would Tom fit a small remote startup?",
+      "Would Tom fit a remote startup in an industry he hasn't worked in?",
+      "Would Tom fit a remote company of 30 people?",
+      "Would Tom fit a consensus-driven organisation?",
+      "Would Tom fit a careful, risk-averse culture?",
+      "We're consensus-driven and careful",
+      "We make decisions by consensus",
+      "Would Tom do well where things move slowly?",
       "Would Tom fit a remote-first company?",
       "Would Tom fit a startup?",
       "Would Tom fit a scale-up?",
@@ -2862,6 +2881,10 @@
   {
     "id": "FIT.TEAM",
     "questions": [
+      "Team of 4 PMs, output over outcomes",
+      "What would Tom add to a team of PMs that ships output, not outcomes?",
+      "How would Tom move a PM team from output to outcomes?",
+      "Our PMs deliver features but not results",
       "Our team has no product manager, what would Tom add?",
       "What would Tom add to an engineering-led team?",
       "What would Tom add to a team of PMs?",
@@ -2908,6 +2931,10 @@
   {
     "id": "FIT.MANAGER",
     "questions": [
+      "How does Tom work with a cautious leadership team?",
+      "Would Tom work well with a consensus-driven leadership?",
+      "How does Tom handle a slow decision process?",
+      "Would Tom's pace grate on a careful team?",
       "What does Tom need from a manager?",
       "How should Tom be managed?",
       "How does Tom work with founders?",
@@ -2939,6 +2966,11 @@
   {
     "id": "FIT.NOT",
     "questions": [
+      "Would a steady-state role suit Tom?",
+      "Is Tom a fit for running a mature product?",
+      "Run the roadmap for a mature product",
+      "Is Tom a fit for a mostly line-management role?",
+      "Would Tom take a role that needs a decade in our domain?",
       "Where would Tom not be a good fit?",
       "What is Tom not a fit for?",
       "What roles should Tom avoid?",
