@@ -6,6 +6,7 @@ import assert from 'node:assert/strict';
 import {
   capture, track, botFamily, uaProduct, refererHost, askerBucket, distinctIdFor, hashedVisitor,
   baseProperties, DEFAULT_HOST, CAPTURE_PATH, CAPTURE_TIMEOUT_MS, BOT_FAMILIES,
+  cleanPosthogId, chatTextAllowed, retrievalSpanEvent, generationEvent,
 } from '../netlify/functions/lib/analytics.js';
 import { createHandler as createFetchHandler } from '../netlify/functions/agent-fetch.js';
 import { createHandler as createAskHandler, askEvent } from '../netlify/functions/ask.js';
@@ -331,6 +332,51 @@ await test('askEvent / briefEvent: counts and labels only', () => {
   assert.deepEqual(briefEvent(usage).flags, []);
   assert.equal(briefEvent(usage).injection_lines, 0);
   assert.ok(!('tag' in briefEvent(usage)), 'tag comes from the base properties');
+});
+
+// --- TomBot chat: LLM analytics events ------------------------------------
+const chatIds = { traceId: 'session_1_abc_99', sessionId: 'session_1_abc', webSessionId: '0199e1a2-aaaa-7bbb-8ccc-123456789abc' };
+const hit = { method: 'question', matches: [{ section: 'NOVO.R1', score: '0.712' }] };
+const miss = { method: 'none', matches: [], topMatch: { title: 'META.FAMILY', score: 0.31 } };
+
+await test('cleanPosthogId: plain ids only', () => {
+  assert.equal(cleanPosthogId('0199e1a2-aaaa-7bbb-8ccc-123456789abc'), '0199e1a2-aaaa-7bbb-8ccc-123456789abc');
+  for (const bad of [undefined, null, '', 'short', 42, 'has space in it', 'x'.repeat(81), '<script>alert(1)</script>']) assert.equal(cleanPosthogId(bad), null);
+});
+
+await test('retrievalSpanEvent: a hit and a deflection', () => {
+  const a = retrievalSpanEvent({ ...chatIds, query: 'What did you do at Novo?', retrieval: hit, latencyMs: 420, env: {} });
+  assert.equal(a.$ai_trace_id, 'session_1_abc_99');
+  assert.equal(a.$ai_session_id, 'session_1_abc');
+  assert.equal(a.$session_id, chatIds.webSessionId);
+  assert.equal(a.$ai_parent_id, a.$ai_trace_id);
+  assert.equal(a.$process_person_profile, false);
+  assert.deepEqual([a.surface, a.deflected, a.section, a.score, a.$ai_latency], ['tombot', false, 'NOVO.R1', 0.712, 0.42]);
+  assert.deepEqual(a.$ai_input_state, { query: 'What did you do at Novo?' });
+  const b = retrievalSpanEvent({ ...chatIds, webSessionId: undefined, query: 'favourite pizza?', retrieval: miss, latencyMs: 300, env: {} });
+  assert.deepEqual([b.deflected, b.section, b.score], [true, 'META.FAMILY', 0.31]);
+  assert.ok(!('$session_id' in b));
+});
+
+await test('generationEvent: tokens, timings, text; POSTHOG_CHAT_TEXT=off withholds the text', () => {
+  const args = {
+    ...chatIds, retrieval: hit, model: 'claude-sonnet-5', maxTokens: 1024, system: 'SYSTEM + section',
+    messages: [{ role: 'user', content: 'What did you do at Novo?', extra: 'dropped' }], output: 'I led...',
+    usage: { input_tokens: 900, output_tokens: 120, cache_read_input_tokens: 0 }, latencyMs: 2500, firstTokenMs: 600,
+  };
+  const g = generationEvent({ ...args, env: {} });
+  assert.deepEqual([g.$ai_provider, g.$ai_model, g.$ai_input_tokens, g.$ai_output_tokens, g.$ai_latency, g.$ai_time_to_first_token, g.$ai_is_error],
+    ['anthropic', 'claude-sonnet-5', 900, 120, 2.5, 0.6, false]);
+  assert.deepEqual(g.$ai_input, [{ role: 'system', content: 'SYSTEM + section' }, { role: 'user', content: 'What did you do at Novo?' }]);
+  assert.deepEqual(g.$ai_output_choices, [{ role: 'assistant', content: 'I led...' }]);
+  assert.deepEqual([g.turns, g.output_length, g.section], [1, 8, 'NOVO.R1']);
+  assert.ok(chatTextAllowed({}) && !chatTextAllowed({ POSTHOG_CHAT_TEXT: 'OFF' }));
+  const off = generationEvent({ ...args, env: { POSTHOG_CHAT_TEXT: 'off' } });
+  assert.ok(!('$ai_input' in off) && !('$ai_output_choices' in off));
+  assert.ok(!JSON.stringify(off).includes('Novo?'));
+  assert.deepEqual(retrievalSpanEvent({ ...chatIds, query: 'abc', retrieval: hit, latencyMs: 1, env: { POSTHOG_CHAT_TEXT: 'off' } }).$ai_input_state, { query_length: 3 });
+  const err = generationEvent({ ...args, usage: null, error: 'overloaded', env: {} });
+  assert.deepEqual([err.$ai_is_error, err.$ai_error, err.$ai_input_tokens], [true, 'overloaded', null]);
 });
 
 console.log(`\n${passed} passed${process.exitCode ? ', with failures' : ', all green'}`);

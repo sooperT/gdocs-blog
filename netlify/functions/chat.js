@@ -332,12 +332,14 @@ export default async (request, context) => {
           if (lastUserMessage) {
             await logChatExchange(chatSessionId, lastUserMessage.content, fullResponse, retrievalInfo);
           }
-          await trackGeneration(null);
           // Send follow-up suggestions as structured data for clickable chips
           if (followUps.length > 0) {
             controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'follow_ups', suggestions: followUps })}\n\n`));
           }
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'done', sessionId: chatSessionId })}\n\n`));
+          // After `done` so the visitor never waits on PostHog, before close
+          // because Netlify freezes the invocation once the response closes.
+          await trackGeneration(null);
           controller.close();
         } catch (error) {
           console.error('Streaming error:', error);
