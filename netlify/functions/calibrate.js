@@ -23,6 +23,7 @@ import { referencesFor } from './lib/references.js';
 import { classifyKnockouts, answerFor, FACT_NOTE, NOT_STATED_NOTE } from './lib/facts.js';
 import SECTION_YEARS from './lib/section_years.json' with { type: 'json' };
 import { logUsage, getUsagePool, cleanTag } from './lib/usage.js';
+import { track, askerBucket } from './lib/analytics.js';
 
 export const MAX_BRIEF_CHARS = 12000;   // real JDs run to 8,500 (Sword Health, 2026-10-12)
 export const MAX_REQUIREMENTS = 16;   // 12 dropped half the Sword Health JD (run 3b, 2026-10-12)
@@ -424,6 +425,27 @@ async function readBrief(request, url) {
   return { brief: body.raw, asker: url.searchParams.get('asker'), tag: url.searchParams.get('tag') };
 }
 
+// The PostHog `agent_brief` properties (lib/analytics.js): counts, the three
+// role-shape labels, the splitter, flags and the number of stripped lines;
+// never the brief, the requirements or the evidence.
+export function briefEvent(usage, { flags = [], injectionLines = 0 } = {}) {
+  return {
+    asker: askerBucket(usage.asker),
+    requirements: usage.requirements,
+    met: usage.met,
+    partial: usage.partial,
+    not_met: usage.not_met,
+    proof_point_rows: usage.proof_point_rows,
+    adjacent: usage.adjacent,
+    splitter: usage.splitter,
+    seniority: usage.seniority,
+    function: usage.function,
+    sector: usage.sector,
+    flags,
+    injection_lines: Number(injectionLines) || 0,
+  };
+}
+
 export function createCalibrateHandler({
   usagePool,   // test seam; default: the shared pool when NILEDB_URL is set
   retrieve = defaultRetrieve,
@@ -560,6 +582,7 @@ export function createCalibrateHandler({
       };
       console.log('[ask:brief]', JSON.stringify(usage));
       await logUsage({ pool: usagePool === undefined ? getUsagePool(runEnv) : usagePool, request, context, path: '/ask/brief', status: 200, meta: usage });
+      await track('agent_brief', { request, context, env: runEnv, path: '/ask/brief', tag, properties: briefEvent(usage, { flags, injectionLines }) });
 
       return json({
         brief: { requirements: rows.length, splitter, evidence_queries: queries.reduce((n, q) => n + q.length, 0), threshold: BRIEF_THRESHOLD },

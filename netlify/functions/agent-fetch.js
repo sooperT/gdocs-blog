@@ -10,7 +10,10 @@
 // agent, referer without query string, country, status). No IP, no query
 // strings, no body (PRD guardrail 8). Any error — DB down, table missing,
 // pool misconfigured — is a console warning; the static file is still served.
+// The same fetch is also sent to PostHog as `agent_fetch` (lib/analytics.js)
+// when POSTHOG_KEY is set: resource key, status, tagged, never text.
 import { getUsagePool, buildUsageRow, insertUsage, cleanReferer as cleanRefererShared, cleanTag } from './lib/usage.js';
+import { track } from './lib/analytics.js';
 import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join, resolve } from 'path';
@@ -73,7 +76,7 @@ export function manifestResources(readFile) {
 export function resourceFor(pathname, extra = {}) {
   const p = String(pathname || '').replace(/\/+$/, '').toLowerCase();
   for (const [key, r] of Object.entries({ ...RESOURCES, ...extra })) {
-    if (p.endsWith(`/agent-fetch/${key}`) || r.public.some(pub => p.endsWith(pub))) return r;
+    if (p.endsWith(`/agent-fetch/${key}`) || r.public.some(pub => p.endsWith(pub))) return { key, ...r };
   }
   return null;
 }
@@ -126,8 +129,8 @@ export function taggedStart(pathname) {
   const tag = cleanTag(m[1]);
   if (!tag) return null;
   return m[2] === '.md'
-    ? { ...RESOURCES.start, path: `/for-agents/start/${tag}.md`, tag }
-    : { ...RESOURCES['start-page'], path: `/for-agents/start/${tag}/`, tag, html: true };
+    ? { key: 'start', ...RESOURCES.start, path: `/for-agents/start/${tag}.md`, tag }
+    : { key: 'start-page', ...RESOURCES['start-page'], path: `/for-agents/start/${tag}/`, tag, html: true };
 }
 const escapeHtml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
 // Per-send context (item 231): for-agents/sends.json maps a tag to the role,
@@ -145,7 +148,7 @@ export const TAG_LINE = (tag, send) => {
   return `\n\n## 0b. About this copy\n\n${context} Send tag: \`${tag}\`. Add \`&tag=${tag}\` to every GET /ask call and a \`"tag": "${tag}"\` field to every POST /ask/brief body, so Tom can see which send you came from. The tag is logged with counts only, never with your text.\n`;
 };
 
-export function createHandler({ getPool = getDefaultPool, readFile = defaultReadFile } = {}) {
+export function createHandler({ getPool = getDefaultPool, readFile = defaultReadFile, env = process.env } = {}) {
   let generated = null;
   let sends = null;
   return async (request, context) => {
@@ -201,6 +204,8 @@ export function createHandler({ getPool = getDefaultPool, readFile = defaultRead
     } else {
       await Promise.race([logging, new Promise(r => setTimeout(r, LOG_WAIT_MS).unref?.())]);
     }
+    await track('agent_fetch', { request, context, env, path: resource.path, tag: resource.tag,
+      properties: { resource: resource.key || null, status, tagged: Boolean(resource.tag) } });
 
     if (status !== 200) {
       return new Response('Temporarily unavailable\n', {

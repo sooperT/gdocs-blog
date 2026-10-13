@@ -16,6 +16,7 @@ import { strengthFor } from './lib/strength.js';
 import { classifyKnockouts, answerFor, FACT_NOTE, NOT_STATED_NOTE } from './lib/facts.js';
 import { referencesFor } from './lib/references.js';
 import { logUsage, getUsagePool, cleanTag } from './lib/usage.js';
+import { track, askerBucket } from './lib/analytics.js';
 import {
   agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap,
   applyDenyList, validateRows, dropUnknownSections, omitAgentLines, AGENT_HIDDEN_SECTIONS,
@@ -176,6 +177,21 @@ export const FIT_QUESTION = /\b(?:good|right|strong|great) fit\b|\bfit (?:for|wi
 export const FIT_HINT = 'Fit is answered against a role: POST the job description (or five to eight requirements in the company\'s words) to https://takenbyninjas.com/ask/brief and read the rows. See /for-agents/start/ Job 1.';
 export const fitHint = (q) => (FIT_QUESTION.test(String(q || '')) ? FIT_HINT : undefined);
 
+// The PostHog `agent_ask` properties (lib/analytics.js): counts, the section
+// id, the asker bucket and flags from the usage row; never the question.
+export function askEvent(usage, { isNull, hint }) {
+  return {
+    asker: askerBucket(usage.asker),
+    query_length: usage.query_length,
+    section: usage.section || null,
+    matches: usage.matches,
+    null: Boolean(isNull),
+    withheld: usage.withheld,
+    flags: usage.flags || [],
+    hint: Boolean(hint),
+  };
+}
+
 function unavailable(error, tag) {
   if (isDbEnvError(error)) {
     console.error(tag, error.message);
@@ -243,6 +259,7 @@ export function createHandler({
       console.log('[guard]', JSON.stringify({ rule: 'injection_pattern', lines: 1, path: '/ask' }));
       const usage = { asker, tag, query_length: q.length, section: null, matches: 0, withheld: 0, flags: ['injection_pattern'] };
       await logUsage({ pool: usagePool === undefined ? getUsagePool(runEnv) : usagePool, request, context, path: '/ask', status: 200, meta: usage });
+      await track('agent_ask', { request, context, env: runEnv, path: '/ask', tag, properties: askEvent(usage, { isNull: true, hint: false }) });
       return json({ answer: null, reason: 'the question reads as an instruction, not a question about Tom', flags: ['injection_pattern'], matches: [], human_version: HUMAN_VERSION });
     }
 
@@ -264,6 +281,7 @@ export function createHandler({
       const usage = { asker, tag, query_length: q.length, section: rows[0]?.section || null, matches: rows.length, withheld };
       console.log('[ask]', JSON.stringify(usage));
       await logUsage({ pool: usagePool === undefined ? getUsagePool(runEnv) : usagePool, request, context, path: '/ask', status: 200, meta: usage });
+      await track('agent_ask', { request, context, env: runEnv, path: '/ask', tag, properties: askEvent(usage, { isNull: !rows.length, hint: Boolean(fitHint(q)) }) });
 
       if (!rows.length) {
         return json({ answer: null, reason: 'no matching content', hint: fitHint(q), matches: [], facts: factsFor(q), human_version: HUMAN_VERSION });
