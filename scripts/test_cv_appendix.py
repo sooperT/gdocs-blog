@@ -105,7 +105,7 @@ NO_PAGE = next((r for r in ROWS['proof_points'] if text_of(r, 'result') and not 
                 and by_result.get(c._norm(text_of(r, 'result'))) is r), None)
 
 FACTS = ROWS['screening_facts']
-STATED = next(f for f in FACTS if f['value'] and not f.get('qualifiers') and not f.get('per_send')
+STATED = next(f for f in FACTS if f['value'] and not f.get('qualifiers') and not f.get('per_send') and not f.get('on_request')
               and f['type'] not in ('name', 'last_role') + c.OMIT_ON_SEND)
 UNSTATED = next(f for f in FACTS if not f['value'])
 
@@ -205,6 +205,17 @@ check('5 a fact the record cannot settle reads "not stated"', fact_line(out, UNS
 for key in ('fact', 'unstated'):
     check(f'5 the ask "{REQ[key]}" is not echoed anywhere', REQ[key].lower() not in out.lower() and REQ[key].split()[0] not in out)
 check('applying: the role is named under the name', f'- Applying for: {JD}' in ls and ls.index(f'- Applying for: {JD}') == ls.index(fact_line(out, 'Name')) + 1)
+# N1012-12, N1012-15: start date and compensation are "on request": silent unless the job asks, then said and put to Tom.
+ON_REQ = next(f for f in FACTS if f.get('on_request'))
+check('5 an on-request fact is not listed when the job does not ask', fact_line(out, ON_REQ['label']) is None, fact_line(out, ON_REQ['label']))
+_text, _q = c.build({'rows': [fact_row('Wombat allowance per annum', ON_REQ['type']), pp_row(REQ['pp'], A)]}, ROWS, JD, applying=JD)
+check('5 an on-request fact the job asks: says on request, and the question goes to Tom',
+      fact_line(_text, ON_REQ['label']) == f"- {ON_REQ['label']}: {ON_REQ['base']}" and [q['type'] for q in _q] == [ON_REQ['type']], (fact_line(_text, ON_REQ['label']), _q))
+_text, _q = c.build({'rows': [fact_row('Wombat allowance per annum', ON_REQ['type']), pp_row(REQ['pp'], A)]}, ROWS, JD, applying=JD, answers={ON_REQ['type']: 'agreed by phone'})
+check('5 Tom\'s answer to an on-request fact stands alone', fact_line(_text, ON_REQ['label']) == f"- {ON_REQ['label']}: agreed by phone", fact_line(_text, ON_REQ['label']))
+_two = dict(fact_row('Wombat allowance and Zebra clearance', ON_REQ['type']), fact_types=[ON_REQ['type'], STATED['type']])
+_text, _q = c.build({'rows': [_two, pp_row(REQ['pp'], A)]}, ROWS, JD, applying=JD)
+check('5 a line that asks two facts gets both (N1012-15)', fact_line(_text, ON_REQ['label']) and fact_line(_text, STATED['label']), _text[:400])
 check('7 the unanswered question comes back in open_q',
       open_q == [{'type': UNSTATED['type'], 'asked': REQ['unstated'], 'record': None}], open_q)
 

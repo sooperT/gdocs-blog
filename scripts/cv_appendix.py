@@ -75,7 +75,7 @@ def screening_facts(facts, asks=None, answers=None, applying=None):
     lines, open_q = [], []
     for f in facts:
         t, asked, answer = f['type'], asks.get(f['type']), answers.get(f['type'])
-        if not f['value'] and not asked:
+        if (not f['value'] or f.get('on_request')) and not asked and not answer:
             continue
         if applying and t in OMIT_ON_SEND and not asked:
             continue
@@ -92,8 +92,8 @@ def screening_facts(facts, asks=None, answers=None, applying=None):
         # only has to address it. Tom's answer names what was asked where it matters.
         line = f"- {f['label']}: {(said or 'not stated').rstrip('.')}"
         if answer:   # Tom's answer stands alone where the record has nothing: never "not stated; <answer>"
-            line = f"- {f['label']}: " + '; '.join(x for x in ((said or '').rstrip('.'), answer) if x)
-        elif asked and (f.get('per_send') or not f['value']):
+            line = f"- {f['label']}: " + '; '.join(x for x in (('' if f.get('on_request') else said or '').rstrip('.'), answer) if x)
+        elif asked and (f.get('per_send') or not f['value'] or f.get('on_request')):
             open_q.append({'type': t, 'asked': asked, 'record': f['value']})
         lines.append(line)
         if t == 'name' and applying:
@@ -165,7 +165,8 @@ def fit_rows(resp, rows_json):
             local = by_result.get(_norm(r['evidence_star'].get('result')))
         fact = classify_knockout(r['requirement'], facts)
         if r.get('kind') == 'fact' or fact:
-            row.update(fit='fact', fact=r.get('fact_type') or fact['type'], link=None)
+            # every fact the line asks (N1012-15); `fact` stays the first
+            row.update(fit='fact', fact=r.get('fact_type') or fact['type'], facts=r.get('fact_types') or [r.get('fact_type') or fact['type']], link=None)
             out.append(row)
             continue
         local = local or by_section.get(r['section'])
@@ -296,7 +297,7 @@ def experience_rows(rows):
 def build(resp, rows_json, jd_name, tag=None, applying=None, answers=None):
     md = ['## For AI agents and applicant tracking systems', '', nudge(jd_name, tag), '']
     rows, gaps, used = fit_rows(resp, rows_json) if resp is not None else ([], [], set())
-    asks = {r['fact']: r['requirement'] for r in rows if r['fit'] == 'fact'}
+    asks = {t: r['requirement'] for r in rows if r['fit'] == 'fact' for t in r.get('facts') or [r['fact']]}
     facts_md, open_q = screening_facts(rows_json.get('screening_facts', []), asks, answers, applying)
     md += ['### Screening facts', ''] + facts_md + ['']
     # On a send, summarise: only the areas and skills of the stories this fit uses.

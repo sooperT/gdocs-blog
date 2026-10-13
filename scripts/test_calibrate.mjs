@@ -148,7 +148,7 @@ await test('system prompt: no facts about Tom, no ranking language', async () =>
 // --- rows ---
 await test('row above threshold with year + outcome: met, evidence trimmed to 400', async () => {
   const row = buildRow('5+ years of product management experience', NOVO);
-  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'references', 'kind', 'evidence_star', 'role', 'product', 'page', 'skills', 'adjacent', 'fact_type', 'also']);
+  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'references', 'kind', 'evidence_star', 'role', 'product', 'page', 'skills', 'adjacent', 'fact_type', 'fact_types', 'also']);
   assert.equal(row.kind, 'section');
   assert.equal(row.tier, 'self-reported');
   assert.equal(row.references.count > 0, true);
@@ -175,7 +175,7 @@ await test('row above threshold with no year: partial, short evidence not cut', 
 });
 await test('row below threshold: not met, null evidence and source', async () => {
   assert.deepEqual(buildRow('Danish is a plus', null),
-    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null, kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, also: null });
+    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null, kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, fact_types: null, also: null });
 });
 await test('row on a section with no period: references null, tier self-reported', async () => {
   const row = buildRow('Hands-on with discovery', NOYEAR);
@@ -585,4 +585,33 @@ await test('usage: /ask/brief persists one agent_fetches row with meta counts an
   const bad = createCalibrateHandler({ env: {}, createMessage: noAnthropic, retrieve: stubRetrieve, usagePool: { query: async () => { throw new Error('db down'); } } });
   assert.equal((await bad(req('/ask/brief?brief=' + encodeURIComponent(JD2) + '&tag=bad%20tag!'))).status, 200, 'logging failure never breaks the response');
 }));
+
+// --- 2026-10-13 rulings ---
+await test('N1012-15: a compensation line is on request, not a location; one line can ask two facts', async () => {
+  const { classifyKnockouts } = await import('../netlify/functions/lib/facts.js');
+  const { buildFactRow } = await import('../netlify/functions/calibrate.js');
+  const types = (t) => classifyKnockouts(t).map(f => f.type);
+  const danske = 'If your position in based in Lithuania, monthly salary would range from 4800 EUR to';
+  assert.equal(types(danske)[0], 'compensation');
+  assert.deepEqual(types('Total Compensation Range'), ['compensation']);
+  const alan = 'Location: You must be legally eligible to work from France.';
+  assert.deepEqual(types(alan), ['location', 'work_permit']);
+  const row = buildFactRow(alan, classifyKnockouts(alan));
+  assert.equal(row.fact_type, 'location'); assert.deepEqual(row.fact_types, ['location', 'work_permit']);
+  assert.match(row.evidence, /^Location: Copenhagen, Denmark.*\. Nationality & work permit: British & French/);
+  assert.equal(row.met, 'fact');
+  const single = buildFactRow('Fluent English', classifyKnockouts('Fluent English'));
+  assert.equal(single.evidence, 'English (native); Danish (conversational)', 'one fact: unchanged, no label');
+  assert.deepEqual(types('Experience launching products in France'), []);
+});
+await test('N1012-12: start date is on request, a fact row with nothing to cite', async () => {
+  const { classifyKnockouts } = await import('../netlify/functions/lib/facts.js');
+  const { buildFactRow } = await import('../netlify/functions/calibrate.js');
+  const row = buildFactRow('Notice period of one month at most', classifyKnockouts('Notice period of one month at most'));
+  assert.equal(row.fact_type, 'start_date'); assert.equal(row.met, 'fact');
+  assert.match(row.evidence, /^On request: GET \/ask\?q=/);
+  assert.equal(row.section, null); assert.equal(row.source, null);
+  const { isValidRow } = await import('../netlify/functions/lib/guard.js');
+  assert.ok(isValidRow(row));
+});
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);

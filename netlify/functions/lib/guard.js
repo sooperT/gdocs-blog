@@ -200,6 +200,21 @@ export function validateRows(rows, { log = console.error, tag = '[guard]' } = {}
   return { rows: valid, dropped };
 }
 
+// --- sections the agent side never serves ------------------------------------
+
+// N1012-21 (Tom: "a terse job only bot"): family, jokes and the chatbot-voice
+// answers stay in TomBot chat. Off the map, so /ask and /ask/brief drop them
+// like any unknown section.
+export const AGENT_HIDDEN_SECTIONS = new Set([
+  'META.FAMILY', 'META.PINEAPPLE', 'META.HELMET', 'META.GREETING', 'TQ.DEFLECT', 'TQ.START', 'TQ.HIRE',
+]);
+
+// Chat-voice lines the agent side leaves out (N1012-22: the Direct answers
+// stand, so "I can't go into detail" would contradict them).
+export const AGENT_OMIT_LINES = [/^I can['’]t go into detail on the specific strategy\b/i];
+export const omitAgentLines = (text) => typeof text !== 'string' ? text
+  : text.split('\n').filter(line => !AGENT_OMIT_LINES.some(p => p.test(line.trim()))).join('\n').replace(/\n{3,}/g, '\n\n');
+
 // --- section map --------------------------------------------------------------
 
 export const SECTION_MAP_TTL_MS = 10 * 60 * 1000;
@@ -212,7 +227,7 @@ export function createSectionMap({ listSections, ttlMs = SECTION_MAP_TTL_MS, now
   return {
     async get() {
       if (cached && now() - at < ttlMs) return cached;
-      const sections = await listSections();
+      const sections = (await listSections()).filter(s => !AGENT_HIDDEN_SECTIONS.has(s.id));
       cached = { sections, ids: new Set(sections.map(s => s.id)) };
       at = now();
       return cached;

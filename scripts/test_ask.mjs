@@ -511,4 +511,37 @@ await test('item 31: retrieval kinds filter; /ask map and chat never see PP.<n> 
   const r = await retrieve('novo', { fetchImpl: fetchOk, env: {}, sql: sql2, topK: 5 });
   assert.ok(r.matches.every(m => !isProofPoint(m.title)));
 });
+
+// --- 2026-10-13 rulings ---
+await test('N1012-24: the agent side has its own clean-up; chat\'s is unchanged', async () => {
+  const { prepareAgentQuery, prepareQuery, retrieve } = await import('../netlify/functions/lib/retrieval.js');
+  const sql = { query: async () => ({ rows: [] }) };
+  assert.equal(await prepareAgentQuery('Who is Tom Stenson?', { sql }), 'who are you?'.replace('who', 'Who'));
+  assert.equal(await prepareAgentQuery('Where has Thomas Traberg Stenson worked?', { sql }), 'Where have you worked?');
+  assert.equal(await prepareAgentQuery('where has tom worked', { sql }), await prepareQuery('where has tom worked', { sql }), 'no surname: same as chat');
+  assert.equal(await prepareQuery('Who is Tom Stenson?', { sql }), 'Who are you Stenson?', 'chat keeps its old behaviour (R1012-2)');
+  let sent = null;
+  const fetchImpl = async (_u, init) => { sent = JSON.parse(init.body).input[0]; return { ok: true, json: async () => ({ data: [{ embedding: EMB }] }) }; };
+  await retrieve('Who is Tom Stenson?', { fetchImpl, env: {}, sql, prepare: prepareAgentQuery });
+  assert.equal(sent, 'Who are you?');
+});
+await test('N1012-21: hidden sections never reach an agent, even as the best match', async () => {
+  const { retrieve } = await import('../netlify/functions/lib/retrieval.js');
+  const { AGENT_HIDDEN_SECTIONS, createSectionMap } = await import('../netlify/functions/lib/guard.js');
+  for (const id of ['META.FAMILY', 'META.PINEAPPLE', 'META.HELMET', 'META.GREETING', 'TQ.DEFLECT', 'TQ.START', 'TQ.HIRE']) assert.ok(AGENT_HIDDEN_SECTIONS.has(id), id);
+  const family = { title: 'META.FAMILY', content: 'private', similarity: 0.99 };
+  const sql = { query: async (t) => ({ rows: /FROM aliases/.test(t) ? [] : [family, { ...NOVO }] }) };
+  const agent = await retrieve('family?', { fetchImpl: fetchOk, env: {}, sql, topK: 5, exclude: AGENT_HIDDEN_SECTIONS });
+  assert.ok(agent.matches.length && agent.matches.every(m => m.title !== 'META.FAMILY'));
+  const chat = await retrieve('family?', { fetchImpl: fetchOk, env: {}, sql, topK: 5 });
+  assert.equal(chat.match.title, 'META.FAMILY', 'chat is unchanged');
+  const map = await createSectionMap({ listSections: async () => [{ id: 'META.FAMILY', questions: [] }, { id: 'NOVO', questions: [] }] }).get();
+  assert.deepEqual(map.sections.map(s => s.id), ['NOVO']);
+  assert.ok(!map.ids.has('META.FAMILY'));
+});
+await test('N1012-22: the "can\'t go into detail" line is left out, the rest of the answer stands', async () => {
+  const { cleanAnswer } = await import('../netlify/functions/ask.js');
+  const text = "I worked on the launch team as Consumer Lead.\n\nI can't go into detail on the specific strategy as it's still commercially sensitive, but it was a real privilege and massive learning.\n\nMore.";
+  assert.equal(cleanAnswer(text), 'I worked on the launch team as Consumer Lead.\n\nMore.');
+});
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);

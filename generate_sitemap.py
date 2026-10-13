@@ -38,6 +38,7 @@ AGENT_PAGES = [
     ("/for-agents/wegovycare/", "for-agents/wegovycare/index.html"),
     ("/for-agents/treat-turnaround/", "for-agents/treat-turnaround/index.html"),
     ("/for-agents/recommendations/", "for-agents/recommendations/index.html"),
+    ("/for-agents/start/", "for-agents/start/index.html"),   # the paste URL (N1012-16)
     ("/for-agents/start.md", "for-agents/start.md"),
     ("/llms.txt", "llms.txt"),
 ]
@@ -124,7 +125,16 @@ def collect_agent_pages():
                 if (p["path"], p["file"]) not in pages:
                     pages.append((p["path"], p["file"]))
     return [{"url": url, "lastmod": get_file_modified_date(path)}
-            for url, path in pages if os.path.exists(path)]
+            for url, path in pages if os.path.exists(path) and not is_noindex(path)]
+
+
+def is_noindex(path):
+    """A page that asks not to be indexed is not listed (N1012-16: the skill pages)."""
+    if not path.endswith(".html"):
+        return False
+    with open(path, encoding="utf-8") as f:
+        head = f.read(4000)
+    return 'name="robots" content="noindex' in head
 
 
 def generate_sitemap(pages):

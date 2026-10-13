@@ -135,6 +135,16 @@ export async function prepareQuery(query, { sql } = {}) {
   return (await prepareQuerySteps(query, { sql })).final;
 }
 
+// The agent side's own clean-up (N1012-24: two jobs, two clean-ups). An agent
+// asks in the third person with the surname: the full name is one name, so
+// "Who is Tom Stenson?" is not embedded as "who is you Stenson". Then chat's
+// steps, because the stored questions are in the second person. Chat never
+// calls this.
+const FULL_NAME = /\b(?:tom|thomas)(?:\s+john)?(?:\s+traberg)?\s+stenson\b/gi;
+export async function prepareAgentQuery(query, { sql } = {}) {
+  return prepareQuery(String(query || '').replace(FULL_NAME, 'Tom'), { sql });
+}
+
 // Get embedding from Voyage AI with retry
 export async function embedQuery(text, {
   fetchImpl = globalThis.fetch,
@@ -199,7 +209,7 @@ function matchQuery(agentColumns, kinds = 'sections') {
     `;
 }
 
-export async function matchSections(embedding, { topK = TOP_K, threshold, sql, kinds = 'sections' } = {}) {
+export async function matchSections(embedding, { topK = TOP_K, threshold, sql, kinds = 'sections', exclude } = {}) {
   try {
     const db = sql || getPool();
     const vectorStr = `[${embedding.join(',')}]`;
@@ -217,7 +227,9 @@ export async function matchSections(embedding, { topK = TOP_K, threshold, sql, k
     }
 
     // Re-sort by similarity after DISTINCT and take top N
-    const sorted = result.rows.sort((a, b) => b.similarity - a.similarity);
+    // `exclude`: section ids this caller never serves (the agent side's hidden set).
+    const visible = exclude ? result.rows.filter(row => !exclude.has(row.title)) : result.rows;
+    const sorted = visible.sort((a, b) => b.similarity - a.similarity);
     const top = sorted.slice(0, topK);
     return threshold === undefined ? top : top.filter(r => r.similarity >= threshold);
   } catch (error) {
@@ -238,13 +250,15 @@ export async function retrieve(query, {
   topK = TOP_K,
   threshold = QUESTION_MATCH_THRESHOLD,
   kinds = 'sections',
+  prepare = prepareQuery,   // chat's clean-up; the agent side passes prepareAgentQuery
+  exclude,
 } = {}) {
   const db = sql || getPool(env, connectionString);
-  const prepared = await prepareQuery(query, { sql: db });
+  const prepared = await prepare(query, { sql: db });
   const embedding = await embedQuery(prepared, { fetchImpl, env, sleep });
   if (!embedding) return { match: null, topMatch: null, matches: [], error: 'embedding failed' };
 
-  const rows = await matchSections(embedding, { topK, sql: db, kinds });
+  const rows = await matchSections(embedding, { topK, sql: db, kinds, exclude });
   const topMatch = rows[0] || null;
   const matches = rows.filter(r => r.similarity >= threshold);
   const match = matches[0] || null;

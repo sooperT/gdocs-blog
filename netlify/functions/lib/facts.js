@@ -13,15 +13,19 @@ function patterns(data) {
   return compiled.get(data);
 }
 
-// The fact a requirement asks about, or null when it is an experience
-// requirement. Long lines are experience that happens to name a place.
-export function classifyKnockout(requirement, data = DATA) {
+// Every fact a requirement asks about, in register order (N1012-15: one line
+// can ask two, "Location: you must be eligible to work from France"). Empty
+// when it is an experience requirement. Long lines are experience that happens
+// to name a place.
+export function classifyKnockouts(requirement, data = DATA) {
   const text = String(requirement || '').trim();
-  if (!text || text.length > (data.max_ask_chars || 160)) return null;
-  for (const { fact, res } of patterns(data)) {
-    if (res.some(re => re.test(text))) return fact;
-  }
-  return null;
+  if (!text || text.length > (data.max_ask_chars || 160)) return [];
+  return patterns(data).filter(({ res }) => res.some(re => re.test(text))).map(({ fact }) => fact);
+}
+
+// The first of them, or null.
+export function classifyKnockout(requirement, data = DATA) {
+  return classifyKnockouts(requirement, data)[0] || null;
 }
 
 // What the fact says to this requirement: its core, plus only the qualifiers

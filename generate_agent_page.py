@@ -183,10 +183,17 @@ KNOWS_ABOUT_WORDS = [
 #          (plain syntax only: both JavaScript and Python read them)
 #   per_send  the standing fact cannot settle it for a given job (onsite at
 #          that job's location): asked once per application
+#   on_request  Tom answers this himself, per conversation (N1012-12, N1012-15):
+#          a JD that asks gets ON_REQUEST; the fact is not listed on its own,
+#          the Who table's "on request" row covers it
+ON_REQUEST = 'On request: GET /ask?q=How%20can%20I%20contact%20Tom%3F'
 FACTS = [
     {'type': 'name', 'label': 'Name', 'parts': [('Tom Stenson', None), ('also Thomas Traberg Stenson', None)], 'asks': []},
     {'type': 'last_role', 'label': 'Most recent role',
      'parts': [('Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026)', 'NOVO.R2')], 'asks': []},
+    # Before location: a salary line often says "based in" too (Danske, knockout audit P6).
+    {'type': 'compensation', 'label': 'Compensation', 'on_request': True, 'parts': [(ON_REQUEST, None)],
+     'asks': [r'\bsalary\b', r'\bcompensation (range|package)\b', r'\b(base|total) (pay|comp)']},
     {'type': 'location', 'label': 'Location', 'per_send': True,
      'parts': [('Copenhagen, Denmark', 'META.LOCATION')],
      'when': [('Open to onsite roles in Copenhagen', 'META.LOCATION', r'^\s*location\b|\bbased in\b|\bon-?site\b|\bhybrid\b|\boffice\b'),
@@ -207,7 +214,7 @@ FACTS = [
     {'type': 'employment_type', 'label': 'Open to',
      'parts': [('fractional, interim and permanent roles.', 'META.LOOKING')],
      'asks': [r'full[- ]time\b', r'\bpart[- ]time\b', r'\bpermanent (position|role|contract)\b', r'\bfixed[- ]term\b', r'\btemporary (position|role|contract)\b']},
-    {'type': 'start_date', 'label': 'Start date', 'parts': [],
+    {'type': 'start_date', 'label': 'Start date', 'on_request': True, 'parts': [(ON_REQUEST, None)],
      'asks': [r'\bnotice period\b', r'\bstart date\b', r'\bavailable to start\b']},
     {'type': 'travel', 'label': 'Travel', 'parts': [], 'asks': [r'\b(willing(ness)?|able|ability|required|expected) to travel\b', r'\btravel (days|up to|required)\b', r'\b\d+ ?% travel\b']},
 ]
@@ -218,7 +225,7 @@ FACT_ASK_MAX_CHARS = 160
 # Identity table (Tom, 2026-10-12: a table, terse, only what an agent needs).
 # (term, [(fragment, section id or None)]): the stated facts of the register,
 # then the rows that are not screening questions.
-WHO = [(f['label'], f['parts'] + [(t, sid) for t, sid, _ in f.get('when', [])]) for f in FACTS if f['parts']] + [
+WHO = [(f['label'], f['parts'] + [(t, sid) for t, sid, _ in f.get('when', [])]) for f in FACTS if f['parts'] and not f.get('on_request')] + [
     ('Target industries', [('B2B, B2C, SaaS, health-tech, pharma, fintech, developer tooling, ecommerce, regulated industries', 'META.LOOKING')]),
     ('Company size', [('Startup, Scaleup, Enterprise.', 'META.LOOKING')]),
     ('Availability, compensation, contact', [('on request: GET /ask?q=How can I contact Tom?', None)]),
@@ -240,7 +247,8 @@ def facts_register(sections):
         out.append({'type': f['type'], 'label': f['label'], 'base': base,
                     'qualifiers': [{'text': t, 'ask': pat} for t, _, pat in f.get('when', [])],
                     'value': '; '.join([t for t, _ in f['parts']] + [t for t, _, _ in f.get('when', [])]) or None,
-                    'section': sids[0] if sids else None, 'per_send': bool(f.get('per_send')), 'asks': f['asks']})
+                    'section': sids[0] if sids else None, 'per_send': bool(f.get('per_send')),
+                    'on_request': bool(f.get('on_request')), 'asks': f['asks']})
     return {'generated_by': 'generate_agent_page.py', 'max_ask_chars': FACT_ASK_MAX_CHARS, 'facts': out}
 
 
@@ -254,7 +262,7 @@ def start_md_with_facts(md, register):
     i = md.index(START_FACTS_HEAD)
     j = md.index('\n## ', i + 1)
     lines = [START_FACTS_HEAD, '', 'The yes-or-no facts a screen starts with, so you have them without a call:', '']
-    lines += [f"- {f['label']}: {f['value']}" for f in register['facts'] if f['value']]
+    lines += [f"- {f['label']}: {f['value']}" for f in register['facts'] if f['value'] and not f['on_request']]
     lines += ['- Experience by area, with the stories for each: https://takenbyninjas.com/for-agents/shapes/', '']
     return md[:i] + '\n'.join(lines) + md[j:]
 
@@ -1573,11 +1581,16 @@ def generate_html(sections, recs):
     ]) + '\n'
 
 
+# Chat-voice line the agent side leaves out (N1012-22; mirrors AGENT_OMIT_LINES in lib/guard.js).
+AGENT_OMIT_LINE = re.compile(r"I can['’]t go into detail on the specific strategy\b", re.I)
+
+
 def section_body(parsed, section_id):
     """A section's answer text (Direct answers excluded; they render as their own block)."""
     if section_id not in parsed:
         sys.exit(f'✗ Section {section_id} not found in {CONTENT_FILE}')
-    return re.split(r'^---\s*$', parsed[section_id]['content'], maxsplit=1, flags=re.M)[0]
+    text = re.split(r'^---\s*$', parsed[section_id]['content'], maxsplit=1, flags=re.M)[0]
+    return '\n'.join(ln for ln in text.split('\n') if not AGENT_OMIT_LINE.match(ln.strip()))
 
 
 def section_blocks(text):
@@ -1942,11 +1955,38 @@ def manifest(extra=()):
 SECTION_YEARS_FILE = 'netlify/functions/lib/section_years.json'
 
 
+# Spans the content does not state, ruled by Tom (N1012-23; LinkedIn export, confirmed 2026-10-13).
+COMPANY_SPANS = {'UK2': 'Sep 2008 - Sep 2010'}
+MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+MONTH_SPAN = r'((?:%s) \d{4}) - ((?:%s) \d{4})' % ('|'.join(MONTHS), '|'.join(MONTHS))
+# A role line names its story: "- Sales Executive (Mar 2003 - Feb 2004): ... [HOST.R3.STORY.ALTSITE]".
+ROLE_LINE = re.compile(r'\(' + MONTH_SPAN + r'\)[^\n]*?\[([A-Z][A-Z0-9_]*(?:\.[A-Z0-9_]+)+)\]')
+
+
+def month_key(text):
+    mon, year = text.split()
+    return int(year) * 12 + MONTHS.index(mon)
+
+
 def section_years_json(sections):
-    """Section id -> year text, from the rows' year cells: a section gets the year of the
-    rows that cite it; a drill-down (NOVO.R2.GENAI) inherits its role section's (NOVO.R2).
+    """Section id -> year text (N1012-23: the rule, not the values).
+    1. A story takes the dates of the role its content line names, when that line
+       sits in the story's own company section.
+    2. Else a section gets the year of the rows that cite it; a drill-down
+       (NOVO.R2.GENAI) inherits its role section's (NOVO.R2).
+    3. A company section (HOST, LEO) spans its roles: Tom's ruled span if there is
+       one, else first start to last end of its month-dated sections.
+    META sections are not periods and carry no year.
     Read by calibrate.js so a section match is not stuck at partial for lack of a year."""
-    years = {}
+    named, top = {}, None
+    with open(CONTENT_FILE, encoding='utf-8') as f:   # the raw file: the parser strips [SECTION.ID] markers
+        for line in f:
+            if line.startswith('## '):
+                top = line[3:].strip().split('.')[0]
+            for start, end, target in ROLE_LINE.findall(line):
+                if top and target.startswith(top + '.') and target in sections:
+                    named.setdefault(target, f'{start} - {end}')
+    years = dict(named)
     for row in PROOF_POINTS:
         if not row.get('year'):
             continue
@@ -1964,6 +2004,17 @@ def section_years_json(sections):
             if parent in years:
                 years[sid] = years[parent]
                 break
+    for top in {sid.split('.')[0] for sid in years if '.' in sid}:
+        if top not in sections:
+            continue
+        spans = [re.fullmatch(MONTH_SPAN, y) for sid, y in years.items() if sid.startswith(top + '.')]
+        if top in COMPANY_SPANS:
+            years[top] = COMPANY_SPANS[top]
+        elif spans and all(spans):
+            start = min((m.group(1) for m in spans), key=month_key)
+            end = max((m.group(2) for m in spans), key=month_key)
+            years[top] = f'{start} - {end}'
+    years = {sid: y for sid, y in years.items() if not sid.startswith('META.') and sid in sections}
     return json.dumps({'generated_by': 'generate_agent_page.py', 'years': dict(sorted(years.items()))}, ensure_ascii=False, indent=2) + '\n'
 
 

@@ -10,14 +10,14 @@
 // Guardrails (switch-off, rate limit, deny-list, schema, map) live in
 // lib/guard.js; the database/environment rule lives in lib/db_env.js.
 import { envForRequest } from './lib/db_env.js';
-import { retrieve as defaultRetrieve, listSections as defaultListSections } from './lib/retrieval.js';
+import { retrieve as defaultRetrieve, listSections as defaultListSections, prepareAgentQuery } from './lib/retrieval.js';
 import { isDbEnvError } from './lib/db_env.js';
 import { strengthFor } from './lib/strength.js';
 import { referencesFor } from './lib/references.js';
 import { logUsage, getUsagePool, cleanTag } from './lib/usage.js';
 import {
   agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap,
-  applyDenyList, validateRows, dropUnknownSections,
+  applyDenyList, validateRows, dropUnknownSections, omitAgentLines, AGENT_HIDDEN_SECTIONS,
 } from './lib/guard.js';
 import { createCalibrateHandler } from './calibrate.js';
 
@@ -63,7 +63,7 @@ export function cleanAnswer(content) {
   text = text.replace(/\*\*Questions that route here:\*\*[ \t]*\n(?:[ \t]*-[^\n]*\n?)*/g, '');
   text = text.replace(/\*\*Suggested follow-ups:\*\*[\s\S]*$/g, '');
   text = stripMarkers(text);
-  text = text.replace(/\n{3,}/g, '\n\n');
+  text = omitAgentLines(text).replace(/\n{3,}/g, '\n\n');
   return text.trim();
 }
 
@@ -213,7 +213,7 @@ export function createHandler({
 
     let result, ids;
     try {
-      result = await retrieve(q, { topK: AGENT_TOP_K, env: runEnv });
+      result = await retrieve(q, { topK: AGENT_TOP_K, env: runEnv, prepare: prepareAgentQuery, exclude: AGENT_HIDDEN_SECTIONS });
       if (result?.error) return unavailable(result.error, '[ask]');
       ({ ids } = await map.get());
     } catch (error) {

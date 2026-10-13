@@ -11,16 +11,16 @@
 // schema validation, deny-list on evidence, sections outside the map dropped.
 import Anthropic from '@anthropic-ai/sdk';
 import { envForRequest } from './lib/db_env.js';
-import { retrieve as defaultRetrieve, listSections as defaultListSections, isProofPoint, QUESTION_MATCH_THRESHOLD } from './lib/retrieval.js';
+import { retrieve as defaultRetrieve, listSections as defaultListSections, isProofPoint, QUESTION_MATCH_THRESHOLD, prepareAgentQuery } from './lib/retrieval.js';
 import { isDbEnvError } from './lib/db_env.js';
 import {
   agentSideEnabled, AGENT_OFF_ERROR, createRateLimiter, createSectionMap, readTextBody,
-  checkRequirementCount, stripInjection, isInjectionLine, applyDenyList, validateRows, dropUnknownSections,
+  checkRequirementCount, stripInjection, isInjectionLine, applyDenyList, validateRows, dropUnknownSections, AGENT_HIDDEN_SECTIONS,
 } from './lib/guard.js';
 import { classifyBrief } from './lib/role_shape.js';
 import { cleanAnswer, deriveYear, deriveStrength, SELF_REPORTED, HUMAN_VERSION } from './ask.js';
 import { referencesFor } from './lib/references.js';
-import { classifyKnockout, answerFor, FACT_NOTE, NOT_STATED_NOTE } from './lib/facts.js';
+import { classifyKnockouts, answerFor, FACT_NOTE, NOT_STATED_NOTE } from './lib/facts.js';
 import SECTION_YEARS from './lib/section_years.json' with { type: 'json' };
 import { logUsage, getUsagePool, cleanTag } from './lib/usage.js';
 
@@ -259,7 +259,7 @@ export function sectionYear(title, table = SECTION_YEARS) {
   return y || years[title] || null;
 }
 
-const NO_STAR = { kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, also: null };
+const NO_STAR = { kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, fact_types: null, also: null };
 
 // More than one example (Tom, 2026-10-12): the other STAR rows that cleared
 // the threshold for this requirement, a different product each, best first.
@@ -284,8 +284,14 @@ export function alsoRows(matches, chosen, { max = MAX_ALSO } = {}) {
 // A knockout (R1012-22): the fact, in Tom's words, next to the requirement. No
 // verdict: `met` is "fact" (the reader compares) or "not stated" (no fact on
 // record; `evidence` carries what to do about it, there is nothing to cite).
-export function buildFactRow(requirement, fact) {
-  const answer = answerFor(requirement, fact);
+// A line that asks several facts (N1012-15) gets each stated one, labelled;
+// `fact_type` stays the first, `fact_types` lists all.
+export function buildFactRow(requirement, facts) {
+  const all = Array.isArray(facts) ? facts : [facts];
+  const said = all.map(f => ({ f, a: answerFor(requirement, f) })).filter(x => x.a !== null);
+  const fact = said.length ? said[0].f : all[0];
+  const answer = said.length > 1 ? said.map(x => `${x.f.label}: ${x.a.replace(/\.$/, '')}`).join('. ') + '.'
+    : said.length ? said[0].a : null;
   const stated = answer !== null;
   return {
     requirement,
@@ -300,7 +306,8 @@ export function buildFactRow(requirement, fact) {
     references: null,
     ...NO_STAR,
     kind: 'fact',
-    fact_type: fact.type,
+    fact_type: all[0].type,
+    fact_types: all.map(f => f.type),
     note: stated ? FACT_NOTE : NOT_STATED_NOTE,
   };
 }
@@ -333,6 +340,7 @@ function buildProofPointRow(requirement, match) {
     skills: Array.isArray(r.skills) ? r.skills : [],
     adjacent: null,
     fact_type: null,
+    fact_types: null,
     also: null,
   };
 }
@@ -445,8 +453,8 @@ export function createCalibrateHandler({
       const { splitter } = split;
       // R1012-22: knockouts are answered from the facts register and never
       // reach retrieval; only experience requirements are matched to stories.
-      const knockouts = allRequirements.map(r => classifyKnockout(r));
-      const requirements = allRequirements.filter((_, i) => !knockouts[i]);
+      const knockouts = allRequirements.map(r => classifyKnockouts(r));
+      const requirements = allRequirements.filter((_, i) => !knockouts[i].length);
       // Item 32: evidence queries per requirement (one Claude call; none without a key).
       const queries = runEnv.ANTHROPIC_API_KEY && requirements.length ? await evidenceQueries(requirements, { createMessage }) : requirements.map(() => []);
 
@@ -458,7 +466,7 @@ export function createCalibrateHandler({
         // the requirement and its evidence queries all retrieve; matches merge.
         const results = await Promise.all(batch.map(async (r, j) => {
           const texts = [r, ...(queries[i + j] || [])];
-          const rs = await Promise.all(texts.map(t => retrieve(t, { env: runEnv, kinds: 'all', topK: 5, threshold: BRIEF_THRESHOLD })));
+          const rs = await Promise.all(texts.map(t => retrieve(t, { env: runEnv, kinds: 'all', topK: 5, threshold: BRIEF_THRESHOLD, prepare: prepareAgentQuery, exclude: AGENT_HIDDEN_SECTIONS })));
           if (rs.some(x => x?.error)) return { error: 'embedding failed' };
           const matches = mergeMatches(rs);
           // A retrieve stub (or an old shape) may carry only `match`: keep it.
@@ -479,7 +487,7 @@ export function createCalibrateHandler({
       // Back into the brief's order, the fact rows in their places.
       const matched = rows;
       rows = [];
-      allRequirements.forEach((r, i) => rows.push(knockouts[i] ? buildFactRow(r, knockouts[i]) : matched.shift()));
+      allRequirements.forEach((r, i) => rows.push(knockouts[i].length ? buildFactRow(r, knockouts[i]) : matched.shift()));
 
       // Outgoing guard: sections outside the map, deny-list, schema.
       const { ids } = await map.get();
@@ -522,7 +530,7 @@ export function createCalibrateHandler({
         evidence_queries: queries.reduce((n, q) => n + q.length, 0),
         adjacent: rows.filter(r => r.adjacent).length,
         // Fixed-list labels only: which knockout types the brief asked, and which had no fact.
-        facts: rows.filter(r => r.kind === 'fact').map(r => r.fact_type),
+        facts: rows.filter(r => r.kind === 'fact').flatMap(r => r.fact_types || [r.fact_type]),
         facts_not_stated: rows.filter(r => r.met === 'not stated').map(r => r.fact_type),
         seniority: shape.seniority, function: shape.function, sector: shape.sector,
       };

@@ -95,7 +95,6 @@ CHECKS = [
     ("/for-agents/skills/", ("text/html",), check_routing),
     ("/for-agents/cv-appendix/", ("text/html",), check_routing),
     ("/for-agents/proof-points.json", ("application/json",), None),
-    ("/for-agents/pages.json", ("application/json",), None),
     ("/llms.txt", ("text/plain", "text/markdown"), None),
     ("/robots.txt", ("text/plain",), check_robots),
     ("/sitemap.xml", ("application/xml", "text/xml"), None),
