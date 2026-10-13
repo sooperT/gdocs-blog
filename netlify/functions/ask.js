@@ -167,6 +167,14 @@ export function factsFor(q) {
   return facts.length ? facts : null;
 }
 
+// A fit question with no role in it ("Would Tom be a good fit for my
+// organisation?") cannot be matched: the answer is a brief. The response
+// carries a hint to Job 1 so a bare-API caller is steered the same way the
+// entry file steers a visiting assistant.
+export const FIT_QUESTION = /\b(?:good|right|strong|great) fit\b|\bfit (?:for|with|in)\b|\bhelp (?:my|our|the) (?:company|organi[sz]ation|team|business|startup)\b|\bsuit(?:ed|able)? (?:for|to|a|an|my|our|the)\b|\bright (?:person|candidate|hire) for\b/i;
+export const FIT_HINT = 'Fit is answered against a role: POST the job description (or five to eight requirements in the company\'s words) to https://takenbyninjas.com/ask/brief and read the rows. See /for-agents/start/ Job 1.';
+export const fitHint = (q) => (FIT_QUESTION.test(String(q || '')) ? FIT_HINT : undefined);
+
 function unavailable(error, tag) {
   if (isDbEnvError(error)) {
     console.error(tag, error.message);
@@ -257,7 +265,7 @@ export function createHandler({
       await logUsage({ pool: usagePool === undefined ? getUsagePool(runEnv) : usagePool, request, context, path: '/ask', status: 200, meta: usage });
 
       if (!rows.length) {
-        return json({ answer: null, reason: 'no matching content', matches: [], facts: factsFor(q), human_version: HUMAN_VERSION });
+        return json({ answer: null, reason: 'no matching content', hint: fitHint(q), matches: [], facts: factsFor(q), human_version: HUMAN_VERSION });
       }
 
       const best = rows[0];
@@ -275,6 +283,7 @@ export function createHandler({
         score: best.score,
         matches: rows,
         facts: factsFor(q),
+        hint: fitHint(q),
         withheld,
         human_version: HUMAN_VERSION,
       });

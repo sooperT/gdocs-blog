@@ -560,6 +560,19 @@ await test('/ask guards the question before embedding: 414 over 500 chars, instr
   const ok = await h(new Request('http://localhost/ask?q=' + encodeURIComponent('What did Tom build at Novo Nordisk?')));
   assert.equal(ok.status, 200); assert.equal(called, 1);
 });
+await test('/ask: a fit question with no role gets a hint to Job 1, on null and on a match; other questions get none', async () => {
+  const { fitHint, FIT_HINT } = await import('../netlify/functions/ask.js');
+  for (const q of ['Would Tom be a good fit for my organisation?', 'How could Tom help my company?', 'Is Tom the right candidate for us?', 'Would he suit a fintech?']) assert.equal(fitHint(q), FIT_HINT, q);
+  for (const q of ['What did Tom build at Novo?', 'Tell me about his growth work', 'When can he start?']) assert.equal(fitHint(q), undefined, q);
+  const none = createHandler({ retrieve: async () => ({ match: null, matches: [] }) });
+  const nb = await (await none(new Request('http://localhost/ask?q=' + encodeURIComponent('Would Tom be a good fit for my organisation?')))).json();
+  assert.equal(nb.answer, null); assert.match(nb.hint, /ask\/brief/);
+  const hit = createHandler({ retrieve: async () => ({ match: NOVO, matches: [NOVO] }) });
+  const hb = await (await hit(new Request('http://localhost/ask?q=' + encodeURIComponent('How could Tom help my company?')))).json();
+  assert.equal(hb.section, 'NOVO.R1'); assert.match(hb.hint, /ask\/brief/);
+  const plain = await (await hit(new Request('http://localhost/ask?q=' + encodeURIComponent('What did Tom build at Novo?')))).json();
+  assert.equal(plain.hint, undefined);
+});
 await test('/ask answers a screening question with the fact; no chip leads into a hidden section', async () => {
   const { factsFor, followUpTexts } = await import('../netlify/functions/ask.js');
   const start = factsFor('When can he start?');
