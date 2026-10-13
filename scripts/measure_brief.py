@@ -35,7 +35,9 @@ def main():
     ap.add_argument('--base', required=True)
     ap.add_argument('--write', action='store_true')
     a = ap.parse_args()
-    files = sorted(f for f in glob.glob(f'{JDS}/*.txt') if 'application' not in os.path.basename(f))
+    # The ads, not Tom's application texts (`<slug>-application.txt`). Ghost's ad
+    # is its application form questions, so match the suffix, not the word.
+    files = sorted(f for f in glob.glob(f'{JDS}/*.txt') if not f.endswith('-application.txt'))
     lines = ['| Ad | Rows | Met | Partial | Not met | From STAR rows |', '|---|---|---|---|---|---|']
     totals = dict(rows=0, met=0, partial=0, not_met=0, pp=0)
     for f in files:

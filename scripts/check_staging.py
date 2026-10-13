@@ -16,35 +16,32 @@ from html.parser import HTMLParser
 UA = "tbn-check-staging/1.0 (+https://takenbyninjas.com/for-agents/)"
 TIMEOUT = 20
 
-# The facts page's first line routes three ways (PRD R1012-1, item 18d).
-ROUTING_LINKS = ("/about/", "/for-agents/start.md", "/llms.txt")
+# The page header routes three ways (PRD R1012-1, item 18d): people to the
+# human site, assistants to the entry file, crawlers to llms.txt.
+ROUTING_LINKS = ("/", "/for-agents/start.md", "/llms.txt")
 
 
-class FirstParagraph(HTMLParser):
-    """Collects the hrefs inside the first <p> of the page body."""
+class HeaderLinks(HTMLParser):
+    """Collects the hrefs inside the page's first <header>."""
 
     def __init__(self):
         super().__init__()
-        self.in_body = False
-        self.depth = 0
+        self.inside = False
         self.done = False
         self.hrefs = []
 
     def handle_starttag(self, tag, attrs):
-        if tag == "body":
-            self.in_body = True
-        if not self.in_body or self.done:
+        if self.done:
             return
-        if tag == "p":
-            self.depth += 1
-        elif tag == "a" and self.depth:
+        if tag == "header":
+            self.inside = True
+        elif tag == "a" and self.inside:
             self.hrefs.append(dict(attrs).get("href") or "")
 
     def handle_endtag(self, tag):
-        if tag == "p" and self.depth and not self.done:
-            self.depth -= 1
-            if self.depth == 0:
-                self.done = True
+        if tag == "header" and self.inside:
+            self.inside = False
+            self.done = True
 
 
 def fetch(base, path):
@@ -59,10 +56,10 @@ def fetch(base, path):
 
 
 def check_routing(body):
-    p = FirstParagraph()
+    p = HeaderLinks()
     p.feed(body)
     missing = [link for link in ROUTING_LINKS if link not in p.hrefs]
-    return (not missing), ("first line routes to " + ", ".join(ROUTING_LINKS)) if not missing else f"first <p> missing {', '.join(missing)}"
+    return (not missing), ("header routes to " + ", ".join(ROUTING_LINKS)) if not missing else f"header missing {', '.join(missing)}"
 
 
 def check_robots(body):
