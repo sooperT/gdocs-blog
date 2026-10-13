@@ -13,6 +13,7 @@ import { envForRequest } from './lib/db_env.js';
 import { retrieve as defaultRetrieve, listSections as defaultListSections, prepareAgentQuery } from './lib/retrieval.js';
 import { isDbEnvError } from './lib/db_env.js';
 import { strengthFor } from './lib/strength.js';
+import { classifyKnockouts, answerFor, FACT_NOTE, NOT_STATED_NOTE } from './lib/facts.js';
 import { referencesFor } from './lib/references.js';
 import { logUsage, getUsagePool, cleanTag } from './lib/usage.js';
 import {
@@ -124,6 +125,7 @@ export function followUpTexts(followUps) {
   }
   if (!Array.isArray(list)) return [];
   return list
+    .filter(f => !(f && typeof f === 'object' && AGENT_HIDDEN_SECTIONS.has(f.target)))   // no chip into a hidden section
     .map(f => (typeof f === 'string' ? f : f?.text))
     .filter(t => typeof t === 'string' && t.length > 0);
 }
@@ -151,6 +153,17 @@ export function buildMatch(match) {
       references: referencesFor(match.title),
     },
   };
+}
+
+// A question a screener decides yes or no (location, right to work, start
+// date, salary) also gets the screening fact, so "When can he start?" answers
+// "on request" instead of nothing. Null when the question asks no such fact.
+export function factsFor(q) {
+  const facts = classifyKnockouts(q).map(f => {
+    const answer = answerFor(q, f);
+    return { fact_type: f.type, label: f.label, answer, section: answer ? f.section : null, note: answer ? FACT_NOTE : NOT_STATED_NOTE };
+  });
+  return facts.length ? facts : null;
 }
 
 function unavailable(error, tag) {
@@ -231,7 +244,7 @@ export function createHandler({
       await logUsage({ pool: usagePool === undefined ? getUsagePool(runEnv) : usagePool, request, context, path: '/ask', status: 200, meta: usage });
 
       if (!rows.length) {
-        return json({ answer: null, reason: 'no matching content', matches: [], human_version: HUMAN_VERSION });
+        return json({ answer: null, reason: 'no matching content', matches: [], facts: factsFor(q), human_version: HUMAN_VERSION });
       }
 
       const best = rows[0];
@@ -248,6 +261,7 @@ export function createHandler({
         follow_ups: followUpTexts(bestMatch.follow_ups),
         score: best.score,
         matches: rows,
+        facts: factsFor(q),
         withheld,
         human_version: HUMAN_VERSION,
       });

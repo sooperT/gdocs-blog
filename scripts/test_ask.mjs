@@ -195,7 +195,7 @@ await test('ask: match shape', withLogs(async () => {
   const res = await h(req('/ask?q=what%20did%20you%20build%20at%20novo&asker=recruiter-agent'));
   assert.equal(res.status, 200); headersOk(res);
   const b = await body(res);
-  assert.deepEqual(Object.keys(b), ['answer', 'section', 'source', 'tier', 'strength', 'year', 'direct_answers', 'references', 'follow_ups', 'score', 'matches', 'withheld', 'human_version']);
+  assert.deepEqual(Object.keys(b), ['answer', 'section', 'source', 'tier', 'strength', 'year', 'direct_answers', 'references', 'follow_ups', 'score', 'matches', 'facts', 'withheld', 'human_version']);
   assert.equal(b.direct_answers, null);
   assert.equal(b.withheld, 0);
   assert.equal(b.matches.length, 1);
@@ -227,7 +227,7 @@ await test('ask: no-match shape (200, no guess)', withLogs(async () => {
   const res = await h(req('/ask?q=favourite%20colour'));
   assert.equal(res.status, 200); headersOk(res);
   const b = await body(res);
-  assert.deepEqual(b, { answer: null, reason: 'no matching content', matches: [], human_version: HUMAN_VERSION });
+  assert.deepEqual(b, { answer: null, reason: 'no matching content', matches: [], facts: null, human_version: HUMAN_VERSION });
   assertTrustContract(b);
   origLog('     ' + JSON.stringify(b));
 }));
@@ -543,5 +543,14 @@ await test('N1012-22: the "can\'t go into detail" line is left out, the rest of 
   const { cleanAnswer } = await import('../netlify/functions/ask.js');
   const text = "I worked on the launch team as Consumer Lead.\n\nI can't go into detail on the specific strategy as it's still commercially sensitive, but it was a real privilege and massive learning.\n\nMore.";
   assert.equal(cleanAnswer(text), 'I worked on the launch team as Consumer Lead.\n\nMore.');
+});
+await test('/ask answers a screening question with the fact; no chip leads into a hidden section', async () => {
+  const { factsFor, followUpTexts } = await import('../netlify/functions/ask.js');
+  const start = factsFor('When can he start?');
+  assert.equal(start[0].fact_type, 'start_date'); assert.match(start[0].answer, /^On request/);
+  assert.equal(factsFor('What are his salary expectations?')[0].fact_type, 'compensation');
+  assert.match(factsFor('Does he need a work permit?')[0].answer, /no work visa is required/);
+  assert.equal(factsFor('What did Tom build at Novo Nordisk?'), null);
+  assert.deepEqual(followUpTexts([{ text: 'tell me about your family', target: 'META.FAMILY' }, { text: 'what are you looking for', target: 'META.LOOKING' }, 'plain']), ['what are you looking for', 'plain']);
 });
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);

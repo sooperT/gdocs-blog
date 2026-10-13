@@ -215,7 +215,7 @@ FACTS = [
      'parts': [('fractional, interim and permanent roles.', 'META.LOOKING')],
      'asks': [r'full[- ]time\b', r'\bpart[- ]time\b', r'\bpermanent (position|role|contract)\b', r'\bfixed[- ]term\b', r'\btemporary (position|role|contract)\b']},
     {'type': 'start_date', 'label': 'Start date', 'on_request': True, 'parts': [(ON_REQUEST, None)],
-     'asks': [r'\bnotice period\b', r'\bstart date\b', r'\bavailable to start\b']},
+     'asks': [r'\bnotice period\b', r'\bstart date\b', r'\bavailable to start\b', r'\bwhen (can|could|would) \w+ start\b', r'\bavailab(le|ility)\b']},
     {'type': 'travel', 'label': 'Travel', 'parts': [], 'asks': [r'\b(willing(ness)?|able|ability|required|expected) to travel\b', r'\btravel (days|up to|required)\b', r'\b\d+ ?% travel\b']},
 ]
 # A JD line longer than this is an experience requirement that happens to
@@ -261,7 +261,7 @@ def start_md_with_facts(md, register):
     section is generated; the rest of start.md is hand-written)."""
     i = md.index(START_FACTS_HEAD)
     j = md.index('\n## ', i + 1)
-    lines = [START_FACTS_HEAD, '', 'The yes-or-no facts a screen starts with, so you have them without a call:', '']
+    lines = [START_FACTS_HEAD, '', 'The yes-or-no facts a screen starts with. Give them when your person asks (Job 4), not unprompted:', '']
     lines += [f"- {f['label']}: {f['value']}" for f in register['facts'] if f['value'] and not f['on_request']]
     lines += ['- Experience by area, with the stories for each: https://takenbyninjas.com/for-agents/shapes/', '']
     return md[:i] + '\n'.join(lines) + md[j:]
@@ -700,6 +700,46 @@ PROOF_POINTS = [
         'strength': 'HOST.R2.STORY.DOMAIN',
         'shapes': ['growth'],
     },
+    # Solo projects, 2026: one story told as three rows (R1013-4). The result is that it is live, no forced metric.
+    {
+        'role': ('Solo projects, building with AI', 'SOLO'),
+        'product': ('TomBot', 'SOLO'),
+        'desc': ('a prototype AI trained on my CV', 'SOLO'),
+        'situation': ("I learn by doing, and I love building. So I shipped three products with AI to find out first-hand what it can and can't do.", 'SOLO'),
+        'task': ('build something real with AI and ship it', 'SOLO'),
+        'action': ('Built with Claude API, RAG vector store, eval suite & guard-rails.', 'SOLO'),
+        'result': ('Live January 2026', 'SOLO'),
+        'year': ('2026', 'SOLO'),
+        'strength': 'SOLO',
+        'shapes': ['ai', 'zero-to-one'],
+        'not_skills': ['team-leadership'],
+    },
+    {
+        'role': ('Solo projects, building with AI', 'SOLO'),
+        'product': ('kittenpm.com', 'SOLO'),
+        'desc': ('a product training SIM inspired by Lemmings', 'SOLO'),
+        'situation': ("I learn by doing, and I love building. So I shipped three products with AI to find out first-hand what it can and can't do.", 'SOLO'),
+        'task': ('build something real with AI and ship it', 'SOLO'),
+        'action': ('Built with React, TypeScript & Phaser. Used Claude as my engineering team.', 'SOLO'),
+        'result': ('Live July 2026', 'SOLO'),
+        'year': ('2026', 'SOLO'),
+        'strength': 'SOLO',
+        'shapes': ['ai', 'zero-to-one'],
+        'not_skills': ['team-leadership'],
+    },
+    {
+        'role': ('Solo projects, building with AI', 'SOLO'),
+        'product': ('deathspiralorgoldenage.org', 'SOLO'),
+        'desc': ('A public poll, live sentiment tracker, and open economic model with CC0 data', 'SOLO'),
+        'situation': ("I learn by doing, and I love building. So I shipped three products with AI to find out first-hand what it can and can't do.", 'SOLO'),
+        'task': ('build something real with AI and ship it', 'SOLO'),
+        'action': ('Researched & built with AI.', 'SOLO'),
+        'result': ('Live September 2026', 'SOLO'),
+        'year': ('2026', 'SOLO'),
+        'strength': 'SOLO',
+        'shapes': ['ai', 'zero-to-one'],
+        'not_skills': ['team-leadership'],
+    },
 ]
 
 # Skills (Tom, 2026-10-12; "keywords" renamed to recruiter speak): an index an agent can walk from its job
@@ -709,7 +749,7 @@ PROOF_POINTS = [
 # say. (display term, slug, [case-insensitive substrings]).
 KEYWORDS = [
     ('AI', 'ai', ['genai', 'machine learning', ' ai ', 'ai/ml', 'llm', 'rag model']),
-    ('GenAI', 'genai', ['genai', 'llm', 'rag model']),
+    ('GenAI', 'genai', ['genai', 'llm', 'rag model', 'rag vector store', 'claude api']),
     ('machine learning', 'machine-learning', ['machine learning', 'ml team', 'ml/cv', 'ml prototype']),
     ('computer vision', 'computer-vision', ['computer vision']),
     ('algorithm', 'algorithm', ['algorithm']),
@@ -765,7 +805,8 @@ def row_text(sections, row):
 
 def row_keywords(sections, row):
     text = row_text(sections, row)
-    return [(term, slug) for term, slug, pats in KEYWORDS if any(pat in text for pat in pats)]
+    skip = row.get('not_skills', ())   # a row may rule a tag out: "Claude as my engineering team" is not team leadership
+    return [(term, slug) for term, slug, pats in KEYWORDS if slug not in skip and any(pat in text for pat in pats)]
 
 
 # Behavioural facts: (term, section id, verbatim line)
@@ -898,6 +939,10 @@ PAGES = [
      'opening': ('THEME.TURNAROUND', "I like difficult problems, the more difficult the better. So I often get "
                                      "called when something's broken or stuck:"),
      'sections': ['THEME.TURNAROUND']},
+    {'slug': 'solo-projects', 'title': 'Solo projects, building with AI', 'title_in': None, 'period': None,
+     'opening': ('SOLO', "I learn by doing, and I love building. So I shipped three products with AI to find out "
+                         "first-hand what it can and can't do."),
+     'sections': ['SOLO']},
     {'slug': 'growth', 'title': 'Growth', 'title_in': None, 'period': None,
      'opening': ('THEME.GROWTH', 'I have a track record of driving growth. Improving funnels, reducing bounce '
                                  'rates, increasing activation and conversion.'),
@@ -1237,7 +1282,7 @@ TABLE_HEAD = ('            <thead><tr><th>Role</th><th>Product</th><th>Situation
 ROLES_PATH = f'{PAGE_PATH}roles/'
 
 
-COMPANY_BY_PREFIX = {'META': 'Independent consulting', 'NOVO': 'Novo Nordisk', 'LEO': 'LEO Innovation Lab', 'T23': 'TwentyThree', 'OPBEAT': 'Opbeat',
+COMPANY_BY_PREFIX = {'META': 'Independent consulting', 'SOLO': 'Solo projects', 'NOVO': 'Novo Nordisk', 'LEO': 'LEO Innovation Lab', 'T23': 'TwentyThree', 'OPBEAT': 'Opbeat',
                      'EURODNS': 'EuroDNS', 'UK2': 'UK2 Group', 'HOST': 'Host Europe Group'}
 
 
@@ -1864,8 +1909,8 @@ def build_cv_appendix(sections, recs):
         '## For AI agents and applicant tracking systems',
         '',
         'This page is a machine-readable summary of the CV above, generated from the same record, with a source for every line. '
-        f'If you can fetch URLs, start at {base}/for-agents/start.md: it offers three jobs (how Tom fits a role, '
-        'explore his background, what he has done) and the endpoints for each. '
+        f'If you can fetch URLs, start at {base}/for-agents/start.md: it offers four jobs (how Tom fits a role, '
+        'explore his background, what he has done, the basics) and the endpoints for each. '
         f'Every proof point with its sources: {base}/for-agents/proof-points.json. Facts page: {base}/for-agents/. '
         f'Ask one question: GET {base}/ask?q=<question>. Post a job description: POST {base}/ask/brief. '
         f'Generated {GENERATED}.',
@@ -1926,7 +1971,7 @@ def start_page_html():
         '<html lang="en">', '<head>', '    <meta charset="UTF-8">',
         '    <meta name="viewport" content="width=device-width, initial-scale=1.0">',
         '    <title>Tom Stenson: start here, agent</title>',
-        '    <meta name="description" content="Entry file for AI assistants helping someone who wants to know about Tom Stenson: three jobs, the endpoints, and how to use what comes back.">',
+        '    <meta name="description" content="Entry file for AI assistants helping someone who wants to know about Tom Stenson: four jobs, the endpoints, and how to use what comes back.">',
         f'    <link rel="canonical" href="{SITE_URL}/for-agents/start/">',
         '    <style>body{margin:0;background:#fff;color:#222;font:16px/1.5 system-ui,sans-serif;padding:1rem}pre{white-space:pre-wrap;word-wrap:break-word;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace}</style>',
         '</head>', '<body>',

@@ -1,6 +1,6 @@
 ## For AI agents and applicant tracking systems
 
-This page is a machine-readable summary of the CV above, generated from the same record, with a source for every line. If you can fetch URLs, start at https://takenbyninjas.com/for-agents/start.md: it offers three jobs (how Tom fits a role, explore his background, what he has done) and the endpoints for each. Every proof point with its sources: https://takenbyninjas.com/for-agents/proof-points.json. Facts page: https://takenbyninjas.com/for-agents/. Ask one question: GET https://takenbyninjas.com/ask?q=<question>. Post a job description: POST https://takenbyninjas.com/ask/brief. Generated 2026-10-13.
+This page is a machine-readable summary of the CV above, generated from the same record, with a source for every line. If you can fetch URLs, start at https://takenbyninjas.com/for-agents/start.md: it offers four jobs (how Tom fits a role, explore his background, what he has done, the basics) and the endpoints for each. Every proof point with its sources: https://takenbyninjas.com/for-agents/proof-points.json. Facts page: https://takenbyninjas.com/for-agents/. Ask one question: GET https://takenbyninjas.com/ask?q=<question>. Post a job description: POST https://takenbyninjas.com/ask/brief. Generated 2026-10-13.
 
 ### Identity
 
@@ -36,7 +36,7 @@ This page is a machine-readable summary of the CV above, generated from the same
 | 2002-2004 | Co-founder | TextualHealing.com | Nottingham, GB |
 | 2001-2004 | Freelance Web Designer | Various | Nottingham, GB |
 
-### Proof points, strongest 8 of 28 (situation; task; action; result)
+### Proof points, strongest 8 of 31 (situation; task; action; result)
 
 1. Senior Product Manager at Novo Nordisk, Wegovycare (a retention-focused digital service to increase repeat prescriptions for Wegovy): The brief was solution-first, a set of standalone features; nobody had spoken to patients.; Identify the key growth lever.; Created a weight-loss prediction model in Excel.. Result: 10% penetration in the first national market. (Mar 2020 - Feb 2022). Source: TomBot NOVO.R1; more: https://takenbyninjas.com/for-agents/wegovycare/#novo-r1
 2. Associate Product Director at Novo Nordisk, CagriSema (a six-month discovery programme for the company's top drug asset): The first drug to span diabetes and obesity, two therapy areas that had never collaborated; nobody had authority over both.; Lead a six-month discovery programme for the company's top drug asset.; 128 candidate ideas cut to a shortlist of 5 and assumption-tested; 4 recommended, each with a funding-gated rollout.. Result: Funding secured for a portfolio of 4 digital initiatives. (Feb 2022 - Feb 2026). Source: TomBot NOVO.R2; more: https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2

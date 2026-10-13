@@ -154,7 +154,9 @@
       "asks": [
         "\\bnotice period\\b",
         "\\bstart date\\b",
-        "\\bavailable to start\\b"
+        "\\bavailable to start\\b",
+        "\\bwhen (can|could|would) \\w+ start\\b",
+        "\\bavailab(le|ility)\\b"
       ]
     },
     {

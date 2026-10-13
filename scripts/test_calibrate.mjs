@@ -279,13 +279,15 @@ await test('guard: injection lines stripped before retrieval, flagged, counted, 
   for (const l of logs) assert.ok(!/perfect|hiring manager|Danish/.test(l));
   assertTrustContract(b);
 }));
-await test('guard: deny-list on evidence ([withheld] + count); section outside map dropped', async () => {
+await test('guard: deny-list on evidence ([withheld] + count); a section outside the map becomes "not met", never a missing row', async () => {
   const PAY = { title: 'NOVO.R1', content: 'Senior PM (2020-2022), launched in 5 markets.\nSalary expectation: 900,000 DKK a year.\nThis is commercially sensitive pricing detail.', follow_ups: [], similarity: 0.9 };
   const GHOST = { title: 'GHOST.X', content: 'Ghost content (2019), shipped.', follow_ups: [], similarity: 0.9 };
   const h = createCalibrateHandler({ env: {}, createMessage: noAnthropic,
     retrieve: async (q) => ({ match: /ghost/i.test(q) ? GHOST : PAY }) });
   const b = await body(await h(req('/ask/brief?brief=' + encodeURIComponent('- Shipped products\n- Ghost requirement'))));
-  assert.equal(b.rows.length, 1);
+  assert.equal(b.rows.length, 2, 'every requirement keeps its row');
+  assert.equal(b.brief.requirements, 2);
+  assert.deepEqual([b.rows[1].requirement, b.rows[1].met, b.rows[1].section, b.rows[1].evidence], ['Ghost requirement', 'not met', null, null]);
   assert.equal(b.rows[0].evidence, 'Senior PM (2020-2022), launched in 5 markets. [withheld] [withheld]');
   assert.equal(b.withheld, 2);
   assertTrustContract(b);
@@ -613,5 +615,11 @@ await test('N1012-12: start date is on request, a fact row with nothing to cite'
   assert.equal(row.section, null); assert.equal(row.source, null);
   const { isValidRow } = await import('../netlify/functions/lib/guard.js');
   assert.ok(isValidRow(row));
+});
+await test('a match with no printable evidence (a table-only section) is "not met", not "partial"', async () => {
+  const { buildRow } = await import('../netlify/functions/calibrate.js');
+  const TABLE = { title: 'META.JOBS', content: '| 2010-2013 | Independent Consultant | Various |\n| 2008-2010 | Head of Group Strategy | UK2 Group |', follow_ups: [], similarity: 0.54 };
+  const row = buildRow('Experience working within food industries.', TABLE);
+  assert.deepEqual([row.met, row.evidence, row.section, row.score], ['not met', null, null, null]);
 });
 console.log(`\n${passed} passed${process.exitCode ? ', SOME FAILED' : ', all green'}`);

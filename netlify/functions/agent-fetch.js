@@ -140,7 +140,7 @@ export function sendsTable(readFile) {
 export const TAG_LINE = (tag, send) => {
   const context = send && send.role && send.company
     ? `This copy of the file came with Tom's application for ${send.role} at ${send.company}.` +
-      (send.fit ? ` A ready-made fit for that role is at https://takenbyninjas.com${send.fit} : offer it first, then the three jobs above; your person can still paste another description.` : '')
+      (send.fit ? ` A ready-made fit for that role is at https://takenbyninjas.com${send.fit} : offer it first, then the block above; your person can still paste another description.` : '')
     : 'This copy of the file came with a specific CV send.';
   return `\n\n## 0b. About this copy\n\n${context} Send tag: \`${tag}\`. Add \`&tag=${tag}\` to every GET /ask call and a \`"tag": "${tag}"\` field to every POST /ask/brief body, so Tom can see which send you came from. The tag is logged with counts only, never with your text.\n`;
 };

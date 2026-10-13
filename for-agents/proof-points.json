@@ -191,7 +191,9 @@
       "asks": [
         "\\bnotice period\\b",
         "\\bstart date\\b",
-        "\\bavailable to start\\b"
+        "\\bavailable to start\\b",
+        "\\bwhen (can|could|would) \\w+ start\\b",
+        "\\bavailab(le|ility)\\b"
       ]
     },
     {
@@ -255,7 +257,7 @@
     "budget": "https://takenbyninjas.com/for-agents/skills/budget/",
     "deadline": "https://takenbyninjas.com/for-agents/skills/deadline/"
   },
-  "count": 28,
+  "count": 31,
   "proof_points": [
     {
       "role": {
@@ -2025,6 +2027,153 @@
       ],
       "page": "https://takenbyninjas.com/for-agents/host-europe/#host-r2-story-domain",
       "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/web-designer/",
+      "role_aliases": []
+    },
+    {
+      "role": {
+        "text": "Solo projects, building with AI",
+        "section": "SOLO"
+      },
+      "product": {
+        "text": "TomBot",
+        "section": "SOLO"
+      },
+      "desc": {
+        "text": "a prototype AI trained on my CV",
+        "section": "SOLO"
+      },
+      "situation": {
+        "text": "I learn by doing, and I love building. So I shipped three products with AI to find out first-hand what it can and can't do.",
+        "section": "SOLO"
+      },
+      "task": {
+        "text": "build something real with AI and ship it",
+        "section": "SOLO"
+      },
+      "action": {
+        "text": "Built with Claude API, RAG vector store, eval suite & guard-rails.",
+        "section": "SOLO"
+      },
+      "result": {
+        "text": "Live January 2026",
+        "section": "SOLO"
+      },
+      "year": {
+        "text": "2026",
+        "section": "SOLO"
+      },
+      "company": "Solo projects",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "ai",
+        "zero-to-one"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "prototyping"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/solo-projects/#solo",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/solo-projects/solo-projects-building-with-ai/",
+      "role_aliases": []
+    },
+    {
+      "role": {
+        "text": "Solo projects, building with AI",
+        "section": "SOLO"
+      },
+      "product": {
+        "text": "kittenpm.com",
+        "section": "SOLO"
+      },
+      "desc": {
+        "text": "a product training SIM inspired by Lemmings",
+        "section": "SOLO"
+      },
+      "situation": {
+        "text": "I learn by doing, and I love building. So I shipped three products with AI to find out first-hand what it can and can't do.",
+        "section": "SOLO"
+      },
+      "task": {
+        "text": "build something real with AI and ship it",
+        "section": "SOLO"
+      },
+      "action": {
+        "text": "Built with React, TypeScript & Phaser. Used Claude as my engineering team.",
+        "section": "SOLO"
+      },
+      "result": {
+        "text": "Live July 2026",
+        "section": "SOLO"
+      },
+      "year": {
+        "text": "2026",
+        "section": "SOLO"
+      },
+      "company": "Solo projects",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "ai",
+        "zero-to-one"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "prototyping"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/solo-projects/#solo",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/solo-projects/solo-projects-building-with-ai/",
+      "role_aliases": []
+    },
+    {
+      "role": {
+        "text": "Solo projects, building with AI",
+        "section": "SOLO"
+      },
+      "product": {
+        "text": "deathspiralorgoldenage.org",
+        "section": "SOLO"
+      },
+      "desc": {
+        "text": "A public poll, live sentiment tracker, and open economic model with CC0 data",
+        "section": "SOLO"
+      },
+      "situation": {
+        "text": "I learn by doing, and I love building. So I shipped three products with AI to find out first-hand what it can and can't do.",
+        "section": "SOLO"
+      },
+      "task": {
+        "text": "build something real with AI and ship it",
+        "section": "SOLO"
+      },
+      "action": {
+        "text": "Researched & built with AI.",
+        "section": "SOLO"
+      },
+      "result": {
+        "text": "Live September 2026",
+        "section": "SOLO"
+      },
+      "year": {
+        "text": "2026",
+        "section": "SOLO"
+      },
+      "company": "Solo projects",
+      "strength": "Led",
+      "tier": "self-reported",
+      "shapes": [
+        "ai",
+        "zero-to-one"
+      ],
+      "skills": [
+        "AI",
+        "GenAI",
+        "prototyping"
+      ],
+      "page": "https://takenbyninjas.com/for-agents/solo-projects/#solo",
+      "role_page": "https://takenbyninjas.com/for-agents/roles/solo-projects/solo-projects-building-with-ai/",
       "role_aliases": []
     }
   ]

@@ -368,10 +368,13 @@ export function buildRow(requirement, match) {
   const answer = cleanAnswer(match.content);
   // A section's own year, else the year of the role it sits under (lib/section_years.json).
   const year = deriveYear(answer) || sectionYear(match.title);
+  const evidence = trimEvidence(answer);
+  // A table-only section (META.JOBS) flattens to nothing: no evidence is no match.
+  if (!plainEvidence(evidence)) return buildRow(requirement, null);
   return {
     requirement,
     met: year && hasOutcome(answer) ? 'met' : 'partial',
-    evidence: trimEvidence(answer),
+    evidence,
     strength: deriveStrength(match),
     year,
     section: match.title,
@@ -490,8 +493,11 @@ export function createCalibrateHandler({
       allRequirements.forEach((r, i) => rows.push(knockouts[i].length ? buildFactRow(r, knockouts[i]) : matched.shift()));
 
       // Outgoing guard: sections outside the map, deny-list, schema.
+      // Every requirement keeps its row: one the guard cannot pass becomes "not met".
       const { ids } = await map.get();
-      rows = dropUnknownSections(rows, ids).rows;
+      let guarded = 0;
+      const unmatched = (r) => { guarded++; return buildRow(r.requirement, null); };
+      rows = rows.map(r => (dropUnknownSections([r], ids).rows.length ? r : unmatched(r)));
       let withheld = 0;
       rows = rows.map(r => {
         const d = applyDenyList(r.evidence);
@@ -518,7 +524,8 @@ export function createCalibrateHandler({
         if (out.adjacent && !out.adjacent.evidence) out = { ...out, adjacent: null };
         return out;
       });
-      rows = validateRows(rows, { tag: '[ask:brief]' }).rows;
+      rows = rows.map(r => (validateRows([r], { tag: '[ask:brief]' }).rows.length ? r : unmatched(r)));
+      if (guarded) console.error('[ask:brief]', JSON.stringify({ rule: 'row_replaced_not_met', rows: guarded }));
 
       const count = (m) => rows.filter(r => r.met === m).length;
       // Guardrail 8: counts and three fixed-list labels (item 27), never the

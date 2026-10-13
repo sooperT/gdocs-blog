@@ -2750,6 +2750,40 @@
     "external": []
   },
   {
+    "id": "SOLO",
+    "questions": [
+      "What have you built yourself with AI?",
+      "Tell me about your solo projects",
+      "Tell me about your side projects",
+      "What have you shipped in 2026?",
+      "Have you shipped your own AI products?",
+      "Do you build with Claude Code?",
+      "What is Kitten PM?",
+      "What is kittenpm.com?",
+      "What is Death Spiral or Golden Age?",
+      "What is deathspiralorgoldenage.org?"
+    ],
+    "content": "Solo projects, building with AI (2026).\n\nI learn by doing, and I love building. So I shipped three products with AI to find out first-hand what it can and can't do.\n\nThe task I set myself: build something real with AI and ship it.\n\n- TomBot: a prototype AI trained on my CV. Built with Claude API, RAG vector store, eval suite & guard-rails. Live January 2026 at takenbyninjas.com/projects/tombot/\n- kittenpm.com: a product training SIM inspired by Lemmings. Practice balancing product trade-offs in real time. Built with React, TypeScript & Phaser. Used Claude as my engineering team. Live July 2026.\n- deathspiralorgoldenage.org: Will AI cut jobs or create new work? A public poll, live sentiment tracker, and open economic model with CC0 data. Researched & built with AI. Live September 2026.",
+    "drill_downs": [],
+    "follow_ups": [
+      {
+        "text": "how does TomBot work",
+        "target": "META.BOT"
+      },
+      {
+        "text": "what is your AI experience",
+        "target": "THEME.AI"
+      },
+      {
+        "text": "have you built anything with GenAI",
+        "target": "NOVO.R2.GENAI"
+      }
+    ],
+    "attested": [],
+    "direct_answers": [],
+    "external": []
+  },
+  {
     "id": "META.BOT",
     "questions": [
       "Tell me about this bot",

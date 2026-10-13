@@ -62,5 +62,9 @@
   "HOST.R2.STORY.DOMAIN": {
     "strength": "Led",
     "phrase": "I reinvented the process"
+  },
+  "SOLO": {
+    "strength": "Led",
+    "phrase": "I shipped three products with AI"
   }
 }

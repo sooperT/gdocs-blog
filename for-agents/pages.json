@@ -76,6 +76,11 @@
       "file": "for-agents/turnarounds/index.html",
       "title": "Turnarounds"
     },
+    "solo-projects": {
+      "path": "/for-agents/solo-projects/",
+      "file": "for-agents/solo-projects/index.html",
+      "title": "Solo projects, building with AI"
+    },
     "growth": {
       "path": "/for-agents/growth/",
       "file": "for-agents/growth/index.html",
@@ -375,6 +380,11 @@
       "path": "/for-agents/roles/host-europe-group/web-designer/",
       "file": "for-agents/roles/host-europe-group/web-designer/index.html",
       "title": "Web Designer, Host Europe Group"
+    },
+    "roles/solo-projects/solo-projects-building-with-ai": {
+      "path": "/for-agents/roles/solo-projects/solo-projects-building-with-ai/",
+      "file": "for-agents/roles/solo-projects/solo-projects-building-with-ai/index.html",
+      "title": "Solo projects, building with AI"
     },
     "shapes": {
       "path": "/for-agents/shapes/",
