@@ -383,7 +383,7 @@ for path in saved:
 
 facets = [(r, f) for r in ROWS['proof_points'] for f in (r.get('facets') or [])]
 check('facets: every row carries a facets list', all(isinstance(r.get('facets'), list) for r in ROWS['proof_points']))
-check('facets: 165 facets on 32 rows (item 47 added R32 and R33)', (len(facets), sum(1 for r in ROWS['proof_points'] if r.get('facets'))) == (165, 32),
+check('facets: 165 facets on 31 rows (item 47 added R32 and R33; R1013-21 merged the order process into domain search)', (len(facets), sum(1 for r in ROWS['proof_points'] if r.get('facets'))) == (165, 31),
       (len(facets), sum(1 for r in ROWS['proof_points'] if r.get('facets'))))
 check("facets: published source is \"Tom's CV\" (never the recipient company), tier self-reported, never attested",
       all(f['source'] == "Tom's CV" and f['tier'] == 'self-reported' and 'attested' not in json.dumps(f) for _, f in facets)
@@ -398,8 +398,9 @@ check('R1013-1: Diagnosis App facets say 12 and build, with the correction noted
       and sum(1 for f in diag['facets'] if f.get('edited')) == 3)
 treat = next(r for r in ROWS['proof_points'] if text_of(r, 'product') == 'TREAT')
 check('R1013-1: TREAT facets say 15', any(' 15' in f['text'] for f in treat['facets']) and not any('17' in f['text'] for f in treat['facets']))
-check('R1013-1: domain search and the order process are still two rows with their own facets',
-      all(next(r for r in ROWS['proof_points'] if text_of(r, 'product') == p).get('facets') for p in ('domain search', 'online order process')))
+check('R1013-21: one domain-search row with facets, no order-process row',
+      next(r for r in ROWS['proof_points'] if text_of(r, 'product') == 'domain search').get('facets')
+      and not any(text_of(r, 'product') == 'online order process' for r in ROWS['proof_points']))
 
 F = diag['facets'][0]
 facet_brief = {'rows': [dict(pp_row(REQ['pp'], diag), facet={'id': F['id'], 'label': F['label'], 'source': F['source'], 'tier': 'self-reported'})]}

@@ -589,8 +589,7 @@
         ]
       },
       "products": [
-        "domain search",
-        "online order process"
+        "domain search"
       ],
       "roles": [
         {
@@ -610,7 +609,7 @@
       "tier": "self-reported"
     }
   ],
-  "count": 33,
+  "count": 32,
   "proof_points": [
     {
       "role": {
@@ -849,9 +848,9 @@
         "quote": "We were the first product team to interview patients, run discovery, make prototypes, co-create with markets and so on."
       },
       "result": {
-        "text": "Documentation automated; release cycles from yearly to bi-monthly in a high-regulation environment.",
-        "section": "NOVO.R1",
-        "quote": "Automated documentation and shifted release cycles from yearly to bi-monthly in high-regulation environment"
+        "text": "Launched on time and on budget, with 10% penetration in the first national market.",
+        "section": "NOVO.R1.TRANSFORM",
+        "quote": "Wegovycare launched on time and on budget, with 10% penetration in the first national market."
       },
       "year": {
         "text": "Mar 2020 - Feb 2022",
@@ -867,17 +866,19 @@
         "leadership"
       ],
       "skills": [
-        "regulated",
         "pharma",
         "healthcare",
         "patients",
         "discovery",
         "prototyping",
         "ways of working",
+        "growth",
         "retention",
+        "launch",
         "0 to 1",
         "team leadership",
-        "stakeholders"
+        "stakeholders",
+        "budget"
       ],
       "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
       "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
@@ -979,17 +980,17 @@
         "quote": "significant delays (backlogs could mean months), huge documentation overhead, and an anti-pattern where you had to fully develop everything before getting sign-off"
       },
       "task": {
-        "text": "Automate compliance reviews.",
+        "text": "Automate compliance reviews so teams could shift left: fail in design, not at review.",
         "section": "NOVO.R2",
         "quote": "automating compliance reviews"
       },
       "action": {
-        "text": "Built a RAG model of the guidelines and regulations in an internal LLM sandbox.",
+        "text": "Built a RAG model of the guidelines and regulations in an internal LLM sandbox, and a prototype agent in Figma so designers could query the guidelines before investing too much effort.",
         "section": "NOVO.R2.GENAI",
         "quote": "I used an internal LLM sandbox to create a RAG model that captured the various guidelines and regulations"
       },
       "result": {
-        "text": "The proof of concept showed a clear path to faster release cycles.",
+        "text": "Product teams used the Figma plugin on real designs and loved it; the proof of concept showed a clear path to dramatically faster release cycles.",
         "section": "NOVO.R2.GENAI",
         "quote": "the proof of concept showed a clear path to dramatically faster release cycles"
       },
@@ -1737,18 +1738,23 @@
         "text": "consumer engagement products",
         "section": "NOVO.R2"
       },
-      "situation": null,
+      "situation": {
+        "text": "Interim reorg of product teams before the Wegovy Pill project.",
+        "section": "NOVO.R2"
+      },
       "task": {
         "text": "Lead 6 experienced PMs building consumer engagement products, managing by outcomes.",
         "section": "NOVO.R2",
         "quote": "led 6 experienced PMs building consumer engagement products, for a period, before moving into the pill team where the need was greatest. Management by outcomes."
       },
       "action": {
-        "text": "Broke product silos, established weekly demos and experiment sharing against resistance, encouraged learning loops.",
-        "section": "NOVO.R2",
-        "quote": "Broke product silos and encouraged learning loops."
+        "text": "Individual coaching and weekly experiment sharing; made individual product metrics public.",
+        "section": "NOVO.R2"
       },
-      "result": null,
+      "result": {
+        "text": "Broke product silos, established weekly demos and experiment sharing, encouraged learning loops.",
+        "section": "NOVO.R2"
+      },
       "year": {
         "text": "Feb 2022 - Feb 2026",
         "section": "NOVO.R2"
@@ -1838,10 +1844,13 @@
         "section": "NOVO.R2"
       },
       "desc": {
-        "text": "Thought partner to Product VP.",
+        "text": "Chaired project steercos. Flipped the format from status updates to interactive co-creation",
         "section": "NOVO.R2"
       },
-      "situation": null,
+      "situation": {
+        "text": "Steercos were project management checklists: project not product focused, and unsuited for high-uncertainty discovery-stage products.",
+        "section": "NOVO.R2"
+      },
       "task": {
         "text": "Chair project steercos.",
         "section": "NOVO.R2",
@@ -1918,12 +1927,13 @@
         },
         {
           "id": "F10-3",
-          "label": "Thought partner to the VP",
-          "text": "Thought partner to Product VP. Shifted cross-functional VPs from product sceptics to advocates. Invited into company-critical Wegovy Pill launch to challenge assumptions and inject product thinking.",
+          "label": "Sceptics to advocates; the Pill launch",
+          "text": "Shifted cross-functional VPs from product sceptics to advocates. Invited into company-critical Wegovy Pill launch to challenge assumptions and inject product thinking.",
           "source": "Tom's CV",
           "answers": "advising leadership, strategic partnership",
           "variants": [],
-          "tier": "self-reported"
+          "tier": "self-reported",
+          "edited": "R1013-22: the opening sentence about the Product VP removed at Tom's request"
         },
         {
           "id": "F10-4",
@@ -2058,7 +2068,11 @@
         "text": "Digital patient platform for obesity medicine, built to scale.",
         "section": "NOVO.R1"
       },
-      "situation": null,
+      "situation": {
+        "text": "Release cycles were yearly, with heavy documentation in a high-regulation environment, and every market needed its own version.",
+        "section": "NOVO.R1",
+        "quote": "release cycles were yearly, with heavy documentation in a high-regulation environment, and every market needed its own version"
+      },
       "task": {
         "text": "Lead a cross-functional team of 10.",
         "section": "NOVO.R1",
@@ -2070,9 +2084,9 @@
         "quote": "Designed for scaling: modular architecture, feature flags, integrated CMS & translation pipeline, and systematised cocreation with markets."
       },
       "result": {
-        "text": "Novo's first digital health product adopted by multiple markets.",
+        "text": "Novo's first digital health product adopted by multiple markets; documentation automated and release cycles from yearly to bi-monthly.",
         "section": "NOVO.R1",
-        "quote": "Made Novo's first digital health product adopted by multiple markets."
+        "quote": "Made Novo's first digital health product adopted by multiple markets; automated the documentation, and release cycles went from yearly to bi-monthly"
       },
       "year": {
         "text": "Mar 2020 - Feb 2022",
@@ -2768,7 +2782,7 @@
         "section": "OPBEAT"
       },
       "situation": {
-        "text": "A good product and famous backers; the founders believed customers would come, and launched into silence.",
+        "text": "New product came out of stealth and lacked traction.",
         "section": "OPBEAT",
         "quote": "The founders had a good product and famous backers, and believed that if they built it, customers would come. They launched into silence."
       },
@@ -3442,7 +3456,10 @@
         "text": "a pre-briefing chatbot for doctor consultations",
         "section": "LEO"
       },
-      "situation": null,
+      "situation": {
+        "text": "Patients sometimes get intimidated by the doctor, and don't get the most out of their consultation, or forget what was said.",
+        "section": "LEO"
+      },
       "task": {
         "text": "Prototype it with GPs.",
         "section": "LEO",
@@ -3474,6 +3491,7 @@
         "machine learning",
         "computer vision",
         "healthcare",
+        "patients",
         "discovery",
         "prototyping",
         "growth",
@@ -3739,73 +3757,6 @@
     },
     {
       "role": {
-        "text": "Head of New Media",
-        "section": "HOST"
-      },
-      "product": {
-        "text": "online order process",
-        "section": "HOST"
-      },
-      "desc": {
-        "text": "Restructured the online order process",
-        "section": "HOST"
-      },
-      "situation": null,
-      "task": null,
-      "action": {
-        "text": "Restructured the online order process.",
-        "section": "HOST",
-        "quote": "Restructured the online order process"
-      },
-      "result": {
-        "text": "New revenue up 20%.",
-        "section": "HOST",
-        "quote": "increasing new revenue by 20%"
-      },
-      "year": {
-        "text": "Jan 2006 - Jun 2008",
-        "section": "HOST"
-      },
-      "company": "Host Europe Group",
-      "strength": "Led",
-      "tier": "self-reported",
-      "shapes": [
-        "growth"
-      ],
-      "skills": [
-        "turnaround",
-        "SEO",
-        "funnels",
-        "0 to 1",
-        "brand",
-        "marketing",
-        "SaaS",
-        "startup",
-        "ecommerce",
-        "domains",
-        "web hosting",
-        "team leadership",
-        "stakeholders"
-      ],
-      "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/",
-      "role_aliases": [
-        "Head of New Media, Pipex Hosting / GX Networks"
-      ],
-      "facets": [
-        {
-          "id": "F27-1",
-          "label": "Order process, 20%",
-          "text": "2005 - 2006 Group Design Manager - optimised order process, increasing revenue by 20%.",
-          "source": "Tom's CV",
-          "answers": "conversion, checkout, ecommerce",
-          "variants": [],
-          "tier": "self-reported"
-        }
-      ]
-    },
-    {
-      "role": {
         "text": "Web Designer",
         "section": "HOST"
       },
@@ -3833,8 +3784,9 @@
         "quote": "I reinvented the process: a simple text field that interpreted whatever the user entered and searched all endings asynchronously. First use of AJAX in our stack."
       },
       "result": {
-        "text": "The approach became the industry standard",
-        "section": "HOST.R2.STORY.DOMAIN"
+        "text": "Revenue up 20% overnight; the approach became the industry standard.",
+        "section": "META.ARC",
+        "quote": "Reinvented the domain search process - first use of AJAX - revenue up 20% overnight. Became industry standard."
       },
       "year": {
         "text": "Feb 2004 - Aug 2005",
@@ -3922,6 +3874,15 @@
           "text": "2004 - 2005: Web Designer - rethought how domain search works, increasing revenue 20%.",
           "source": "Tom's CV",
           "answers": "career history line; early evidence of commercial impact",
+          "variants": [],
+          "tier": "self-reported"
+        },
+        {
+          "id": "F27-1",
+          "label": "Order process, 20% (same story: the search is the order process)",
+          "text": "2005 - 2006 Group Design Manager - optimised order process, increasing revenue by 20%.",
+          "source": "Tom's CV",
+          "answers": "conversion, checkout, ecommerce",
           "variants": [],
           "tier": "self-reported"
         }

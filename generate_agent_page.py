@@ -367,13 +367,13 @@ SHAPE_TOP = {
     'product-management': [('Wegovycare', 'Achieved 10%'), ('CagriSema', 'securing funding'), ('TREAT', 'Halved customer')],
     'ai': [('GenAI proof of concept for automating compliance reviews', 'the proof of concept'),
            ('Diagnosis App', 'Achieved >80%'), ('Wegovycare', 'later spun out')],
-    'growth': [('Opbeat', 'Trebled traffic'), ('EuroDNS', 'reversed the decline'), ('online order process', 'increasing new revenue')],
-    'zero-to-one': [('Wegovycare', 'Automated documentation'), ('Digital Incubation', 'shifted the organisation'),
+    'growth': [('Opbeat', 'Trebled traffic'), ('EuroDNS', 'reversed the decline'), ('domain search', 'Reinvented the domain search')],
+    'zero-to-one': [('Wegovycare', 'Wegovycare launched on time'), ('Digital Incubation', 'shifted the organisation'),
                     ('Skincoach', 'Completed the full')],
     'turnaround': [('TREAT', 'Halved customer'), ('EuroDNS', 'reversed the decline'), ('US Marketing department', 'reduced bounce')],
     'regulated': [('Wegovycare', 'Achieved 10%'), ('GenAI proof of concept for automating compliance reviews', 'the proof of concept'),
                   ('Skincoach', 'Completed the full')],
-    'leadership': [('Diagnosis App', 'Achieved >80%'), ('EuroDNS', 'The rhythm gave'), ('Wegovycare', 'Automated documentation')],
+    'leadership': [('Diagnosis App', 'Achieved >80%'), ('EuroDNS', 'The rhythm gave'), ('Wegovycare', 'Wegovycare launched on time')],
     'international': [('US Marketing department', 'reduced bounce'), ('Wegovy Pill launch', 'driving prescription'), ('Opbeat', 'Trebled traffic')],
 }
 
@@ -429,7 +429,7 @@ PROOF_POINTS = [
         'situation': ('The brief I was given in my final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients.', 'NOVO.R1'),
         'task': ('use this as a mandate to completely reinvent their ways of working', 'NOVO.R1.TRANSFORM'),
         'action': ('We were the first product team to interview patients, run discovery, make prototypes, co-create with markets and so on.', 'NOVO.R1.TRANSFORM'),
-        'result': ('Automated documentation and shifted release cycles from yearly to bi-monthly in high-regulation environment', 'NOVO.R1'),
+        'result': ('Wegovycare launched on time and on budget, with 10% penetration in the first national market.', 'NOVO.R1.TRANSFORM'),
         'year': ('Mar 2020 - Feb 2022', 'NOVO.R1'),
         'strength': 'NOVO.R1.TRANSFORM',
         'shapes': ['zero-to-one', 'regulated', 'leadership'],
@@ -498,10 +498,10 @@ PROOF_POINTS = [
         'role': ('Associate Product Director at Novo Nordisk', 'NOVO.R2'),
         'product': ('Head of Patient Products', 'NOVO.R2'),
         'desc': ('consumer engagement products', 'NOVO.R2'),
-        'situation': ('Overcame resistance to establish weekly demos and experiment sharing.', 'NOVO.R2'),
+        'situation': ('Interim reorg of product teams before the Wegovy Pill project.', 'NOVO.R2'),
         'task': ('led 6 experienced PMs building consumer engagement products, for a period, before moving into the pill team where the need was greatest. Management by outcomes.', 'NOVO.R2'),
-        'action': ('Broke product silos and encouraged learning loops.', 'NOVO.R2'),
-        'result': None,
+        'action': ('Individual coaching and weekly experiment sharing; made individual product metrics public.', 'NOVO.R2'),
+        'result': ('Broke product silos, established weekly demos and experiment sharing, encouraged learning loops.', 'NOVO.R2'),
         'year': ('Feb 2022 - Feb 2026', 'NOVO.R2'),
         'strength': 'NOVO.R2',
         'shapes': ['leadership'],
@@ -509,8 +509,8 @@ PROOF_POINTS = [
     {
         'role': ('Associate Product Director at Novo Nordisk', 'NOVO.R2'),
         'product': ('project steercos', 'NOVO.R2'),
-        'desc': ('Thought partner to Product VP.', 'NOVO.R2'),
-        'situation': None,
+        'desc': ('Chaired project steercos. Flipped the format from status updates to interactive co-creation', 'NOVO.R2'),
+        'situation': ('Steercos were project management checklists: project not product focused, and unsuited for high-uncertainty discovery-stage products.', 'NOVO.R2'),
         'task': ('Chaired project steercos.', 'NOVO.R2'),
         'action': ('Flipped the format from status updates to interactive co-creation', 'NOVO.R2'),
         'result': ('shifting cross-functional VPs from product sceptics to advocates', 'NOVO.R2'),
@@ -534,10 +534,10 @@ PROOF_POINTS = [
         'role': ('Senior Product Manager at Novo Nordisk', 'NOVO.R1'),
         'product': ('Wegovycare', 'NOVO.R1'),
         'desc': ('Digital patient platform for obesity medicine, built to scale.', 'NOVO.R1'),
-        'situation': None,
+        'situation': ('release cycles were yearly, with heavy documentation in a high-regulation environment, and every market needed its own version', 'NOVO.R1'),
         'task': ('Led cross-functional team of 10.', 'NOVO.R1'),
         'action': ('Designed for scaling: modular architecture, feature flags, integrated CMS & translation pipeline, and systematised cocreation with markets.', 'NOVO.R1'),
-        'result': ("Made Novo's first digital health product adopted by multiple markets.", 'NOVO.R1'),
+        'result': ("Made Novo's first digital health product adopted by multiple markets; automated the documentation, and release cycles went from yearly to bi-monthly", 'NOVO.R1'),
         'year': ('Mar 2020 - Feb 2022', 'NOVO.R1'),
         'strength': 'NOVO.R1',
         'shapes': ['zero-to-one', 'international', 'leadership'],
@@ -678,7 +678,7 @@ PROOF_POINTS = [
         'role': ('PM/GM at LEO Innovation Lab', 'LEO.R3'),
         'product': ('BetterVisitBot', 'LEO'),
         'desc': ('a pre-briefing chatbot for doctor consultations', 'LEO'),
-        'situation': None,
+        'situation': ("Patients sometimes get intimidated by the doctor, and don't get the most out of their consultation, or forget what was said.", 'LEO'),
         'task': ('Worked with GPs to prototype it.', 'LEO'),
         'action': ('I hid a dermatologist in an adjacent room to simulate a consultation chatbot.', 'LEO'),
         'result': ("Right idea, too early. Now it isn't.", 'LEO'),
@@ -711,25 +711,13 @@ PROOF_POINTS = [
         'shapes': ['growth', 'international'],
     },
     {
-        'role': ('Head of New Media', 'HOST'),
-        'product': ('online order process', 'HOST'),
-        'desc': ('Restructured the online order process', 'HOST'),
-        'situation': None,
-        'task': None,
-        'action': ('Restructured the online order process', 'HOST'),
-        'result': ('increasing new revenue by 20%', 'HOST'),
-        'year': ('Jan 2006 - Jun 2008', 'HOST'),
-        'strength': 'HOST',
-        'shapes': ['growth'],
-    },
-    {
         'role': ('Web Designer', 'HOST'),
         'product': ('domain search', 'HOST.R2.STORY.DOMAIN'),
         'desc': ('a simple text field that interpreted whatever the user entered and searched all endings asynchronously', 'HOST.R2.STORY.DOMAIN'),
         'situation': ('Users could only search for one domain at a time and kept running into domains that were already taken. Frustrating experience, poor conversion.', 'HOST.R2.STORY.DOMAIN'),
         'task': ('Nobody asked for it. I thought it was a poor experience at the top of the sales funnel, the shop window of the business, and worth fixing.', 'HOST.R2.STORY.DOMAIN'),
         'action': ('I reinvented the process: a simple text field that interpreted whatever the user entered and searched all endings asynchronously. First use of AJAX in our stack.', 'HOST.R2.STORY.DOMAIN'),
-        'result': ('The approach became the industry standard', 'HOST.R2.STORY.DOMAIN'),
+        'result': ('Reinvented the domain search process - first use of AJAX - revenue up 20% overnight. Became industry standard.', 'META.ARC'),
         'year': ('Feb 2004 - Aug 2005', 'HOST'),
         'strength': 'HOST.R2.STORY.DOMAIN',
         'shapes': ['growth'],
@@ -878,11 +866,14 @@ def row_keywords(sections, row):
 def row_facets(n):
     """Story facets for row n (1-based, the draft's R<nn>): Tom's own CV lines (R1013-2),
     each with the CV it came from. Keyed by row number, so the product name is checked."""
-    rid = f'R{n:02d}'
-    if rid not in FACET_ROW_PRODUCTS:
-        sys.exit(f'✗ facets: no product recorded for row {rid}')
+    # Keyed by the row's product name (R1013-21: the order-process row merged into the
+    # domain-search row, so positions no longer match the draft's R<nn> ids).
+    keys = list(FACET_ROW_PRODUCTS)   # draft order, R27 removed
+    if n > len(keys):
+        sys.exit(f'✗ facets: no facet key for row {n}')
+    rid = keys[n - 1]
     if PROOF_POINTS[n - 1]['product'][0] != FACET_ROW_PRODUCTS[rid]:
-        sys.exit(f'✗ facets: row {rid} is {PROOF_POINTS[n - 1]["product"][0]!r}, the facets expect {FACET_ROW_PRODUCTS[rid]!r}')
+        sys.exit(f'✗ facets: row {n} is {PROOF_POINTS[n - 1]["product"][0]!r}, the facets ({rid}) expect {FACET_ROW_PRODUCTS[rid]!r}')
     return [facet_json(f) for f in STORY_FACETS.get(rid, [])]
 
 
@@ -1126,10 +1117,11 @@ TIGHT = {
         'action': 'Built a weight-loss prediction algorithm from concept to prototype.', 'result': 'Later spun out into a new API product.'},
     3: {'situation': S_BRIEF, 'task': 'Use it as a mandate to reinvent their ways of working.',
         'action': 'First product team to interview patients, run discovery, prototype and co-create with markets.',
-        'result': 'Documentation automated; release cycles from yearly to bi-monthly in a high-regulation environment.'},
+        'result': 'Launched on time and on budget, with 10% penetration in the first national market.'},
     4: {'situation': 'Compliance reviews meant backlogs of months, heavy documentation, and full development before sign-off.',
-        'task': 'Automate compliance reviews.', 'action': 'Built a RAG model of the guidelines and regulations in an internal LLM sandbox.',
-        'result': 'The proof of concept showed a clear path to faster release cycles.'},
+        'task': 'Automate compliance reviews so teams could shift left: fail in design, not at review.',
+        'action': 'Built a RAG model of the guidelines and regulations in an internal LLM sandbox, and a prototype agent in Figma so designers could query the guidelines before investing too much effort.',
+        'result': 'Product teams used the Figma plugin on real designs and loved it; the proof of concept showed a clear path to dramatically faster release cycles.'},
     5: {'situation': 'Invited into the company-critical Wegovy pill launch to challenge assumptions on digital, packaging and direct distribution.',
         'task': 'Align silos into one physical-to-digital experience.',
         'action': 'Used subscription-model thinking to link packaging to digital fulfilment for the biggest ever pharma launch.',
@@ -1145,8 +1137,9 @@ TIGHT = {
     8: {'situation': 'A wider remit across the product pipeline, to complete the move to a product operating model.',
         'task': 'Establish metrics across a portfolio of 12 products.',
         'action': 'Set product artefacts and quality standards: gate model and deliverables, product-ops metrics, portfolio reports, business case templates, problem and north-star statements.'},
-    9: {'situation': None, 'task': 'Lead 6 experienced PMs building consumer engagement products, managing by outcomes.',
-        'action': 'Broke product silos, established weekly demos and experiment sharing against resistance, encouraged learning loops.'},
+    9: {'task': 'Lead 6 experienced PMs building consumer engagement products, managing by outcomes.',
+        'action': 'Individual coaching and weekly experiment sharing; made individual product metrics public.',
+        'result': 'Broke product silos, established weekly demos and experiment sharing, encouraged learning loops.'},
     10: {'task': 'Chair project steercos.', 'action': 'Flipped the format from status updates to interactive co-creation.',
          'result': 'Cross-functional VPs moved from product sceptics to advocates.'},
     11: {'situation': 'Research showed every user journey is different.', 'task': 'Identify drop-off risks.',
@@ -1154,7 +1147,8 @@ TIGHT = {
          'result': 'First digital Novo product to scale.'},
     12: {'task': 'Lead a cross-functional team of 10.',
          'action': 'Designed for scale: modular architecture, feature flags, integrated CMS and translation pipeline, systematised co-creation with markets.',
-         'result': "Novo's first digital health product adopted by multiple markets."},
+         'result': "Novo's first digital health product adopted by multiple markets; documentation automated and release cycles from yearly to bi-monthly.",
+         'situation': 'Release cycles were yearly, with heavy documentation in a high-regulation environment, and every market needed its own version.'},
     13: {'situation': 'A team of AI engineers wired for logic and certainty, in the deep uncertainty of product discovery.',
          'task': 'Rethink how a smartphone camera could diagnose skin conditions.',
          'action': 'Redesigned closed-loop diagnosis and the ML training platform with dermatologists; bootstrapped the ML engine with clinical decision trees.',
@@ -1169,7 +1163,7 @@ TIGHT = {
     16: {'situation': 'Joined on a short-term contract, initially six weeks, extended to the end of the year.', 'task': 'Rescue a global launch.',
          'action': 'Implemented OKRs, produced video content, crystallised USPs, introduced a reporting structure.',
          'result': 'Global launch rescued on a 6-week deadline.'},
-    17: {'situation': 'A good product and famous backers; the founders believed customers would come, and launched into silence.',
+    17: {'situation': 'New product came out of stealth and lacked traction.',
          'task': 'Build the brand, marketing strategy, team and channels from scratch.', 'result': 'Traffic and sign-ups trebled in 12 months.'},
     18: {'situation': 'Four years of decline: traffic dropping, online sales down, a legacy website.', 'task': 'Turn it around.',
          'action': 'Restructured the marketing department, implemented KPIs and rebooted every marketing channel including the website, in under 8 months.',
@@ -1198,15 +1192,15 @@ TIGHT = {
          'task': 'Clients: Host Europe (UK), EuroDNS (LUX), Everplaces (DK).',
          'action': 'Content creation and SEO, including interviews with MailChimp, Creative Commons, EFF, Rand Fishkin and Michael Palin.',
          'result': 'Spotted Raspberry Pi before launch and created a partnership.'},
-    27: {'action': 'Restructured the online order process.', 'result': 'New revenue up 20%.'},
-    28: {'situation': 'Users could search one domain at a time and kept hitting taken names: frustrating, poor conversion.',
+    27: {'situation': 'Users could search one domain at a time and kept hitting taken names: frustrating, poor conversion.',
          'task': 'Unasked: fix a poor experience at the top of the sales funnel.',
-         'action': 'One text field that interpreted whatever the user entered and searched all endings asynchronously; the first use of AJAX in the stack.'},
-    32: {'situation': 'The company website was dated and cluttered, explained the "why" poorly, and lacked focus and a core funnel.',
+         'action': 'One text field that interpreted whatever the user entered and searched all endings asynchronously; the first use of AJAX in the stack.',
+         'result': 'Revenue up 20% overnight; the approach became the industry standard.'},
+    31: {'situation': 'The company website was dated and cluttered, explained the "why" poorly, and lacked focus and a core funnel.',
          'task': 'Unasked, as a sales executive: do better.',
          'action': 'Built an alternative version in evenings and weekends, booked a meeting with the brand manager and pitched it.',
          'result': 'Sales went up; moved to the web design team the next week and led it six months later.'},
-    33: {'situation': 'Optimising the onboarding funnel at LEO Innovation Lab, on the hypothesis that more notification opt-ins would raise activation.',
+    32: {'situation': 'Optimising the onboarding funnel at LEO Innovation Lab, on the hypothesis that more notification opt-ins would raise activation.',
          'task': 'Test a contextually-triggered opt-in shown at exactly the right moment.',
          'action': 'The split test won on conversion but activation barely moved: the opt-in sat too late in the funnel. Rolled out a simpler opt-in early in the funnel, lifting net activation, and presented the mistake at the next company all-hands.',
          'result': 'The monthly all-hands changed from presenting vanity metrics to mistakes made and lessons learnt.'},
@@ -1313,8 +1307,8 @@ def build_career(sections):
         lines.append(f'                <tr><td>{escape(years)}</td><td>{role_cell}</td><td>{company_cell}</td><td>{escape(loc)}</td></tr>')
     lines += ['            </tbody>', '        </table>', '        </div>']
     check(sections, 'HOST', EMPLOYER_NOTE)
-    lines.append(f'        <p><small>{escape(EMPLOYER_NOTE)} External source: '
-                 f'<a href="{EMPLOYER_NOTE_SOURCE[1]}">{escape(EMPLOYER_NOTE_SOURCE[0])}</a>.</small> {cite("HOST")}</p>')
+    lines.append(f'        <p>{escape(EMPLOYER_NOTE)} External source: '
+                 f'<a href="{EMPLOYER_NOTE_SOURCE[1]}">{escape(EMPLOYER_NOTE_SOURCE[0])}</a>. {cite("HOST")}</p>')
     return lines
 
 
@@ -1455,13 +1449,9 @@ def build_proof_points(sections):
                 sys.exit(f'✗ Unknown shape {sh!r} on proof point {row["product"][0]!r}')
     lines = [
         '        <h2 id="proof-points">Proof points</h2>',
-        f'        <p>{len(PROOF_POINTS)} rows, grouped by role shape; a row can sit in two groups. Each group shows up to '
-        f'{FACTS_ROWS_PER_SHAPE} rows here and links the rest. Indexes: <a href="{SHAPES_PATH}">by shape</a>, '
-        f'<a href="{ROLES_PATH}">by role</a>, <a href="{KEYWORDS_PATH}">by skill</a>. '
-        'Situation, task, action, result: each cell is one line from Tom\'s own account, verbatim or compressed; '
-        '"not yet stated" means the content has no line for it. Role links every row in that role; product links '
-        'the full text, its sources and the questions to ask next; a skill links every row tagged with it, tagged '
-        'from the row\'s own text and its source section.</p>',
+        f'        <p>{len(PROOF_POINTS)} rows in {len(SHAPES)} groups, {FACTS_ROWS_PER_SHAPE} per group here with the rest linked; '
+        'situation, task, action and result are each one line from Tom\'s own account. '
+        f'Indexes: <a href="{SHAPES_PATH}">by shape</a>, <a href="{ROLES_PATH}">by role</a>, <a href="{KEYWORDS_PATH}">by skill</a>.</p>',
     ]
     for shape_id, heading, theme_slug in SHAPES:
         rows = shape_rows(shape_id)
@@ -1677,8 +1667,10 @@ def generate_html(sections, recs):
         '        <ol>',
         '            <li>Every cell is a line from Tom\'s own account (tier: self-reported), verbatim or compressed; '
         'the section ids are in each row\'s data-source attribute.</li>',
-        '            <li>Role, product and skill cells link pages with the full text, external sources where Tom has '
-        'accepted them, and the questions to ask next.</li>',
+        '            <li>A row can sit in two shape groups; "not yet stated" means the content has no line for that cell. '
+        'The role link lists every row in that role; the product link opens the full text, external sources where Tom has '
+        'accepted them, and the questions to ask next; a skill link lists every row tagged with it, tagged from the '
+        'row\'s own text and its source section.</li>',
         f'            <li>References: <a href="{RECS_PATH}">{len(recs)} LinkedIn recommendations</a> (tier: attested), '
         'grouped by role. They vouch for a role, not for a row.</li>',
         f'            <li>Working style: <a href="{WORKING_STYLE_PATH}">two Insights Discovery profiles, 2019 and 2022</a> '
@@ -2314,7 +2306,7 @@ COMPANY_CONTEXT = [
     {'company': 'Host Europe Group', 'section': 'HOST', 'sectors': ['hosting', 'ecommerce'], 'environments': ['founder-led', 'startup', 'scale-up'],
      'context': ('a founder-led startup at the beginning.', 'HOST'),
      'size': ('About 150 people when I started, about 500 later, and 2,000 as part of Pipex broadband.', 'HOST', [150, 500, 2000]),
-     'products': ['domain search', 'online order process'],
+     'products': ['domain search'],
      'roles': [{'role': 'Head of New Media', 'levels': [],
                 'scope': ('Created department from scratch, member of Senior Management Team.', 'HOST')}]},
 ]

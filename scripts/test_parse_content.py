@@ -100,7 +100,7 @@ check('facets: route terms are the line, what it answers and the variants, in or
 check('facets: no facets, no terms', facet_route_terms(None) == [] and facet_route_terms([]) == [])
 check('facets: every row key has a product to check against', all(k in ROW_PRODUCTS for k in FACETS))
 all_facets = [f for v in FACETS.values() for f in v]
-check('facets: 165 placed on 32 rows, 4 unplaced (the draft\'s 169; item 47 placed FU1 and FU7)', (len(all_facets), len(FACETS), len(UNPLACED)) == (165, 32, 4))
+check('facets: 165 placed on 31 rows, 4 unplaced (the draft\'s 169; item 47 placed FU1 and FU7; R1013-21 merged R27 into R28)', (len(all_facets), len(FACETS), len(UNPLACED)) == (165, 31, 4))
 check('facets: ids unique', len({f['id'] for f in all_facets + UNPLACED}) == len(all_facets) + len(UNPLACED))
 check('facets: every one has a line, a CV source and what it answers',
       all(f['text'] and f['source'].startswith('CV ') and f['answers'] for f in all_facets + UNPLACED))
@@ -112,8 +112,8 @@ check('R1013-1: Diagnosis App facets say 12, and build, not ship',
       all('10-person' not in f['text'] and '10 person' not in f['text'] and 'ship' not in f['text'].lower() for f in FACETS['R13']))
 check('R1013-1: TREAT facets with a team size say 15, never 17', all('17' not in f['text'] for f in FACETS['R15'])
       and any('15' in f['text'] for f in FACETS['R15']))
-check('R1013-1: the domain search and the order process keep their facets on their own rows, not split or merged',
-      FACETS['R27'] and FACETS['R28'] and {f['id'][:3] for f in FACETS['R27']} == {'F27'} and {f['id'][:3] for f in FACETS['R28']} == {'F28'})
+check('R1013-21: the order process is the domain search; one row, its facet F27-1 under R28',
+      'R27' not in FACETS and 'R27' not in ROW_PRODUCTS and any(f['id'] == 'F27-1' for f in FACETS['R28']))
 
 print(f'\n{passed} passed, {failed} failed')
 sys.exit(1 if failed else 0)

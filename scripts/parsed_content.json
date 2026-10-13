@@ -947,6 +947,7 @@
       }
     ],
     "direct_answers": [
+      "Scaling Wegovycare: release cycles were yearly, with heavy documentation in a high-regulation environment, and every market needed its own version. Designed for scale (modular architecture, feature flags, CMS and translation pipeline), automated the documentation, and release cycles went from yearly to bi-monthly; adopted by multiple markets.",
       "Patient interviews surfaced two insights: every patient's journey is different, but everyone wants to know the same things - how much weight will I lose, is this normal, am I on track. Those three questions became the core loop, and the weight-loss prediction model answered the first.",
       "The brief I was given in my final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients.",
       "Through research identified every user-journey is different. Built risk-profiling engine combining clinical data, usage signals, & PROMs to identify drop-off risks.",
@@ -1008,6 +1009,7 @@
       }
     ],
     "direct_answers": [
+      "Wegovycare launched on time and on budget, with 10% penetration in the first national market.",
       "Borrowed an anthropologist from another division & proved the value. It later became the Insights team."
     ],
     "external": []
@@ -1081,7 +1083,7 @@
       "Product Operations: standards, artefacts, ways of working. I know what good looks like because I've done it.",
       "Digital Incubation: I established and led a digital product incubation unit, evaluating build, buy and partner solutions. It moved the business from solution-first to problem-first; CagriSema was its hardest test.",
       "Head of Patient Products: led 6 experienced PMs building consumer engagement products, for a period, before moving into the pill team where the need was greatest. Management by outcomes.",
-      "Overcame resistance to establish weekly demos and experiment sharing. Broke product silos and encouraged learning loops.",
+      "Interim reorg of product teams before the Wegovy Pill project. Individual coaching and weekly experiment sharing; made individual product metrics public. Broke product silos, established weekly demos and experiment sharing, encouraged learning loops.",
       "Given a wider remit to work across the product pipeline and complete the transition to a product operating model.",
       "Established metrics across a diverse portfolio (12 products).",
       "Built first cross-portfolio view of product team costs and capacity, started conversation around ROI.",
@@ -1090,8 +1092,7 @@
       "Secured funding, managed resourcing and cross-charges for incubation teams.",
       "Designed portfolio model and gated incubation pipeline for branded digital engagement.",
       "Shifted cross-functional VPs from product sceptics to advocates.",
-      "Chaired project steercos. Flipped the format from status updates to interactive co-creation, shifting cross-functional VPs from product sceptics to advocates.",
-      "Thought partner to Product VP.",
+      "Chaired project steercos. Steercos were project management checklists: project not product focused, and unsuited for high-uncertainty discovery-stage products. Flipped the format from status updates to interactive co-creation, shifting cross-functional VPs from product sceptics to advocates.",
       "Pitched 'Rybelsus Beyond The Pill' to Senior Management, an ambitious cross-functional pipeline for generating learnings & extending staytime. A small pilot is underway.",
       "I lobbied Novo to switch sales data to a cohort retention model and failed.",
       "Decisions won at executive level: the CagriSema discovery funnel, 4 recommended and funded, each with a funding-gated rollout, done without mandate[NOVO.R2]; 'Rybelsus Beyond The Pill' pitched to Senior Management, a small pilot is underway[NOVO.R2]; the final round job interview at Novo, where the business set aside its solution-first brief[NOVO.R1.TRANSFORM]; the TREAT recommendation to the board, which wound down the business[LEO.R1]; the GX Networks rename of a Plc, including the stock market ticker, in 5 weeks[HOST.R1.REBRAND].",
@@ -1250,7 +1251,7 @@
       }
     ],
     "direct_answers": [
-      "BetterVisitBot: a pre-briefing chatbot for doctor consultations. Worked with GPs to prototype it. I hid a dermatologist in an adjacent room to simulate a consultation chatbot. Right idea, too early. Now it isn't.",
+      "BetterVisitBot: a pre-briefing chatbot for doctor consultations. Patients sometimes get intimidated by the doctor, and don't get the most out of their consultation, or forget what was said. Worked with GPs to prototype it. I hid a dermatologist in an adjacent room to simulate a consultation chatbot. Right idea, too early. Now it isn't.",
       "Title: PM/GM, also written Product Owner, Product Lead or Product Lead / GM on different CVs. Same role: product leads were mini-CEOs for each venture.",
       "Company context: the Lab was a startup incubator at arm's length from LEO Pharma, a 12,000-person pharma company. So it was innovation, startup, pharma, health-tech, enterprise and AI at once.",
       "Size: I joined when the Lab was 30 people and it was 130 when I left. Multiple startup teams of around 3 to 15 people each.",
@@ -1416,7 +1417,7 @@
       "Worked with oncologists to reimagine patient care between appointments. Interviewed terminally ill patients.",
       "Dynamically spliced video to simulate personalised dermatology consultations for terminally ill cancer patients, designed for simplicity and trust.",
       "Led in-market discovery with patients, affiliates and HCPs, a new approach later adopted across their wider org. Negotiated a novel outcome-based partnership with Amgen.",
-      "The Amgen relationship, Feb 2018 to Oct 2018 and after: a partnership project with the Amgen Commercial Business Unit; negotiated a novel outcome-based partnership; led in-market discovery & delivery; contract model & ways of working adopted as best practice across their org; Skincoach live & collecting user feedback as part of a closed pilot in Spain & France (Nov 2019). Thought partner to Product VP at Novo, 2022-2026[NOVO.R2]; troubleshooter for the CEO at UK2, 2008-2010[UK2].",
+      "The Amgen relationship, Feb 2018 to Oct 2018 and after: a partnership project with the Amgen Commercial Business Unit; negotiated a novel outcome-based partnership; led in-market discovery & delivery; contract model & ways of working adopted as best practice across their org; Skincoach live & collecting user feedback as part of a closed pilot in Spain & France (Nov 2019). Troubleshooter for the CEO at UK2, 2008-2010[UK2].",
       "Distribution: Skincoach reached patients through Amgen, a partnership project with the Amgen Commercial Business Unit, with a live pilot in Spain and France; Wegovycare reached patients through Novo's market affiliates, co-created with markets and adopted by multiple markets[NOVO.R1]; the Wegovy Pill work was with the US affiliate on direct distribution[NOVO.R2.WEGOVY]; at UK2 a domain registration, management and reseller platform served B2B and B2C growth[UK2]; EuroDNS operated in both the B2B & B2C sectors[EURODNS]."
     ],
     "external": []

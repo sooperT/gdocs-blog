@@ -11,8 +11,9 @@ Built from docs/agent-readable/drafts/story-facets.md (accepted in bulk, R1013-2
 with the three corrections of R1013-1 applied (`edited` says which). Keys are the
 draft's row ids, R01 to R33, in the order of PROOF_POINTS (R32 the alternative website
 and R33 the all-hands were added by item 47); ROW_PRODUCTS is the
-product name each row must carry, checked at generation. The domain search and the
-order process stay two rows and one story (R1013-1): their facets are not split.
+product name each row must carry, matched by product at generation. The order-process row
+merged into the domain-search row (R1013-21, Tom: the search is the order process in a
+domain company); its facet F27-1 sits under R28.
 UNPLACED holds the accepted facets whose story still has no row (U4 LEO practice, U6
 Group Design Manager): the content states no situation, task or result for them, see
 docs/agent-readable/drafts/rows-for-unplaced-facets.md.
@@ -44,7 +45,6 @@ ROW_PRODUCTS = {'R01': 'Wegovycare',
  'R24': 'BetterVisitBot',
  'R25': 'Opbeat',
  'R26': 'independent consultant',
- 'R27': 'online order process',
  'R28': 'domain search',
  'R29': 'TomBot',
  'R30': 'kittenpm.com',
@@ -358,6 +358,13 @@ FACETS = {'R24': [{'id': 'F24-1',
           'source': 'CV All Gravy, Senior Product Manager (CV body)',
           'file': 'jds/gravy-application.txt',
           'answers': 'career history line; early evidence of commercial impact',
+          'variants': []},
+         {'id': 'F27-1',
+          'label': 'Order process, 20% (same story: the search is the order process)',
+          'text': '2005 - 2006 Group Design Manager - optimised order process, increasing revenue by 20%.',
+          'source': 'CV Lunar, Principal Product Manager Growth & Experience (CV body)',
+          'file': 'drive/lunar-2/cv.txt',
+          'answers': 'conversion, checkout, ecommerce',
           'variants': []}],
  'R04': [{'id': 'F04-1',
           'label': 'Spotted the bottleneck',
@@ -984,9 +991,10 @@ FACETS = {'R24': [{'id': 'F24-1',
           'answers': 'governance forums, chairing',
           'variants': []},
          {'id': 'F10-3',
-          'label': 'Thought partner to the VP',
-          'text': 'Thought partner to Product VP. Shifted cross-functional VPs from product sceptics to advocates. Invited into '
+          'label': 'Sceptics to advocates; the Pill launch',
+          'text': 'Shifted cross-functional VPs from product sceptics to advocates. Invited into '
                   'company-critical Wegovy Pill launch to challenge assumptions and inject product thinking.',
+          'edited': 'R1013-22: the opening sentence about the Product VP removed at Tom\'s request',
           'source': 'CV SimCorp, Head of Strategic Product Enablement (CV body)',
           'file': 'drive/simcorp/cv.txt',
           'answers': 'advising leadership, strategic partnership',
@@ -1222,13 +1230,6 @@ FACETS = {'R24': [{'id': 'F24-1',
           'source': 'CV LEGO, Senior Digital Product Manager Model Production (CV body)',
           'file': 'drive/lego/cv.txt',
           'answers': 'operational discipline in a startup',
-          'variants': []}],
- 'R27': [{'id': 'F27-1',
-          'label': 'Order process, 20%',
-          'text': '2005 - 2006 Group Design Manager - optimised order process, increasing revenue by 20%.',
-          'source': 'CV Lunar, Principal Product Manager Growth & Experience (CV body)',
-          'file': 'drive/lunar-2/cv.txt',
-          'answers': 'conversion, checkout, ecommerce',
           'variants': []}],
  'R21': [{'id': 'F21-1',
           'label': 'Built the domain platform',

@@ -177,7 +177,8 @@ export function createHandler({ getPool = getDefaultPool, readFile = defaultRead
       // The HTML page carries the same text escaped in a pre block.
       if (resource.tag) {
         const line = TAG_LINE(resource.tag, sends[resource.tag]);
-        body = body.replace(/\n## 1\. Where things are/, () => (resource.html ? escapeHtml(line) : line) + '\n## 1. Where things are');
+        // Before the route check (0c) when the file has one, else before section 1.
+        body = body.replace(/\n## (0c\. Which route you are on[^\n]*|1\. Where things are)/, (m, h) => (resource.html ? escapeHtml(line) : line) + '\n## ' + h);
       }
       // Outside production the agent side must be self-contained: every
       // absolute takenbyninjas.com link in a served file points at this
