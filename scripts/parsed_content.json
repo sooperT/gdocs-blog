@@ -381,7 +381,7 @@
     "direct_answers": [
       "IDEO U: Designing for Change (2024). Scrum Alliance: Certified Scrum Product Owner (2021-2023). Mind the Product: AI for Product Management (in progress, 2026).",
       "Anthropic: AI Fluency Framework & Foundations (Feb 2026), Claude Code in Action (Feb 2026). Pendo.io: AI for Product Management (Feb 2026). (LinkedIn)",
-      "Languages: English (native); Danish (intermediate, Prøve i Dansk 3 passed, 2012); no French, despite the French nationality."
+      "Languages: English (native); Danish (intermediate, Prøve i Dansk 3 passed, 2012). French citizen, but not a French speaker."
     ],
     "external": []
   },
@@ -1139,7 +1139,7 @@
     ],
     "attested": [],
     "direct_answers": [
-      "The GenAI compliance proof of concept did not run beyond the POC stage.",
+      "Why it stopped at POC: it was built to test value, not to harden. Product teams used the Figma plugin on real designs and liked it, but a reorg and a vendor contract that covered the compliance-assistant use case meant it never got the second test or a path to production, and I moved on to the Wegovy Pill launch[NOVO.R2.WEGOVY]. Two tests were set; the first was run.",
       "Rollout: the compliance RAG and the Figma agent were built for every product team's release review; the product teams loved it, and designers could query the guidelines in Figma, so teams could shift left; built the mandate to pitch for Generative AI MLR reviews as a product and pitched senior leadership; execs weren't ready, and the project was handed to another team. Ways of working rolled out across organisations: design sprints, user testing and direct user interviews at LEO[LEO]; discovery, rapid prototyping and automated documentation at Novo, then a discovery playbook[NOVO.R1]."
     ],
     "external": []
@@ -2303,6 +2303,9 @@
   {
     "id": "TQ.PHARMA",
     "questions": [
+      "Has Tom worked in the food industry?",
+      "Does Tom have FMCG experience?",
+      "food industry experience",
       "Has Tom worked in financial services?",
       "Has Tom worked in fintech or banking?",
       "Does Tom have payments or insurance experience?",
@@ -2341,7 +2344,8 @@
     "attested": [],
     "direct_answers": [
       "Regulated environments shipped in: Novo Nordisk, where every release needs extensive review by medical, legal and regulatory experts (MLR), and release cycles went from yearly to bi-monthly[NOVO.R1]; LEO and Amgen, a patient-support app under strict regulatory and ethical constraints[LEO.R2]; UK2, ICANN liaison & compliance for over 500,000 customer domain names[UK2]; Host Europe, a Plc rename that included changing the stock market ticker[HOST.R1.REBRAND]. Health-tech: 10 years leading regulated products.",
-      "Financial services, banking, payments, insurance, fintech: no direct experience. Transferable: ten years shipping regulated products under review by medical, legal and regulatory experts[NOVO.R1], ICANN compliance for 500,000 domain names[UK2]."
+      "Financial services: no. Not worked in banking, payments, insurance or fintech, nor sold into them. Regulated-industry experience is pharma[NOVO.R1]; commercial and pricing experience is from hosting and SaaS: UK2 pricing[UK2], the Opbeat free tier and pricing[OPBEAT], the EuroDNS sales recovery[EURODNS.R1.TURNAROUND].",
+      "Food, nutrition, FMCG: TREAT, a personalised-nutrition app, is the only one[LEO.R1.TURNAROUND]. The Wegovy Pill packaging and direct-distribution work is consumer health, not FMCG[NOVO.R2.WEGOVY]."
     ],
     "external": []
   },
