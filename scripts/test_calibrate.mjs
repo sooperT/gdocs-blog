@@ -199,7 +199,7 @@ await test('POST JSON body: response shape, heuristic splitter without a key', w
   assert.deepEqual(b.rows.map(r => [r.requirement, r.met]), [['Fluent in Danish', 'fact'], ['Shipped consumer health apps', 'met'], ['Hands-on with discovery', 'partial']]);
   // R1012-22: the language line is a knockout, answered from the facts register in the brief's order.
   assert.equal(b.rows[0].kind, 'fact'); assert.equal(b.rows[0].fact_type, 'languages');
-  assert.match(b.rows[0].evidence, /Danish \(conversational\)/); assert.equal(b.rows[0].section, 'META.EDUCATION');
+  assert.match(b.rows[0].evidence, /Danish \(intermediate\)/); assert.equal(b.rows[0].section, 'META.EDUCATION');
   assert.equal(b.rows[0].score, null); assert.equal(b.rows[0].note, FACT_NOTE);
   assert.ok(logs.some(l => /"facts":\["languages"\],"facts_not_stated":\[\]/.test(l)));
   assert.equal(b.human_version, 'https://takenbyninjas.com/projects/tombot/');
@@ -593,7 +593,7 @@ await test('knockouts: a stated fact is a fact row; an unstated one is "not stat
   // Answer what was asked: an office location gets the onsite line, not the remote one.
   assert.equal(b.rows[0].evidence, 'Copenhagen, Denmark; Open to onsite roles in Copenhagen');
   assert.equal(answerFor('Fully remote role', classifyKnockout('Fully remote role')), 'Copenhagen, Denmark; remote roles across the EU');
-  assert.equal(answerFor('Fluent English', classifyKnockout('Fluent English')), 'English (native); Danish (conversational)');
+  assert.equal(answerFor('Fluent English', classifyKnockout('Fluent English')), 'English (native); Danish (intermediate); no French');
   assert.match(answerFor('Fluent in Danish', classifyKnockout('Fluent in Danish')), /Prøve i Dansk 3/);
   assert.deepEqual([b.rows[2].evidence, b.rows[2].section, b.rows[2].source, b.rows[2].score], [null, null, null, null]);
   assert.equal(b.rows[2].note, NOT_STATED_NOTE);
@@ -659,7 +659,7 @@ await test('N1012-15: a compensation line is on request, not a location; one lin
   assert.match(row.evidence, /^Location: Copenhagen, Denmark.*\. Nationality & work permit: British & French/);
   assert.equal(row.met, 'fact');
   const single = buildFactRow('Fluent English', classifyKnockouts('Fluent English'));
-  assert.equal(single.evidence, 'English (native); Danish (conversational)', 'one fact: unchanged, no label');
+  assert.equal(single.evidence, 'English (native); Danish (intermediate); no French', 'one fact: unchanged, no label');
   assert.deepEqual(types('Experience launching products in France'), []);
 });
 await test('N1012-12: start date is on request, a fact row with nothing to cite', async () => {
