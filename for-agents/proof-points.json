@@ -66,9 +66,9 @@
     {
       "type": "years",
       "label": "Years of experience",
-      "base": "10+ years building digital products (e-commerce websites excluded); 2.5 years in AI (Diagnosis App machine learning, agentic MLR); about 14 years managing people",
+      "base": "10+ years building digital products; 2.5 years in AI (Diagnosis App machine learning, agentic MLR); 10 years in growth roles; 10 years managing people, also happy as IC",
       "qualifiers": [],
-      "value": "10+ years building digital products (e-commerce websites excluded); 2.5 years in AI (Diagnosis App machine learning, agentic MLR); about 14 years managing people",
+      "value": "10+ years building digital products; 2.5 years in AI (Diagnosis App machine learning, agentic MLR); 10 years in growth roles; 10 years managing people, also happy as IC",
       "section": "META.ARC",
       "per_send": false,
       "on_request": false,
@@ -163,18 +163,14 @@
     {
       "type": "languages",
       "label": "Languages",
-      "base": "English (native); Danish (intermediate); no French",
+      "base": "English (native); Danish (intermediate); Prøve i Dansk 3 (Danish language certification, 2012)",
       "qualifiers": [
         {
-          "text": "Prøve i Dansk 3 (Danish language certification, 2012)",
-          "ask": "\\b(danish|dansk)\\b"
-        },
-        {
-          "text": "French citizen, but not a French speaker",
+          "text": "no French: French citizen, but not a French speaker",
           "ask": "\\b(french|fransk)\\b"
         }
       ],
-      "value": "English (native); Danish (intermediate); no French; Prøve i Dansk 3 (Danish language certification, 2012); French citizen, but not a French speaker",
+      "value": "English (native); Danish (intermediate); Prøve i Dansk 3 (Danish language certification, 2012); no French: French citizen, but not a French speaker",
       "section": "META.EDUCATION",
       "per_send": false,
       "on_request": false,

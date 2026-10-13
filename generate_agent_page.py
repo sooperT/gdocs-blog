@@ -97,10 +97,9 @@ PAGE_PATH = '/for-agents/'
 
 TITLE = 'Tom Stenson, product, Copenhagen: facts for agents'
 # Meta description (A2, Tom 2026-10-13): no single shape or engagement type; the four
-# shapes he is hired as, named without choosing. Counts are filled in at build time.
+# no list of shapes either (Tom, 2026-10-13 evening: any list boxes him in). Counts are filled in at build time.
 META_DESC = ('Tom Stenson, product, Copenhagen: facts for AI agents. Who he is, career table, '
-             '{points} proof points with sources, {refs} references. Hired as: fixer, AI transformation, '
-             'growth, head of product.')
+             '{points} proof points with sources, {refs} references.')
 
 PAGE_STYLE = '''    <style>
         /* Agent side: the plain-web opposite of the CRT human site */
@@ -201,9 +200,10 @@ FACTS = [
     # Years per area are Tom's stated count (R1013-13), never summed from role spans;
     # no ask patterns: a "5+ years" line stays an experience requirement.
     {'type': 'years', 'label': 'Years of experience',
-     'parts': [('10+ years building digital products (e-commerce websites excluded)', 'META.ARC'),
+     'parts': [('10+ years building digital products', 'META.ARC'),
                ('2.5 years in AI (Diagnosis App machine learning, agentic MLR)', 'META.ARC'),
-               ('about 14 years managing people', 'META.ARC')], 'asks': []},
+               ('10 years in growth roles', 'META.ARC'),
+               ('10 years managing people, also happy as IC', 'META.ARC')], 'asks': []},
     # Before location: a salary line often says "based in" too (Danske, knockout audit P6).
     {'type': 'compensation', 'label': 'Compensation', 'on_request': True, 'parts': [(ON_REQUEST, None)],
      'asks': [r'\bsalary\b', r'\bcompensation (range|package)\b', r'\b(base|total) (pay|comp)']},
@@ -223,9 +223,9 @@ FACTS = [
                ('BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)', 'META.EDUCATION')],
      'asks': [r'\bph\.?\s?d\b', r'\bm\.?sc\b', r'\bb\.?sc\b', r'\bmba\b', r'\bbachelor', r"\bmaster'?s\b", r'\bmaster of\b', r'\bdegree\b']},
     {'type': 'languages', 'label': 'Languages',
-     'parts': [('English (native)', 'META.EDUCATION'), ('Danish (intermediate)', 'META.EDUCATION'), ('no French', 'META.EDUCATION')],
-     'when': [('Prøve i Dansk 3 (Danish language certification, 2012)', 'META.EDUCATION', r'\b(danish|dansk)\b'),
-              ('French citizen, but not a French speaker', 'META.EDUCATION', r'\b(french|fransk)\b')],
+     'parts': [('English (native)', 'META.EDUCATION'), ('Danish (intermediate)', 'META.EDUCATION'),
+               ('Prøve i Dansk 3 (Danish language certification, 2012)', 'META.EDUCATION')],
+     'when': [('no French: French citizen, but not a French speaker', 'META.EDUCATION', r'\b(french|fransk)\b')],
      'asks': [r'\b(english|danish|german|french|spanish|swedish|norwegian|dutch)\b', r'\b(spoken|written|foreign|second) languages?\b', r'\blanguage skills\b',
               # Danish forms (health case A25: "Flydende dansk i skrift og tale")
               r'\b(engelsk|dansk|tysk|fransk|spansk|svensk|norsk|hollandsk)\b', r'\bsprog(kundskaber|krav|kompetencer)?\b', r'\bflydende\b']},
@@ -255,10 +255,11 @@ NOT_YET_STATED = 'not yet stated'
 # Identity table (Tom, 2026-10-12: a table, terse, only what an agent needs).
 # (term, [(fragment, section id or None)]): the facts of the register (unstated
 # ones as "not yet stated"), then the rows that are not screening questions.
-WHO = [(f['label'], (f['parts'] + [(t, sid) for t, sid, _ in f.get('when', [])]) or [(NOT_YET_STATED, None)])
+# Base facts only: the ask-triggered qualifiers (`when`) answer a brief, they are not notes for the table (Tom, 2026-10-13).
+WHO = [(f['label'], f['parts'] or [(NOT_YET_STATED, None)])
        for f in FACTS if not f.get('on_request')] + [
     ('Target industries', [('B2B, B2C, SaaS, health-tech, pharma, fintech, developer tooling, ecommerce, regulated industries', 'META.LOOKING')]),
-    ('Company size', [('Startup, Scaleup, Enterprise.', 'META.LOOKING')]),
+    ('Company size', [('Experience with Startup, Scaleup, Enterprise.', 'META.LOOKING')]),
     ('Availability, compensation, contact', [('On request: GET /ask?q=How can I contact Tom?', None)]),
     ('LinkedIn', [(LINKEDIN_URL, None)]),
     ('Endpoints', [(t, None) for t, _ in ENDPOINTS]),
@@ -356,10 +357,8 @@ SHAPES = [
     ('international', 'International and remote', 'international'),
 ]
 SHAPES_PATH = f'{PAGE_PATH}shapes/'
-# The shapes Tom is hired as (Tom, 2026-10-13: "a fixer, an AI transformation consultant,
-# a growth marketer, or a Head of Product"), one line at the top of the proof points,
-# each linking its shape page. No adjectives; the Who table carries the engagement types.
-HIRED_AS = [('fixer', 'turnaround'), ('AI transformation', 'ai'), ('growth', 'growth'), ('head of product', 'product-management')]
+# No "hired as" list on the page (Tom, 2026-10-13 evening): the shape groups below show
+# every kind of work without choosing; any list of four boxes him in.
 FACTS_ROWS_PER_SHAPE = 3   # the facts page shows this many per group; the shape page has all
 # Which rows lead each group on the facts page (Claude's judgement, Tom 2026-10-12: strongest
 # result and source first). Keyed by (product name, first words of the result); rows not listed
@@ -1445,13 +1444,8 @@ def build_proof_points(sections):
         for sh in row_shapes(row):
             if sh not in shape_ids:
                 sys.exit(f'✗ Unknown shape {sh!r} on proof point {row["product"][0]!r}')
-    for _, shape_id in HIRED_AS:
-        if shape_id not in shape_ids:
-            sys.exit(f'✗ HIRED_AS: no shape {shape_id!r}')
-    hired = ', '.join(f'<a href="{SHAPES_PATH}{sh}/">{escape(label)}</a>' for label, sh in HIRED_AS)
     lines = [
         '        <h2 id="proof-points">Proof points</h2>',
-        f'        <p>Hired as: {hired}.</p>',
         f'        <p>{len(PROOF_POINTS)} rows, grouped by role shape; a row can sit in two groups. Each group shows up to '
         f'{FACTS_ROWS_PER_SHAPE} rows here and links the rest. Indexes: <a href="{SHAPES_PATH}">by shape</a>, '
         f'<a href="{ROLES_PATH}">by role</a>, <a href="{KEYWORDS_PATH}">by skill</a>. '
