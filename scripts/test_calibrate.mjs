@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { SENIORITY, FUNCTION, SECTOR } from '../netlify/functions/lib/role_shape.js';
 import {
   splitBriefHeuristic, splitBriefLLM, parseRequirementArray, buildRow, createCalibrateHandler as createCalibrateHandlerRaw,
-  SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS, pickMatch, PP_MARGIN, plainEvidence, trimEvidence, nearestBelowThreshold, buildAdjacent, ADJACENT_MIN, ADJACENT_NOTE, BRIEF_THRESHOLD, sectionYear, evidenceQueries, parseEvidenceQueries, mergeMatches, EVIDENCE_SYSTEM_PROMPT, alsoRows,
+  SPLITTER_SYSTEM_PROMPT, SPLITTER_MODEL, MAX_BRIEF_CHARS, pickMatch, PP_MARGIN, plainEvidence, trimEvidence, nearestBelowThreshold, buildAdjacent, ADJACENT_MIN, ADJACENT_NOTE, BRIEF_THRESHOLD, sectionYear, evidenceQueries, parseEvidenceQueries, mergeMatches, EVIDENCE_SYSTEM_PROMPT, alsoRows, matchedFacet,
 } from '../netlify/functions/calibrate.js';
 import { createHandler as createAskHandlerRaw } from '../netlify/functions/ask.js';
 import { retrieve as realRetrieve } from '../netlify/functions/lib/retrieval.js';
@@ -148,7 +148,7 @@ await test('system prompt: no facts about Tom, no ranking language', async () =>
 // --- rows ---
 await test('row above threshold with year + outcome: met, evidence trimmed to 400', async () => {
   const row = buildRow('5+ years of product management experience', NOVO);
-  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'references', 'kind', 'evidence_star', 'role', 'product', 'page', 'skills', 'adjacent', 'fact_type', 'fact_types', 'also']);
+  assert.deepEqual(Object.keys(row), ['requirement', 'met', 'evidence', 'strength', 'year', 'section', 'source', 'tier', 'score', 'references', 'kind', 'evidence_star', 'role', 'product', 'page', 'skills', 'adjacent', 'fact_type', 'fact_types', 'also', 'facet']);
   assert.equal(row.kind, 'section');
   assert.equal(row.tier, 'self-reported');
   assert.equal(row.references.count > 0, true);
@@ -175,7 +175,7 @@ await test('row above threshold with no year: partial, short evidence not cut', 
 });
 await test('row below threshold: not met, null evidence and source', async () => {
   assert.deepEqual(buildRow('Danish is a plus', null),
-    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null, kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, fact_types: null, also: null });
+    { requirement: 'Danish is a plus', met: 'not met', evidence: null, strength: null, year: null, section: null, source: null, tier: null, score: null, references: null, kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, fact_types: null, also: null, facet: null });
 });
 await test('row on a section with no period: references null, tier self-reported', async () => {
   const row = buildRow('Hands-on with discovery', NOYEAR);
@@ -371,6 +371,62 @@ await test('item 31: a PP chunk without its row column falls back to section beh
   assert.equal(row.kind, 'section');
   assert.equal(row.section, 'PP.3');
 });
+
+// --- R1013-2: story facets (Tom's CV lines on a row; the one that matched is the evidence) ---
+const FACET = {
+  id: 'F04-2', label: 'Feedback inside Figma', text: 'Built AI prototype to give compliance feedback inside Figma, not months later.',
+  source: 'CV All Gravy, Senior Product Manager (CV body)', answers: 'AI built into the tool people already use',
+  variants: [{ text: 'Built an agentic RAG-based POC that replicated MLR review, letting product teams check compliance in design.', source: 'CV Neko Health, Principal Product Manager AI/LLM (CV body)' }],
+  tier: 'self-reported',
+};
+const PPF = { ...PP, row: { ...PP.row, facets: [FACET] } };
+await test('R1013-2: the facet whose line matched is the evidence; the result cell stays the outcome; the source names the CV', async () => {
+  for (const q of [FACET.text, FACET.answers, FACET.variants[0].text, `  ${FACET.text}  `]) {
+    const row = buildRow('Hands-on experience building AI-native products', { ...PPF, question_text: q });
+    assert.equal(row.kind, 'proof-point');
+    assert.equal(row.evidence, FACET.text, `facet line is the evidence for ${JSON.stringify(q)}`);
+    assert.equal(row.evidence_star.result, PP.row.result.text, 'the result cell is untouched');
+    assert.equal(row.met, 'met', 'met still comes from result and year');
+    assert.equal(row.section, 'NOVO.R2.GENAI');
+    assert.equal(row.source, 'TomBot NOVO.R2.GENAI', 'the row source stays the section; the CV is on the facet');
+    assert.deepEqual(row.facet, { id: 'F04-2', label: 'Feedback inside Figma', source: FACET.source, tier: 'self-reported' });
+    assert.ok(row.facet.source.startsWith('CV '), 'provenance: the CV it came from');
+    assert.ok(isValidRow(row));
+  }
+});
+await test('R1013-2: a cell or a skill that matched, or a row with no facets, gives the result cell and facet null', async () => {
+  const byCell = buildRow('x', { ...PPF, question_text: 'GenAI proof of concept' });
+  assert.equal(byCell.evidence, PP.row.result.text);
+  assert.equal(byCell.facet, null);
+  const noFacets = buildRow('x', { ...PP, question_text: FACET.text });
+  assert.equal(noFacets.evidence, PP.row.result.text);
+  assert.equal(noFacets.facet, null);
+  assert.equal(buildRow('x', { ...PPF, question_text: null }).facet, null);
+  assert.equal(matchedFacet(null, 'x'), null);
+  assert.equal(matchedFacet({ facets: 'not a list' }, FACET.text), null);
+  assert.equal(matchedFacet(PPF.row, ''), null);
+  assert.equal(matchedFacet(PPF.row, FACET.text), FACET);
+});
+await test('R1013-2: also rows and adjacent keep the result cell as evidence even when a facet line matched', async () => {
+  const second = { ...PPF, title: 'PP.9', similarity: 0.66, question_text: FACET.text,
+    row: { ...PPF.row, product: { text: 'Wegovycare', section: 'NOVO.R1' }, result: { text: 'Wegovycare result', section: 'NOVO.R1' } } };
+  const also = alsoRows([{ ...PPF, question_text: FACET.text }, second], PPF);
+  assert.equal(also.length, 1);
+  assert.equal(also[0].evidence, 'Wegovycare result', 'the appendix finds a row by its result');
+  const adj = buildAdjacent({ ...PPF, similarity: 0.5, question_text: FACET.text });
+  assert.equal(adj.evidence, FACET.text, 'the nearest row shows the face that matched');
+});
+await test('R1013-2: handler: a facet row passes the guard and the trust contract; the response carries the facet', withLogs(async () => {
+  const h = createCalibrateHandler({ retrieve: async () => ({ match: { ...PPF, question_text: FACET.text }, topMatch: PPF, matches: [{ ...PPF, question_text: FACET.text }] }), env: {} });
+  const res = await h(req('/ask/brief?brief=' + encodeURIComponent('Hands-on experience building AI-native products.')));
+  assert.equal(res.status, 200);
+  const b = await body(res);
+  assertTrustContract(b);
+  assert.equal(b.rows.length, 1);
+  assert.equal(b.rows[0].evidence, FACET.text);
+  assert.equal(b.rows[0].facet.source, FACET.source);
+  assert.equal(b.rows[0].evidence_star.result, PP.row.result.text);
+}));
 await test('item 31: handler asks retrieval for all kinds, 5 deep; PP rows pass the map guard via their result section', withLogs(async () => {
   const seen = [];
   const h = createCalibrateHandler({ retrieve: async (q, opts) => { seen.push(opts); return { match: PP, topMatch: PP, matches: [PP] }; }, env: {} });

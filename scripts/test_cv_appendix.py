@@ -379,5 +379,34 @@ for path in saved:
     if hidden and name == os.path.basename(saved[0]).removesuffix('.json'):
         warn('smoke: a first-person word inside a URL-encoded link', f'{hidden} in the Notes contact link (the asker\'s question to /ask)')
 
+# --- Story facets (R1013-2): on the real rows, and their provenance in the appendix ---
+
+facets = [(r, f) for r in ROWS['proof_points'] for f in (r.get('facets') or [])]
+check('facets: every row carries a facets list', all(isinstance(r.get('facets'), list) for r in ROWS['proof_points']))
+check('facets: 161 facets on 30 rows', (len(facets), sum(1 for r in ROWS['proof_points'] if r.get('facets'))) == (161, 30),
+      (len(facets), sum(1 for r in ROWS['proof_points'] if r.get('facets'))))
+check('facets: each names the CV it came from, tier self-reported, never attested',
+      all(f['source'].startswith('CV ') and f['tier'] == 'self-reported' and 'attested' not in json.dumps(f) for _, f in facets))
+check('facets: each has an id, a label, a line and what it answers', all(f['id'] and f['label'] and f['text'] and f['answers'] for _, f in facets))
+check('facets: the file says what they are', ROWS.get('facets', '').startswith("Each row's `facets` are lines from CVs Tom sent"))
+diag = next(r for r in ROWS['proof_points'] if text_of(r, 'product') == 'Diagnosis App')
+check('R1013-1: Diagnosis App facets say 12 and build, with the correction noted',
+      all('10-person' not in f['text'] and '10 person' not in f['text'] and 'ship' not in f['text'].lower() for f in diag['facets'])
+      and sum(1 for f in diag['facets'] if f.get('edited')) == 3)
+treat = next(r for r in ROWS['proof_points'] if text_of(r, 'product') == 'TREAT')
+check('R1013-1: TREAT facets say 15', any(' 15' in f['text'] for f in treat['facets']) and not any('17' in f['text'] for f in treat['facets']))
+check('R1013-1: domain search and the order process are still two rows with their own facets',
+      all(next(r for r in ROWS['proof_points'] if text_of(r, 'product') == p).get('facets') for p in ('domain search', 'online order process')))
+
+F = diag['facets'][0]
+facet_brief = {'rows': [dict(pp_row(REQ['pp'], diag), facet={'id': F['id'], 'label': F['label'], 'source': F['source'], 'tier': 'self-reported'})]}
+f_out, _ = c.build(facet_brief, ROWS, JD, tag='harbour-2', applying=JD)
+f_line = fit_pairs(f_out)[0][3]
+check('facets: the appendix names the CV the matched facet came from, before the link',
+      f" Source: {c.end(F['source'])} {diag['page']}" in f_line, f_line)
+check('facets: the facet line itself is not printed in the appendix (first person stays in the CV)', F['text'] not in f_out and not first_person(f_out), first_person(f_out))
+check('facets: a brief row with no facet prints as before', fit_pairs(c.build({'rows': [pp_row(REQ['pp'], diag)]}, ROWS, JD, tag='harbour-3', applying=JD)[0])[0][3]
+      == f_line.replace(f" Source: {c.end(F['source'])}", ''))
+
 print(f'\n{passed} passed, {failed} failed' + (f', {warned} warnings' if warned else ''))
 sys.exit(1 if failed else 0)

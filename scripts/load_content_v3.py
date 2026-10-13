@@ -12,12 +12,16 @@ all pointing to the same answer content but with different question embeddings.
 """
 
 import os
+import sys
 import json
 import time
 from pathlib import Path
 import requests
 from db_target import resolve_db
 import psycopg2
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from pylib.story_facets import facet_route_terms   # noqa: E402
 
 
 NILEDB_URL = resolve_db("DELETE every chunk and reload")   # loads .env (keys) and the env file (database) first
@@ -85,7 +89,9 @@ def _t(cell):
 
 def proof_point_section(i, r):
     """One STAR row -> a pseudo-section: content is the row as text, questions are the
-    terms a job requirement would use (product, what it is, result, role, company, skills)."""
+    terms a job requirement would use (product, what it is, result, role, company, skills),
+    plus the row's story facets (R1013-2): each CV line, what it answers, its variants.
+    The facet line that matches comes back as question_text; calibrate.js returns it."""
     parts = []
     for label, key in (("Role", "role"), ("Product", "product"), ("What it is", "desc"), ("Situation", "situation"),
                        ("Task", "task"), ("Action", "action"), ("Result", "result"), ("Year", "year")):
@@ -104,6 +110,9 @@ def proof_point_section(i, r):
             questions.append(sk)
     if r.get("company") and r["company"] not in questions:
         questions.append(r["company"])
+    for term in facet_route_terms(r.get("facets")):
+        if term not in questions:
+            questions.append(term)
     return {
         "id": f"PP.{i}",
         "questions": questions,

@@ -87,5 +87,33 @@ if os.path.exists(CONTENT_FILE):
     hidden = [c['id'] for c in chunks for a in c['attested'] if a['name'] in ('Martin Baker', 'Paul Hugh Mollin', 'Tristan Slessor')]
     check('real content: no hidden recommender', not hidden)
 
+# Story facets (R1013-2): the route terms a row's facets add for the loader.
+sys.path.insert(0, ROOT)
+from pylib.story_facets import FACETS, ROW_PRODUCTS, UNPLACED, facet_route_terms, facet_json  # noqa: E402
+
+terms = facet_route_terms([
+    {'text': 'Line one.', 'answers': 'growth, activation', 'variants': [{'text': 'Line one, again.'}, {'text': 'Line one.'}]},
+    {'text': 'Line two.', 'answers': 'growth, activation', 'variants': []},
+    {'text': '', 'answers': None},
+])
+check('facets: route terms are the line, what it answers and the variants, in order, deduplicated', terms == ['Line one.', 'growth, activation', 'Line one, again.', 'Line two.'])
+check('facets: no facets, no terms', facet_route_terms(None) == [] and facet_route_terms([]) == [])
+check('facets: every row key has a product to check against', all(k in ROW_PRODUCTS for k in FACETS))
+all_facets = [f for v in FACETS.values() for f in v]
+check('facets: 161 placed on 30 rows, 8 unplaced (the draft\'s 169)', (len(all_facets), len(FACETS), len(UNPLACED)) == (161, 30, 8))
+check('facets: ids unique', len({f['id'] for f in all_facets + UNPLACED}) == len(all_facets) + len(UNPLACED))
+check('facets: every one has a line, a CV source and what it answers',
+      all(f['text'] and f['source'].startswith('CV ') and f['answers'] for f in all_facets + UNPLACED))
+check('facets: every variant has a line and a CV source',
+      all(v['text'] and v['source'].startswith('CV ') for f in all_facets for v in f['variants']))
+check('facets: the published shape carries the tier and the correction note',
+      facet_json(all_facets[0])['tier'] == 'self-reported' and all('edited' in facet_json(f) for f in all_facets if f.get('edited')))
+check('R1013-1: Diagnosis App facets say 12, and build, not ship',
+      all('10-person' not in f['text'] and '10 person' not in f['text'] and 'ship' not in f['text'].lower() for f in FACETS['R13']))
+check('R1013-1: TREAT facets with a team size say 15, never 17', all('17' not in f['text'] for f in FACETS['R15'])
+      and any('15' in f['text'] for f in FACETS['R15']))
+check('R1013-1: the domain search and the order process keep their facets on their own rows, not split or merged',
+      FACETS['R27'] and FACETS['R28'] and {f['id'][:3] for f in FACETS['R27']} == {'F27'} and {f['id'][:3] for f in FACETS['R28']} == {'F28'})
+
 print(f'\n{passed} passed, {failed} failed')
 sys.exit(1 if failed else 0)

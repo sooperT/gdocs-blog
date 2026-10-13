@@ -39,6 +39,7 @@ from html import escape as _escape
 from urllib.parse import quote
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts'))
+from pylib.story_facets import FACETS as STORY_FACETS, ROW_PRODUCTS as FACET_ROW_PRODUCTS, facet_json
 from parse_content import parse_content_doc  # noqa: E402
 from pylib.config import SITE_URL  # noqa: E402
 
@@ -829,6 +830,17 @@ def row_keywords(sections, row):
     text = row_text(sections, row)
     skip = row.get('not_skills', ())   # a row may rule a tag out: "Claude as my engineering team" is not team leadership
     return [(term, slug) for term, slug, pats in KEYWORDS if slug not in skip and any(pat in text for pat in pats)]
+
+
+def row_facets(n):
+    """Story facets for row n (1-based, the draft's R<nn>): Tom's own CV lines (R1013-2),
+    each with the CV it came from. Keyed by row number, so the product name is checked."""
+    rid = f'R{n:02d}'
+    if rid not in FACET_ROW_PRODUCTS:
+        sys.exit(f'✗ facets: no product recorded for row {rid}')
+    if PROOF_POINTS[n - 1]['product'][0] != FACET_ROW_PRODUCTS[rid]:
+        sys.exit(f'✗ facets: row {rid} is {PROOF_POINTS[n - 1]["product"][0]!r}, the facets expect {FACET_ROW_PRODUCTS[rid]!r}')
+    return [facet_json(f) for f in STORY_FACETS.get(rid, [])]
 
 
 # "On request" facts send an agent to the contact answer (META.CONTACT) via /ask.
@@ -1813,11 +1825,11 @@ def generate_recommendations(recs):
 
 
 def proof_points_json(sections):
-    """The 20 rows as JSON: the same cells as the table, each with its section id, plus keywords, shapes, page."""
+    """The rows as JSON: the same cells as the table, each with its section id, plus keywords, shapes, page, facets."""
     strengths = load_strengths(sections)
     where = section_pages()
     rows = []
-    for row in PROOF_POINTS:
+    for n, row in enumerate(PROOF_POINTS, 1):
         slug, anchor = where.get(row['product'][1]) or where.get(row['strength']) or (None, None)
         r = {}
         for key in ('role', 'product', 'desc', 'situation', 'task', 'action', 'result', 'year'):
@@ -1834,8 +1846,11 @@ def proof_points_json(sections):
         r['page'] = f'https://takenbyninjas.com{page_url(slug, anchor)}' if slug else None
         r['role_page'] = f'https://takenbyninjas.com{ROLES_PATH}{role_slug(row)}/'
         r['role_aliases'] = ROLE_ALIASES.get(row['role'][0], [])
+        r['facets'] = row_facets(n)
         rows.append(r)
     data = {'generated': GENERATED, 'source': 'Tom\'s own account (tier: self-reported); each row cites its TomBot section id',
+            'facets': 'Each row\'s `facets` are lines from CVs Tom sent, verbatim (tier: self-reported; `source` names the CV). '
+                      'A brief returns the facet that matched a requirement as its evidence; the row\'s result cell stays the outcome.',
             'human_version': 'https://takenbyninjas.com/about/', 'facts_page': PAGE_URL,
             'references': f'https://takenbyninjas.com{RECS_PATH}', 'shapes': [{'id': i, 'label': l} for i, l, _ in SHAPES],
             'screening_facts': facts_register(sections)['facts'],
@@ -2100,7 +2115,7 @@ def main():
         write(f'for-agents/{slug}/index.html', html)
     print(f'✓ {len(kw_pages) - 1} skill, {len(role_pages) - 1} role and {len(shape_pages) - 1} shape pages generated, each with an index')
     write('for-agents/proof-points.json', proof_points_json(sections))
-    print('✓ for-agents/proof-points.json written')
+    print(f'✓ for-agents/proof-points.json written ({sum(len(STORY_FACETS.get(f"R{n:02d}", [])) for n in range(1, len(PROOF_POINTS) + 1))} facets on {sum(1 for n in range(1, len(PROOF_POINTS) + 1) if STORY_FACETS.get(f"R{n:02d}"))} rows)')
     md_text, cv_html = build_cv_appendix(sections, recs)
     write(CV_APPENDIX_MD, md_text)
     write('for-agents/cv-appendix/index.html', cv_html)

@@ -259,7 +259,7 @@ export function sectionYear(title, table = SECTION_YEARS) {
   return y || years[title] || null;
 }
 
-const NO_STAR = { kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, fact_types: null, also: null };
+const NO_STAR = { kind: null, evidence_star: null, role: null, product: null, page: null, skills: null, adjacent: null, fact_type: null, fact_types: null, also: null, facet: null };
 
 // More than one example (Tom, 2026-10-12): the other STAR rows that cleared
 // the threshold for this requirement, a different product each, best first.
@@ -274,7 +274,7 @@ export function alsoRows(matches, chosen, { max = MAX_ALSO } = {}) {
     const product = m.row.product?.text;
     if (!product || taken.has(product) || !m.row.result?.text) continue;
     taken.add(product);
-    const r = buildProofPointRow('', m);
+    const r = buildProofPointRow('', m, { facets: false });   // the result cell: the appendix finds the row by it
     out.push({ evidence: r.evidence, role: r.role, product: r.product, year: r.year, section: r.section, page: r.page, score: r.score });
     if (out.length === max) break;
   }
@@ -312,19 +312,35 @@ export function buildFactRow(requirement, facts) {
   };
 }
 
-// A STAR row (PP.<n> chunk, item 31): evidence is the result cell, the section
-// is the result's section id (always in the map), evidence_star carries the
-// four cells. met: a result counts as an outcome, so year decides.
-function buildProofPointRow(requirement, match) {
+// Story facets (R1013-2, N1012-14): a row carries Tom's own CV lines, each
+// embedded as a route term. When the term that matched (question_text) is a
+// facet's line, one of its variants, or what it answers, that facet is the
+// evidence: the same story, the face Tom shows this kind of ad. The result
+// cell stays in evidence_star and still decides met / partial.
+export function matchedFacet(row, questionText) {
+  const facets = Array.isArray(row?.facets) ? row.facets : [];
+  const q = typeof questionText === 'string' ? questionText.trim() : '';
+  if (!q) return null;
+  const same = (s) => typeof s === 'string' && s.trim() === q;
+  return facets.find(f => same(f.text) || same(f.answers) || (Array.isArray(f.variants) && f.variants.some(v => same(v.text)))) || null;
+}
+
+// A STAR row (PP.<n> chunk, item 31): evidence is the result cell, or the facet
+// that matched; the section is the result's section id (always in the map),
+// evidence_star carries the four cells. met: a result counts as an outcome, so
+// year decides.
+function buildProofPointRow(requirement, match, { facets = true } = {}) {
   const r = match.row;
   const cell = (k) => (r[k] && typeof r[k].text === 'string' ? r[k].text : null);
   const section = r.result?.section || r.product?.section;
   const result = cell('result');
   const year = cell('year') ? deriveYear(cell('year')) || cell('year') : null;
+  const facet = facets ? matchedFacet(r, match.question_text) : null;
+  const line = facet && typeof facet.text === 'string' ? facet.text : result;
   return {
     requirement,
     met: year && result ? 'met' : 'partial',
-    evidence: result ? trimEvidence(applyDenyList(result).text) : null,
+    evidence: line ? trimEvidence(applyDenyList(line).text) : null,
     strength: r.strength || null,
     year,
     section,
@@ -342,6 +358,7 @@ function buildProofPointRow(requirement, match) {
     fact_type: null,
     fact_types: null,
     also: null,
+    facet: facet ? { id: facet.id || null, label: facet.label || null, source: facet.source || null, tier: facet.tier || SELF_REPORTED } : null,
   };
 }
 

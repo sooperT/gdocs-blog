@@ -180,6 +180,10 @@ def fit_rows(resp, rows_json):
         if local:
             row.update(star=star_of(local), who=who_of(local), link=local.get('page') or row['link'], local=local)
             used_products.add(cell(local, 'product'))
+            # The story facet that matched (R1013-2): its CV is named, its line is not
+            # printed here (first person, R1012-22); the brief carries the line.
+            if isinstance(r.get('facet'), dict) and r['facet'].get('source'):
+                row['facet_source'] = ' '.join(str(r['facet']['source']).split())
         else:
             row['pointer'] = True
         out.append(row)
@@ -219,6 +223,8 @@ def fit_plain(rows, section_pages):
             cells = ('result',) if r['same_as'] else ('result', 'action')
             said = ' '.join(end(cell(first, k)) for k in cells if cell(first, k)) + f' {who_of(first)}.'
             said += ''.join(f" Also: {end(cell(x, 'result'))} {who_of(x)}." for x in stories[1:])
+            if r.get('facet_source'):
+                said += f" Source: {end(r['facet_source'])}"
             said += f" {first.get('page') or link or SITE + '/for-agents/'}"
         elif r['pointer']:
             said = f"On record, no summarised story yet. {link or SITE + '/for-agents/'}"
