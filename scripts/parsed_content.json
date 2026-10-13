@@ -376,6 +376,8 @@
   {
     "id": "META.COMPETENCIES",
     "questions": [
+      "Does Tom thrive in ambiguity?",
+      "Can Tom create clarity from ambiguity?",
       "What are your strengths?",
       "What are you good at?",
       "What are your core competencies?",
@@ -2631,6 +2633,14 @@
   {
     "id": "TQ.APPROACH",
     "questions": [
+      "Can Tom create structure in an ambiguous situation?",
+      "Has Tom worked without a plan or a playbook?",
+      "Can Tom bring structure to a fast-moving, ambiguous problem?",
+      "Has Tom started something from a blank page?",
+      "How does Tom handle ambiguity?",
+      "structure in ambiguity",
+      "no playbook",
+      "blank page",
       "How do you approach building software?",
       "What is your product process?",
       "How do you start a new project?",
@@ -2657,7 +2667,9 @@
       }
     ],
     "attested": [],
-    "direct_answers": [],
+    "direct_answers": [
+      "Structure in ambiguity, the cases: Skincoach[LEO.R2], the Diagnosis App[LEO.R3], TREAT[LEO.R1.TURNAROUND], TwentyThree[T23], the UK2 US turnaround[UK2.R1.USTURNAROUND], the incubation playbook at Novo[NOVO.R2], Wegovycare (there was a plan, but the wrong one)[NOVO.R1], the CagriSema discovery[NOVO.R2]."
+    ],
     "external": []
   },
   {
