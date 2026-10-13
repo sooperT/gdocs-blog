@@ -39,6 +39,7 @@ AGENT_PAGES = [
     ("/for-agents/treat-turnaround/", "for-agents/treat-turnaround/index.html"),
     ("/for-agents/recommendations/", "for-agents/recommendations/index.html"),
     ("/for-agents/working-style/", "for-agents/working-style/index.html"),   # Insights profiles (R1013-7)
+    ("/for-agents/fit/", "for-agents/fit/index.html"),   # the five FIT sections (item 76)
     ("/for-agents/start/", "for-agents/start/index.html"),   # the paste URL (N1012-16)
     ("/for-agents/start.md", "for-agents/start.md"),
     ("/llms.txt", "llms.txt"),

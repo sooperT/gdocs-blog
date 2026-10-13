@@ -96,6 +96,11 @@
       "file": "for-agents/international/index.html",
       "title": "International and remote"
     },
+    "fit": {
+      "path": "/for-agents/fit/",
+      "file": "for-agents/fit/index.html",
+      "title": "Fit: how Tom works, what he brings, what he is not for"
+    },
     "skills": {
       "path": "/for-agents/skills/",
       "file": "for-agents/skills/index.html",

@@ -1014,6 +1014,15 @@ PAGES = [
      'opening': ('THEME.INTERNATIONAL', "I've worked across multiple countries and managed remote and distributed "
                                         "teams throughout my career:"),
      'sections': ['THEME.INTERNATIONAL']},
+    # Fit, the five facets (Tom, 2026-10-13 evening): chat-product agents cannot call
+    # /ask with their own words, so Job 5 reads these sections here instead.
+    {'slug': 'fit', 'title': 'Fit: how Tom works, what he brings, what he is not for', 'title_in': None, 'period': None,
+     'opening': ('FIT.FIXER', "I'm a fixer. I work on the really difficult stuff, the problems that are too hard or too messy "
+                              "for most people to get moving, and I like to solve them and move on."),
+     'sections': ['FIT.FIXER', 'FIT.ENV', 'FIT.TEAM', 'FIT.MANAGER', 'FIT.NOT'],
+     'headings': {'FIT.FIXER': 'The work he is best at', 'FIT.ENV': 'Organisation: where he works well',
+                  'FIT.TEAM': 'Team: what he brings', 'FIT.MANAGER': 'What he needs from leadership',
+                  'FIT.NOT': 'What he is not a fit for'}},
 ]
 
 # Recommendations (R1012-13, R1012-15): LinkedIn export, full text.
@@ -1724,11 +1733,11 @@ def ask_link(question):
     return f'{ASK_URL}?q={quote(question)}'
 
 
-def build_section(sections, parsed, sid, where):
+def build_section(sections, parsed, sid, where, heading=None):
     """One section on a page: heading (its first routing question), source line, verbatim
     body, accepted direct answers and external links, and the questions to ask next."""
     p = parsed[sid]
-    heading = p['questions'][0] if p['questions'] else sid
+    heading = heading or (p['questions'][0] if p['questions'] else sid)
     lines = [
         f'        <h2 id="{section_anchor(sid)}">{escape(heading)}</h2>',
         f'        <p><small data-source="{_escape(sid)}">source: Tom\'s own account</small></p>',
@@ -1811,7 +1820,7 @@ def generate_page(sections, parsed, page, recs):
         body.append(f'        <h2 id="proof-points">Proof points: {len(rows)}</h2>')
         body += render_table(sections, load_strengths(sections), where, rows)
     for sid in page['sections']:
-        body += build_section(sections, parsed, sid, where)
+        body += build_section(sections, parsed, sid, where, heading=page.get('headings', {}).get(sid))
     body += [f'        <p><a href="{PAGE_PATH}">All proof points</a></p>', '    </main>', '']
     html = '\n'.join([
         agent_head(escape(page['title']), _escape(page['opening'][1]), path),

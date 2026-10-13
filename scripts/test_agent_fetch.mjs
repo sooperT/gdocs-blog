@@ -59,7 +59,7 @@ await test('GET /for-agents/ -> 200 html, cache header, file body', async () => 
   assert.equal(res.status, 200);
   assert.equal(res.headers.get('content-type'), 'text/html; charset=utf-8');
   assert.equal(res.headers.get('cache-control'), CACHE_CONTROL);
-  assert.equal(CACHE_CONTROL, 'public, max-age=86400');
+  assert.equal(CACHE_CONTROL, 'public, max-age=300');
   assert.equal(await res.text(), FILES['for-agents/index.html']);
   assert.equal(pool.calls.length, 1);
 });

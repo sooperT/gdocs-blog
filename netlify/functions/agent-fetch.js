@@ -18,7 +18,9 @@ import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join, resolve } from 'path';
 
-export const CACHE_CONTROL = 'public, max-age=86400';
+// Five minutes, not a day: AI fetchers (ChatGPT, Claude.ai) honour max-age, and a
+// day-old copy of the entry file outlived the cut-over deploy (2026-10-13).
+export const CACHE_CONTROL = 'public, max-age=300';
 
 // Function responses bypass _headers, so non-production deploys add the
 // noindex themselves (netlify.toml appends it to _headers for static files).
