@@ -611,6 +611,12 @@ await test('knockouts: a stated fact is a fact row; an unstated one is "not stat
   assert.equal(isValidRow({ ...b.rows[0], score: 0.9 }), false, 'a fact has no score');
   assert.equal(isValidRow({ ...b.rows[2], met: 'not met' }), false);
 }));
+await test('splitter prompt: a one-line brief is one requirement, never an empty array', async () => {
+  assert.match(SPLITTER_SYSTEM_PROMPT, /one line with no list is one requirement/);
+  assert.match(SPLITTER_SYSTEM_PROMPT, /Never return an empty array/);
+  assert.equal(parseRequirementArray('[]'), null);
+});
+
 await test('section years: a drill-down inherits its role year; a section with its own year keeps it; unknown null', async () => {
   const table = { years: { 'NOVO.R2': 'Feb 2022 - Feb 2026', 'NOVO.R2.GENAI': 'Feb 2022 - Feb 2026' } };
   assert.equal(sectionYear('NOVO.R2.GENAI', table), '2022-2026');

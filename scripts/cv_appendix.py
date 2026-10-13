@@ -253,6 +253,11 @@ def experience_by_area(rows_json, only=None):
     per role shape, the employers and the span of the stories there, linked to
     the shape page. Derived from the rows; no total is claimed."""
     out = []
+    # Tom's own count first (R1013-13): the spans below are where the stories
+    # sit, not years to add up.
+    yrs = next((f for f in rows_json.get('screening_facts', []) if f.get('type') == 'years'), None)
+    if yrs and yrs.get('value'):
+        out.append(f"- Tom's own count: {yrs['value']}. The spans below are where the stories sit, not years to add up.")
     for sh in rows_json.get('shapes', []):
         by_co = {}
         for r in rows_json.get('proof_points', []):

@@ -198,6 +198,12 @@ FACTS = [
     {'type': 'name', 'label': 'Name', 'parts': [('Tom Stenson', None), ('also Thomas Traberg Stenson', None)], 'asks': []},
     {'type': 'last_role', 'label': 'Most recent role',
      'parts': [('Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026)', 'NOVO.R2')], 'asks': []},
+    # Years per area are Tom's stated count (R1013-13), never summed from role spans;
+    # no ask patterns: a "5+ years" line stays an experience requirement.
+    {'type': 'years', 'label': 'Years of experience',
+     'parts': [('10+ years building digital products (e-commerce websites excluded)', 'META.ARC'),
+               ('2.5 years in AI (Diagnosis App machine learning, agentic MLR)', 'META.ARC'),
+               ('about 14 years managing people', 'META.ARC')], 'asks': []},
     # Before location: a salary line often says "based in" too (Danske, knockout audit P6).
     {'type': 'compensation', 'label': 'Compensation', 'on_request': True, 'parts': [(ON_REQUEST, None)],
      'asks': [r'\bsalary\b', r'\bcompensation (range|package)\b', r'\b(base|total) (pay|comp)']},
@@ -494,7 +500,7 @@ PROOF_POINTS = [
         'product': ('Head of Patient Products', 'NOVO.R2'),
         'desc': ('consumer engagement products', 'NOVO.R2'),
         'situation': ('Overcame resistance to establish weekly demos and experiment sharing.', 'NOVO.R2'),
-        'task': ('led 6 experienced PMs building consumer engagement products. Management by outcomes.', 'NOVO.R2'),
+        'task': ('led 6 experienced PMs building consumer engagement products, for a period, before moving into the pill team where the need was greatest. Management by outcomes.', 'NOVO.R2'),
         'action': ('Broke product silos and encouraged learning loops.', 'NOVO.R2'),
         'result': None,
         'year': ('Feb 2022 - Feb 2026', 'NOVO.R2'),
@@ -2276,7 +2282,7 @@ COMPANY_CONTEXT = [
      'skills': ['healthcare'],
      'products': ['Wegovycare', 'Wegovy Pill launch', 'CagriSema', 'GenAI proof of concept for automating compliance reviews', 'Digital Incubation', 'Product Operations'],
      'roles': [{'role': 'Associate Product Director at Novo Nordisk', 'levels': ['head-of-product'],
-                'scope': ('Head of Patient Products: led 6 experienced PMs building consumer engagement products.', 'NOVO.R2')},
+                'scope': ('Head of Patient Products: led 6 experienced PMs building consumer engagement products, for a period, before moving into the pill team where the need was greatest.', 'NOVO.R2')},
                {'role': 'Senior Product Manager at Novo Nordisk', 'levels': [],
                 'scope': ('Led cross-functional team of 10.', 'NOVO.R1')}]},
     {'company': 'LEO Innovation Lab', 'section': 'LEO', 'sectors': ['health', 'pharma'], 'environments': ['startup', 'incubator', 'corporate'],

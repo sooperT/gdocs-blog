@@ -6,6 +6,7 @@ This page is a machine-readable summary of the CV above, generated from the same
 
 - Name: Tom Stenson; also Thomas Traberg Stenson
 - Most recent role: Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026)
+- Years of experience: 10+ years building digital products (e-commerce websites excluded); 2.5 years in AI (Diagnosis App machine learning, agentic MLR); about 14 years managing people
 - Location: Copenhagen, Denmark; Onsite in Copenhagen up to four days a week, some flexibility preferred; remote roles across the EU and UK; worked on-site, hybrid and remote, and across time zones
 - Nationality & work permit: British & French; Danish permanent resident; no work visa is required in EU and UK.
 - Education: MA Information Technology — University of Nottingham, UK (2001-2002); BSc (Hons) Biological Sciences — University of Birmingham, UK (1998-2001)

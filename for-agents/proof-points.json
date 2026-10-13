@@ -64,6 +64,17 @@
       "asks": []
     },
     {
+      "type": "years",
+      "label": "Years of experience",
+      "base": "10+ years building digital products (e-commerce websites excluded); 2.5 years in AI (Diagnosis App machine learning, agentic MLR); about 14 years managing people",
+      "qualifiers": [],
+      "value": "10+ years building digital products (e-commerce websites excluded); 2.5 years in AI (Diagnosis App machine learning, agentic MLR); about 14 years managing people",
+      "section": "META.ARC",
+      "per_send": false,
+      "on_request": false,
+      "asks": []
+    },
+    {
       "type": "compensation",
       "label": "Compensation",
       "base": "On request: GET /ask?q=How%20can%20I%20contact%20Tom%3F",
@@ -316,7 +327,7 @@
             "head-of-product"
           ],
           "scope": {
-            "text": "Head of Patient Products: led 6 experienced PMs building consumer engagement products.",
+            "text": "Head of Patient Products: led 6 experienced PMs building consumer engagement products, for a period, before moving into the pill team where the need was greatest.",
             "section": "NOVO.R2"
           },
           "years": "2022-2026",
@@ -1734,7 +1745,7 @@
       "task": {
         "text": "Lead 6 experienced PMs building consumer engagement products, managing by outcomes.",
         "section": "NOVO.R2",
-        "quote": "led 6 experienced PMs building consumer engagement products. Management by outcomes."
+        "quote": "led 6 experienced PMs building consumer engagement products, for a period, before moving into the pill team where the need was greatest. Management by outcomes."
       },
       "action": {
         "text": "Broke product silos, established weekly demos and experiment sharing against resistance, encouraged learning loops.",

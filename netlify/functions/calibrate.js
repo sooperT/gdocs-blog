@@ -44,6 +44,7 @@ export const SPLITTER_SYSTEM_PROMPT = [
   'Include skills, experience, qualifications, languages, location and working-pattern conditions.',
   'Leave out company descriptions, benefits and application instructions.',
   'At most 16 items, in the order they appear in the brief.',
+  'A brief of one line with no list is one requirement, returned as written. Never return an empty array.',
 ].join('\n');
 
 function json(body, status = 200, extraHeaders = {}) {

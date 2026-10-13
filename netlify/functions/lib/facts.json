@@ -25,6 +25,17 @@
       "asks": []
     },
     {
+      "type": "years",
+      "label": "Years of experience",
+      "base": "10+ years building digital products (e-commerce websites excluded); 2.5 years in AI (Diagnosis App machine learning, agentic MLR); about 14 years managing people",
+      "qualifiers": [],
+      "value": "10+ years building digital products (e-commerce websites excluded); 2.5 years in AI (Diagnosis App machine learning, agentic MLR); about 14 years managing people",
+      "section": "META.ARC",
+      "per_send": false,
+      "on_request": false,
+      "asks": []
+    },
+    {
       "type": "compensation",
       "label": "Compensation",
       "base": "On request: GET /ask?q=How%20can%20I%20contact%20Tom%3F",

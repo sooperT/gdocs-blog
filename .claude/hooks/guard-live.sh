@@ -41,7 +41,7 @@ fi
 LOADER='python[0-9.]*\s+\S*load_content[A-Za-z0-9_]*\.py'
 if printf '%s\n' "$COMMAND" | grep -qE "$LOADER"; then
   if printf '%s\n' "$COMMAND" | grep -qE "$LOADER"'[^|;&]*--env[= ]+production'; then
-    python3 -c "import json; print(json.dumps({'hookSpecificOutput': {'hookEventName': 'PreToolUse', 'permissionDecision': 'deny', 'permissionDecisionReason': 'Production loader is blocked until cut-over (docs/agent-readable/STATUS.md). Lift it in .claude/hooks/guard-live.sh on the day.'}}))"
+    ask "Production loader: wipes and reloads the LIVE TomBot database (cut-over step 7). Tom approves it here."
     exit 0
   elif ! printf '%s\n' "$COMMAND" | grep -qE "$LOADER"'[^|;&]*--env[= ]+staging'; then
     ask "Loader without --env staging. Say which environment you mean."
