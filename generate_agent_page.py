@@ -903,7 +903,7 @@ PAGES = [
                                  'rates, increasing activation and conversion.'),
      'sections': ['THEME.GROWTH']},
     {'slug': 'management', 'title': 'Leadership and management', 'title_in': None, 'period': None,
-     'opening': ('THEME.MGMT', "I've led teams of 5-17 across multiple roles:"),
+     'opening': ('THEME.MGMT', "I've led teams of 5-15 across multiple roles:"),
      'sections': ['THEME.MGMT']},
     {'slug': 'international', 'title': 'International and remote', 'title_in': None, 'period': None,
      'opening': ('THEME.INTERNATIONAL', "I've worked across multiple countries and managed remote and distributed "
