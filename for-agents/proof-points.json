@@ -3870,9 +3870,8 @@
         "section": "SOLO"
       },
       "situation": {
-        "text": "Recruiters are bored of conventional CVs, and Tom wanted to find out first-hand what AI can and cannot do. Accuracy of recall was the key criterion: a CV bot that hallucinates is worse than no bot.",
-        "section": "SOLO",
-        "quote": "Recruiters are bored of conventional CVs, and I wanted to find out first-hand what AI can and cannot do. Accuracy of recall was the key criterion: a CV bot that hallucinates is worse than no bot."
+        "text": "Tom wanted to create a novel way of presenting his CV, and find out first-hand what AI can and cannot do. Accuracy of recall was the key criterion: a CV bot that hallucinates is worse than no bot.",
+        "section": "SOLO"
       },
       "task": {
         "text": "Build something real with AI and ship it, in his own content and voice.",
