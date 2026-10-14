@@ -978,13 +978,12 @@
         "quote": "Test whether an LLM could take on the review so product teams could shift left: fail in design, not at review. I set two acceptance tests up front: is it useful to product teams, and does it catch the issues the standard manual review catches."
       },
       "action": {
-        "text": "Used an internal LLM sandbox to build a RAG model over the guidelines and regulations, producing a full audit trail per submission. Built a prototype agent that plugged into Figma so designers could query the guidelines before investing effort. Pitched it to senior leadership.",
+        "text": "Used an internal LLM sandbox to build a RAG model of the guidelines and regulations, producing a full audit trail per submission. Built a prototype agent that plugged into Figma so designers could query the guidelines before investing effort. Pitched it to senior leadership & tested with product team.",
         "section": "NOVO.R2.GENAI"
       },
       "result": {
-        "text": "First test passed: product teams used the Figma plugin on real designs and loved it. The second never ran: a reorg and a vendor contract took the use case, the work went to another team, and Tom moved to the Wegovy Pill launch. The proof of concept showed a clear path to much faster release cycles.",
-        "section": "NOVO.R2.GENAI",
-        "quote": "First test passed: product teams used the Figma plugin on real designs and loved it. The second test never ran. A reorg and a vendor contract took the use case, the work was handed to another team, and I moved to the Wegovy Pill launch. The proof of concept showed a clear path to much faster release cycles."
+        "text": "Product team loved it. The proof of concept showed a clear path to much faster release cycles, but the timing was 12 months too early & the business was not ready for AI. Tom moved to help the Wegovy Pill launch.",
+        "section": "NOVO.R2.GENAI"
       },
       "year": {
         "text": "Feb 2022 - Feb 2026",
@@ -1285,15 +1284,15 @@
         "section": "NOVO.R2"
       },
       "task": {
-        "text": "Define what digital should accompany the asset, get both business units to agree, and get it funded.",
+        "text": "Define what digital initiatives should accompany the drug, get both business units to agree, and get it funded.",
         "section": "NOVO.R2"
       },
       "action": {
-        "text": "Spent the first three months framing the problem before a single idea: user mapping, definitions, shared understanding across both units. Then ideation: 128 candidate ideas, cut to a shortlist of 5, assumption-tested with prototypes, 4 recommended, each with a funding-gated rollout. Navigated the programme through internal governance.",
+        "text": "Started with the problem, and uncovering the new user journeys to create a shared understanding of the problem space across both units. Then ideation: 128 candidate ideas, cut to a shortlist of 5, assumption-tested with prototypes, 4 recommended, each with a funding-gated rollout. Navigated the programme through internal governance.",
         "section": "NOVO.R2"
       },
       "result": {
-        "text": "Funding secured for a portfolio of 4 digital initiatives. Two business units that ran independently aligned on a shared digital strategy.",
+        "text": "Funding secured for a portfolio of 4 digital initiatives (a first). Aligned two business units on a common digital strategy (also a first).",
         "section": "NOVO.R2"
       },
       "year": {
@@ -4079,18 +4078,18 @@
         "section": "HOST.R3.STORY.ALTSITE"
       },
       "desc": {
-        "text": "an alternative website made in his free time",
+        "text": "an alternative ecommerce website made in his free time",
         "section": "HOST"
       },
       "situation": {
-        "text": "The company website was dated and cluttered, explained the \"why\" poorly, and lacked focus and a core funnel.",
+        "text": "The company website had high traffic (1M monthly visits) but was dated and cluttered. It explained the \"why\" poorly, and lacked focus and a core funnel.",
         "section": "HOST.R3.STORY.ALTSITE",
-        "quote": "The existing website was dated. The marketing material did a poor job of explaining the \"why\" of the product, it was busy and cluttered, and it lacked focus and a core funnel."
+        "quote": "The company website has high traffic (1M monthly visits) but was dated and cluttered. It explained the \"why\" poorly, and lacked focus and a core funnel."
       },
       "task": {
-        "text": "Unasked, as a sales executive: do better.",
+        "text": "Unasked, as a sales executive: this could be done better.",
         "section": "HOST.R3.STORY.ALTSITE",
-        "quote": "I thought I could do better."
+        "quote": "Unasked, as a sales executive: we can do better than this."
       },
       "action": {
         "text": "Built an alternative version in evenings and weekends, booked a meeting with the brand manager and pitched it.",
@@ -4116,6 +4115,7 @@
         "funnels",
         "brand",
         "marketing",
+        "ecommerce",
         "web hosting",
         "team leadership"
       ],
