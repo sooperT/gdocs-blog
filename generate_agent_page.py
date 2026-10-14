@@ -465,7 +465,7 @@ PROOF_POINTS = [
         'situation': ('CagriSema was the first drug to span two therapy areas, diabetes and obesity. Each business unit ran independently with their own priorities and budgets.', 'NOVO.R2'),
         'task': ('Define what digital should accompany the asset, get both business units to agree, and get it funded.', 'NOVO.R2'),
         'action': ('Spent the first three months framing the problem before a single idea: user mapping, definitions, shared understanding across both units. Then ideation: 128 candidate ideas, cut to a shortlist of 5, assumption-tested with prototypes, 4 recommended, each with a funding-gated rollout. Navigated the programme through internal governance.', 'NOVO.R2'),
-        'result': ('Funding secured for a portfolio of 4 digital initiatives. Two business units that had never collaborated aligned on a shared digital strategy.', 'NOVO.R2'),
+        'result': ('Funding secured for a portfolio of 4 digital initiatives. Two business units that ran independently aligned on a shared digital strategy.', 'NOVO.R2'),
         'year': ('Feb 2022 - Feb 2026', 'NOVO.R2'),
         'strength': 'NOVO.R2',
         'shapes': ['zero-to-one', 'regulated'],
@@ -761,7 +761,7 @@ PROOF_POINTS = [
     {
         'role': ('Sales Executive', 'HOST'),
         'product': ('alternative website', 'HOST.R3.STORY.ALTSITE'),
-        'desc': ('made an alternative website in my free time', 'HOST'),
+        'desc': ('an alternative website made in his free time', 'HOST'),
         'situation': ('The existing website was dated. The marketing material did a poor job of explaining the "why" of the product, it was busy and cluttered, and it lacked focus and a core funnel.', 'HOST.R3.STORY.ALTSITE'),
         'task': ('I thought I could do better.', 'HOST.R3.STORY.ALTSITE'),
         'action': ("In evenings and weekends, I built an alternative version. Then I reached out to the brand manager and booked a meeting. I made my pitch and showed her what I'd made and why.", 'HOST.R3.STORY.ALTSITE'),

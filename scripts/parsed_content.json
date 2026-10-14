@@ -1078,9 +1078,9 @@
       }
     ],
     "direct_answers": [
-      "CagriSema was the first drug to span two therapy areas, diabetes and obesity, that had never collaborated. Nobody had authority over both, so the discovery programme ran on influence.",
+      "CagriSema was the first drug to span two therapy areas, diabetes and obesity. Each business unit ran independently with its own priorities and budgets, so the discovery programme ran on influence.",
       "The discovery funnel: 128 candidate ideas, a shortlist of 5, assumption-tested, 4 recommended and funded, each with a funding-gated rollout.",
-      "The organisational reflex was solution-first and siloed: output and theatre over outcomes. The incubation model was built to break that pattern.",
+      "The organisation worked in a solution-first project model. The incubation model was built to move it to a product model with an outcomes focus.",
       "Product Operations: standards, artefacts, ways of working. I know what good looks like because I've done it.",
       "Digital Incubation: I established and led a digital product incubation unit, evaluating build, buy and partner solutions. It moved the business from solution-first to problem-first; CagriSema was its hardest test.",
       "Head of Patient Products: led 6 experienced PMs building consumer engagement products, for a period, before moving into the pill team where the need was greatest. Management by outcomes.",
@@ -1181,7 +1181,7 @@
     "attested": [],
     "direct_answers": [
       "Why it stopped at POC: it was built to test value, not to harden. Product teams used the Figma plugin on real designs and liked it, but a reorg and a vendor contract that covered the compliance-assistant use case meant it never got the second test or a path to production, and I moved on to the Wegovy Pill launch[NOVO.R2.WEGOVY]. Two tests were set; the first was run.",
-      "Rollout: the compliance RAG and the Figma agent were built for every product team's release review; the product teams loved it, and designers could query the guidelines in Figma, so teams could shift left; built the mandate to pitch for Generative AI regulatory reviews as a product and pitched senior leadership; execs weren't ready, and the project was handed to another team. Ways of working rolled out across organisations: design sprints, user testing and direct user interviews at LEO[LEO]; discovery, rapid prototyping and automated documentation at Novo, then a discovery playbook[NOVO.R1].",
+      "Rollout: the compliance RAG and the Figma agent were built for every product team's release review; the product teams loved it, and designers could query the guidelines in Figma, so teams could shift left; built the mandate to pitch for Generative AI regulatory reviews as a product and pitched senior leadership; organisational priorities later shifted and the project was handed to another team. Ways of working rolled out across organisations: design sprints, user testing and direct user interviews at LEO[LEO]; discovery, rapid prototyping and automated documentation at Novo, then a discovery playbook[NOVO.R1].",
       "Dated: the agentic RAG compliance proof of concept was built in January 2025, inside the Associate Product Director role; two acceptance tests were set up front and the first was run with product teams on real designs[NOVO.R2.GENAI]."
     ],
     "external": []
@@ -2875,7 +2875,7 @@
       "Is Tom a turnaround person or a builder?",
       "What does Tom mean by fixer?"
     ],
-    "content": "I'm a fixer. I work on the really difficult stuff, the problems that are too hard or too messy for most people to get moving, and I like to solve them and move on. Once something is solved and running, I pass it to someone who's good at the routine work, and I go and find the next hard thing.\n\nThat pattern runs through my whole career: the domain search at Host Europe[HOST.R2.STORY.DOMAIN], the TREAT turnaround and closure[LEO.R1.TURNAROUND], the Wegovycare discovery phase nobody wanted[NOVO.R1.TRANSFORM], the CagriSema funnel across two therapy areas that had never collaborated[NOVO.R2].\n\nSo if you have something stuck, broken, or blank-page, that's where I'm useful. If you need someone to run a mature product in steady state for years, it deserves someone who loves that, and it isn't me.",
+    "content": "I'm a fixer. I work on the really difficult stuff, the problems that are too hard or too messy for most people to get moving, and I like to solve them and move on. Once something is solved and running, I pass it to someone who's good at the routine work, and I go and find the next hard thing.\n\nThat pattern runs through my whole career: the domain search at Host Europe[HOST.R2.STORY.DOMAIN], the TREAT turnaround and closure[LEO.R1.TURNAROUND], the Wegovycare discovery phase nobody wanted[NOVO.R1.TRANSFORM], the CagriSema funnel across two therapy areas that ran independently[NOVO.R2].\n\nSo if you have something stuck, broken, or blank-page, that's where I'm useful. If you need someone to run a mature product in steady state for years, it deserves someone who loves that, and it isn't me.",
     "drill_downs": [],
     "follow_ups": [
       {
