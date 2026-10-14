@@ -336,11 +336,6 @@
       "file": "for-agents/roles/novo-nordisk/associate-product-director/index.html",
       "title": "Associate Product Director at Novo Nordisk"
     },
-    "roles/novo-nordisk/consumer-lead": {
-      "path": "/for-agents/roles/novo-nordisk/consumer-lead/",
-      "file": "for-agents/roles/novo-nordisk/consumer-lead/index.html",
-      "title": "Consumer Lead, Novo Nordisk"
-    },
     "roles/leo-innovation-lab/pm-gm": {
       "path": "/for-agents/roles/leo-innovation-lab/pm-gm/",
       "file": "for-agents/roles/leo-innovation-lab/pm-gm/index.html",
@@ -395,6 +390,16 @@
       "path": "/for-agents/roles/host-europe-group/sales-executive/",
       "file": "for-agents/roles/host-europe-group/sales-executive/index.html",
       "title": "Sales Executive, Host Europe Group"
+    },
+    "roles/textualhealing-com/co-founder": {
+      "path": "/for-agents/roles/textualhealing-com/co-founder/",
+      "file": "for-agents/roles/textualhealing-com/co-founder/index.html",
+      "title": "Co-founder, TextualHealing.com"
+    },
+    "roles/host-europe-group/group-design-manager": {
+      "path": "/for-agents/roles/host-europe-group/group-design-manager/",
+      "file": "for-agents/roles/host-europe-group/group-design-manager/index.html",
+      "title": "Group Design Manager, Host Europe Group"
     },
     "shapes": {
       "path": "/for-agents/shapes/",
