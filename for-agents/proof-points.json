@@ -625,7 +625,7 @@
         "section": "NOVO.R1"
       },
       "situation": {
-        "text": "The brief was a set of standalone features the business thought would help. Nobody had asked patients what they needed, so nobody knew where the growth lever was.",
+        "text": "The brief was a set of standalone features the business thought would help, but nobody had talked to the patients.",
         "section": "NOVO.R1"
       },
       "task": {
@@ -969,7 +969,7 @@
         "section": "NOVO.R2.GENAI"
       },
       "situation": {
-        "text": "Every release of health software needed sign-off from medical, legal and regulatory reviewers. The process was built for marketing materials, not software: every screen captured as a PDF and reviewed one at a time. Backlogs ran to months, the documentation overhead was huge, and you had to fully develop everything before you could get sign-off.",
+        "text": "Every release of health software needed sign-off from medical, legal and regulatory reviewers. The process was built for marketing materials, not software: every screen was manually captured as a PDF and reviewed manually, stacking the regulatory risk to the end of the development cycle and sometimes adding months to delivery.",
         "section": "NOVO.R2.GENAI"
       },
       "task": {
@@ -1281,7 +1281,7 @@
         "section": "NOVO.R2"
       },
       "situation": {
-        "text": "CagriSema was the first drug to span two therapy areas, diabetes and obesity, that had never collaborated. Each had its own priorities and budgets. Nobody had authority over both, so the programme ran on influence.",
+        "text": "CagriSema was the first drug to span two therapy areas, diabetes and obesity. Each business unit ran independently with their own priorities and budgets.",
         "section": "NOVO.R2"
       },
       "task": {
@@ -1447,9 +1447,8 @@
         "section": "NOVO.R2"
       },
       "situation": {
-        "text": "Asked after Wegovycare to scale its ways of working across the product organisation. The organisational reflex was solution-first and siloed, output and theatre over outcomes. No formal mandate.",
-        "section": "NOVO.R2",
-        "quote": "After Wegovycare I was asked to scale its ways of working across the product organisation. The organisational reflex was solution-first and siloed: output and theatre over outcomes. I had no formal mandate."
+        "text": "Asked after Wegovycare to scale its ways of working across the product organisation: to work across silos and help move the organisation from solution-first project thinking to a product model with an outcomes focus.",
+        "section": "NOVO.R2"
       },
       "task": {
         "text": "Build the unit that shapes the organisation's next big bets, and make problem-first the default.",
@@ -1727,22 +1726,21 @@
         "section": "NOVO.R2"
       },
       "situation": {
-        "text": "Inherited six experienced, strongly independent PMs who saw management as a chore: all pro-agile, all insular, none aware they had become their own silos, tackling the same problems, making the same mistakes and duplicating tooling.",
-        "section": "NOVO.R2",
-        "quote": "I inherited six experienced, strongly independent PMs. They thought they knew best and saw management as a chore. All pro-agile, all insular, and none of them realised they had become their own silos. From above I could see they were tackling the same problems, making the same mistakes and duplicating tooling."
-      },
-      "task": {
-        "text": "Lead them by outcomes rather than tasks, and get them learning from each other without taking away the independence that made them good.",
+        "text": "Interim reorg of product teams before the Wegovy Pill project.",
         "section": "NOVO.R2"
       },
+      "task": {
+        "text": "Lead 6 experienced PMs building consumer engagement products, managing by outcomes; for a period, before moving into the pill team where the need was greatest.",
+        "section": "NOVO.R2",
+        "quote": "led 6 experienced PMs building consumer engagement products, for a period, before moving into the pill team where the need was greatest. Management by outcomes."
+      },
       "action": {
-        "text": "Individual coaching. Overcame resistance to establish weekly demos and experiment sharing across the team. Made individual product metrics public. Managed by outcomes.",
+        "text": "Individual coaching and weekly experiment sharing; made individual product metrics public.",
         "section": "NOVO.R2"
       },
       "result": {
-        "text": "Broke the product silos, established weekly demos and experiment sharing; learning loops ran across products rather than inside each one. Moved into the Wegovy Pill team when the need was greatest there.",
-        "section": "NOVO.R2",
-        "quote": "Broke the product silos, established weekly demos and experiment sharing, and learning loops ran across products rather than inside each one. I moved into the Wegovy Pill team when the need was greatest there."
+        "text": "Broke product silos, established weekly demos and experiment sharing, encouraged learning loops.",
+        "section": "NOVO.R2"
       },
       "year": {
         "text": "Feb 2022 - Feb 2026",
@@ -2482,7 +2480,7 @@
         "section": "LEO.R1.TURNAROUND"
       },
       "situation": {
-        "text": "The flagship had a lot of attention and was in trouble behind the scenes: massive tech debt, no prioritisation, flaky metrics, no roadmap, unclear reporting structure, massive churn, no pathway to profitability. An existing team of about 15, including a product lead and a product manager, passionate but in over their heads.",
+        "text": "The flagship product had a lot of attention, but was in trouble behind the scenes: massive tech debt, massive churn, no prioritisation, flaky metrics, unclear reporting lines and responsibilities, and no pathway to profitability.",
         "section": "LEO.R1.TURNAROUND"
       },
       "task": {
@@ -2757,7 +2755,7 @@
         "section": "OPBEAT"
       },
       "situation": {
-        "text": "The founders had a good product and famous backers, and believed that if they built it, customers would come. They launched into silence. The audience was developers, who are allergic to advertising.",
+        "text": "New product came out of stealth and lacked traction. The audience was developers, who are allergic to advertising.",
         "section": "OPBEAT"
       },
       "task": {
@@ -4557,9 +4555,9 @@
         "section": "LEO.R1.TURNAROUND"
       },
       "situation": {
-        "text": "Brought in to troubleshoot the flagship product. The existing team were passionate but in over their heads, with their own product lead and PM; it needed delicacy to keep their passion and expertise while helping them out.",
+        "text": "Brought in to troubleshoot the flagship product. The existing team were passionate but struggling to fight fires, and already had their own product lead and PM; it needed delicacy to keep their passion and expertise while helping them out.",
         "section": "LEO.R1.TURNAROUND",
-        "quote": "I was brought in to troubleshoot the flagship product. The existing team were passionate but in over their heads, and they had their own product lead and PM. We needed to be delicate: keep their passion and expertise while helping them out."
+        "quote": "I was brought in to troubleshoot the flagship product. The existing team were passionate but struggling to fight fires. They already had their own product lead and PM. We needed to be delicate: keep their passion and expertise while helping them out."
       },
       "task": {
         "text": "Take over the team without losing it.",
