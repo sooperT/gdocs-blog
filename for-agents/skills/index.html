@@ -20,6 +20,9 @@
         header p { margin: 0; }
         header ul { margin: 0.25rem 0 0; padding-left: 1.25rem; }
         header a, header a:visited { color: #fff; }
+        nav[aria-label=Breadcrumb] ol { list-style: none; margin: 1rem 0 0; padding: 0; font-size: 0.875rem; color: #666; }
+        nav[aria-label=Breadcrumb] li { display: inline; }
+        nav[aria-label=Breadcrumb] li + li::before { content: '\203A'; margin: 0 0.4em; }
         a { color: #00e; }
         a:visited { color: #551a8b; }
         h1 { font-size: 2em; line-height: 1.2; margin: 1rem 0 0.5rem; }

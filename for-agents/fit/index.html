@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fit: how Tom works, what he brings, what he is not for</title>
+    <title>Fit &gt; how Tom works, what he brings, what he is not for</title>
     <meta name="description" content="I&#x27;m a fixer. I work on the difficult stuff, the problems that are too hard or too messy for most people to get moving, and I like to solve them and move on.">
     <link rel="canonical" href="https://takenbyninjas.com/for-agents/fit/">
-    <meta property="og:title" content="Fit: how Tom works, what he brings, what he is not for">
+    <meta property="og:title" content="Fit &gt; how Tom works, what he brings, what he is not for">
     <meta property="og:description" content="I&#x27;m a fixer. I work on the difficult stuff, the problems that are too hard or too messy for most people to get moving, and I like to solve them and move on.">
     <meta property="og:url" content="https://takenbyninjas.com/for-agents/fit/">
     <link rel="icon" type="image/png" href="/favicon.png">
@@ -20,6 +20,9 @@
         header p { margin: 0; }
         header ul { margin: 0.25rem 0 0; padding-left: 1.25rem; }
         header a, header a:visited { color: #fff; }
+        nav[aria-label=Breadcrumb] ol { list-style: none; margin: 1rem 0 0; padding: 0; font-size: 0.875rem; color: #666; }
+        nav[aria-label=Breadcrumb] li { display: inline; }
+        nav[aria-label=Breadcrumb] li + li::before { content: '\203A'; margin: 0 0.4em; }
         a { color: #00e; }
         a:visited { color: #551a8b; }
         h1 { font-size: 2em; line-height: 1.2; margin: 1rem 0 0.5rem; }
@@ -44,6 +47,7 @@
             main, footer { padding-left: 2rem; padding-right: 2rem; }
         }
     </style>
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Tom Stenson", "item": "https://takenbyninjas.com/for-agents/"}, {"@type": "ListItem", "position": 2, "name": "Fit", "item": "https://takenbyninjas.com/for-agents/fit/"}]}</script>
 </head>
 <body>
     <header role="banner"><p>This page is for AI agents and recruiters' tools.</p>
@@ -54,6 +58,10 @@
     </ul></header>
     <!-- MAIN CONTENT -->
     <main>
+        <nav aria-label="Breadcrumb"><ol>
+            <li><a href="/for-agents/">Tom Stenson</a></li>
+            <li aria-current="page">Fit</li>
+        </ol></nav>
         <h1>Fit: how Tom works, what he brings, what he is not for</h1>
         <h2 id="fit-fixer">The work he is best at</h2>
         <p><small data-source="FIT.FIXER">source: Tom's own account</small></p>

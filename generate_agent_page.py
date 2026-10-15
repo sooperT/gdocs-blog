@@ -114,6 +114,9 @@ PAGE_STYLE = '''    <style>
         header p { margin: 0; }
         header ul { margin: 0.25rem 0 0; padding-left: 1.25rem; }
         header a, header a:visited { color: #fff; }
+        nav[aria-label=Breadcrumb] ol { list-style: none; margin: 1rem 0 0; padding: 0; font-size: 0.875rem; color: #666; }
+        nav[aria-label=Breadcrumb] li { display: inline; }
+        nav[aria-label=Breadcrumb] li + li::before { content: '\\203A'; margin: 0 0.4em; }
         a { color: #00e; }
         a:visited { color: #551a8b; }
         h1 { font-size: 2em; line-height: 1.2; margin: 1rem 0 0.5rem; }
@@ -1173,6 +1176,7 @@ PAGES = [
                             'Wegovycare, a retention-focused digital service for repeat Wegovy prescriptions.'),
      'sections': ['NOVO.R1', 'NOVO.R1.TRANSFORM']},
     {'slug': 'novo-product-director', 'title': 'Associate Product Director at Novo Nordisk', 'title_in': 'NOVO.R2',
+     'crumb': 'Associate Product Director',
      'period': 'novo',
      'opening': ('NOVO.R2', 'Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026). Senior IC product '
                             'role working across silos on complex, high-impact initiatives.'),
@@ -1244,6 +1248,7 @@ PAGES = [
     # Fit, the five facets (Tom, 2026-10-13 evening): chat-product agents cannot call
     # /ask with their own words, so Job 5 reads these sections here instead.
     {'slug': 'fit', 'title': 'Fit: how Tom works, what he brings, what he is not for', 'title_in': None, 'period': None,
+     'tail': 'how Tom works, what he brings, what he is not for', 'crumb': 'Fit',
      'opening': ('FIT.FIXER', "I'm a fixer. I work on the difficult stuff, the problems that are too hard or too messy "
                               "for most people to get moving, and I like to solve them and move on."),
      'sections': ['FIT.FIXER', 'FIT.ENV', 'FIT.TEAM', 'FIT.MANAGER', 'FIT.NOT'],
@@ -1532,6 +1537,51 @@ def page_url(slug, anchor=None):
     return f'{PAGE_PATH}{slug}/' + (f'#{anchor}' if anchor else '')
 
 
+# Breadcrumbs (Tom, 2026-10-15): the title is the page's place in the hierarchy
+# plus what it holds ("LEO Innovation Lab > TREAT > STAR stories and proof
+# points"), not the name repeated. The same trail is a nav on the page, every
+# ancestor a link, and a BreadcrumbList for Bing. The root crumb (the facts
+# page) is in the nav and the markup, not the title.
+ROOT_CRUMB = ('Tom Stenson', PAGE_PATH)
+PERIOD_COMPANY = {'novo': 'novo-nordisk', 'leo': 'leo-innovation-lab', 'opbeat': 'opbeat',
+                  'eurodns': 'eurodns', 'host': 'host-europe'}
+# role_company() slug -> PAGES slug where they differ
+COMPANY_PAGE_SLUG = {'uk2-group': 'uk2', 'host-europe-group': 'host-europe'}
+
+
+def crumb_title(crumbs, tail):
+    """<title> text: every crumb after the root, then the tail."""
+    return ' > '.join([label for label, _ in crumbs[1:]] + [tail])
+
+
+def crumb_nav(crumbs):
+    items = []
+    for i, (label, href) in enumerate(crumbs):
+        last = i == len(crumbs) - 1
+        inner = escape(label) if last or not href else f'<a href="{_escape(href)}">{escape(label)}</a>'
+        attr = ' aria-current="page"' if last else ''
+        items.append(f'            <li{attr}>{inner}</li>')
+    return '\n'.join(['        <nav aria-label="Breadcrumb"><ol>'] + items + ['        </ol></nav>'])
+
+
+def crumb_jsonld(crumbs):
+    items = [{'@type': 'ListItem', 'position': i + 1, 'name': label,
+              **({'item': f'{SITE_URL}{href}'} if href else {})} for i, (label, href) in enumerate(crumbs)]
+    return '<script type="application/ld+json">' + json.dumps(
+        {'@context': 'https://schema.org', '@type': 'BreadcrumbList', 'itemListElement': items}, ensure_ascii=False) + '</script>'
+
+
+def page_crumbs(page):
+    """Trail for a story page: root, its company page when it has one, itself."""
+    trail = [ROOT_CRUMB]
+    top = page['sections'][0]
+    if '.' in top and page.get('period') in PERIOD_COMPANY:
+        parent = next(pg for pg in PAGES if pg['slug'] == PERIOD_COMPANY[page['period']])
+        trail.append((parent['title'], page_url(parent['slug'])))
+    trail.append((page.get('crumb', page['title']), page_url(page['slug'])))
+    return trail
+
+
 PRODUCT_ROLES = ('Senior Product Manager at Novo Nordisk', 'Associate Product Director at Novo Nordisk',
                  'PM/GM at LEO Innovation Lab', 'Consumer Lead', 'Independent Consultant')
 
@@ -1677,7 +1727,9 @@ def generate_shape_pages(sections):
         if not rows:
             continue
         index.append(f'            <li><a href="{SHAPES_PATH}{shape_id}/">{escape(heading)}</a> ({len(rows)})</li>')
+        crumbs = [ROOT_CRUMB, ('Role shapes', SHAPES_PATH), (heading, f'{SHAPES_PATH}{shape_id}/')]
         body = [ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
+                crumb_nav(crumbs),
                 f'        <h1>{escape(heading)}: {len(rows)} proof point{"s" if len(rows) != 1 else ""}</h1>',
                 f'        <p>Every row that fits this shape of role: the rows the facts page shows first, then the rest in content order. '
                 + (f'Tom\'s own account of it: <a href="{page_url(theme_slug)}">{escape(heading)}</a>. ' if theme_slug else '')
@@ -1685,14 +1737,16 @@ def generate_shape_pages(sections):
         body += render_table(sections, strengths, where, rows)
         body += ['    </main>', '']
         path = f'{SHAPES_PATH}{shape_id}/'
-        html = '\n'.join([agent_head(f'Tom Stenson, {escape(heading)}: proof points',
-                                     _escape(f'{len(rows)} proof points of Tom Stenson, product, Copenhagen, for {heading} roles.'), path),
+        html = '\n'.join([agent_head(escape(crumb_title(crumbs, 'Proof points')),
+                                     _escape(f'{len(rows)} proof points of Tom Stenson, product, Copenhagen, for {heading} roles.'), path,
+                                     jsonld=crumb_jsonld(crumbs)),
                           '\n'.join(body), agent_footer()]) + '\n'
         pages.append((f'shapes/{shape_id}', heading, path, html))
     index += ['        </ul>', '    </main>', '']
     pages.insert(0, ('shapes', 'Proof points by role shape', SHAPES_PATH,
-                     '\n'.join([agent_head('Tom Stenson: proof points by role shape',
-                                           _escape('Index of role shapes over the proof points of Tom Stenson, product, Copenhagen.'), SHAPES_PATH),
+                     '\n'.join([agent_head('Role shapes > Proof points by role shape',
+                                           _escape('Index of role shapes over the proof points of Tom Stenson, product, Copenhagen.'), SHAPES_PATH,
+                                           jsonld=crumb_jsonld([ROOT_CRUMB, ('Role shapes', SHAPES_PATH)])),
                                 '\n'.join(index), agent_footer()]) + '\n'))
     return pages
 
@@ -1716,6 +1770,7 @@ def generate_role_pages(sections):
     pages = []
     index = [
         ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
+        crumb_nav([ROOT_CRUMB, ('Roles', ROLES_PATH)]),
         '        <h1>Tom Stenson: proof points by role</h1>',
         '        <p>Every company, newest first, and under it every role held there that has a proof point, with the '
         f'number of rows. Open a role for everything done in it. All rows: <a href="{PAGE_PATH}">the facts page</a>; '
@@ -1733,11 +1788,17 @@ def generate_role_pages(sections):
         for role, rows in items:
             index.append(f'                <li><a href="{ROLES_PATH}{role_slug(rows[0])}/">{escape(role_only(rows[0]))}</a> ({len(rows)})</li>')
         index.append('            </ul></li>')
+    page_slugs = {pg['slug'] for pg in PAGES}
     for role, rows in roles.items():
         slug = role_slug(rows[0])
         aliases = ROLE_ALIASES.get(rows[0]['role'][0])
+        cslug = COMPANY_PAGE_SLUG.get(company_slug(rows[0]), company_slug(rows[0]))
+        crumbs = [ROOT_CRUMB, ('Roles', ROLES_PATH),
+                  (role_company(rows[0]), page_url(cslug) if cslug in page_slugs else None),
+                  (role_only(rows[0]), f'{ROLES_PATH}{slug}/')]
         body = [
             ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
+            crumb_nav(crumbs),
             f'        <h1>{escape(role)}: {len(rows)} proof point{"s" if len(rows) != 1 else ""}</h1>',
             f'        <p>Everything in the content done in this role. The product name links the page with the '
             f'full text. <a href="{ROLES_PATH}">All roles</a>, <a href="{PAGE_PATH}">the facts page</a>.</p>',
@@ -1748,15 +1809,16 @@ def generate_role_pages(sections):
         body += ['    </main>', '']
         path = f'{ROLES_PATH}{slug}/'
         html = '\n'.join([
-            agent_head(f'Tom Stenson, {escape(role)}: proof points',
-                       _escape(f'{len(rows)} proof points of Tom Stenson, product, Copenhagen, as {role}.'), path),
+            agent_head(escape(crumb_title(crumbs, 'Proof points')),
+                       _escape(f'{len(rows)} proof points of Tom Stenson, product, Copenhagen, as {role}.'), path, jsonld=crumb_jsonld(crumbs)),
             '\n'.join(body), agent_footer(),
         ]) + '\n'
         pages.append((f'roles/{slug}', role, path, html))
     index += ['        </ul>', '    </main>', '']
     index_html = '\n'.join([
-        agent_head('Tom Stenson: proof points by role',
-                   _escape('Index of the roles of Tom Stenson, product, Copenhagen: one page per role with its proof points.'), ROLES_PATH),
+        agent_head('Roles > Proof points by role',
+                   _escape('Index of the roles of Tom Stenson, product, Copenhagen: one page per role with its proof points.'), ROLES_PATH,
+                   jsonld=crumb_jsonld([ROOT_CRUMB, ('Roles', ROLES_PATH)])),
         '\n'.join(index), agent_footer(),
     ]) + '\n'
     pages.insert(0, ('roles', 'Proof points by role', ROLES_PATH, index_html))
@@ -1782,8 +1844,10 @@ def generate_keyword_pages(sections):
             continue
         rows = by_kw[slug][1]
         index.append(f'            <li><a href="{KEYWORDS_PATH}{slug}/">{escape(term)}</a> ({len(rows)})</li>')
+        crumbs = [ROOT_CRUMB, ('Skills', KEYWORDS_PATH), (term, f'{KEYWORDS_PATH}{slug}/')]
         body = [
             ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
+            crumb_nav(crumbs),
             f'        <h1>{escape(term)}: {len(rows)} proof point{"s" if len(rows) != 1 else ""}</h1>',
             f'        <p>Rows on <a href="{PAGE_PATH}">the facts page</a> whose own text or source section carries "{escape(term)}". '
             f'The product name links the page with the full text. <a href="{KEYWORDS_PATH}">All skills</a>.</p>',
@@ -1792,7 +1856,7 @@ def generate_keyword_pages(sections):
         body += ['    </main>', '']
         path = f'{KEYWORDS_PATH}{slug}/'
         html = '\n'.join([
-            agent_head(f'Tom Stenson, {escape(term)}: proof points', _escape(f'{len(rows)} proof points of Tom Stenson, product, Copenhagen, that carry the skill {term}.'), path, noindex=True),
+            agent_head(escape(crumb_title(crumbs, 'Proof points')), _escape(f'{len(rows)} proof points of Tom Stenson, product, Copenhagen, that carry the skill {term}.'), path, noindex=True),
             '\n'.join(body), agent_footer(),
         ]) + '\n'
         pages.append((f'skills/{slug}', term, path, html))
@@ -1987,10 +2051,12 @@ def generate_page(sections, parsed, page, recs):
     check(sections, *page['opening'])
     where = section_pages()
     path = page_url(page['slug'])
+    crumbs = page_crumbs(page)
     body = [
         ROUTING_LINE,
         '    <!-- MAIN CONTENT -->',
         '    <main>',
+        crumb_nav(crumbs),
         f'        <h1>{escape(page["title"])}</h1>',
     ]
     if page['period']:
@@ -2010,8 +2076,15 @@ def generate_page(sections, parsed, page, recs):
     for sid in page['sections']:
         body += build_section(sections, parsed, sid, where, heading=page.get('headings', {}).get(sid))
     body += [f'        <p><a href="{PAGE_PATH}">All proof points</a></p>', '    </main>', '']
+    if page.get('tail'):
+        tail = page['tail']
+    elif rows and not page['slug'] in {t for _, _, t in SHAPES if t}:
+        tail = 'STAR stories and proof points'
+    else:   # a theme page holds one answer: its question is the context
+        first = parsed[page['sections'][0]]
+        tail = first['questions'][0] if first['questions'] else 'Story'
     html = '\n'.join([
-        agent_head(escape(page['title']), _escape(page['opening'][1]), path),
+        agent_head(escape(crumb_title(crumbs, tail)), _escape(page['opening'][1]), path, jsonld=crumb_jsonld(crumbs)),
         '\n'.join(body),
         agent_footer(),
     ]) + '\n'
