@@ -57,6 +57,10 @@ def agent_footer():
 
 
 def agent_head(title, meta_description, canonical_path, jsonld=None, noindex=False):
+    # Bing flags descriptions outside 50-160 characters as an error (Site Scan, 2026-10-15).
+    plain = re.sub(r'&[a-z#0-9]+;', 'x', meta_description)
+    if not 50 <= len(plain) <= 160:
+        sys.exit(f'✗ Meta description for {canonical_path} is {len(plain)} characters; Bing wants 50-160.')
     """Standalone <head> for agent pages: no site stylesheet, CRT theme, fonts or
     analytics. The visual opposite of the human site (white, system fonts, red strip)."""
     url = f'{SITE_URL}{canonical_path}'
@@ -1166,8 +1170,7 @@ RECOMMENDER_PERIOD = {
 PAGES = [
     {'slug': 'wegovycare', 'title': 'Wegovycare', 'title_in': 'NOVO.R1', 'period': 'novo',
      'opening': ('NOVO.R1', 'Senior Product Manager at Novo Nordisk (Mar 2020 - Feb 2022), building '
-                            'Wegovycare - a retention-focused digital service to increase repeat '
-                            'prescriptions for Wegovy.'),
+                            'Wegovycare, a retention-focused digital service for repeat Wegovy prescriptions.'),
      'sections': ['NOVO.R1', 'NOVO.R1.TRANSFORM']},
     {'slug': 'novo-product-director', 'title': 'Associate Product Director at Novo Nordisk', 'title_in': 'NOVO.R2',
      'period': 'novo',
@@ -1194,9 +1197,8 @@ PAGES = [
      'opening': ('LEO', 'LEO Innovation Lab was an independent healthtech incubator established by LEO Pharma.'),
      'sections': ['LEO']},
     {'slug': 'twentythree', 'title': 'TwentyThree', 'title_in': 'T23', 'period': None,
-     'opening': ('T23', 'TwentyThree was an integrated video marketing platform built for digital marketers. '
-                        'I joined as Head of Marketing on a short-term contract, initially six weeks and extended to the end of the year, '
-                        'to rescue a global launch.'),
+     'opening': ('T23', 'TwentyThree was a video marketing platform for digital marketers. I joined as Head of '
+                        'Marketing on a short-term contract to rescue a global launch.'),
      'sections': ['T23']},
     {'slug': 'opbeat', 'title': 'Opbeat', 'title_in': 'OPBEAT', 'period': 'opbeat',
      'opening': ('OPBEAT', 'Opbeat was a developer tools SaaS startup providing application performance '
@@ -1232,7 +1234,8 @@ PAGES = [
                                  'rates, increasing activation and conversion.'),
      'sections': ['THEME.GROWTH']},
     {'slug': 'management', 'title': 'Leadership and management', 'title_in': None, 'period': None,
-     'opening': ('THEME.MGMT', "I've led teams of 5-15 across multiple roles:"),
+     'opening': ('THEME.MGMT', "I've led teams of 5-15 across multiple roles: what I look for in people, "
+                                "how I run a team, and what happened when I did."),
      'sections': ['THEME.MGMT']},
     {'slug': 'international', 'title': 'International and remote', 'title_in': None, 'period': None,
      'opening': ('THEME.INTERNATIONAL', "I've worked across multiple countries and managed remote and distributed "
@@ -1241,7 +1244,7 @@ PAGES = [
     # Fit, the five facets (Tom, 2026-10-13 evening): chat-product agents cannot call
     # /ask with their own words, so Job 5 reads these sections here instead.
     {'slug': 'fit', 'title': 'Fit: how Tom works, what he brings, what he is not for', 'title_in': None, 'period': None,
-     'opening': ('FIT.FIXER', "I'm a fixer. I work on the really difficult stuff, the problems that are too hard or too messy "
+     'opening': ('FIT.FIXER', "I'm a fixer. I work on the difficult stuff, the problems that are too hard or too messy "
                               "for most people to get moving, and I like to solve them and move on."),
      'sections': ['FIT.FIXER', 'FIT.ENV', 'FIT.TEAM', 'FIT.MANAGER', 'FIT.NOT'],
      'headings': {'FIT.FIXER': 'The work he is best at', 'FIT.ENV': 'Organisation: where he works well',
@@ -2020,7 +2023,7 @@ def generate_recommendations(recs):
     n = len(recs)
     title = 'Tom Stenson: LinkedIn recommendations, full text'
     meta_desc = (f'{n} LinkedIn recommendations of Tom Stenson, product, Copenhagen: full text, grouped by '
-                 'the role they refer to, each with the recommender\'s title when written and now.')
+                 'role, each with the recommender\'s title when written and now.')
     body = [
         ROUTING_LINE,
         '    <!-- MAIN CONTENT -->',
@@ -2123,8 +2126,8 @@ def load_insights(profile):
 def generate_working_style():
     """for-agents/working-style/: the two Insights profiles, four lists each, dated and tier-labelled."""
     title = 'Tom Stenson: working style, Insights Discovery profiles 2019 and 2022'
-    meta_desc = ('Two Insights Discovery profiles of Tom Stenson, product, Copenhagen, 2019 and 2022: ideal '
-                 'environment, motivation, what he needs from a manager, value to a team. Self-reported, dated.')
+    meta_desc = ('Two Insights Discovery profiles of Tom Stenson, product, Copenhagen, 2019 and 2022: '
+                 'ideal environment, motivation, what he needs from a manager. Self-reported.')
     body = [
         ROUTING_LINE,
         '    <!-- MAIN CONTENT -->',

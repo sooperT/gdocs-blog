@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-14",
+  "generated": "2026-10-15",
   "source": "Tom's own account (tier: self-reported); each row cites its TomBot section id",
   "facets": "Each row's `facets` are lines from CVs Tom sent, verbatim (tier: self-reported; `source` names the CV). A brief returns the facet that matched a requirement as its evidence; the row's result cell stays the outcome.",
   "roles_note": "Domain, company type, size and level are answered from `roles`, not from one story: each company with its sectors, environments, size and products, each role with its title, aliases and scope in effect. Count every role that matches.",
