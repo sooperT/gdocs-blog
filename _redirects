@@ -1,3 +1,31 @@
 # 301 Redirects
 /words/ai-coding-lexicon/  /words/vibe-coding-6-words-to-know/  301
 /words/ai-coding-lexicon   /words/vibe-coding-6-words-to-know/  301
+
+# Agent side consolidated 2026-10-19 (fewer, fuller pages for Bing): every retired
+# URL goes to its anchor on the page that now holds the content.
+/for-agents/wegovycare/            /for-agents/novo-nordisk/#wegovycare              301
+/for-agents/novo-product-director/ /for-agents/novo-nordisk/#novo-product-director   301
+/for-agents/treat-turnaround/      /for-agents/leo-innovation-lab/#treat-turnaround  301
+/for-agents/skincoach/             /for-agents/leo-innovation-lab/#skincoach         301
+/for-agents/diagnosis-app/         /for-agents/leo-innovation-lab/#diagnosis-app     301
+/for-agents/ai/                    /for-agents/stories/#shape-ai                     301
+/for-agents/growth/                /for-agents/stories/#shape-growth                 301
+/for-agents/building/              /for-agents/stories/#shape-zero-to-one            301
+/for-agents/turnarounds/           /for-agents/stories/#shape-turnaround             301
+/for-agents/management/            /for-agents/stories/#shape-leadership             301
+/for-agents/international/         /for-agents/stories/#shape-international          301
+/for-agents/solo-projects/         /for-agents/stories/#solo                         301
+/for-agents/shapes/                /for-agents/stories/                              301
+/for-agents/shapes/:shape/         /for-agents/stories/#shape-:shape                 301
+/for-agents/skills/                /for-agents/stories/#skills                       301
+/for-agents/skills/*               /for-agents/stories/#skills                       301
+/for-agents/roles/                 /for-agents/#career                               301
+/for-agents/roles/novo-nordisk/*   /for-agents/novo-nordisk/#proof-points            301
+/for-agents/roles/leo-innovation-lab/*  /for-agents/leo-innovation-lab/#proof-points 301
+/for-agents/roles/twentythree/*    /for-agents/twentythree/#proof-points             301
+/for-agents/roles/opbeat/*         /for-agents/opbeat/#proof-points                  301
+/for-agents/roles/eurodns/*        /for-agents/eurodns/#proof-points                 301
+/for-agents/roles/uk2-group/*      /for-agents/uk2/#proof-points                     301
+/for-agents/roles/host-europe-group/*  /for-agents/host-europe/#proof-points         301
+/for-agents/roles/*                /for-agents/#career                               301

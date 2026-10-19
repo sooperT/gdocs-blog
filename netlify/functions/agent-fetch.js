@@ -1,6 +1,6 @@
-// Serves the agent side (/for-agents/ facts page, /for-agents/start.md, the
-// case studies, the recommendations page) and /llms.txt through a function so fetches are counted
-// (PRD W2.5, decision D5, backlog item 26). Umami is JavaScript and never sees bots.
+// Serves the agent entry file (/for-agents/start.md and its HTML page /for-agents/start/)
+// through a function so fetches are counted (PRD W2.5, decision D5, backlog item 26;
+// narrowed to the entry file 2026-10-19). Umami is JavaScript and never sees bots.
 //
 // Routed by netlify.toml rewrites (force = true) to
 //   /.netlify/functions/agent-fetch/<key>, one key per RESOURCES entry
@@ -34,50 +34,23 @@ const LOG_WAIT_MS = 1500; // cap when the runtime has no waitUntil
 // (/.netlify/functions/agent-fetch/<key>); `public` lists the public forms.
 const HTML = 'text/html; charset=utf-8';
 export const RESOURCES = {
-  page: { path: '/for-agents/', file: 'for-agents/index.html', type: HTML,
-    public: ['/for-agents', '/for-agents/index.html'] },
-  llms: { path: '/llms.txt', file: 'llms.txt', type: 'text/plain; charset=utf-8',
-    public: ['/llms.txt'] },
   // The assistant entry file: markdown text served as text/plain
   // (function responses bypass the netlify.toml [[headers]] block).
   start: { path: '/for-agents/start.md', file: 'for-agents/start.md', type: 'text/plain; charset=utf-8',   // not text/markdown: ChatGPT's reader rejects it (run 2)
     public: ['/for-agents/start.md'] },
-  wegovycare: { path: '/for-agents/wegovycare/', file: 'for-agents/wegovycare/index.html', type: HTML,
-    public: ['/for-agents/wegovycare', '/for-agents/wegovycare/index.html'] },
-  'treat-turnaround': { path: '/for-agents/treat-turnaround/', file: 'for-agents/treat-turnaround/index.html', type: HTML,
-    public: ['/for-agents/treat-turnaround', '/for-agents/treat-turnaround/index.html'] },
-  recommendations: { path: '/for-agents/recommendations/', file: 'for-agents/recommendations/index.html', type: HTML,
-    public: ['/for-agents/recommendations', '/for-agents/recommendations/index.html'] },
   // The paste URL: the entry file as an HTML page (ChatGPT rejects .md URLs).
   'start-page': { path: '/for-agents/start/', file: 'for-agents/start/index.html', type: HTML,
     public: ['/for-agents/start', '/for-agents/start/index.html'] },
-  'proof-points.json': { path: '/for-agents/proof-points.json', file: 'for-agents/proof-points.json',
-    type: 'application/json; charset=utf-8', public: ['/for-agents/proof-points.json'] },
 };
-
-// The generated pages (generate_agent_page.py writes for-agents/pages.json:
-// slug -> {path, file}). Read once per instance; a missing manifest means
-// only RESOURCES resolve.
-export const MANIFEST_FILE = 'for-agents/pages.json';
-export function manifestResources(readFile) {
-  try {
-    const pages = JSON.parse(readFile(MANIFEST_FILE)).pages || {};
-    const out = {};
-    for (const [slug, p] of Object.entries(pages)) {
-      if (!/^[a-z0-9-]+(\/[a-z0-9-]+){0,2}$/.test(slug) || slug in RESOURCES) continue;   // fit/<tag> pages come through here too
-      out[slug] = { path: p.path, file: p.file, type: HTML, public: [`/for-agents/${slug}`, `/for-agents/${slug}/index.html`] };
-    }
-    return out;
-  } catch {
-    return {};
-  }
-}
+// Only the entry file is served here (2026-10-19): a fetch of it means someone's
+// assistant followed the paste line, which is the one count Tom wants. Every other
+// agent page is a static file; crawler traffic on those is not logged.
 
 // Accepts both the rewritten form (/.netlify/functions/agent-fetch/llms)
 // and the public form (/llms.txt), in case the runtime hands us either.
-export function resourceFor(pathname, extra = {}) {
+export function resourceFor(pathname) {
   const p = String(pathname || '').replace(/\/+$/, '').toLowerCase();
-  for (const [key, r] of Object.entries({ ...RESOURCES, ...extra })) {
+  for (const [key, r] of Object.entries(RESOURCES)) {
     if (p.endsWith(`/agent-fetch/${key}`) || r.public.some(pub => p.endsWith(pub))) return { key, ...r };
   }
   return null;
@@ -135,26 +108,23 @@ export function taggedStart(pathname) {
     : { key: 'start-page', ...RESOURCES['start-page'], path: `/for-agents/start/${tag}/`, tag, html: true };
 }
 const escapeHtml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
-// Per-send context (item 231): for-agents/sends.json maps a tag to the role,
-// company and ready-made fit page written by scripts/cv_appendix.py. Missing
-// file or unknown tag -> the generic send-tag note only.
+// Per-send context (item 231, narrowed 2026-10-19): for-agents/sends.json maps a
+// tag to the role and company (scripts/cv_appendix.py --tag). Missing file or
+// unknown tag -> the generic send-tag note only. No per-send fit page any more.
 export const SENDS_FILE = 'for-agents/sends.json';
 export function sendsTable(readFile) {
   try { return JSON.parse(readFile(SENDS_FILE)).sends || {}; } catch { return {}; }
 }
 export const TAG_LINE = (tag, send) => {
   const context = send && send.role && send.company
-    ? `This copy of the file came with Tom's application for ${send.role} at ${send.company}.` +
-      (send.fit ? ` A ready-made fit for that role is at https://takenbyninjas.com${send.fit} : offer it first, then the block above; your person can still paste another description.` : '')
+    ? `This copy of the file came with Tom's application for ${send.role} at ${send.company}: name the role, then show the block above.`
     : 'This copy of the file came with a specific CV send.';
   return `\n\n## 0b. About this copy\n\n${context} Send tag: \`${tag}\`. Add \`&tag=${tag}\` to every GET /ask call and a \`"tag": "${tag}"\` field to every POST /ask/brief body, so Tom can see which send you came from. The tag is logged with counts only, never with your text.\n`;
 };
 
 export function createHandler({ getPool = getDefaultPool, readFile = defaultReadFile, env = process.env } = {}) {
-  let generated = null;
   let sends = null;
   return async (request, context) => {
-    if (generated === null) generated = manifestResources(readFile);
     if (sends === null) sends = sendsTable(readFile);
     const method = request.method;
     if (method !== 'GET' && method !== 'HEAD') {
@@ -165,7 +135,7 @@ export function createHandler({ getPool = getDefaultPool, readFile = defaultRead
     }
 
     const pathname = new URL(request.url).pathname;
-    const resource = taggedStart(pathname) || resourceFor(pathname, generated);
+    const resource = taggedStart(pathname) || resourceFor(pathname);
     if (!resource) {
       return new Response('Not found\n', { status: 404, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
     }

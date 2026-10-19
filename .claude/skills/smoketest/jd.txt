@@ -1,0 +1,17 @@
+Senior Product Manager, AI Onboarding (Copenhagen, hybrid)
+
+About the role
+We are a Series B fintech with 90 people. You will own the onboarding and activation journey for our business banking product and lead our first AI features: document understanding for KYC and an assistant that explains fees and limits. You report to the CPO and work with two squads (7 engineers, a designer, a data scientist).
+
+What we need
+- 6+ years product management, 2+ years on a 0-1 or turnaround product
+- Shipped at least one ML or LLM feature to production, with measured outcomes
+- Experience in a regulated industry (financial services, healthcare or pharma)
+- Comfortable with discovery: interviews, prototypes, experiments with quantified results
+- Line management of product managers (you will hire two)
+- Fluent English; Danish is a plus
+- Based in or willing to relocate to Copenhagen, 3 days a week on site
+
+Nice to have
+- B2B or SME banking background
+- Experience with growth loops and activation metrics

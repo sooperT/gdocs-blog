@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-15",
+  "generated": "2026-10-19",
   "source": "Tom's own account (tier: self-reported); each row cites its TomBot section id",
   "facets": "Each row's `facets` are lines from CVs Tom sent, verbatim (tier: self-reported; `source` names the CV). A brief returns the facet that matched a requirement as its evidence; the row's result cell stays the outcome.",
   "roles_note": "Domain, company type, size and level are answered from `roles`, not from one story: each company with its sectors, environments, size and products, each role with its title, aliases and scope in effect. Count every role that matches.",
@@ -233,51 +233,8 @@
       ]
     }
   ],
-  "skill_pages": {
-    "AI": "https://takenbyninjas.com/for-agents/skills/ai/",
-    "GenAI": "https://takenbyninjas.com/for-agents/skills/genai/",
-    "machine learning": "https://takenbyninjas.com/for-agents/skills/machine-learning/",
-    "computer vision": "https://takenbyninjas.com/for-agents/skills/computer-vision/",
-    "algorithm": "https://takenbyninjas.com/for-agents/skills/algorithm/",
-    "API": "https://takenbyninjas.com/for-agents/skills/api/",
-    "regulated": "https://takenbyninjas.com/for-agents/skills/regulated/",
-    "compliance": "https://takenbyninjas.com/for-agents/skills/compliance/",
-    "pharma": "https://takenbyninjas.com/for-agents/skills/pharma/",
-    "healthcare": "https://takenbyninjas.com/for-agents/skills/healthcare/",
-    "patients": "https://takenbyninjas.com/for-agents/skills/patients/",
-    "discovery": "https://takenbyninjas.com/for-agents/skills/discovery/",
-    "prototyping": "https://takenbyninjas.com/for-agents/skills/prototyping/",
-    "incubation": "https://takenbyninjas.com/for-agents/skills/incubation/",
-    "ways of working": "https://takenbyninjas.com/for-agents/skills/ways-of-working/",
-    "turnaround": "https://takenbyninjas.com/for-agents/skills/turnaround/",
-    "growth": "https://takenbyninjas.com/for-agents/skills/growth/",
-    "conversion": "https://takenbyninjas.com/for-agents/skills/conversion/",
-    "activation": "https://takenbyninjas.com/for-agents/skills/activation/",
-    "retention": "https://takenbyninjas.com/for-agents/skills/retention/",
-    "SEO": "https://takenbyninjas.com/for-agents/skills/seo/",
-    "funnels": "https://takenbyninjas.com/for-agents/skills/funnels/",
-    "experimentation": "https://takenbyninjas.com/for-agents/skills/experimentation/",
-    "KPIs": "https://takenbyninjas.com/for-agents/skills/kpis/",
-    "roadmap": "https://takenbyninjas.com/for-agents/skills/roadmap/",
-    "launch": "https://takenbyninjas.com/for-agents/skills/launch/",
-    "0 to 1": "https://takenbyninjas.com/for-agents/skills/zero-to-one/",
-    "brand": "https://takenbyninjas.com/for-agents/skills/brand/",
-    "marketing": "https://takenbyninjas.com/for-agents/skills/marketing/",
-    "SaaS": "https://takenbyninjas.com/for-agents/skills/saas/",
-    "startup": "https://takenbyninjas.com/for-agents/skills/startup/",
-    "developer tools": "https://takenbyninjas.com/for-agents/skills/developer-tools/",
-    "ecommerce": "https://takenbyninjas.com/for-agents/skills/ecommerce/",
-    "domains": "https://takenbyninjas.com/for-agents/skills/domains/",
-    "web hosting": "https://takenbyninjas.com/for-agents/skills/web-hosting/",
-    "team leadership": "https://takenbyninjas.com/for-agents/skills/team-leadership/",
-    "remote": "https://takenbyninjas.com/for-agents/skills/remote/",
-    "international": "https://takenbyninjas.com/for-agents/skills/international/",
-    "stakeholders": "https://takenbyninjas.com/for-agents/skills/stakeholders/",
-    "consumer": "https://takenbyninjas.com/for-agents/skills/consumer/",
-    "partnerships": "https://takenbyninjas.com/for-agents/skills/partnerships/",
-    "budget": "https://takenbyninjas.com/for-agents/skills/budget/",
-    "deadline": "https://takenbyninjas.com/for-agents/skills/deadline/"
-  },
+  "stories": "https://takenbyninjas.com/for-agents/stories/",
+  "skills_index": "https://takenbyninjas.com/for-agents/stories/#skills",
   "roles": [
     {
       "company": "Novo Nordisk",
@@ -327,7 +284,7 @@
             "section": "NOVO.R2"
           },
           "years": "2022-2026",
-          "page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/"
+          "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director"
         },
         {
           "role": "Senior Product Manager at Novo Nordisk",
@@ -341,7 +298,7 @@
             "section": "NOVO.R1"
           },
           "years": "2020-2022",
-          "page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/"
+          "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-senior-product-manager"
         }
       ],
       "tier": "self-reported"
@@ -397,7 +354,7 @@
             "section": "LEO"
           },
           "years": "2016-2020",
-          "page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/"
+          "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm"
         }
       ],
       "tier": "self-reported"
@@ -435,7 +392,7 @@
             "section": "T23"
           },
           "years": "2016",
-          "page": "https://takenbyninjas.com/for-agents/roles/twentythree/head-of-marketing/"
+          "page": "https://takenbyninjas.com/for-agents/twentythree/#role-head-of-marketing"
         }
       ],
       "tier": "self-reported"
@@ -476,7 +433,7 @@
             "section": "OPBEAT"
           },
           "years": "2014-2016",
-          "page": "https://takenbyninjas.com/for-agents/roles/opbeat/head-of-marketing/"
+          "page": "https://takenbyninjas.com/for-agents/opbeat/#role-head-of-marketing"
         }
       ],
       "tier": "self-reported"
@@ -516,7 +473,7 @@
             "section": "EURODNS"
           },
           "years": "2013-2014",
-          "page": "https://takenbyninjas.com/for-agents/roles/eurodns/marketing-director/"
+          "page": "https://takenbyninjas.com/for-agents/eurodns/#role-marketing-director"
         }
       ],
       "tier": "self-reported"
@@ -555,7 +512,7 @@
             "section": "UK2"
           },
           "years": "2008-2010",
-          "page": "https://takenbyninjas.com/for-agents/roles/uk2-group/head-of-group-strategy/"
+          "page": "https://takenbyninjas.com/for-agents/uk2/#role-head-of-group-strategy"
         }
       ],
       "tier": "self-reported"
@@ -603,7 +560,7 @@
             "section": "HOST"
           },
           "years": "2003-2008",
-          "page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/"
+          "page": "https://takenbyninjas.com/for-agents/host-europe/#role-head-of-new-media"
         }
       ],
       "tier": "self-reported"
@@ -672,8 +629,8 @@
         "stakeholders",
         "consumer"
       ],
-      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-senior-product-manager",
       "role_aliases": [
         "Product Owner",
         "Product Manager (Wegovycare)"
@@ -778,8 +735,8 @@
         "stakeholders",
         "consumer"
       ],
-      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-senior-product-manager",
       "role_aliases": [
         "Product Owner",
         "Product Manager (Wegovycare)"
@@ -874,8 +831,8 @@
         "stakeholders",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-senior-product-manager",
       "role_aliases": [
         "Product Owner",
         "Product Manager (Wegovycare)"
@@ -1012,8 +969,8 @@
         "team leadership",
         "stakeholders"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
         "Digital Product Operations Lead",
@@ -1174,8 +1131,8 @@
         "consumer",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2-wegovy",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2-wegovy",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
         "Digital Product Operations Lead",
@@ -1330,8 +1287,8 @@
         "consumer",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
         "Digital Product Operations Lead",
@@ -1495,8 +1452,8 @@
         "consumer",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
         "Digital Product Operations Lead",
@@ -1652,8 +1609,8 @@
         "consumer",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
         "Digital Product Operations Lead",
@@ -1776,8 +1733,8 @@
         "consumer",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
         "Digital Product Operations Lead",
@@ -1888,8 +1845,8 @@
         "consumer",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-product-director/#novo-r2",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/associate-product-director/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
         "Digital Product Operations Lead",
@@ -1998,8 +1955,8 @@
         "stakeholders",
         "consumer"
       ],
-      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-senior-product-manager",
       "role_aliases": [
         "Product Owner",
         "Product Manager (Wegovycare)"
@@ -2104,8 +2061,8 @@
         "stakeholders",
         "consumer"
       ],
-      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-senior-product-manager",
       "role_aliases": [
         "Product Owner",
         "Product Manager (Wegovycare)"
@@ -2230,7 +2187,7 @@
         "team leadership"
       ],
       "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -2369,7 +2326,7 @@
         "budget"
       ],
       "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -2526,8 +2483,8 @@
         "0 to 1",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/treat-turnaround/#leo-r1",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -2694,7 +2651,7 @@
         "deadline"
       ],
       "page": "https://takenbyninjas.com/for-agents/twentythree/#t23",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/twentythree/head-of-marketing/",
+      "role_page": "https://takenbyninjas.com/for-agents/twentythree/#role-head-of-marketing",
       "role_aliases": [],
       "facets": [
         {
@@ -2802,7 +2759,7 @@
         "budget"
       ],
       "page": "https://takenbyninjas.com/for-agents/opbeat/#opbeat",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/opbeat/head-of-marketing/",
+      "role_page": "https://takenbyninjas.com/for-agents/opbeat/#role-head-of-marketing",
       "role_aliases": [],
       "facets": [
         {
@@ -2917,7 +2874,7 @@
         "international"
       ],
       "page": "https://takenbyninjas.com/for-agents/eurodns/#eurodns",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/eurodns/marketing-director/",
+      "role_page": "https://takenbyninjas.com/for-agents/eurodns/#role-marketing-director",
       "role_aliases": [],
       "facets": [
         {
@@ -3028,7 +2985,7 @@
         "international"
       ],
       "page": "https://takenbyninjas.com/for-agents/eurodns/#eurodns",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/eurodns/marketing-director/",
+      "role_page": "https://takenbyninjas.com/for-agents/eurodns/#role-marketing-director",
       "role_aliases": [],
       "facets": []
     },
@@ -3089,7 +3046,7 @@
         "budget"
       ],
       "page": "https://takenbyninjas.com/for-agents/uk2/#uk2-r1-usturnaround",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/uk2-group/acting-marketing-manager-us/",
+      "role_page": "https://takenbyninjas.com/for-agents/uk2/#role-acting-marketing-manager-us",
       "role_aliases": [],
       "facets": [
         {
@@ -3224,7 +3181,7 @@
         "budget"
       ],
       "page": "https://takenbyninjas.com/for-agents/uk2/#uk2",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/uk2-group/head-of-group-strategy/",
+      "role_page": "https://takenbyninjas.com/for-agents/uk2/#role-head-of-group-strategy",
       "role_aliases": [],
       "facets": [
         {
@@ -3285,7 +3242,7 @@
         "deadline"
       ],
       "page": "https://takenbyninjas.com/for-agents/host-europe/#host-r1-rebrand",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/",
+      "role_page": "https://takenbyninjas.com/for-agents/host-europe/#role-head-of-new-media",
       "role_aliases": [
         "Head of New Media, Pipex Hosting / GX Networks"
       ],
@@ -3360,7 +3317,7 @@
         "stakeholders"
       ],
       "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/",
+      "role_page": "https://takenbyninjas.com/for-agents/host-europe/#role-head-of-new-media",
       "role_aliases": [
         "Head of New Media, Pipex Hosting / GX Networks"
       ],
@@ -3468,7 +3425,7 @@
         "team leadership"
       ],
       "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -3576,7 +3533,7 @@
         "budget"
       ],
       "page": "https://takenbyninjas.com/for-agents/opbeat/#opbeat",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/opbeat/head-of-marketing/",
+      "role_page": "https://takenbyninjas.com/for-agents/opbeat/#role-head-of-marketing",
       "role_aliases": [],
       "facets": [
         {
@@ -3677,7 +3634,7 @@
         "partnerships"
       ],
       "page": null,
-      "role_page": "https://takenbyninjas.com/for-agents/roles/independent-consulting/independent-consultant/",
+      "role_page": null,
       "role_aliases": [],
       "facets": [
         {
@@ -3777,7 +3734,7 @@
         "web hosting"
       ],
       "page": "https://takenbyninjas.com/for-agents/host-europe/#host-r2-story-domain",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/web-designer/",
+      "role_page": "https://takenbyninjas.com/for-agents/host-europe/#role-web-designer",
       "role_aliases": [],
       "facets": [
         {
@@ -3910,8 +3867,8 @@
         "prototyping",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/solo-projects/#solo",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/solo-projects/solo-projects-building-with-ai/",
+      "page": "https://takenbyninjas.com/for-agents/stories/#solo",
+      "role_page": null,
       "role_aliases": [],
       "facets": [
         {
@@ -3975,8 +3932,8 @@
         "prototyping",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/solo-projects/#solo",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/solo-projects/solo-projects-building-with-ai/",
+      "page": "https://takenbyninjas.com/for-agents/stories/#solo",
+      "role_page": null,
       "role_aliases": [],
       "facets": [
         {
@@ -4053,8 +4010,8 @@
         "experimentation",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/solo-projects/#solo",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/solo-projects/solo-projects-building-with-ai/",
+      "page": "https://takenbyninjas.com/for-agents/stories/#solo",
+      "role_page": null,
       "role_aliases": [],
       "facets": [
         {
@@ -4120,7 +4077,7 @@
         "team leadership"
       ],
       "page": "https://takenbyninjas.com/for-agents/host-europe/#host-r3-story-altsite",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/sales-executive/",
+      "role_page": "https://takenbyninjas.com/for-agents/host-europe/#role-sales-executive",
       "role_aliases": [],
       "facets": [
         {
@@ -4197,8 +4154,8 @@
         "experimentation",
         "launch"
       ],
-      "page": "https://takenbyninjas.com/for-agents/treat-turnaround/#leo-r1-story-feels",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-r1-story-feels",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -4283,7 +4240,7 @@
         "budget"
       ],
       "page": "https://takenbyninjas.com/for-agents/uk2/#uk2",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/uk2-group/head-of-group-strategy/",
+      "role_page": "https://takenbyninjas.com/for-agents/uk2/#role-head-of-group-strategy",
       "role_aliases": [],
       "facets": []
     },
@@ -4344,7 +4301,7 @@
         "team leadership"
       ],
       "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -4407,7 +4364,7 @@
         "partnerships"
       ],
       "page": null,
-      "role_page": "https://takenbyninjas.com/for-agents/roles/textualhealing-com/co-founder/",
+      "role_page": null,
       "role_aliases": [],
       "facets": []
     },
@@ -4468,7 +4425,7 @@
         "team leadership"
       ],
       "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -4534,8 +4491,8 @@
         "partnerships",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/skincoach/#leo-r2",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-r2",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -4598,8 +4555,8 @@
         "0 to 1",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/treat-turnaround/#leo-r1-turnaround",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-r1-turnaround",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -4661,8 +4618,8 @@
         "0 to 1",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/treat-turnaround/#leo-r1-turnaround",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-r1-turnaround",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -4731,8 +4688,8 @@
         "stakeholders",
         "consumer"
       ],
-      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-senior-product-manager",
       "role_aliases": [
         "Product Owner",
         "Product Manager (Wegovycare)"
@@ -4797,7 +4754,7 @@
         "budget"
       ],
       "page": "https://takenbyninjas.com/for-agents/opbeat/#opbeat",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/opbeat/head-of-marketing/",
+      "role_page": "https://takenbyninjas.com/for-agents/opbeat/#role-head-of-marketing",
       "role_aliases": [],
       "facets": []
     },
@@ -4856,7 +4813,7 @@
         "budget"
       ],
       "page": "https://takenbyninjas.com/for-agents/opbeat/#opbeat",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/opbeat/head-of-marketing/",
+      "role_page": "https://takenbyninjas.com/for-agents/opbeat/#role-head-of-marketing",
       "role_aliases": [],
       "facets": []
     },
@@ -4919,8 +4876,8 @@
         "stakeholders",
         "consumer"
       ],
-      "page": "https://takenbyninjas.com/for-agents/wegovycare/#novo-r1",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/novo-nordisk/senior-product-manager/",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r1",
+      "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-senior-product-manager",
       "role_aliases": [
         "Product Owner",
         "Product Manager (Wegovycare)"
@@ -4978,8 +4935,8 @@
         "launch",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/diagnosis-app/#leo-r3",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-r3",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -5040,8 +4997,8 @@
         "launch",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/diagnosis-app/#leo-r3",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-r3",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -5107,8 +5064,8 @@
         "team leadership",
         "remote"
       ],
-      "page": "https://takenbyninjas.com/for-agents/treat-turnaround/#leo-story-model",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/leo-innovation-lab/pm-gm/",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-story-model",
+      "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
         "Product Lead",
@@ -5169,7 +5126,7 @@
         "domains"
       ],
       "page": "https://takenbyninjas.com/for-agents/eurodns/#eurodns-r1-turnaround",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/eurodns/marketing-director/",
+      "role_page": "https://takenbyninjas.com/for-agents/eurodns/#role-marketing-director",
       "role_aliases": [],
       "facets": []
     },
@@ -5228,7 +5185,7 @@
         "international"
       ],
       "page": "https://takenbyninjas.com/for-agents/eurodns/#eurodns",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/eurodns/marketing-director/",
+      "role_page": "https://takenbyninjas.com/for-agents/eurodns/#role-marketing-director",
       "role_aliases": [],
       "facets": []
     },
@@ -5285,7 +5242,7 @@
         "partnerships"
       ],
       "page": null,
-      "role_page": "https://takenbyninjas.com/for-agents/roles/independent-consulting/independent-consultant/",
+      "role_page": null,
       "role_aliases": [],
       "facets": []
     },
@@ -5346,7 +5303,7 @@
         "stakeholders"
       ],
       "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/sales-executive/",
+      "role_page": "https://takenbyninjas.com/for-agents/host-europe/#role-sales-executive",
       "role_aliases": [],
       "facets": []
     },
@@ -5406,7 +5363,7 @@
         "stakeholders"
       ],
       "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/head-of-new-media/",
+      "role_page": "https://takenbyninjas.com/for-agents/host-europe/#role-head-of-new-media",
       "role_aliases": [
         "Head of New Media, Pipex Hosting / GX Networks"
       ],
@@ -5468,7 +5425,7 @@
         "stakeholders"
       ],
       "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
-      "role_page": "https://takenbyninjas.com/for-agents/roles/host-europe-group/group-design-manager/",
+      "role_page": "https://takenbyninjas.com/for-agents/host-europe/#role-group-design-manager",
       "role_aliases": [],
       "facets": []
     }

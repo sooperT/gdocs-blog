@@ -29,7 +29,7 @@ STUB_ROWS = [
     row("/for-agents/", "Mozilla/5.0 (compatible; ClaudeBot/1.0; +claudebot@anthropic.com)", hours=1),
     row("/for-agents/start.md", "Mozilla/5.0 (compatible; PerplexityBot/1.0)", hours=2),
     row("/llms.txt", "Mozilla/5.0 (compatible; Googlebot/2.1)", hours=26, status=404),
-    row("/for-agents/wegovycare/", "tbn-check-staging/1.0 (+https://takenbyninjas.com/for-agents/)", hours=27),
+    row("/for-agents/novo-nordisk/", "tbn-check-staging/1.0 (+https://takenbyninjas.com/for-agents/)", hours=27),
     row("/for-agents/", LONG_UA, hours=28, referer="https://claude.ai/chat"),
     row("/for-agents/start/acme-pm.md", "curl/8.7.1", hours=29, meta={"tag": "acme-pm"}),
     # a visitor-controlled user agent carrying an IP and a question, which must never reach the report

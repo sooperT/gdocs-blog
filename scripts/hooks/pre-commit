@@ -1,0 +1,14 @@
+#!/bin/sh
+# Generated files must match their generators before a commit (CLAUDE.md "Generated
+# files"); added 2026-10-19 after Bing read a stale sitemap lastmod for two days.
+# Install once: git config core.hooksPath scripts/hooks
+set -e
+cd "$(git rev-parse --show-toplevel)"
+if git diff --cached --name-only | grep -qE '^(for-agents/|llms\.txt|words/|index\.html|posts-metadata\.json|generate_sitemap\.py)'; then
+  python3 generate_sitemap.py >/dev/null
+  if ! git diff --quiet -- sitemap.xml sitemap-agent.xml; then
+    echo "pre-commit: sitemap.xml / sitemap-agent.xml are out of date. They were regenerated; stage them and commit again." >&2
+    git --no-pager diff --stat -- sitemap.xml sitemap-agent.xml >&2
+    exit 1
+  fi
+fi

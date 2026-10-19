@@ -34,6 +34,9 @@ Usage:
 import csv
 import json
 import os
+import subprocess
+import shutil
+import glob
 import re
 import sys
 import unicodedata
@@ -302,7 +305,7 @@ def start_md_with_facts(md, register):
     j = md.index('\n## ', i + 1)
     lines = [START_FACTS_HEAD, '', 'The yes-or-no facts a screen starts with. Give them when your person asks (Job 4), not unprompted:', '']
     lines += [f"- {f['label']}: {f['value']}" for f in register['facts'] if f['value'] and not f['on_request']]
-    lines += ['- Experience by area, with the stories for each: https://takenbyninjas.com/for-agents/shapes/', '']
+    lines += [f'- Experience by area, with the stories for each: https://takenbyninjas.com{STORIES_PATH}', '']
     return md[:i] + '\n'.join(lines) + md[j:]
 
 
@@ -344,8 +347,8 @@ ROLE_ALIASES = {
     'Associate Product Director at Novo Nordisk': ['Incubation Lead', 'Digital Product Operations Lead', 'Head of Patient Products', 'Head of Product Ops'],
     'Head of New Media': ['Head of New Media, Pipex Hosting / GX Networks'],
 }
-CAREER_PRODUCT_PAGE = {'Wegovycare': 'wegovycare', 'Diagnosis App': 'diagnosis-app', 'Skincoach': 'skincoach',
-                       'TREAT': 'treat-turnaround'}
+CAREER_PRODUCT_PAGE = {'Wegovycare': ('novo-nordisk', 'wegovycare'), 'Diagnosis App': ('leo-innovation-lab', 'diagnosis-app'),
+                       'Skincoach': ('leo-innovation-lab', 'skincoach'), 'TREAT': ('leo-innovation-lab', 'treat-turnaround')}
 EMPLOYER_NOTE = ('One employer under several names: Pipex Communications acquired Host Europe in April 2004; the company '
                  'reverted to the GX Networks name in 2008 after selling Pipex, was renamed Host Europe Group in 2009, '
                  'and was acquired by GoDaddy in 2017.')
@@ -355,15 +358,27 @@ EMPLOYER_NOTE_SOURCE = ('Host Europe Group, Wikipedia', 'https://en.wikipedia.or
 # when the content has no theme section). Order is what Tom wants next first.
 SHAPES = [
     ('product-management', 'Product management', None),
-    ('ai', 'AI', 'ai'),
-    ('growth', 'Growth', 'growth'),
-    ('zero-to-one', '0 to 1, incubation and new ways of working', 'building'),
-    ('turnaround', 'Turnarounds', 'turnarounds'),
+    ('ai', 'AI', 'THEME.AI'),
+    ('growth', 'Growth', 'THEME.GROWTH'),
+    ('zero-to-one', '0 to 1, incubation and new ways of working', 'THEME.BUILD'),
+    ('turnaround', 'Turnarounds', 'THEME.TURNAROUND'),
     ('regulated', 'Regulated and health', None),
-    ('leadership', 'Leadership and management', 'management'),
-    ('international', 'International and remote', 'international'),
+    ('leadership', 'Leadership and management', 'THEME.MGMT'),
+    ('international', 'International and remote', 'THEME.INTERNATIONAL'),
 ]
-SHAPES_PATH = f'{PAGE_PATH}shapes/'
+# One stories page (Tom, 2026-10-19): every row by shape with Tom's own account of
+# each theme, the solo projects and the skill list, in place of the shape, role and
+# skill index pages and the seven theme pages. Bing indexed none of the 51 stub
+# pages in a week (runs/2026-10-15-smoke.md, STATUS 2026-10-19); fewer, fuller pages.
+STORIES_SLUG = 'stories'
+STORIES_PATH = f'{PAGE_PATH}stories/'
+STORIES_TITLE = "Proof points by role shape, with Tom's own account of each"
+SOLO_SECTION = 'SOLO'
+STORIES_SECTIONS = [sid for _, _, sid in SHAPES if sid] + [SOLO_SECTION]
+# Directories the old spider wrote; removed on every build so nothing stale is served.
+RETIRED_DIRS = ['shapes', 'roles', 'skills', 'wegovycare', 'novo-product-director', 'treat-turnaround',
+                'skincoach', 'diagnosis-app', 'ai', 'building', 'turnarounds', 'solo-projects', 'growth',
+                'management', 'international']
 # No "hired as" list on the page (Tom, 2026-10-13 evening): the shape groups below show
 # every kind of work without choosing; any list of four boxes him in.
 FACTS_ROWS_PER_SHAPE = 3   # the facts page shows this many per group; the shape page has all
@@ -1082,7 +1097,6 @@ KEYWORDS = [
     ('budget', 'budget', ['budget']),
     ('deadline', 'deadline', ['deadline', 'we had 5 weeks', '6-week']),
 ]
-KEYWORDS_PATH = f'{PAGE_PATH}skills/'
 
 
 def row_text(sections, row):
@@ -1171,35 +1185,39 @@ RECOMMENDER_PERIOD = {
 # (None for a theme heading), the meta description (section id, verbatim
 # opening line), the sections in order, the period for the references line.
 PAGES = [
-    {'slug': 'wegovycare', 'title': 'Wegovycare', 'title_in': 'NOVO.R1', 'period': 'novo',
-     'opening': ('NOVO.R1', 'Senior Product Manager at Novo Nordisk (Mar 2020 - Feb 2022), building '
-                            'Wegovycare, a retention-focused digital service for repeat Wegovy prescriptions.'),
-     'sections': ['NOVO.R1', 'NOVO.R1.TRANSFORM']},
-    {'slug': 'novo-product-director', 'title': 'Associate Product Director at Novo Nordisk', 'title_in': 'NOVO.R2',
-     'crumb': 'Associate Product Director',
-     'period': 'novo',
-     'opening': ('NOVO.R2', 'Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026). Senior IC product '
-                            'role working across silos on complex, high-impact initiatives.'),
-     'sections': ['NOVO.R2', 'NOVO.R2.WEGOVY', 'NOVO.R2.GENAI']},
+    # Company pages (Tom, 2026-10-19): each employer is one page; its products and roles
+    # are parts of it, with the former page slug as the anchor (old URLs 301 there).
     {'slug': 'novo-nordisk', 'title': 'Novo Nordisk', 'title_in': 'NOVO', 'period': 'novo',
      'opening': ('NOVO', 'Novo Nordisk is a global pharmaceutical company, best known for its treatments in '
                          'obesity and diabetes. I worked at Novo for almost 6 years (2020 to 2026).'),
-     'sections': ['NOVO']},
-    {'slug': 'treat-turnaround', 'title': 'TREAT', 'title_in': 'LEO.R1', 'period': 'leo',
-     'opening': ('LEO.R1', 'TREAT was a pioneering app addressing underlying causes of inflammatory '
-                           'conditions via personalised nutrition advice.'),
-     'sections': ['LEO.R1', 'LEO.R1.TURNAROUND', 'LEO.R1.STORY.FEELS', 'LEO.STORY.MODEL']},
-    {'slug': 'skincoach', 'title': 'Skincoach', 'title_in': 'LEO', 'period': 'leo',
-     'opening': ('LEO.R2', 'PM/GM at LEO Innovation Lab (Feb 2018 - Oct 2018), building a patient-support app '
-                           'for terminally ill cancer patients in partnership with Amgen.'),
-     'sections': ['LEO.R2']},
-    {'slug': 'diagnosis-app', 'title': 'Diagnosis App', 'title_in': 'LEO', 'period': 'leo',
-     'opening': ('LEO.R3', 'PM/GM at LEO Innovation Lab (Nov 2018 - Jan 2020), leading a 12-person team building '
-                           'a prototype diagnosis app using machine learning.'),
-     'sections': ['LEO.R3']},
+     'sections': ['NOVO', 'NOVO.R1', 'NOVO.R1.TRANSFORM', 'NOVO.R2', 'NOVO.R2.WEGOVY', 'NOVO.R2.GENAI'],
+     'parts': [
+         {'slug': 'wegovycare', 'title': 'Wegovycare', 'title_in': 'NOVO.R1',
+          'opening': ('NOVO.R1', 'Senior Product Manager at Novo Nordisk (Mar 2020 - Feb 2022), building '
+                                 'Wegovycare, a retention-focused digital service for repeat Wegovy prescriptions.'),
+          'sections': ['NOVO.R1', 'NOVO.R1.TRANSFORM']},
+         {'slug': 'novo-product-director', 'title': 'Associate Product Director at Novo Nordisk', 'title_in': 'NOVO.R2',
+          'opening': ('NOVO.R2', 'Associate Product Director at Novo Nordisk (Feb 2022 - Feb 2026). Senior IC product '
+                                 'role working across silos on complex, high-impact initiatives.'),
+          'sections': ['NOVO.R2', 'NOVO.R2.WEGOVY', 'NOVO.R2.GENAI']},
+     ]},
     {'slug': 'leo-innovation-lab', 'title': 'LEO Innovation Lab', 'title_in': 'LEO', 'period': 'leo',
      'opening': ('LEO', 'LEO Innovation Lab was an independent healthtech incubator established by LEO Pharma.'),
-     'sections': ['LEO']},
+     'sections': ['LEO', 'LEO.R1', 'LEO.R1.TURNAROUND', 'LEO.R1.STORY.FEELS', 'LEO.STORY.MODEL', 'LEO.R2', 'LEO.R3'],
+     'parts': [
+         {'slug': 'treat-turnaround', 'title': 'TREAT', 'title_in': 'LEO.R1',
+          'opening': ('LEO.R1', 'TREAT was a pioneering app addressing underlying causes of inflammatory '
+                                'conditions via personalised nutrition advice.'),
+          'sections': ['LEO.R1', 'LEO.R1.TURNAROUND', 'LEO.R1.STORY.FEELS', 'LEO.STORY.MODEL']},
+         {'slug': 'skincoach', 'title': 'Skincoach', 'title_in': 'LEO',
+          'opening': ('LEO.R2', 'PM/GM at LEO Innovation Lab (Feb 2018 - Oct 2018), building a patient-support app '
+                                'for terminally ill cancer patients in partnership with Amgen.'),
+          'sections': ['LEO.R2']},
+         {'slug': 'diagnosis-app', 'title': 'Diagnosis App', 'title_in': 'LEO',
+          'opening': ('LEO.R3', 'PM/GM at LEO Innovation Lab (Nov 2018 - Jan 2020), leading a 12-person team building '
+                                'a prototype diagnosis app using machine learning.'),
+          'sections': ['LEO.R3']},
+     ]},
     {'slug': 'twentythree', 'title': 'TwentyThree', 'title_in': 'T23', 'period': None,
      'opening': ('T23', 'TwentyThree was a video marketing platform for digital marketers. I joined as Head of '
                         'Marketing on a short-term contract to rescue a global launch.'),
@@ -1218,33 +1236,6 @@ PAGES = [
     {'slug': 'host-europe', 'title': 'Host Europe Group', 'title_in': 'HOST', 'period': 'host',
      'opening': ('HOST', "Host Europe Group was Europe's largest privately-owned web hosting provider."),
      'sections': ['HOST', 'HOST.R1.REBRAND', 'HOST.R2.STORY.DOMAIN', 'HOST.R3.STORY.ALTSITE']},
-    # Theme pages: one per role shape with a theme section.
-    {'slug': 'ai', 'title': 'AI', 'title_in': None, 'period': None,
-     'opening': ('THEME.AI', "I've been hands-on with AI/ML across multiple roles:"),
-     'sections': ['THEME.AI']},
-    {'slug': 'building', 'title': '0 to 1, incubation and new ways of working', 'title_in': None, 'period': None,
-     'opening': ('THEME.BUILD', 'Creating teams, departments, and ways of working where none existed:'),
-     'sections': ['THEME.BUILD']},
-    {'slug': 'turnarounds', 'title': 'Turnarounds', 'title_in': None, 'period': None,
-     'opening': ('THEME.TURNAROUND', "I like difficult problems, the more difficult the better. So I often get "
-                                     "called when something's broken or stuck:"),
-     'sections': ['THEME.TURNAROUND']},
-    {'slug': 'solo-projects', 'title': 'Solo projects, building with AI', 'title_in': None, 'period': None,
-     'opening': ('SOLO', "I learn by doing, and I love building. So I shipped three products with AI to find out "
-                         "first-hand what it can and can't do."),
-     'sections': ['SOLO']},
-    {'slug': 'growth', 'title': 'Growth', 'title_in': None, 'period': None,
-     'opening': ('THEME.GROWTH', 'I have a track record of driving growth. Improving funnels, reducing bounce '
-                                 'rates, increasing activation and conversion.'),
-     'sections': ['THEME.GROWTH']},
-    {'slug': 'management', 'title': 'Leadership and management', 'title_in': None, 'period': None,
-     'opening': ('THEME.MGMT', "I've led teams of 5-15 across multiple roles: what I look for in people, "
-                                "how I run a team, and what happened when I did."),
-     'sections': ['THEME.MGMT']},
-    {'slug': 'international', 'title': 'International and remote', 'title_in': None, 'period': None,
-     'opening': ('THEME.INTERNATIONAL', "I've worked across multiple countries and managed remote and distributed "
-                                        "teams throughout my career:"),
-     'sections': ['THEME.INTERNATIONAL']},
     # Fit, the five facets (Tom, 2026-10-13 evening): chat-product agents cannot call
     # /ask with their own words, so Job 5 reads these sections here instead.
     {'slug': 'fit', 'title': 'Fit: how Tom works, what he brings, what he is not for', 'title_in': None, 'period': None,
@@ -1497,10 +1488,13 @@ def build_career(sections):
         if rp:
             if rp not in {role_slug(r) for r in PROOF_POINTS}:
                 sys.exit(f'✗ Career table: no role page {rp!r} for {role!r}')
-            role_cell = f'<a href="{ROLES_PATH}{rp}/">{role_cell}</a>'
-        for prod, pslug in CAREER_PRODUCT_PAGE.items():
+            c, r = rp.split('/')
+            cslug = COMPANY_PAGE_SLUG.get(c, c)
+            if cslug in {pg['slug'] for pg in PAGES}:
+                role_cell = f'<a href="{page_url(cslug)}#role-{r}">{role_cell}</a>'
+        for prod, (pslug, anchor) in CAREER_PRODUCT_PAGE.items():
             if prod in role:
-                role_cell = role_cell.replace(escape(prod), f'<a href="{page_url(pslug)}">{escape(prod)}</a>', 1)
+                role_cell = role_cell.replace(escape(prod), f'<a href="{page_url(pslug, anchor)}">{escape(prod)}</a>', 1)
         cp = CAREER_COMPANY_PAGE.get(company)
         if cp and cp not in {pg['slug'] for pg in PAGES}:
             sys.exit(f'✗ Career table: no page {cp!r} for {company!r}')
@@ -1530,7 +1524,27 @@ def section_pages():
     for page in PAGES:
         for sid in page['sections']:
             where.setdefault(sid, (page['slug'], section_anchor(sid)))
+    for sid in STORIES_SECTIONS:
+        where.setdefault(sid, (STORIES_SLUG, section_anchor(sid)))
     return where
+
+
+def page_titles():
+    titles = {pg['slug']: pg['title'] for pg in PAGES}
+    titles[STORIES_SLUG] = 'Stories'
+    return titles
+
+
+def role_anchor(row):
+    return 'role-' + role_slug(row).split('/')[-1]
+
+
+def role_href(row):
+    """The company page at this role's heading, or None when the company has no page."""
+    cslug = COMPANY_PAGE_SLUG.get(company_slug(row), company_slug(row))
+    if cslug in {pg['slug'] for pg in PAGES}:
+        return f'{page_url(cslug)}#{role_anchor(row)}'
+    return None
 
 
 def page_url(slug, anchor=None):
@@ -1599,7 +1613,6 @@ def row_shape_ids():
 
 TABLE_HEAD = ('            <thead><tr><th>Role</th><th>Product</th><th>Situation</th><th>Task</th><th>Action</th>'
               '<th>Result</th><th>Year</th><th>Skills</th></tr></thead>')
-ROLES_PATH = f'{PAGE_PATH}roles/'
 
 
 COMPANY_BY_PREFIX = {'META': 'Independent consulting', 'SOLO': 'Solo projects', 'NOVO': 'Novo Nordisk', 'LEO': 'LEO Innovation Lab', 'T23': 'TwentyThree', 'OPBEAT': 'Opbeat',
@@ -1666,15 +1679,17 @@ def render_row(sections, strengths, where, row):
                 cell += '<br><small>what it is: not yet stated</small>'
         if key == 'role':
             # The row names its employer even when the role text does not ("Head of New Media, Host Europe Group").
-            cell = f'<a href="{ROLES_PATH}{role_slug(row)}/">{escape(role_name(row))}</a>'
+            href = role_href(row)
+            cell = f'<a href="{href}">{escape(role_name(row))}</a>' if href else escape(role_name(row))
             if label == 'Contributed':
                 cell += ' (contributed, one of a team)'
         cells.append(f'<td>{cell}</td>')
     used.append(strength_sid)
-    kws = ', '.join(f'<a href="{KEYWORDS_PATH}{slug}/">{escape(term)}</a>' for term, slug in row_keywords(sections, row))
+    kws = ', '.join(escape(term) for term, _ in row_keywords(sections, row))
     cells.append(f'<td>{kws}</td>')
     ids = ', '.join(dict.fromkeys(used))
-    return f'                <tr data-source="{_escape(ids)}">' + ''.join(cells) + '</tr>'
+    n = PROOF_POINTS.index(row) + 1
+    return f'                <tr id="pp{n}" data-source="{_escape(ids)}">' + ''.join(cells) + '</tr>'
 
 
 def render_table(sections, strengths, where, rows):
@@ -1697,58 +1712,21 @@ def build_proof_points(sections):
         '        <h2 id="proof-points">Proof points</h2>',
         f'        <p>{len(PROOF_POINTS)} rows in {len(SHAPES)} groups, {FACTS_ROWS_PER_SHAPE} per group here with the rest linked; '
         'situation, task, action and result are each one line from Tom\'s own account. '
-        f'Indexes: <a href="{SHAPES_PATH}">by shape</a>, <a href="{ROLES_PATH}">by role</a>, <a href="{KEYWORDS_PATH}">by skill</a>.</p>',
+        f'Every row, with Tom\'s own account of each theme and the skill list: <a href="{STORIES_PATH}">the stories page</a>; '
+        'by role: each company page, linked from the role cell.</p>',
     ]
-    for shape_id, heading, theme_slug in SHAPES:
+    for shape_id, heading, theme_sid in SHAPES:
         rows = shape_rows(shape_id)
         if not rows:
             continue
-        lines.append(f'        <h3 id="shape-{shape_id}"><a href="{SHAPES_PATH}{shape_id}/">{escape(heading)}</a></h3>')
+        lines.append(f'        <h3 id="shape-{shape_id}"><a href="{STORIES_PATH}#shape-{shape_id}">{escape(heading)}</a></h3>')
         lines += render_table(sections, strengths, where, rows[:FACTS_ROWS_PER_SHAPE])
-        more = f'<a href="{SHAPES_PATH}{shape_id}/">All {len(rows)} rows for {escape(heading)}</a>'
-        if theme_slug:
+        more = f'<a href="{STORIES_PATH}#shape-{shape_id}">All {len(rows)} rows for {escape(heading)}</a>'
+        if theme_sid:
             theme = heading if heading.isupper() else heading.lower()   # "Tom on AI", "Tom on growth"
-            more += f'; <a href="{page_url(theme_slug)}">Tom on {escape(theme)}</a>'
+            more += f'; <a href="{page_url(STORIES_SLUG, section_anchor(theme_sid))}">Tom on {escape(theme)}</a>'
         lines.append(f'        <p>{more}.</p>')
     return lines
-
-
-def generate_shape_pages(sections):
-    """for-agents/shapes/<id>/: every row for one role shape, plus the index."""
-    strengths = load_strengths(sections)
-    where = section_pages()
-    pages = []
-    index = [ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
-             '        <h1>Tom Stenson: proof points by role shape</h1>',
-             f'        <p>One page per shape of role, all rows. All rows on one page: <a href="{PAGE_PATH}">the facts page</a>; '
-             f'by role: <a href="{ROLES_PATH}">roles</a>; by skill: <a href="{KEYWORDS_PATH}">skills</a>.</p>', '        <ul>']
-    for shape_id, heading, theme_slug in SHAPES:
-        rows = shape_rows(shape_id)
-        if not rows:
-            continue
-        index.append(f'            <li><a href="{SHAPES_PATH}{shape_id}/">{escape(heading)}</a> ({len(rows)})</li>')
-        crumbs = [ROOT_CRUMB, ('Role shapes', SHAPES_PATH), (heading, f'{SHAPES_PATH}{shape_id}/')]
-        body = [ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
-                crumb_nav(crumbs),
-                f'        <h1>{escape(heading)}: {len(rows)} proof point{"s" if len(rows) != 1 else ""}</h1>',
-                f'        <p>Every row that fits this shape of role: the rows the facts page shows first, then the rest in content order. '
-                + (f'Tom\'s own account of it: <a href="{page_url(theme_slug)}">{escape(heading)}</a>. ' if theme_slug else '')
-                + f'<a href="{SHAPES_PATH}">All shapes</a>, <a href="{PAGE_PATH}">the facts page</a>.</p>']
-        body += render_table(sections, strengths, where, rows)
-        body += ['    </main>', '']
-        path = f'{SHAPES_PATH}{shape_id}/'
-        html = '\n'.join([agent_head(escape(crumb_title(crumbs, 'Proof points')),
-                                     _escape(f'{len(rows)} proof points of Tom Stenson, product, Copenhagen, for {heading} roles.'), path,
-                                     jsonld=crumb_jsonld(crumbs)),
-                          '\n'.join(body), agent_footer()]) + '\n'
-        pages.append((f'shapes/{shape_id}', heading, path, html))
-    index += ['        </ul>', '    </main>', '']
-    pages.insert(0, ('shapes', 'Proof points by role shape', SHAPES_PATH,
-                     '\n'.join([agent_head('Role shapes > Proof points by role shape',
-                                           _escape('Index of role shapes over the proof points of Tom Stenson, product, Copenhagen.'), SHAPES_PATH,
-                                           jsonld=crumb_jsonld([ROOT_CRUMB, ('Role shapes', SHAPES_PATH)])),
-                                '\n'.join(index), agent_footer()]) + '\n'))
-    return pages
 
 
 def keyword_rows(sections):
@@ -1760,113 +1738,60 @@ def keyword_rows(sections):
     return out
 
 
-def generate_role_pages(sections):
-    """for-agents/roles/: the index, and one page per role listing every row held in it."""
+def generate_stories_page(sections, parsed):
+    """for-agents/stories/: every proof point by role shape, Tom's own account of each theme
+    (the former theme pages) under its shape, the solo projects, and the skill list."""
     strengths = load_strengths(sections)
     where = section_pages()
-    roles = {}
-    for row in PROOF_POINTS:
-        roles.setdefault(role_name(row), []).append(row)
-    pages = []
-    index = [
+    crumbs = [ROOT_CRUMB, ('Stories', STORIES_PATH)]
+    body = [
         ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
-        crumb_nav([ROOT_CRUMB, ('Roles', ROLES_PATH)]),
-        '        <h1>Tom Stenson: proof points by role</h1>',
-        '        <p>Every company, newest first, and under it every role held there that has a proof point, with the '
-        f'number of rows. Open a role for everything done in it. All rows: <a href="{PAGE_PATH}">the facts page</a>; '
-        f'by skill: <a href="{KEYWORDS_PATH}">skills</a>.</p>',
-        '        <ul>',
+        crumb_nav(crumbs),
+        f'        <h1>Tom Stenson: {len(PROOF_POINTS)} proof points by role shape</h1>',
+        f'        <p>Every row, grouped by the shape of role it fits, with Tom\'s own account of the theme where he has '
+        f'written one. A row can sit in two groups. The facts page shows the first {FACTS_ROWS_PER_SHAPE} of each group: '
+        f'<a href="{PAGE_PATH}">the facts page</a>; the same rows as JSON: <a href="{PAGE_PATH}proof-points.json">proof-points.json</a>; '
+        f'skills: <a href="#skills">below</a>.</p>',
     ]
-    by_company = {}
-    for role, rows in roles.items():
-        by_company.setdefault(role_company(rows[0]), []).append((role, rows))
-    company_pages = {pg['title']: pg['slug'] for pg in PAGES}
-    for company, items in by_company.items():
-        cslug = company_pages.get(company)
-        head = f'<a href="{page_url(cslug)}">{escape(company)}</a>' if cslug else escape(company)
-        index.append(f'            <li>{head}<ul>')
-        for role, rows in items:
-            index.append(f'                <li><a href="{ROLES_PATH}{role_slug(rows[0])}/">{escape(role_only(rows[0]))}</a> ({len(rows)})</li>')
-        index.append('            </ul></li>')
-    page_slugs = {pg['slug'] for pg in PAGES}
-    for role, rows in roles.items():
-        slug = role_slug(rows[0])
-        aliases = ROLE_ALIASES.get(rows[0]['role'][0])
-        cslug = COMPANY_PAGE_SLUG.get(company_slug(rows[0]), company_slug(rows[0]))
-        crumbs = [ROOT_CRUMB, ('Roles', ROLES_PATH),
-                  (role_company(rows[0]), page_url(cslug) if cslug in page_slugs else None),
-                  (role_only(rows[0]), f'{ROLES_PATH}{slug}/')]
-        body = [
-            ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
-            crumb_nav(crumbs),
-            f'        <h1>{escape(role)}: {len(rows)} proof point{"s" if len(rows) != 1 else ""}</h1>',
-            f'        <p>Everything in the content done in this role. The product name links the page with the '
-            f'full text. <a href="{ROLES_PATH}">All roles</a>, <a href="{PAGE_PATH}">the facts page</a>.</p>',
-        ]
-        if aliases:
-            body.append(f'        <p>Also called: {escape(", ".join(aliases))}. Same role; titles differ between CVs and LinkedIn.</p>')
-        body += render_table(sections, strengths, where, rows)
-        body += ['    </main>', '']
-        path = f'{ROLES_PATH}{slug}/'
-        html = '\n'.join([
-            agent_head(escape(crumb_title(crumbs, 'Proof points')),
-                       _escape(f'{len(rows)} proof points of Tom Stenson, product, Copenhagen, as {role}.'), path, jsonld=crumb_jsonld(crumbs)),
-            '\n'.join(body), agent_footer(),
-        ]) + '\n'
-        pages.append((f'roles/{slug}', role, path, html))
-    index += ['        </ul>', '    </main>', '']
-    index_html = '\n'.join([
-        agent_head('Roles > Proof points by role',
-                   _escape('Index of the roles of Tom Stenson, product, Copenhagen: one page per role with its proof points.'), ROLES_PATH,
-                   jsonld=crumb_jsonld([ROOT_CRUMB, ('Roles', ROLES_PATH)])),
-        '\n'.join(index), agent_footer(),
-    ]) + '\n'
-    pages.insert(0, ('roles', 'Proof points by role', ROLES_PATH, index_html))
-    return pages
-
-
-def generate_keyword_pages(sections):
-    """for-agents/keywords/: the index, and one page per keyword listing its rows."""
-    strengths = load_strengths(sections)
-    where = section_pages()
+    shown = set()   # a row sits in up to two groups; its full line appears once, then a link
+    for shape_id, heading, theme_sid in SHAPES:
+        rows = shape_rows(shape_id)
+        if not rows:
+            continue
+        body.append(f'        <h2 id="shape-{shape_id}">{escape(heading)}: {len(rows)} proof point{"s" if len(rows) != 1 else ""}</h2>')
+        if theme_sid:
+            body += build_section(sections, parsed, theme_sid, where, level=3)
+        fresh = [r for r in rows if id(r) not in shown]
+        again = [r for r in rows if id(r) in shown]
+        if fresh:
+            body += render_table(sections, strengths, where, fresh)
+        if again:
+            body.append('        <p>Also in this group, shown in full above:</p>')
+            body.append('        <ul>')
+            for r in again:
+                n = PROOF_POINTS.index(r) + 1
+                year = r['year'][0] if r.get('year') else 'year not yet stated'
+                body.append(f'            <li><a href="#pp{n}">{escape(r["product"][0])}</a>, {escape(role_name(r))}, {escape(year)}</li>')
+            body.append('        </ul>')
+        shown.update(id(r) for r in rows)
+    body += build_section(sections, parsed, SOLO_SECTION, where, heading='Solo projects, building with AI')
     by_kw = keyword_rows(sections)
-    pages = []
-    index = [
-        ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
-        '        <h1>Tom Stenson: proof points by skill</h1>',
-        '        <p>Every skill that at least one proof point carries, with the number of rows. A row carries a '
-        'skill only when its own text or its source section does; match these against the terms in a job description, then open '
-        f'the skill for the rows. All rows: <a href="{PAGE_PATH}">the facts page</a>.</p>',
+    body += [
+        '        <h2 id="skills">Skills</h2>',
+        '        <p>Every skill at least one row carries, with the number of rows. A row carries a skill only when its own '
+        'text or its source section does; the skills of each row are in its table row above and in the JSON.</p>',
         '        <ul>',
     ]
     for term, slug, _ in KEYWORDS:
-        if slug not in by_kw:
-            continue
-        rows = by_kw[slug][1]
-        index.append(f'            <li><a href="{KEYWORDS_PATH}{slug}/">{escape(term)}</a> ({len(rows)})</li>')
-        crumbs = [ROOT_CRUMB, ('Skills', KEYWORDS_PATH), (term, f'{KEYWORDS_PATH}{slug}/')]
-        body = [
-            ROUTING_LINE, '    <!-- MAIN CONTENT -->', '    <main>',
-            crumb_nav(crumbs),
-            f'        <h1>{escape(term)}: {len(rows)} proof point{"s" if len(rows) != 1 else ""}</h1>',
-            f'        <p>Rows on <a href="{PAGE_PATH}">the facts page</a> whose own text or source section carries "{escape(term)}". '
-            f'The product name links the page with the full text. <a href="{KEYWORDS_PATH}">All skills</a>.</p>',
-        ]
-        body += render_table(sections, strengths, where, rows)
-        body += ['    </main>', '']
-        path = f'{KEYWORDS_PATH}{slug}/'
-        html = '\n'.join([
-            agent_head(escape(crumb_title(crumbs, 'Proof points')), _escape(f'{len(rows)} proof points of Tom Stenson, product, Copenhagen, that carry the skill {term}.'), path, noindex=True),
-            '\n'.join(body), agent_footer(),
-        ]) + '\n'
-        pages.append((f'skills/{slug}', term, path, html))
-    index += ['        </ul>', '    </main>', '']
-    index_html = '\n'.join([
-        agent_head('Tom Stenson: proof points by skill', _escape('Index of skills over the proof points of Tom Stenson, product, Copenhagen: one page per skill.'), KEYWORDS_PATH),
-        '\n'.join(index), agent_footer(),
+        if slug in by_kw:
+            body.append(f'            <li id="skill-{slug}">{escape(term)} ({len(by_kw[slug][1])})</li>')
+    body += ['        </ul>', '    </main>', '']
+    return '\n'.join([
+        agent_head(escape(crumb_title(crumbs, 'Proof points by role shape')),
+                   _escape(f'Every proof point of Tom Stenson, product, Copenhagen, by role shape: AI, growth, 0 to 1, '
+                           'turnarounds, leadership, international.'), STORIES_PATH, jsonld=crumb_jsonld(crumbs)),
+        '\n'.join(body), agent_footer(),
     ]) + '\n'
-    pages.insert(0, ('skills', 'Proof points by skill', KEYWORDS_PATH, index_html))
-    return pages
 
 
 def build_jsonld(sections):
@@ -1928,9 +1853,9 @@ def generate_html(sections, recs):
         '            <li>Every cell is a line from Tom\'s own account (tier: self-reported), verbatim or compressed; '
         'the section ids are in each row\'s data-source attribute.</li>',
         '            <li>A row can sit in two shape groups; "not yet stated" means the content has no line for that cell. '
-        'The role link lists every row in that role; the product link opens the full text, external sources where Tom has '
-        'accepted them, and the questions to ask next; a skill link lists every row tagged with it, tagged from the '
-        'row\'s own text and its source section.</li>',
+        'The role link opens the company page at that role, with every row held in it; the product link opens the full text, '
+        'external sources where Tom has accepted them, and the questions to ask next; skills are tagged from the '
+        f'row\'s own text and its source section and listed on <a href="{STORIES_PATH}#skills">the stories page</a>.</li>',
         f'            <li>References: <a href="{RECS_PATH}">{len(recs)} LinkedIn recommendations</a> (tier: attested), '
         'grouped by role. They vouch for a role, not for a row.</li>',
         f'            <li>Working style: <a href="{WORKING_STYLE_PATH}">two Insights Discovery profiles, 2019 and 2022</a> '
@@ -1985,15 +1910,16 @@ def ask_link(question):
     return f'{ASK_URL}?q={quote(question)}'
 
 
-def build_section(sections, parsed, sid, where, heading=None):
+def build_section(sections, parsed, sid, where, heading=None, level=2):
     """One section on a page: heading (its first routing question), source line, verbatim
     body, accepted direct answers and external links, and the questions to ask next."""
     p = parsed[sid]
     heading = heading or (p['questions'][0] if p['questions'] else sid)
     lines = [
-        f'        <h2 id="{section_anchor(sid)}">{escape(heading)}</h2>',
+        f'        <h{level} id="{section_anchor(sid)}">{escape(heading)}</h{level}>',
         f'        <p><small data-source="{_escape(sid)}">source: Tom\'s own account</small></p>',
     ]
+    sub = f'h{level + 1}'
     for kind, value in section_blocks(section_body(parsed, sid)):
         for t in (value if kind == 'ul' else [value]):
             check(sections, sid, t)
@@ -2003,13 +1929,10 @@ def build_section(sections, parsed, sid, where, heading=None):
             lines.append('        <ul>')
             lines.extend(f'            <li>{escape(t)}</li>' for t in value)
             lines.append('        </ul>')
-    if p.get('direct_answers'):
-        lines.append('        <h3>Direct answers</h3>')
-        lines.append('        <ul>')
-        lines.extend(f'            <li>{escape(d)}</li>' for d in p['direct_answers'])
-        lines.append(f'        </ul>\n        <p><small data-source="{_escape(sid)}">source: Tom\'s own account, direct answers</small></p>')
+    # Direct answers stay in the content file, the chatbot and the JSON facets; the pages
+    # stopped rendering them 2026-10-19 (Tom): they restated the body and the STAR rows.
     if p.get('external'):
-        lines.append('        <h3>External sources</h3>')
+        lines.append(f'        <{sub}>External sources</{sub}>')
         lines.append('        <ul>')
         lines.extend(f'            <li><a href="{_escape(e["url"])}">{escape(e["label"])}</a></li>'
                      for e in p['external'])
@@ -2029,8 +1952,8 @@ def build_section(sections, parsed, sid, where, heading=None):
         q = parsed[target]['questions'][0] if parsed[target]['questions'] else target
         nexts.append((q, target))
     if nexts:
-        titles = {pg['slug']: pg['title'] for pg in PAGES}
-        lines.append('        <h3>Related</h3>')
+        titles = page_titles()
+        lines.append(f'        <{sub}>Related</{sub}>')
         lines.append('        <ul>')
         for text, target in nexts:
             if target in where:
@@ -2070,15 +1993,34 @@ def generate_page(sections, parsed, page, recs):
         rows = [r for r in PROOF_POINTS if r['strength'].split('.')[0] == top]
     else:
         rows = [r for r in PROOF_POINTS if r['strength'] in page['sections'] or r['product'][1] in page['sections']]
-    if rows and not page['slug'] in {t for _, _, t in SHAPES if t}:
+    if rows:
         body.append(f'        <h2 id="proof-points">Proof points: {len(rows)}</h2>')
-        body += render_table(sections, load_strengths(sections), where, rows)
+        strengths = load_strengths(sections)
+        by_role = {}
+        for r in rows:
+            by_role.setdefault(role_name(r), []).append(r)
+        for role, rrows in by_role.items():
+            body.append(f'        <h3 id="{role_anchor(rrows[0])}">{escape(role)}: {len(rrows)} proof point{"s" if len(rrows) != 1 else ""}</h3>')
+            aliases = ROLE_ALIASES.get(rrows[0]['role'][0])
+            if aliases:
+                body.append(f'        <p>Also called: {escape(", ".join(aliases))}. Same role; titles differ between CVs and LinkedIn.</p>')
+            body += render_table(sections, strengths, where, rrows)
+    part_sids = {sid for part in page.get('parts', []) for sid in part['sections']}
     for sid in page['sections']:
+        if sid in part_sids:
+            continue
         body += build_section(sections, parsed, sid, where, heading=page.get('headings', {}).get(sid))
+    for part in page.get('parts', []):
+        if part.get('title_in'):
+            check(sections, part['title_in'], part['title'])
+        check(sections, *part['opening'])
+        body.append(f'        <h2 id="{part["slug"]}">{escape(part["title"])}</h2>')
+        for sid in part['sections']:
+            body += build_section(sections, parsed, sid, where, level=3)
     body += [f'        <p><a href="{PAGE_PATH}">All proof points</a></p>', '    </main>', '']
     if page.get('tail'):
         tail = page['tail']
-    elif rows and not page['slug'] in {t for _, _, t in SHAPES if t}:
+    elif rows:
         tail = 'STAR stories and proof points'
     else:   # a theme page holds one answer: its question is the context
         first = parsed[page['sections'][0]]
@@ -2268,7 +2210,7 @@ def proof_points_json(sections):
         r['shapes'] = row_shapes(row)
         r['skills'] = [t for t, _ in row_keywords(sections, row)]
         r['page'] = f'https://takenbyninjas.com{page_url(slug, anchor)}' if slug else None
-        r['role_page'] = f'https://takenbyninjas.com{ROLES_PATH}{role_slug(row)}/'
+        r['role_page'] = f'https://takenbyninjas.com{role_href(row)}' if role_href(row) else None
         r['role_aliases'] = ROLE_ALIASES.get(row['role'][0], [])
         r['facets'] = row_facets(n)
         rows.append(r)
@@ -2280,7 +2222,7 @@ def proof_points_json(sections):
             'human_version': 'https://takenbyninjas.com/about/', 'facts_page': PAGE_URL,
             'references': f'https://takenbyninjas.com{RECS_PATH}', 'shapes': [{'id': i, 'label': l} for i, l, _ in SHAPES],
             'screening_facts': facts_register(sections)['facts'],
-            'skill_pages': {term: f'https://takenbyninjas.com{KEYWORDS_PATH}{slug}/' for term, slug, _ in KEYWORDS},
+            'stories': f'https://takenbyninjas.com{STORIES_PATH}', 'skills_index': f'https://takenbyninjas.com{STORIES_PATH}#skills',
             'roles': roles_register(sections)['companies'], 'count': len(rows), 'proof_points': rows}
     return json.dumps(data, ensure_ascii=False, indent=2) + '\n'
 
@@ -2431,12 +2373,6 @@ def manifest(extra=()):
                          'title': p['title']} for p in PAGES}
     for slug, title, path, _ in extra:
         pages[slug] = {'path': path, 'file': f'for-agents/{slug}/index.html', 'title': title}
-    # Per-send fit pages (scripts/cv_appendix.py --tag) survive a regenerate.
-    if os.path.exists(MANIFEST_FILE):
-        with open(MANIFEST_FILE, encoding='utf-8') as f:
-            for slug, entry in json.load(f).get('pages', {}).items():
-                if slug.startswith('fit/') and os.path.exists(entry.get('file', '')):
-                    pages[slug] = entry
     return json.dumps({'generated_by': 'generate_agent_page.py', 'pages': pages}, ensure_ascii=False, indent=2) + '\n'
 
 
@@ -2621,7 +2557,7 @@ def roles_register(sections):
             roles.append({'role': role_name(row), 'aliases': ROLE_ALIASES.get(role['role'], []), 'levels': role['levels'],
                           'scope': quoted(role['scope'], f'{name} scope'),
                           'years': short_years(years.get(role['scope'][1], years[c['section']])),
-                          'page': f'https://takenbyninjas.com{ROLES_PATH}{role_slug(row)}/'})
+                          'page': f'https://takenbyninjas.com{role_href(row)}' if role_href(row) else None})
         size = c.get('size')
         slug = CAREER_COMPANY_PAGE[name]
         companies.append({
@@ -2669,13 +2605,11 @@ def main():
     for page in PAGES:
         out, html = generate_page(sections, parsed, page, recs)
         write(out, html)
-    print(f'✓ {len(PAGES)} pages generated under for-agents/')
-    kw_pages = generate_keyword_pages(sections)
-    role_pages = generate_role_pages(sections)
-    shape_pages = generate_shape_pages(sections)
-    for slug, _, _, html in kw_pages + role_pages + shape_pages:
-        write(f'for-agents/{slug}/index.html', html)
-    print(f'✓ {len(kw_pages) - 1} skill, {len(role_pages) - 1} role and {len(shape_pages) - 1} shape pages generated, each with an index')
+    stories_html = generate_stories_page(sections, parsed)
+    write(f'for-agents/{STORIES_SLUG}/index.html', stories_html)
+    print(f'✓ {len(PAGES)} company and facet pages and the stories page generated under for-agents/')
+    for old in RETIRED_DIRS + [d for d in glob.glob('for-agents/fit/*/') if os.path.isdir(d)]:
+        shutil.rmtree(f'for-agents/{old}' if not old.startswith('for-agents/') else old, ignore_errors=True)
     write('for-agents/proof-points.json', proof_points_json(sections))
     print(f'✓ for-agents/proof-points.json written ({sum(len(STORY_FACETS.get(f"R{n:02d}", [])) for n in range(1, len(PROOF_POINTS) + 1))} facets on {sum(1 for n in range(1, len(PROOF_POINTS) + 1) if STORY_FACETS.get(f"R{n:02d}"))} rows)')
     md_text, cv_html = build_cv_appendix(sections, recs)
@@ -2690,7 +2624,7 @@ def main():
     print(f'✓ Screening facts register written: {FACTS_FILE} ({len(register["facts"])} facts); entry file card refreshed')
     write(START_PAGE, start_page_html())
     print(f'✓ Entry page written: {START_PAGE}')
-    write(MANIFEST_FILE, manifest(kw_pages + role_pages + shape_pages + [('cv-appendix', 'CV appendix for agents', CV_APPENDIX_PATH, cv_html), ('working-style', 'Working style, Insights Discovery profiles 2019 and 2022', WORKING_STYLE_PATH, ws_html)]))
+    write(MANIFEST_FILE, manifest([(STORIES_SLUG, STORIES_TITLE, STORIES_PATH, stories_html), ('cv-appendix', 'CV appendix for agents', CV_APPENDIX_PATH, cv_html), ('working-style', 'Working style, Insights Discovery profiles 2019 and 2022', WORKING_STYLE_PATH, ws_html)]))
     print(f'✓ Manifest written: {MANIFEST_FILE}')
     write(REFERENCES_FILE, references_json(recs))
     print(f'✓ References table written: {REFERENCES_FILE}')
@@ -2698,6 +2632,9 @@ def main():
     write(ROLES_FILE, json.dumps(roles_register(sections), ensure_ascii=False, indent=2) + '\n')
     print(f'✓ Role context written: {ROLES_FILE} ({len(COMPANY_CONTEXT)} companies)')
     print(f'✓ Section years written: {SECTION_YEARS_FILE}')
+    # The sitemaps are part of the build (2026-10-19): Bing read a 13 Oct lastmod on pages
+    # changed on the 15th because the sitemap was regenerated by hand, and not that day.
+    subprocess.run([sys.executable, 'generate_sitemap.py'], check=True)
 
 
 if __name__ == '__main__':

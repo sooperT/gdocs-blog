@@ -23,7 +23,7 @@ python3 scripts/indexnow.py /for-agents/ /words/kitten-pm/
 python3 scripts/indexnow.py --changed --dry-run         # list without pinging
 ```
 
-`--changed` maps `*/index.html`, `llms.txt` and `for-agents/start.md` in the diff to URLs and keeps only those in `sitemap.xml` or `sitemap-agent.xml`, so unlisted fit pages and the noindexed `/for-agents/skills/*` pages are never pinged.
+`--changed` maps `*/index.html`, `llms.txt` and `for-agents/start.md` in the diff to URLs and keeps only those in `sitemap.xml` or `sitemap-agent.xml`, so nothing unlisted is ever pinged (since 2026-10-19 every agent page is listed and indexable; the skill, role and shape stubs are gone).
 
 ## Read the result
 

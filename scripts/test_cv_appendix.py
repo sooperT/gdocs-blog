@@ -337,14 +337,14 @@ if NO_PAGE:   # a story with no page of its own still ends with a link
 
 def skills_line(text):
     t = text.split('\n')
-    return t[t.index('### Skills (each links its stories)') + 2]
+    return t[t.index('### Skills') + 2]
 
 
 LINK = r'\[[^\]\[]+\]\(https://takenbyninjas\.com/for-agents/skills/[a-z0-9-]+/\)'
 for name, text in (('on a send', out), ('generic', generic)):
-    check(f'10 {name}: every skill is a markdown link to its skill page', re.fullmatch(rf'{LINK}(, {LINK})*\.', skills_line(text)), skills_line(text)[:120])
+    check(f'10 {name}: skills are plain text ending with the stories link (no skill pages, 2026-10-19)', 'for-agents/stories/#skills' in skills_line(text) and '](' not in skills_line(text).split('Every story')[0], skills_line(text)[:120])
 used = {s for r in ROWS['proof_points'] if text_of(r, 'product') in {text_of(x, 'product') for x in (A, B) + ((UNIQUE[1],) if UNIQUE else ())} for s in r.get('skills', [])}
-check('10 on a send: only the skills of the stories this fit tells', set(re.findall(r'\[([^\]]+)\]\(', skills_line(out))) == used)
+check('10 on a send: only the skills of the stories this fit tells', set(skills_line(out).split('. Every story')[0].split(', ')) == used, skills_line(out)[:120])
 
 # --- The eight saved responses: rules 1 to 3 and no tables ------------------
 

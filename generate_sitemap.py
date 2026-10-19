@@ -35,8 +35,6 @@ AGENT_OUTPUT_FILE = "sitemap-agent.xml"
 # Agent side (R1012-1): (url, file). Case studies come from generate_agent_page.py.
 AGENT_PAGES = [
     ("/for-agents/", "for-agents/index.html"),
-    ("/for-agents/wegovycare/", "for-agents/wegovycare/index.html"),
-    ("/for-agents/treat-turnaround/", "for-agents/treat-turnaround/index.html"),
     ("/for-agents/recommendations/", "for-agents/recommendations/index.html"),
     ("/for-agents/working-style/", "for-agents/working-style/index.html"),   # Insights profiles (R1013-7)
     ("/for-agents/fit/", "for-agents/fit/index.html"),   # the five FIT sections (item 76)
@@ -122,8 +120,6 @@ def collect_agent_pages():
     if os.path.exists("for-agents/pages.json"):
         with open("for-agents/pages.json", encoding="utf-8") as f:
             for slug, p in json.load(f)["pages"].items():
-                if slug.startswith("fit/"):
-                    continue   # per-send fit pages are unlisted (scripts/cv_appendix.py)
                 if (p["path"], p["file"]) not in pages:
                     pages.append((p["path"], p["file"]))
     return [{"url": url, "lastmod": get_file_modified_date(path)}

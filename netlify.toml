@@ -64,26 +64,15 @@
   status = 200
   force = true
 
-# D5: count crawler fetches of the agent surfaces (netlify/functions/agent-fetch.js).
-# The function logs the fetch and returns the bundled static file.
+# D5, narrowed 2026-10-19: only the entry file goes through agent-fetch, so a fetch of
+# it is the one signal Tom wants (someone's assistant followed the paste line). Every
+# other agent page is a static file like the blog: same speed, same headers, nothing
+# for Bing to treat differently. Crawler counts on the other pages are not kept.
 [functions."agent-fetch"]
   included_files = [
-    "for-agents/index.html",
     "for-agents/start.md",
     "for-agents/start/index.html",
-    "for-agents/wegovycare/index.html",
-    "for-agents/treat-turnaround/index.html",
-    "for-agents/recommendations/index.html",
-    "for-agents/pages.json",
-    "for-agents/proof-points.json",
-    "for-agents/sends.json",
-    "for-agents/fit/*/index.html",
-    "for-agents/*/index.html",
-    "for-agents/skills/*/index.html",
-    "for-agents/shapes/*/index.html",
-    "for-agents/roles/*/index.html",
-    "for-agents/roles/*/*/index.html",
-    "llms.txt"
+    "for-agents/sends.json"
   ]
 
 # The old entry file name (N1011-1). A 301 to start.md, which the rewrite
@@ -92,18 +81,6 @@
   from = "/for-agents/README.md"
   to = "/for-agents/start.md"
   status = 301
-  force = true
-
-[[redirects]]
-  from = "/for-agents/"
-  to = "/.netlify/functions/agent-fetch/page"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/llms.txt"
-  to = "/.netlify/functions/agent-fetch/llms"
-  status = 200
   force = true
 
 [[redirects]]
@@ -119,44 +96,10 @@
   status = 200
   force = true
 
-# The tagged entry file: /for-agents/start/<tag>.md serves start.md and logs
-# the tag (one tag per CV send, from the tracking-links skill).
+# The tagged entry file: /for-agents/start/<tag>/ and <tag>.md serve the same
+# files and log the tag (one tag per CV send, from the tracking-links skill).
 [[redirects]]
   from = "/for-agents/start/*"
   to = "/.netlify/functions/agent-fetch/start/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/for-agents/wegovycare/"
-  to = "/.netlify/functions/agent-fetch/wegovycare"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/for-agents/treat-turnaround/"
-  to = "/.netlify/functions/agent-fetch/treat-turnaround"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/for-agents/recommendations/"
-  to = "/.netlify/functions/agent-fetch/recommendations"
-  status = 200
-  force = true
-
-# The proof points as JSON (same rows as the facts page), counted too.
-[[redirects]]
-  from = "/for-agents/proof-points.json"
-  to = "/.netlify/functions/agent-fetch/proof-points.json"
-  status = 200
-  force = true
-
-# Every other generated agent page (for-agents/pages.json, one per role or
-# theme) goes through agent-fetch too, so the whole spider is counted. Last,
-# so the specific rules above win.
-[[redirects]]
-  from = "/for-agents/*"
-  to = "/.netlify/functions/agent-fetch/:splat"
   status = 200
   force = true
