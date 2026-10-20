@@ -1,6 +1,20 @@
 {
   "posts": [
     {
+      "title": "Software is solved. Now what?",
+      "meta-title": "",
+      "url": "/words/software-is-solved/",
+      "date": "2026-10-20",
+      "tags": [
+        "product",
+        "ai"
+      ],
+      "type": "words",
+      "meta-desc": "A year building with AI has shown me writing software is largely solved. So what happens next?",
+      "excerpt": "Earlier this year I made kittenpm.com, a silly product management sim game. I had planned to write a “how I built kittenpm with AI” post, full of caustic wisdom and first-hand learnings …\n\nBut I’m not sure it would help anyone now. Writing software is largely solved. So instead, here’s how it happened - and what might come next.",
+      "hero-image": ""
+    },
+    {
       "title": "Meet me @ Nordic Fintech Week",
       "meta-title": "",
       "url": "/words/nordic-fintech-week/",

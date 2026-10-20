@@ -159,6 +159,11 @@ strong, b {
     font-weight: bold;
 }
 
+/* Bold lead-in at the start of a paragraph: a mini heading */
+main p > strong:first-child {
+    color: var(--teletext-yellow);
+}
+
 em, i {
     font-style: italic;
 }

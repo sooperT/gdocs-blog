@@ -14,6 +14,7 @@ import os
 import sys
 import subprocess
 import re
+from html import escape as html_escape
 import json
 import urllib.request
 import mimetypes
@@ -283,23 +284,22 @@ def parse_frontmatter(document):
                 if 'textRun' in elem:
                     text += elem['textRun'].get('content', '')
 
-            text = text.strip()
-
-            # Check for frontmatter separator (em-dash or regular dash line)
-            if text and (text.startswith('—') or text.startswith('---')):
-                content_start_index = idx + 1
-                in_frontmatter = False
-                break
-
-            # Split on vertical tabs (soft returns / Shift+Enter) to handle
-            # multiple frontmatter fields in the same paragraph
-            lines = text.split('\u000b') if '\u000b' in text else [text]
+            # Split on vertical tabs (soft returns / Shift+Enter): a paragraph
+            # may hold several fields, and the separator may share a paragraph
+            # with the last field.
+            lines = [l.strip() for l in text.split('\u000b')]
             for line in lines:
-                line = line.strip()
+                # Separator: a line of em-dashes, dashes or equals signs
+                if line and re.fullmatch(r'(—+|-{3,}|={3,})', line):
+                    content_start_index = idx + 1
+                    in_frontmatter = False
+                    break
                 # Parse frontmatter key: value pairs
                 if line and ':' in line:
                     key, value = line.split(':', 1)
                     metadata[key.strip()] = value.strip()
+            if not in_frontmatter:
+                break
 
     return metadata, content_start_index
 
@@ -728,11 +728,11 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                                 if corrected_path:
                                     downloaded_images.append(corrected_path)
                                     web_image_path = f'/{corrected_path}'
-                                    alt_text = embedded_obj.get('title', 'Image')
+                                    alt_text = html_escape((embedded_obj.get('title') or embedded_obj.get('description') or 'Image').strip(), quote=True)
                                     pending_image_html = f'    <p><img src="{web_image_path}" alt="{alt_text}"></p>'
                                     image_counter += 1
                                 else:
-                                    alt_text = embedded_obj.get('title', 'Image')
+                                    alt_text = html_escape((embedded_obj.get('title') or embedded_obj.get('description') or 'Image').strip(), quote=True)
                                     pending_image_html = f'    <p><img src="/lib/img/{initial_filename}" alt="{alt_text}"></p>'
 
                     elif 'textRun' in elem:
@@ -757,7 +757,7 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
 
                             # External URL
                             if 'url' in link and link['url']:
-                                url = link['url']
+                                url = link['url'].strip()
                                 formatted_text = f'<a href="{url}">{formatted_text}</a>'
 
                             # Internal link - map Google ID to slug ID
@@ -984,6 +984,14 @@ def convert_to_html(document, metadata, content_start_index=0, content_type='wor
                             heading_id_map[google_heading_id] = anchor_id
 
                         html_parts.append(f'    <{tag} id="{anchor_id}">{heading_text}</{tag}>')
+                    elif tag == 'p' and re.search(r'\n[ \t]*\n', html_content.strip()):
+                        # A blank soft-return line inside a Doc paragraph means
+                        # a paragraph break: emit each run as its own <p>.
+                        for chunk in re.split(r'\n(?:[ \t]*\n)+', html_content.strip()):
+                            chunk = chunk.strip()
+                            if chunk:
+                                chunk = balance_inline_tags(chunk.replace('\n', '<br>\n    '))
+                                html_parts.append(f'    <p>{chunk}</p>')
                     else:
                         html_parts.append(f'    <{tag}>{html_content_with_br}</{tag}>')
 
