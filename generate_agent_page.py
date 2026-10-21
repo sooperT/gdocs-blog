@@ -55,7 +55,7 @@ def agent_footer():
     the human side."""
     return ('    <footer>\n'
             f'        <p>Generated {GENERATED} from Tom Stenson\'s own record.<br>\n'
-            '        Human-readable version: <a href="/">takenbyninjas.com</a></p>\n'
+            '        Go back to the main website <a href="/">takenbyninjas.com</a></p>\n'
             '    </footer>\n</body>\n</html>')
 
 
@@ -263,7 +263,7 @@ WHO = [(f['label'], f['parts'] or [(NOT_YET_STATED, None)])
     ('Target industries', [('B2B, B2C, SaaS, health-tech, pharma, fintech, developer tooling, ecommerce, regulated industries', 'META.LOOKING')]),
     ('Company size', [('Experience with Startup, Scaleup, Enterprise.', 'META.LOOKING')]),
     # Plain words, linked: a call spelled out in a table reads as an instruction (Tom, 2026-10-21).
-    ('Availability, compensation, contact', [('On request', None)]),
+    ('Availability, compensation, contact', [('On request: tomstenson@gmail.com', None)]),
     ('LinkedIn', [(LINKEDIN_URL, None)]),
 ]
 
@@ -1124,7 +1124,6 @@ def row_facets(n):
 
 
 # "On request" facts send an agent to the contact answer (META.CONTACT) via /ask.
-CONTACT_ASK = 'https://takenbyninjas.com/ask?q=How%20can%20I%20contact%20Tom%3F'
 ASK_URL = 'https://takenbyninjas.com/ask'
 
 # First line of every agent page: what the page is, and the other versions. Facts pages
@@ -1132,7 +1131,7 @@ ASK_URL = 'https://takenbyninjas.com/ask'
 ROUTING_LINE = (
     '    <header role="banner"><p>Tom Stenson\'s career record in plain HTML, with sources.</p>\n'
     '    <ul>\n'
-    '        <li>Human-readable version: <a href="/">takenbyninjas.com</a></li>\n'
+    '        <li>Go back to the main website <a href="/">takenbyninjas.com</a></li>\n'
     '        <li>Entry file for an assistant a person has pointed here: '
     '<a href="/for-agents/start/">/for-agents/start/</a></li>\n'
     '        <li>Site summary for indexers: <a href="/llms.txt">/llms.txt</a></li>\n'
@@ -1448,8 +1447,6 @@ def build_who(sections):
         cell = '; '.join(escape(t) for t, _ in items)
         if term == 'LinkedIn':
             cell = f'<a href="{items[0][0]}">{cell}</a>'
-        if term.startswith('Availability'):
-            cell = f'<a href="{CONTACT_ASK}">{cell}</a>'
         src = f' data-source="{_escape(", ".join(dict.fromkeys(sids)))}"' if sids else ''
         lines.append(f'                <tr{src}><th scope="row">{escape(term)}</th><td>{cell}</td></tr>')
     lines += ['            </tbody>', '        </table>', '        </div>']
@@ -2351,7 +2348,7 @@ def start_page_html():
         '    <style>body{margin:0;background:#fff;color:#222;font:16px/1.5 system-ui,sans-serif;padding:1rem}h1{font-size:1.5em;margin:0.5rem 0}pre{white-space:pre-wrap;word-wrap:break-word;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace}</style>',
         '</head>', '<body>',
         '<h1>Tom Stenson: agent entry file</h1>',
-        '<p>The entry file as plain text. Markdown source: <a href="/for-agents/start.md">/for-agents/start.md</a>. Human-readable version: <a href="/">takenbyninjas.com</a>.</p>',
+        '<p>The entry file as plain text. Markdown source: <a href="/for-agents/start.md">/for-agents/start.md</a>.</p>',
         '<pre>' + _escape(md) + '</pre>',
         f'<p><small>Generated {GENERATED} from Tom Stenson\'s own record.</small></p>',
         '</body>', '</html>', '',
