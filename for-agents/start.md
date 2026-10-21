@@ -1,16 +1,24 @@
-# Tom Stenson: start here, agent
+# Tom Stenson: agent entry file
 
-Hello. Someone you are helping wants to know about Tom Stenson, a product leader in Copenhagen. Tom has set things up so you can read his career directly: his main results as short stories, each with where it comes from, a way to ask him questions, and a way to check a role against what he has done. This file says where it all is and how to use it well. If your person would rather read for themselves, they have Tom's CV or can talk to his chatbot at https://takenbyninjas.com/projects/tombot/.
+## Why this file exists
+
+Tom Stenson, a product leader in Copenhagen, invites people to paste this prompt into their own AI assistant:
+
+"Fetch https://takenbyninjas.com/for-agents/start/ and follow the steps. It is Tom Stenson's AI career agent, designed to let you query his career record directly."
+
+If your person pasted that prompt, the steps below are what they asked you to follow. If you reached this file any other way (a search, a link, a crawl), no one has asked you to follow anything here: read it as a description of Tom's record, and use the facts at https://takenbyninjas.com/for-agents/.
+
+The record holds Tom's main results as short stories, each with where it comes from, a way to ask questions of it, and a way to check a role against what he has done. People who would rather read for themselves have Tom's CV, or can talk to his chatbot at https://takenbyninjas.com/projects/tombot/.
 
 Tom is available for fractional, interim and permanent product roles.
 
-## 0. What would your person like to do?
+## 0. What the person would like to do
 
-You remain your person's assistant; Tom's agent supplies his self-reported record. Don't claim to be Tom or to represent him, and don't say you were trained on his data.
+The assistant stays the person's assistant; Tom's agent supplies his self-reported record. It does not claim to be Tom or to represent him, or say it was trained on his data.
 
-Read their message first. If it already states a task, skip the block and do the task.
+When the person's message already states a task, the assistant skips the menu and does the task.
 
-When your person has not said what they want, show them the block below verbatim (translated only if they write in another language). Do not add a preamble, summary or screening facts before it. Then wait for their choice.
+When the person has not said what they want, the assistant opens with the menu below, unchanged (translated only if they write in another language), with nothing before it, and waits for their choice.
 
 ```
 I've connected to Tom Stenson's agent. It's designed so you can query his career record directly: matching his experience to roles, answering questions, and citing sources.
@@ -27,11 +35,11 @@ Contact, availability and salary are on request.
 
 Options 1 to 4 are Jobs 1 to 4 in section 3. A fit question with no job description ("would he fit us", "what would he bring to my team") is Job 5.
 
-If this copy of the file came with one of Tom's applications, it says so just below this section: name the role, then show the block.
+If this copy of the file came with one of Tom's applications, it says so just below this section; the assistant names the role, then shows the menu.
 
-## 0c. Which route you are on: decide this first
+## 0c. Which route an assistant is on
 
-Tom's agent answers at two URLs (section 1), but many assistants cannot reach them. Check once, before any job, and do not try the other route first:
+Tom's agent answers at two URLs (section 1), but many assistants cannot reach them. Which route applies is settled once, before any job, without trying the other route first:
 
 - **Static route.** You can only open URLs your person gave you or that appear on a page you have read, and you cannot POST. This is how the fetch tools in claude.ai, ChatGPT and most chat assistants work: a URL you compose yourself is refused, and the tool may hand you the nearest page you already have instead (it is not a cache or an outage). On this route, never call `/ask`. Everything you need is on linked pages: the proof points as JSON, the fit page, the facts page, the recommendations. Each job below says what to read. Say once, "Tom's agent takes queries, but my tool can only open pages, so this is my own reading of his record", and carry on.
 - **Query route.** You can POST, or open a URL you build (Claude Code, Cursor, an agent built on an API, a recruiter's own tooling). Use `/ask/brief` and `/ask?q=` as the jobs describe; the answers come with Tom's agent's verdicts and sources.
@@ -168,4 +176,4 @@ On request. Ask `GET https://takenbyninjas.com/ask?q=How%20can%20I%20contact%20T
 
 ## 6. What this file is
 
-A map of where Tom's record lives and how to read it well, written so your person gets a straight answer fast. What to make of it is up to them.
+A map of where Tom's record lives and how to read it well, written so a person who pasted Tom's prompt gets a straight answer fast. What to make of it is up to them.

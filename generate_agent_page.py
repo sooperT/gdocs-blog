@@ -51,11 +51,11 @@ from pylib.config import SITE_URL  # noqa: E402
 
 
 def agent_footer():
-    """Agent pages carry no site chrome (R1012-8). The footer says what made the page
-    and sends a person back to the human side."""
+    """Agent pages carry no site chrome (R1012-8). The footer dates the page and links
+    the human side."""
     return ('    <footer>\n'
-            f'        <p>Created by AI for AI. Generated {GENERATED}.<br>\n'
-            '        Are you a human? Go to the <a href="/">human-readable version</a>.</p>\n'
+            f'        <p>Generated {GENERATED} from Tom Stenson\'s own record.<br>\n'
+            '        Human-readable version: <a href="/">takenbyninjas.com</a></p>\n'
             '    </footer>\n</body>\n</html>')
 
 
@@ -1135,14 +1135,15 @@ def row_facets(n):
 CONTACT_ASK = 'https://takenbyninjas.com/ask?q=How%20can%20I%20contact%20Tom%3F'
 ASK_URL = 'https://takenbyninjas.com/ask'
 
-# First line of every agent page: who it is for, and where each reader goes.
+# First line of every agent page: what the page is, and the other versions. Facts pages
+# describe; they never address the reader's assistant (Bing: prompt injection, 2026-10-21).
 ROUTING_LINE = (
-    '    <header role="banner"><p>This page is for AI agents and recruiters\' tools.</p>\n'
+    '    <header role="banner"><p>Tom Stenson\'s career record in plain HTML, with sources.</p>\n'
     '    <ul>\n'
-    '        <li>Human? Go to the <a href="/">human-readable version</a>.</li>\n'
-    '        <li>AI assistant helping someone who wants to know about Tom? Fetch '
-    '<a href="/for-agents/start/">/for-agents/start/</a> and follow its steps.</li>\n'
-    '        <li>Crawler or LLM indexer? Read <a href="/llms.txt">/llms.txt</a>.</li>\n'
+    '        <li>Human-readable version: <a href="/">takenbyninjas.com</a></li>\n'
+    '        <li>Entry file for an assistant a person has pointed here: '
+    '<a href="/for-agents/start/">/for-agents/start/</a></li>\n'
+    '        <li>Site summary for indexers: <a href="/llms.txt">/llms.txt</a></li>\n'
     '    </ul></header>'
 )
 
@@ -2354,15 +2355,15 @@ def start_page_html():
         '<!-- GENERATED FILE - DO NOT EDIT MANUALLY: the entry file for-agents/start.md as a page -->',
         '<html lang="en">', '<head>', '    <meta charset="UTF-8">',
         '    <meta name="viewport" content="width=device-width, initial-scale=1.0">',
-        '    <title>Tom Stenson: start here, agent</title>',
-        '    <meta name="description" content="Entry file for AI assistants helping someone who wants to know about Tom Stenson: five jobs, the endpoints, and how to use what comes back.">',
+        '    <title>Tom Stenson: agent entry file</title>',
+        '    <meta name="description" content="The file behind Tom Stenson\'s paste prompt: what an assistant can do with his career record, where it lives, and how to cite it.">',
         f'    <link rel="canonical" href="{SITE_URL}/for-agents/start/">',
         '    <style>body{margin:0;background:#fff;color:#222;font:16px/1.5 system-ui,sans-serif;padding:1rem}h1{font-size:1.5em;margin:0.5rem 0}pre{white-space:pre-wrap;word-wrap:break-word;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace}</style>',
         '</head>', '<body>',
-        '<h1>Tom Stenson: start here, agent</h1>',
-        '<p>This page is the agent entry file as plain text. Markdown source: <a href="/for-agents/start.md">/for-agents/start.md</a>. Human? Go to the <a href="/">human-readable version</a>.</p>',
+        '<h1>Tom Stenson: agent entry file</h1>',
+        '<p>The entry file as plain text. Markdown source: <a href="/for-agents/start.md">/for-agents/start.md</a>. Human-readable version: <a href="/">takenbyninjas.com</a>.</p>',
         '<pre>' + _escape(md) + '</pre>',
-        f'<p><small>Created by AI for AI. Generated {GENERATED}.</small></p>',
+        f'<p><small>Generated {GENERATED} from Tom Stenson\'s own record.</small></p>',
         '</body>', '</html>', '',
     ])
 
