@@ -303,7 +303,7 @@ def start_md_with_facts(md, register):
     section is generated; the rest of start.md is hand-written)."""
     i = md.index(START_FACTS_HEAD)
     j = md.index('\n## ', i + 1)
-    lines = [START_FACTS_HEAD, '', 'The yes-or-no facts a screen starts with. Give them when your person asks (Job 4), not unprompted:', '']
+    lines = [START_FACTS_HEAD, '', 'The yes-or-no facts a screen starts with. Given when the person asks (Job 4), not unprompted:', '']
     lines += [f"- {f['label']}: {f['value']}" for f in register['facts'] if f['value'] and not f['on_request']]
     lines += [f'- Experience by area, with the stories for each: https://takenbyninjas.com{STORIES_PATH}', '']
     return md[:i] + '\n'.join(lines) + md[j:]
