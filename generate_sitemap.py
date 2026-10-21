@@ -11,7 +11,7 @@ sitemap.xml reads posts-metadata.json and lists the human pages only
 
 sitemap-agent.xml lists the agent side: /for-agents/, its case study pages,
 the recommendations page,
-/for-agents/start.md and /llms.txt. robots.txt lists both.
+/llms.txt (start.md is the same text as /for-agents/start/, so it stays out: one URL per page). robots.txt lists both.
 
 lastmod is the file's last git commit date (N1010-1), so running the
 generator twice changes nothing. A file git does not know yet gets today.
@@ -39,7 +39,6 @@ AGENT_PAGES = [
     ("/for-agents/working-style/", "for-agents/working-style/index.html"),   # Insights profiles (R1013-7)
     ("/for-agents/fit/", "for-agents/fit/index.html"),   # the five FIT sections (item 76)
     ("/for-agents/start/", "for-agents/start/index.html"),   # the paste URL (N1012-16)
-    ("/for-agents/start.md", "for-agents/start.md"),
     ("/llms.txt", "llms.txt"),
 ]
 

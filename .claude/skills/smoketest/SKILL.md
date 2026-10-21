@@ -7,7 +7,7 @@ allowed-tools: Bash, Read, Write, mcp__Claude_Browser__*
 
 # /smoketest — the paste line, cold, in every agent
 
-The only design that is zero-effort, smooth and works across agents is public pages plus one pasted prompt (feedback memory `feedback-zero-user-work`). This skill proves that design holds, agent by agent, the way a curious hiring manager would meet it: paste, read, paste a JD. PRD J1's "done when" is three agents producing a fit table with no human help; this runs all five that a LinkedIn reader might use.
+The only design that is zero-effort, smooth and works across agents is public pages plus one pasted prompt (feedback memory `feedback-zero-user-work`). This skill proves that design holds, agent by agent, the way a curious hiring manager would meet it: paste, read, paste a JD. PRD J1's "done when" is three agents producing a fit table with no human help; this runs the four Tom can reach (Claude, ChatGPT, Copilot, Gemini); Grok is skipped, see the table.
 
 ## 1. Setup
 
@@ -23,9 +23,9 @@ The only design that is zero-effort, smooth and works across agents is public pa
 |---|---|---|
 | Claude | https://claude.ai/new | Fetch asks permission on first use; that prompt counts as a speed bump but not a failure |
 | ChatGPT | https://chatgpt.com/ | Signed out still browses; check for the "Lockdown" or cache-only fallback |
-| Copilot | https://copilot.microsoft.com/ | Bing-grounded only; if Bing has no copy of the page it cannot read it (STATUS 14 Oct) |
+| Copilot | https://copilot.microsoft.com/ | Bing-grounded only; if Bing has no copy of the page it cannot read it (STATUS 14 Oct). Will not run in the built-in browser: its bot check fails even with Tom's "I am human" ticks and Microsoft drops the session on send (2026-10-21). Copilot runs are Tom's, by hand in his own browser |
 | Gemini | https://gemini.google.com/app | Signed out is Flash-Lite, 70–100 s a turn, errors "1096" by turn 3; sign in for a fair run |
-| Grok | https://grok.com/ | Sign-up wall on the first message when signed out |
+| Grok | https://grok.com/ | Skip: Tom has no Grok account and will not open one (2026-10-21). Listed only so the table matches older runs |
 
 ## 2. Script, three turns, verbatim
 

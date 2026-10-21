@@ -250,14 +250,6 @@ FACTS = [
 # mention a place or a language, not a yes/no question.
 FACT_ASK_MAX_CHARS = 160
 
-# The endpoints row, each a link: chat assistants follow printed URLs only (R1013-3).
-# The entry file's paste URL is the HTML page (N1012-16); the markdown stays available.
-ENDPOINTS = [
-    ('GET /ask?q=<question>', 'https://takenbyninjas.com/ask'),
-    ('POST /ask/brief', 'https://takenbyninjas.com/ask/brief'),
-    ('GET /for-agents/start/', '/for-agents/start/'),
-    ('markdown /for-agents/start.md', '/for-agents/start.md'),
-]
 # A register fact Tom has not stated shows as this in the Who table (principle 2:
 # "a blank is shown as 'not yet stated', never filled"); the CV appendix leaves it out.
 NOT_YET_STATED = 'not yet stated'
@@ -270,9 +262,9 @@ WHO = [(f['label'], f['parts'] or [(NOT_YET_STATED, None)])
        for f in FACTS if not f.get('on_request')] + [
     ('Target industries', [('B2B, B2C, SaaS, health-tech, pharma, fintech, developer tooling, ecommerce, regulated industries', 'META.LOOKING')]),
     ('Company size', [('Experience with Startup, Scaleup, Enterprise.', 'META.LOOKING')]),
-    ('Availability, compensation, contact', [('On request: GET /ask?q=How can I contact Tom?', None)]),
+    # Plain words, linked: a call spelled out in a table reads as an instruction (Tom, 2026-10-21).
+    ('Availability, compensation, contact', [('On request', None)]),
     ('LinkedIn', [(LINKEDIN_URL, None)]),
-    ('Endpoints', [(t, None) for t, _ in ENDPOINTS]),
 ]
 
 
@@ -1458,8 +1450,6 @@ def build_who(sections):
             cell = f'<a href="{items[0][0]}">{cell}</a>'
         if term.startswith('Availability'):
             cell = f'<a href="{CONTACT_ASK}">{cell}</a>'
-        if term == 'Endpoints':
-            cell = '; '.join(f'<a href="{href}">{escape(t)}</a>' for t, href in ENDPOINTS)
         src = f' data-source="{_escape(", ".join(dict.fromkeys(sids)))}"' if sids else ''
         lines.append(f'                <tr{src}><th scope="row">{escape(term)}</th><td>{cell}</td></tr>')
     lines += ['            </tbody>', '        </table>', '        </div>']
@@ -2271,7 +2261,7 @@ def build_cv_appendix(sections, recs):
                 check(sections, row[k][1], row[k][0])
     who = []
     for term, items in WHO:
-        if term in ('Availability, compensation, contact', 'Endpoints') or items == [(NOT_YET_STATED, None)]:
+        if term == 'Availability, compensation, contact' or items == [(NOT_YET_STATED, None)]:
             continue
         for text, sid in items:
             check(sections, sid, text)
