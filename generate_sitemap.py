@@ -44,9 +44,14 @@ AGENT_PAGES = [
 
 
 def get_file_modified_date(filepath):
-    """Last git commit date of a file (YYYY-MM-DD); today if git does not know it yet."""
+    """Last git commit date of a file (YYYY-MM-DD); today if git does not know it yet, or if
+    it differs from HEAD (2026-11-09: run from the pre-commit hook, the commit date of the
+    previous commit left pages changed in this commit dated a commit late)."""
     if not os.path.exists(filepath):
         return None
+    changed = subprocess.run(["git", "diff", "--quiet", "HEAD", "--", filepath], check=False).returncode
+    if changed == 1:
+        return date.today().isoformat()
     result = subprocess.run(
         ["git", "log", "-1", "--format=%cs", "--", filepath],
         capture_output=True, text=True, check=False,

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-21",
+  "generated": "2026-11-09",
   "source": "Tom's own account (tier: self-reported); each row cites its TomBot section id",
   "facets": "Each row's `facets` are lines from CVs Tom sent, verbatim (tier: self-reported; `source` names the CV). A brief returns the facet that matched a requirement as its evidence; the row's result cell stays the outcome.",
   "roles_note": "Domain, company type, size and level are answered from `roles`, not from one story: each company with its sectors, environments, size and products, each role with its title, aliases and scope in effect. Count every role that matches.",
@@ -569,6 +569,8 @@
   "count": 52,
   "proof_points": [
     {
+      "id": "wegovycare-retention",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-wegovycare-retention",
       "role": {
         "text": "Senior Product Manager at Novo Nordisk",
         "section": "NOVO.R1"
@@ -604,6 +606,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -675,6 +678,8 @@
       ]
     },
     {
+      "id": "wegovycare-prediction-model",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-wegovycare-prediction-model",
       "role": {
         "text": "Senior Product Manager at Novo Nordisk",
         "section": "NOVO.R1"
@@ -711,6 +716,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -772,6 +778,8 @@
       ]
     },
     {
+      "id": "wegovycare-problem-first",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-wegovycare-problem-first",
       "role": {
         "text": "Senior Product Manager at Novo Nordisk",
         "section": "NOVO.R1"
@@ -809,6 +817,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -831,7 +840,7 @@
         "stakeholders",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r1",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r1-transform",
       "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-senior-product-manager",
       "role_aliases": [
         "Product Owner",
@@ -913,6 +922,8 @@
       ]
     },
     {
+      "id": "genai-review-poc",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-genai-review-poc",
       "role": {
         "text": "Associate Product Director at Novo Nordisk",
         "section": "NOVO.R2"
@@ -948,6 +959,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -969,7 +981,7 @@
         "team leadership",
         "stakeholders"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2",
+      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2-genai",
       "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
@@ -1076,6 +1088,8 @@
       ]
     },
     {
+      "id": "wegovy-pill-launch",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-wegovy-pill-launch",
       "role": {
         "text": "Associate Product Director at Novo Nordisk",
         "section": "NOVO.R2.WEGOVY"
@@ -1110,6 +1124,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Contributed",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -1224,6 +1239,8 @@
       ]
     },
     {
+      "id": "cagrisema",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-cagrisema",
       "role": {
         "text": "Associate Product Director at Novo Nordisk",
         "section": "NOVO.R2"
@@ -1258,6 +1275,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -1287,7 +1305,7 @@
         "consumer",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-cagrisema",
       "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
@@ -1390,6 +1408,8 @@
       ]
     },
     {
+      "id": "digital-incubation",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-digital-incubation",
       "role": {
         "text": "Associate Product Director at Novo Nordisk",
         "section": "NOVO.R2"
@@ -1424,6 +1444,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -1452,7 +1473,7 @@
         "consumer",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-digital-incubation",
       "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
@@ -1545,6 +1566,8 @@
       ]
     },
     {
+      "id": "product-operations",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-product-operations",
       "role": {
         "text": "Associate Product Director at Novo Nordisk",
         "section": "NOVO.R2"
@@ -1582,6 +1605,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -1609,7 +1633,7 @@
         "consumer",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-product-operations",
       "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
@@ -1671,6 +1695,8 @@
       ]
     },
     {
+      "id": "head-of-patient-products",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-head-of-patient-products",
       "role": {
         "text": "Associate Product Director at Novo Nordisk",
         "section": "NOVO.R2"
@@ -1706,6 +1732,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -1733,7 +1760,7 @@
         "consumer",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-head-of-patient-products",
       "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
@@ -1781,6 +1808,8 @@
       ]
     },
     {
+      "id": "project-steercos",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-project-steercos",
       "role": {
         "text": "Associate Product Director at Novo Nordisk",
         "section": "NOVO.R2"
@@ -1818,6 +1847,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -1845,7 +1875,7 @@
         "consumer",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r2",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-project-steercos",
       "role_page": "https://takenbyninjas.com/for-agents/novo-nordisk/#role-associate-product-director",
       "role_aliases": [
         "Incubation Lead",
@@ -1894,6 +1924,8 @@
       ]
     },
     {
+      "id": "wegovycare-personalisation",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-wegovycare-personalisation",
       "role": {
         "text": "Senior Product Manager at Novo Nordisk",
         "section": "NOVO.R1"
@@ -1929,6 +1961,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -2001,6 +2034,8 @@
       ]
     },
     {
+      "id": "wegovycare-multi-market",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-wegovycare-multi-market",
       "role": {
         "text": "Senior Product Manager at Novo Nordisk",
         "section": "NOVO.R1"
@@ -2035,6 +2070,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -2134,6 +2170,8 @@
       ]
     },
     {
+      "id": "diagnosis-app",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-diagnosis-app",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO.R3"
@@ -2169,6 +2207,7 @@
       },
       "company": "LEO Innovation Lab",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -2186,7 +2225,7 @@
         "launch",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-r3",
       "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
@@ -2269,6 +2308,8 @@
       ]
     },
     {
+      "id": "skincoach",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-skincoach",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO.R2"
@@ -2305,6 +2346,7 @@
       },
       "company": "LEO Innovation Lab",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -2325,7 +2367,7 @@
         "partnerships",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-r2",
       "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
@@ -2427,6 +2469,8 @@
       ]
     },
     {
+      "id": "treat-turnaround",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-treat-turnaround",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO.R3"
@@ -2462,6 +2506,7 @@
       },
       "company": "LEO Innovation Lab",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -2483,7 +2528,7 @@
         "0 to 1",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-r1",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-r1-turnaround",
       "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
@@ -2603,6 +2648,8 @@
       ]
     },
     {
+      "id": "twentythree-launch",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-twentythree-launch",
       "role": {
         "text": "Head of Marketing",
         "section": "T23"
@@ -2638,6 +2685,7 @@
       },
       "company": "TwentyThree",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "turnaround"
@@ -2702,6 +2750,8 @@
       ]
     },
     {
+      "id": "opbeat-brand",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-opbeat-brand",
       "role": {
         "text": "Head of Marketing",
         "section": "OPBEAT"
@@ -2736,6 +2786,7 @@
       },
       "company": "Opbeat",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "growth",
@@ -2819,6 +2870,8 @@
       ]
     },
     {
+      "id": "eurodns-turnaround",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-eurodns-turnaround",
       "role": {
         "text": "Marketing Director",
         "section": "EURODNS"
@@ -2854,6 +2907,7 @@
       },
       "company": "EuroDNS",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "turnaround",
@@ -2873,7 +2927,7 @@
         "team leadership",
         "international"
       ],
-      "page": "https://takenbyninjas.com/for-agents/eurodns/#eurodns",
+      "page": "https://takenbyninjas.com/for-agents/eurodns/#eurodns-r1-turnaround",
       "role_page": "https://takenbyninjas.com/for-agents/eurodns/#role-marketing-director",
       "role_aliases": [],
       "facets": [
@@ -2934,6 +2988,8 @@
       ]
     },
     {
+      "id": "eurodns-remote-team",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-eurodns-remote-team",
       "role": {
         "text": "Marketing Director",
         "section": "EURODNS"
@@ -2970,7 +3026,9 @@
         "section": "META.JOBS"
       },
       "company": "EuroDNS",
-      "strength": null,
+      "strength": "Led",
+      "star": true,
+      "label_source": "Tom, 2026-11-09",
       "tier": "self-reported",
       "shapes": [
         "international",
@@ -2984,12 +3042,14 @@
         "remote",
         "international"
       ],
-      "page": "https://takenbyninjas.com/for-agents/eurodns/#eurodns",
+      "page": "https://takenbyninjas.com/for-agents/eurodns/#eurodns-r1-story-remote",
       "role_page": "https://takenbyninjas.com/for-agents/eurodns/#role-marketing-director",
       "role_aliases": [],
       "facets": []
     },
     {
+      "id": "uk2-us-marketing",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-uk2-us-marketing",
       "role": {
         "text": "Acting Marketing Manager US",
         "section": "UK2"
@@ -3028,6 +3088,7 @@
       },
       "company": "UK2 Group",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "turnaround",
@@ -3124,6 +3185,8 @@
       ]
     },
     {
+      "id": "uk2-domain-platform",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-uk2-domain-platform",
       "role": {
         "text": "Head of Group Strategy",
         "section": "UK2"
@@ -3162,6 +3225,7 @@
       },
       "company": "UK2 Group",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "zero-to-one"
@@ -3180,7 +3244,7 @@
         "international",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/uk2/#uk2",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-uk2-domain-platform",
       "role_page": "https://takenbyninjas.com/for-agents/uk2/#role-head-of-group-strategy",
       "role_aliases": [],
       "facets": [
@@ -3196,6 +3260,8 @@
       ]
     },
     {
+      "id": "gx-networks-rename",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-gx-networks-rename",
       "role": {
         "text": "Head of New Media",
         "section": "HOST"
@@ -3232,6 +3298,7 @@
       },
       "company": "Host Europe Group",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "leadership"
@@ -3259,6 +3326,8 @@
       ]
     },
     {
+      "id": "host-new-media",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-host-new-media",
       "role": {
         "text": "Head of New Media",
         "section": "HOST"
@@ -3294,6 +3363,7 @@
       },
       "company": "Host Europe Group",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "zero-to-one",
@@ -3316,7 +3386,7 @@
         "team leadership",
         "stakeholders"
       ],
-      "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-host-new-media",
       "role_page": "https://takenbyninjas.com/for-agents/host-europe/#role-head-of-new-media",
       "role_aliases": [
         "Head of New Media, Pipex Hosting / GX Networks"
@@ -3370,6 +3440,8 @@
       ]
     },
     {
+      "id": "bettervisitbot",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-bettervisitbot",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO.R3"
@@ -3406,6 +3478,7 @@
       },
       "company": "LEO Innovation Lab",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -3424,7 +3497,7 @@
         "launch",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
+      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo-r3",
       "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
@@ -3478,6 +3551,8 @@
       ]
     },
     {
+      "id": "opbeat-bridge-round",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-opbeat-bridge-round",
       "role": {
         "text": "Head of Marketing",
         "section": "OPBEAT"
@@ -3512,6 +3587,7 @@
       },
       "company": "Opbeat",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "growth",
@@ -3575,6 +3651,8 @@
       ]
     },
     {
+      "id": "independent-consultant",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-independent-consultant",
       "role": {
         "text": "Independent Consultant",
         "section": "META.JOBS"
@@ -3610,6 +3688,8 @@
       },
       "company": "Independent consulting",
       "strength": null,
+      "star": false,
+      "label_source": "Tom, 2026-11-09",
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -3633,7 +3713,7 @@
         "stakeholders",
         "partnerships"
       ],
-      "page": null,
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-independent-consultant",
       "role_page": null,
       "role_aliases": [],
       "facets": [
@@ -3685,6 +3765,8 @@
       ]
     },
     {
+      "id": "domain-search",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-domain-search",
       "role": {
         "text": "Web Designer",
         "section": "HOST"
@@ -3721,6 +3803,7 @@
       },
       "company": "Host Europe Group",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "growth"
@@ -3817,6 +3900,8 @@
       ]
     },
     {
+      "id": "tombot",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-tombot",
       "role": {
         "text": "Solo projects, building with AI",
         "section": "SOLO"
@@ -3854,6 +3939,7 @@
       },
       "company": "Solo projects",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "ai",
@@ -3883,6 +3969,8 @@
       ]
     },
     {
+      "id": "kittenpm",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-kittenpm",
       "role": {
         "text": "Solo projects, building with AI",
         "section": "SOLO"
@@ -3919,6 +4007,7 @@
       },
       "company": "Solo projects",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "ai",
@@ -3962,6 +4051,8 @@
       ]
     },
     {
+      "id": "deathspiral-or-golden-age",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-deathspiral-or-golden-age",
       "role": {
         "text": "Solo projects, building with AI",
         "section": "SOLO"
@@ -3996,6 +4087,7 @@
       },
       "company": "Solo projects",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "ai",
@@ -4026,6 +4118,8 @@
       ]
     },
     {
+      "id": "alternative-website",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-alternative-website",
       "role": {
         "text": "Sales Executive",
         "section": "HOST"
@@ -4063,7 +4157,9 @@
         "section": "HOST"
       },
       "company": "Host Europe Group",
-      "strength": null,
+      "strength": "Solo",
+      "star": true,
+      "label_source": "Tom, 2026-11-09",
       "tier": "self-reported",
       "shapes": [
         "growth"
@@ -4101,6 +4197,8 @@
       ]
     },
     {
+      "id": "company-all-hands",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-company-all-hands",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO.R3"
@@ -4138,7 +4236,9 @@
         "section": "LEO.R1"
       },
       "company": "LEO Innovation Lab",
-      "strength": null,
+      "strength": "Led",
+      "star": true,
+      "label_source": "Tom, 2026-11-09",
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -4184,6 +4284,8 @@
       ]
     },
     {
+      "id": "midphase-pricing",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-midphase-pricing",
       "role": {
         "text": "Head of Group Strategy",
         "section": "UK2"
@@ -4219,6 +4321,7 @@
       },
       "company": "UK2 Group",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "turnaround",
@@ -4239,12 +4342,14 @@
         "international",
         "budget"
       ],
-      "page": "https://takenbyninjas.com/for-agents/uk2/#uk2",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-midphase-pricing",
       "role_page": "https://takenbyninjas.com/for-agents/uk2/#role-head-of-group-strategy",
       "role_aliases": [],
       "facets": []
     },
     {
+      "id": "prototyping-user-interviews",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-prototyping-user-interviews",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO"
@@ -4280,7 +4385,9 @@
         "section": "LEO"
       },
       "company": "LEO Innovation Lab",
-      "strength": null,
+      "strength": "Led",
+      "star": true,
+      "label_source": "Tom, 2026-11-09",
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -4300,7 +4407,7 @@
         "startup",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-prototyping-user-interviews",
       "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
@@ -4311,6 +4418,8 @@
       "facets": []
     },
     {
+      "id": "textualhealing",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-textualhealing",
       "role": {
         "text": "Co-founder",
         "section": "META.JOBS"
@@ -4347,7 +4456,9 @@
         "section": "META.JOBS"
       },
       "company": "TextualHealing.com",
-      "strength": null,
+      "strength": "Contributed",
+      "star": true,
+      "label_source": "Tom, 2026-11-09",
       "tier": "self-reported",
       "shapes": [
         "zero-to-one"
@@ -4363,12 +4474,14 @@
         "international",
         "partnerships"
       ],
-      "page": null,
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-textualhealing",
       "role_page": null,
       "role_aliases": [],
       "facets": []
     },
     {
+      "id": "testing-beats-opinions",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-testing-beats-opinions",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO"
@@ -4406,7 +4519,9 @@
         "section": "LEO"
       },
       "company": "LEO Innovation Lab",
-      "strength": null,
+      "strength": "Led",
+      "star": true,
+      "label_source": "Tom, 2026-11-09",
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -4424,7 +4539,7 @@
         "startup",
         "team leadership"
       ],
-      "page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#leo",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-testing-beats-opinions",
       "role_page": "https://takenbyninjas.com/for-agents/leo-innovation-lab/#role-pm-gm",
       "role_aliases": [
         "Product Owner",
@@ -4435,6 +4550,8 @@
       "facets": []
     },
     {
+      "id": "amgen-partnership",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-amgen-partnership",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO.R2"
@@ -4471,6 +4588,7 @@
       },
       "company": "LEO Innovation Lab",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -4502,6 +4620,8 @@
       "facets": []
     },
     {
+      "id": "treat-team",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-treat-team",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO.R1.TURNAROUND"
@@ -4539,6 +4659,7 @@
       },
       "company": "LEO Innovation Lab",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -4566,6 +4687,8 @@
       "facets": []
     },
     {
+      "id": "treat-closure",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-treat-closure",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO.R1.TURNAROUND"
@@ -4601,6 +4724,7 @@
       },
       "company": "LEO Innovation Lab",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -4629,6 +4753,8 @@
       "facets": []
     },
     {
+      "id": "wegovycare-releases",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-wegovycare-releases",
       "role": {
         "text": "Senior Product Manager at Novo Nordisk",
         "section": "NOVO.R1"
@@ -4663,6 +4789,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "regulated",
@@ -4697,6 +4824,8 @@
       "facets": []
     },
     {
+      "id": "opbeat-meetups",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-opbeat-meetups",
       "role": {
         "text": "Head of Marketing",
         "section": "OPBEAT"
@@ -4733,6 +4862,7 @@
       },
       "company": "Opbeat",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "growth"
@@ -4759,6 +4889,8 @@
       "facets": []
     },
     {
+      "id": "opbeat-pricing",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-opbeat-pricing",
       "role": {
         "text": "Head of Marketing",
         "section": "OPBEAT"
@@ -4793,6 +4925,7 @@
       },
       "company": "Opbeat",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "growth"
@@ -4818,6 +4951,8 @@
       "facets": []
     },
     {
+      "id": "wegovycare-roadmap",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-wegovycare-roadmap",
       "role": {
         "text": "Senior Product Manager at Novo Nordisk",
         "section": "NOVO.R1"
@@ -4853,6 +4988,7 @@
       },
       "company": "Novo Nordisk",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management"
@@ -4885,6 +5021,8 @@
       "facets": []
     },
     {
+      "id": "diagnosis-app-data-pipeline",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-diagnosis-app-data-pipeline",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO.R3"
@@ -4919,6 +5057,7 @@
       },
       "company": "LEO Innovation Lab",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -4946,6 +5085,8 @@
       "facets": []
     },
     {
+      "id": "diagnosis-app-paths-to-market",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-diagnosis-app-paths-to-market",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO.R3"
@@ -4980,6 +5121,7 @@
       },
       "company": "LEO Innovation Lab",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -5008,6 +5150,8 @@
       "facets": []
     },
     {
+      "id": "leo-lab-model",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-leo-lab-model",
       "role": {
         "text": "PM/GM at LEO Innovation Lab",
         "section": "LEO"
@@ -5044,6 +5188,8 @@
       },
       "company": "LEO Innovation Lab",
       "strength": null,
+      "star": false,
+      "label_source": "Tom, 2026-11-09",
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -5075,6 +5221,8 @@
       "facets": []
     },
     {
+      "id": "eurodns-seo",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-eurodns-seo",
       "role": {
         "text": "Marketing Director",
         "section": "EURODNS.R1.TURNAROUND"
@@ -5109,6 +5257,7 @@
       },
       "company": "EuroDNS",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "growth",
@@ -5131,6 +5280,8 @@
       "facets": []
     },
     {
+      "id": "eurodns-domain-extensions",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-eurodns-domain-extensions",
       "role": {
         "text": "Marketing Director",
         "section": "EURODNS"
@@ -5166,7 +5317,9 @@
         "section": "EURODNS"
       },
       "company": "EuroDNS",
-      "strength": null,
+      "strength": "Led",
+      "star": true,
+      "label_source": "Tom, 2026-11-09",
       "tier": "self-reported",
       "shapes": [
         "growth"
@@ -5190,6 +5343,8 @@
       "facets": []
     },
     {
+      "id": "raspberry-pi",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-raspberry-pi",
       "role": {
         "text": "Independent Consultant",
         "section": "META.JOBS"
@@ -5224,7 +5379,9 @@
         "section": "META.JOBS"
       },
       "company": "Independent consulting",
-      "strength": null,
+      "strength": "Led",
+      "star": true,
+      "label_source": "Tom, 2026-11-09",
       "tier": "self-reported",
       "shapes": [
         "product-management",
@@ -5241,12 +5398,14 @@
         "international",
         "partnerships"
       ],
-      "page": null,
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-raspberry-pi",
       "role_page": null,
       "role_aliases": [],
       "facets": []
     },
     {
+      "id": "sales-competition",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-sales-competition",
       "role": {
         "text": "Sales Executive",
         "section": "HOST"
@@ -5283,6 +5442,7 @@
       },
       "company": "Host Europe Group",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "growth"
@@ -5302,12 +5462,14 @@
         "team leadership",
         "stakeholders"
       ],
-      "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-sales-competition",
       "role_page": "https://takenbyninjas.com/for-agents/host-europe/#role-sales-executive",
       "role_aliases": [],
       "facets": []
     },
     {
+      "id": "123-reg",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-123-reg",
       "role": {
         "text": "Head of New Media",
         "section": "HOST"
@@ -5342,6 +5504,7 @@
       },
       "company": "Host Europe Group",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "growth"
@@ -5362,7 +5525,7 @@
         "team leadership",
         "stakeholders"
       ],
-      "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-123-reg",
       "role_page": "https://takenbyninjas.com/for-agents/host-europe/#role-head-of-new-media",
       "role_aliases": [
         "Head of New Media, Pipex Hosting / GX Networks"
@@ -5370,6 +5533,8 @@
       "facets": []
     },
     {
+      "id": "group-design",
+      "url": "https://takenbyninjas.com/for-agents/stories/#pp-group-design",
       "role": {
         "text": "Group Design Manager",
         "section": "HOST"
@@ -5405,6 +5570,7 @@
       },
       "company": "Host Europe Group",
       "strength": "Led",
+      "star": true,
       "tier": "self-reported",
       "shapes": [
         "leadership"
@@ -5424,7 +5590,7 @@
         "team leadership",
         "stakeholders"
       ],
-      "page": "https://takenbyninjas.com/for-agents/host-europe/#host",
+      "page": "https://takenbyninjas.com/for-agents/stories/#pp-group-design",
       "role_page": "https://takenbyninjas.com/for-agents/host-europe/#role-group-design-manager",
       "role_aliases": [],
       "facets": []

@@ -413,6 +413,7 @@ def shape_rows(shape_id):
 # same row can sit in two. Within a group, rows are newest first.
 PROOF_POINTS = [
     {
+        'id': 'wegovycare-retention',
         'role': ('Senior Product Manager at Novo Nordisk', 'NOVO.R1'),
         'product': ('Wegovycare', 'NOVO.R1'),
         'desc': ('Wegovycare, a digital service to drive retention and repeat prescriptions for Wegovy', 'NOVO.R1'),
@@ -425,6 +426,7 @@ PROOF_POINTS = [
         'shapes': ['zero-to-one', 'regulated'],
     },
     {
+        'id': 'wegovycare-prediction-model',
         'role': ('Senior Product Manager at Novo Nordisk', 'NOVO.R1'),
         'product': ('Wegovycare', 'NOVO.R1'),
         'desc': ('Wegovycare weight-loss prediction model', 'NOVO.R1'),
@@ -437,6 +439,7 @@ PROOF_POINTS = [
         'shapes': ['ai'],
     },
     {
+        'id': 'wegovycare-problem-first',
         'role': ('Senior Product Manager at Novo Nordisk', 'NOVO.R1'),
         'product': ('Wegovycare', 'NOVO.R1'),
         'desc': ('Wegovycare, a digital service to drive retention and repeat prescriptions for Wegovy', 'NOVO.R1.TRANSFORM'),
@@ -449,6 +452,7 @@ PROOF_POINTS = [
         'shapes': ['zero-to-one', 'regulated', 'leadership'],
     },
     {
+        'id': 'genai-review-poc',
         'role': ('Associate Product Director at Novo Nordisk', 'NOVO.R2'),
         'product': ('GenAI proof of concept for automating compliance reviews', 'NOVO.R2'),
         'desc': ('Agentic RAG proof of concept for compliance reviews, with a Figma plugin', 'NOVO.R2.GENAI'),
@@ -461,6 +465,7 @@ PROOF_POINTS = [
         'shapes': ['ai', 'regulated'],
     },
     {
+        'id': 'wegovy-pill-launch',
         'role': ('Associate Product Director at Novo Nordisk', 'NOVO.R2.WEGOVY'),
         'product': ('Wegovy Pill launch', 'NOVO.R2.WEGOVY'),
         'desc': ('Wegovy Pill launch, consumer workstream', 'NOVO.R2.WEGOVY'),
@@ -473,6 +478,7 @@ PROOF_POINTS = [
         'shapes': ['growth', 'regulated', 'international'],
     },
     {
+        'id': 'cagrisema',
         'role': ('Associate Product Director at Novo Nordisk', 'NOVO.R2'),
         'product': ('CagriSema', 'NOVO.R2'),
         'desc': ("Digital discovery programme for CagriSema, the company's top drug asset", 'NOVO.R2'),
@@ -485,6 +491,7 @@ PROOF_POINTS = [
         'shapes': ['zero-to-one', 'regulated'],
     },
     {
+        'id': 'digital-incubation',
         'role': ('Associate Product Director at Novo Nordisk', 'NOVO.R2'),
         'product': ('Digital Incubation', 'NOVO.R2'),
         'desc': ('Digital incubation unit for branded digital engagement, evaluating build, buy and partner solutions', 'NOVO.R2'),
@@ -497,6 +504,7 @@ PROOF_POINTS = [
         'shapes': ['zero-to-one', 'leadership'],
     },
     {
+        'id': 'product-operations',
         'role': ('Associate Product Director at Novo Nordisk', 'NOVO.R2'),
         'product': ('Product Operations', 'NOVO.R2'),
         'desc': ('standards, artefacts, ways of working', 'NOVO.R2'),
@@ -509,6 +517,7 @@ PROOF_POINTS = [
         'shapes': ['leadership'],
     },
     {
+        'id': 'head-of-patient-products',
         'role': ('Associate Product Director at Novo Nordisk', 'NOVO.R2'),
         'product': ('Head of Patient Products', 'NOVO.R2'),
         'desc': ('Patient Solutions, a portfolio of consumer engagement products (companion apps adjacent to the medicines)', 'NOVO.R2'),
@@ -521,6 +530,7 @@ PROOF_POINTS = [
         'shapes': ['leadership'],
     },
     {
+        'id': 'project-steercos',
         'role': ('Associate Product Director at Novo Nordisk', 'NOVO.R2'),
         'product': ('project steercos', 'NOVO.R2'),
         'desc': ('Chaired project steercos. Flipped the format from status updates to interactive co-creation', 'NOVO.R2'),
@@ -533,6 +543,7 @@ PROOF_POINTS = [
         'shapes': ['leadership'],
     },
     {
+        'id': 'wegovycare-personalisation',
         'role': ('Senior Product Manager at Novo Nordisk', 'NOVO.R1'),
         'product': ('Wegovycare', 'NOVO.R1'),
         'desc': ('Wegovycare profiling and customisation engine, delivered as an interactive magazine', 'NOVO.R1'),
@@ -545,6 +556,7 @@ PROOF_POINTS = [
         'shapes': ['ai', 'growth'],
     },
     {
+        'id': 'wegovycare-multi-market',
         'role': ('Senior Product Manager at Novo Nordisk', 'NOVO.R1'),
         'product': ('Wegovycare', 'NOVO.R1'),
         'desc': ('Wegovycare, digital patient platform for obesity medicine, built to scale', 'NOVO.R1'),
@@ -557,6 +569,7 @@ PROOF_POINTS = [
         'shapes': ['zero-to-one', 'international', 'leadership'],
     },
     {
+        'id': 'diagnosis-app',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO.R3'),
         'product': ('Diagnosis App', 'LEO'),
         'desc': ('Prototype smartphone app diagnosing skin conditions with machine learning', 'LEO.R3'),
@@ -569,6 +582,7 @@ PROOF_POINTS = [
         'shapes': ['ai', 'leadership'],
     },
     {
+        'id': 'skincoach',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO.R2'),
         'product': ('Skincoach', 'LEO'),
         'desc': ('Skincoach, a patient-support app for terminally ill cancer patients, built in partnership with Amgen', 'LEO.R2'),
@@ -581,6 +595,7 @@ PROOF_POINTS = [
         'shapes': ['zero-to-one', 'regulated'],
     },
     {
+        'id': 'treat-turnaround',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO.R3'),
         'product': ('TREAT', 'LEO.R1'),
         'desc': ("TREAT, an app addressing underlying causes of inflammatory conditions through personalised nutrition advice, delivered as a decision-tree chatbot with nutritionists behind it. LEO Innovation Lab's first and flagship product.", 'LEO.R1.TURNAROUND'),
@@ -593,6 +608,7 @@ PROOF_POINTS = [
         'shapes': ['turnaround', 'growth', 'regulated'],
     },
     {
+        'id': 'twentythree-launch',
         'role': ('Head of Marketing', 'T23'),
         'product': ('TwentyThree', 'T23'),
         'desc': ('TwentyThree, an integrated video marketing platform for digital marketers', 'T23'),
@@ -605,6 +621,7 @@ PROOF_POINTS = [
         'shapes': ['turnaround'],
     },
     {
+        'id': 'opbeat-brand',
         'role': ('Head of Marketing', 'OPBEAT'),
         'product': ('Opbeat', 'OPBEAT'),
         'desc': ('Opbeat, developer tools SaaS startup providing application performance monitoring. Backed by the cofounders of Facebook and Instagram.', 'OPBEAT'),
@@ -617,6 +634,7 @@ PROOF_POINTS = [
         'shapes': ['growth', 'zero-to-one', 'international'],
     },
     {
+        'id': 'eurodns-turnaround',
         'role': ('Marketing Director', 'EURODNS'),
         'product': ('EuroDNS', 'EURODNS'),
         'desc': ('EuroDNS, an ICANN-accredited international domain registrar specialising in unusual domain extensions. Customers included MailChimp, Lotus F1 and Time Warner.', 'EURODNS.R1.TURNAROUND'),
@@ -629,6 +647,7 @@ PROOF_POINTS = [
         'shapes': ['turnaround', 'growth'],
     },
     {
+        'id': 'eurodns-remote-team',
         'role': ('Marketing Director', 'EURODNS'),
         'product': ('EuroDNS', 'EURODNS'),
         'desc': ('EuroDNS marketing team, run from another country', 'EURODNS.R1.STORY.REMOTE'),
@@ -641,6 +660,7 @@ PROOF_POINTS = [
         'shapes': ['international', 'leadership'],
     },
     {
+        'id': 'uk2-us-marketing',
         'role': ('Acting Marketing Manager US', 'UK2'),
         'product': ('US Marketing department', 'UK2.R1.USTURNAROUND'),
         'desc': ('Managed all online and marketing activity across 5 web properties', 'UK2.R1.USTURNAROUND'),
@@ -653,6 +673,7 @@ PROOF_POINTS = [
         'shapes': ['turnaround', 'international'],
     },
     {
+        'id': 'uk2-domain-platform',
         'role': ('Head of Group Strategy', 'UK2'),
         'product': ('new domain platform', 'UK2'),
         'desc': ('One platform replaced them', 'UK2'),
@@ -665,6 +686,7 @@ PROOF_POINTS = [
         'shapes': ['zero-to-one'],
     },
     {
+        'id': 'gx-networks-rename',
         'role': ('Head of New Media', 'HOST'),
         'product': ('GX Networks', 'HOST.R1.REBRAND'),
         'desc': ('Rename of a publicly listed company', 'HOST.R1.REBRAND'),
@@ -677,6 +699,7 @@ PROOF_POINTS = [
         'shapes': ['leadership'],
     },
     {
+        'id': 'host-new-media',
         'role': ('Head of New Media', 'HOST'),
         'product': ('New Media', 'HOST'),
         'desc': ('New Media department: all online touchpoints, ecommerce, digital campaigns, email marketing and SaaS dashboards across all brands', 'HOST'),
@@ -689,6 +712,7 @@ PROOF_POINTS = [
         'shapes': ['zero-to-one', 'leadership'],
     },
     {
+        'id': 'bettervisitbot',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO.R3'),
         'product': ('BetterVisitBot', 'LEO'),
         'desc': ('a pre-briefing chatbot for doctor consultations', 'LEO'),
@@ -701,6 +725,7 @@ PROOF_POINTS = [
         'shapes': ['ai', 'regulated'],
     },
     {
+        'id': 'opbeat-bridge-round',
         'role': ('Head of Marketing', 'OPBEAT'),
         'product': ('Opbeat', 'OPBEAT'),
         'desc': ('Opbeat, B2B devops startup backed by Balderton Capital and the cofounders of Facebook and Instagram', 'OPBEAT'),
@@ -713,6 +738,7 @@ PROOF_POINTS = [
         'shapes': ['growth', 'zero-to-one'],
     },
     {
+        'id': 'independent-consultant',
         'role': ('Independent Consultant', 'META.JOBS'),
         'product': ('independent consultant', 'META.JOBS'),
         'desc': ('Remote product and strategy consulting', 'META.JOBS'),
@@ -725,6 +751,7 @@ PROOF_POINTS = [
         'shapes': ['growth', 'international'],
     },
     {
+        'id': 'domain-search',
         'role': ('Web Designer', 'HOST'),
         'product': ('domain search', 'HOST.R2.STORY.DOMAIN'),
         'desc': ('Domain search on 123-reg: one text field that interpreted whatever the user typed and searched every ending asynchronously', 'HOST.R2.STORY.DOMAIN'),
@@ -737,6 +764,7 @@ PROOF_POINTS = [
         'shapes': ['growth'],
     },
     {
+        'id': 'tombot',
         'role': ('Solo projects, building with AI', 'SOLO'),
         'product': ('TomBot', 'SOLO'),
         'desc': ('TomBot, a chatbot CV at takenbyninjas.com', 'SOLO'),
@@ -749,6 +777,7 @@ PROOF_POINTS = [
         'shapes': ['ai', 'zero-to-one'],
     },
     {
+        'id': 'kittenpm',
         'role': ('Solo projects, building with AI', 'SOLO'),
         'product': ('kittenpm.com', 'SOLO'),
         'desc': ('kittenpm.com, a free browser-based product management training SIM inspired by Lemmings', 'SOLO'),
@@ -761,6 +790,7 @@ PROOF_POINTS = [
         'shapes': ['ai', 'zero-to-one'],
     },
     {
+        'id': 'deathspiral-or-golden-age',
         'role': ('Solo projects, building with AI', 'SOLO'),
         'product': ('deathspiralorgoldenage.org', 'SOLO'),
         'desc': ("deathspiralorgoldenage.org, a weekly public poll, live sentiment tracker and open economic model on AI's economic impact, with CC0 data", 'SOLO'),
@@ -773,6 +803,7 @@ PROOF_POINTS = [
         'shapes': ['ai', 'zero-to-one'],
     },
     {
+        'id': 'alternative-website',
         'role': ('Sales Executive', 'HOST'),
         'product': ('alternative website', 'HOST.R3.STORY.ALTSITE'),
         'desc': ('an alternative ecommerce website made in his free time', 'HOST'),
@@ -785,6 +816,7 @@ PROOF_POINTS = [
         'shapes': ['growth'],
     },
     {
+        'id': 'company-all-hands',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO.R3'),
         'product': ('company all-hands', 'LEO.R1.STORY.FEELS'),
         'desc': ('the monthly all-hands', 'LEO.R1.STORY.FEELS'),
@@ -797,6 +829,7 @@ PROOF_POINTS = [
         'shapes': ['leadership', 'growth'],
     },
     {
+        'id': 'midphase-pricing',
         'role': ('Head of Group Strategy', 'UK2'),
         'product': ('Midphase pricing', 'UK2'),
         'desc': ("Midphase, UK2 Group's underperforming US hosting business unit", 'UK2'),
@@ -809,6 +842,7 @@ PROOF_POINTS = [
         'shapes': ['turnaround', 'growth'],
     },
     {
+        'id': 'prototyping-user-interviews',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO'),
         'product': ('prototyping and user interviews', 'LEO'),
         'desc': ("Ways of working across LEO Innovation Lab's product teams", 'LEO'),
@@ -821,6 +855,7 @@ PROOF_POINTS = [
         'shapes': ['leadership'],
     },
     {
+        'id': 'textualhealing',
         'role': ('Co-founder', 'META.JOBS'),
         'product': ('TextualHealing.com', 'TQ.FAILURE.SHIP'),
         'desc': ('TextualHealing.com, mobile barcode tickets and coupons via MMS', 'TQ.FAILURE.SHIP'),
@@ -834,6 +869,7 @@ PROOF_POINTS = [
         'company': 'TextualHealing.com',
     },
     {
+        'id': 'testing-beats-opinions',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO'),
         'product': ('testing beats opinions', 'TQ.FAILURE.LEARNING'),
         'desc': ('How design disagreements get settled', 'TQ.FAILURE.LEARNING'),
@@ -846,6 +882,7 @@ PROOF_POINTS = [
         'shapes': ['product-management', 'leadership'],
     },
     {
+        'id': 'amgen-partnership',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO.R2'),
         'product': ('Amgen partnership model', 'LEO.R2'),
         'desc': ('Innovation partnership between LEO Innovation Lab and Amgen for Skincoach', 'LEO.R2'),
@@ -858,6 +895,7 @@ PROOF_POINTS = [
         'shapes': ['zero-to-one', 'international'],
     },
     {
+        'id': 'treat-team',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO.R1.TURNAROUND'),
         'product': ('TREAT team', 'LEO.R1.TURNAROUND'),
         'desc': ('TREAT team, about 15 people including a product lead and a product manager', 'LEO.R1.TURNAROUND'),
@@ -870,6 +908,7 @@ PROOF_POINTS = [
         'shapes': ['leadership', 'turnaround'],
     },
     {
+        'id': 'treat-closure',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO.R1.TURNAROUND'),
         'product': ('TREAT closure', 'LEO.R1.TURNAROUND'),
         'desc': ("TREAT, LEO Innovation Lab's flagship product", 'LEO.R1.TURNAROUND'),
@@ -882,6 +921,7 @@ PROOF_POINTS = [
         'shapes': ['turnaround', 'leadership'],
     },
     {
+        'id': 'wegovycare-releases',
         'role': ('Senior Product Manager at Novo Nordisk', 'NOVO.R1'),
         'product': ('Wegovycare releases', 'NOVO.R1'),
         'desc': ('Wegovycare release process', 'NOVO.R1'),
@@ -894,6 +934,7 @@ PROOF_POINTS = [
         'shapes': ['regulated', 'product-management'],
     },
     {
+        'id': 'opbeat-meetups',
         'role': ('Head of Marketing', 'OPBEAT'),
         'product': ('Opbeat meetup video engine', 'OPBEAT'),
         'desc': ('Opbeat developer community channel', 'OPBEAT'),
@@ -906,6 +947,7 @@ PROOF_POINTS = [
         'shapes': ['growth'],
     },
     {
+        'id': 'opbeat-pricing',
         'role': ('Head of Marketing', 'OPBEAT'),
         'product': ('Opbeat pricing', 'OPBEAT'),
         'desc': ('Opbeat pricing and free tier', 'OPBEAT'),
@@ -918,6 +960,7 @@ PROOF_POINTS = [
         'shapes': ['growth'],
     },
     {
+        'id': 'wegovycare-roadmap',
         'role': ('Senior Product Manager at Novo Nordisk', 'NOVO.R1'),
         'product': ('Wegovycare roadmap', 'NOVO.R1'),
         'desc': ('Wegovycare roadmap', 'NOVO.R1'),
@@ -930,6 +973,7 @@ PROOF_POINTS = [
         'shapes': ['product-management'],
     },
     {
+        'id': 'diagnosis-app-data-pipeline',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO.R3'),
         'product': ('Diagnosis App data pipeline', 'LEO.R3'),
         'desc': ('Image labelling platform and data pipeline for the diagnosis app', 'LEO.R3'),
@@ -942,6 +986,7 @@ PROOF_POINTS = [
         'shapes': ['ai'],
     },
     {
+        'id': 'diagnosis-app-paths-to-market',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO.R3'),
         'product': ('Diagnosis App paths to market', 'LEO.R3'),
         'desc': ('Go-to-market evaluation for a moonshot ML prototype in dermatology', 'LEO.R3'),
@@ -954,6 +999,7 @@ PROOF_POINTS = [
         'shapes': ['product-management', 'ai'],
     },
     {
+        'id': 'leo-lab-model',
         'role': ('PM/GM at LEO Innovation Lab', 'LEO'),
         'product': ('LEO lab model', 'LEO.STORY.MODEL'),
         'desc': ('LEO Innovation Lab as an operating model', 'LEO.STORY.MODEL'),
@@ -966,6 +1012,7 @@ PROOF_POINTS = [
         'shapes': ['leadership', 'zero-to-one'],
     },
     {
+        'id': 'eurodns-seo',
         'role': ('Marketing Director', 'EURODNS.R1.TURNAROUND'),
         'product': ('EuroDNS SEO remediation', 'EURODNS.R1.TURNAROUND'),
         'desc': ('EuroDNS organic search', 'EURODNS.R1.TURNAROUND'),
@@ -978,6 +1025,7 @@ PROOF_POINTS = [
         'shapes': ['growth', 'turnaround'],
     },
     {
+        'id': 'eurodns-domain-extensions',
         'role': ('Marketing Director', 'EURODNS'),
         'product': ('EuroDNS domain extensions', 'EURODNS'),
         'desc': ('EuroDNS domain product range', 'EURODNS'),
@@ -990,6 +1038,7 @@ PROOF_POINTS = [
         'shapes': ['growth'],
     },
     {
+        'id': 'raspberry-pi',
         'role': ('Independent Consultant', 'META.JOBS'),
         'product': ('Raspberry Pi partnership', 'META.JOBS'),
         'desc': ('A partnership with Raspberry Pi', 'META.JOBS'),
@@ -1002,6 +1051,7 @@ PROOF_POINTS = [
         'shapes': ['growth'],
     },
     {
+        'id': 'sales-competition',
         'role': ('Sales Executive', 'HOST'),
         'product': ('sales competition', 'HOST'),
         'desc': ('First job, answering phones in web hosting sales', 'HOST'),
@@ -1014,6 +1064,7 @@ PROOF_POINTS = [
         'shapes': ['growth'],
     },
     {
+        'id': '123-reg',
         'role': ('Head of New Media', 'HOST'),
         'product': ('123-reg', 'HOST'),
         'desc': ("123-reg.co.uk, the group's domain brand", 'HOST'),
@@ -1026,6 +1077,7 @@ PROOF_POINTS = [
         'shapes': ['growth'],
     },
     {
+        'id': 'group-design',
         'role': ('Group Design Manager', 'HOST'),
         'product': ('group design', 'HOST'),
         'desc': ("Design across the group's brands after the Pipex acquisitions", 'HOST'),
@@ -1495,6 +1547,45 @@ def build_career(sections):
     return lines
 
 
+# Row labels ruled by Tom (2026-11-09) for rows whose strength section carries no label,
+# or a label that does not fit the row (several rows share LEO or META.JOBS). Keyed by
+# (product, strength section); each key must match exactly one row. 'Solo' is work he did
+# alone and unasked; None with NOT_STAR means the row is context, not a STAR story.
+ROW_LABELS = {
+    ('EuroDNS', 'EURODNS.R1.STORY.REMOTE'): 'Led',
+    ('independent consultant', 'META.JOBS'): None,
+    ('alternative website', 'HOST.R3.STORY.ALTSITE'): 'Solo',
+    ('company all-hands', 'LEO.R1.STORY.FEELS'): 'Led',
+    ('prototyping and user interviews', 'LEO'): 'Led',
+    ('TextualHealing.com', 'META.JOBS'): 'Contributed',
+    ('testing beats opinions', 'LEO'): 'Led',
+    ('LEO lab model', 'LEO'): None,
+    ('EuroDNS domain extensions', 'EURODNS'): 'Led',
+    ('Raspberry Pi partnership', 'META.JOBS'): 'Led',
+}
+NOT_STAR = {('independent consultant', 'META.JOBS'), ('LEO lab model', 'LEO')}
+ROW_LABEL_SOURCE = 'Tom, 2026-11-09'
+
+
+def row_key(row):
+    return (row['product'][0], row['strength'])
+
+
+def check_row_labels():
+    for key in ROW_LABELS:
+        hits = sum(1 for r in PROOF_POINTS if row_key(r) == key)
+        if hits != 1:
+            sys.exit(f'✗ ROW_LABELS key {key!r} matches {hits} rows, expected 1')
+
+
+def row_label(row, strengths):
+    """The row's label: Tom's per-row ruling first, else its strength section's label."""
+    key = row_key(row)
+    if key in ROW_LABELS:
+        return ROW_LABELS[key]
+    return strengths.get(row['strength'], {}).get('strength')
+
+
 def load_strengths(sections):
     """Strength labels from STRENGTH_FILE; each phrase must still be verbatim in its section."""
     with open(STRENGTH_FILE, encoding='utf-8') as f:
@@ -1503,6 +1594,8 @@ def load_strengths(sections):
         if entry.get('strength') not in ('Led', 'Contributed'):
             sys.exit(f'✗ Bad strength for {sid} in {STRENGTH_FILE}: {entry.get("strength")!r}')
         check(sections, sid, entry.get('phrase'))
+    check_row_labels()
+    check_row_ids()
     return strengths
 
 
@@ -1533,6 +1626,42 @@ def role_href(row):
     if cslug in {pg['slug'] for pg in PAGES}:
         return f'{page_url(cslug)}#{role_anchor(row)}'
     return None
+
+
+# Further reading (Tom, 2026-11-09): a row's product links to a section only when
+# that section is about the row. Of the row's two sections (product, strength)
+# the more specific one on a page is taken; the overview sections below cover a
+# whole role or company in a line per item, so a row whose best section is one
+# of them is not linked: the row says all the overview says.
+OVERVIEW_SECTIONS = {'NOVO.R2', 'LEO', 'UK2', 'HOST', 'META.JOBS'}
+
+
+def further_reading(row, where):
+    """(slug, anchor) of the section that says more about this row, or None."""
+    cands = [sid for sid in (row['strength'], row['product'][1]) if sid in where]
+    if not cands:
+        return None
+    best = max(cands, key=lambda sid: sid.count('.'))
+    return None if best in OVERVIEW_SECTIONS else where[best]
+
+
+# Row anchors (Tom, 2026-11-09): every row has a stable id, so a CV summary can
+# link to one story; it does not move when rows are added or reordered.
+def row_anchor(row):
+    return f'pp-{row["id"]}'
+
+
+def row_url(row):
+    """The row on the stories page, where every row is shown once."""
+    return f'{STORIES_PATH}#{row_anchor(row)}'
+
+
+def check_row_ids():
+    ids = [r.get('id') for r in PROOF_POINTS]
+    bad = [i for i in ids if not i or not re.fullmatch(r'[a-z0-9]+(-[a-z0-9]+)*', i)]
+    dupes = {i for i in ids if ids.count(i) > 1}
+    if bad or dupes:
+        sys.exit(f'✗ PROOF_POINTS ids: bad {bad}, duplicated {sorted(dupes)}')
 
 
 def page_url(slug, anchor=None):
@@ -1645,7 +1774,7 @@ def render_row(sections, strengths, where, row):
     strength_sid = row['strength']
     if strength_sid not in sections:
         sys.exit(f'✗ Strength section {strength_sid} not found in {CONTENT_FILE}')
-    label = strengths.get(strength_sid, {}).get('strength')
+    label = row_label(row, strengths)
     for key in ('role', 'product', 'situation', 'task', 'action', 'result', 'year'):
         if row[key] is None:
             cells.append('<td>not yet stated</td>')
@@ -1655,9 +1784,9 @@ def render_row(sections, strengths, where, row):
         used.append(sid)
         cell = escape(text)
         if key == 'product':
-            slug, anchor = where.get(sid) or where.get(strength_sid) or (None, None)
-            if slug:
-                cell = f'<a href="{page_url(slug, anchor)}">{cell}</a>'
+            target = further_reading(row, where)
+            if target:
+                cell = f'<a href="{page_url(*target)}">{cell}</a>'
             desc = row.get('desc')
             if desc:
                 check(sections, desc[1], desc[0])
@@ -1671,13 +1800,16 @@ def render_row(sections, strengths, where, row):
             cell = f'<a href="{href}">{escape(role_name(row))}</a>' if href else escape(role_name(row))
             if label == 'Contributed':
                 cell += ' (contributed, one of a team)'
+            elif label == 'Solo':
+                cell += ' (solo project)'
+            if row_key(row) in NOT_STAR:
+                cell += ' (context, not a STAR story)'
         cells.append(f'<td>{cell}</td>')
     used.append(strength_sid)
     kws = ', '.join(escape(term) for term, _ in row_keywords(sections, row))
     cells.append(f'<td>{kws}</td>')
     ids = ', '.join(dict.fromkeys(used))
-    n = PROOF_POINTS.index(row) + 1
-    return f'                <tr id="pp{n}" data-source="{_escape(ids)}">' + ''.join(cells) + '</tr>'
+    return f'                <tr id="{row_anchor(row)}" data-source="{_escape(ids)}">' + ''.join(cells) + '</tr>'
 
 
 def render_table(sections, strengths, where, rows):
@@ -1757,9 +1889,8 @@ def generate_stories_page(sections, parsed):
             body.append('        <p>Also in this group, shown in full above:</p>')
             body.append('        <ul>')
             for r in again:
-                n = PROOF_POINTS.index(r) + 1
                 year = r['year'][0] if r.get('year') else 'year not yet stated'
-                body.append(f'            <li><a href="#pp{n}">{escape(r["product"][0])}</a>, {escape(role_name(r))}, {escape(year)}</li>')
+                body.append(f'            <li><a href="#{row_anchor(r)}">{escape(r["product"][0])}</a>, {escape(role_name(r))}, {escape(year)}</li>')
             body.append('        </ul>')
         shown.update(id(r) for r in rows)
     body += build_section(sections, parsed, SOLO_SECTION, where, heading='Solo projects, building with AI')
@@ -2184,8 +2315,8 @@ def proof_points_json(sections):
     where = section_pages()
     rows = []
     for n, row in enumerate(PROOF_POINTS, 1):
-        slug, anchor = where.get(row['product'][1]) or where.get(row['strength']) or (None, None)
-        r = {}
+        target = further_reading(row, where)
+        r = {'id': row['id'], 'url': f'https://takenbyninjas.com{row_url(row)}'}
         for key in ('role', 'product', 'desc', 'situation', 'task', 'action', 'result', 'year'):
             v = row.get(key)
             r[key] = None if v is None else {'text': v[0], 'section': v[1]}
@@ -2193,11 +2324,15 @@ def proof_points_json(sections):
             if v is not None and q and q[0] != v[0]:
                 r[key]['quote'] = q[0]      # Tom's verbatim line the cell is derived from
         r['company'] = role_company(row)
-        r['strength'] = strengths.get(row['strength'], {}).get('strength')
+        r['strength'] = row_label(row, strengths)
+        r['star'] = row_key(row) not in NOT_STAR
+        if row_key(row) in ROW_LABELS:
+            r['label_source'] = ROW_LABEL_SOURCE
         r['tier'] = 'self-reported'
         r['shapes'] = row_shapes(row)
         r['skills'] = [t for t, _ in row_keywords(sections, row)]
-        r['page'] = f'https://takenbyninjas.com{page_url(slug, anchor)}' if slug else None
+        # further reading when a section says more, else the row itself
+        r['page'] = f'https://takenbyninjas.com{page_url(*target) if target else row_url(row)}'
         r['role_page'] = f'https://takenbyninjas.com{role_href(row)}' if role_href(row) else None
         r['role_aliases'] = ROLE_ALIASES.get(row['role'][0], [])
         r['facets'] = row_facets(n)
@@ -2294,7 +2429,7 @@ def build_cv_appendix(sections, recs):
     md += ['', '### Career', '', '| Years | Role | Company | Location |', '|---|---|---|---|']
     md += [f'| {y} | {r} | {c} | {l} |' for y, r, c, l in career]
     md += ['', f'### Proof points, strongest {len(rows)} of {len(PROOF_POINTS)} (situation; task; action; result)', '']
-    md += [f'{i}. {cv_line(row)} source: Tom\'s own account; more: {base}{page_url(*(section_pages().get(row["product"][1]) or section_pages().get(row["strength"]) or (None, None))) if (section_pages().get(row["product"][1]) or section_pages().get(row["strength"])) else PAGE_PATH}'
+    md += [f'{i}. {cv_line(row)} source: Tom\'s own account; more: {base}{page_url(*further_reading(row, section_pages())) if further_reading(row, section_pages()) else row_url(row)}'
            for i, row in enumerate(rows, 1)]
     md += ['', '### Skills (each tagged from the proof points that carry it)', '', ', '.join(skills) + '.',
            '', '### References', '',
@@ -2314,8 +2449,8 @@ def build_cv_appendix(sections, recs):
     body += ['                <tr>' + ''.join(f'<td>{escape(c)}</td>' for c in r) + '</tr>' for r in career]
     body += ['            </tbody></table></div>', f'        <h2>Proof points, strongest {len(rows)} of {len(PROOF_POINTS)}</h2>', '        <ol>']
     for row in rows:
-        slug_anchor = section_pages().get(row['product'][1]) or section_pages().get(row['strength'])
-        href = page_url(*slug_anchor) if slug_anchor else PAGE_PATH
+        target = further_reading(row, section_pages())
+        href = page_url(*target) if target else row_url(row)
         body.append(f'            <li>{escape(cv_line(row))} <small data-source="{_escape(row["result"][1])}">source: Tom\'s own account</small> <a href="{href}">more</a></li>')
     body += ['        </ol>', '        <h2>Skills</h2>', f'        <p>{escape(", ".join(skills))}.</p>',
              '        <h2>References</h2>', f'        <p>{len(recs)} LinkedIn recommendations, full text, grouped by role: <a href="{RECS_PATH}">{RECS_PATH}</a>. They vouch for a role, not for a claim.</p>',
