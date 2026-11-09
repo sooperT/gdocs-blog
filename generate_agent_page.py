@@ -48,6 +48,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scr
 from pylib.story_facets import FACETS as STORY_FACETS, ROW_PRODUCTS as FACET_ROW_PRODUCTS, facet_json
 from parse_content import parse_content_doc  # noqa: E402
 from pylib.config import SITE_URL  # noqa: E402
+from pylib.templates import ANALYTICS_TAGS  # noqa: E402
 
 
 def agent_footer():
@@ -64,8 +65,8 @@ def agent_head(title, meta_description, canonical_path, jsonld=None, noindex=Fal
     plain = re.sub(r'&[a-z#0-9]+;', 'x', meta_description)
     if not 50 <= len(plain) <= 160:
         sys.exit(f'✗ Meta description for {canonical_path} is {len(plain)} characters; Bing wants 50-160.')
-    """Standalone <head> for agent pages: no site stylesheet, CRT theme, fonts or
-    analytics. The visual opposite of the human site (white, system fonts, red strip)."""
+    """Standalone <head> for agent pages: no site stylesheet, CRT theme or fonts;
+    the same analytics as the human site. The visual opposite of the human site (white, system fonts, red strip)."""
     url = f'{SITE_URL}{canonical_path}'
     parts = [
         '<!DOCTYPE html>',
@@ -87,6 +88,7 @@ def agent_head(title, meta_description, canonical_path, jsonld=None, noindex=Fal
         parts.insert(-1, '    <meta name="robots" content="noindex, follow">')
     if jsonld:
         parts.append('    ' + jsonld)
+    parts += ANALYTICS_TAGS
     parts += ['</head>', '<body>']
     return '\n'.join(parts)
 
@@ -2316,7 +2318,7 @@ def proof_points_json(sections):
     rows = []
     for n, row in enumerate(PROOF_POINTS, 1):
         target = further_reading(row, where)
-        r = {'id': row['id'], 'url': f'https://takenbyninjas.com{row_url(row)}'}
+        r = {'id': row['id']}
         for key in ('role', 'product', 'desc', 'situation', 'task', 'action', 'result', 'year'):
             v = row.get(key)
             r[key] = None if v is None else {'text': v[0], 'section': v[1]}
@@ -2331,8 +2333,10 @@ def proof_points_json(sections):
         r['tier'] = 'self-reported'
         r['shapes'] = row_shapes(row)
         r['skills'] = [t for t, _ in row_keywords(sections, row)]
-        # further reading when a section says more, else the row itself
-        r['page'] = f'https://takenbyninjas.com{page_url(*target) if target else row_url(row)}'
+        # page: this story, the row on the stories page (Tom, 2026-11-09: every
+        # story points at its own row). more: a section that says more, or None.
+        r['page'] = f'https://takenbyninjas.com{row_url(row)}'
+        r['more'] = f'https://takenbyninjas.com{page_url(*target)}' if target else None
         r['role_page'] = f'https://takenbyninjas.com{role_href(row)}' if role_href(row) else None
         r['role_aliases'] = ROLE_ALIASES.get(row['role'][0], [])
         r['facets'] = row_facets(n)
@@ -2481,6 +2485,7 @@ def start_page_html():
         '    <meta name="description" content="The file behind Tom Stenson\'s paste prompt: what an assistant can do with his career record, where it lives, and how to cite it.">',
         f'    <link rel="canonical" href="{SITE_URL}/for-agents/start/">',
         '    <style>body{margin:0;background:#fff;color:#222;font:16px/1.5 system-ui,sans-serif;padding:1rem}h1{font-size:1.5em;margin:0.5rem 0}pre{white-space:pre-wrap;word-wrap:break-word;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace}</style>',
+        *ANALYTICS_TAGS,
         '</head>', '<body>',
         '<h1>Tom Stenson: agent entry file</h1>',
         '<p>The entry file as plain text. Markdown source: <a href="/for-agents/start.md">/for-agents/start.md</a>.</p>',
