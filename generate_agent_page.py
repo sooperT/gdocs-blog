@@ -380,16 +380,16 @@ FACTS_ROWS_PER_SHAPE = 3   # the facts page shows this many per group; the shape
 # result and source first). Keyed by (product name, first words of the result); rows not listed
 # follow in content order on the shape page only.
 SHAPE_TOP = {
-    'product-management': [('Wegovycare', 'Product launched on time and on budget, with 10% penetration in the first market and biggest adoption of any digital solution at Novo.'), ('CagriSema', 'Funding secured for a portfo'), ('TREAT', 'Halved customer acquisition ')],
+    'product-management': [('Wegovycare', '10% penetration in the first'), ('CagriSema', 'Funding secured for a portfo'), ('TREAT', 'Halved customer acquisition ')],
     'ai': [('GenAI proof of concept for automating compliance reviews', 'Product team loved it. The p'),
            ('Diagnosis App', 'Over 80% accuracy across thr'), ('Wegovycare', 'Each patient could see a per')],
     'growth': [('Opbeat', 'Trebled traffic and sign-ups'), ('EuroDNS', 'Decline reversed. Organic tr'), ('domain search', 'New revenue up 20% overnight')],
-    'zero-to-one': [('Wegovycare', 'Product launched on time and on budget, with 10% penetration in the first market and biggest adoption of any digital solution at Novo. I was asked'), ('Digital Incubation', 'Moved the business from solu'),
+    'zero-to-one': [('Wegovycare', 'Product launched on time and'), ('Digital Incubation', 'Moved the business from solu'),
                     ('Skincoach', 'Full product lifecycle in 8 ')],
     'turnaround': [('TREAT', 'Halved customer acquisition '), ('EuroDNS', 'Decline reversed. Organic tr'), ('US Marketing department', 'reduced bounce rate by ~15%,')],
-    'regulated': [('Wegovycare', 'Product launched on time and on budget, with 10% penetration in the first market and biggest adoption of any digital solution at Novo.'), ('GenAI proof of concept for automating compliance reviews', 'Product team loved it. The p'),
+    'regulated': [('Wegovycare', '10% penetration in the first'), ('GenAI proof of concept for automating compliance reviews', 'Product team loved it. The p'),
                   ('Skincoach', 'Full product lifecycle in 8 ')],
-    'leadership': [('Diagnosis App', 'Over 80% accuracy across thr'), ('EuroDNS', 'Structure without micromanag'), ('Wegovycare', 'Product launched on time and on budget, with 10% penetration in the first market and biggest adoption of any digital solution at Novo. I was asked')],
+    'leadership': [('Diagnosis App', 'Over 80% accuracy across thr'), ('EuroDNS', 'Structure without micromanag'), ('Wegovycare', 'Product launched on time and')],
     'international': [('US Marketing department', 'reduced bounce rate by ~15%,'), ('Wegovy Pill launch', 'Contributed to the largest'), ('Opbeat', 'Trebled traffic and sign-ups')],
 }
 
@@ -420,9 +420,9 @@ PROOF_POINTS = [
         'product': ('Wegovycare', 'NOVO.R1'),
         'desc': ('Wegovycare, a digital service to drive retention and repeat prescriptions for Wegovy', 'NOVO.R1'),
         'situation': ('The brief was a set of standalone features the business thought would help, but nobody had talked to the patients.', 'NOVO.R1'),
-        'task': ('Find the lever that would keep patients on treatment and coming back for repeat prescriptions.', 'NOVO.R1'),
-        'action': ('Talked to patients. User research highlighted that all patients wanted to know how much weight they would lose with treatment, and that every patient journey is different, with different drop-off risks. Built a weight-loss prediction model, from a simple Excel prototype on my laptop, so each patient could track their progress against a personalised curve; then a profiling mechanic to address each patient\'s risks at the right time.', 'NOVO.R1'),
-        'result': ('Product launched on time and on budget, with 10% penetration in the first market and biggest adoption of any digital solution at Novo.', 'NOVO.R1'),
+        'task': ('I convinced stakeholders to take the product back to discovery, increase ambiguity and understand the problem to solve for. What stops patients from staying on treatment?', 'NOVO.R1'),
+        'action': ('As the first product team at Novo to interview patients, we learnt that patients wanted to address three things: how much weight will I lose? is this normal? am I on track? Made those the core loop. A weight-loss curve and tracking diary created compelling reasons to come back.', 'NOVO.R1'),
+        'result': ('10% penetration in the first national market. Fastest-scaling and biggest-adopted digital product at Novo. Engagement continued well into treatment.', 'NOVO.R1'),
         'year': ('Mar 2020 - Feb 2022', 'NOVO.R1'),
         'strength': 'NOVO.R1',
         'shapes': ['zero-to-one', 'regulated'],
@@ -1410,7 +1410,7 @@ TIGHT = {
          'task': 'Test a contextually-triggered opt-in shown at exactly the right moment.',
          'action': 'The split test won on conversion but activation barely moved: the opt-in sat too late in the funnel. Rolled out a simpler opt-in early in the funnel, lifting net activation, and presented the mistake at the next company all-hands.',
          'result': 'The monthly all-hands changed from presenting vanity metrics to mistakes made and lessons learnt.'},
-    1: {'action': 'Talked to patients: all wanted to know how much weight they would lose, and every journey had different drop-off risks. Built a weight-loss prediction model, from an Excel prototype, so each patient could track progress against a personalised curve; then a profiling mechanic to address each risk at the right time.'},
+    1: {'task': 'Convinced stakeholders to take the product back to discovery, increase ambiguity and understand the problem to solve for: what stops patients from staying on treatment?', 'action': 'As the first product team at Novo to interview patients, learnt that patients wanted to address three things: how much weight they will lose, whether this is normal, whether they are on track. Made those the core loop. A weight-loss curve and tracking diary created compelling reasons to come back.'},
     2: {'action': 'Used clinical trial data to make a weight-loss prediction model that showed a generalised predicted trajectory for each patient, against which they could check progress. Started as a simple Excel prototype on a laptop and ended as a full Bayesian prediction model.'},
     3: {'action': "First product team at Novo to interview patients, run discovery, build prototypes and co-create with markets. It took persuasion and a leap of faith from stakeholders, but it led to a radically different solution that addressed users' needs, and executives got their aha moment at the first prototype test.", 'result': 'Product launched on time and on budget, with 10% penetration in the first market and biggest adoption of any digital solution at Novo. Asked to scale the ways of working across the organisation and promoted to Associate Product Director.'},
     4: {'task': 'Test whether an LLM could take on the review so product teams could shift left: fail in design, not at review. Two acceptance tests set up front: useful to product teams, and catches what the manual review catches.'},

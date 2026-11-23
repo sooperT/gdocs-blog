@@ -587,16 +587,17 @@
         "section": "NOVO.R1"
       },
       "task": {
-        "text": "Find the lever that would keep patients on treatment and coming back for repeat prescriptions.",
-        "section": "NOVO.R1"
+        "text": "Convinced stakeholders to take the product back to discovery, increase ambiguity and understand the problem to solve for: what stops patients from staying on treatment?",
+        "section": "NOVO.R1",
+        "quote": "I convinced stakeholders to take the product back to discovery, increase ambiguity and understand the problem to solve for. What stops patients from staying on treatment?"
       },
       "action": {
-        "text": "Talked to patients: all wanted to know how much weight they would lose, and every journey had different drop-off risks. Built a weight-loss prediction model, from an Excel prototype, so each patient could track progress against a personalised curve; then a profiling mechanic to address each risk at the right time.",
+        "text": "As the first product team at Novo to interview patients, learnt that patients wanted to address three things: how much weight they will lose, whether this is normal, whether they are on track. Made those the core loop. A weight-loss curve and tracking diary created compelling reasons to come back.",
         "section": "NOVO.R1",
-        "quote": "Talked to patients. User research highlighted that all patients wanted to know how much weight they would lose with treatment, and that every patient journey is different, with different drop-off risks. Built a weight-loss prediction model, from a simple Excel prototype on my laptop, so each patient could track their progress against a personalised curve; then a profiling mechanic to address each patient's risks at the right time."
+        "quote": "As the first product team at Novo to interview patients, we learnt that patients wanted to address three things: how much weight will I lose? is this normal? am I on track? Made those the core loop. A weight-loss curve and tracking diary created compelling reasons to come back."
       },
       "result": {
-        "text": "Product launched on time and on budget, with 10% penetration in the first market and biggest adoption of any digital solution at Novo.",
+        "text": "10% penetration in the first national market. Fastest-scaling and biggest-adopted digital product at Novo. Engagement continued well into treatment.",
         "section": "NOVO.R1"
       },
       "year": {
@@ -625,13 +626,11 @@
         "growth",
         "retention",
         "roadmap",
-        "launch",
         "0 to 1",
         "marketing",
         "team leadership",
         "stakeholders",
-        "consumer",
-        "budget"
+        "consumer"
       ],
       "page": "https://takenbyninjas.com/for-agents/stories/#pp-wegovycare-retention",
       "more": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r1",
