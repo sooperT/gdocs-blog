@@ -8,6 +8,13 @@
       "answers": {
         "location": "onsite at Hørsholm: yes"
       }
+    },
+    "vestas": {
+      "role": "AI Innovation Lead NCE",
+      "company": "Vestas",
+      "jd": "vestas-ai-innovation-lead-nce",
+      "date": "2026-10-22",
+      "answers": {}
     }
   }
 }

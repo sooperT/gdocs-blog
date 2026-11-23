@@ -74,14 +74,20 @@ def fit_section(out):
 
 
 def fit_pairs(out):
-    """[(n, requirement line text, fit, evidence text)] from the fit section."""
+    """[(n, requirement line text, fit, evidence text)] from the fit section.
+    Form since R1022-1: "n. **requirement**", blank, an indented verdict paragraph,
+    blank, then the nested ordered story items ("   k. ...") with their STAR bullets,
+    up to the next requirement; the evidence text joins those lines, stripped, with "\n"."""
     ls = fit_section(out)
     pairs = []
-    for i, ln in enumerate(ls):
-        m = re.match(r'^(\d+)\. (.*)$', ln)
-        if m:
-            e = re.match(r'^Evidence \(([a-z ]+)\): (.*)$', ls[i + 1])
-            pairs.append((int(m.group(1)), m.group(2), e.group(1) if e else None, e.group(2) if e else None))
+    heads = [i for i, ln in enumerate(ls) if re.match(r'^\d+\. \*\*.*\*\*$', ln)]
+    for j, i in enumerate(heads):
+        m = re.match(r'^(\d+)\. \*\*(.*)\*\*$', ls[i])
+        stop = heads[j + 1] if j + 1 < len(heads) else len(ls)
+        v = re.match(r'^   (Met|Partial|Not met)(?:\.(?: (.*))?| by (.*)| see (.*))$', ls[i + 2])
+        lead = [v.group(1) + ' by ' + v.group(3) if v.group(3) else v.group(1) + ' see ' + v.group(4) if v.group(4) else v.group(2)] if v else []
+        rest = [x for x in lead if x] + [ln.strip() for ln in ls[i + 3:stop] if ln.strip() and not ln.startswith('Not on record, ask Tom: ')]
+        pairs.append((int(m.group(1)), m.group(2), v.group(1).lower() if v else None, '\n'.join(rest)))
     return pairs
 
 
@@ -294,9 +300,9 @@ check('8 fact requirements are nowhere in the fit', not any(REQ[k].split()[0] in
 
 got = {k: pairs[i] for i, k in enumerate(EXPERIENCE)}
 check('9 the requirement is the job description\'s full words, untruncated', got['pp'][1] == LONG + '.' and len(LONG) > 200)
-check('9 every requirement line is followed by its Evidence line, then a blank',
+check('9 every requirement is a numbered bold item with its verdict as an indented paragraph beneath',
       all(p[2] in ('met', 'partial', 'not met') and p[3] for p in pairs)
-      and all(fit[i + 2] == '' for i, ln in enumerate(fit) if re.match(r'^\d+\. ', ln)))
+      and all(fit[i + 1] == '' and fit[i + 2].startswith('   ') for i, ln in enumerate(fit) if re.match(r'^\d+\. \*\*', ln)))
 check('9 the fit label is the brief\'s verdict', [got[k][2] for k in ('pp', 'pointer', 'near', 'gap', 'repeat', 'also')] == ['met', 'partial', 'not met', 'not met', 'met', 'met'])
 
 
@@ -304,32 +310,59 @@ def who(r):
     return f"{text_of(r, 'role')}, {text_of(r, 'product')}, {c.year_span([text_of(r, 'year')])}."
 
 
-check('9 a story: result, action, role, product, years, link, as plain sentences',
-      got['pp'][3] == f"{c.end(text_of(A, 'result'))} {c.end(text_of(A, 'action'))} {who(A)} {A['page']}", got['pp'][3])
-# Tom's ruling in the R1012-24 commit, not "in full": a story already told is restated short, never referenced.
-check('9 a repeated story is restated on its own line (result, role, product, years, link), not referenced',
-      got['repeat'][3] == f"{c.end(text_of(A, 'result'))} {who(A)} {A['page']}", got['repeat'][3])
-check('9 a second example is written out after "Also:" (R1012-23 e)',
-      got['also'][3] == f"{c.end(text_of(B, 'result'))} {c.end(text_of(B, 'action'))} {who(B)} Also: {c.end(text_of(D, 'result'))} {who(D)} {B['page']}", got['also'][3])
+def head(r):
+    return f"{text_of(r, 'product')}. {text_of(r, 'role')}, {c.year_span([text_of(r, 'year')])}."
+
+
+def told(r, n, k, prefix=''):
+    lines = [f"- {n}.{k} {prefix}{head(r)}"] + [f"- {lab}: {c.end(text_of(r, k2))}" for k2, lab in c.STAR_LABELS if text_of(r, k2)] + [f"- {r['page']}"]
+    return '\n'.join(lines)
+
+
+# R1022-1 (Tom, 2026-10-22): a nested numbered list. Requirement n, its verdict, then
+# each story as n.k (product, role, years) with Situation/Task/Action/Result and the
+# link nested beneath. A story is told in full once; a later row says "Met by n.k"
+# and nothing more. Untold stories come first in a row, repeats after.
+check('9 a story: n.k heading, then Situation/Task/Action/Result and the link nested under it',
+      got['pp'][3] == told(A, got['pp'][0], 1), got['pp'][3])
+first = f"{got['pp'][0]}.1"
+check('9 a row with only a repeated story says "Met by n.k" and nothing more (no number of its own)', got['repeat'][3] == f"Met by {first}.", got['repeat'][3])
+_also_n = got['also'][0]
+text2, _ = c.build({'rows': [pp_row(REQ['pp'], A), dict(pp_row(REQ['also'], B), also=[{'evidence': text_of(A, 'result')}])]}, ROWS, JD, applying=JD)
+_p2 = fit_pairs(text2)
+check('9 a row with a new story and a repeat: the new story numbered, then "Also met by n.k"',
+      _p2[1][3] == f"{told(B, _p2[1][0], 1)}\nAlso met by {_p2[0][0]}.1.", _p2[1][3])
+check('9 a second example is n.2 in the same shape (R1012-23 e)',
+      got['also'][3] == f"{told(B, got['also'][0], 1)}\n{told(D, got['also'][0], 2)}", got['also'][3])
+check('9 the markdown nests: story bullets "   - n.k " under the requirement, STAR bullets "     - " under the story',
+      all(re.match(r'^(   - \d+\.\d+ |     - )', ln) for ln in fit if ln.startswith(' ') and not re.match(r'^   (Met|Partial|Not met|Also)\b', ln)),
+      [ln for ln in fit if ln.startswith(' ') and not re.match(r'^(   - \d+\.\d+ |     - |   (Met|Partial|Not met|Also)\b)', ln)])
+try:
+    import markdown as _md
+    _html = _md.markdown('\n'.join(fit))
+    check('9 a markdown renderer nests it: one story list per told requirement inside the top ordered list, a STAR list inside each full story',
+          _html.count('<ol>') >= 1 and _html.count('<ul>') == sum(1 for p in pairs if re.search(r'^- \d+\.\d+ ', p[3], re.M)) + sum(1 for p in pairs if 'Situation:' in p[3] or 'Result:' in p[3]),
+          (_html.count('<ol>'), _html.count('<ul>')))
+except ImportError:
+    pass
 check('9 a section with no summarised story: says so, with a link', re.fullmatch(rf'On record, no summarised story yet\. {URL}', got['pointer'][3]), got['pointer'][3])
 check('9 a gap with nearest evidence: named as not a match, with who, when and link',
-      got['near'][3] == f"Nearest, not a match: {c.end(text_of(C, 'result'))} {who(C)} {C['page']}", got['near'][3])
+      got['near'][3] == f"Nearest, not a match: {head(C)} Result: {c.end(text_of(C, 'result'))} {C['page']}", got['near'][3])
 check('9 a gap with nothing near: not on record', got['gap'][3] == 'Not on record.')
 check('9 only the gap with nothing near is listed to ask Tom', f"Not on record, ask Tom: {REQ['gap']}." in fit and not any(REQ['near'] in ln for ln in fit if ln.startswith('Not on record')))
 if UNIQUE:
     U = UNIQUE[1]
-    check('9 a section one story summarises is told as that story',
-          got['unique'][3] == f"{c.end(text_of(U, 'result'))} {c.end(text_of(U, 'action'))} {who(U)} {U['page']}", got['unique'][3])
-check('9 every evidence line but "Not on record." ends with a link', all(re.search(rf' {URL}$', p[3]) for p in pairs if p[3] != 'Not on record.'))
+    check('9 a section one story summarises is told as that story', got['unique'][3] == told(U, got['unique'][0], 1), got['unique'][3])
+check('9 every evidence but "Not on record." and a reference ends with a link', all(re.search(rf'{URL}$', p[3]) for p in pairs if p[3] != 'Not on record.' and not re.search(r'(?:Met|Partial|Not met) (?:by|see) [\d., ]+$', p[3])))
 check('9 no markdown tables', not any(ln.lstrip().startswith('|') for ln in ls) and '|' not in '\n'.join(fit))
 check('9 no JSON or arrays in the fit', not any(ln.lstrip()[:1] in ('[', '{') for ln in fit) and not re.search(r'\["|\{"|":|\],', out))
-check('9 no ids or cross-references in the fit', not any(CROSS_REF.search(ln) for ln in fit if not re.match(r'^\d+\. ', ln) and not ln.startswith('### ')),
-      [ln for ln in fit if CROSS_REF.search(ln)])
-check('9 no STAR labels: sentences, not fields', not re.search(r'\b(Situation|Task|Action|Result):', out))
+check('9 no ids in the fit: the only reference is "Met by n.k" to a story above',
+      not any(CROSS_REF.search(re.sub(r'(?:[Mm]et by|see|Examples:)[\d., ]+', '', ln)) for ln in fit if not re.match(r'^\d+\. \*\*', ln) and not ln.startswith('### ')),
+      [ln for ln in fit if CROSS_REF.search(re.sub(r'(?:[Mm]et by|see|Examples:)[\d., ]+', '', ln))])
 
 if NO_PAGE:   # a story with no page of its own still ends with a link
     text, _ = c.build({'rows': [pp_row(REQ['pp'], NO_PAGE), gap_row(REQ['near'], NO_PAGE)]}, ROWS, JD, applying=JD)
-    check('9 a story with no page of its own still carries a link (told and nearest)', all(re.search(rf' {URL}$', p[3]) for p in fit_pairs(text)),
+    check('9 a story with no page of its own still carries a link (told and nearest)', all(re.search(rf'{URL}$', p[3]) for p in fit_pairs(text)),
           [p[3] for p in fit_pairs(text)])
 
 # --- Rule 10: skills are markdown links -------------------------------------
@@ -361,7 +394,7 @@ for path in saved:
     jd_lines = {f"{c.end(' '.join(str(r['requirement']).split()))}" for r in resp['rows']}
     ours, theirs = [], []
     for ln in text.split('\n'):
-        quoted = re.sub(r'^\d+\. ', '', ln) in jd_lines or ln.startswith('Not on record, ask Tom: ')
+        quoted = re.sub(r'^\d+\. \*\*(.*)\*\*$', r'\1', ln) in jd_lines or ln.startswith('Not on record, ask Tom: ')
         if first_person(ln):
             (theirs if quoted else ours).append(ln)
     check(f'smoke {name}: 1 no first-person words in the agent\'s own text', not ours, ours[:2])

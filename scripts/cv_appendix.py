@@ -213,32 +213,69 @@ def end(text):
     return text if text[-1:] in '.!?' else text + '.'
 
 
+def story_head(x):
+    """The story line: product, then role (which names the company), years."""
+    parts = [cell(x, 'product'), ', '.join(y for y in (cell(x, 'role'), year_span([cell(x, 'year')])) if y)]
+    return '. '.join(y for y in parts if y) + '.'
+
+
+def story_lines(x, indent='   '):
+    """One story nested under its requirement (Tom, 2026-10-22): a heading line
+    naming the story, then Situation/Task/Action/Result each on its own nested
+    line, then the link. Markdown list nesting carries the hierarchy for a person;
+    the words are the same plain sentences for the ATS."""
+    out = [f"{indent}- {story_head(x)}"]
+    out += [f"{indent}- {label}: {end(cell(x, k))}" for k, label in STAR_LABELS if cell(x, k)]
+    out.append(f"{indent}- {x.get('page') or SITE + '/for-agents/'}")
+    return out
+
+
 def fit_plain(rows, section_pages):
     """The appendix form. The foundation reader is the standard ATS (Tom,
     2026-10-12): it extracts text and matches words, nothing more. So: plain
     sentences, no tables, no arrays, no ids to resolve; each requirement in the
     job description's full words, its evidence beside it, every line complete on
-    its own. Arrays and JSON are for agents, and live behind the link."""
-    md = []
+    its own. Arrays and JSON are for agents, and live behind the link.
+    Layout (R1022-1): a real markdown nested ordered list, so a renderer shows the
+    hierarchy and a person can cross-reference. Requirement n is a top-level item;
+    its verdict is a paragraph inside it; each story is a nested bullet labelled n.k
+    in its own text (renderers restyle nested numbering, so the label is written) with its STAR lines and link as bullets beneath. A story is told
+    in full once and numbered once; a later row that uses it says "Met by 1.1, 2.1"
+    (alone when it has nothing new, as "Also met by" after its new stories)."""
+    md, told = [], {}
+
+    def key_of(x):
+        return (cell(x, 'product'), cell(x, 'result'))
+
+    def by(refs, verdict):
+        # "Met by 1.1, 2.1." for a met row; "Partial, see 1.1." otherwise (a repeat never gets a number of its own)
+        return f"{verdict} by {', '.join(refs)}." if verdict == 'Met' else f"{verdict}, see {', '.join(refs)}."
+
     for r in rows:
         link = r['link'] or section_pages.get(r['section'])
         stories = ([r['local']] if r.get('local') else []) + list(r.get('also') or [])
+        new, old = [x for x in stories if key_of(x) not in told], [x for x in stories if key_of(x) in told]
+        refs = sorted({told[key_of(x)] for x in old}, key=lambda t: tuple(int(i) for i in t.split('.')))
+        verdict = r['fit'].capitalize()
+        md += [f"{r['n']}. **{end(r['requirement'])}**", '']
         if r.get('coverage'):
-            said = end(r['coverage']) + ''.join(f" Example: {end(cell(x, 'result'))} {who_of(x)}." for x in stories)
+            md += [f"   {verdict}. {end(r['coverage'])}" + (f" Examples: {', '.join(refs)}." if refs and not new else '')] + ([''] if new else [])
         elif stories:
-            first = stories[0]
-            # A story already told above is restated short (result, who, when): no "see 1".
-            cells = ('result',) if r['same_as'] else ('result', 'action')
-            said = ' '.join(end(cell(first, k)) for k in cells if cell(first, k)) + f' {who_of(first)}.'
-            said += ''.join(f" Also: {end(cell(x, 'result'))} {who_of(x)}." for x in stories[1:])
-            said += f" {first.get('page') or link or SITE + '/for-agents/'}"
+            md += [f"   {verdict}.", ''] if new else [f"   {by(refs, verdict)}"]
         elif r['pointer']:
-            said = f"On record, no summarised story yet. {link or SITE + '/for-agents/'}"
+            md.append(f"   {verdict}. On record, no summarised story yet. {link or SITE + '/for-agents/'}")
         elif r.get('near'):
-            said = f"Nearest, not a match: {end(cell(r['near'], 'result'))} {who_of(r['near'])}. {r['near'].get('page') or SITE + '/for-agents/'}"
+            md.append(f"   {verdict}. Nearest, not a match: {story_head(r['near'])} Result: {end(cell(r['near'], 'result'))} {r['near'].get('page') or SITE + '/for-agents/'}")
         else:
-            said = 'Not on record.'
-        md += [f"{r['n']}. {end(r['requirement'])}", f"Evidence ({r['fit']}): {said}", '']
+            md.append(f"   {verdict}. Not on record.")
+        for k, x in enumerate(new, 1):
+            told[key_of(x)] = f"{r['n']}.{k}"
+            lines = story_lines(x, indent='     ')
+            lines[0] = f"   - {r['n']}.{k} {story_head(x)}"
+            md += lines
+        if new and refs:
+            md += ['', f"   Also {('met by' if verdict == 'Met' else 'see')} {', '.join(refs)}."]
+        md.append('')
     return md
 
 

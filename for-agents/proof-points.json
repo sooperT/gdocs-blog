@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-09",
+  "generated": "2026-11-23",
   "source": "Tom's own account (tier: self-reported); each row cites its TomBot section id",
   "facets": "Each row's `facets` are lines from CVs Tom sent, verbatim (tier: self-reported; `source` names the CV). A brief returns the facet that matched a requirement as its evidence; the row's result cell stays the outcome.",
   "roles_note": "Domain, company type, size and level are answered from `roles`, not from one story: each company with its sectors, environments, size and products, each role with its title, aliases and scope in effect. Count every role that matches.",
@@ -591,12 +591,12 @@
         "section": "NOVO.R1"
       },
       "action": {
-        "text": "Talked to patients: everyone wanted the same three things, how much weight they will lose, whether this is normal, whether they are on track. Made those the core loop; built a weight-loss prediction model in Excel to answer the first, then a profiling engine to personalise the rest.",
+        "text": "Talked to patients: all wanted to know how much weight they would lose, and every journey had different drop-off risks. Built a weight-loss prediction model, from an Excel prototype, so each patient could track progress against a personalised curve; then a profiling mechanic to address each risk at the right time.",
         "section": "NOVO.R1",
-        "quote": "Talked to patients. Everyone wanted the same three things: how much weight will I lose, is this normal, am I on track. Made those the core loop. Built a weight-loss prediction model in Excel to answer the first, then a profiling engine to personalise the rest."
+        "quote": "Talked to patients. User research highlighted that all patients wanted to know how much weight they would lose with treatment, and that every patient journey is different, with different drop-off risks. Built a weight-loss prediction model, from a simple Excel prototype on my laptop, so each patient could track their progress against a personalised curve; then a profiling mechanic to address each patient's risks at the right time."
       },
       "result": {
-        "text": "10% penetration in the first national market. Fastest-scaling and biggest-adopted digital product at Novo.",
+        "text": "Product launched on time and on budget, with 10% penetration in the first market and biggest adoption of any digital solution at Novo.",
         "section": "NOVO.R1"
       },
       "year": {
@@ -625,11 +625,13 @@
         "growth",
         "retention",
         "roadmap",
+        "launch",
         "0 to 1",
         "marketing",
         "team leadership",
         "stakeholders",
-        "consumer"
+        "consumer",
+        "budget"
       ],
       "page": "https://takenbyninjas.com/for-agents/stories/#pp-wegovycare-retention",
       "more": "https://takenbyninjas.com/for-agents/novo-nordisk/#novo-r1",
@@ -692,21 +694,20 @@
         "section": "NOVO.R1"
       },
       "situation": {
-        "text": "Patient research showed everyone wanted the same three things: how much weight they will lose, whether this is normal, whether they are on track. Nothing in the brief answered them.",
-        "section": "NOVO.R1",
-        "quote": "In patient research, everyone wanted to know the same three things: how much weight will I lose, is this normal, am I on track. Nothing in the brief answered them."
+        "text": "User research highlighted that all patients wanted to know how much weight they would lose with treatment. Weight loss data was generated in clinical trials but it was not generally available to patients.",
+        "section": "NOVO.R1"
       },
       "task": {
-        "text": "Make those three questions the core loop of the product, and find the growth lever inside them.",
+        "text": "Understand how to provide this information to patients, in a consumable & accessible way.",
         "section": "NOVO.R1"
       },
       "action": {
-        "text": "Built a weight-loss prediction model answering the first question: a predicted trajectory for the individual to check progress against. Started as an Excel spreadsheet on a laptop; the maths worked out with the strongest backend engineer, then taken from concept to prototype. The same check-ins fed the profiling engine.",
+        "text": "Used clinical trial data to make a weight-loss prediction model that showed a generalised predicted trajectory for each patient, against which they could check progress. Started as a simple Excel prototype on a laptop and ended as a full Bayesian prediction model.",
         "section": "NOVO.R1",
-        "quote": "Built a weight-loss prediction model to answer the first question: predicted trajectory for the individual, against which they could check progress. It started as an Excel spreadsheet on my laptop. I worked out the maths with our strongest backend engineer, then took it from concept to prototype. The same check-ins fed the profiling engine (see the personalisation row)."
+        "quote": "Used clinical trial data to make a weight-loss prediction model that showed a generalised predicted trajectory for each patient, against which they could check progress. It started as a simple Excel prototype on my laptop, and ended with a full Bayesian prediction model."
       },
       "result": {
-        "text": "Patients could see whether they were on track against their own projection. The model was later spun out as a Bayesian API service, a product in its own right, and the team extended it from weight to HbA1c.",
+        "text": "Each patient could see a personalised in-app weight loss prediction curve and track their progress against it. It proved to be a compelling feature, generating repeat engagement. The prediction model was spun out as an API product in its own right, and the team extended it from weight to HbA1c.",
         "section": "NOVO.R1"
       },
       "year": {
@@ -792,23 +793,22 @@
         "section": "NOVO.R1.TRANSFORM"
       },
       "situation": {
-        "text": "Applied for a SaMD product role at Novo; put forward instead for a digital solution for a then unheard-of weight-loss medicine. The final-round brief was solution-first: standalone features the business thought would help. Nobody had spoken to patients.",
-        "section": "NOVO.R1.TRANSFORM",
-        "quote": "I had applied for a SaMD product role at Novo. They thought I would be too constrained there and put me forward for a digital solution for a then unheard-of weight-loss medicine. The brief I was handed in the final-round interview was solution-first: a set of standalone features the business thought would help. Nobody had spoken to patients."
+        "text": "The product brief was a solution-first list of features, but nobody had spoken to the users.",
+        "section": "NOVO.R1.TRANSFORM"
       },
       "task": {
-        "text": "Persuade the business to set the brief aside and start with the problem, then use that as a mandate to change how they worked.",
+        "text": "Persuade the business to set the brief aside, accept ambiguity and start with the problem.",
         "section": "NOVO.R1.TRANSFORM"
       },
       "action": {
-        "text": "First product team at Novo to interview patients, run discovery, build prototypes and co-create with markets. Led a cross-functional team of 10 across the full product lifecycle; it took persuasion and a leap of faith from stakeholders.",
+        "text": "First product team at Novo to interview patients, run discovery, build prototypes and co-create with markets. It took persuasion and a leap of faith from stakeholders, but it led to a radically different solution that addressed users' needs, and executives got their aha moment at the first prototype test.",
         "section": "NOVO.R1.TRANSFORM",
-        "quote": "We were the first product team at Novo to interview patients, run discovery, build prototypes and co-create with markets. I led a cross-functional team of 10 across the full product lifecycle. It took persuasion and a leap of faith from stakeholders."
+        "quote": "We were the first product team at Novo to interview patients, run discovery, build prototypes and co-create with markets. It took persuasion and a leap of faith from stakeholders. But it led to a radically different solution that addressed users' needs, and executives got their aha moment at the first prototype test."
       },
       "result": {
-        "text": "Launched on time and on budget. 10% penetration in the first national market, the biggest adoption of any digital solution at Novo; still live. Asked to scale the ways of working across the organisation and promoted to Associate Product Director.",
+        "text": "Product launched on time and on budget, with 10% penetration in the first market and biggest adoption of any digital solution at Novo. Asked to scale the ways of working across the organisation and promoted to Associate Product Director.",
         "section": "NOVO.R1.TRANSFORM",
-        "quote": "Launched on time and on budget. 10% penetration in the first national market, the biggest adoption of any digital solution at Novo. The product is still live. I was asked to scale the ways of working across the organisation and promoted to Associate Product Director."
+        "quote": "Product launched on time and on budget, with 10% penetration in the first market and biggest adoption of any digital solution at Novo. I was asked to scale the ways of working across the organisation and promoted to Associate Product Director."
       },
       "year": {
         "text": "Mar 2020 - Feb 2022",
@@ -1938,20 +1938,20 @@
         "section": "NOVO.R1"
       },
       "situation": {
-        "text": "Research showed every patient journey is different and every patient has different needs. A linear app would not work, and the drop-off risks were different for each person.",
+        "text": "Research showed that every patient journey is different and every patient has different drop-off risks. Therefore a standard linear product journey would not work.",
         "section": "NOVO.R1"
       },
       "task": {
-        "text": "Identify each patient's drop-off risks and act on them automatically, with a system that coped with real people who do not check in on schedule.",
+        "text": "Find a way to create a coherent product that addresses each user's needs at the appropriate time.",
         "section": "NOVO.R1"
       },
       "action": {
-        "text": "Tom's own idea and pattern, most of the algorithm his. Built a continuous profiling engine combining clinical data, usage signals and PROMs. Applied a consumer marketing playbook to act on the top risk: it decided what content was shown and could trigger a messaging flow. Ran on fuzzy logic, tolerating gaps and misuse. Output to the patient: an interactive magazine that changed with them.",
+        "text": "Devised a continuous profiling mechanic that combined clinical data, usage signals and PROMs to surface risk-factors for each user, then applied a consumer marketing playbook to mitigate each risk in an engaging way: deciding which content to show and which message flow to trigger, creating an interactive magazine that evolved with each patient's journey. A weight-loss curve and tracking diary created compelling reasons to come back and update the profiling data.",
         "section": "NOVO.R1",
-        "quote": "My own idea and pattern, most of the algorithm mine. Built a continuous profiling engine combining clinical data, usage signals and PROMs. Applied a consumer marketing playbook to act on the top risk: in the first instance it decided what content was shown, and it could trigger a messaging flow. The whole thing ran on what I called fuzzy logic: it tolerated gaps and misuse and went on the best information we had. The output to the patient was an interactive magazine that changed with them."
+        "quote": "I devised a continuous profiling mechanic that combined clinical data, usage signals and PROMs to surface risk-factors for each user. And then applied a consumer marketing playbook to mitigate each risk in an engaging way, deciding which content to show, and which message flow to trigger, creating an interactive magazine that evolved with each patient's journey. A weight-loss curve and tracking diary created compelling reasons to come back and update your profiling data."
       },
       "result": {
-        "text": "Every patient got a personalised experience from one product and one codebase. Part of the launch that reached 10% adoption in the first market and became the fastest-scaling digital product at Novo.",
+        "text": "Biggest adoption of any digital product at Novo. Every patient got a personalised experience and engagement continued well into treatment.",
         "section": "NOVO.R1"
       },
       "year": {
@@ -1980,7 +1980,6 @@
         "growth",
         "retention",
         "roadmap",
-        "launch",
         "0 to 1",
         "marketing",
         "team leadership",
@@ -2048,19 +2047,19 @@
         "section": "NOVO.R1"
       },
       "situation": {
-        "text": "Every market needed its own version of every digital product, so nothing at Novo had ever scaled beyond one country.",
+        "text": "Different markets have different regulatory constraints and different health-system journeys, so a solution designed for one market may not work in another. A potential blocker to scaling.",
         "section": "NOVO.R1"
       },
       "task": {
-        "text": "Build one product that many markets could adopt and adapt without forking it.",
+        "text": "Create a product pattern that can be configured & adapted by market, and create a workflow for identifying and validating each market's needs.",
         "section": "NOVO.R1"
       },
       "action": {
-        "text": "Designed for scale: modular architecture, feature flags, an integrated CMS and a translation pipeline. Systematised co-creation with the markets so they shaped the product rather than waiting for it.",
+        "text": "Designed a modular architecture with feature flags to accommodate different regulatory regimes, an integrated CMS and a translation & review pipeline. Systematised co-creation & testing with the markets to ensure product-fit.",
         "section": "NOVO.R1"
       },
       "result": {
-        "text": "Novo's first digital health product adopted by multiple markets. First digital Novo product to scale.",
+        "text": "First digital Novo product to scale successfully across multiple markets.",
         "section": "NOVO.R1"
       },
       "year": {
@@ -3214,9 +3213,9 @@
         "quote": "I owned the business case, budget, specifications, contracts and migration strategy."
       },
       "result": {
-        "text": "One platform replaced them (500,000+ customer domains).",
+        "text": "One platform replaced them (approximately 1 million customer domains).",
         "section": "UK2",
-        "quote": "(500,000+ customer domains)"
+        "quote": "(approximately 1 million customer domains)"
       },
       "year": {
         "text": "2008-2010",
